@@ -1,3 +1,3 @@
 # Quizzy
 
-Sal colegii
+Sal colegutii
