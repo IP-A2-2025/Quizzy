@@ -1,4 +1,5 @@
 name: Test AWS OIDC
+
 on: [push]
 
 permissions:
@@ -12,11 +13,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.IAM_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: arn:aws:iam::151098410877:role/GitHubActionAdmin
+          aws-region: us-east-1
+          audience: sts.amazonaws.com
 
       - name: Get caller identity
         run: aws sts get-caller-identity
