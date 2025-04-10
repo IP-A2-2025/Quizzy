@@ -1,86 +1,43 @@
-name: CI Pipeline
+name: CI Tests with Docker Compose
 
 on:
   push:
-    branches:
-      - master
+    branches: master
   pull_request:
-    branches:
-      - master
+    branches: master
 
 jobs:
-  backend:
-    name: Backend CI
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+      - name: Set up Docker Compose
+        run: docker compose up -d --build
 
-      - name: Mock backend build
-        run: echo "Building backend..."
+      - name: Wait for PostgreSQL to be Ready
+        run: |
+          for i in {1..10}; do
+            if docker exec $(docker-compose ps -q db) pg_isready -U user; then
+              break
+            fi
+            sleep 5
+          done
 
-      - name: Mock backend unit tests
-        run: echo "Running backend unit tests..."
+      - name: Wait for Spring Boot App to be Ready
+        run: |
+          for i in {1..10}; do
+            if curl -s http://localhost:3000/actuator/health | grep '"status":"UP"'; then
+              break
+            fi
+            sleep 5
+          done
 
-      - name: Mock backend test coverage
-        run: echo "Generating backend test coverage..."
+      - name: Run Integration Tests
+        working-directory: backend
+        run: mvn verify
 
-      - name: Upload mock backend coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-coverage
-          path: mock-backend-coverage/
-
-      - name: Mock Start Backend Server
-        run: echo "Starting backend server on port 8080..." & sleep 5
-
-  frontend:
-    name: Frontend CI
-    runs-on: ubuntu-latest
-    needs: backend
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Mock frontend build
-        run: echo "Building frontend..."
-
-      - name: Mock frontend unit tests
-        run: echo "Running frontend unit tests..."
-
-      - name: Mock frontend test coverage
-        run: echo "Generating frontend test coverage..."
-
-      - name: Upload mock frontend coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-coverage
-          path: mock-frontend-coverage/
-
-      - name: Mock Start Frontend Server
-        run: echo "Starting frontend server on port 3000..." & sleep 5
-
-  integration:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-    needs: [backend, frontend]  # Waits for both to finish
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Mock Run Integration Tests
-        run: echo "Running integration tests between frontend and backend..."
+      - name: Shut Down Containers
+        run: docker-compose down
