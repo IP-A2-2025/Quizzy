@@ -1,4 +1,4 @@
-# Cum să configurezi backend-ul pentru **Quizzy**
+# Cum să configurezi backend-ul pentru **Quizzy**hh
 
 Acest ghid te va ajuta să configurezi backend-ul pentru proiectul **Quizzy** pas cu pas.
 
