@@ -18,8 +18,7 @@ public class DatabaseCheckController {
     @GetMapping("/db-check")
     public String checkDatabaseConnection() {
         try {
-            String result = jdbcTemplate.queryForObject("SELECT 'Connection successful!' as status", String.class);
-            return result;
+            return jdbcTemplate.queryForObject("SELECT 'Connection successful!' as status", String.class);
         } catch (Exception e) {
             return "Database connection failed: " + e.getMessage();
         }

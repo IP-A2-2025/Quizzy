@@ -1,9 +1,19 @@
 package com.backend.model;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.io.Serializable;
 
 @Embeddable
-class GradeId implements java.io.Serializable {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class GradeId implements Serializable {
     private Long testID;
-    private Long userID;
+    private Integer userID;
 }

@@ -1,9 +1,18 @@
 package com.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "material")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Material {
 
     @Id
@@ -19,5 +28,6 @@ public class Material {
 
     @ManyToOne
     @JoinColumn(name = "courseid", nullable = false)
+    @JsonBackReference
     private Course course;
 }

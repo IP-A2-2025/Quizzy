@@ -1,0 +1,22 @@
+name: AWS OIDC Role Test
+on: [push]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test-aws:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.I_AM_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Verify credentials
+        run: aws sts get-caller-identity

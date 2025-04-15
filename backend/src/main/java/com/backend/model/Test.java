@@ -1,10 +1,20 @@
 package com.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Date;
 
 @Entity
 @Table(name = "test")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Test {
 
     @Id
@@ -23,9 +33,11 @@ public class Test {
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false)
+    @JsonBackReference
     private User professor;
 
     @ManyToOne
     @JoinColumn(name = "courseid", nullable = false)
+    @JsonBackReference
     private Course course;
 }

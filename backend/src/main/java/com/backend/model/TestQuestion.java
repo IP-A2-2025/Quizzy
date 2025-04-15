@@ -1,8 +1,17 @@
 package com.backend.model;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "testquestion")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TestQuestion {
 
     @Id
@@ -18,5 +27,6 @@ public class TestQuestion {
 
     @ManyToOne
     @JoinColumn(name = "testid", nullable = false)
+    @JsonManagedReference
     private Test test;
 }

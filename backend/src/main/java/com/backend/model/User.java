@@ -1,5 +1,6 @@
 package com.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,23 +40,30 @@ public class User {
         return password;
     }
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private Set<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private Set<Flashcard> flashcards;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private Set<Grade> grades;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private Set<Streak> streaks;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private Set<FlashcardSession> flashcardSessions;
 
     @OneToMany(mappedBy = "professor")
+    @JsonManagedReference
     private Set<Course> courses;
 
     @OneToMany(mappedBy = "professor")
+    @JsonManagedReference
     private Set<Test> tests;
 }
