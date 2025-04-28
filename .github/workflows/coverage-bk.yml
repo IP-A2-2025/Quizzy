@@ -25,9 +25,10 @@ jobs:
 
     - name: Compile Code
       run: |
-        mkdir classes
-        javac -d classes $(find src/main/java -name "*.java")
-        javac -d classes -cp "libs/*:classes" $(find src/test/java -name "*.java")
+        mkdir -p classes
+        # Update the paths according to where your Java files are located
+        javac -d classes $(find src -name "*.java")  # Compiling all Java files in 'src' directory
+        javac -d classes -cp "libs/*:classes" $(find test -name "*.java")  # Compiling test files in 'test' directory
 
     - name: Run Tests with Coverage
       run: |
@@ -44,6 +45,7 @@ jobs:
       with:
         header: coverage
         message: |
+          ### 🧪 Code Coverage Report
           - Coverage: **${{ env.Coverage }}%**
           - Required: **85%**
 
