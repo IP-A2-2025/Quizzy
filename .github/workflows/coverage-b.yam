@@ -1,0 +1,55 @@
+name: Java CI with Coverage Enforcement + PR Comment
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Build with Maven (tests + coverage)
+      run: mvn clean verify
+
+    - name: Parse Coverage
+      id: coverage
+      run: |
+        COVERED=$(xmllint --xpath "string(//report/counter[@type='INSTRUCTION']/@covered)" target/site/jacoco/jacoco.xml)
+        MISSED=$(xmllint --xpath "string(//report/counter[@type='INSTRUCTION']/@missed)" target/site/jacoco/jacoco.xml)
+        TOTAL=$((COVERED + MISSED))
+        PERCENT=$((100 * COVERED / TOTAL))
+        echo "Coverage=$PERCENT" >> $GITHUB_ENV
+
+    - name: Comment coverage on PR
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        header: coverage
+        message: |
+          ### Code Coverage Report
+          - Coverage: **${{ env.Coverage }}%**
+          - Required: **80%**
+
+    - name: Fail if Coverage < 85%
+      run: |
+        if [ "${{ env.Coverage }}" -lt 85 ]; then
+          echo "Coverage is below 85%! Failing the build."
+          exit 1
+        else
+          echo "Coverage is sufficient."
+        fi
+
+    - name: Upload JaCoCo Coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: jacoco-report
+        path: target/site/jacoco/
