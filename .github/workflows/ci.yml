@@ -17,28 +17,5 @@ jobs:
       - name: Set up Docker Compose
         run: docker compose up -d --build
 
-      - name: Wait for PostgreSQL to be Ready
-        run: |
-          for i in {1..10}; do
-            if docker exec $(docker-compose ps -q db) pg_isready -U user; then
-              break
-            fi
-            sleep 5
-          done
-
-      - name: Wait for Spring Boot App to be Ready
-        run: |
-          for i in {1..10}; do
-            if curl -s http://localhost:3000/actuator/health | grep '"status":"UP"'; then
-              break
-            fi
-            sleep 5
-          done
-
-      - name: Run Integration Tests
-        working-directory: backend
-       # run: mvn verify
-        run: echo 'Mock test!!'
-
       - name: Shut Down Containers
         run: docker compose down
