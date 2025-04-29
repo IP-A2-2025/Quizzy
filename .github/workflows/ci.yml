@@ -17,13 +17,13 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Start services
-        run: docker-compose up -d myapp-db
+        run: docker compose up -d myapp-db
 
       - name: Build app container
-        run: docker-compose build myapp-backend
+        run: docker compose build myapp-backend
 
       - name: Run tests
-        run: docker-compose run --rm myapp-backend mvn verify
+        run: docker compose run --rm myapp-backend mvn verify
 
       - name: Tear down
         if: always()
