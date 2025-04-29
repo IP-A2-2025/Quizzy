@@ -1,0 +1,65 @@
+name: Java CI with Maven, JaCoCo and Coverage Enforcement
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+
+      - name: List Directory Structure
+        run: |
+          echo "Current directory:"
+          pwd  # This will print the current directory
+          echo "Listing files in the current directory:"
+          ls -l  # This will list the files to verify if backend folder exists
+
+      - name: Run Maven tests
+        working-directory: ./backend
+        run: mvn test
+
+      - name: Build with Maven
+        working-directory: ./backend
+        run: mvn clean install --no-transfer-progress -e -X
+
+      - name: Run Tests with Coverage
+        run: |
+          cd backend  # Change to the backend directory
+          pwd  # Check if we are in the right directory
+          ls -l  # List the files in backend/
+          mvn test jacoco:report -e -X
+
+      - name: Check Coverage
+        id: coverage
+        run: |
+          cd backend  # Change to the backend directory
+          pwd  # Check if we are in the right directory
+          ls -l  # List the files in backend/
+          coverage=$(mvn jacoco:report -e -X | grep -oP 'Coverage: \K[0-9]+')
+          echo "coverage=$coverage" >> $GITHUB_ENV
+          echo "Coverage is: $coverage%"
+          if [ "$coverage" -lt 85 ]; then
+            echo "❌ Coverage is below 85%. Failing build."
+            exit 1
+          else
+            echo "✅ Coverage is sufficient."
+
+      - name: Comment Coverage on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: coverage
+          message: |
+            ### 🧪 Code Coverage Report
+            - Coverage: **${{ env.coverage }}%**
+            - Required: **85%**
