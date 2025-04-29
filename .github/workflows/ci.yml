@@ -1,21 +1,28 @@
-name: CI Tests with Docker Compose
+name: Java CI with Docker (Backend)
 
 on:
   push:
-    branches: master
+    branches: [ master ]
   pull_request:
-    branches: master
+    branches: [ master ]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Docker Compose
-        run: docker compose up -f docker-compose.test.yml -d
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+          key: maven-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: |
+            maven-
 
-      - name: Shut Down Containers
-        run: docker compose down
+      - name: Run tests with Docker Compose
+        run: |
+          docker compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from backend
