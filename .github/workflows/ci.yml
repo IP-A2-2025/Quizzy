@@ -51,6 +51,15 @@ jobs:
           name: coverage-report
           path: ./backend/target/site/jacoco
 
+      - name: Extract Coverage Percentage
+        run: |
+          LINE_COVERED=$(grep -oP '(?<=<counter type="LINE" missed=")[0-9]+' ./backend/target/site/jacoco/jacoco.xml)
+          LINE_TOTAL=$(grep -oP '(?<=<counter type="LINE" missed=")[0-9]+' ./backend/target/site/jacoco/jacoco.xml | paste -sd+ - | bc)
+          LINE_COVERED=$(grep -oP '(?<=covered=")[0-9]+' ./backend/target/site/jacoco/jacoco.xml | paste -sd+ - | bc)
+          PERCENTAGE=$(echo "scale=2; $LINE_COVERED * 100 / $LINE_TOTAL" | bc)
+          echo "Code Coverage: $PERCENTAGE%"
+          echo "COVERAGE_PERCENTAGE=$PERCENTAGE" >> $GITHUB_ENV
+
       - name: Stop Docker Compose
         if: always()
         run: docker compose -f docker-compose.override.yml down
