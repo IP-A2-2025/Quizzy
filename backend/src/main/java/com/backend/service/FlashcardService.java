@@ -2,7 +2,7 @@ package com.backend.service;
 
 import com.backend.model.Flashcard;
 import com.backend.repository.FlashcardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,7 +14,7 @@ public class FlashcardService {
 
     private final FlashcardRepository flashcardRepository;
 
-    @Autowired
+
     public FlashcardService(FlashcardRepository flashcardRepository) {
         this.flashcardRepository = flashcardRepository;
     }
@@ -30,34 +30,41 @@ public class FlashcardService {
     public Flashcard createFlashcard(Flashcard flashcard) {
         return flashcardRepository.save(flashcard);
     }
-
-    public boolean deleteFlashcard(Long id) {
-        if (!flashcardRepository.existsById(id)) return false;
-        flashcardRepository.deleteById(id);
-        return true;
+    public Flashcard updateFlashcard(Long id, Flashcard updatedFlashcard) {
+        return flashcardRepository.findById(id).map(flashcard -> {
+            flashcard.setQuestion(updatedFlashcard.getQuestion());
+            flashcard.setLevel(updatedFlashcard.getLevel());
+            flashcard.setLastStudiedAt(updatedFlashcard.getLastStudiedAt());
+            flashcard.setQuestionType(updatedFlashcard.getQuestionType());
+            flashcard.setUser(updatedFlashcard.getUser());
+            flashcard.setMaterial(updatedFlashcard.getMaterial());
+            flashcard.setAnswers(updatedFlashcard.getAnswers());
+            return flashcardRepository.save(flashcard);
+        }).orElseThrow(() -> new RuntimeException("Flashcard not found with id: " + id));
     }
 
-    public List<Flashcard> getFlashcardsByUserId(Integer userId) {
+    public void deleteFlashcard(Long id) {
+        flashcardRepository.deleteById(id);
+    }
+
+    // extra methods based on your repository
+    public List<Flashcard> getByUserId(Integer userId) {
         return flashcardRepository.findByUserId(userId);
     }
 
-    public List<Flashcard> getFlashcardsByMaterialId(Long materialId) {
+    public List<Flashcard> getByMaterialId(Long materialId) {
         return flashcardRepository.findByMaterialId(materialId);
     }
 
-    public List<Flashcard> getDueFlashcards(Integer userId, Date date) {
+    public List<Flashcard> getDueFlashcards(Date date, Integer userId) {
         return flashcardRepository.findDueFlashcards(date, userId);
     }
 
-    public List<Flashcard> getFlashcardsByLevel(Integer userId, int level) {
+    public List<Flashcard> getByLevelAndUserId(int level, Integer userId) {
         return flashcardRepository.findByLevelAndUserId(level, userId);
     }
 
-    public List<Flashcard> getFlashcardsByCourseId(Integer userId, Long courseId) {
+    public List<Flashcard> getByCourseIdAndUserId(Long courseId, Integer userId) {
         return flashcardRepository.findByCourseIdAndUserId(courseId, userId);
     }
 
-    public List<Flashcard> getFlashcardsByQuestionType(Integer userId, String type) {
-        return flashcardRepository.findByQuestionTypeAndUserId(type, userId);
-    }
-}

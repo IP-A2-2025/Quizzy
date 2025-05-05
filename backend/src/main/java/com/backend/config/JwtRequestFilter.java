@@ -1,8 +1,7 @@
 package com.backend.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,37 +19,37 @@ import java.util.Collections;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
-
     @Autowired
     private JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         final String requestTokenHeader = request.getHeader("Authorization");
         String email = null;
         String jwtToken = null;
 
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-            try {
-                email = jwtUtil.getSubjectFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                logger.error("Unable to get JWT Token", e);
-            } catch (ExpiredJwtException e) {
-                logger.error("JWT Token has expired", e);
+        try {
+            if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+                jwtToken = requestTokenHeader.substring(7);
+                try {
+                    email = jwtUtil.getSubjectFromToken(jwtToken);
+                } catch (ExpiredJwtException | MalformedJwtException e) {
+                    // Token is either expired or malformed, continue without setting authentication
+                    logger.warn("JWT Token validation failed: " + e.getMessage());
+                }
             }
-        } else {
-            logger.warn("JWT Token does not begin with Bearer String");
-        }
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (jwtUtil.validateToken(jwtToken)) {
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Cannot set user authentication: " + e.getMessage());
+            throw e;
         }
 
         filterChain.doFilter(request, response);

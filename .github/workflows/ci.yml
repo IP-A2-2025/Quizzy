@@ -1,44 +1,56 @@
-name: CI Tests with Docker Compose
+name: Build and Test
 
 on:
   push:
-    branches: master
+    branches: [ horror ]
   pull_request:
-    branches: master
+    branches: [ horror ]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Set environment variables
+        run: |
+          echo "SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/mydb" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_USERNAME=myuser" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=mypass" >> $GITHUB_ENV
 
       - name: Set up Docker Compose
-        run: docker compose up -d --build
+        run: docker compose -f docker-compose.override.yml up -d --build
 
-      - name: Wait for PostgreSQL to be Ready
-        run: |
-          for i in {1..10}; do
-            if docker exec $(docker-compose ps -q db) pg_isready -U user; then
-              break
-            fi
-            sleep 5
-          done
+      - name: Set up JDK 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
 
-      - name: Wait for Spring Boot App to be Ready
-        run: |
-          for i in {1..10}; do
-            if curl -s http://localhost:3000/actuator/health | grep '"status":"UP"'; then
-              break
-            fi
-            sleep 5
-          done
+      - name: Run Maven tests with coverage
+        working-directory: ./backend
+        run: mvn test jacoco:report
 
-      - name: Run Integration Tests
-        working-directory: backend
-       # run: mvn verify
-        run: echo 'Mock test!!'
+      - name: Publish Test Results (JUnit)
+        if: always()
+        uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: './backend/target/surefire-reports/TEST-*.xml'
+          require_tests: true
 
-      - name: Shut Down Containers
-        run: docker compose down
+      - name: Upload JaCoCo coverage report
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./backend/target/site/jacoco
+
+      - name: Stop Docker Compose
+        if: always()
+        run: docker compose -f docker-compose.override.yml down
