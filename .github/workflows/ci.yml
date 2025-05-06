@@ -1,8 +1,9 @@
+name: Build and Test
+
 permissions:
-    contents: read
-    checks: write
-    id-token: write
-name: Build and Test  
+  contents: read
+  checks: write
+  id-token: write
 
 on:
   push:
@@ -54,6 +55,23 @@ jobs:
         with:
           name: coverage-report
           path: ./backend/target/site/jacoco
+
+      - name: Extract JaCoCo Coverage
+        if: success()
+        run: |
+          REPORT_FILE="./backend/target/site/jacoco/jacoco.xml"
+          COVERED=$(grep -oPm1 '(?<=<counter type="LINE" missed="[0-9]+" covered=")[^"]*' "$REPORT_FILE")
+          MISSED=$(grep -oPm1 '(?<=<counter type="LINE" missed=")[^"]*' "$REPORT_FILE")
+          TOTAL=$((MISSED + COVERED))
+          PERCENT=$((100 * COVERED / TOTAL))
+
+          echo "### ✅ Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric        | Value         |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------------|---------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Line Coverage | **$PERCENT%** |" >> $GITHUB_STEP_SUMMARY
+          echo "| Covered Lines | $COVERED      |" >> $GITHUB_STEP_SUMMARY
+          echo "| Total Lines   | $TOTAL        |" >> $GITHUB_STEP_SUMMARY
 
       - name: Stop Docker Compose
         if: always()
