@@ -62,24 +62,32 @@ jobs:
       - name: Extract JaCoCo Coverage
         if: success()
         run: |
-          REPORT_FILE="./backend/target/site/jacoco/jacoco.xml"
-          LINE_COUNTER=$(xmllint --xpath 'string(//counter[@type="LINE"]/@covered)' "$REPORT_FILE")
-          COVERED=${LINE_COUNTER:-0}
-          MISSED=$(xmllint --xpath 'string(//counter[@type="LINE"]/@missed)' "$REPORT_FILE")
-          TOTAL=$((MISSED + COVERED))
-          if [ "$TOTAL" -eq 0 ]; then
-            PERCENT=0
-          else
-            PERCENT=$((100 * COVERED / TOTAL))
-          fi
+         REPORT_FILE="./backend/target/site/jacoco/jacoco.xml"
 
-          echo "### ✅ Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Metric        | Value         |" >> $GITHUB_STEP_SUMMARY
-          echo "|---------------|---------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Line Coverage | **$PERCENT%** |" >> $GITHUB_STEP_SUMMARY
-          echo "| Covered Lines | $COVERED      |" >> $GITHUB_STEP_SUMMARY
-          echo "| Total Lines   | $TOTAL        |" >> $GITHUB_STEP_SUMMARY
+         get_coverage_data() {
+         TYPE=$1
+         MISSED=$(xmllint --xpath "string(//counter[@type='$TYPE']/@missed)" "$REPORT_FILE")
+         COVERED=$(xmllint --xpath "string(//counter[@type='$TYPE']/@covered)" "$REPORT_FILE")
+         TOTAL=$((MISSED + COVERED))
+         if [ "$TOTAL" -eq 0 ]; then
+          echo 0
+         else
+          echo $((100 * COVERED / TOTAL))
+         fi
+         }
+
+         LINE_COVERAGE=$(get_coverage_data "LINE")
+         BRANCH_COVERAGE=$(get_coverage_data "BRANCH")
+         METHOD_COVERAGE=$(get_coverage_data "METHOD") 
+
+         echo "### ✅ Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+         echo "" >> $GITHUB_STEP_SUMMARY
+         echo "| Metric           | Coverage     |" >> $GITHUB_STEP_SUMMARY
+         echo "|------------------|--------------|" >> $GITHUB_STEP_SUMMARY
+         echo "| Function (Method)| **${METHOD_COVERAGE}%** |" >> $GITHUB_STEP_SUMMARY
+         echo "| Line             | **${LINE_COVERAGE}%**   |" >> $GITHUB_STEP_SUMMARY
+         echo "| Branch           | **${BRANCH_COVERAGE}%** |" >> $GITHUB_STEP_SUMMARY
+
 
       - name: Stop Docker Compose
         if: always()
