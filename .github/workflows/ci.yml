@@ -60,10 +60,15 @@ jobs:
         if: success()
         run: |
           REPORT_FILE="./backend/target/site/jacoco/jacoco.xml"
-          COVERED=$(grep -oPm1 '(?<=<counter type="LINE" missed="[0-9]+" covered=")[^"]*' "$REPORT_FILE")
-          MISSED=$(grep -oPm1 '(?<=<counter type="LINE" missed=")[^"]*' "$REPORT_FILE")
+          LINE_COUNTER=$(xmllint --xpath 'string(//counter[@type="LINE"]/@covered)' "$REPORT_FILE")
+          COVERED=${LINE_COUNTER:-0}
+          MISSED=$(xmllint --xpath 'string(//counter[@type="LINE"]/@missed)' "$REPORT_FILE")
           TOTAL=$((MISSED + COVERED))
-          PERCENT=$((100 * COVERED / TOTAL))
+          if [ "$TOTAL" -eq 0 ]; then
+            PERCENT=0
+          else
+            PERCENT=$((100 * COVERED / TOTAL))
+          fi
 
           echo "### ✅ Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
