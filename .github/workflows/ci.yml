@@ -62,31 +62,31 @@ jobs:
       - name: Extract JaCoCo Coverage
         if: success()
         run: |
-         REPORT_FILE="./backend/target/site/jacoco/jacoco.xml"
+            REPORT_FILE="./backend/target/site/jacoco/jacoco.xml"
 
-         get_coverage_data() {
-         TYPE=$1
-         MISSED=$(xmllint --xpath "string(//counter[@type='$TYPE']/@missed)" "$REPORT_FILE")
-         COVERED=$(xmllint --xpath "string(//counter[@type='$TYPE']/@covered)" "$REPORT_FILE")
-         TOTAL=$((MISSED + COVERED))
-         if [ "$TOTAL" -eq 0 ]; then
-          echo 0
-         else
-          echo $((100 * COVERED / TOTAL))
-         fi
-         }
+            get_total_coverage() {
+            TYPE=$1
+            MISSED_TOTAL=$(xmllint --xpath "sum(//counter[@type='$TYPE']/@missed)" "$REPORT_FILE")
+            COVERED_TOTAL=$(xmllint --xpath "sum(//counter[@type='$TYPE']/@covered)" "$REPORT_FILE")
+            TOTAL=$(echo "$MISSED_TOTAL + $COVERED_TOTAL" | bc)
+            if [ "$TOTAL" = "0" ]; then
+            echo 0
+            else
+            echo $(( 100 * COVERED_TOTAL / TOTAL ))
+            fi
+            }
 
-         LINE_COVERAGE=$(get_coverage_data "LINE")
-         BRANCH_COVERAGE=$(get_coverage_data "BRANCH")
-         METHOD_COVERAGE=$(get_coverage_data "METHOD") 
+            LINE_COVERAGE=$(get_total_coverage "LINE")
+            BRANCH_COVERAGE=$(get_total_coverage "BRANCH")
+            METHOD_COVERAGE=$(get_total_coverage "METHOD")
 
-         echo "### ✅ Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
-         echo "" >> $GITHUB_STEP_SUMMARY
-         echo "| Metric           | Coverage     |" >> $GITHUB_STEP_SUMMARY
-         echo "|------------------|--------------|" >> $GITHUB_STEP_SUMMARY
-         echo "| Function (Method)| **${METHOD_COVERAGE}%** |" >> $GITHUB_STEP_SUMMARY
-         echo "| Line             | **${LINE_COVERAGE}%**   |" >> $GITHUB_STEP_SUMMARY
-         echo "| Branch           | **${BRANCH_COVERAGE}%** |" >> $GITHUB_STEP_SUMMARY
+            echo "### ✅ Code Coverage Summary" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Metric           | Coverage     |" >> $GITHUB_STEP_SUMMARY
+            echo "|------------------|--------------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Function (Method)| **${METHOD_COVERAGE}%** |" >> $GITHUB_STEP_SUMMARY
+            echo "| Line             | **${LINE_COVERAGE}%**   |" >> $GITHUB_STEP_SUMMARY
+            echo "| Branch           | **${BRANCH_COVERAGE}%** |" >> $GITHUB_STEP_SUMMARY
 
 
       - name: Stop Docker Compose
