@@ -9,7 +9,7 @@
 ## Cum rulezi proiectul
 
 1. Asigură-te că Docker este pornit.
-2. Deschide un terminal.
+2. Deschide un terminal.      
 3. Mergi în folderul principal al proiectului (cel care conține fișierul `docker-compose.yml`).
 4. Rulează comanda:
 
