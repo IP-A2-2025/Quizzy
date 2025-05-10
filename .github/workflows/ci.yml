@@ -2,11 +2,9 @@ name: Build and Test
 
 on:
   push:
-
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
 
 jobs:
   build:
@@ -39,12 +37,28 @@ jobs:
         working-directory: ./backend
         run: mvn test jacoco:report
 
+      - name: Publish Test Results (JUnit)
+        if: always()
+        uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: './backend/target/surefire-reports/TEST-*.xml'
+          require_tests: true
+
       - name: Upload JaCoCo coverage report
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: ./backend/target/site/jacoco  # Update this to the correct coverage report directory
+          path: ./backend/target/site/jacoco
+
+      - name: Extract Coverage Percentage
+        run: |
+          LINE_COVERED=$(grep -oP '(?<=<counter type="LINE" missed=")[0-9]+' ./backend/target/site/jacoco/jacoco.xml)
+          LINE_TOTAL=$(grep -oP '(?<=<counter type="LINE" missed=")[0-9]+' ./backend/target/site/jacoco/jacoco.xml | paste -sd+ - | bc)
+          LINE_COVERED=$(grep -oP '(?<=covered=")[0-9]+' ./backend/target/site/jacoco/jacoco.xml | paste -sd+ - | bc)
+          PERCENTAGE=$(echo "scale=2; $LINE_COVERED * 100 / $LINE_TOTAL" | bc)
+          echo "Code Coverage: $PERCENTAGE%"
+          echo "COVERAGE_PERCENTAGE=$PERCENTAGE" >> $GITHUB_ENV
 
       - name: Stop Docker Compose
         if: always()
