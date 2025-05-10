@@ -5,39 +5,25 @@
 -- Dumped from database version 16.8
 -- Dumped by pg_dump version 17.4
 
---SET statement_timeout = 0;
---SET lock_timeout = 0;
---SET idle_in_transaction_session_timeout = 0;
---SET transaction_timeout = 0;
---SET client_encoding = 'UTF8';
---SET standard_conforming_strings = on;
---SELECT pg_catalog.set_config('search_path', '', false);
---SET check_function_bodies = false;
---SET xmloption = content;
---SET client_min_messages = warning;
---SET row_security = off;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
---SET default_tablespace = '';
+SET default_tablespace = '';
 
---SET default_table_access_method = heap;
+SET default_table_access_method = heap;
 
 --
 -- Name: answerfc; Type: TABLE; Schema: public; Owner: -
 --
-
-DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS testquestion CASCADE;
-DROP TABLE IF EXISTS testanswer CASCADE;
-DROP TABLE IF EXISTS test CASCADE;
-DROP TABLE IF EXISTS streak CASCADE;
-DROP TABLE IF EXISTS material CASCADE;
-DROP TABLE IF EXISTS grade CASCADE;
-DROP TABLE IF EXISTS flashcardsession CASCADE;
-DROP TABLE IF EXISTS flashcard CASCADE;
-DROP TABLE IF EXISTS enrollment CASCADE;
-DROP TABLE IF EXISTS course CASCADE;
-DROP TABLE IF EXISTS answerfc CASCADE;
-
 
 CREATE TABLE public.answerfc (
     answerid bigint NOT NULL,
@@ -123,8 +109,7 @@ CREATE TABLE public.flashcard (
     userid integer NOT NULL,
     level integer,
     laststudiedat timestamp without time zone,
-    questiontype character varying(255),
-    pageindex integer DEFAULT NULL
+    questiontype character varying(255)
 );
 
 
@@ -154,10 +139,13 @@ ALTER SEQUENCE public.flashcard_flashcardid_seq OWNED BY public.flashcard.flashc
 
 CREATE TABLE public.flashcardsession (
     sessionid bigint NOT NULL,
-    userid bigint NOT NULL,
+    userid integer NOT NULL,
     courseid bigint NOT NULL,
-    timestamp timestamp without time zone NOT NULL,
-    flashcardcount integer NOT NULL
+    "timestamp" timestamp without time zone NOT NULL,
+    flashcardcount integer NOT NULL,
+    endtime timestamp(6) without time zone,
+    score integer,
+    flashcardid bigint
 );
 
 
@@ -698,30 +686,20 @@ INSERT INTO public.enrollment VALUES (60, 34, '2025-02-14 00:00:00', NULL);
 -- Data for Name: flashcard; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.flashcard (flashcardid, question, materialid, userid, level, laststudiedat, questiontype) VALUES (6, 'Cum funcționează algoritmul de sortare QuickSort?', 2, 22, 2, '2024-03-12 12:30:00', 'Exercițiu');
-INSERT INTO public.flashcard (flashcardid, question, materialid, userid, level, laststudiedat, questiontype) VALUES (7, 'Ce reprezintă termenul de Big O în analiza algoritmilor?', 3, 31, 3, '2024-03-15 15:45:00', 'Teorie');
-INSERT INTO public.flashcard (flashcardid, question, materialid, userid, level, laststudiedat, questiontype) VALUES (8, 'Explicați diferența între stive și cozi?', 4, 13, 4, '2024-03-18 09:00:00', 'Exercițiu');
-INSERT INTO public.flashcard (flashcardid, question, materialid, userid, level, laststudiedat, questiontype) VALUES (5, 'Care este complexitatea algoritmului Dijkstra?', 1, 10, 2, '2024-03-10 10:00:00', 'Teorie');
-
--- Update existing flashcard records with pageindex values
-UPDATE public.flashcard SET pageindex = 5 WHERE flashcardid = 5;
-UPDATE public.flashcard SET pageindex = 12 WHERE flashcardid = 6;
-UPDATE public.flashcard SET pageindex = 7 WHERE flashcardid = 7;
-UPDATE public.flashcard SET pageindex = 3 WHERE flashcardid = 8;
-
--- Insert additional flashcard with pageindex
-INSERT INTO public.flashcard (flashcardid, question, materialid, userid, level, laststudiedat, questiontype, pageindex) 
-VALUES (9, 'Explicați principiile algoritmilor DFS și BFS pentru parcurgerea grafurilor', 10, 14, 3, '2024-04-02 08:15:00', 'Teorie', 15);
+INSERT INTO public.flashcard VALUES (6, 'Cum funcționează algoritmul de sortare QuickSort?', 2, 22, 2, '2024-03-12 12:30:00', 'Exercițiu');
+INSERT INTO public.flashcard VALUES (7, 'Ce reprezintă termenul de Big O în analiza algoritmilor?', 3, 31, 3, '2024-03-15 15:45:00', 'Teorie');
+INSERT INTO public.flashcard VALUES (8, 'Explicați diferența între stive și cozi?', 4, 13, 4, '2024-03-18 09:00:00', 'Exercițiu');
+INSERT INTO public.flashcard VALUES (5, 'Care este complexitatea algoritmului Dijkstra?', 1, 10, 2, '2024-03-10 10:00:00', 'Teorie');
 
 
 --
 -- Data for Name: flashcardsession; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.flashcardsession VALUES (5, 10, 21, '2024-03-10 09:30:00', 5);
-INSERT INTO public.flashcardsession VALUES (6, 22, 39, '2024-03-12 10:00:00', 8);
-INSERT INTO public.flashcardsession VALUES (7, 31, 39, '2024-03-15 11:30:00', 6);
-INSERT INTO public.flashcardsession VALUES (8, 13, 28, '2024-03-18 08:45:00', 4);
+INSERT INTO public.flashcardsession VALUES (5, 10, 21, '2024-03-10 09:30:00', 5, NULL, NULL, NULL);
+INSERT INTO public.flashcardsession VALUES (6, 22, 39, '2024-03-12 10:00:00', 8, NULL, NULL, NULL);
+INSERT INTO public.flashcardsession VALUES (7, 31, 39, '2024-03-15 11:30:00', 6, NULL, NULL, NULL);
+INSERT INTO public.flashcardsession VALUES (8, 13, 28, '2024-03-18 08:45:00', 4, NULL, NULL, NULL);
 
 
 --
@@ -877,13 +855,6 @@ INSERT INTO public.users VALUES (69, 'Cristina', 'Lazar', 'cristina.lazar@profes
 INSERT INTO public.users VALUES (70, 'Radu', 'Iliescu', 'radu.iliescu@profesor.com', 'profesor', 'Ep3!Vn5k');
 INSERT INTO public.users VALUES (71, 'Murinho', 'special_one', 'pressure000@profesor.com', 'profesor', 'Ht6@Zp3l');
 INSERT INTO public.users VALUES (72, 'El', 'Professor', 'lacasadepappel@profesor.com', 'profesor', 'Yq9$Tr6x');
-
--- Enable the pgcrypto extension if not already enabled
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
--- Update the users table to encode passwords using the crypt() function
-UPDATE public.users
-SET password = crypt(password, gen_salt('bf'));
 
 
 --
@@ -1111,7 +1082,7 @@ ALTER TABLE ONLY public.enrollment
 --
 
 ALTER TABLE ONLY public.flashcardsession
-    DROP CONSTRAINT IF EXISTS fk2a9to8w64cp2c6nxl6an15hek;
+    ADD CONSTRAINT fk2a9to8w64cp2c6nxl6an15hek FOREIGN KEY (flashcardid) REFERENCES public.flashcard(flashcardid);
 
 
 --

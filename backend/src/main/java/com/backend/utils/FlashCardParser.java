@@ -29,7 +29,7 @@ class FC {
 
 @Setter
 @Getter
-class FlashCardParser {
+public class FlashCardParser {
 
     private final String content;
     private final List<FC> list = new ArrayList<>();
