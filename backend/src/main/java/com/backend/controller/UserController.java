@@ -166,7 +166,7 @@ public class UserController {
                 logger.warn("User with id {} not found", request.getId());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             }
-            
+
             boolean updated = userService.updateFirstName(request.getId(), request.getValue());
             if (updated) {
                 logger.info("FirstName updated successfully for user with id: {}", request.getId());
@@ -180,7 +180,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating first name");
         }
     }
-    
+
     @PostMapping("/update/lastname")
     public ResponseEntity<String> updateLastName(@RequestBody UpdateUserRequest request) {
         try {
@@ -189,7 +189,7 @@ public class UserController {
                 logger.warn("User with id {} not found", request.getId());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             }
-            
+
             boolean updated = userService.updateLastName(request.getId(), request.getValue());
             if (updated) {
                 logger.info("LastName updated successfully for user with id: {}", request.getId());
@@ -203,7 +203,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating last name");
         }
     }
-    
+
     @PostMapping("/update/email")
     public ResponseEntity<String> updateEmail(@RequestBody UpdateUserRequest request) {
         try {
@@ -212,7 +212,7 @@ public class UserController {
                 logger.warn("User with id {} not found", request.getId());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             }
-            
+
             boolean updated = userService.updateEmail(request.getId(), request.getValue());
             if (updated) {
                 logger.info("Email updated successfully for user with id: {}", request.getId());
@@ -226,7 +226,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating email");
         }
     }
-    
+
     @PostMapping("/update/password")
     public ResponseEntity<String> updatePassword(@RequestBody UpdateUserRequest request) {
         try {
@@ -235,7 +235,7 @@ public class UserController {
                 logger.warn("User with id {} not found", request.getId());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             }
-            
+
             boolean updated = userService.updatePassword(request.getId(), request.getValue());
             if (updated) {
                 logger.info("Password updated successfully for user with id: {}", request.getId());
@@ -249,8 +249,31 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating password");
         }
     }
-     
 
+
+    // === STREAK ENDPOINTS ===
+
+    // GET /users/streak?userId=X
+    @GetMapping("/streak")
+    public ResponseEntity<List<Streak>> getUserStreaks(@RequestParam Integer userId) {
+        List<Streak> streaks = streakService.getStreaksByUserId(userId);
+        return ResponseEntity.ok(streaks);
+    }
+
+    // POST /users/streak?userId=X
+    @PostMapping("/streak")
+    public ResponseEntity<String> updateUserStreak(@RequestParam Integer userId) {
+        streakService.updateStreakForUser(userId);
+        return ResponseEntity.ok("Streak actualizat pentru utilizatorul cu ID: " + userId);
+    }
+
+    // GET /users/streak/latest?userId=X
+    @GetMapping("/streak/latest")
+    public ResponseEntity<Streak> getLatestUserStreak(@RequestParam Integer userId) {
+        return streakService.getLatestStreakForUser(userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
     // === STREAK ENDPOINTS ===
 
     // GET /users/streak?userId=X
