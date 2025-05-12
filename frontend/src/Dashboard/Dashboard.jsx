@@ -1,13 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Dashboard = () => {
     const navigate = useNavigate();
+    const [streak, setStreak] = useState(null);
 
     // Preluăm username-ul și extragem prenumele
     const username = localStorage.getItem('user') || '';
     const prenume = username.split('.')[0]?.charAt(0).toUpperCase() + username.split('.')[0]?.slice(1).toLowerCase();
+
+    // Preluăm userId-ul salvat în localStorage
+    const userId = localStorage.getItem('userId');
+
+    // Obținem data curentă
+    const currentDate = new Date();
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const dayName = daysOfWeek[currentDate.getDay()];
+    const day = currentDate.getDate();
+    const month = months[currentDate.getMonth()];
+
+    useEffect(() => {
+        if (userId) {
+            axios.get(`http://localhost:8080/users/streak/latest?userId=${userId}`)
+                .then((res) => {
+                    if (res.data && typeof res.data.currentStreak === 'number') {
+                        setStreak(res.data.currentStreak);
+                    } else {
+                        setStreak(1);
+                    }
+                })
+                .catch((err) => {
+                    console.error('Eroare la preluarea streak-ului:', err);
+                    setStreak(1);
+                });
+        } else {
+            setStreak(1);
+        }
+    }, [userId]);
 
     const handleClick = (label) => {
         if (label === "Home") {
@@ -64,8 +99,8 @@ const Dashboard = () => {
 
                 <div className="day-and-buttons">
                     <div className="date-indicator">
-                        <span>🗓️ Wednesday, 7 May</span>
-                        <span className="indicator">🔥 6</span>
+                        <span>🗓️ {dayName}, {day} {month}</span>
+                        <span className="indicator">🔥 {streak}</span>
                     </div>
 
                     <div className="navigation-buttons">
@@ -77,15 +112,24 @@ const Dashboard = () => {
                 <div className="graph-divider"></div>
 
                 <div className="week-days-container">
-                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'].map((day, index) => (
-                        <div className={`day-card ${day === 'Sunday' ? 'active' : ''}`} key={day}>
-                            <div className="day-top"></div>
-                            <div className="day-content">
-                                <h3 className="day-name">{day}</h3>
-                                <h5 className="day-date">{4 + index} May</h5>
+                    {Array.from({ length: 5 }).map((_, index) => {
+                        const newDate = new Date();
+                        newDate.setDate(currentDate.getDate() + index);
+                        const weekDay = daysOfWeek[newDate.getDay()];
+                        const weekDayDate = newDate.getDate();
+                        const weekDayMonth = months[newDate.getMonth()];
+                        const isToday = newDate.toDateString() === currentDate.toDateString();
+
+                        return (
+                            <div className={`day-card ${isToday ? 'active' : ''}`} key={index}>
+                                <div className="day-top"></div>
+                                <div className="day-content">
+                                    <h3 className="day-name">{weekDay}</h3>
+                                    <h5 className="day-date">{weekDayDate} {weekDayMonth}</h5>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </div>
