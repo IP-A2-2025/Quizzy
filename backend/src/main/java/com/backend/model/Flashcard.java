@@ -35,6 +35,9 @@ public class Flashcard {
 
     @Column(name = "questiontype")
     private String questionType;
+    
+    @Column(name = "pageindex")
+    private Integer pageIndex;
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false)
@@ -80,6 +83,12 @@ public class Flashcard {
     }
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
+    }
+    public Integer getPageIndex() {
+        return pageIndex;
+    }
+    public void setPageIndex(Integer pageIndex) {
+        this.pageIndex = pageIndex;
     }
     public User getUser() {
         return user;

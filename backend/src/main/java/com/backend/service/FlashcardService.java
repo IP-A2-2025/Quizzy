@@ -35,6 +35,7 @@ public class FlashcardService {
             flashcard.setLevel(updatedFlashcard.getLevel());
             flashcard.setLastStudiedAt(updatedFlashcard.getLastStudiedAt());
             flashcard.setQuestionType(updatedFlashcard.getQuestionType());
+            flashcard.setPageIndex(updatedFlashcard.getPageIndex());
             flashcard.setUser(updatedFlashcard.getUser());
             flashcard.setMaterial(updatedFlashcard.getMaterial());
             flashcard.setAnswers(updatedFlashcard.getAnswers());
@@ -46,7 +47,6 @@ public class FlashcardService {
         flashcardRepository.deleteById(id);
     }
 
-    // extra methods based on your repository
     public List<Flashcard> getByUserId(Integer userId) {
         return flashcardRepository.findByUserId(userId);
     }
@@ -69,5 +69,17 @@ public class FlashcardService {
 
     public List<Flashcard> getByQuestionTypeAndUserId(String type, Integer userId) {
         return flashcardRepository.findByQuestionTypeAndUserId(type, userId);
+    }
+    
+    public List<Flashcard> getByPageIndex(Integer pageIndex) {
+        return flashcardRepository.findByPageIndex(pageIndex);
+    }
+    
+    public List<Flashcard> getByPageIndexAndUserId(Integer pageIndex, Integer userId) {
+        return flashcardRepository.findByPageIndexAndUserId(pageIndex, userId);
+    }
+    
+    public List<Flashcard> getByPageIndexAndMaterialId(Integer pageIndex, Long materialId) {
+        return flashcardRepository.findByPageIndexAndMaterialId(pageIndex, materialId);
     }
 }

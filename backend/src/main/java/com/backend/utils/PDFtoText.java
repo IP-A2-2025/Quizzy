@@ -8,7 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -44,6 +46,12 @@ public class PDFtoText {
 
     private static String imageToText(BufferedImage image) {
         try (TessBaseAPI api = new TessBaseAPI()) {
+           /* String tessDataPath = System.getProperty("user.dir") + File.separator + "tessdata";
+            if (api.Init(tessDataPath, "ENG") != 0) {
+                System.err.println("Could not initialize tesseract.");
+                return null;
+            }*/
+
             if (api.Init("tessdata", "ENG") != 0) {
                 System.err.println("Could not initialize tesseract.");
                 return null;
@@ -60,13 +68,14 @@ public class PDFtoText {
             api.SetImage(pix);
 
             BytePointer outText = api.GetUTF8Text();
-            String stringText = outText.getString();
+            String stringText = outText != null ? outText.getString() : "The page is blank or ocr failed";
 
             api.End();
             outText.deallocate();
             leptonica.pixDestroy(pix);
 
-            return stringText;
+            return stringText != null ? stringText : "The page is blank or ocr failed";
+
         } catch (Exception e) {
             System.err.println("Error during OCR processing: " + e.getMessage());
         }
@@ -79,26 +88,66 @@ public class PDFtoText {
             PDFRenderer renderer = new PDFRenderer(pdfDocument);
             int pageCount = pdfDocument.getNumberOfPages();
 
-            int nrThreads =5;
-            BlockingQueue<PageImage> imageQueue = new LinkedBlockingQueue<>();
+            if (pageCount == 0) {
+                System.out.println("Skipped " + pdfPath + " because it has no pages.");
+                return;
+            }
+
+            int nrThreads = 5;
             ocrExecutor = Executors.newFixedThreadPool(nrThreads);
 
+            Map<PageImage, Integer> numberedPages = new HashMap<>();
+            List<BlockingQueue<PageImage>> queues = new ArrayList<>();
             List<CompletableFuture<String>> ocrFutures = new ArrayList<>();
 
             for (int i = 0; i < nrThreads; i++) {
+                queues.add(new LinkedBlockingQueue<>());
+            }
+
+            for (int page = 0; page < pageCount; page++) {
+                try {
+                    BufferedImage bim = renderer.renderImageWithDPI(page, 300, org.apache.pdfbox.rendering.ImageType.RGB);
+                    PageImage pageImage = new PageImage(bim);
+                    numberedPages.put(pageImage, page + 1);
+
+                    int queueIndex = page * nrThreads / pageCount;
+                    queues.get(queueIndex).put(pageImage);
+                } catch (IOException e) {
+                    System.err.println("Failed to render page " + page + ": " + e.getMessage());
+                }
+            }
+
+            for (BlockingQueue<PageImage> queue : queues) {
+                queue.put(PageImage.endPage());
+            }
+
+
+            for (int i = 0; i < nrThreads; i++) {
+                final BlockingQueue<PageImage> queue = queues.get(i);
                 CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
                     StringBuilder result = new StringBuilder();
                     try {
                         while (true) {
-                            PageImage pageImage = imageQueue.take();
+                            PageImage pageImage = queue.take();
                             if (pageImage.isEndPage()) break;
+
                             String text = imageToText(pageImage.getImage());
 
-                            if (text == null) {
-                                throw new RuntimeException("OCR failed on a page.");
+                            int pageNR = numberedPages.get(pageImage);
+                            if (text == null || text.trim().isEmpty()) {
+                                text = "[OCR failed or page was blank on page: " + pageNR + "]";
+                                System.out.println("OCR failed or page was blank on page: " + pageNR);
+                                System.out.println("course where failure occured: " + pdfPath);
                             }
 
-                            result.append(text).append("\n");
+                            if (text.contains("OCR failed")) {
+                                result.append("\0");
+                            } else {
+                                result.append("***************Beginning Page***************\n")
+                                        .append("***************page number:").append(pageNR).append("**************\n")
+                                        .append(text).append("\n")
+                                        .append("***************Ending Page***************\n\n");
+                            }
                         }
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
@@ -106,27 +155,15 @@ public class PDFtoText {
                     }
                     return result.toString();
                 }, ocrExecutor);
+
                 ocrFutures.add(future);
-            }
-
-            for (int page = 0; page < pageCount; page++) {
-                try {
-                    BufferedImage bim = renderer.renderImageWithDPI(page, 300, org.apache.pdfbox.rendering.ImageType.RGB);
-                    imageQueue.put(new PageImage(bim));
-                } catch (IOException e) {
-                    System.err.println("Failed to render page " + page + ": " + e.getMessage());
-                }
-            }
-
-            for (int i = 0; i < nrThreads; i++) {
-                imageQueue.put(PageImage.endPage());
             }
 
             CompletableFuture<Void> allDone = CompletableFuture.allOf(
                     ocrFutures.toArray(new CompletableFuture[0])
             );
-
             allDone.join();
+
 
             String pdfText = ocrFutures.stream()
                     .map(CompletableFuture::join)
@@ -137,8 +174,8 @@ public class PDFtoText {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(textPath);
 
+            System.out.println(textPath);
 
         } catch (Exception e) {
             System.err.println("PDF OCR failed: " + e.getMessage());

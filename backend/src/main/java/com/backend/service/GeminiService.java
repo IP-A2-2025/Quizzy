@@ -5,8 +5,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -19,17 +21,22 @@ public class GeminiService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public String processFile(String inputFilePath) throws IOException {
-        String fileContent = Files.readString(Path.of(inputFilePath));
+    // In GeminiService.java
+    protected String readFile(String relativeFilePath) throws IOException {
+        String coursesPath = System.getProperty("user.dir") + File.separator + "courses" + File.separator + relativeFilePath;
+        return Files.readString(Path.of(coursesPath));
+    }
+
+    public String processFile(String relativeFilePath) throws IOException {
+        String fileContent = readFile(relativeFilePath);
         return getGeminiResponse(fileContent);
     }
 
-    public String processFileWithPrompt(String inputFilePath, String additionalPrompt) throws IOException {
-        String fileContent = Files.readString(Path.of(inputFilePath));
+    public String processFileWithPrompt(String relativeFilePath, String additionalPrompt) throws IOException {
+        String fileContent = readFile(relativeFilePath);
         String combinedPrompt = additionalPrompt + "\n\n" + fileContent;
         return getGeminiResponse(combinedPrompt);
     }
-
     public String getGeminiResponse(String prompt) {
         String url = GEMINI_API_URL + API_KEY;
 

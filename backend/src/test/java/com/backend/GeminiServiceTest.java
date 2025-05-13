@@ -66,28 +66,42 @@ class GeminiServiceTest {
 
     @Test
     void processFile_success() throws IOException {
-        Path tempFile = tempDir.resolve("test.txt");
-        Files.writeString(tempFile, "test");
+        // Create a subclass of GeminiService for testing
+        GeminiService testService = new GeminiService() {
+            @Override
+            protected String readFile(String path) throws IOException {
+                return "test content";
+            }
+        };
+
+        ReflectionTestUtils.setField(testService, "restTemplate", restTemplate);
 
         when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(Map.class)))
                 .thenReturn(getDefaultResponse());
 
-        String result = geminiService.processFile(tempFile.toString());
+        String result = testService.processFile("test.txt");
         assertEquals(restResponse, result);
     }
 
     @Test
     void processFileWithPrompt_success() throws IOException {
-        Path tempFile = tempDir.resolve("test.txt");
-        Files.writeString(tempFile, "test");
+        // Create a subclass of GeminiService for testing
+        GeminiService testService = new GeminiService() {
+            @Override
+            protected String readFile(String path) throws IOException {
+                return "test content";
+            }
+        };
+
+        ReflectionTestUtils.setField(testService, "restTemplate", restTemplate);
 
         when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(), eq(Map.class)))
                 .thenReturn(getDefaultResponse());
 
-        String result = geminiService.processFileWithPrompt(tempFile.toString()
-                ,"Additional prompt");
+        String result = testService.processFileWithPrompt("test.txt", "Additional prompt");
         assertEquals(restResponse, result);
     }
+
 
     @Test
     void getGeminiResponse_null_response_body() {

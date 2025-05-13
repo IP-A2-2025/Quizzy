@@ -189,3 +189,4 @@ class UserControllerTest {
         verify(userService, never()).generateJwtForUser(anyString());
     }
 }
+

@@ -34,6 +34,7 @@ public class FlashcardMapper implements EntityMapper<Flashcard, FlashcardDTO> {
         dto.setLevel(flashcard.getLevel());
         dto.setLastStudiedAt(flashcard.getLastStudiedAt());
         dto.setQuestionType(flashcard.getQuestionType());
+        dto.setPageIndex(flashcard.getPageIndex());
 
         if (flashcard.getUser() != null) {
             dto.setUserId(flashcard.getUser().getId());
@@ -62,6 +63,7 @@ public class FlashcardMapper implements EntityMapper<Flashcard, FlashcardDTO> {
         flashcard.setLevel(dto.getLevel());
         flashcard.setLastStudiedAt(dto.getLastStudiedAt());
         flashcard.setQuestionType(dto.getQuestionType());
+        flashcard.setPageIndex(dto.getPageIndex());
 
         if (dto.getUserId() != null) {
             userRepository.findById(dto.getUserId())
