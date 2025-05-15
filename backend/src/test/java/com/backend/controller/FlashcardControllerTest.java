@@ -3,16 +3,23 @@ package com.backend.controller;
 import com.backend.model.Flashcard;
 import com.backend.model.User;
 import com.backend.service.FlashcardService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class FlashcardControllerTest {
 
@@ -22,18 +29,36 @@ class FlashcardControllerTest {
     @InjectMocks
     private FlashcardController flashcardController;
 
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
+
     public FlashcardControllerTest() {
         openMocks(this);
     }
 
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(flashcardController).build();
+        objectMapper = new ObjectMapper();
+    }
+
+    // Helper
     private Flashcard createFlashcard(Long id, Integer userId) {
         Flashcard flashcard = new Flashcard();
         flashcard.setId(id);
         User user = new User();
         user.setId(userId);
         flashcard.setUser(user);
+        flashcard.setQuestion("Sample Q");
+        flashcard.setQuestion("Sample A");
+        flashcard.setLevel(1);
+        flashcard.setLastStudiedAt(new Date());
         return flashcard;
     }
+
+    // ===============================
+    // UNIT TESTS (apelează direct metodele controllerului)
+    // ===============================
 
     @Test
     void shouldReturnAllFlashcards() {
@@ -131,4 +156,42 @@ class FlashcardControllerTest {
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
     }
+
+    // ===============================
+    // E2E-STYLE TESTS cu MockMvc (simulare apel HTTP)
+    // ===============================
+
+    @Test
+    void e2eShouldReturnAllFlashcardsHttp() throws Exception {
+        List<Flashcard> flashcards = Arrays.asList(
+                createFlashcard(1L, 1),
+                createFlashcard(2L, 2)
+        );
+        when(flashcardService.getAllFlashcards()).thenReturn(flashcards);
+
+        mockMvc.perform(get("/Flashcard"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[1].id").value(2));
+    }
+
+    @Test
+    void e2eShouldReturnFlashcardByIdHttp() throws Exception {
+        Flashcard flashcard = createFlashcard(1L, 1);
+        when(flashcardService.getFlashcardById(1L)).thenReturn(Optional.of(flashcard));
+
+        mockMvc.perform(get("/Flashcard/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.level").value(1));
+    }
+
+    @Test
+    void e2eShouldReturnNotFoundHttp() throws Exception {
+        when(flashcardService.getFlashcardById(999L)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/Flashcard/999"))
+                .andExpect(status().isNotFound());
+    }
+
 }
