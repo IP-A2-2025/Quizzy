@@ -73,4 +73,43 @@ class FlashcardServiceTest {
         flashcardService.deleteFlashcard(1L);
         verify(flashcardRepository, times(1)).deleteById(1L);
     }
+    
+    @Test
+    void testGetByPageIndex() {
+        Flashcard flashcard = new Flashcard();
+        flashcard.setPageIndex(5);
+        
+        when(flashcardRepository.findByPageIndex(5)).thenReturn(List.of(flashcard));
+        
+        List<Flashcard> result = flashcardService.getByPageIndex(5);
+        assertEquals(1, result.size());
+        assertEquals(5, result.get(0).getPageIndex());
+        verify(flashcardRepository, times(1)).findByPageIndex(5);
+    }
+    
+    @Test
+    void testGetByPageIndexAndUserId() {
+        Flashcard flashcard = new Flashcard();
+        flashcard.setPageIndex(5);
+        
+        when(flashcardRepository.findByPageIndexAndUserId(5, 1)).thenReturn(List.of(flashcard));
+        
+        List<Flashcard> result = flashcardService.getByPageIndexAndUserId(5, 1);
+        assertEquals(1, result.size());
+        assertEquals(5, result.get(0).getPageIndex());
+        verify(flashcardRepository, times(1)).findByPageIndexAndUserId(5, 1);
+    }
+    
+    @Test
+    void testGetByPageIndexAndMaterialId() {
+        Flashcard flashcard = new Flashcard();
+        flashcard.setPageIndex(5);
+        
+        when(flashcardRepository.findByPageIndexAndMaterialId(5, 1L)).thenReturn(List.of(flashcard));
+        
+        List<Flashcard> result = flashcardService.getByPageIndexAndMaterialId(5, 1L);
+        assertEquals(1, result.size());
+        assertEquals(5, result.get(0).getPageIndex());
+        verify(flashcardRepository, times(1)).findByPageIndexAndMaterialId(5, 1L);
+    }
 }

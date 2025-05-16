@@ -59,4 +59,7 @@ public class MaterialService {
     public List<Material> findByProfessorId(Integer professorId) {
         return materialRepository.findByProfessorId(professorId);
     }
+
+
+
 }

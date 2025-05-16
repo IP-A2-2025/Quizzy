@@ -11,6 +11,7 @@ public class FlashcardDTO {
     private int level;
     private Date lastStudiedAt;
     private String questionType;
+    private Integer pageIndex;
     private Integer userId;
     private Long materialId;
     private Set<AnswerFCDTO> answers;
@@ -29,6 +30,9 @@ public class FlashcardDTO {
     }
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
+    }
+    public void setPageIndex(Integer pageIndex) {
+        this.pageIndex = pageIndex;
     }
     public void setUserId(Integer userId) {
         this.userId = userId;
@@ -53,6 +57,9 @@ public class FlashcardDTO {
     }
     public String getQuestionType() {
         return questionType;
+    }
+    public Integer getPageIndex() {
+        return pageIndex;
     }
     public Integer getUserId() {
         return userId;

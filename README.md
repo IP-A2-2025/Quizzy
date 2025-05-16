@@ -7,7 +7,7 @@
 - **Linux**: Instalează Docker Engine și Docker Compose ([ghid aici](https://docs.docker.com/engine/install/)).
 
 ## Cum rulezi proiectul
-
+//
 1. Asigură-te că Docker este pornit.
 2. Deschide un terminal.
 3. Mergi în folderul principal al proiectului (cel care conține fișierul `docker-compose.yml`).

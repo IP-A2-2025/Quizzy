@@ -32,6 +32,7 @@ class FlashcardControllerTest {
         User user = new User();
         user.setId(userId);
         flashcard.setUser(user);
+        flashcard.setPageIndex(5); // Set a default page index for testing
         return flashcard;
     }
 
@@ -127,6 +128,39 @@ class FlashcardControllerTest {
         when(flashcardService.getDueFlashcards(date, 1)).thenReturn(flashcards);
 
         ResponseEntity<List<Flashcard>> response = flashcardController.getDueFlashcards(date, 1);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
+    }
+
+    @Test
+    void shouldReturnFlashcardsByPageIndex() {
+        List<Flashcard> flashcards = Arrays.asList(createFlashcard(1L, 1), createFlashcard(2L, 2));
+        when(flashcardService.getByPageIndex(5)).thenReturn(flashcards);
+
+        ResponseEntity<List<Flashcard>> response = flashcardController.getByPageIndex(5);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(2, response.getBody().size());
+    }
+
+    @Test
+    void shouldReturnFlashcardsByPageIndexAndUserId() {
+        List<Flashcard> flashcards = Arrays.asList(createFlashcard(1L, 1));
+        when(flashcardService.getByPageIndexAndUserId(5, 1)).thenReturn(flashcards);
+
+        ResponseEntity<List<Flashcard>> response = flashcardController.getByPageIndexAndUserId(5, 1);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
+    }
+
+    @Test
+    void shouldReturnFlashcardsByPageIndexAndMaterialId() {
+        List<Flashcard> flashcards = Arrays.asList(createFlashcard(1L, 1));
+        when(flashcardService.getByPageIndexAndMaterialId(5, 1L)).thenReturn(flashcards);
+
+        ResponseEntity<List<Flashcard>> response = flashcardController.getByPageIndexAndMaterialId(5, 1L);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());

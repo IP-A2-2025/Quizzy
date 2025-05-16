@@ -3,10 +3,16 @@ package com.backend.controller;
 import com.backend.model.Material;
 import com.backend.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/Material")
@@ -72,4 +78,6 @@ public class MaterialController {
         List<Material> materials = materialService.findByProfessorId(professorId);
         return ResponseEntity.ok(materials);
     }
+
+
 }
