@@ -1,0 +1,201 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+  background: linear-gradient(to bottom, #173B61, #EFEAE6);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App-header {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  width: 100%;
+  max-width: calc(100vw - 100px);
+  box-sizing: border-box;
+}
+
+.Pdf-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.Pdf-section {
+  width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  flex-grow: 1; /* Ensures both sections are equal height */
+}
+
+.Pdf-section.dark {
+  background-color: #173B61;
+}
+
+.Pdf-section.light {
+  background-color: #EFEAE6;
+  padding-bottom: 1rem; /* Ensure there’s enough space for buttons */
+  flex-grow: 0; /* Prevent it from growing and taking more space */
+  position: relative; /* Allow positioning buttons within */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Pdf-title {
+  color: #EFEAE6;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.App-link-container {
+  text-align: left; /* Ensure it's left aligned */
+}
+
+.App-link {
+  color: #173B61;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  display: inline-block;
+  position: relative;
+}
+
+.App-link svg {
+  fill: #173B61;
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.App-link:hover svg {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.App-link:hover::after {
+  content: "Open Full Screen";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #EFEAE6;
+  padding: 5px 10px;
+  color: #173B61;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.App-link::after {
+  opacity: 1;
+}
+
+/* PDF iframe */
+iframe {
+  margin-top: 0;
+  width: 100%;
+  max-width: calc(100vw - 100px);
+  flex-grow: 1;
+  border: none;
+  min-height: 85vh; /* Increase PDF height */
+  height: auto;
+}
+
+/* Buttons to toggle between single page and continuous pages */
+.page-toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  z-index: 10; /* Ensure they stay on top of the PDF */
+}
+
+.toggle-btn {
+  background-color: #173B61;
+  color: #EFEAE6;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #1d4f82; /* Slightly darker blue on hover */
+}
+
+.toggle-btn.active {
+  background-color: #173B61;
+  color: #EFEAE6;
+}
+
+/* Style the SVG icons inside buttons */
+.toggle-btn svg {
+  fill: #EFEAE6;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-btn:hover svg {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .App-header {
+    padding-left: 20px;
+    padding-right: 20px;
+    max-width: 100%;
+  }
+
+  .Pdf-title {
+    font-size: 1.5rem;
+  }
+
+  .Pdf-section {
+    padding: 1rem;
+  }
+
+  iframe {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    zoom: 0.85; /* Shrink the content inside the iframe */
+  }
+}
+
+@media (max-width: 480px) {
+  .Pdf-title {
+    font-size: 1.2rem;
+  }
+
+  .App-link {
+    font-size: 1rem;
+  }
+
+  .Pdf-section {
+    padding: 0.5rem;
+  }
+
+  iframe {
+    width: 100%;
+    height: auto;
+    zoom: 0.7; /* Further shrink the content inside the iframe for mobile */
+    min-height: 60vh;
+  }
+}
