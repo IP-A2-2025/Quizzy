@@ -76,6 +76,10 @@ function Profile() {
                         <label>Phone number</label>
                         <input type="text" />
                     </div>
+                    <div className="form-group">
+                        <label>Role</label>
+                        <input type="text" />
+                    </div>
                 </form>
             </div>
         </div>
