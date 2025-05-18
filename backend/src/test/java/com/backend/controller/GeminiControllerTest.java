@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -141,6 +142,57 @@ class GeminiControllerTest {
         // Verifică prezența răspunsurilor corecte și greșite
         assertTrue(savedContent.contains("Crează aplicații rapid"), "Răspunsul corect lipsește pentru 'Multiple'");
         assertTrue(savedContent.contains("Este un server"), "Răspunsul greșit lipsește pentru 'Multiple'");
+    }
+    
+    @Test
+    void testGenerateResponseReturnsGeminiServiceResult() throws Exception {
+        String fakeInputPath = testFilePath.toString();
+        String expected = "testServiceOutput";
+        
+        when(geminiService.processFile(fakeInputPath)).thenReturn(expected);
+
+        String actual = geminiController.generateResponse(fakeInputPath);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testGenerateResponseWithPromptReturnsErrorOnFileWrite() throws IOException {
+        String invalidPath = "??invalid-file??.txt";
+        when(geminiService.processFileWithPrompt(eq(invalidPath), anyString()))
+                .thenReturn("content");
+
+        assertThrows(InvalidPathException.class, () -> {
+            geminiController.generateResponseWithPrompt(invalidPath);
+        });
+    }
+
+    @Test
+    void testCompareUsersAnswerToOfficialAnswerAverageAndZero() throws Exception {
+        // Standard (non-zero) case
+        when(geminiService.getGeminiResponse(anyString()))
+                .thenReturn("text=80.0\\n", "text=90.0\\n", "text=100.0\\n", "text=70.0\\n", "text=60.0\\n");
+        Double val = geminiController.compareUsersAnswerToOfficialAnswer("q","a","u");
+        assertEquals(80.0, val);
+
+        // Zero percent case
+        when(geminiService.getGeminiResponse(anyString()))
+                .thenReturn("text=0.0\\n", "text=90.0\\n", "text=100.0\\n", "text=70.0\\n", "text=60.0\\n");
+        Double valZero = geminiController.compareUsersAnswerToOfficialAnswer("q","a","u");
+        assertEquals(0.0, valZero);
+    }
+
+    @Test
+    void testExtractOnlyTheNumberSuccessAndFailure() throws Exception {
+        var method = GeminiController.class.getDeclaredMethod("extractOnlyTheNumber", String.class);
+        method.setAccessible(true);
+
+        String valid = "text=87.5\\n}";
+        String actual = (String) method.invoke(geminiController, valid);
+        assertEquals("87.5", actual);
+
+        Exception ex = assertThrows(Exception.class, () -> method.invoke(geminiController, "something without marker"));
+        assertTrue(ex.getCause() instanceof IllegalArgumentException);
+        assertTrue(ex.getCause().getMessage().contains("Could not find 'text='"));
     }
 }
 
