@@ -62,6 +62,8 @@ const Dashboard = () => {
                 <img src="/quizzy-logo-homepage.svg" alt="Logo" style={{ width: '100%', height: '100%' }} />
             </div>
 
+            <div className="streak-box">🔥 {streak}</div>
+
             <div className="dashboard-inner-box" />
 
             {/* Sidebar Buttons */}
@@ -100,7 +102,6 @@ const Dashboard = () => {
                 <div className="day-and-buttons">
                     <div className="date-indicator">
                         <span>🗓️ {dayName}, {day} {month}</span>
-                        <span className="indicator">🔥 {streak}</span>
                     </div>
 
                     <div className="navigation-buttons">
@@ -114,7 +115,7 @@ const Dashboard = () => {
                 <div className="week-days-container">
                     {Array.from({ length: 5 }).map((_, index) => {
                         const newDate = new Date();
-                        newDate.setDate(currentDate.getDate() + index);
+                        newDate.setDate(currentDate.getDate() - 4 + index);
                         const weekDay = daysOfWeek[newDate.getDay()];
                         const weekDayDate = newDate.getDate();
                         const weekDayMonth = months[newDate.getMonth()];
