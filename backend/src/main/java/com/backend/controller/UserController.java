@@ -3,8 +3,10 @@ package com.backend.controller;
 import com.backend.dto.LoginRequest;
 import com.backend.dto.LoginResponse;
 import com.backend.dto.RegisterRequest;
+import com.backend.model.Streak;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
+import com.backend.service.StreakService;
 import com.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -16,21 +18,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
+    private final StreakService streakService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, StreakService streakService) {
         this.userService = userService;
+        this.streakService = streakService;
     }
 
     @GetMapping("/users")
@@ -150,5 +155,28 @@ public class UserController {
                         false
                     ));
         }
+    }
+    // === STREAK ENDPOINTS ===
+
+    // GET /users/streak?userId=X
+    @GetMapping("/streak")
+    public ResponseEntity<List<Streak>> getUserStreaks(@RequestParam Integer userId) {
+        List<Streak> streaks = streakService.getStreaksByUserId(userId);
+        return ResponseEntity.ok(streaks);
+    }
+
+    // POST /users/streak?userId=X
+    @PostMapping("/streak")
+    public ResponseEntity<String> updateUserStreak(@RequestParam Integer userId) {
+        streakService.updateStreakForUser(userId);
+        return ResponseEntity.ok("Streak actualizat pentru utilizatorul cu ID: " + userId);
+    }
+
+    // GET /users/streak/latest?userId=X
+    @GetMapping("/streak/latest")
+    public ResponseEntity<Streak> getLatestUserStreak(@RequestParam Integer userId) {
+        return streakService.getLatestStreakForUser(userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

@@ -25,4 +25,10 @@ public interface StreakRepository extends JpaRepository<Streak, Long> {
 
     @Query("SELECT AVG(s.currentStreak) FROM Streak s")
     Float getAverageStreak();
+
+    @Query("SELECT s FROM Streak s WHERE s.user.id = :userId ORDER BY s.lastCompletedDate DESC")
+    Optional<Streak> findLatestByUserId(@Param("userId") Integer userId);
+
+    Optional<Streak> findTopByUserIdOrderByLastCompletedDateDesc(Integer userId);
+
 }

@@ -1,0 +1,159 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  push-to-ecr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.I_AM_ROLE }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR Public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+
+      - name: Build Docker images
+        run: docker compose -f docker-compose.yml build
+
+      - name: Generate version tag
+        id: set_tag
+        run: |
+          echo "VERSION_TAG=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+      - name: Tag and push backend image
+        run: |
+          BACKEND_IMAGE="myapp-backend"
+          BACKEND_REPO="public.ecr.aws/w9j1e0m5/quizzy/backend"
+          docker tag $BACKEND_IMAGE:latest $BACKEND_REPO:$VERSION_TAG
+          docker push $BACKEND_REPO:$VERSION_TAG
+
+      - name: Tag and push frontend image
+        run: |
+          FRONTEND_IMAGE="myapp-frontend"
+          FRONTEND_REPO="public.ecr.aws/w9j1e0m5/quizzy/frontend"
+          docker tag $FRONTEND_IMAGE:latest $FRONTEND_REPO:$VERSION_TAG
+          docker push $FRONTEND_REPO:$VERSION_TAG
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: push-to-ecr
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.I_AM_ROLE }}
+          aws-region: us-east-1
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Cleanup old images in ECR
+        env:
+          REGISTRY_ID: w9j1e0m5
+          REGION: us-east-1
+        run: |
+          clean_repo() {
+            REPO_NAME=$1
+            echo "Cleaning repository: $REPO_NAME"
+
+            IMAGES=$(aws ecr-public describe-images \
+              --region "$REGION" \
+              --repository-name "$REPO_NAME" \
+              --query 'sort_by(imageDetails,& imagePushedAt)[::-1]' \
+              --output json)
+
+            COUNT=$(echo "$IMAGES" | jq length)
+            echo "Image count: $COUNT"
+
+            if [ "$COUNT" -gt 10 ]; then
+              echo "$IMAGES" | jq '.[10:] | .[] | .imageDigest' -r | while read DIGEST; do
+                echo "Deleting image with digest $DIGEST from $REPO_NAME"
+                aws ecr-public batch-delete-image \
+                  --region "$REGION" \
+                  --registry-id "$REGISTRY_ID" \
+                  --repository-name "$REPO_NAME" \
+                  --image-ids imageDigest="$DIGEST"
+              done
+            else
+              echo "No cleanup needed for $REPO_NAME."
+            fi
+          }
+
+          clean_repo "quizzy/backend"
+          clean_repo "quizzy/frontend"
+
+  deploy:
+    needs: cleanup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            if ! command -v docker &> /dev/null
+            then
+              sudo dnf update -y
+              sudo dnf install -y docker
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker ec2-user
+              newgrp docker
+            fi
+
+            aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+
+            BACKEND_REPO="quizzy/backend"
+            FRONTEND_REPO="quizzy/frontend"
+            
+            # Get the latest image tags
+            LATEST_BACKEND_TAG=$(aws ecr-public describe-images \
+              --region us-east-1 \
+              --repository-name $BACKEND_REPO \
+              --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' \
+              --output text)
+
+            LATEST_FRONTEND_TAG=$(aws ecr-public describe-images \
+              --region us-east-1 \
+              --repository-name $FRONTEND_REPO \
+              --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' \
+              --output text)
+
+            echo "Latest backend tag: $LATEST_BACKEND_TAG"
+            echo "Latest frontend tag: $LATEST_FRONTEND_TAG"
+
+            docker pull public.ecr.aws/w9j1e0m5/$BACKEND_REPO:$LATEST_BACKEND_TAG
+            docker pull public.ecr.aws/w9j1e0m5/$FRONTEND_REPO:$LATEST_FRONTEND_TAG
+
+            docker stop myapp-backend || true
+            docker stop myapp-frontend || true
+            docker rm myapp-backend || true
+            docker rm myapp-frontend || true
+
+            docker run -d --name myapp-backend -p 3000:3000 public.ecr.aws/w9j1e0m5/$BACKEND_REPO:$LATEST_BACKEND_TAG
+            docker run -d --name myapp-frontend -p 80:80 --link myapp-backend public.ecr.aws/w9j1e0m5/$FRONTEND_REPO:$LATEST_FRONTEND_TAG
+            
+            rm ~/.docker/config.json

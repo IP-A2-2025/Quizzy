@@ -2,7 +2,7 @@ services:
   db:
     build:
       context: ./backend/db
-    container_name: myapp-db
+    container_name: db
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypass
@@ -16,11 +16,13 @@ services:
   backend:
     build:
       context: ./backend
-    container_name: myapp-backend
+    image: quizzy-backend
+    container_name: backend
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: mypass
+      GEMINI_API_KEY: AIzaSyAUWUg9b-ZsVmTo8lmwr5VewpF28wnDEH8
     ports:
       - "3000:3000"
     depends_on:
@@ -29,7 +31,8 @@ services:
   frontend:
     build:
        context: ./frontend
-    container_name: myapp-frontend
+    image: quizzy-frontend
+    container_name: frontend
     ports:
       - "36882:80"
     depends_on:

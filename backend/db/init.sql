@@ -1219,5 +1219,48 @@ ALTER TABLE ONLY public.testquestion
 
 
 --
+-- Drop the flashcardprogress table if it exists
+DROP TABLE IF EXISTS flashcardprogress CASCADE;
+
+-- Create the flashcardprogress table
+CREATE TABLE public.flashcardprogress (
+    flashcardprogressid bigint NOT NULL,
+    userid integer NOT NULL,
+    flashcardid bigint NOT NULL,
+    easefactor double precision NOT NULL,
+    interval integer NOT NULL,
+    repetitions integer NOT NULL,
+    duedate date NOT NULL,
+    lastreviewed timestamp without time zone NOT NULL
+);
+
+-- Create sequence for the primary key
+CREATE SEQUENCE public.flashcardprogress_flashcardprogressid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+-- Link the sequence to the primary key column
+ALTER SEQUENCE public.flashcardprogress_flashcardprogressid_seq OWNED BY public.flashcardprogress.flashcardprogressid;
+
+-- Set default value for primary key to use the sequence
+ALTER TABLE ONLY public.flashcardprogress ALTER COLUMN flashcardprogressid SET DEFAULT nextval('public.flashcardprogress_flashcardprogressid_seq'::regclass);
+
+-- Add primary key constraint
+ALTER TABLE ONLY public.flashcardprogress
+    ADD CONSTRAINT flashcardprogress_pkey PRIMARY KEY (flashcardprogressid);
+
+-- Add foreign key constraints
+ALTER TABLE ONLY public.flashcardprogress
+    ADD CONSTRAINT flashcardprogress_userid_fkey FOREIGN KEY (userid) REFERENCES public.users(userid) ON DELETE CASCADE;
+
+ALTER TABLE ONLY public.flashcardprogress
+    ADD CONSTRAINT flashcardprogress_flashcardid_fkey FOREIGN KEY (flashcardid) REFERENCES public.flashcard(flashcardid) ON DELETE CASCADE;
+
+
+--
 -- PostgreSQL database dump complete
 --

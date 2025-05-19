@@ -1,0 +1,672 @@
+/* Reset & background */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* Main container */
+.dashboard-container {
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Logo Quizzy */
+.dashboard-logo {
+    width: 61px;
+    height: 48px;
+    position: absolute;
+    left: 90px;
+    top: 24px;
+}
+
+/* Logo FII */
+.dashboard-logo-fii {
+    width: 49px;
+    height: 48px;
+    position: absolute;
+    left: 1288px;
+    top: 24px;
+}
+
+/* Cutia albă centrală */
+.dashboard-inner-box,
+.dashboard-white-box {
+    position: absolute;
+    width: 1088px;
+    height: 1000px;
+    top: 16px;
+    left: 176px;
+    background: #EFEAE6;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
+}
+
+.welcome-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8vh;
+    margin-bottom: 8vh;
+}
+
+.welcome-text {
+    color: #173B61;
+    font-weight: bold;
+    font-size: 180%;
+    padding: 2%;
+    background-color: #E2A54D;
+    border-radius: 25px;
+}
+
+.welcome-owl-image {
+    width: 10vw;
+    height: auto;
+}
+
+.day-and-buttons {
+    padding-left: 4vw;
+    padding-right: 4vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.date-indicator {
+    display: flex;
+    align-items: center;
+}
+
+.indicator {
+    margin-left: 8px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background-color: #E2A54D; /* Galben deschis */
+    color: #173B61;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.navigation-buttons button {
+    padding: 8px 16px;
+    border-radius: 16px;
+    border: none;
+    background: #E2A54D;
+    color: #173B61;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.navigation-buttons button:first-child {
+    margin-right: 8px;
+}
+
+/* Butoane laterale */
+.dashboard-icon-wrapper {
+    position: absolute;
+    width: 64px;
+    height: 72px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: transform 0.2s ease;
+}
+
+.dashboard-icon-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.dashboard-icon-wrapper.active {
+    background-color: #EFEAE6;
+    border-radius: 8px;
+}
+
+/* Poziționări individuale pentru fiecare buton */
+.dashboard-icon-home {
+    top: 96px;
+    left: 88px;
+}
+
+.dashboard-icon-library {
+    top: 170px;
+    left: 88px;
+}
+
+.dashboard-icon-explore {
+    top: 244px;
+    left: 88px;
+}
+
+.dashboard-icon-profile {
+    top: 318px;
+    left: 88px;
+}
+
+/* Imagini și text pentru iconițe */
+.dashboard-icon-image {
+    width: 36px;
+    height: 36px;
+    z-index: 1;
+}
+
+.dashboard-icon-text {
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 4px;
+    z-index: 1;
+    color: #EFEAE6;
+}
+
+/* Stil pentru buton activ */
+.dashboard-icon-wrapper.active .dashboard-icon-text {
+    color: #173B61;
+    font-weight: 700;
+}
+
+.dashboard-icon-wrapper.active .dashboard-icon-image {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
+}
+
+/* Rect fundal pentru buton activ */
+.dashboard-rectangle-home {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 64px;
+    height: 72px;
+    border-radius: 8px;
+    background-color: #EFEAE6;
+    z-index: -1;
+}
+
+.graph-divider {
+    height: 1px;
+    background-color: #173B61;
+    width: 100%;
+    opacity: 0.5;
+    margin: 20px 0;
+}
+
+.week-days-container {
+    display: flex;
+    gap: 16px; /* Spațiu mai mare între carduri */
+    justify-content: center;
+    padding: 20px;
+    max-width: 100%;
+}
+
+.day-card {
+    width: 120vw; /* Lățime mai mare */
+    height: 15vh; /* Înălțime mai mare */
+    border-radius: 16px; /* Rotunjire mai pronunțată */
+    border: 2px solid #173B61; /* Border albastru */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8); /* Fundal semi-transparent */
+}
+
+.day-top {
+    height: 20%;
+    background-color: #E2A54D; /* Galben */
+}
+
+.day-name {
+    flex-grow: 1;
+    display: flex;
+    margin-top: 1vh;
+    justify-content: left;
+    color: #173B61; /* Text albastru */
+    text-align: center;
+    padding: 0 8px; /* Padding pentru textul mai lung */
+}
+
+.day-date {
+    margin: 4px;
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+    color: #173B61; /* Culoare mai deschisă pentru dată */
+    font-weight: normal;
+    line-height: 2;
+}
+
+
+
+@media(max-width: 1024px) {
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
+        font-family: 'Ubuntu', sans-serif;
+    }
+
+    /* Main container */
+    .dashboard-container {
+        width: 100%;
+        min-height: 100vh;
+        overflow-y: auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Logo Quizzy */
+    .dashboard-logo {
+        width: 61px;
+        height: 48px;
+        position: absolute;
+        left: 20px;
+        top: 24px;
+    }
+
+    /* Logo FII */
+    .dashboard-logo-fii {
+        width: 49px;
+        height: 48px;
+        position: absolute;
+        left: 966px;
+        top: 24px;
+    }
+
+    /* Cutia albă centrală */
+    .dashboard-inner-box,
+    .dashboard-white-box {
+        position: absolute;
+        width: 850px;
+        height: 800px;
+        top: 16px;
+        left: 100px;
+        background: #EFEAE6;
+        border-radius: 8px;
+        box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
+    }
+
+    /* Butoane laterale */
+    .dashboard-icon-wrapper {
+        position: absolute;
+        width: 64px;
+        height: 72px;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        transition: transform 0.2s ease;
+    }
+
+    .dashboard-icon-wrapper:hover {
+        transform: scale(1.05);
+    }
+
+    .dashboard-icon-wrapper.active {
+        background-color: #EFEAE6;
+        border-radius: 8px;
+    }
+
+    /* Poziționări individuale pentru fiecare buton */
+    .dashboard-icon-home {
+        top: 96px;
+        left: 20px;
+    }
+
+    .dashboard-icon-library {
+        top: 170px;
+        left: 20px;
+    }
+
+    .dashboard-icon-explore {
+        top: 244px;
+        left: 20px;
+    }
+
+    .dashboard-icon-profile {
+        top: 318px;
+        left: 20px;
+    }
+
+    /* Imagini și text pentru iconițe */
+    .dashboard-icon-image {
+        width: 36px;
+        height: 36px;
+        z-index: 1;
+    }
+
+    .dashboard-icon-text {
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 4px;
+        z-index: 1;
+        color: #EFEAE6;
+    }
+
+    /* Stil pentru buton activ */
+    .dashboard-icon-wrapper.active .dashboard-icon-text {
+        color: #173B61;
+        font-weight: 700;
+    }
+
+    .dashboard-icon-wrapper.active .dashboard-icon-image {
+        filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
+    }
+
+    /* Rect fundal pentru buton activ */
+    .dashboard-rectangle-home {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 64px;
+        height: 72px;
+        border-radius: 8px;
+        background-color: #EFEAE6;
+        z-index: -1;
+    }
+
+}
+
+@media(max-width: 768px) {
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
+        font-family: 'Ubuntu', sans-serif;
+    }
+
+    /* Main container */
+    .dashboard-container {
+        width: 100%;
+        min-height: 100vh;
+        overflow-y: auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Logo Quizzy */
+    .dashboard-logo {
+        width: 61px;
+        height: 48px;
+        position: absolute;
+        left: 25px;
+        top: 24px;
+    }
+
+    /* Logo FII */
+    .dashboard-logo-fii {
+        width: 49px;
+        height: 48px;
+        position: absolute;
+        left: 700px;
+        top: 24px;
+    }
+
+    /* Cutia albă centrală */
+    .dashboard-inner-box,
+    .dashboard-white-box {
+        position: absolute;
+        width: 590px;
+        height: 800px;
+        top: 16px;
+        left: 100px;
+        background: #EFEAE6;
+        border-radius: 8px;
+        box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
+    }
+
+    /* Butoane laterale */
+    .dashboard-icon-wrapper {
+        position: absolute;
+        width: 64px;
+        height: 72px;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        transition: transform 0.2s ease;
+    }
+
+    .dashboard-icon-wrapper:hover {
+        transform: scale(1.05);
+    }
+
+    .dashboard-icon-wrapper.active {
+        background-color: #EFEAE6;
+        border-radius: 8px;
+    }
+
+    /* Poziționări individuale pentru fiecare buton */
+    .dashboard-icon-home {
+        top: 96px;
+        left: 20px;
+    }
+
+    .dashboard-icon-library {
+        top: 170px;
+        left: 20px;
+    }
+
+    .dashboard-icon-explore {
+        top: 244px;
+        left: 20px;
+    }
+
+    .dashboard-icon-profile {
+        top: 318px;
+        left: 20px;
+    }
+
+    /* Imagini și text pentru iconițe */
+    .dashboard-icon-image {
+        width: 36px;
+        height: 36px;
+        z-index: 1;
+    }
+
+    .dashboard-icon-text {
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 4px;
+        z-index: 1;
+        color: #EFEAE6;
+    }
+
+    /* Stil pentru buton activ */
+    .dashboard-icon-wrapper.active .dashboard-icon-text {
+        color: #173B61;
+        font-weight: 700;
+    }
+
+    .dashboard-icon-wrapper.active .dashboard-icon-image {
+        filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
+    }
+
+    /* Rect fundal pentru buton activ */
+    .dashboard-rectangle-home {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 64px;
+        height: 72px;
+        border-radius: 8px;
+        background-color: #EFEAE6;
+        z-index: -1;
+    }
+}
+
+@media(max-width: 480px) {
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
+        font-family: 'Ubuntu', sans-serif;
+    }
+
+    /* Main container */
+    .dashboard-container {
+        width: 100%;
+        min-height: 100vh;
+        overflow-y: auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Logo Quizzy */
+    .dashboard-logo {
+        width: 61px;
+        height: 48px;
+        position: absolute;
+        left: 10px;
+        top: 24px;
+    }
+
+    /* Logo FII */
+    .dashboard-logo-fii {
+        width: 49px;
+        height: 48px;
+        position: absolute;
+        left: 370px;
+        top: 24px;
+    }
+
+    /* Cutia albă centrală */
+    .dashboard-inner-box,
+    .dashboard-white-box {
+        position: absolute;
+        width: 280px;
+        height: 800px;
+        top: 16px;
+        left: 80px;
+        background: #EFEAE6;
+        border-radius: 8px;
+        box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
+    }
+
+    /* Butoane laterale */
+    .dashboard-icon-wrapper {
+        position: absolute;
+        width: 64px;
+        height: 72px;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        transition: transform 0.2s ease;
+    }
+
+    .dashboard-icon-wrapper:hover {
+        transform: scale(1.05);
+    }
+
+    .dashboard-icon-wrapper.active {
+        background-color: #EFEAE6;
+        border-radius: 8px;
+    }
+
+    /* Poziționări individuale pentru fiecare buton */
+    .dashboard-icon-home {
+        top: 96px;
+        left: 10px;
+    }
+
+    .dashboard-icon-library {
+        top: 170px;
+        left: 10px;
+    }
+
+    .dashboard-icon-explore {
+        top: 244px;
+        left: 10px;
+    }
+
+    .dashboard-icon-profile {
+        top: 318px;
+        left: 10px;
+    }
+
+    /* Imagini și text pentru iconițe */
+    .dashboard-icon-image {
+        width: 36px;
+        height: 36px;
+        z-index: 1;
+    }
+
+    .dashboard-icon-text {
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 4px;
+        z-index: 1;
+        color: #EFEAE6;
+    }
+
+    /* Stil pentru buton activ */
+    .dashboard-icon-wrapper.active .dashboard-icon-text {
+        color: #173B61;
+        font-weight: 700;
+    }
+
+    .dashboard-icon-wrapper.active .dashboard-icon-image {
+        filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
+    }
+
+    /* Rect fundal pentru buton activ */
+    .dashboard-rectangle-home {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 64px;
+        height: 72px;
+        border-radius: 8px;
+        background-color: #EFEAE6;
+        z-index: -1;
+    }
+}

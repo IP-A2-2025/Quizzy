@@ -20,7 +20,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid")
     private Integer id;
-
+    public User(Integer id) {
+        this.id = id;
+    }
     public Integer getId() {
         return id;
     }
