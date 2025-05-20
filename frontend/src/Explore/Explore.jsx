@@ -31,18 +31,18 @@ const Explore = () => {
         { title: 'Databases', flashcards: 95, files: 16 },
     ];
     */
-    const [courseTitles, setCourseTitles] = useState([]);
+    const [courses, setCourses] = useState([]);
 
-    useEffect(() => {
-        api.get('/courses')
-            .then((res) => {
-                console.log('Răspuns backend:', res.data);
-                setCourseTitles(res.data);
-            })
-            .catch((err) => {
-                console.error('Failed to fetch courses:', err);
-            });
-    }, []);
+useEffect(() => {
+    api.get('/courses')
+        .then((res) => {
+            console.log('Răspuns backend:', res.data);
+            setCourses(res.data);
+        })
+        .catch((err) => {
+            console.error('Failed to fetch courses:', err);
+        });
+}, []);
 
 
 
@@ -106,25 +106,22 @@ const Explore = () => {
 
             {/* Cards Section */}
             <div className="library-cards-container">
-                {courseTitles.map((title, index) => (
-                    <div
-                        key={index}
-                        className="library-card"
-                        // aici nu ai path, deci nu faci navigate
-                        style={{ cursor: 'default' }}
-                    >
-                        <div className="library-card-header" />
-                        <div className="library-card-header-text">
-                            <div className="library-course-title">{title}</div>
-                            {/* Dacă nu ai flashcards și files, poți omite partea asta sau pune placeholder */}
-                            <div className="library-course-info">
-                                {/* Dacă vrei, poți pune ceva default, ex: */}
-                                <span className="library-number">0</span> Flashcards | <span className="library-number">0</span> Files
-                            </div>
-                        </div>
-                    </div>
-                ))}
+    {courses.map((course, index) => (
+        <div
+            key={index}
+            className="library-card"
+            // Dacă vrei navigare, poți adăuga path mai târziu
+            style={{ cursor: 'default' }}
+        >
+            <div className="library-card-header" />
+            <div className="library-card-header-text">
+                <div className="library-course-title">{course.title}</div>
+                <div className="library-course-info">
+                </div>
             </div>
+        </div>
+    ))}
+</div>
 
         </div>
 
