@@ -1,21 +1,26 @@
+version: '3.9'
+
 services:
   backend:
     build:
       context: ./backend
-    image: myapp-backend
-    container_name: myapp-backend
+    image: quizzy-backend
+    container_name: backend
     environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     ports:
       - "3000:3000"
 
   frontend:
     build:
       context: ./frontend
-    image: myapp-frontend
-    container_name: myapp-frontend
+    image: quizzy-frontend
+    container_name: frontend
+    environment:
+      - BACKEND_URL=${BACKEND_URL}
     ports:
       - "36882:80"
     depends_on:

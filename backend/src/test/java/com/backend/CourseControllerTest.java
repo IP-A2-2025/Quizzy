@@ -42,23 +42,25 @@ class CourseControllerTest {
     // Test for creating a new course
     @Test
     void shouldCreateCourseSuccessfully() {
-        CourseDTO courseDTO = createCourse(1L, "New Course");
+        // Arrange
+        CourseDTO courseDTO = createCourse(null, "New Course Title");
 
-        // You can directly map the CourseDTO to a Course using the CourseMapper inside the controller
         Course course = new Course();
         course.setId(1L);
-        course.setTitle("New Course");
+        course.setTitle("New Course Title");
 
-        // Create a mock of the CourseMapper if necessary
-        CourseMapper courseMapper = mock(CourseMapper.class);
-        when(courseMapper.toEntity(courseDTO)).thenReturn(course);
+        when(courseService.createCourse(courseDTO)).thenReturn(course);
 
-        // The controller uses the CourseMapper, so no need to involve CourseService here
+        // Act
         ResponseEntity<Course> response = courseController.createCourse(courseDTO);
 
+        // Assert
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals("New Course", response.getBody().getTitle());
+        assertNotNull(response.getBody());
+        assertEquals(1L, response.getBody().getId());
+        assertEquals("New Course Title", response.getBody().getTitle());
     }
+
 
     // Test for updating a course
     @Test
