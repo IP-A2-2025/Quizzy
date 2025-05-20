@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './Explore.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { api } from '../utils/api';
 
 const Explore = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Explore = () => {
             navigate('/library');
         }
     };
+    /*
     const courses = [
         { title: 'Graph Algorithms', flashcards: 24, files: 6, path: '/graph-algorithms' },
         { title: 'Software Engineering', flashcards: 37, files: 12 },
@@ -28,6 +30,21 @@ const Explore = () => {
         { title: 'Databases', flashcards: 95, files: 16 },
         { title: 'Databases', flashcards: 95, files: 16 },
     ];
+    */
+    const [courseTitles, setCourseTitles] = useState([]);
+
+    useEffect(() => {
+        api.get('/courses')
+            .then((res) => {
+                console.log('Răspuns backend:', res.data);
+                setCourseTitles(res.data);
+            })
+            .catch((err) => {
+                console.error('Failed to fetch courses:', err);
+            });
+    }, []);
+
+
 
     const getActiveClass = (route) => {
         return currentPath === route ? 'active' : '';
@@ -89,24 +106,26 @@ const Explore = () => {
 
             {/* Cards Section */}
             <div className="library-cards-container">
-                {courses.map((course, index) => (
+                {courseTitles.map((title, index) => (
                     <div
                         key={index}
                         className="library-card"
-                        onClick={() => course.path && navigate(course.path)}
-                        style={{ cursor: course.path ? 'pointer' : 'default' }}
+                        // aici nu ai path, deci nu faci navigate
+                        style={{ cursor: 'default' }}
                     >
                         <div className="library-card-header" />
                         <div className="library-card-header-text">
-                            <div className="library-course-title">{course.title}</div>
+                            <div className="library-course-title">{title}</div>
+                            {/* Dacă nu ai flashcards și files, poți omite partea asta sau pune placeholder */}
                             <div className="library-course-info">
-                                <span className="library-number">{course.flashcards}</span> Flashcards |
-                                <span className="library-number">{course.files}</span> Files
+                                {/* Dacă vrei, poți pune ceva default, ex: */}
+                                <span className="library-number">0</span> Flashcards | <span className="library-number">0</span> Files
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
+
         </div>
 
     );
