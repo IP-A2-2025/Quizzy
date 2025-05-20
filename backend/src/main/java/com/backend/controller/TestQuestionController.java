@@ -123,4 +123,22 @@ public class TestQuestionController {
             @PathVariable Float minPoints) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByTestAndMinPoints(testId, minPoints));
     }
+    @DeleteMapping("/with-answers/{id}")
+    public ResponseEntity<Void> deleteQuestionAndAnswers(@PathVariable Long id) {
+        testQuestionService.deleteQuestionAndAnswers(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/multiple")
+    public ResponseEntity<Integer> deleteMultipleQuestions(@RequestBody Collection<Long> questionIds) {
+        int deletedCount = testQuestionService.deleteMultipleQuestions(questionIds);
+        return ResponseEntity.ok(deletedCount);
+    }
+
+    @DeleteMapping("/test/{testId}")
+    public ResponseEntity<Integer> deleteAllQuestionsForTest(@PathVariable Long testId) {
+        int deletedCount = testQuestionService.deleteAllQuestionsForTest(testId);
+        return ResponseEntity.ok(deletedCount);
+    }
+
 }

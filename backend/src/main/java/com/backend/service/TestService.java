@@ -1,6 +1,7 @@
 package com.backend.service;
 
 import com.backend.model.TestEntity;
+import com.backend.model.TestQuestion;
 import com.backend.model.User;
 import com.backend.repository.TestRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +24,8 @@ public class TestService {
     public TestService(TestRepository testRepository) {
         this.testRepository = Objects.requireNonNull(testRepository, "TestRepository must not be null");
     }
+    @Autowired
+    private TestQuestionService testQuestionService;
 
     @Transactional
     public TestEntity saveTest(TestEntity test) {
@@ -207,6 +210,51 @@ public class TestService {
                         }
                 );
     }
+    @Transactional
+    public void deleteTestAndRelatedEntities(Long id) {
+        Optional.ofNullable(id)
+                .filter(i -> i > 0)
+                .ifPresentOrElse(
+                        testId -> {
+                            if (!testRepository.existsById(testId)) {
+                                throw new EntityNotFoundException("Test not found with id " + testId);
+                            }
+
+                            // Get all questions for this test
+                            Collection<TestQuestion> questions = testQuestionService.getQuestionsByTestId(testId);
+
+                            // Delete each question (which will cascade to answers)
+                            for (TestQuestion question : questions) {
+                                testQuestionService.deleteQuestionAndAnswers(question.getId());
+                            }
+
+                            // Now delete the test itself
+                            testRepository.deleteById(testId);
+                        },
+                        () -> {
+                            throw new IllegalArgumentException("Invalid test ID");
+                        }
+                );
+    }
+    @Transactional
+    public int deleteMultipleTests(Collection<Long> testIds) {
+        if (testIds == null || testIds.isEmpty()) {
+            throw new IllegalArgumentException("Test IDs collection must not be null or empty");
+        }
+
+        int deletedCount = 0;
+        for (Long testId : testIds) {
+            try {
+                deleteTestAndRelatedEntities(testId);
+                deletedCount++;
+            } catch (EntityNotFoundException e) {
+                // Log the error but continue with other deletions
+                System.err.println("Error deleting test: " + e.getMessage());
+            }
+        }
+
+        return deletedCount;
+    }
 
     @Transactional
     public TestEntity updateTest(Long id, TestEntity test) {
@@ -223,7 +271,7 @@ public class TestService {
     }
 
     @Transactional
-    private TestEntity updateTestFields(TestEntity existingTest, TestEntity testToUpdate) {
+    public TestEntity updateTestFields(TestEntity existingTest, TestEntity testToUpdate) {
         return Optional.ofNullable(testToUpdate)
                 .map(update -> {
                     Optional.ofNullable(update.getTitle())

@@ -96,4 +96,21 @@ public class TestAnswerController {
     public ResponseEntity<Long> countCorrectAnswersByTestId(@PathVariable Long testId) {
         return ResponseEntity.ok(testAnswerService.countCorrectAnswersByTestId(testId));
     }
+    @DeleteMapping("/multiple")
+    public ResponseEntity<Integer> deleteMultipleAnswers(@RequestBody Collection<Long> answerIds) {
+        int deletedCount = testAnswerService.deleteMultipleAnswers(answerIds);
+        return ResponseEntity.ok(deletedCount);
+    }
+
+    @DeleteMapping("/question/{questionId}")
+    public ResponseEntity<Integer> deleteAllAnswersForQuestion(@PathVariable Long questionId) {
+        int deletedCount = testAnswerService.deleteAllAnswersForQuestion(questionId);
+        return ResponseEntity.ok(deletedCount);
+    }
+
+    @DeleteMapping("/test/{testId}")
+    public ResponseEntity<Integer> deleteAllAnswersForTest(@PathVariable Long testId) {
+        int deletedCount = testAnswerService.deleteAllAnswersForTest(testId);
+        return ResponseEntity.ok(deletedCount);
+    }
 }

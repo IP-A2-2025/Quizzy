@@ -136,4 +136,15 @@ public class TestController {
     public ResponseEntity<Long> countTestsByDateRange(@RequestParam Date start, @RequestParam Date end) {
         return ResponseEntity.ok(testService.countTestsByDateBetween(start, end));
     }
+    @DeleteMapping("/complete/{id}")
+    public ResponseEntity<Void> deleteTestAndRelatedEntities(@PathVariable Long id) {
+        testService.deleteTestAndRelatedEntities(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/multiple")
+    public ResponseEntity<Integer> deleteMultipleTests(@RequestBody Collection<Long> testIds) {
+        int deletedCount = testService.deleteMultipleTests(testIds);
+        return ResponseEntity.ok(deletedCount);
+    }
 }

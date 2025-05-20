@@ -1,5 +1,6 @@
 package com.backend.service;
 
+import com.backend.model.TestAnswer;
 import com.backend.model.TestEntity;
 import com.backend.model.TestQuestion;
 import com.backend.repository.TestQuestionRepository;
@@ -22,6 +23,8 @@ public class TestQuestionService {
     public TestQuestionService(TestQuestionRepository testQuestionRepository) {
         this.testQuestionRepository = testQuestionRepository;
     }
+    @Autowired
+    private TestAnswerService testAnswerService;
 
     @Transactional
     public TestQuestion saveQuestion(TestQuestion question) {
@@ -188,6 +191,66 @@ public class TestQuestionService {
                             throw new IllegalArgumentException("Invalid question ID");
                         }
                 );
+    }
+    @Transactional
+    public void deleteQuestionAndAnswers(Long id) {
+        Optional.ofNullable(id)
+                .filter(i -> i > 0)
+                .ifPresentOrElse(
+                        questionId -> {
+                            if (!testQuestionRepository.existsById(questionId)) {
+                                throw new EntityNotFoundException("Question not found with id " + questionId);
+                            }
+
+                            Collection<TestAnswer> answers = testAnswerService.getAnswersByQuestionId(questionId);
+
+                            for (TestAnswer answer : answers) {
+                                testAnswerService.deleteAnswerById(answer.getId());
+                            }
+
+                            testQuestionRepository.deleteById(questionId);
+                        },
+                        () -> {
+                            throw new IllegalArgumentException("Invalid question ID");
+                        }
+                );
+    }
+    @Transactional
+    public int deleteMultipleQuestions(Collection<Long> questionIds) {
+        if (questionIds == null || questionIds.isEmpty()) {
+            throw new IllegalArgumentException("Question IDs collection must not be null or empty");
+        }
+
+        int deletedCount = 0;
+        for (Long questionId : questionIds) {
+            try {
+                deleteQuestionAndAnswers(questionId);
+                deletedCount++;
+            } catch (EntityNotFoundException e) {
+                // Log the error but continue with other deletions
+                System.err.println("Error deleting question: " + e.getMessage());
+            }
+        }
+
+        return deletedCount;
+    }
+    @Transactional
+    public int deleteAllQuestionsForTest(Long testId) {
+        Optional.ofNullable(testId)
+                .filter(id -> id > 0)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid test ID"));
+
+        List<TestQuestion> questions = testQuestionRepository.findByTestId(testId);
+
+        if (questions.isEmpty()) {
+            return 0;
+        }
+
+        Collection<Long> questionIds = questions.stream()
+                .map(TestQuestion::getId)
+                .toList();
+
+        return deleteMultipleQuestions(questionIds);
     }
 
     @Transactional
