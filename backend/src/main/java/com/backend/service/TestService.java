@@ -1,9 +1,11 @@
 package com.backend.service;
 
 import com.backend.model.TestEntity;
+import com.backend.model.User;
 import com.backend.repository.TestRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,10 +33,20 @@ public class TestService {
 
     @Transactional
     public TestEntity createTest(TestEntity test) {
-        return Optional.ofNullable(test)
-                .filter(t -> t.getId() == null)
-                .map(this::saveTest)
-                .orElseThrow(() -> new IllegalArgumentException("New test must not have an ID"));
+        Objects.requireNonNull(test, "Test entity must not be null");
+        if (test.getId() != null) {
+            throw new IllegalArgumentException("New test must have no ID");
+        }
+        User creator = test.getProfessor();
+        if (creator == null) {
+            throw new IllegalArgumentException("Test must have an associated professor/admin");
+        }
+        String role = creator.getRole();
+        if (!("PROFESOR".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role))) {
+            throw new AccessDeniedException("Only professors or admins can create tests");
+        }
+
+        return saveTest(test);
     }
 
     @Transactional(readOnly = true)

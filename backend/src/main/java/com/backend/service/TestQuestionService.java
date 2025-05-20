@@ -1,5 +1,6 @@
 package com.backend.service;
 
+import com.backend.model.TestEntity;
 import com.backend.model.TestQuestion;
 import com.backend.repository.TestQuestionRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,12 +30,53 @@ public class TestQuestionService {
                 .orElseThrow(() -> new IllegalArgumentException("Question must not be null"));
     }
 
+//    @Transactional
+//    public TestQuestion createQuestion(TestQuestion question) {
+//        if(question.getTest().getId() == null) {
+//            throw new IllegalArgumentException("Question must have a test id");
+//        }
+//        return Optional.of(question)
+//                .filter(q -> q.getId() == null)
+//                .map(this::saveQuestion)
+//                .orElseThrow(() -> new IllegalArgumentException("New question must not have an ID"));
+//    }
+
     @Transactional
     public TestQuestion createQuestion(TestQuestion question) {
-        return Optional.ofNullable(question)
-                .filter(q -> q.getId() == null)
-                .map(this::saveQuestion)
-                .orElseThrow(() -> new IllegalArgumentException("New question must not have an ID"));
+        //spaghetti code x_x
+        Objects.requireNonNull(question, "Question must not be null");
+
+        if (question.getId() != null) {
+            throw new IllegalArgumentException("New question must have no ID");
+        }
+
+        if (question.getQuestionText() == null || question.getQuestionText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Question text cannot be empty");
+        }
+
+        if (question.getPointValue() <= 0) {
+            throw new IllegalArgumentException("Point value must be positive");
+        }
+
+        TestEntity test = question.getTest();
+        if (test == null) {
+            throw new NullPointerException("Question must be associated with a test");
+        }
+
+        if (test.getId() == null) {
+            throw new IllegalStateException("Foreign key for test is null");
+        }
+
+        if (test.getProfessor() == null) {
+            throw new IllegalStateException("Test has no assigned professor");
+        }
+
+        String role = test.getProfessor().getRole();
+        if (!("PROFESOR".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role))) {
+            throw new IllegalArgumentException("Only professors or admins can create questions");
+        }
+
+        return saveQuestion(question);
     }
 
     @Transactional(readOnly = true)
