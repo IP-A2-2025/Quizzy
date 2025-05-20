@@ -113,61 +113,34 @@ jobs:
     needs: cleanup
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.I_AM_ROLE }}
           aws-region: eu-central-1
 
-      - name: Trigger deployment via SSM
+      - name: Copy docker-compose files to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./docker-compose.yml"
+          target: "~/quizzy-app/"
+
+      - name: Run deploy script on EC2 via SSM
+        env:
+          SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --instance-ids "i-008517feeaf9e0de9" \
             --region eu-central-1 \
-            --comment "Run Docker deployment on EC2" \
-            --parameters commands='
-              cd ~/quizzy-app || exit 1
-              echo "VITE_BACKEND_URL=http://backend:3000" > .env
-              echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
-              echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> .env
-              echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
-              echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
-              echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
-              echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
-
-              if ! command -v docker &> /dev/null; then
-                sudo dnf update -y
-                sudo dnf install -y docker
-                sudo systemctl start docker
-                sudo systemctl enable docker
-                sudo usermod -aG docker ec2-user
-                newgrp docker
-              fi
-
-              if ! docker compose version &> /dev/null; then
-                mkdir -p ~/.docker/cli-plugins
-                curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) \
-                  -o ~/.docker/cli-plugins/docker-compose
-                chmod +x ~/.docker/cli-plugins/docker-compose
-              fi
-
-              sudo yum install -y amazon-ecr-credential-helper
-
-              mkdir -p ~/.docker
-              cat > ~/.docker/config.json << EOF
-              {
-                "credHelpers": {
-                  "public.ecr.aws": "ecr-login"
-                }
-              }
-              EOF
-
-              docker compose down || true
-              docker compose pull
-              docker compose up -d
-            ' \
+            --comment "Run deploy.sh with secrets" \
+            --parameters commands="export SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} GEMINI_API_KEY=${GEMINI_API_KEY} && bash ~/deploy.sh" \
             --output text
