@@ -46,7 +46,7 @@ public class TestController {
         return ResponseEntity.ok(testService.updateTest(id, test));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public ResponseEntity<Void> deleteTestById(@PathVariable Long id) {
         testService.deleteTestById(id);
         return ResponseEntity.noContent().build();

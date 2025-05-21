@@ -212,30 +212,25 @@ public class TestService {
     }
     @Transactional
     public void deleteTestAndRelatedEntities(Long id) {
-        Optional.ofNullable(id)
-                .filter(i -> i > 0)
-                .ifPresentOrElse(
-                        testId -> {
-                            if (!testRepository.existsById(testId)) {
-                                throw new EntityNotFoundException("Test not found with id " + testId);
-                            }
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid test ID");
+        }
 
-                            // Get all questions for this test
-                            Collection<TestQuestion> questions = testQuestionService.getQuestionsByTestId(testId);
+        if (!testRepository.existsById(id)) {
+            throw new EntityNotFoundException("Test not found with id " + id);
+        }
 
-                            // Delete each question (which will cascade to answers)
-                            for (TestQuestion question : questions) {
-                                testQuestionService.deleteQuestionAndAnswers(question.getId());
-                            }
+        // Get all questions for this test
+        Collection<TestQuestion> questions = testQuestionService.getQuestionsByTestId(id);
 
-                            // Now delete the test itself
-                            testRepository.deleteById(testId);
-                        },
-                        () -> {
-                            throw new IllegalArgumentException("Invalid test ID");
-                        }
-                );
+        for (TestQuestion question : questions) {
+            testQuestionService.deleteQuestionAndAnswers(question.getId());
+        }
+
+        // Delete the test itself
+        testRepository.deleteById(id);
     }
+
     @Transactional
     public int deleteMultipleTests(Collection<Long> testIds) {
         if (testIds == null || testIds.isEmpty()) {
