@@ -1,0 +1,824 @@
+***************Beginning Page***************
+***************page number:1**************
+Lenuta Alboaie
+adria@info.uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cupﬁns
+
+' Modelul client/server
+' API pentru programarea in retea
+' Socket-uri BSD
+
+' Caracterizare
+
+' Creare
+
+' Primitive
+' Modelul client/server TCP
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Paradigme ale comunicarii in retea
+- Modelulclient/server
+~ Apelul procedurilor la distanta (RPC)
+' Mecanismul peer-to-peer (P2P) —
+comunicare punct-la-punct
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Modelul client/server
+- Proces server
+— Ofera servicii in retea 3 “ é
+— Accepta cereri de Ia un proces client [”"'“"“"“°'W°"‘I
+— Realizeaza un anumit serviciu si returneaza
+rezultatul
+' Proces client
+— lnitializeaza comunicarea cu serverul
+— Solicita un serviciu, apoi asteapta raspunsul
+serverului
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Modelul client/server
+~ Moduri de interactiune
+— Orientat-conexiune — bazat pe TCP
+— Neorientat-conexiune — bazat pe UDP
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Modelul client/server
+- lmplementare:
+— iterativa — fiecare client e tratat pe rind, secvential
+Iterative
+Server
+Figura: Exemplu de server iterativ
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Modelul cllent/server
+' Implementare:
+
+i concurenta — cererile sunt procesate concurent
+Procese copil pentru fiecare cerere de procesat
+Multiplexarea conexiunii
+Tehnici combinate
+
+TCP/IP w
+cm“ B Figura: Exemplu de
+H server ooncurent
+M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+API pentru programarea in retea
+' Necesitate:
+
+— lnterfata generica pentru programare
+
+— lndependenta de hardware side sistemul de
+operare
+
+— Suport pentru diferite protocoale de
+comunicatie
+
+— Suport pentru comunicatii orientate—conexiune
+s| prm mesaje
+
+— lndependenta in reprezentarea adreselor
+
+— Compatibilitatea cu serviciile I/O comune
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+API pentru programarea in retea
+' Se pot utilize mai multe API-uri pentru programarea
+aplicatiilor Internet
+— Socket-uri BSD (Berkeley System Distribution)
+— TLI (Transport Layer Interface) —AT&T, XTI (Solaris)
+— Winsock
+— MacTCP
+- Functii oferite:
+specificarea de puncte terminale locale si Ia distanta,
+initierea si acceptarea de conexiuni, trimitere si receptare
+de date, terminarea conexiunii, tratare erori
+- TCP/IP nu include definirea unui API
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+lnterfata de programare a
+aplicatiilor bazata pe
+soket-uri BSD
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Socket
+- Facilitate generala, independenta de arhitectura hardware,
+de protocol si de tipul de transmisiune a datelor, pentru
+comunicare intre procese aflate pe masini diferite, in retea
+- Ofera suport pentru familii multiple de protocoale
+— Protocolul domeniului UNIX-folosit pentru comunicatii
+locale
+— Protocolul domeniului Internet folosind TCP/IP
+— Altele: XNS Xerox,..,
+- Abstractiune a unui punct terminal (end-point) la nivelul
+transport
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Socket
+
+° Utilizeaza interfata de programare l/O existenta
+(similar fisierelor, pipe-urilor, FIFO-urilor etc.)
+
+° Poate fi asociat cu unul/mai multe procese, existind
+in cadrul unui domeniu de comunicatie
+
+' Ofera un APl pentru programarea in retea, avind
+implementari multiple
+
+' Din punctul de vedere al programatorului, un socket
+este similar unui descriptor de fisier; diferente apar
+Ia creare si Ia diferite optiuni de control al socket»
+urilor
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Socket
+
+° [ ' W
+‘ \ ' \
+2 \ ' \
+3 \
+
+4 \ ' \
+
+Tabela de descriptori
+Regele de calculamare — http://wwwjMu‘uaiuo/"mmputemetworks I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+lnterfata de programare a aplicatiilor
+bazata pe socket-u ri BSD
+Primitive de baza:
+- socketi) — creaza un nou punct terminal al conexiunii
+- bind() ataseaza o adresa locala la un socket
+- listen() permite unui sucker sa accepts conexiuni
+- acceptO blucheaza apelantul pina la susirea unei cereri de
+conectare(utilizata de serverul TCP)
+- connect“ tentative (active) de stabilire a conexiunii (fnlosiia de
+clientul TCP)
+- send() trimitere de date via socket
+- recvi) receptarea de date via socket
+- closel) elibereaza conexiunea (inchide un socket)
+- shutdown“ inchide directional un socket
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+lnterfata de programare a aplicatiilor
+bazata pe socket-uri BSD
+Alte primitive:
+' Citire de date
+— read() / readv() / recvfrom() / recvmsg()
+- Trimitere de date
+— write() / writev() / sendto() / sendmsg()
+' Multiplexare l/O
+— select()
+' Administrarea conexiunii
+— fcnt|() / i0ct|() / setsockopt() /getsockopt()/
+getsocknameO / getpeername()
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Socket-uri | creare
+Apelul de sistem socket"
+#include <sys/types.|-|>
+#include <sys/socket.h>
+int socket (int ggmain, intitype, int pljotocol)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Socket-uri | creare
+Apelul de sistem socketﬁ
+
+Valoarea de retur
+
+— Succes: descriptorul de socket creat
+
+— Eroare: —1
+' Raportarea erorii se realizeaza via variabilei errno
+' EACCES
+' EAFNOSUPPORT
+' ENFILE
+' ENOBUFS sau ENOMEM Constants deﬁnite
+- EPRUTONOSUPPORT in errnoh
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Socket-uri
+Exemplu de combinatii posibile pentru cele
+trei argumente ale primitivei socket():
+int socket (int domain, int type, int protocol)
+AF_|NET SOCK_STREAM TCP
+SOCKiDGRAM UDP
+SUCKiRAW IP
+AFJNETG SOCKiSTREAM TCP
+SOCK_DGRAM UDP
+SOCKiRAW IPv6
+AFiLDCAL SOCKiSTREAM Mecanism
+SDCKiDGRAM ime'" ‘1e
+cumunlcare
+Observatie: AF_LOCAL=AF_UNIX (din motive istorice)
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Socket-uri
+
+Observatii
+
+' Primitiva socket” aloca resursele necesare unui
+punct terminal de comunicare, dar nu stabileste
+modul de adresare
+
+' Socket—uri|e ofera un mod generic de adresare;
+pentru TCP/IP trebuie specificate (adresa IP, port)
+
+° Alte suite de protocoale pot folosi alte scheme de
+adresare
+
+Tipuri POSIX
+int8_t, uint8_t, int16_t, uint16_t, int32_t, int32_t,
+u_char, u_sh0rt, u_int, u_|ong
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Socket-uri
+' Tipuri POSIX folosite de socket-uri:
+- sajamilyj-familia de adrese
+- socklenit — lungimea structurii de memorare
+i in_addr_t — adresalP (v4)
+- iniportit — numarul de port
+' Specificarea adreselor generice / Familia de adrese:
+struct sockaddr { AF INET, AF |50,...
+sa_fami|y_t sa_famiiy; __
+char sa_data[1f}]
+} ~____~\__\__
+14 bytes - adresa folosita
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Socket-uri
+~ Pentru IPv4 AF_|NET vom avea nevoie de o structura
+speciala: sockaddr_in
+short int sin_family';" AF_|NET
+unisgned short int sin_po|_1:_;__
+struct iniaddr siniaddr;
+unsigned char sin_ze_ro[8];
+struct in_addr{
+iniaddrit s_ad_g_r_;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Socket-uri
+sockaddr sockaddr_in
+AF_INET
+Permite sin_p0rt
+oricare kip
+de adresare
+5a—data sin_addr
+sinizero
+W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Socket-uri
+' Toate valorile stocate in sokaddriin vor respecta
+ordinea de codificare a retelei (network byte
+order)
+' Functii de conversie (netinet/in.h)
+- uint16_t htons (uint16_t) — conversie a
+unui intreg scurt (2 octeti) de la gazda la retea;
+- uint16_t ntohs (uint16_t);
+i uint32_t ntohl (uint32_t) — conversie a
+unui intreg lung(4 octeti) de la retea la gazda;
+— uint32_t htonl (unit32_t);
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Discutii |Ordinea octetilor
+Ordinea octetilor dintr-un cuvint (word- 2 octeti) se poate
+realiza in doua moduri:
+— Big-Endian — cel mai semnificativ octet este primul
+— Little-Endian — cel mai semnificativ octet este al doilea
+Exemplu:
+Masina BigEndian trimite =2
+(e.g‘ procesor Motorola)
+Masina LittleEndian va interpreta: =512
+(e.g. procesor Intel) I
+Drept conventie, se considera ordinea retelei
+(network byte order] r B/‘gEndian
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Socket-uri
+' Pentru IPv6 AF_|NET6 vom avea nevoie de o
+structure sockaddriinG:
+
+struct sockaddr_in6 {
+u_int16_t sin6_family; /* AF_INET6*/
+u_int16_t sin6_port;
+u_int32_t sin6_flowinfo;
+struct in6_addr sin6_addr;
+u_int32_t sin6_scope_id;
+
+}
+
+struct in6_addr{
+unsigned char s6_addr[16];
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Socket-u r|
+m Converteste adrese IPv4 si
+.. IPv6 din sir de caractere
+
+H IPv4: _/"' (x x x x] in ordinea de
+5mm sockaddrgn ip4addr', my,“ ' ' j ‘ ,
+Ip4addr.sin_fam\ly :_AF._~mE‘r; wwfwa'e a retelel
+wandr.sin_Pp,w='ﬁmns(2510)-, (#include <arpa/inet.h>)
+metipmﬂf/iFJNET, "10.0.0.1", praddrsiLaddr);
+
+s = socket(PF_lNFF, SOCK_STREAM, 0);
+
+b\n_q(_§, (struct sockaddr*)&ip4addr, sizeof (ip4addr));
+
+I/ IPv6: NM“‘"->~»~_________>
+
+struct sogaddgpe ip6addr; int 5-, ? (urmatorul slide)
+‘psaddmmejamuy : AFJNET6;
+
+\p5addr.sin6ip0rt = htons(2610);
+
+met,pton(AFJNET5, "2001zdb81871413a901:12", &ip6addnsin6iaddr);
+
+s : sockeqPFJNETG, SOCkiSTREAM, 0);
+
+bmd(s, (5mm sockaaarnmpsaddr, sizeof (ip6addr));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+g Socket-uri (slide 19) 9
+Observatii
+- Primitiva socket” aloca resursele necesare unui
+punct terminal de comunicare, dar nu stabileste
+modul de adresare
+- Socket-urile ofera un mod generic de adresare;
+pentru TCP/IP trebuie specificate (adresa IP, port)
+- Alte suite de protocoale pot folosi alte scheme de
+adresare
+'2 6m‘
+e ~
+Regele de calwlamare — http://www.inlumaic.ru/"cﬂmputemetwnrks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Socket-uril asignarea unei adrese
+' Asignarea unei adrese Ia un socket existent se
+realizeaza cu bind()
+int bind ( int sockfd,
+const struct sockaddr *addr,
+int addrlen );
+~ Se returneaza: 0 in caz de succes, —l eroare
+variabila ermo va contine codul de eroare
+corespunzator: EACCES , EADDRINUSE, EBADF, EINVAL,
+ENOTSOCK,...
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+Socket-urll aSIgnarea unel adrese
+#define PORT 2021
+struct scckaddrim adresa;
+mt sd;
+sd : socket (AF_lNEl', SOCK_STREAM, 0)) // TCP
+adresasmifarmly : AF_INET; // stabilirea familiei de socket-Uri
+adresa.sm_addr.s_addr : htnnl (adresaIP); //adresa [P
+adresa.sm_port = htons (PORT); //portul
+"'01in (sd, (struct sockaddr *) &adresa, sizeof (adresa) == -1)
+
+{
+
+perror ("Eroare la bind()-\n“);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Socket-uril asignarea unei adrese
+' Utilizarialelui bind():
+— Serverul doreste sa ataseze un socket la un port
+prestabilit (pentru a oferi servicii via acel port)
+— Clientul vrea sa ataseze un socket Ia un port
+specificat
+— Clientul cere sistemului de operare sa asigneze
+orice port disponibil
+' In mod normal, clientul nu necesita atasarea Ia un port
+specificat
+' Alegerea oricarui port liber:
+adresasiniport = htons(0);
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Socket-uril asignarea unei adrese
+' Alegerea adresei IP Ia bind()
+— Daca gazda are asignate mai multe adrese IP?
+— Cum se rezolva independenta de platforma?
+Pentru a atasa un socket la adresa IP locala, se
+va utiliza in locul unei adrese IP constanta
+INADDR_ANY
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Socket-uril asignarea unei adrese
+' Conversia adreselor IP:
+
+int inetiaton (const char *cp, struct iniaddr *inp);
+
+ASCII "x.x.x.><” -> reprezentare interna pe 32 biti
+(network byte order)
+
+char *inet_ntoa(struct in_addr in);
+reprezentare pe 32 biti (network byte order)—>
+ASCII "x.xIxI><”
+
+Obs: [@fenrir "]$ man inet_addr
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Socket-uril asignarea unei adrese
+' Observatii:
+— PentruvaG in locul constantei INADDR_ANY
+se va folosi (vezi antetul netinet/inh):
+serv.sin6_addr = in6addr_any;
+— Functiile de conversie pentru IPv6 (merg si pentru
+IPv4) sunt:
+inet_pt0n()
+inet_ntop()
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Socket-uril listen()
+' Stabilirea modului pasiv de interactiune
+— Nucleul sistemului va astepta cereri de conectare
+directionate Ia adresa Ia care este atasat socketul
+3-way handshake
+— Conexiunile multiple receptionate vor fi plasate intr~o coada
+de asteptare _,
+. _ _ _ Numaru‘ de
+Int l|sten(|nt so_ckfd, Int backlog); conexiunidln (Dada
+“~~___ de asteptare
+_ ~\_ SozkelTCP mm
+— Se returneaza. O —succes, -1 - eroare ‘me; Mesa
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Socket-uril |isten()
+' Observatii:
+—A|egerea valorii back/0g depinde de aplicatie
+—Servere|e HTTP trebuie sa specifice o valoare
+backlog cit mai mare (din cauza incarcarii cu
+cereri multiple)
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Socket-uril accept()
+' Acceptarea propriu-zisa a conexiunilor din partea clientilor
+— Cand aplicatia este pregatia pentru a trata o noua
+conexiune, va trebui sa interogam sistemul asupra unei alte
+conexiuni cu un client
+int accept (int sockfd,----""‘""“n'ﬂﬂﬂm (Soclget HEP)
+m0 aSIV
+struct sockaddr *cliaddr, p
+socklen_t *adgrlen);
+- Trebuie initial 5a fie egal cu lungimea structurii cliaddr
+- Se va returna numarul de bytes folositi in cliaddr
+Se returneaza descriptorul de socket corespunzator punctului
+terminal al clientului sau -1 in caz de eroare
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Socket-uril connect()
+' Incercarea de a stabili o conexiune cu serverul
+— 3-way handshake smmcv
+t, r Nu necesita atasarea cu bmdl);
+/" SISIEMM d2 nperare v.1 asgna O adresa
+int connect (int sockde, mm“? pm‘)
+const struct sockaddr *sgrv_addr,
+socklen_t addrlen); 1'
+Contine adresa serverului
+(IP, port)
+Se returneaza: succes ->0, eroare -> -1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+I/O TCP| read()
+int read(int sockfd, void *buf, int max);
+
+- Apelul este blocant in mod normal, read() returneaza doar cind
+exista date disponibile
+
+' Citirea de Ia un socket TCP poate returna mai putini octeti decat
+numarul maxim dorit
+— Trebuie sa fim pregatiti sa citim cate 1 byte la un moment
+
+dat (vezi cursul anterior)
+
+' Daca partenerul a inchis conexiunea si nu mai sunt date de
+primit, se returneaza 0 (EOF)
+
+' Erori: EINTR — un semnal a intrerupt citirea, EIO — eroare l/O,
+EWOULDBLOCK-sockebul nu are date intr-o citire neblocanta
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+l/O TCP| write()
+int write(int sockfd, const void *buf, int count);
+~ Apelul este blocant in mod normal
+' Erori:
+— EPIPE — scriere Ia un socket neconectat
+i EWOULDBLOCK — nu se pot accepta date fara
+blocare, insa operatiunea este setata ca find
+blocanta
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+I/O TCP| Exemplu
+
+#define MAXBUF 127 /* lungime buffer citireﬂ
+char *cerere= “da-mi ceva";
+char buf [MAXBUF]; /* buffer pentru raspuns*/
+char *pbuf= buf; /* polnter \a buffer’ */
+int n, lung = MAXBUF; /* nr. bytes cltm, nr. bytes llben In buffer */
+/* trirmte cererea*/
+write(sd, cerere, strlen(cerere));
+l‘ asteapta raspunsulﬂ
+while ((n = read (sd, pbuf, lung)) > 0) {
+
+pbuf+= n;
+
+lung -: n; Exemplu de comumcarea dintre
+} chem sx sever
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+lnchiderea conexiuniil close()
+int close( int sockfd)
+~ Efect:
+— terminarea conexiunii;
+— dealocarea memoriei alocate socket-ului
+- pentru procese care partajeaza acelasi socket, se
+decrementeaza numarul de referinte la acel socket; cind
+ajunge Ia 0 socket-ul este dealocat
+- Probleme:
+— serverul nu poate termina conexiunea, nu stie daca 5i cind
+clientul va mai trimite si alte cereri
+— clientul nu poate sti daca datele au ajuns la server
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+lnchiderea conexiuniil sh utdown()
+- lnchidere unidirectionala
+— Cind un client termina de trimis cererile, poate apela
+shutdown() pentru a specifica faptul ca nu va mai trimite
+date pe socket, fara a dealoca sucket'ul
+— Serverul va primi EOF 5i, dupa expedierea catre client a
+ultimului raspuns, va putea inchide conexiunea
+#include <sys/socket.h>
+int shutdown (int sockfd,i|:1_t>how);
+Regele de calwlamare - hnpzllwwwjMo‘uaiuo/"mmputernetwunws /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+Metaphor for Good Relationships
+Copvnght Dr. Lauri-‘vs Network Programming c011‘.
+To succeed in relationships... 69¢“
+— you need to establish your own identity.
+— you need to be open & accepting. accept O
+— you need to establish contacts. connect (l
+— you need to take things as they come, not
+as you expect them. read might return 1 byte
+— you need to handle problems as they arise.
+check for errors
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Model client/server
+' Modelul unui server TCP iterativ:
+
+— Creare socket pentru tratarea conexiunilor cu clientii: sucked)
+
+— Pregatirea structurilor de date (sockaddriin)
+
+— Atasarea socket-ului la adresa locala (port): bind()
+
+— Pregatirea socket-ului pentru ascultarea portului in vederea
+stabilirii conexiunii cu clientii: Hstenﬂ
+
+— Asteptarea realizarii unei conexiuni cu un anumit client
+(deschidere pasiva): accept()
+
+— Procesarea cererilor clientului, folosindu-se socket-ul returnat de
+acceptﬂ: succesiune de read()/write()
+
+— lnchiderea (directionata) a conexiunii cu clientul: c\ose(),
+shutdown()
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+Model client/server
+' Modelul unui client TCP:
+
+— Creare socket pentru conectarea Ia server: socketﬁ
+
+— Pregatirea structurilor de date (sockaddriin)
+
+— Atasarea socket-ului: bind[) — optional
+
+— Conectarea Ia server (deschidere activa): connect()
+
+— Solicitarea de servicii si receptionarea rezultatelor trimise de
+server: succesiune de write()/read()
+
+— lnchiderea (directionata) a conexiunii cu serverul: close(),
+shutdown()
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Model general - server/client TCP
+Figura: Server TCP lterativ»
+suooesiunea de evenimenle
+Clienl
+- Server “wwwbuhbmmnnmcml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+DEMO ©
+Exemplu de server/client TCP iterativ
+- Client
+Server
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Cupﬁns
+
+' Modelul client/server
+' API pentru programarea in retea
+' Socket-uri BSD
+
+' Caracterizare
+
+' Creare
+
+' Primitive
+' Modelul client/server TCP
+
+—
+
+***************Ending Page***************
+
+ 

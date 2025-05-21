@@ -1,0 +1,368 @@
+***************Beginning Page***************
+***************page number:1**************
+Programare concurentﬁ in C (VIII)
+Gestiunea terminalelor:
+Bibliﬂll'tﬂ NCURSES —_/2I‘€Slr¢ ecran in mod 18X!
+Cristian devascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Sumar
+T .0 Vedere generalé asupra bibliotecii NCURSES j
+.n Principalele categorii de functii din NCURSES
+.n Exemple de lucru cu biblioteca NCURSES
+.0 Lucrul de nivel scézut cu terminalul
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Vedere general?! asupra bibliotecii NCURSES
+TBiblioteca NCURSES pune Ia dispozilia ulilizatorilur o metodé de j
+gesﬂune a ecranelor in mod (ext, independent?! de terminal $i cu
+optimizéri rezonabile,
+Ideea: ecranul terminalului este “separat” in doué conceple:
+J ecranul fizic
+reprezinté ceea ce vede la un moment dat un utilizalor pe
+ecranul terminalului fizic (Ila, pe ecranul monitorului);
+J ecranu/ virtual
+reprezinté ceea ce ar ﬁ vézut utilizalorul dacé ecranul
+terminalului iizic ar fi reﬂectat Tntocmai toate operaliile de l/O
+executate de el prin intermediul bibliolecii NCURSES,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Vedere generalﬁ asupra bibliotecii NCURSES (contJ
+TEcranul virtual este o imagine in memoria calculatorului a ecranuluj
+fizic.
+Toate operaliile de |/O executate de utilizalor prin intermediul
+bibliotecii NCURSES, se executé asupra acestei imagini Tn memorie,
+féré a se sincroniza cu imaginea de pe ecranul fizic.
+Sincronizarea celor doué ecrane (lie, “copierea” imaginii ecranului
+virtual pe ecranul ﬁzic) se executé in mod explicit prin operatia de
+refresh.
+L J
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Vedere generalﬁ asupra bibliotecii NCURSES (contJ
+TAceasté bibliotecé permite lucrul cu ferestre in mod text.
+
+O fereastra' este o zoné dreptunghiularé de pe ecran, care este péstraté in
+propria sa zoné de memorie. Pemru aceasta se utilizeazé o structuré de
+date numité WINDOW.
+
+Observaliei ferestrele au alocate zone de memorie distincte, chiar dacé
+imaginile lor pe ecran se suprapun (partial sau total).
+Toate operatiile de l/O si operatia de refresh se executé asupra ferestrei
+specificate ca argument al operatiei respective.
+
+Operatia de refresh a unei terestre presupune urmétoarele doué faze:
+.I “copierea” ferestrei pe ecranul virtual,
+
+.I “copierea” ecranului virtual pe ecranul fizic.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:6**************
+Vedere generalﬁ asupra bibliotecii NCURSES (contJ
+TSchema generalé a unui program care utilizeazé biblioteca NCURSESI j
+#include <ncurses.h>
+int main()
+inicscn); // initializare mod de lucru ncurses
+while( lgata() >
+{
+executajperatmlM )7 // op. 1/0 asupra imaginil din memorie
+executaJefresM ); // "CDpie" ecranul virtual p9 cel fizic
+}
+endwin( ); // Sfér$1t mod de lucru ncurses
+)
+L J
+BWWMNW“mum's memmn pm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Vedere generalﬁ asupra bibliotecii NCURSES (contJ
+Compilarea unui program care utilizeazé biblioteca NCURSESI
+UNIX> gCC ELI/Sac —lnCUrSeS [—0 executabi/l
+Pagina de manual principalé ce descrie bibliuteca NCURSESI
+UNIX> man DCUISES
+Aceasté paginé contine o descriere de ansamblu a bibliotecii, impreuné
+cu lisia tuturor fuaniilor disponibile in aceasté bibliotecé.
+Arenfie: lista cuprinde numele fiecérei 1unctii, impreuné cu keyword-ul ce
+irebuie folosit ca parameiru in comanda man pentru a vizualiza pagina de
+manual pemru iunciia respectivé‘
+Asﬂel, spre exemplu, luncgixle Lnitscri p SI endwini p, cu cave se \mtiahzeazé, respecliv se
+sﬁrse$le, mum in mod "curses, sum descrise pe pagma de manuak
+umx> man cursiinltscl
+
+Wmmm“mums” W'WWMM.‘ pm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Vedere generalﬁ asupra bibliotecii NCURSES (contJ
+
+.I O fereastré este praciic 0 matrice bidimensionalé de caraciere,
+avénd tipul chtype 2 char + atribute mod video + o
+pereche de culori (ink a paper colors).
+
+.l Majoritatea functiilor bibliotecii NCURSES care opereazé cu ferestre,
+sunt definite cu doué forme:
+
+wfunc!fe(WINDOW *, . . .) si functfe( . . . ).
+cea de-a doua iormé ﬁind un macro care apeleazé prima iormé
+pentru fereastra standard stdscr (stdscr esle o vanabHé globmé a
+bibﬁotemi care identilicé o Iereaslré ce “acoperé” mlregm ecran).
+BWWMNW,“mums” WWWMMU pm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Vedere generalﬁ asupra bibliotecii NCURSES (contJ
+If .I Majoritalea functiilor bibliolecii NCURSES care opereazé cu feresire, j
+sum definiie cu doué forme:
+wlunctie(WINDOW *, . . .) 5i Iunctie( . . . ),
+cea de-a doua iormé fiind un macro care apeleazé prima iormé
+pentru fereastra standard stdscr (stdscr esie u vanablié globaié a
+bibiiotecii care identilicé u iereaslré 0e “acoperé” imregui ecran).
+.l Majoritalea functiilor bibliolecii care opereazé (scriu sau citesc) la
+poziiia cursorului in ferestre, suni definite cu doué iorme:
+funct(e( . . .) 5i mv!unclie( . . . , int y, int x),
+cea de-a doua iormé ﬁind un macro care iméi muié cursorul la
+poziiia (y,x), 5i apoi apeleazé prirna formé, 0e realizeazé operatia
+respectivé la pozitia curemé a cursorului.
+L J
+awmmw,Wmmmys Wmmmmn pm
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:10**************
+Principalele categorii de functii din NCURSES
+
+.I operatii de initializare/terminare a modului de lucru NCURSES:
+initscr, endwin
+
+.l operatia de refresh a fereslrelor: [w1refresh
+
+.I operatia de “touch” a fereslrelor (pun care se “souncncuneazé” mecamsmul
+de optimizare a operaiiei de refresh): touchwin, touchline
+
+.I operatii de creare/dislrugere a ferestrelor: newwin, delwin
+
+.l operatii pentru pozilia cursorului Tn iereaslré: getyx. [w1move
+
+.l operatii pentru desenare de margini imerioare side linii orizontale si
+veriicale Tn 1erestre: [w]border, box, [w]h1ine, [w]vline
+
+.l operatii de citire/scriere a unui caracter de pe/pe fereastré:
+[mv] [w]addch, [w]echochar, [mv] [w]inch
+
+BWWWWMWWW” WWWMM“ pm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Principalele categorii de functii din NCURSES
+If .I operatii de citire/scriere a unui sir de caractere de pe/pe fereasiré: j
+[mv] [w]add[n]str, [mv] [w]in[n]str
+.l operatii de citire/scriere formaiate de pe/pe fereastré:
+[mv] [w]printw, [mv] [w]scanw
+J operatia de $tergere a feresirelor: [w1clear
+.I operatii de inserare/extractie a unui caracter (la nivel de linie):
+[mv] [w]insch, [mv] [w]delch
+J operatii de inserare/extractie a unei linii (la nivel de iereastré):
+[w]insertln, [w]deleteln, [w]insdelln
+J operagii de citire de la tastatura terminalului: [mv] [w] getch,
+[mv] [w]get[n]str
+ammmm“mums” WWWMMU pm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Principalele categorii de functii din NCURSES
+
+.I operatii de control a caracteristicilor legéturii de intrare a terminalului:
+echo, noecho, cbreak, nocbreak, keypad, s.a.
+
+.l operatii de control a caracieristicilor legéturii de iesire a terminalului:
+n1, nonl, scrollok, [w]setscrreg, $.a.
+
+J operatii de manipulare a atribulelor si culorilor caracierelor:
+[w]attron, [w]attroff, [w]attrset, [w]coloriset,
+starticolor, initipair, s.a.
+
+.I operaQii de copiere de ferestre: overlay, overwrite, copywin
+
+I s.a.
+
+BuvunumvmwmhRvawaNCAIRsYS WWWMM“ pm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Exemple de lucru cu NCURSE S
+If .l Exemplul 1: programul test1.c iluslreazé lucrul cu principalele j
+iunciii de aiisare, folosind doar iereaslra standard stdscr.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Exemple de lucru cu NCURSE S
+If .l Exemplul 1: programul test1.c iluslreazé lucrul cu principalele j
+iunciii de aiisare, folosind doar iereastra standard stdscr.
+.l Exemplul 2: programul test-.2 .c iluslreazé lucrul cu ferestre
+suprapuse si fenomenele ce pot apare datorité optimizérilor folosite
+de operatia de refresh.
+Mm‘ “WWW; memm W3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Exemple de lucru cu NCURSE S
+If .I Exemplul 1: programul test1.c iluslreazé lucrul cu principalele j
+iunciii de aiisare, folosind doar iereastra standard stdscr.
+
+.l Exemplul 2: programul test-.2 .c iluslreazé lucrul cu ferestre
+suprapuse si fenomenele ce pot apare datorité optimizérilor folosite
+de operatia de refresh.
+
+I Exemplul 3: programele test} .c 3i test3b.c ilustreazé lucrul cu
+principalele functii de afisare, folosind 0 fereastré definité si fereastra
+standard stdscr; al doilea program ilustreazé 5i 0 ie$ire1emporaré
+din modul ncurses.
+
+memmwwm memm p m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Exemple de lucru cu NCURSE S
+If .I Exemplul 1: programul test1.c iluslreazé lucrul cu principalele
+iunciii de aiisare, folosind doar iereastra standard stdscr.
+
+.l Exemplul 2: programul test-.2 .c iluslreazé lucrul cu ferestre
+suprapuse si fenomenele ce pot apare datorité optimizérilor folosite
+de operatia de refresh.
+
+J Exemplul 3: programele test} .c 3i test3b.c ilustreazé lucrul cu
+principalele functii de ahsare, folosind 0 fereastré definité si fereastra
+standard stdscr; al doilea program ilustreazé 5i 0 ie$ire1emporaré
+din modul ncurses.
+
+.I Exemplul 4: programul test4 4c ilusireazé lucrul cu atribute si
+culuri, folosind fereastra standard stdscr.
+
+5m\R\NWWCURSIY5 memm p m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Exemple de lucru cu NCURSES (c0111.)
+If .I Exemplul 5: programul testS .c iluslreazé lucrul cu background sij
+culori pemru ierestre.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Exemple de lucru cu NCURSE S (c0111.)
+If .l Exemplul 5: programul testS .c iluslreazé lucrul cu background sij
+culori pemru ierestre.
+.l Exemplul 6: programul test-.6 .c iluslreazé lucrul cu zone de scroll
+pentru feresire.
+WW Wm‘ “WWW Wm W m ".1, m n H n
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Exemple de lucru cu NCURSE S (c0111.)
+If .I Exemplul 5: programul testS .c iluslreazé lucrul cu background sij
+
+culori pemru ierestre.
+
+.l Exemplul 6: programul test-.6 .c iluslreazé lucrul cu zone de scroll
+pentru feresire.
+
+.I Exemplul 7: programul test7 .c ilusireazé lucrul cu inpul interactiv
+de la tastaturé.
+
+Mm‘ “WWW WWWm-W p m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Exemple de lucru cu NCURSE S (c0111.)
+If .I Exemplul 5: programul testS .c iluslreazé lucrul cu background si
+culori pemru ierestre.
+
+.l Exemplul 6: programul test-.6 .c iluslreazé lucrul cu zone de scroll
+pentru feresire.
+
+.I Exemplul 7: programul test7 4c ilusireazé lucrul cu inpul interactiv
+de la tastaturé.
+
+.l Exemplul 8: programul menu.c + menu.h ilustreazé o micé
+aplicatie interactivé cu meniuri, capabilé s51 réspundé la apésarea
+tastelor ségeti, ENTER, F1 sau H (pentru he/p)v si Q (pentru quit).
+Temé: scrieii un program de adminisirare a fisierelor, aseménétor cu
+mc-ul.
+
+Gm‘ "WWW; WWWm-m p m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+. v .
+Lucrul de nlvel scazut cu termlnalul
+T .I Comenzi UNIX referitoare la terminal:
+.p Aﬂarea terminalului la care e$ti coneciat:
+un1x> tty
+.0 Ailarea/modiiicarea caracieristicilor terminalului:
+UNIX> stty [-a] (peniru ailare)
+UNIX> stty . . . (pentru modiﬁcare)
+.I Primitive (apelabile din programe C):
+.0 Se utilizeazé siructura de date termios si functiile de
+manipulare a ei, descrise Tn pagina de manual:
+UNIX> man termios
+Exemple de programe care ilustreazé lucrul de nivel scézut cu terminalul
+— vezi lectia ncurses . htm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Blbllograﬁe obllgatorle
+Leciia ncurses . htm
+Programme demonslralive ammlite p9 parcursm aceslei prezeméri pm n descércate de la
+adresa urmétoare:
+. https: //prof5 . infomaic .ro/~vidrascu/SO/cursuri/Ciprograms/ncurses/
+
+***************Ending Page***************
+

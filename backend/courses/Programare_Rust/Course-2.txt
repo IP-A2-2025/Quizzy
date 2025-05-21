@@ -1,0 +1,1998 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 2
+Gavnm Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+g; Agenda for today
+1. Prerequisite: String type
+2‘ Ownership management
+3. Borrowing & References
+4. Optimizations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Prerequisite: String type
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+®; Prerequisite: String type
+' For the purpose of this course, we need to quickly understand some
+thing about strings in Rust
+- 50....
+- Rust type: String
+- Format: Dynamic (can increase its size)
+' Encoding: UTF-8
+' Operations: addition, substring, find,
+We will cover strings in more details on another course, for the moment we will
+learn a couple of things about object String that will be useful for the next
+chapters.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+® Prereqwsne: String type
+' Let's see some examples:
+l. How to create a string (keep in mind that there are several ways to
+create a string that we will cover in a different course.
+Rust
+Let nut gsrming : Str‘ing::¥r‘oivi(“: n,‘ m,‘ )i
+2‘ How to get the length ofa string (via method .Ien())
+RIISt
+in mint) t
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+a Prereqwsne: Strmg type
+' Let's see some examples:
+3. Concatenate strings (via operator += or method .push_str(...))
+Rust
+1w um 5:5tr‘ing : swing::ﬁmmﬂiiiz“);
+guush 5t|‘(“ w‘);
+p mu v\(“'s1“>:
+}
+4‘ How to obtain a substring (a slice) of a string via range op [..])
+Rust
+m maimj) 1’
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+g; Prerequisite: String type
+' Finally, keep in mind that strings in Rust are far more complex and
+require a more in—depth analysis.
+- However, for the current being, this explanation should be enough.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Ownership management
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+g; Ownership
+' In Rust, every memory zone has ONE and ONLY ONE owner at a time.
+~ Every owner has a lifetime (it exists within a scope).
+
+' When an owner goes out of scope (its lifetime is over) the memory
+zone is freed (“[reed” in this context has a different meaning — based
+on where that memory zone lies on : stack, heap or global).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+g; Ownersh | p
+' As a rule, every variable (local/global) or a parameter can be
+considered the owner for the memory zone it represent.
+- Let's analyze the following case:
+lllQll'lL) l Offset ContentM bytes alignment)
+. 100.000 .> ? Y ?
+‘ 99.996 ? ? v _>
+99.992 ? ? ? ?
+99.988 .7 ? P ? /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+g; Ownersh | p
+' As a general consent, every variable (local / global) or a parameter
+can be considered the owner for the memory zone they represent.
+- Let's analyze the following case:
+l; l l Offset Content (4 bytes alignment)
+“M , l“; 100.000 .> ? Y ?
+99.992 ? ? ? ?
+99.988 .7 ? P ? /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+g; Ownersh | p
+' As a general consent, every variable (local / global) or a parameter
+can be considered the owner for the memory zone they represent.
+- Let's analyze the following case:
+i; i i Offset Content (4 bytes alignment)
+Hi1 i 1i" 100.000 .> ? Y ?
+99.992 ? ? ? ?
+99.988 .7 ? P ?
+' We can say that:
+' The memory from offset 99.996 to 100.000 is - by variable sum
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+E; Ownersh|p
+' Let's analyze another case:
+Im—
+
+U 1'
+
+‘I
+
+Z :; \_ ‘ m" ;;
+
+J. \‘vavw;
+1- >: '. y) ;
+printlnw“ “A:
+
+éﬁanM‘ r ">;
+
+1» /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+E; Ownersh|p
+' Let's analyze another case:
+Im—
+
+U "' 1- $1 Slackayles)
+
+‘I
+
+Z :; \_ ‘ m" ;;
+
+J. \‘vavw;
+1- >: '. y) ;
+printlnw“ “A:
+
+prinflnM‘ r ">;
+
+2» /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Owners h | p
+' Let's analyze another case:
+Rust m Memoryfype
+"W "U " __ e- 51 Slack 14 bytes)
+I‘ ' ' ' 5 Slack 112 or 24 bytes} and Heap (a bytes)
+: Iifrnmﬂ“ m" 1;
+>.pu;h 1m ‘I ‘ LIZ“ \;
+:— >: 'Je'w) ;
+pr‘intln'1_“ , u; chars Ptrw heap wherelhethe UTF-81exthes
+1' len me (4 or s [mm
+printlnh“ f ">; >
+L capamly us\1e(4 or a bytes]
+.
+Heap
+‘ String Internnlitmﬂun‘ 15 Subject to change (INS Is an academic Veprrwmmlon to
+We, WM MW WSW Wm;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Owners h | p
+' Let's analyze another case:
+Rust m Memoryfype
+"W "U " __ e- 51 Slack 14 bytes)
+I‘ ' ' ' 5 Slack 112 or 24 bytes} and Heap (s bytes)
+: :;+'mmq“ \h" 1;
+>.pu;h 1m ‘I ‘ LIZ“ \;
+1- >: 'JQ'H) ;
+printlnv 1_ “ v ‘7; chars Ptr w heap where the the UTF-81ext hes
+1' len me (4 or s bytes]
+printlnh“ f ">; >
+L capamly us\1e(4 or a bytes]
+.
+' A new space 0' e characters is allocated on the heap m
+- The cr\g|nzllext1”zbc”h \scopled Inlhe newklcztlnn , 7 ?
+~ The new string ("456") is added and "abc"
+- The old 13 bytes) 5pm from the heap mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+a Ownersh|p
+' Let's analyze another case:
+man-m ¢ e_ 51 SlackaleS)
+4 U 7 ' 5 suckumubylespanu Heap(6byles)
+1' 1 : ;;+'rm\_'ww );
+‘ LuLVUEhiiv'J ‘I W15“ \;
+1 5- ~: 1.19m’) ;
+:w murintlnH“ v ‘u; chars PtrwheapwherelhetheUTF-Btexthes
+3 ¥ len me (4 or8 [mm
+g prinﬂnh“ 1* ">;
+Z I‘, capacity usxze (4 0"8 1mm
+Q
+.> ? ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Owners h | p
+' Let's analyze another case:
+M" mil Mmrvape
+"W "U " __ e_ 51 Slack 14 bytes)
+I‘ ' ' ' 5 Slack 112 or 24 bytes} and Heap (o bytes)
+: :Ifrnmﬂ“ m" 1;
+>.pu;h 1m ‘I ‘ LIZ“ \;
+:— >: 'Je'w) ;
+DrintlnY 1 “ , ~ H chars Null-pointer (data \sdeallocaledl
+'\' len me (4 or s [mm
+primnw f ">; >
+L capamly “we (4 or a bytes]
+.
+- FreeaH heap memoryassoclaled im _, ; ?
+- Clearstackmemorywhere -,-ar\d-po\mer 7 , , p , 7
+were stared. ‘ ' ‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+E Ownersh | p
+' Let's analyze another case:
+M mu_
+‘m "U ‘l v _ e- $1 Stack 14 bytes)
+Z :;r".-lnl_‘n~i;
+J.L'Lllll 5L! l’ ‘ lfii“ l;
+1- l: '.le"il) ;
+pi'ii'itlnl l “ “ i:
+prinrinll‘ r ">;
+‘i
+' At this point I is no longer valid. This means that the memory it owns is no
+longer available, nor is the access of variable I. In fact, any usage of .variable
+in this point will be considered a compiler error.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+E; Ownersh | p
+
+' Let's analyze another case:
+
+Im—
+U 1' sz saek-M-byaes)
+
+° J. \‘L'FUW;
+
+E 1- >: '. y) ;
+
+g println' 1 “ “ A;
+
+hwimnw r ">:
+' At this point, the scope of “sz” has ended and as such it is freed (all stack space is
+cleared).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+-
+Ownersh | p
+' Let's analyze another case:
+mm [representation
+lHJll'll_) l mainl) l
+v. ; , e; i : a;
+l l
+e :mmlj"abc"2; ; e new [A] ("ant") );
+J.L'\L1Lll:vl.ll:"456lll;
+1- l: mew) ; [15
+printlnll" "l; ; e z
+mmm" f "'>;
+l l
+' A similar "C" code implies freeing the heap manually. If this action would have
+not been performed, the memory allocated by “s” remains allocated (a bug often
+called l.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+® Ownersh|p
+' Let's analyze another case:
+Rust 0+ repreSEIlwmm (from c++11 )
+m llllll'll_) l
+1m mt 51; “a: , e; WM majn(') {
+4 LlHSlgHEJ 11m g : a;
+11+ ‘mt 5 : wring;;+'mml_'“wh~ 1; l
+s.pu;ll w may‘ l; Wm pl"<tll3r‘[]> 5 (new
+sz >: 5.19m) nag; charH] (“ilw'“});
+printlnHﬁls “H l
+mmm“ sz_l ">; l
+I,
+' Modern C++ has a type of allocation similar to what Rust has (called uniqueiptr)
+that behaves in a similar manner.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+g; Ownership
+' What is the problem with the following C/C++ code ?
+l‘§]ll() {
+‘1:\ ~ [m l;
+‘ b: : all
+@le [1-1; a] : Hlllﬂ'";
+pumﬂ 1w. ,Ll);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+E; Ownership
+' What is the problem with the following C/C++ code ?
+BE- EE-
+l-am') l
+‘1:\~ [m l;
+‘ : : s1:
+ml i [1-1; 21:!‘ull'1r’;
+Mum 1») ,gr;
+' Let’s run this code step by step /
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+E; Ownership
+' What is the problem with the following C/C++ code ?
+, m- E-
+. Z‘ U J.
+‘ b: : >1: l 95
+ml 7 [1-1; 21:!‘ull'1r’; 92
+pumﬂ 1w) ,Lljr; gg
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+E; Ownership
+' What is the problem with the following C/C++ code ?
+, BE- IE-
+"alyil l ‘ \. mu sllpcimer)
+mi 7 [1-1; 21:!‘ull'ih; 92
+whim 1») ,Lll; 88
+' What is the problem at this point? /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+g Ownership
+' What is the problem with the following C/C++ code ?
+m M
+wamii l V 100 s1 (pointer)
+‘ 1 I [All l; .
+[1-1; 21 : mill'il'i'; 92
+pl'ii\h‘i_ 1») H ,m; 88
+' What is the problem at this point?
+Both 1'51” and "52” point to the same memory location, Or in other
+words, for a specific memory address we have TWO OWNERS‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+E; Ownership
+
+' What is the problem with the following C/C++ code ?
+
+rant) l ‘ \- mu sllnulll
+
+t i i L1‘; [4M J’ 96 sllpointer)
+
+mi i [1-1; a] :Hillﬂ”; 92
+
+whim 1». ,Lll; 88
+- "sl" pointer is deleted 9 and this translates that the memory zone
+that was allocated in the Heap to store the content for "51” is freed as
+well.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+E; Ownership
+' What is the problem with the following C/C++ code ?
+BE- EE-
+valet’) l \- mu sllnulll
+‘ i i L1; [4M J’ 96 SleOintEr)
+mi e [1-1; a] :Hillﬂ”; 92
+puntﬂ 1w. ,1); gg
+' At this point, -wi|l try to access the content of "52” that now
+points to a memory zone that was already freed from the previous
+line,
+- The behavior is undefined, and it is likely to produce a crash !!!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+E; Ownership
+' What is the problem with the following C/C++ code ?
+who r
+‘1:i~ [JM i;
+t L; : s1:
+i1‘ l e [1-1; 11:!"iillntr;
+puma; 1». ,;;‘,i;
+' The main issue from this code is that the assignment '-'
+creates two owners (both I and I point to the same memory
+address)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+E; Ownersh | p
+' So what can we do to make this code safe ?
+rant’) i
+‘ 1 Z i “ [4M )5
+‘ b; : >1:
+i1‘ l e [1-1; :1 : Fullnt“;
+pmtﬂ I», ,;;ji;
+' The main issue is how we understand the assignment (“_”). The worst
+thing we can do is to duplicate the pointer (make two owners).
+- Rust has a concept (called trait) that for the moment can be considered as a
+property list for each type that explain how certain operations can be performed.
+' For this particular example , the traits that are important are - and -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+g; Ownersh | p
+Disclaimer:
+' - trait does not exist in Rust (it is considered by default as something to be
+used if the trait - is not present).
+' However, for the purpose ofthe next slides, we will consider that this trait (Move)
+exists (this will allow us to easily explain how some decisions in Rust are being
+made by the compiler)‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Let's conﬁder that we have a type (caHed Student) and we wme a statement hke m the fewewme way‘
+11, Z . Mathrade —> type uB
+‘: ; EngllshGrEdE —> wpe u8
+e ; e e 1;
+l Name -> heap buffer
+What happens when 52 .5 asslgned wnh the ve\ue 51 .1
+n depends on some trans that the object oflype Student has A trait m Hus point] can be consmered a
+prepeny defined as a function with a spemfic purpose (in reality a trait is more svnilar to an imeﬁace).
+w type Student has the trait then Rust wm eempne the statement -|n a speciﬁc way, while w
+the Student has the lralt ,mz \mll complle thlngs wfferenﬂy,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+g; What does Copy operatlon means
+
+Let's see what -trait implies for-1
+
+—
+
+MathGrzde = ? MathGrade = 9
+
+EnglishGrede = ? EnglishGrade = 10
+
+Name 9 <ﬂDﬂE> or <null> Name -) a pointer to address 1004000
+M
+100.000 J 0 h n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+®; What does Copy operatlon means
+Let's see what -trait implies fur-1
+a?
+MathGrade <—Q— MathGrade = s
+EnglishGrade = P EnglishGrade = 1o
+Name -) <none> or <null> Name -) a pointer to address 100.000
+100.000 J o h n
+Steps:
+1. Bilwise copy the value of $1.Muth6rude lnlu sZYMuthGrude /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+g; What does Copy operatlon means
+Let's see what -trai! impues fur-1
+—
+MathGrade = 9 MathGrade = 9
+EnglishGrade =E <—°— EnglishGrade = 1o
+Name -) (none) or <null> Name -) a pointer to address 100.000
+100.000 J o h n
+Steps:
+1. Bilwise copy the value of s1.MuthGrude lnlu sZYMuthGrude /
+1. Bitwise copy the value of SLEnQIisthde into sunglishamae
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Let's see what -tralt implies for-1
+
+—
+MathGrade = 9 MathGrade = s
+
+EnglishGrade = 10 EnglishGrade = 10
+
+Name -) . pointer ‘0 address 200.000 4—°— Name -) a pointer to address 100.000
+
+M
+200.000 ? ? ? ? 100.000 J o h n
+
+Steps:
+
+1. Bilwise copy the value of sl.MuthGrude IMO auvlatnsmdc
+
+1. Bitwise copy the value of slingﬁshﬁmde into 52.5nglish6m42
+
+3. Allocated 4 bytes to a new location on the heap and assign slName pointer to that location
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Let's see what -trait implies for-1
+
+—
+Mathsrade = 9 MathGrade = s
+
+EnglishGrade = 10 EnglishGrade = 10
+
+Name -> a painteno address 200.000 Name -> a pointerto address 100.000
+200.000 <—Q— 100.000 J o h n
+
+Steps:
+
+1. Bilwise copy the value of sl.MuthGrude mto szmutl-smde
+
+z. Bitwise copy the value 0f:1,Eninsthde into sunglishamae
+
+a. Allocated 4 bytes to a new location on the heap and assign sulame pointer to that location
+
+4. Bilwise copy 4 bytes from address 100.000 lsmemel m address 200.000 lsuvame)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+g; What does Move operatlon means
+
+Let's see what -tra'\t implies for-1
+
+—
+
+MathGrzde = ? MathGrade = 9
+
+EnglishGrede = ? EnglishGrade = 10
+
+Name 9 <ﬂDﬂE> or <null> Name -) a pointer to address 1004000
+M
+100.000 J 0 h n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+g; What does Move operatlon means
+
+Let's see what -tra'\t implies for-1
+51
+
+MathGrade “I <—Q— MathGrade I
+
+EnglishGrade = P EnglishGrade = 1o
+
+Name -) <none> or <null> Name -) a pointer to address 100.000
+100.000 J o h n
+
+Steps:
+
+l. Bilwise copy the value of $1.Muth6rude lﬂlD sZYMuthGrude, and clear (he value of sLMurhGrude /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+g; What does Move operation means
+
+Let's see what -tra'\t implies for-1
+
+—
+
+MathGrade = 9 MathGrade = 7
+
+EnglishGrade =E <—°— EnglishGrade
+
+Name -) <none> or <null> Name -) a pointer to address 100.000
+100.000 J o h n
+
+Steps:
+
+l. Bilwise copy the value of sl.MuthGrude lﬂlD sZYMuthGrude, and clear (he value of sLMurhGrude
+
+1. Bitwise copy the value of slingﬁshﬁmde into sunglishamae, and clear the value of slingﬁshﬁmde /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Let's see what -tra'lt implies for-1
+
+—
+MathGrade = 9 MathGrade = 7
+
+EnglishGrade = 10 EnglishGrade = 7
+
+Name -) a pointer“; address 100.000 <—Q— Name -) a pointer to address 100.000
+
+100.000 J o h n
+
+Steps:
+
+1. Bilwise copy the value of 51.Muth6rude lnlu sZYMuthGrude, and clear the value of sLMnrhGrude
+
+1. Bitwise copy the value of sunglishlsmde into sunglishamae, and clear me value of 51,5nglish6mde
+
+3. Assign 52.Name pointer w the offset 100.000
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+Let's see what -tra'l! implies for-1
+—
+MathGrade = 9 MathGrade = 7
+EnglishGrade = 10 EnglishGrade = 7
+Name -) a pointer“; address 100.000 +> Name None / null
+100.000 J o h n
+Steps:
+1. Bilwise Copy the value 0f sl.MuthGrude mw sZYMuthGrude, and clear (he value 0i sLMnﬂlGrude
+z. Bitwise copy the value 0f slingﬁshﬁmde into sunglishamae, and clear the value of 51,5nglish6mde
+a. Assign 52.Name pointer w the 0mm 100.000
+4. Clearthe value of pointer $1.Name so that only one object paints m the offset 100.000
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+. Ownersh|p
+' So what can we do to make this code safe ?
+c (undefined behabro!)
+nlain() <
+‘ 1 : HPL'.‘ [A]{".:bc");
+delete [1-1; 21:!1lH'Wv';
+printﬂiwwAn",Ll‘);
+CfMOVE] C (COPY)
+"131M; ( Mano <
+' J1 : HEW 4 "abc"); ’ ‘11 : new 4 {"abc"};
+' : r1;
+delete [1 1; ,1 = “11111-111;- delete [1,1,- 1 = "1111111,;
+pr‘jntF("1-5\n",5>“); princf("m;\n",51);
+> )
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+g; Ownership
+' By default, Rust uses operation for all of its object (except for
+the case where trait is set up for on object)
+- Basic types (u8..u128, i8,,i128, bool, isize, usize, char) have the -
+trait.
+Advantages:
+1. No dangling pointers
+2‘ No data races /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+g; Ownership
+When ownership rules applies:
+1. Whenever there is an assignment
+2r Whenever a Earameter is passed to a function
+3. Whenever a value is returned from a function
+: my_functi0n(><)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+. Ownersh | p
+Let's see some examples:
+RMSI Rust
+mum; “:11an
+VI : I:¥r‘Uvr¥["AAA" )2 J: : 121:!‘IJW"AAA"\;
+printlnlﬁ'" L "1v; printlnHI" "'1;
+i 1'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+I Ownersh | p
+Let's see some examples:
+RMSI Rust
+mmw Mann
+VI : I:¥r‘Uvr¥["AAA" )2 J: : 121:!‘IJW"AAA"\;
+PPiﬂﬁln.‘ \‘"' L "'1; printlnuj" "w;
+i 1'
+\
+4 \ PJ 5-: : 5‘
+\ .11» w»; mm
+\ um harm/hid ‘an; Th1! Mimi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+®
+Ownersh | p
+Let's see some examples:
+Rust
+prmrjqn \ 1
+pv-inrlm" ; "\; pnan
+‘1 7 wwnm‘ "AA/A");
+m-1m;(:w;
+println‘ I" J "\;
+w "mum WM w nu. H1 Mn.»
+\
+‘ \ WW 7 ‘flan! 1mm new
+\ ' Mn» MYFHY-Nd m-w m»,- m“.-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+-
+Ownersh l p
+Let's see some examples:
+Rust
+i‘CtLii‘vi A,
+‘i AAA
+: , werm-i "AAA"];
+: , sir-1min :1;
+piii-itlnii" V “i;
+' One solution to the above problem is to return the value of
+parameter "s" from function print_s and assigned it back to the
+variable "s" from function main (its original owner).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+Borrowing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+g; BorrOWI ng
+' Even if ownership rules are clear, there are cases Where coding under
+this rules is difficult. Let’s look at the following case:
+Fmiipiltel @n(-:; ,i -> l
+l llll vim’);
+)
+mmmj'i (
+L : :mtm' );
+i : i'miipilTelEiM“);
+K ' l l;
+)
+- ls this code correct? /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+I
+Borrowmg
+' Even if ownership rules are clear, there are cases where coding under
+this rules is difficult. Let’s look at the following case:
+
+RUE!
+
+COVYlPHtELQll(‘?I ‘l -> i
+
+return v.len(');
+
+)
+
+mainU ( The answer is NO l
+
+L : ::fr*om"'123“);
+("T
+‘ l 1a l LLllL'JKLLiIlliEl‘
+l a l“ lv Milli M1 nH'A will.»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+g; Borrowing
+' So how can we solve this kind of cases ?
+- Most programming languages have a concept (call reference) that
+represent a valid pointer to an object of a specific type‘
+' In Rust, we call this form borrowing (the reason is that the reference
+does not imply change of ownership 9 thus we can consider that an
+object has been borrowed and it will be returned to its owner).
+' Just like in C or C++, a reference in Rust is denoted by the symbol .
+Similarly, a dereference process can be perform with the symbol . /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+. Borrowmg
+' Let's see how the previous code changes if we are to use references:
+RUSI Rust
+camputeLenfi: y { crvmputeLinL :E| 1 r», 4
+~1an 7.12m}; V‘F,IUV‘I1 ',1en(\:
+) )
+mamm ( "mm (
+' Z ::ﬁ'0m("123""\1 I‘ 1 =.n-um1,“122",1.
+; : computéLenlf); 1 cnmpnteLénE v;
+(“The length uF L 15 1 “); ("The length 0F 3 if- ‘ “)1
+) )
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Borrowmg
+' By default, a reference in Rust is immutable (meaning you can read its
+value, but you can not modify it)‘
+RUE! C++
+‘1w; \lu L J m
++'- (nyuputeLEnfs: QStyung') 7;, ‘wile l 51w; LumputaLenLLJvlLl shinstvjngi s) l
+nu‘ 5.12m“); l w glengtnlll
+l l
++ maim") l ‘ m1 mainl) l
+er 5 z :.mng;;n~wj w.» a; Limit Std:::tr‘ing : ‘ m1‘:
+Lit 1 I ConvputéLEnlEs), are 1 : computeLenlsl;
+LllillLl'l(lllllL lululll I lSl 1' lll“); printﬂ'“l , > ‘A l '11.; l “,cl“,
+) a.r;m_'lmw)l>,
+>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+g; Borrowing
+' A reference in Rust can be:
+- Immutable -) denoted bi the usaie of & (default)
+' Mutable 9 denoted by the usaie of &mut
+However, the question that comes into everyone‘s mind is:
+What is the purpose of ownership if we have references ? /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+® Borrowmg
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+4 isEmpty{>: ash-mm mm t
+W 5.15;",an
+l w r v V V it v t A
+l" mum { m‘. Wm ,t-v [vWm].wwwwwm
+17L 5mm‘; : SLrurigHFPt/M ,1" :7; "In '1" l
+-i M,t~,§=s:tr-mg 1 M; _ if ILL; g” [W ,t t i...
+i wrmpryirerjnji l w. 716.5 ' ' '
+‘ Ulillllll 5. c m t pl :7; ‘ l W l mmp-i-WUU
+l
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+. Borrowmg
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+RIIS! RUE!
+icsmpqq» a ‘i t
+MW deem“ ,t;
+l in 5 11-1‘; mm; i w my _
+1+ wrmpryl'»; at i) ‘l w. m.’-
+("Empty string"); m H w-ﬂ w i ‘
+l“ c ‘ is m eirlptv“); rrn- mm p-i-r
+l
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+I Borrowmg
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+RIIS! RUE!
+icsmpqq» a ‘i t
+MW deem“ ,t;
+menu) r m‘. Wmi ,t-v [vWm].wwwwwm
+1+ liEmpth; at i) l w. m.’-
+("Empty string"); M H qwﬂ wt- I ‘
+l“ c ‘ is m eirlptv“); rrn- mm p-i-r
+l
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:61**************
+'
+BorrOWI ng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+RUE! RUE!
+icsmpqq» a ‘i t
+PPtht ..1,<;mmyi,i;
+|iia"“‘ ’ m‘. Wm ,t-v [mum].wwwwwm
+Vii] r1 ,' l
+-*
+l" c ‘ is m empty“); m. Wm wt
+l
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+I
+Borrowmg
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+RIIS! RUE!
+isEmptﬂ ; a ‘i t
+MW “129mm H
+l 1:2 5 11-1‘; in“; i :w my _
+mam) r Mr ,i-i [vhvaFi]_fFF:FF:FFFFFFFFFFli
+c; : ;;rr~w<“1zz“jn "1“ " 9 l
+1-“
+l“ c ‘ is wt empty“); ' 'm. ' mm p-i-r
+J
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:63**************
+I
+BorrOWI ng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+RIIS! RUE!
+icsmpqq» a ‘i t
+PPHJPU ..1,<;mmyi,i;
+mam) { mi ,t-i [Wm].rwwwwwpmi
+c; : ;;n~w<“1zz“ji; 'i: :1‘; l
+l" c ‘ is m empty“); m. mm wt
+l
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+I
+Borrowmg
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+RIIS! RUE!
+icsmpqq» a ‘i t
+PPHJPU ..1,<;mmyi,i;
+mam) { mi ,t-i [Wm].rwwwwwpmi
+c; : ;;n~w<“1zz“ji; 'i: :1‘; l
+‘_—
+l
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+. BorrOWI ng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+RIIS! RUE!
+icsmpqq» a ‘i t
+PPHJPU ..1,<;mmyi,i;
+mam) { mi ,t-i [Wm].rwwwwwpmi
+c; : ;;n~w<“1zz“ji; 'i: :1‘; l
+1+ liEmpU/l'v; at i) ‘l um 716.5
+‘ w. it: ‘mt-“1 ml l
+l
+l
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+®; BorrOWI ng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+‘ .. v‘ WW; 100 _7
+F41 n1) 1’ V 92 51:"373 .3
+,: : :‘MuvM "y;
+I» m Us: 1 a; _, 34 s'le" ?
+v MPH -~f .1 -: )_ 7a sycapacity .>
+3 1i ‘ ’ as .7
+) r , 1H so raffle; ?
+r i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:67**************
+®; Borrowmg
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+. [W'Hu-VK 1 i Offset Variable Value "saw
+‘ em .. v‘ When, 100 _7
+F41 n1) 1’ , < _ 92 schars PlrtO VIEEPI
+e: e =-i i;
+i» m Us: 1 a, ;m I _, 34 s'le" 3
+, i+iii;“\,i“:* .1 i )_ 7a svcapacity a
+3 17 i ‘ ’ as .7
+) \ e 71 so raffle; ?
+i i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+®; Borrowmg
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+‘ 7m WW; mo _7 123
+‘ um ‘r V _ schars Plrto heap: I
+(i. m g ;"&";‘"“ "1 84 s,len a
+i varﬁFT .1 -: )_ 75 sycapacity a
+3 17 t 58 .7
+) \ , 1'1 /
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:69**************
+g; BorrOWI ng
+' In Rust, a reference (a borrow value) is a pointer to the original object
+(similar to how C/C++ treat references)
+
+' This means that as long as the original object is valid, a reference will be
+
+valid as well
+
+Because of this Rust has several rules related to references:
+
+1. At one given moment of time, there can be only — reference
+to an object
+
+2. At any given moment of time, there can be —
+references to an object
+
+3. Case 1 and 2 are exclusive meaning that if you have a mutable
+reference, you can not have another immutable one and vice-versa.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+E Borrowmg
+Let's see some cases that reflect how these references work.
+1‘ Multiple immutable references & immutable object
+Rust
+iviﬁli'iU l
+1: : I:ﬁ‘r)m( l J i;
+imitgim. : 81;;
+lil lurlll 1&7;
+viii-i ‘=54 :&.;
+i‘ ‘r-t hi l_r'>t hi ‘.i'w rt i );
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:71**************
+I
+Borrowmg
+Let's see some cases that reflect how these references work.
+2. One mutable reference & immutable object
+Rust
+mm L
+J: : ::+'r‘o||n"'lZP"\:
+mu‘. \u‘ LL J51 : SR L;
+1“ ,m \ 7'14’ r“ _-l,;
+i,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:72**************
+I
+BorrOWI ng
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+Rust
+mm L
+;; : =:+'mmi"1za"\:
+mu‘. \u‘ LL J51 :51 L;
+1“ , m \ 7'14’ r“ . ",1;
+i,
+\
+.\ x 1H ‘WU-47w’ Mu.’ .lenl WY ,
+E‘ wmdm hymn“; t: :1 u
+\ t
+\ MVHHV¢JR~ n v‘... nu. wvr
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:73**************
+®
+BorrOWI ng
+Let's see some cases that reflect how these references work.
+3v One mutable reference & mutable object
+Rqu
+mm 1
+S: : I:¥PD|I¥["lZP-"]Z
+mu‘. m Lc >15‘ : E. a;
+("» ,m» 71-!’ m ."];
+i, E
+‘ M
+E‘ w'mnnn {5mm VLF t: :1 u
+\ \
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+I
+BorrOWI ng
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+Rqu
+mam r
+41 : :'¥rom("123"73
+“Hr w; w :vs. Z a ;;
+If‘ my Jim’; "'v:
+123
+123
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:75**************
+E; Bo I'I'OWI ng
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+1 new} -{
+1 4' 1 --+m n .1;
+5 W w w s. e a i; Lifetimeof
+4 ¢_ my ‘ether’; 7:
+5 4: e I‘;
+u v
+Let's analyle this examgle:
+- Vzrrzlﬂe "— \5 created m llne 2 and after llne 4 It \5 no ranger needed 1u52d).As such n IS
+destroy after hne 4 We can say that its lifetime consists m 2 hues (a and 4).
+- When me a gels executed, there rs cnly one Mutable reference m object "s" —thu5 the rures are nut
+broken, and no error IS thrown
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+B o I'I'OWI n g
+Let's see some cases that reflect how these references work,
+3. One mutable reference 8t mutable object
+Rust
+1 MEJUU -{
+1 ir- e --frnrni i. i )3
+a nne rnr' rr r .5. e a i; Lifetime of Lifetime or
+4 4_ “ in. iii e "J11; ‘r : mut_ref_to_s s
+5 4: e vr‘ ;
+e ‘r
+Let's analyle this examgle:
+- Variabie "— is created at llne 2 and eiter llne 4 It r5 no ienger needed 1n5ed).As suth ll IS
+destroy after irne 4v We can say that its lifetime consists in 2 irnes (a and 4|.
+- wnen irne a gets executed, there is enly one Mutable reference m object "s" —thus the miss are nut
+broken, and ne errer IS thrown
+~ Variabie "s" has a \ifetime that starts on line 2 and ends on line 5 However, when l'ine 5 gets
+executed, and a new lmmutabie reference IS created, variable "mul_ref_to_s" has already been
+discarded and as such we would eniy have ene reference and program compiles
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:77**************
+®
+Borrowmg
+Let's see some cases that reflect how these references work.
+3r One mutable reference & mutable object
+Rqu
+mam r
+41 : :'¥r‘om("123“7;
+“mi w; w :vz‘. Z a ;;
+l 5 “H
+C (“ mt m' Lt‘ V "1;:
+\
+E‘ wmnnn {5' m
+a‘ rmmrm ‘ﬂmtiT'fr'Uifl n
+\ what new... 16m uwd my»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+E Borrowmg
+
+Let's see some cases that reflect how these references work.
+
+4. Multiple immutable reference & mutable object
+
+Rust
+
+m maul]; l
+l; “w i:‘§tr1ng : ‘it!’1ng"from( v. l;
+1r’ raﬂmjgmsrving Z s5;
+1‘: V‘éfit0’5’21545tr‘iv\=j : s5;
+1w. refitnisilmiuju; : x5;
+l m lmvj la,‘llV‘EfV’(U’1\’ll.l7‘9l”(u’>’ll,lféfitui>’3 ‘l,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:79**************
+® Borrowmg
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+ELISE
+m mainl] l
+1w. W; 51mm“ : Stvjup::fmml l; 11;
+l> refitaisilﬂitrlng : £5;
+l; V'Efifnigil'kZStFIng = a5;
+1r’ l\eﬂtn;j:&smng Z 5;;
+wlntlm (“15; , lrlrfittliiill , lrt-QttLSJl , wuﬂm§;1 ‘v:
+3.: L ll‘, ‘W;
+‘mum lam;
+k
+Compilewk M
+123,123,123123
+123A larger String
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+® BorrOWI ng
+
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+FUSE
+m rviaini'fl l
+
+1w. W1 51mm“ : Striiipiiﬁwmi l: 11:
+
+lv Pelritaisilﬂitrlng : 1'15;
+
+iv’ V'Eizifniiil'QZStMng = P15;
+
+iv ieﬂtn;j:&swing Z 2;;
+
+L" liitlril l“ l s} , l r‘|l-Fiti;:ill , l refitoisill , 1 Putitoisih ‘i;
+
+5.: L W, l W ;
+
+i m in‘ l_‘ is,‘ ‘ineiiitcisill .iwetmisili . ‘\relrituisill ;;
+k
+
+What will happen in this case ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:81**************
+I
+Borrowmg
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+Rust
+mainl] l
+:1 : ::fr*om\"123":l;
+l'l' m 1=& : a4;
+pl w 1: = a’;
+rrFih'Liiliﬁ Z s;
+l" ; , wring; . m' n ; 2,1ultt J 5 "'v;
+L ¢: “A 1mg,» string";
+l.“ 1 "-rt "‘ 1 - l‘ errwlliufuil :wmw tun-‘w 5 as mum; titans‘; it V; ‘ml Cw 15 wmwrle
+y l ununm {sewn w , 17mm u 5 ‘mu-m 1. 5 Al ‘_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+.
+BorrOWI ng
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+R t
+usmainl'] l
+1 e; : :‘Fvuiiii:“123“l;
+1 r Ti i ,za : $5
+4 5 i“ L , wiitejil , ‘711;’; , icing; “l;
+l l ll a i +: “A larger‘ strum“;
+\ * fll‘,v+\i1,~’,i‘_,i‘,—rii'i ‘"3;
+When reaching line 6, a mutable reference is needed to perform that
+assignment (that changes the content of object “s”). Since at line 6
+there already are 3 immutable references, the compiler will fail.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:83**************
+g; Borrowing
+When analyzing the previous examples, there are some questions that
+need to be answered:
+
+1. Why the previous assignment implies _
+?
+
+2‘ Immutable references can not chan e the value of an ob'ect. If the
+value of the obect changes, h
+—?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+a Borrowmg
+1‘ Whys += "A larger string"; implies creatingamutable
+reference ?
+To answer this question, |et’s look on how "+:” operator is defined !
+Rust sourteSf/inls
+Iiiiiiiiii- in Li‘ >i swims iii 1' .1 ,
+i i i in» H 1 whim a iii“ i iiiiii ii iiwiim‘ i-ii ii i ii>1iiwi.
+,iiiil AddASSigii-iXSCFJ Strlng i
++ add ESSJEHLE in i, other‘: Smtl‘_i i
+iqusm SUV/‘AHMEPM
+i
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:85**************
+®
+Borrowmg
+1‘ Wh 5 += "A larger‘ string"; implies-
+?
+To answer this question, |et’s look on how "I" operator is defined !
+Rust SOLJVEE Strinvrs’
+1+ ii'iiii'iii
+\él v» v‘
+iii i V
+add ESSiFHLE , Hm»; s ‘7 i a
+,gusm stwwiw);
+i
+i
+' Mimemenmiiun OI Hmmior ¢: lurSlri/w (i055 may vary m Lime Umm versrun Zn vsmoﬂi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+' Borrowmg
+1‘ Wh 5 += "A larger‘ string"; implies-
+?
+To answer this question, |et’s look on how "I" operator is defined !
+Rilsf SOWEL’ Strinmrs’
+‘i f i "i i i’ i i
+[in r ‘ I
+4Q an M
+,gusm stmmﬂq;
+i m
+)
+' Implemenmiiun OI unsmlor w lurSlri/w rims may vary Hi iimi Umm versmn Zn venioni
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:87**************
+®; Borrowing
+1- W implies —
+?
+This means that the following line:
+is equivalent to the next one:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+g; Borrowing
+
+1- Wh implies —
+?
+Consider that any class non-static method implies creating a reference
+» A mutable reference if that method changes something in the class
+- An immutable reference if that method only reads information from
+the class
+
+These references will respect references rules (either only one mutable
+or multiple immutable).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:89**************
+E; Borrowing
+1- Wh implies —
+?
+Let’s consider the followin_ examle:
+mam!) -;
+i: : 11;!‘l'VYW' 7;
+Yuri‘ Jinx 7 52:;
+Lr LL L ;;K : 6:;
+r : bra-HUI i
+r r r» w r r~+ w . );
+Output
+1Z3,123‘123, 3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+g; Borrowmg
+1. Wh implies —
+?
+Let's consider the followin_ examle:
+wmw) -;
+i: : ::;v'rrv'\ 7;
+“(in ijiliﬂ , s_.
+‘J LL L L:K : ~'. >
+\ I ;. Wm, Whathappenswhenwecallslenl)7
+1‘
+Output
+123,121123, 3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:91**************
+®
+Borrowmg
+1‘ Wh 5 += "A larger‘ string"; implies-
+?
+Let’s consider the following exalee:
+RMSF
+malnv) I.
+i: : ::fmml"1:3"7;
+‘ugh-54¢ : a; Rust SUmIJS
+m LULLI81 :n.~ -\ ,
+¢ ‘ , M h , , ,. 3
+r
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+®
+Borrowmg
+1‘ Wh 5 += "A larger string"; implies —
+?
+Let’s consider the following exalee:
+Rust
+mainQ ,'
+5 Z ::fmm("123"l;
+mm v'~+ t: ‘1% : S‘ g;
+\
+4 . muiJH'ittij , L "'7;
+v
+\ ~~~ 1mm)! barrow nzturs here
+V \ ht 1 V Jw \:
+\ - Y mum WW We
+u‘ unmmh ‘EM-mm rd w SLIM ,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:93**************
+I
+Borrowmg
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an ob‘ect. If the value of the object changes, -
+—?
+RUE!
+malM) ‘I
+,1 : :1me<“113“71
+r,» m . :K : s45
+r'¢i*1'i'IE Z a;
+v,‘;i1ili:‘2& : 5;:
+(“ e , ‘Vivi-VJ , rifle‘); , ‘@3717; “7;
+.w ww- ‘la-Hm“;
+(" ., wlr ‘1‘r",—~*\n.‘,re*h\ -' “>1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+g; Borrowmg
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+
+.1 I 1; ml -,
+winging 7 a; 91 ?
+
+u";;:;:x. 7 a;
+
+< c ‘ugh-,1 legal; 84 ?
+i ‘Z 1 76 ?
+l 68 ?
+Let's analyze the stack of the program, if 60 ?
+compilation would have been successful. 51 ?
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:95**************
+E B o I'l'OWl n g
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+
+Heap
+“"5! Stack (s bytes alignament]
+"81"“ ‘l F W w, Offset Variable Value
+.1 I 1; v'u ,1 -,
+l,» i.‘ . =2. , as 100 sochars mm heap:
+'“fill'lf' * ‘*5 91 s.len s
+lav;:;:;:x. 7 a;
+< u Lilli-:1 l Vega-:1 84 s.capacity 3
+J: a ‘ll ‘my; 76 _,
+l 68 .7
+Let's analyze the stack of the program, if 60 .7
+compilation would have been successful. 51 ,>
+44 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:96**************
+E Borrowmg
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+
+Heap
+“"5! Stack (s bytes alignament]
+mm“ ‘I F W w, Offset Variable Value
+.1 I 1; v'u ,1 ~,
+n, ‘A _ ;,_ , Q5 -s.chars mm heap:
+'“fJ'Ll'IX' * Ni‘ 91 5.len 3
+lav;:;:;:x. 7 a;
+( e unveil l legal-,1 84 sacapacily 3
+l 68 .7
+Let's analyze the stack of the program, if 60 .7
+compilation would have been successful. 51 .>
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:97**************
+E B o I'l'OWl n g
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+
+Heap
+“"5! Stack (s bytes alignament]
+mm“ ‘I F W w, Offset Variable Value
+.1 1 1; v'u ,1 -,
+n, i,‘ _ =5 , a s.chars mm heap:
+'“fJ'Ll'IE' * ‘*5 91 5.len 3
+lav;:;:;:x. 7 a;
+( e villi-,1 l Nye-,1 84 sacapacily 3
+i ‘Z ‘ l' ‘ ““' ‘1 76 refitoisil 100
+l
+Let's analyze the stack of the program, if 60 .7
+compilation would have been successful. 51 .>
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+E B o I'l'OWl n g
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+
+Heap
+“"5! Stack (s bytes alignament]
+mm“ ‘I F W w, Offset Variable Value
+.1 1 1; v'u ,1 -,
+n, i,‘ _ =5 , Q5 s.chars mm heap:
+'“f ”‘ ' ‘12' * “1 91 5.len 3
+lav;:;:;:x. 7 a;
+< u Lilli-:1 l Vega-:1 84 sacapacily 3
+i ‘Z ‘ l' ‘ ““' ‘1 76 refitoisil 100
+l es refitoisil 100
+Let's analyze the stack of the program, if
+compilation would have been successful. 51 .>
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:99**************
+E B o I'l'OWl n g
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+“"5! Stack (s bytes alignament] W
+mm“ ‘I F W w, Offset Variable Value '
+.1 1 1; v'u ,1 ~,
+n, i,‘ _ =5 , Q5 100 s.chars mm heap: 1 2 3 A I a r
+'“fJ'Ll'IE' * ‘*5 91 5.len 13 g E r s ‘ r '
+lav;:;:;:x. 7 a; n6
+( e L: L 1 l ,J L 1 84 sacapacily 18* WWW
+i ‘Z ‘ l' ‘ ““' ‘1 76 refitoisil 100
+l‘ es ream}; mo
+Let's analyze the stack of the program, if so refitoisj 100
+compilation would have been successful. 51 .>
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+g BorrOWI ng
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+_?
+smug bytes 3"“;QO m? ? 7
+"*1" " ‘l * _ Offset Variable Value
+M 2,‘ _ , as 100 s.chzrs mm heap: 1 Z 3A I a r
+""F”L‘g'-~“ * 5i 92 m“ 18 g E r s t r '
+rtritaifj s e Lg; n G
+l v‘ 4' M . v ,l f . w 54 slcapacilv 18' 1mm“,
+Has anythingchanged (or one ofthe immutable 76 ref m S 1 10°
+references? - - -
+' The answer l5 NO. All3immutahle references 68 YBUOJJ 10°
+L puim w (he same object (and could access that 50 refilgisiél 100
+c objectlust like they could heforemharsdzta 52 ,
+memberwaschanged). '
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:101**************
+g Borrowing
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+
+Rust
+W... .1
+:.. 1 ,m-Ww" “"1;
+l1}: :11: So if this code is
+“TL? ‘&.-;..-:.:1E”T". 1:...:.:1 safe, why does not
+i ‘Z ' t j‘ J," j] M 7.. ,l .\ Rust allow it?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+g; Borrowing
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+_?
+
+To answer the last question, we need to look into another feature of
+Rust, called slices !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:103**************
+E Borrowing
+2‘ Now let's tackle the second question: Immutable references can not
+chan e the value of an obect. If the value of the object changes, -
+_?
+
+Let’s analyze the following code:
+Rust
+maan l
+4_ L , :11th ti L l,
+Slices are very similar to std::string_view / std::u85tring_view from C++
+(in the sense that they hold a pointer and a size).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+®; BorrOWI ng
+Let's see how the stack looks like in this case:
+.- 7 Mm 1;
+4 5 ;11.:‘;,L: 1; 91 7
+‘ an ?
+76 P
+68 .7
+60 7
+SZ 7
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:105**************
+®; Borrowmg
+Let's see how the stack looks like in this case:
+"WW -: v ‘ Offset Variable Value
+$753+; Z H3211?" ‘W 100 s.chars Ptrmheap: m
+‘ 4 5 3110;’1’: 1: 91 518" 7
+‘
+76 ?
+68 .7
+60 7
+51 7
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+®; BorrOWI ng
+Let's see how the stack looks like in this case:
+ghrrgti Z twirl?" ‘I 100 s.chars mm heap: m
+‘ i_ S 31ml’ if: "i; 91 5.|en 7
+‘ 84 stcaacil 7 LA A- c c
+This part is in particular important: 68 sliceyLS-Sile 3
+Notice that "slice_of_s” maintains 60 7
+a pointer Within a memory that "s" 51 7
+owns. 44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:107**************
+g; Borrowing
+So what will happen if we change the previous code in the following
+way (let’s assume that this code will compile under Rust and evaluate
+what execution will do to the stack):
+
+017m Var/able Value m
+“Wm ,r 100 ?
+‘l: : II’\ w l l; 92 ?
+:l'rvjl; 7 xi uh]:
+;.'\.5l'l 1w >; 3‘ ?
+l L 111») LL ‘l; 76 ;
+l 68 ?
+60 ?
+52 ?
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+g; BorrOWI ng
+So what will happen if we change the previous code in the following
+way (let’s assume that this code will compile under Rust and evaluate
+what execution will do to the stack):
+017m Var/able Value m
+“Wm J 100 s.chars Ptr:
+“Vii?! 7;;LU":];1""\ l‘ 92 glen 7
+é. 1.1m 5m >; 84 scapacilv 7
+‘ l L 711») LL ‘l; 76 ;
+l 68 ?
+60 ?
+52 ?
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:109**************
+g; BorrOWI ng
+So what will happen if we change the previous code in the following
+way (let’s assume that this code will compile under Rust and evaluate
+what execution will do to the stack): —
+Offset Variable Value m
+mull‘ l 100 s.chars Pn;—>AA- c
+“Til?! eglunllmlll “ 92 glen 7
+é. 1.5M 5w; >; 84 scapacilv 7
+l ea sllceiofissize s
+60 ?
+52 ?
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+g; BorrOWI ng
+So what will happen if we change the previous code in the following
+way (let’s assume that this code will compile under Rust and evaluate
+what execution will do to the stack): —
+Offset Variable Value m
+“Hail; l mo schars Ptr: ? 7 ? 9 P ? 7
+will";ragriyhilhlll l‘ 92 glen 12
+;. 1.5M it“: >; 84 scapacity 12 ‘ii
+‘ ‘~ ' '1“) l?" l; 76 sliceiofisptr Ftr - - - -
+l ea sliceiofissize s
+When the execution reaches this line, a new so ?
+memory will be allocated for “s” and the 5; ?
+previous one will be deallocated. The result is 44 7
+that we get a dangling pointer from "slice_of_s
+that points to the original memory allocated from "s" that is currently invalid.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:111**************
+. Borrowmg
+In reality, Rust will not compile the next code and will throw the
+following error:
+
+RIIS!
+malM) l
+,1 : :1me<“AABsBL[“‘>-,
+W Mr Z .migﬂ];
+;.gus.h 5m “nnnnw ‘l:
+)
+u l gun‘ :rw with n
+‘ l ertlnll limwhitlimiil u
+l mmnm» .w w 147k! u m w”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+g; Borrowing
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+_?
+So returning to the original question, we can not have immutable
+references and a mutable one at the same time, because there are
+scenarios (like using a slice) that could lead to a dangling pointer!
+OBS: Slices are considered references as well ! /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:113**************
+Optimizations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+E; Optimizations
+Rust has several optimizations for mutable references since at one
+moment of time there could be only one mutable reference.
+
+Let’s consider the following C/C++ code and its Rust equivalent:
+mov eax, dwurd pt!‘ [rsi]
+add eax, dwurd an [rdi] mov eax, dword pt!‘ [m1]
+mov award pn- [r51], w — add eax, w
+add eax, award pt?‘ [rdi] add dwurd pt?‘ [r55], eax
+mov dworn ptr [m], eax
+
+Where:
+
+- rsi=input
+
+- rdi:nutput
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:115**************
+Why do we have this difference ?
+
+7 Notice that we have used the +: operator. Thls means that the compiler first
+needs w read me value from the polrlter outnut, men add to that value the value
+from pointer inpln, and finally write the new value inm the output pointer.
+
+may eax' d'm
+
+add eax, award ptr [m1] n; W ll-nn l lll l lll
+mov mm ptl‘ [m], eaX All,
+
+an eax, Hm p r r a1: l J 1:, =1 . a.“
+mov duord ptr‘ [Psi], eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+Why do we have this difference ?
+However, there is no guarantee that the output painter (an'l be access from a
+' diﬂerem thread. As such, the compHer has to write the new vame to output
+pomler so that If anotherthread ls (rvmg w read It, Ir wrn read a correct value.
+—
+mnv eax, Mord ptr' [rsi]
+add eax, mom pcr [m1] "W r 1X, rrurrrrr rm [rm
+mov mm ptr‘ [r51], eax m wax, a.“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:117**************
+0n the nlher hand, Rust knuws that SlnEE output l5 a mulzble reference, rhere IS
+only one such relerenee and no other thread can access it. Because of this, lt
+does not have w wriie ihe value after ihe first call to +: eperamn Further more, -
+since there variable {as there is
+already an immutable one), 'lt can reuse its value ler the second Operation‘
+
+new sax, ma :lir [~51
+add LDX, ale-a sir i-rn 0v eax, dward ptr‘ [m]
+“all in“, Uml'd n-r lie) dd mm ptr- [r'si], sax
+l'lov were pt‘ [r51], sax
+
+***************Ending Page***************
+
+ 

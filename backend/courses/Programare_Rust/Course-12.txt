@@ -1,0 +1,1940 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 12
+Gavnm Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+g; Agenda for today
+1. Threads
+2‘ Synchronization
+' Mutex
+- Atomic operations
+- Arc
+- RwLock
+- Once & OnceLock
+' Barrier
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+7
+Threads
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+g; Th reads
+Threads are available in Rust via std::thread module‘ You can create a thread in two
+ways:
+
+1. Via method threadzzspawn
+2. Via threadzzBuilder object; this allows a more complex manlpulation on how a
+thread is created and managed, by allowlng the user the set:
+' The name of the thread
+' The stack size
+‘ others
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Th reads
+The following exampie starts a new thread that prints number from 1 to 4i
+Rmn 'ti'r'eai'.‘ my; Outputlvossiblﬂ
+‘ Slartlnganewlhreed i
+imam-mm“ a M mm ‘_ 1
+tiiilzidiijtiwuiii Z
+‘w 1r 1H5 rrmtl'ﬂi“ “i, i 3
+W, Uii‘i"i-\a1n mm mum it i‘ Mai'iﬂi'eammiiwd‘
+Notice that we have used thread::sleep(..v) to wait in the main thread for the second
+thread to finish. In practice, this is and join shouid be used.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Th reads
+To wait for a thread to finish, we first obtain a thread handler (the result from the
+thread::spawn(,..) method) and then we call the Joini) method to wait for that
+thread to finish.
+m’ m!-
+:Jd .thr-rndr
+Startlng a new thread !
+t r it 'i 7 ti'rear :ttwn r ~
+Fm r n 1' s i 3
+‘ i Mam threat finlshed!
+[ii-\ntii‘ii“f'in)7i threat Hmshed i" r.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+For multiple threads, We just need t0 use .join(‘..) method for every thread:
+me ~m ﬂhrl'qd‘ \Hw Output
+in <7 < Slartmgznewlhread t
+printlnH : m» t 1- t‘ it \ 1: TH'111
+1n ("Tidal 1' 1:7‘?36 : \H ( TH'Z:5
+pmnt]n'( H v <1) ;v TH'l'Z
+thread r 1 1766:)‘ mils
+.‘v 3 TH'Z:7
+m Wm 2 r Wm m < TH'lz3
+w, 1 H 5 1H TH'Z:8
+pmmm H’ <1) 1v TH'l'4
+threadz: z : (120m TH'29
+p, Mam threztfmlshed!
+“mag. h,
+We“). p,‘
+println'( me‘ m t LU J M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+The .join(r..) method is defined as follows:
+and returns the value from a thread, just like in the following example:
+R
+5m try-em,
+Thread finished with result: 10
+l l ‘7i H = thread ~77.“ ll ,
+a n V e,
+W i in 1' l
+)lt'l ‘Bl l Mir ll‘ lir _':)'ii'
+[H- nHr-liWhr'ead Hnlsherl \uth result: i i.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+The error proof example for the previous problem uses the Builder to catch all
+possible errors:
+M mm-
+5m: tread.
+Thread ﬁnlshed Wllll result 1n
+n’ lllll r l. l V ‘hr-mm ‘ml
+Hm l' n“‘vny7\llrrmad"r
+‘Itlirﬁﬂmmu
+:sawr l r ,m 7 a; <1 r Ar 1. 5 l er ‘7 H17“ w
+l l’ llllr ll l’ ln l ml‘ lHHl 1
+w m7 mum-m hmﬂh-d vuLlY renulL: l r.
+"Lille l‘\“]mn mm {a MK M thrown m“ m thread'l \‘m
+prurl'ﬂﬂhl] u, War- a mm "m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+. Th reads
+You can also use an external function directly (but in doing so you will not be able t0
+capture anything that can be used as a parameter),
+
+Std: t'r Earl:
+
+r, lrnrl u: V l
+
+‘H V u.
+m H 1..5
+I r.“ l‘ l 1,
+ll 7 mm; um“, nrctsiwt
+r r, "raw hivlvnwlwm anew-ll
+
+l‘l‘wrtlrr‘r"P>j3ult V r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+However, you can embed the caH to an externa\ function within the body of a closer
+and achieve the same result:
+M’ mm-
+Etd: t1 93d:
+Resu\t:10
+‘H r u.
+n1 V H 1..5 ,
+in t, V,
+' t.“ U t t
+K‘ 7
+t t 7 “rim hivawnrm Falled"\;
+\‘x-mHnMWguh r t ‘m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+This mechanism can however be used to pass parameters to a function. In this example
+we compute the sum of the ﬁrst "n" number on 3 dif'ferent threads for n:5, 7 and 9.
+M mm-
+
+:tn: mum;
+SumlS) = 10
+‘Hurutviruurr a’ r V Sum(7):21
+1 1r‘ 1..“ r‘ Su'"(91:3°
+‘ nah‘ r 1
+
+r‘ 7 threw :jr'erH ‘. W w ,r vuf‘ r‘:
+
+r‘ ‘r wan yr Wm wry-1w mm‘ p.
+
+r‘ , Wm ,, Wu r M, r r‘ H M r‘.
+“Hunt-sums» = rim,‘ r.~>;w.wnw.~ pruning mm 1
+p1r'tlr'm";urm_‘y= r H711,‘ ‘.2 .re:t\“Er‘r‘u| prutésslng mm 1w;
+rr‘1r‘tlr'r‘\"5urvr[‘?v : r r'vv \.E'J>I\I"\HEV‘V‘UI' uwcesslng thread 1"“;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Now \et's try to capture a variable into the closure used for a thread:
+Rust
+5m: tr m;
+r 7 m‘
+Lr‘)r‘rtlr‘r"5urrl§> 1 r 1.’:1v'r he rartr'Irmv pmiessirrg thread 1w‘
+Mama um. may Mm. M. [Wm "mm M n Wm, n r mum ., M.‘ by M. [Wm Mm.“
+\
+A~l \ ‘u m7) : mum :->\a\~u‘H 4 rum-u “mun 1v fr,
+\ \
+r "a, 1", r. n,rr,a.1 r; u. n
+\
+A: r Var rn 1 r rnra.= Lp.~"r rr 4 rarur" n-rn>,r 1. rr.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+®
+Th reads
+Now \et's try to capture a variable into the closure used for a thread:
+RMSI
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+However, we can use - keyword (to either move or copy a local variable into the
+closure context) and as such avoid risking a dangling reference.
+
+W t t
+
+t , 1t;
+t e thr'e1d::rnr-.r l r with 2, t,
+
+r-twwt ,rr Wit‘,- wt t t iwt‘
+However, this approach raises a couple of questions:
+
+- Will rt work for data type that don't have Copy semantics ?
+
+' Can we specify that a type should not be move (be allowed to run in a different thread, rather
+
+than the one where it was created ?)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Th reads
+I Capturing type with MOVE semantics into a thread closure
+Let's run a simple thread that computes the length of a string and returns it.
+w V HV‘-3,=\1‘:E'u-.r'i i i ‘an r‘ .Vili H it,
+w’ Uiiiii" i’ iivi‘i‘i‘i
+Notice that everything works as expected, but the String is in fact moved to the
+closure. This means that we can not print or use the string anymore after it was
+moved.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+1. Capturing type with MOVE semantics into a thread closure
+Now \et's try to use two threads (both trying to use the same String).
+W M Wm!‘ —
+m u t x
+15¢ 5 7 4 V‘ : 3, M‘ 1:: 5 NW ‘W m >‘
+15¢ o- 1 r twan: IMDVE' H (
+H Am‘ a 1;, 45 \ mt tn 1 Z Wm ‘WM H ( W‘ t m0. >1.
+vetnrr 5. u. (/1 4-, \ m m1 mm WWMM H < 1w," 5 memo wvaO, n,
+‘r m mungm , m1 <2 ~ \ ‘
+"MW ~, ‘ new“; v‘ \ val“: m m am» M
+)
+1+ let O<kount7 , (viz 11 l
+9mm‘: v ~» (mm x;
+>
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+g; Th reads
+I Capturing type with MOVE semantics into a thread closure
+The solution is to use a -. This construct allows you to spawn threads that
+can access data from the enclosing scope, while ensuring that these threads
+comglete their execution before the scoge exits, This guarantees that the
+threads don't outlive the data they're accessing, thus preventing data races and
+ensuring memory safety,
+The object oft e Scope that the closure F receives can create scoped threads
+(via method a). The scope will make sure that each scoped thread exits
+before the scope ends.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Th reads
+I Capturing type with MOVE semantics into a thread closure
+This means that the previous case can be written in the following way:
+m MD
+5m :thr'esm Length:7
+Chars: 6
+“I W ‘h : quv-sguyw.
+tlr'eac eel-‘i i
+V J 7 ;.:Lai-.rill i return L7 Jeri i: it:
+V Drawn ; Fem-mi v ."nr', i mm 1‘ i1‘
+.i w,‘ V H Z v.1 mi
+mum‘ 1mm Z My ‘_
+v‘ “"1"me , l "i,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+®
+Th reads
+I Capturing type with MOVE semantics into a thread closure
+This means that the previous case can be written in the following way:
+mm
+U J -—
+H .q-W‘ h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+1. Capturing type with MOVE semantics into a thread closure
+Notice that using a thread::spawn instead of Scope::spawn will trigger a compiler error
+fn u l
+1et text e = t r‘ w, t l; ‘> mm“, is 5e 1e
+thread H“ (
+1et m3 e l'v'WMJKl (ii > w i m m) e 5 spawﬂi t
+vettwr text. q) '). 5e l mt text ‘em,
+it let "\Uengthl, e th 1. :1 ~ Z; i ii; t»; e Weed suawvﬂl (
+prmtwp , i (length) >, i i'
+) s! i l veluvvv Lexl their“) wuuLO,
+M 1e! tht) = tu <1 4 5‘ i i >?‘W.mw we em W N mm w we
+prlntln‘( :1 , (count) i, i
+l a! i i
+>7, l text New "eve We tttu WM
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+®
+I Capturing type with MOVE semantics into a thread closure
+Joining is not required in a scope.
+m mm-
+Mam ‘mm fmlshed!
+3M1 :Hv'eld‘
+H, m i 1
+. i 1 ::'wui“[w~a QS-w-
+tiv'eaﬂ :\:IL-:~i:i 1
+n i 7 .:rm.,,-iii i
+Mm i- MW.
+'n, Z .;m.,iii;
+retmr' t? Tray-m :Mt i‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+I Capturing type with MOVE semantics into a thread closure
+You can a\so return a result from a scope:
+m mm-
+M WW1‘
+MM r 1
+a t , = *ruu\“[¥rigu:'“ r:
+H, r n r’ meww'mw M
+\v’ MM‘;
+MW \ > .MW.
+"V ; 7 :.:Lawr'\\\l
+Fem-,- ~ (We M'ruut m
+H \: Ummnmw,
+Z rpm‘ WM,“ ‘1
+‘Em,- \J. r r:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+g; Th reads
+I Not allowing a data type to be moved/referenced to another thread
+In this case we are interested in a way to NOT allow a data type to be transferred /
+moved to another thread, For this case, Rust provides the following traits:
+- - —) indicates if it is safe for multiple threads to have references to a value of
+a certain type at the same time
+- - —) indicates if it is safe to transfer ownership of a value of a certain type to
+another thread
+Both of them are markertraits, meaning that they don't add new methods, but
+they offer the compiler a way to identify certain security risks at compile time.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+E; Th reads
+I Not allowing a data type to be moved/referenced to another thread
+- and - are automatically derived traits. This means that if all fields from a
+structure have Sync and/or Send trait, then the structure has these traits as well‘
+—ﬁ—m—
+Baslc types (i8 i128, us u128, r32, r54, haol, char, ...) Yes Yes
+Containers (vectors, Slrlng, malls, Etc] Yes, if their contained type ls Send or Sync
+Raw pointers No No
+References 1&1 and StmutT] Yes |f"T" also Implements bath Yes |l"T” else lmplements Sync
+
+Send and 5v“:
+
+Smart pointers {an<T>) Yes, if their contained type is Send or svttt
+Cells lUnsefeCell<T>, Cell<T>, RefCell<T>l Yes No /
+Refelenze count ch<T>l Nu N0
+Custom types Yes, u all ﬁelds rtem the type are Send end/or Sync
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+®
+I Not allowing a data type to be moved/referenced to another thread
+We can test these traits via a simple generic functi0n(s):
+Rust
+This code however will not compile:
+RMSI lrrlfiiﬂlﬂ] 'wnsz n1 (annex be sen! bemeen threads safely
+'rﬂ‘ ‘W’ "H" ‘ ‘ \ ‘ ‘v " [a LY e u’ VEYY\\AM
+7 10; h
+V‘ 7 k , murmm W1 121mm he mm: Wm 1mm “my
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+g Th reads
+I Not allowing a data type to be moved/referenced to another thread
+So what if we want to make a structure to have the trait -or - The
+easiest way is to add a data member that does not have one or both of these
+traits (depending on what we need).
+However, since we don't want to change the size ofthe structure, usually a
+phantom member it is being added over a type that does not have - or -.
+any PhanramDntu 0H top el it will inherit or
+i inherit Send and synt traits. ln this case,
+v t7 the _phantom memberwill inherit these
+"‘ “ ‘ traits and as such the entire struct will not
+have theme implemented as well.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+I Not allowing a data type to he moved/referenced to another thread
+Let's see an example:
+Rqu errorliozvﬂ- mm H :HMM h: “M have“ (hrudK “Fely
+Em: ma'ker: , W
+ml, ‘ ‘ mun-,6 n, a MM WW» n, rm; m1
+MWW‘ ‘ ‘ ‘ : M». mm (“WWW . m m“ M is m imnlzmzntm m W U
+FM)“ 7 7-1 m ,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+®
+I Not allowing a data type to be moved/referenced to another thread
+Now \et's run a simHar example but this time using a thread:
+m mm-
+:tﬂ: {nvlr'ker ‘ Hv'eldl';
+NowsisABC123
+ta»! , ‘
+Jhantmvv ‘ \ v
+' m H ‘ 1 thtthpened7
+Jhantmvv :cvaul‘ ‘,
+‘ \ r Wren‘! MW \ 1
+W, LJ'vHWuw 1;. .mt‘.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+2. Not allowing a data type to he moved/referenced to another thread
+ﬁrst. let's add another prim"! i—
+use Std: {Marker , (hreaﬂ'l;
+<tr'urt < 3n 1n \ \mmu >pa.n(:\.>.c (
+[an r
+1mm <‘mut U», mm 1m: UAW '5 w 7, w u)
+kn <1 ( 57 k ‘Elfrrfmgzgyva M “WW by um rm
+m m S r < w err W 11<U,< mu,
+rm t w 7‘ w WWUH'L'WWMM : x was JMMWL
+iphantmn . (j, W Z‘-
+iér t V (‘WE-8121 ("\qu \ '
+5.ts><t -' ‘ Y
+prmun'! 1 <,\ ‘ ~ \1‘xl/,
+pr'!r\tln'( V \ r‘ r >> ,5,7phanton}‘
+17;
+t. I), What happened T Why we get the expected "
+" error in this case, but not in the previous one.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+®
+Th reads
+I Not allowing a data type to be moved/referenced to another thread
+First, |et’s add another println! in the thread code:
+FMS!‘
+M
+t \ Z mm .,,..W \ 1 m
+
+.text w “123";
+
+py-mlnhmuw 3 )5 :.te;:t\:
+
+pv)v\tJH‘\_“H\ant0m Z Jhautmvw;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+g; Th reads
+I Not allowing a data type to be moved/referenced to another thread
+So what is the solution in this case ? Forcing a user to use a phantom data
+within a thread is not an option,
+However, if we implement the - trait, Rust can not partially move u structure
+into a closure as it has to provide access to all fields when drop is being called‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+I Not allowing a data type to he moved/referenced to another thread
+First, let's change the implementation and add the Drop trait:
+Rqu
+m; WNW i Mir-EN}; =.~.~,..~[mm- W i) Wm h: M bum" mm 5:‘:1y
+Lem r i I ‘JV V'Jrl'i V n i
+i i i
+' "7'13 x i i ; i i WWWWWJWWWWWWJMm m-J ; i
+m i i ‘ i i i
+' ‘ i i Vi-mvri-d m 1 him-i1 vrtrme-d m U'v' mu
+4mm” “KM” i’ L i i,,,77'ii‘mut (Y mm be mt between 1mm “my
+i i , mrqm y'mw i 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+®
+In terms of accessing global variable, as long as that variable is immutable, any
+thread can access it (regardless of usage of move or not in the closure).
+Rust
+a: t; a 7 “ml-agag":
+H , ﬁlm-rm ll “llll ll l
+"Hu'll ll ,lﬁvlll l,
+lll
+ijgj“f??‘ffjjfj‘fj‘l_V W‘ f lobal vallables, we krlow forsuretllatthey Wlll outllve any thread
+ll l l Z l1,,rlll.lllll.l=lll.
+all 7 l,.;1ll l.alll.l;¢l l;
+pn'lulllv'lel» lzl , (mine 'er “ll
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+g; Th reads
+The more interesting scenario is to use a mutable (global variable)‘ This scenario
+can also be divided into two separate scenarios:
+
+1. The same global variable for all threads (and this scenario will be discussed
+as part of the thread synchronization chapter)
+2. Each thread has its own (unique) global variables. This scenario is more
+interesting as it best fits situation where:
+~ thread'speciﬁc counters
+~ random number generators/seeds
+- Caches
+' database connections
+~ or more generically any kind of data that does not need to be synchronized between
+threads
+For the 2“d scenario, Rust has a dedicated macro —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+A thread local macro implies initializations in the following format:
+<1
+01,5)”,rltmpl,mr~ (variableinameib 4vur\ubleiljpy\ Z Ammahlabww,
+wuimntlwpumlai. (var'nbleinameib ; (VB/‘\nbleifypkx Z urilnallzatlum:
+winnnmrapumab (vanahleJrameJn = \vm'mkvleityps- : :imtiilizitiM-t
+An example of creating a thread local list of variables:
+Rust
+llv'md 1mm‘ i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+The —macro from Rust uses the OS TLS (Thread Local Storage) support‘
+As a general observation, every OS has a TLS that resembles the following architecture:
+________________________________________________________________1
+Global Data Tllreadal Threadﬂ :
+I
+m- Irm- -
+var, 0 a I
+Var, Thmdrl z z l
+. . Thleadrl l
+I
+ar" n u n :
+— I
+I
+Heap Trrraad anal Data Tlrraad laaal Dara Thread Local Data |
+Variables, arrays, Variables, arrays, Variables, arrays, I
+etc etc m l
+_________________________________________________________ _____J
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+g; Th reads
+
+This mechanism translates into the following logic:
+
+1. The TLS data is initialized per thread‘ The OS provides a set ofAPls that can be used
+to allocated a memory zone for a specific slot (in case of Windows the API used in
+this case is -— httgs:[llearn.microsoft.com[en-
+us(windows[win32Zagimrocessthreadsagilnf-QrocessthreadsaQi-tlsalloc )
+
+2, The actual data is lazy initialized (meaning it will be available when you first need
+it). It is initialized based on the original initialization value provided. Each thread has
+its own copy l
+
+3. To change or get the value from the TLS the OS provides some functions where ou
+have to provide the slot. For windows, these APls are — and i
+
+4. When a thread ends, all TLS data is freed.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+g; Th reads
+In Rust the macro — converts every global value in its definition list into
+a —value‘
+A LocalKey<T> is a wrapper that allows access to a variable through the method
+with defined as follows:
+This function (depending on the OS] mimics the OS lowelevel APls to access the TLS
+data and allow you to process it.
+OBS: Notice thotfunction I receives on immutable reference (meaning you can not
+modify directly the inner object). The solution in this case is to use interior mutubil'
+(through a RefCe/lobject).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+®
+Th reads
+Let's try an example to see how all of these fit. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+Rust (Test structure)
+1m :liéll ,threail;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+Let's try an example to see how all ofthese ﬁt. We will create a custom structure
+that uses UnsufeCe/Ito produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+“,W')
+‘ " r Mamthrcadl
+W ‘ 1 Tesrucwrl)
+NIH‘ M Hut-4d r“ r Malr\Tlrread.a:0
+Wlnlwrmlmlm a v r ‘r r L , M 19511;:er
+r H a h K SecondaryThread:a:0
+“ HM. \mll 1 Sccondarylhvcadfrmslrcd
+.r r- H w ‘r r 1 MalnThread:a:5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Th reads
+Let's try an example to see how a|| of these fit. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an 132 value. That value will
+be stored ln a TLS.
+MW”)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+®
+Th reads
+Let's try an example to see how all of these fit. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+mm”)
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+®
+Th reads
+Let's try an example to see how all of these fit. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+mm”)
+‘ .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+®
+Th reads
+Let's try an example to see how all ofthese ﬁt. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+mm”)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+®
+Th reads
+Let's try an example to see how all of these ﬁt. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+mm”)
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+®
+Th reads
+Let's try an example to see how all of these fit. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+mm”)
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Th reads
+Let's try an example to see how all ofthese ﬁt. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+mm”)
+-—l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+®
+Th reads
+Let's try an example to see how all of these ﬁt. We will create a custom structure
+that uses UnsufeCe/I to produce interior mutability for an i32 value. That value will
+be stored In a TLS.
+mm”)
+—l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+g; Th reads
+
+Finally, a couple of observations related to local thread storage:
+
+' There is a limited number of slots available per process (even ifthis number is
+usually large, using a lot of them might not be feasible)‘
+
+- lt is also recommended to group variables per one or few slots rather than
+assigning one slot per variable (this can be done by grouping multiple variables
+into one structure and assigning that structure to a local thread storage slot)
+
+' Accessing this variable is not the same as accessing a global variable (it implies
+using some APls from the OS). As such it is slower (keep this in mind when you are
+designing your program).
+
+' The destructor for this variable varies from OS to OS (this could lead to a different
+behavior if the code in the destructor is mandatory). For example, in UNIX system,
+if the main thread exits, the entire program ends and the destructors for TLS
+variables is not called‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+7
+Mutex
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+A mutex is a way to allow exclusive access to a resource for one single thread. In Rust, this is done via the
+object - defined in -.
+To create and use a mutex use the following methods:
+M—
+Constfn new(t: n -> Mutex<T> Createsan unlocked mutex unvpel
+fn lock(&seli] -> LockResult<MutexGuard<L T>> Attempts to lock (get exclusive access] to the underline
+type within the mute» wins until a lock is possible.
+fn lry_l0ck(&self) e> TryLockResulKMuteXGuard<'J T>> Tries t0 obtain a lock, but if it can not, it returns
+immediately with arl Error of \VPE WﬂuldBluck.
+A mum“ is deﬁned as new —
+OBS: Notice that if the result of a .|ock(t.t) method is Ok(.v.) than you don't getjust the mutex, you g a
+guard {meaning that the inner variable and the Code from that moment 0n is guarded and can n0 e
+reached by a different thread until the guard ends].
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+Let's see an example: Emminnilnulnull
+Thread 17> vvmgw aquarethe mutex
+Thread 17>Muxexﬂ<1mred
+use <td by“: J thrcad, (\rvvc v 1',
+t K V . W 1 mm 17> Mutexreleased
+S ‘a ‘C m < > ' ‘ ‘ a *7‘ Thrs-ad 17>Trymgwaquar9themutex
+{n {J \ (
+printlnh ‘ (u) H \~ U \ \\~‘)J
+1N 11w; r m m
+pmntln'( t ( ¢ V \ w ‘ \ 7‘ Thread 17> Mutexaqmrad
+Weed“ l : We“. Thread 17> Mutex released
+printlnh' * ~ (7:) ‘ 7. m; ‘ 1
+M 11 <
+12¢ c1 7 mm; ;\ 'm , 1* 2-.2' 111m».
+let t2 r t'vr'cad 1‘: w- Y'P_11 (1L ‘1),
+v1 47‘
+(I. m‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+®
+Mutex
+Let's see an example:
+Rqumellv)
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+Let's see an example where we will use a Mutex to exdusively increment a value:
+Output (possible)
+use <td by“: J thrcnd}, Fn I] ~
+1m u 7 vadd 1 \ 1 Threadlaﬂ
+pub Strutt < m i we“; 1 Th'eﬂd 2'>Z
+m < », PrintlnH , , n . Tmmz'n
+‘ my". m, mm 2 >4
+" Thread 17>1
+m") t f <5‘ S 1H TL (1 M d \ “25””
+m5 n J V> e E z res a 1 V
+Se]? ; m : (e) j m 7 1‘ 2.4 ; Th'eadl >5
+~ Ninth“ 7 ‘1) I Thread17>7
+m 1mm > 1 my“. m,
+\m m m r “v n {7 U, .>
+m value Z Yves» ,4,
+‘res 4, 1, t1. u.
+value t2. <1,
+staut atom: V == n.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Let's see an example where we will use a Mutex to exclusively increment a value:
+This is where we gem mutahle access w the inner value
+m M V W” n , H (aftype )fmm the mutex. Once this line passes, we
+" "' get exclusive access to the inner value, and we can
+modily it (in our case increment it).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+g; Mutex
+When locking a mutex , we get a ankResult that is defined as follows:
+—
+So what is a PoisonError ?
+Poisoning is a safety mechanism designed to help manage the state of shared data
+when a thread panics while holding a lock‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+g; Mutex
+
+1. When a thread acquires a lock on a Mutex, it is expected to release the lock properly
+after its operations are complete
+
+2. If a thread panics while it has a lock, it may leave the shared data in an inconsistent
+or invalid state. To handle this situation, Rust considers the mutex as "poison"
+
+3. Once a mutex is poisoned, any subsequent attempts to acquire the lock will result in
+an error This behavior is intended to prevent other threads from accessing
+potentially corrupted shared data.
+
+4. When a thread attem ts to lock a poisoned mutex, it receives a —type
+which can be either i [with a guard to the data) or [indicating that the mutex is
+poisoned). At this point the following can be performed:
+~ Forcing access to the data anyway (acknowledging that it might be in an inconsistent state].
+
+r Propagating the error, potentially leading to more panics.
+- Resetting or reconstructing the data, ‘if possible.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+There are a couple of methods that can be used in these cases:
+ma——
+pub fn Is_polsoned(&self) -> bool True if the mutex is poison
+pub hi clear_pnison(&self) Cleans the state of peisuhihgrrem a Mutex.
+Thiifellﬂlre ls unstable In the current version 1.75.0
+httgs:[1github.comlrust-langjrustlgullll19804
+(we expect m be available within the release from the next couple of
+months).
+It is important to notice that once the poison flag is added (you can use the into_inner()
+method from the PoisonError to get the guard. This can be a solution if you want to fix
+some of the errors. Currently there is no way to clear the poison flag. However, once th
+— method will be available this will not be an issue.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Let's see an example: 0mm
+‘bread ‘<unnamed>‘ Damcked a\
+use 5m MM , thread}, 5’°\m“‘“'§9-13
+mm pamc
+Statlc m < > V (a), stack backtrace
+0' <ld“pan\(klng'begmipan\(Jvandk-I
+m 47 < .
+m film?“ [l 4 H Trvtoaqmreawckagam
+‘ E‘ ‘WM "55“ ‘1 ’ m \ < MulcxiMulcx(dxla.2,pu\snncd 1mm")
+‘result >7 1,
+Denim),
+"N'nﬂf v 1,
+i). <1,
+printlnh , v‘ x» M‘ ‘w \,
+m Him-Wm 7 m 1; 1
+m M guard Z result. (y
+‘guard ,7 1;
+Drintlnh ‘ ~ (mum
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:61**************
+®
+Mutex
+Let's see an example:
+Rustfmum)
+‘V 11* >7 1v
+E
+n \ v 1,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Let's see an example:
+M ,r‘ {mum 7 m 17 r In this case, we can use the Into_lnner() method to access
+m M guard Z result. r), the guard and correct the error [in our case add an extra
+‘ ‘5"an *7 1r +1 to make sure that we have the correct value). Notice
+that we checked forthe error case (\f \et Errorlmll
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:63**************
+Atomic operations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+E: AtOmlC operations
+Atomic operations are operations that are performed as a single, indivisible unit of
+execution (meaning that once an atomic operation starts other threads wait for it to
+continue if they need to access the same resource).
+
+Atomic operations are specific to basic types and are hardware supported (meaning
+that they are also really fast and don't require an advanced thread synchronization
+mechanism)‘
+
+At the same type, only some simple operations can be performed (like addition,
+substraction, etc) and only for basic type so that the entire process is really fast.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+E: AtOmlC operations
+
+Atomic operations are done via the following atomic types located in std::sync::atomic:
+
+~ AtomicBool
+
+~ AtomiclS,Atomicl16,Atomicl32, Atomicl54
+
+~ AtomicUS, AtomicU 16, AtomicUSZ, AtomicU64
+
+- AtomiclSlle, AtomicUSize
+
+' AtomicPtr
+OBS: It is important to note that not all atomic types are available on every
+architecture‘ At the same type not all functions available for an atomic variable are
+available for all platforms:
+
+- On PowerPc/MIPS 32 bits there is no AtomicU64/Atomicl64 types
+
+~ On ARM larmSve) only store/load operations are available
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+To create an atomic data type, use the following methods:
+pub const fn newiv: Type] -> Self Creates a new atomic of type 1ype (i8,i16,i32 )
+puh fn from(v: Type) r> Self Creates a new atomic of type Type (i8,i16,i32 ...)
+Vou can obtain a mutable reference to the inner value of an atomic variable via:
+pub fn get_mut(&mut self) -> &mut Type (...)
+An atomic variable has the same size and memory layout as a regular variable (e.g. an — has the
+same size as an .and the same memory alignment). /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:67**************
+The following methods are available on Atomic variables (with some exceptions):
+
+iri oelerLaaulaeeli, val: Type, order: Ofdﬂlllgl ~> me Mom'lallv ids a yalue KO me eurreril one and reiurrie (he original value.
+
+lri leleli_eubl&eell, val- Type, uruer- cruerlriel e> Type Ammlcally eublraele a value la me current uue and returns ilie original
+value
+
+iri mlLaruilaaeli, mask: Wpe, amel omemig) e> lype Performs an ﬂlomltil — beiweeu ilie current ualue and me
+aaraiueierrrraallaua requrrls irie Bﬂllﬂal yalue.
+
+iri ieleli_erl&;eli, mask Type, order. omeruig) e> Type Periorrvls au HIOIIULHI - laerweeri (he currerii value auu ilie
+Dammetermaskarld reiurrie irie uriairial yalue.
+
+lri Mch_mf(&§e||, mask Tyne, Older: Orderingj~>1ype Perlurrria an atomical I between the current value arid (he parameter
+maskind reiurrie me urieirial yalue.
+
+lri meluiaudlasell, musk. Type, order: cruerlrlgl ~> Type Parlvrriis 2" alumical — between llie current yalue aria me
+Pirametermaskalld relurrie llie arlairial value.
+
+lri Mchlessell‘, val- Yvne, larder: omerlngl -> Yvne Atnmlcally computes me marlrilum between val and me tum!“ value and
+mm: me result I" we currentvalue. II returns the orlglnal value,
+
+iri ‘ell:h_mlnl&stlf, unl' Type, order: Dmerlrlg) a Type Ammlcally computes ilie mlnlmnm laeiuveeu val and the current value aria
+slams me result ui ‘he eurreiuyalue II returns rrie Orlglnal \mlue,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+- .
+AtOmlC operations
+Let's see an example (using Atomicl32)‘ Similar results will be obtained via other
+amm'cwpes'
+M’ (WW fetchiadd lprevious value]. 10
+std: :sym': Intonvifﬁ ; Current value: 11
+fetcleax (prevlous value-1:11
+"151111;, g Cunemvalue:15
+'1 : :mwue'»:
+l1" : Lam‘ man, stdnsyncnatomicn tiSquStl;
+printlnllflietchiadd (previous value): Wu;
+printlnll"(ur‘r‘ent value: J);
+‘a; : new‘ WEIMJS. std::syn(::atorvvic:: ::Le11li5.t‘l;
+printlnl(‘Watchimax (previuus value): v-w-l;
+printlnl("Current value: ll:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:69**************
+®
+AtOmlC operatlons
+Let's see an example (using Atomicl32lt Similar results will be obtained via other
+atomic types:
+Rummm'n)
+W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+®
+Let's see a different example, this time using threads that access a shared outpmlp'm'ble)
+(immutable) atomic variable: Th'ead1'>m
+. ThleadZ -> 11
+Rust(mnln) Thread 17> 12
+std v : swvi: :atnmn'u , Thread 1 r> 13
+5m 11;»th atomicn , thread}; Thread 1', 14
+_ n Thread 2 » 15
+J. : >.ll!lr"ll18ly ThIEHdZ->15
+liialhii I‘ Thread 2 r> 17
+t1 a thread IiDIiJHlll i
+m 1h e..a i pl’iiitliill_“Tl\F‘Eid 1 a» HfutLliiuithl, :ISquStli i
+r. 7 threadzz .h=.rrhqii 1
+Fm‘ i 1h 0H4 i DI‘)V‘\tlHll“TlU‘EEd 2 ,; mr'ewhjdde ::i»eq(:rt'gi i
+ii.;rdhr1'r.drrr my.
+l_.‘i'r)iii_li.u'v.‘r“All.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:71**************
+Other operations:
+Izm_—
+lrr norelxrselfr val: Tyne, order: Ordering) Atomlcally stores a value into (he variable‘
+lrr loadl&self, order: Ordering) r> Type Atumlcallv retrieves the value
+lrr smpl&sell, val: Type, order: Ordering] -> Type Atnmlcally replaces current value wlth val and returns [he orlginal
+value.
+lrr mmp:r!_exzhallge(&self, Store the value new irrm (he atomic if and only rlme current \mlue
+current: Type, phrre atomic l5 equal m parameter current. lrl th'ls case the result
+new: Type, purl! (unctlon wlll he OklnrlﬂnaLvalue).
+SUCCESS: Ordering,
+failure: Ovderlng) r) ResulKType, Type) OBS: Nut all pliﬂorms support this
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+Execution 1(oulpu1) Execution 2 [output] Execution 3(nu1put)
+T . Thread 1 1> z Thread 1 V> z Thread 1 V>z
+Let 5 see a more complex example. Thread 27>‘: Thread 2 V>4 Thread 1 V> 1e
+Thread 17> s4 Thread z V> 54 Thread 1 V> en
+151 _1a Mm MW T ;T mam. Thread 17> 12: Thread z V> 123 Thread 1 V> 113
+_ ‘ In Thread 2 r> 256 Thread 2 r> 156 Thread 1 V> zse
+gt; [mm m ' Z ‘ m, Thread a 1> s Thread a r> s Thread a r> s
+Thread 1 V> 15 Thread 4 V> 1s mm 17> 4
+M ‘ J‘ l’ W d ‘ Thraadn» 22 Thread 1 V> 22 Thread A» 32
+thrcazs ‘Irv-cm 1 \ k
+\a- m vawadJ! , , 1_ T T
+\L ‘h k
+1“ NM M ,1 ,1 T,
+TT yam \17‘ ; ‘1,1,
+H In! J’ , a M mm, value - 1 aava; mail! 1
+"Mum T 3, p, 1d,va11m‘/‘,T
+T
+L» \n H wwaan T’
+m 1: 1,11
+) T
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+E/ AtOmlC operations
+Let's see a more complex example:
+1b: m (Wands e > a,
+» 7 H {A 1 g
+thrcazs ‘Irv-cm L \
+
+We create 4 threads, put them into a vector and
+then wait iur each one of the 4 threads to end.
+
+\n ‘WNW/MN J
+
+‘ m u w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+E/ AtOmlC operations
+Let's see a more complex example:
+stat): mm m Z UH
+Each thread get a unique ID (that we obtain via
+an atomic increment operatian r> in our case:
+n: m mm m '1, M “~11,
+\P- .4 “may , , N ‘ 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:75**************
+Atomic operations
+Let's see a mor
+Rusrfmum)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+E/ AtOmlC operations
+Execution 1(outpu1) Executinn 2 (dutputl Execution 3(au1put]
+r . Thread 1 e> z Thread 1 e> z Thread 1 e>z
+Let 5 see a more complex example. Thread 27>‘: Thread 2 e>4 Thwad 1 e> 1e
+Thread 2 e> s4 Thread z e> 54 Thread 1 e> 64
+Thread 2 e> 12: Thread z e> 12a Thread 1 e> 12s
+Thread 2 e> 256 Thread 2 e> 256 Thread 1 ,> 256
+Thread a e> s Thread 3 e> s Thread 3 ,> s
+Thread 1 e> 15 Thread 4 e> 1s Thread 17> 4
+Thread 4 e> 22 Thread 1 e> 22 Thread A e> 32
+Notioe that even if we have multiple execution, a power o!
+two is only associated with ONE thread and ONLY ONE.
+From this point of view, atomic operations achieve some sort
+of synchronization between threads,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:77**************
+E AtOmlC operations
+The atomic operations are implemented differently pending on what architecture
+we are using:
+
+Rusﬂmain)
+:m mm
+r r u. 1.2
+[ ' 4]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+iEi AtOmlC operations
+What is the Ordering enum and what is its purpose ?
+Rust (Ordermg enum)
+The order also reflect the strength of an order (Relaxed being the weakest one and
+Sequt the strongest).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:79**************
+Let’s analyze the following snippets and their assembly listings:
+mov b, 20
+"‘°" a' 15 A rompiier might dezide to (limige the ORDER‘ ollhe instructions
+that they compile. And while in these cases, this kind ofchznge
+has no impact on a single thread execution, Oh a mum thread
+execution there might be an impact (another thread might need
+e ‘ to access variable "b" after variable “a” has been initialized).
+l , :2‘ mov a, 15
+M mov [1,32
+l r . /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+E: AtOmlC operations
+At the same time, the hardware (CPU) might decide to change the order of the
+instructions if the final outcome is the same and some instruction could be cached
+and processed. For example:
+mov EAX, 20 mov ECX,1O mov ECX,1O muv sex, 15 muv sax, 15 muv EAX,ZU
+mov EBX,15 mov EAX, 20 mov EBX,15 mov ECX,1O mov EAX, 20 mov ECX, 10
+mov scx, 1o mov EBX,15 mov EAX, 20 mov EAX, 20 mov scx, 10 mov EBX,15
+- regardless on what order these instruction are executed the output after they are
+executed is the same (I will be 20, - will be 15 and - will be 10). As such, the
+hardware might decide to change the order of the execution,
+
+From this point of view, the hardware can be:
+A) —(ewg. x86/x54 architectures)
+B) — (8%., ARM architecture]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:81**************
+E; AtOmlC operations
+
+Based on these observations, the Ordering constant work as follows:
+
+- Relaxed: The operation does not enforce any ordering constraints beyond atomicity.
+There's no guarantee about the visibility of this operation's effects relative to other
+memory operations.
+
+~ Release: When combined with a store operation, it ensures that all previous writes in the
+current thread are visible to other threads that perform a load with Acquire ordering on
+the same variable.
+
+- Acquire: When combined with a load operation, it ensures that all subsequent reads and
+writes in the current thread take into account the result of the load. It pairs with Release
+in anotherthread to form a synchronization point.
+
+- Achel: A combin i n fAcquire and Release. It's used with read-modify-write
+operations (like l, ensuring that it acts as a synchronization point for both reads
+and writes.
+
+~ Sequt: Stands for "sequentially consistent" and is the strongest memory ordering. It
+guarantees total ordering of all sequentially consistent operations. This means that a
+threads see all sequentially consistent operations in the same order.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+E: AtOmlC operations
+It is important to know that not all Ordering values are valid for every atomic
+operations:
+—--m
+remLm (...) (fetchjdd, (whim), ...) v v v v v
+loadi...) v panic v panic v
+mm...) v v nanic panic v
+compareiexchangﬂ...) v v v v v
+swept.) ‘I ‘I \I V \l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:83**************
+E: AtOmlC operations
+Let‘s consider the following example:
+' we try to compute a sum ofa function
+~ we use 4 threads to do this
+' 3 scenarios
+1. Use an atomic variable to sum everything (from all threads] in that variable
+2. Sum everything at the thread level and them sum up the results within that
+variable
+3. Use a Mutex instead of an atomic
+We are going to test this with Debug & Release mode, 10 tests and compare
+the average,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+ﬁ/ Atomlc operatlons
+Scenario 1 [PartAtomic] (compute everything at thread level then sum up the results):
+111m surr 1 1m‘
+i" r1 r , r» ~, > .
+r11 mu! 5 1 a,
+“r r 1 < r Y
+1 r 1
+“1 m 1mm 1 > a,
+r»: slavl 1 m
+1 index 1r 1 ,r» r
+\lrvreaua {r "11m MW r
+r11 11S 1 , “Mex Y mfwyjar mm . ‘r 1 'Jvzjéﬁjﬂéh
+l» m H 'hvwada r \n r "r 7
+r11 duratmrr 1 r: mm‘
+WWW r *1 r ~1 m, dwnmﬂh
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:85**************
+®/ Atomlc operatlons
+Scenario 2 [FullAtomic] (compute everything directly into the atomic variable]:
+m“ surr 1 w,
+m i, i ‘ n i , i
+it: m i i ,
+J c w ; u i m, u, chczzi, J11~ M i1, QM, ,
+1 i i
+w ,
+r" 1: 1
+it: M (mm < i V M
+\p- nan
+_ mu ‘v M
+thrcans {rvrrad (HM i i
+We! » wﬂwm mi ‘ 1» ~ “WWW
+v >3“
+_ m H WEE“ i m i: m.
+it: duranun i lsni'! ,
+BMW‘ i :2, (q, , M, “whom.
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+ﬁ/ Atomlc operatlons
+Scenario 3 [Mutex] (compute everything directly into the mutex inner type):
+r52 dd hynr r rm r ‘we;
+sun: W < > My
+m r~ r r r r 4
+111M , 1
+“r r H r Y
+r 1H WM r25,‘ 1 m ‘1, -
+.ul r- m‘ LVWVM 1 r
+' r
+' r
+F" ‘I
+m mi them» <7, Z 1r
+it: in" r
+~ mm r v, tr
+threacs \t'v'md We r r
+y andcx > W m m, 11mm ‘ 1 - cm M1,
+1'» r» H 'hvwada r \n r 'i 7
+ii: duratmn Z r: mm‘
+WWW r *1 r ~v m, arr-Mm;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:87**************
+E; Atomic operations
+Results
+m-n-mmmmnl-mm
+PanAwmicﬂlehug] 35s 326 333 315 325 303 332 334 319 327 311
+PanAlgmic (mean) 23 23 21 22 22 22 17 20 19 19 zu
+FullMgmiglbebug] 5215 6890 6243 5595 7070 2136 7204 7419 7534 9013 7131
+Fullntomlclkelease) 6097 6154 5723 5469 5399 5785 5826 5516 5924 6213 5311
+Mutexlbebug] 21579 19069 20769 22933 21543 20964 21970 23337 22u56 22522 21694
+Mutgxﬂlglgasg) 10499 10993 9933 10146 10592 13125 12306 12577 11765 11347 11403
+Observations:
+
+- Atomic operations are 0K, but they will never outperform running things separately without any
+synchronization needed. As a general rule, if possible, compute things localiy and only then update
+an atomic variable.
+
+' Mutex is much Slower than atomic Operations iin particular for basic types)‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Atomic Reference Count (Arc)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:89**************
+g; Atomic Reference Count
+An I (Atomic Reference gaunt) is a type of smart pointer (defined in std::sync)
+designed for safe memory management in concurrent programming scenarios.
+
+An I has the same behavior as a I has, with the difference that the reference count
+is incremented / decremented atomically. It also implements both Send and Sync traits
+(making an Arc object suitable for multi-threaded / concurrent scenarios).
+
+An I is slower than a .and as such you should only use it when concurrent
+programming is required.
+
+Its also important to notice that using an .with threads imply moving a clone of e
+Arc object into the thread scope‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+®/ Atomlc Reference Count
+Let's see an example:
+Oulput
+use <td ~I a:10
+M
+_ thread,
+let a 7 : i : voH;
+let mut v 7 : U;
+v. Unread (mm/e‘ q
+cloneiofiarc 11, .:Ssq(st);
+“H;
+‘ pmnt]n'( { >) ‘a5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:91**************
+g Atomlc Reference Count
+Let's see an example:
+W “M'UU” ' mm ‘ m7 Notice that each thread capture in
+damage“ ‘ its closure a clone ofthe original Arc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+Atomic Reference Count
+Let's see an example:
+Rustfmum)
+_
+_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:93**************
+g; Atomic Reference Count
+Up to this moment, we have used a Mutex but only as a global (static) variable,
+However, there might be cases where a Mutex can not be a global variable.
+In these cases, the solution is to use am Arc over the mutex:
+
+Arc<Mutex<T>>
+
+It is important to understand that even if we create an Arc, you can not ass it directly
+to a thread, you have to create a - for every Arc<Mutex<T>> and i that clone
+into the thread scope. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+g Atomlc Reference Count
+output [possible]
+t . . Thveadlvl
+A mutex WIthln an Arc<Mute><>. WM 2 V) 2
+Threadzr>3
+use Stu -; tn (a ( Threadlod
+sva ( , ), let m e 1 : (an, Tween»;
+thread, let cloneimﬂml r m (7, Thyead 17>5
+Wm p, let clone a‘ m2 r my It,‘ “mad; >7
+1t»: \1 r mm‘. (wow \ (
+m (t , mm», e < < >>, ‘UV i v a. M Tween“;
+( u, KmhmEJIFJU),
+let mut res V v t~>zv K). (M tweed: I : (newt
+; Jet t2 Z Uvrrac WM H q
+(Z, klnneiuﬂmlly
+t'v"cad I (WUYL
+>
+t1. {1. U;
+t2‘ h. i‘;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:95**************
+g Atomlc Reference Count
+A mutex within an Arc<MuteX>z
+Notice that we have m create one clone of let cloneimﬂml e m £7,
+our mutex foreach thread. 15" “we D‘ '“Z ' m 17'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+g; Atomic Reference Count
+As a final observation — Arc is usually used with synchronization objects (such as a
+Mutex, RwLock, Atomic, etc),
+
+For more information on how an Arc works (or its methods) review the course about
+Reference Count.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+7
+RwLock
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+g; RwLock
+A mutex offers exclusive access t0 a resource‘ This is relevant if you intend to modify
+that resource (and you want to keep other threads synchronized with the change)‘
+But what if multi Ie threads try to access the same resource but with the sole urpose
+of reading it (M to modify it) ? Or what if we have multiple threads and m of them
+want to access a resource with the purpose of reading it and only a want to modify
+that resource ?
+In this cases, a Mutex might be less efficient (in particular if most of the thread need a
+readaonly access to a resource).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:99**************
+This is where a RwLock Read-Write Lock) comes into place, It allows access to either
+— or at any point in time to the inner value, making it
+useful in scena rios where you have data that is read freq uently but written infrequently‘
+mm_—
+ms: m mu: n V> RwLack<T> Creates an unlocked instance of an RwLock 01 ‘va |
+m minimum V> igcknegulknwmmeadeuamg I» Anemptg m Mk (he resource (or readmg.
+Waits until there are no other threads have locked the resource
+for writillxv Multiple threads that need a read lock can access the
+same FESOUICE at {he same lime.
+In uy_read(&sell) s mmmmmwmmmammg 1» Tnes m ohmm a read-lock, but I: It can not, u remrns lmmedlalel!
+with an Enur uhype WouldBlock.
+m wrilelhell] V> mm.suixmwmckwmeuamg r» Menu,“ u, Mk me resource 10, wriﬂyyg_
+was until there m no ether mm; have locked the resource
+a» ekhel read or wilting,
+in :rvyriumwln»mimnemlknwmkwmeewk; 1» Tries w obkiin a wvile'lock, m if ll can not, it mums immediately
+with an Error uhype WouldBIock‘
+%
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+g RwLock
+Let's see an example:
+use m1 {>y“: , Um‘ . , (hr-cad), F" ‘a <
+mm mm» < > 7 1 x‘ 1m rm! mm“ Q r 4;‘
+1011 H 12,,4 <
+F" (V: y ( threads (threac wove H (
+
+s 19¢ mm; 7 value. (a ' 1* 1h; '
+printini; \ ( u) » ‘v W‘ :91,‘ v “W1, Outpuupossible)
+
+1 ) mud 1 “mu IRLAm
+
+printlnH * ~ (7:) \ 1; W, Wm ‘ Mm V
+
+a t We“ 1 ,Smmw,
+m L \ ; \ 'u" ﬂy w Wm, < WIT: I ZIZZ'
+
+' let llkfmu! val! : value. (1 { (h, (1. U» "WM L ‘Md
+wmnu' ‘ t (7;) ¢ ‘ V L \. ) mem
+WWW , ~ w m k n mu, println‘! M ‘ ( n , ;;;§;gg>f;giww""ﬂ
+‘val ' W, value], Hvread A >>m1
+
+, } ummmuymu m mm
+
+pMHUn'( ‘ ( t) ~ \ )v W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:101**************
+RwLock
+
+On the previous example notice that thread 1,2 and 3 will attempt a read operation
+while thread 4 will attempt a write operation. Some possible results:
+
+rlllwl a r> 5mm (READ! Tlllead.1 5mm lREAD) rlllwl a r> 5mm (READ!
+
+Tilléaniv 3 V ~vallle 1 Thread 1 r) \lzllue 1 Tilléaniv 3 V ~vallle 1
+
+Thread.1'> 5mm {READ} Thrlad' 1 r » m Thread, 1 V> 5mm {READ}
+
+Thread‘ 1 V 'VEiLlE' 1 Thread 4 » START lWRITE) Thread‘ 1 V 'VEiLlE' 1
+
+1mm 1 V= 5mm lat/ml mm a V, value‘ 1 1mm 1 V= m
+
+Threat! z value 1 Thread. 4 A m1 Threat! 1 7,1 m1
+
+Thread‘ 1 V ‘ [mi Thread Z v START iREAD] Thread. 4 V ‘START (WRlTE)
+
+Thread. 2 V> End 1mm; 2 r » valuc: 1l1 Thread, 4 V> value: 1
+
+Thread'ZV-End 1mm 17> smw mew) Thread'JV-End
+
+1mm“ STARTLWRlTE) mm 3vvalue'10 1mm 17> 5mm (READl
+
+rlllemllwlue, 1 Thread. 2» m1 Thread 2~value lo
+
+ThreadJ'Trld 1mm 2. V) Elm 1mm. 2~Erltl
+
+value V thmk l data 10, .. l value 7 RwLock t data, 111‘ l value V thmk l data 10, .. l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+RwLock
+On the previous example notice that thread 1,2 and 3 will attempt a read operation
+while thread 4 will attempt a write operation. Some possible results:
+Thread irv-STARHREADT 3
+Thread 27> value l I
+Thread 1-»5rARTlREAnl 1
+mm 1') value 1 I
+Thread 3 A Erld
+Thread 172ml
+rllmu 47> STARTlWRITE) 0
+Thread 4 - v value l
+mm a’) End
+Thread 2 A START [READ] Z
+Thread 2') value 1r» I
+Thread 2 V> Eﬁd
+vahle = thotk I. data- 10, .l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:103**************
+g; RwLock
+The rest ofthe methods from a RwLock are identical to what a Mutex has (including the
+poisoning specific to mutexesy
+Also all unstable methods from Mutex are the same in RwLock‘
+
+OBS: it is important t0 use a RwLock when you knawfor sure that most of the threads
+require read access and not write access (far example when you have a service that
+implies reading data from a database that is being modified rare/y)‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:105**************
+g; Once
+Sometimes, there are cases where a variable needs to be initialized later (within one
+thread) while the other threads should wait to read its value and to some extra
+processing aften
+One solution to this problem is for every thread to use a Mutex, and the first thread that
+acquires that mutex also initialize the variable. Its also important that the first thread
+marks the variable as initialized so that the other threads don't need to refinitialize it,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+®/ Once
+Output (possible)
+One way of creating such a code will be something \ike this: Wm 00W
+Mud u wmzns
+Wm 17> Mm“
+mm 17>re>uH145
+mm imt 5mg < 7 , mm), ; We“ 37mm“;
+will‘ Wme- < > , my,
+m 1 t y q m (1 (
+;— m Dklmut State; V “mime u ( 1e‘ m threads <4 V == <1,
+1; “m W False \ a» 1 m an“
+println!( ‘ g) m g m threads‘ {thrmcv (wove u <
+1M lHq'mul mm; r Wumo :7 (1,,
+4 n),
+‘value 7 U‘ ¢ 1‘, ' 12, )
+‘State 7 true, in‘ th 1n threadi (
+1 thy w 0,
+; >
+m M sum Z a‘ }
+let (m 7 umgvame 1‘, H.
+:3v val 1H 6 (nt 5
+sum ,7 valJ
+pmntlﬂ'( u (>7 H Q ‘ M sum),
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:107**************
+One way of creating such a code will be something \ike this:
+mm mt 5mg < 7 r QFalse)‘
+y 15¢ mum state; V Jmtistate £1 ( Eachthreadwilltrymacquireme Mutex
+|n|t_s\ate.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+g Once
+One way of creating such a code will be something like this:
+
+The ﬁm one that manage m acquire the mutex will
+
+e‘ '5?“ " ‘315* l v have accesstu the inuervalue (a boul thatwas
+
+‘*"quﬁﬂlw M1,? V M vjmj)‘ H initiallysettofaise).llthisisthe case(theinner
+
+i ’ ’ " value is faise), the init_va|ue RwLock is acquired, its
+‘value e ll‘ i n ' :2, value is initialized and the mutex innervalue is setto
+.7 “a” * ("ii true (meaning thatthis process willnot be repeated
+
+by the next thread that manage w acquire me
+
+' lnit_state mutex).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:109**************
+One way of creating such a code will be something like this:
+i=1 M sum 1 a» ‘ This meansthat ever! thread that reaches this point
+“t ("t ' 3min,“ ~ ~ knowsiur sure thatlnh_viluewis lnltlallled, so he
+val in U mt .
+m ,7 mi can use the RwLock to read ll and perform
+, operations based on it.
+pmnllﬂ'! U V H u i i‘ sum),
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+To make this process simpler, Rust provide an object (Once) located in std::sync that can
+perform a similar task.
+mm——
+must in new" e) Once Creates a new Once object
+mm 1n is_:omple\edl&selfl -> heel Returns true ifthe call to mlLonce method was cumpleted, or false otherwise
+In call_once<F>l&se>f, I: F] where P Fnﬂncell, Calls the closure Ithat will initialize a data. lt is guanntee that this call can happen
+only one time. lfynu call this function multiple times, it will do llnthing (will not
+call the | closure]. Tills method will block any other thread until its completion‘
+Ifa panic hanpens while execution the closure f, it will Poison the Once instance
+and consecutive call will panic as well.
+In call_nnce_hm<F>[melf, I, F) where Similar to call_un:e but ignores the poisoning
+F: FHQIIEElxtUIILESIEIe)»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:111**************
+®/ Once
+Output (possible)
+The previous code, but this time using an Once object: WP“ WWW“
+mm a wmzns
+Wm 17mm“
+mm 17mm“
+use <td -; Fn ‘i <
+‘W i ‘ i, 1m m {hm-am‘ Q r n‘
+Lnread, '0' 1 “12,,4 i
+j, threads 1mm {move ii i
+(1‘;
+mm imt r v (n m,
+Adm 1H)\’V61UI‘ < > 7 (if), >
+'0' th m threads i
+in @- »,( tn. <7. u;
+1m 4 i: i
+‘imt Wm 1:1 <1 r iii-1)’H*, 2
+,i,
+m m sum Z a‘
+m m V *Jmtivalue n, <1.
+Fm‘ val in 6 cnt '
+sum ,7 val,
+pmrit]n'( A U V ~ i i) , in, sum],
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+The previous code, but this time using an Once object:
+. , , The dosurewlllunlybeuiecuted byone thread.
+1"“ v t 1~ i H I‘ V ‘ M All ofthe otherthreads will wait until the
+,‘v m v“ “E "‘ ‘ ‘ ' ) " method is completed and continuethe
+' execution afterthis.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:113**************
+E; Once
+Notice that there is no hard coupling between an Once object and what we want to
+initialized. This means that you don't really need the Once object to access the data (it is
+not enforced), From Rust 1,70 there is a new object (OnceLock) that couples the data
+and the initialization process, with the following methods
+Imm——
+mam newll -> encewsk<1> Creates a new OnceLock ohiect that manages arl lnnerJalne and access to lt.
+
+"l KBthEVi '> 0ntinrl<8tT> Returns Some i7 the irlner object was irlitialiled and None ifthe oblett was rlut
+'l' BﬂJmllEm"! SEW) '> Optlamamut T) Similar tn get, but For mutable access
+(n setlkselr, value‘ T) -> Result<llr T> Sets the value Mthe inner object, ltarlothertrlread is attempting to initialized the
+thread lt might block that thread,
+'l' B!!_°Y_Iﬂll<F>lE-illﬁ I. F] e) EJ If the object is initialized, it returns a reﬁererloe tn it. If it is not, it blocks other /
+where F‘ FHOMEU ,1 threads that are trylrlg to lnitialized, nails closure |, and sets the Inner value to
+what the closure returns followed by a return ifthe lhnervalue,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+With this is mind, the previous code can be further rewritten useign OnceLock
+use std by“: , thrund'>, Outpullpassible]
+Stalin mam“ < > Z > (a, mm ﬂr>resuiz:45
+Thread 17>vesuir:A5
+ﬁr :7: r r mm 2 >resuir145
+m Mr m r w, mm 3 New“
+1m ("r r “rump. 1i m,
+in val H a (n! 1
+sum ‘V val;
+Wintlnb r (i ~ i n“, r‘, WM
+in u r
+1n mut threads: <3 7 . i‘,
+m1 1r 2..“
+mm; (mm (move H r <1‘,
+in (n r threads 1 (n. 1;. (a. .>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:115**************
+7
+Barrier
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+E; Barrier
+A barrier is a way to synchronize multiple threads to start at the same time. This is in
+particular useful for benchmark scenarios or complex processing where all threads need
+to way one to another (one such example is the feed forward step within a neural
+network)‘ Forthis task, Rust provides an object (called Barrier):
+ME——
+"I nlwln: uslu] ~> Barrier Creates a new Barrier with ‘representing the number of threads that will have to
+wallw BESS the barrier
+(n waltlﬁrseiﬂ a) BarnerWaItResuR Waits until all "I" threads have called the method wait. When this happens it
+releases access to all of them.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:117**************
+g Ba rrler
+Let's see an example:
+0111p“: [possible]
+use m -: w": 1' 1 >, mm, um 1 , ', >, 1mﬂ11¢1515114>>mm11 11111111.“,1
+\nslanHl 15151151111111“ 17>Wa1lml
+M f ~ 1 >7 < >> 1 \nstamh 16151111) “mm 27>Wa1nnZ
+Wen: 1 := 111w ~ 11 ~ z‘ as ‘1;, 1151111n1s15111111>mH11 37>Wamrvg
+PriMl'YH (9) ‘ ‘ 1) “H' Y 1 £7, 11'}, 1mm“ 151mm) >mmn 2 >Aﬁrrhnnrr
+1 . 1:, 1mm“ 151511111) >Thread 1111121111111
+nmun'ﬂ 1 >1 1 1) ‘ ‘1 171 1w 11151111111151511111111111111 DV>AHevbaner
+I \nstamh 1515200)7>Thread 27>vabanev
+m "J (
+11¢ m threads: Q 1 4:,
+let b ' ( (1):‘,
+1-,, 1 11 u .11
+in barrier Z (my
+threads. 1mm: {mm/e H 1 {1, barrierﬂ; )1),
+(~1- (h 1- threads 1
+rh 17 1:11
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+Let's see an example:
+Output [possible]
+immnﬂt 1515194) >Thread nevi/11mg
+Notice that all 4 threads enter the waiting \vvslani (l 151519517>mea¢ 1 imam
+step at dlfferenttlmes instamh 15151511) >Threed ze>w11w
+Vista!“ H 1515100) >Thread 3 ,> Waiwil
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:119**************
+Let's see an example:
+Output [possible]
+\mtnmﬂ 1515200) >thrnﬂ 2 >Afvrrhnwr
+Bunhey a" passthe barrier at \mmrnh 1515200) >Thread lr>AﬂerhaHEr
+. hvslavﬂh 151szuur>mead owneybaner
+the same lllTlE \nstam {I 1615200 )'> Thread 2 V) va bane!
+
+***************Ending Page***************
+
+ 

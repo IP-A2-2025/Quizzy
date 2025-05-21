@@ -1,0 +1,307 @@
+***************Beginning Page***************
+***************page number:1**************
+1
+Instance Based Learning
+Based on “Machine Learning”, T. Mitchell, MCGRAW Hill, 1997, ch, 8
+‘\nkuuulmlgnnvm
+Tlm prawn! mm .m» ,m adaptation m‘ slulvs (lmwn by T. \lnvlmll
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2
+Key ideas:
+training: simply store all training examples
+classiﬁcation: compute only locally the target function
+inductive bias:
+the classiﬁcation of query/test instance J q will be most similar
+m the classiﬁcation nf training instances that are nearby
+Advantages:
+can learn very complex target functions
+training is very fast
+don’t lose information
+robust t0 noisy training
+Disadvantages:
+slow at query time
+easily fooled by irrelevant attributes
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+‘x
+Methods
+1. k-Nearest Neighbor;
+Distance-Weighted k-NN
+2. A generalization of lv-NN:
+Locally weighted regression
+3. Combining instance-based learning and neural networks:
+Radial basis function networks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+1. k-Nearest Neighbor Learning 4
+i Evelyn Fix, Jnsnnh Hodges, 1951; Thomas Cover, Psinn Han, 1961 i
+Training:
+Store all training examples
+Classiﬁcatiun:
+Given n query/last instance i“,
+ﬁisi Inmam the k nearest training examples H i‘.
+then estimate [m]:
+- in can: uf discrete»valued y we" w,
+take a “its among its A nearest neighbors
+A
+1110* ﬂign:3“21(l(1i):d
+is , ‘s,
+whore 1< , is the well-known immhmr function.
+s in case nf cantinunus-valued r,
+take (he nisnn of the f values of its k nearest neighbors
+A
+,( ,q, h %
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Illustratring k-NN; Voronoi Diagram
++ ' i
+Note that Above: The decision surface induced
+l-NN classiﬁes 1,, 1»- + by l-NN for a sot of training examples.
+5*NN classiﬁes -‘ '1 as i The convex polygon surrounding Path training
+example indicate: me region er me imam-e spat:
+closest Lo that. examples;
+l-NN will anign “mm the aXIXlE daniﬁcakiun a:
+the correSDcmding training examvle,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+r»
+When To Consider k-Nearest Neighbor
+t instances map to points in IR”
+I less than 20 attributes per instance
+I lots of training data
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+7
+Eﬁ'icient memory indexing
+for the retrieval of the nearest neighbors
+kd-trees ([Bentley, 1975] [Friedman7 1977])
+Each leaf node stores a training instance. Nearby instances
+are stored at the same (or nearby) nodes.
+The internal nodes of the tree sort the new query .qu to the
+relevant leaf by testing selected attributes of 111,.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:8**************
+a
+k-NN: The Curse of Dimensionality
+Note: k-NN is easily mislead when X is highly-dimensional,
+i.e. irrelevant attributes may dominate the decision!
+Example:
+Imagine instances described by n : 20 attributes. but only 2 are rel—
+evant to the target functionl Instances that have identical values for
+the 2 attributes may be distant from .lq in the 2Usdinlensional space,
+Solution:
+e Stretch the y-tll axis by weight Zr, where M ai-e chosen so to
+minimize the prediction error.
+0 Use an approach similar to cross—validation tb automatically choose
+values for the weights 1.. ..z,, (see [Meme and Lee, 1994]).
+0 Note that setting :1 to zero eliminates this dimension altogether.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+9
+A k-NN Variant: Distance-Weighted k-NN
+We might want to Weight nearer neighbors more heavily:
+0 fur discrete-valued f: ﬂay’) H argmaxusvZf”:l1i',5(1l‘f(r,))
+where
+i 1
+wt I ‘luv-~11
+(“$11.13) is the distance between tr‘, and m,
+but if 131 I 51;, we take f(.r,t) <~ f(.’I,,)
+0 for continuous-valued f: ﬁx”) <~ 25%,“)
+.71 ,
+Remark: Now it makes sense to use all training examples
+instead of just k. In this case k-NN is known as Shepard’s
+method (1968).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10
+A link to Bayesian Learning (Ch. 6)
+k-NN: Behavior in the Limit
+Let [2(1) be the probability that the instance .77 will be labeled
+1 (positive) versus 0 (negative).
+k-Nearest neighbor:
+I If the number of training examples ~> 0e and k gets large,
+MNN approaches the Bayes optimal learner.
+Bayes optimal: if p(:r) > U1) then predict 1, else 0v
+Nearest neighbor (k : l):
+o If the number of training examples H ac,
+l-NN approaches the Gibbs algorithm.
+Gibbs algorithm: with probability p(.L) predict 1, else O.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+11
+2. Locally Weighted Regression
+Note that k-NN forms a local approximation to f for each
+query point 1-,,
+Why not form an explicit approximation ﬁr) for the region
+surrounding 7,3,:
+I Fit a linear function (or: a quadratic function, a multi-
+layer neural net, etc.) to k nearest neighbors
+f: u'u + windy) + . . . + wnantr)
+where (“(1). . _ v_(1,1(:r) are the attributes of the instance 11;.
+l Produce a “piecewise approximation” to f, by learning
+Zl‘{].1l‘1...._ll,'u
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:12**************
+Minimizing the Error in Locally Weighted Regression 12
+e Squared error over L nearest neighbors
+1 . s r
+EM”) I 2 Z (/(IF) i HM)‘,
+re t New My,“ H] ,,,
+e Distance-weighted squared error nver all neighbors
+1 ~ ,
+E41,’) E 2 Z(f(1r) i f(|:))1 l\(ll<.'7f,l. r))
+,en
+where the “kernel” function It’ decreases over rl(;1,,l. r)
+0 A combination of the above two:
+1 ~ .
+Exile) E E Z (/(1) i /(1))2 1X (JUHPTD
+is t mmw! "hrs u] W
+In thie- case, applying the gradient descent methnrl, we obtain the
+training rule w] <~ it, + Any, whore
+Aw, I r/ Z mam. r))(f(r) e fit-)n/(r)
+1i: k mvnml uh“ 0/ 1,,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+n
+
+Combining instance-based learning and neural networks:
+
+3. Radial Basis Function Networks
+
+e Compute a global approximation to the target function f, in terms of
+linear combination of local approximations (‘*kerllel” functions).
+
+0 Closely related to distance-weighted regression, but “eager” instead
+of “lazy”.
+
+0 Can be thought of as a different kind of (two-layer) neural networks:
+The hidden units compute the values of kernel functions. The output
+unit computes / as a liniar combination of kernel functions.
+
+o Used, ergr for image classiﬁcation, where tlie assumption 0f spatially
+local inﬂueneies is well-justified.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14
+Radial Basis Function Networks
+ﬂX) Target function:
+¢ k
+1(1) I ln, + Z w,‘1<,,(,l(1 lg)
+“:1
+W‘, W, The kernel functions are Commonly cho-
+sen as Gaussians:
+0 a ‘Q /a l ( I)
+_ if: l u>
+)1/\ The activation of hidden units will ho
+. . . close to 0 unless l is close to ~,,,
+11,01) 02M a (X) . . .
+n As .t wul be shown on the next slide, the
+n, are the attributes describ- two layers are trained separately (there-
+ing the lnstsnoes. fore more efﬁelently than in NNs).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+1r,
+Training Radial Basis Function Networks
+Q1: What 1U to use for each kernel function l\'U (d(1',,_m)):
+
+0 use the training instances;
+
+I or scatter them throughout the instance space, either uni-
+formly or non uniformly (reﬂecting the distribution of
+training instances);
+
+0 or form prototypical clusters of instances7 and take one KL,
+centered at each cluster.
+
+We can use the EM algorithm (see Ch. 6'12) to automati-
+cally choose the mean (and perhaps variance) for each I\',,.
+Q2: How to train the weights:
+l hold K“ ﬁxed, and train the linear output layer to get w,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+1r»
+Theorem
+[ Hartman et al., 1990 ]
+
+The function f can be approximated with arbitrarily small
+error, provided
+
+i a sufficiently large A‘, and
+
+i the width of of each kernel K” can be separately speci-
+
+ﬁcd.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+17
+Remark
+Instance-based learning waa also applied to instance spaces X ¢ 9:", usually
+with rich symbolic logic descriptions‘ Retrieving similar instances in this
+case is much more elaborate, It is
+This learning method, known as Case-Based Reasoning, was applied
+for instance to
+e conceptual design bf mechanical devices1
+based on a stored library 0f previous designs
+lSycara, 19ml
+0 reasoning about new legal cases.
+based on previous rulings
+lAshlcy, 199m
+0 scheduling problems,
+by reusing/combining portions of solutions m similar problems
+chloso. 1992]
+
+***************Ending Page***************
+

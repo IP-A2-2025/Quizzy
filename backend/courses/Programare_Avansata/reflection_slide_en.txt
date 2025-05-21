@@ -1,0 +1,747 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Class Loading
+Reflection API
+Annotations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Where Do Classes Come From?
+~ The Java compiler and JVM must “know” where
+to look for the classes needed by an application
+class Myclase ll
+public class Main l
+prllC static void mainlSttlrig argsH) l
+MyClass czject : new MyClassO; /,/ . 1w.~1:.~@:e...
+T'tteger mmbe1 : new tnregemv); //< 1mm aw
+Random rardom Z new Randoﬂt); //< Rheum’)
+Pchcutwent not: : new P3DOCJmeI‘Z();//A nrg.?Paxaf%E2§§8r< pggmiri
+l
+l
+~ Classes are introduced into the Java
+environment when they are referenced by name
+in a class that is already running.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Packages
+- Classes are grouped together in packages
+package com . example ‘model; package com‘ example ‘model;
+public class Student ( ,. l public class Project l l
+~ A package is implemented as a directory (folder) and
+provides a namespace to a class.
+..somewhere into the nle system
+\com
+\Example PROJECT-HOME\build\classes
+\nodel
+\Student.j|ava _ Student.ctass
+\Pro]ect.]ava 4 Pro]ect.class
+- Standard classes are also organized in packages
+\java
+\utll . .
+\Randoru class JAVA'B°“E\1‘b\“'-'Ja’
+\ArIdVLlﬁt - Class sources are in JAVA-HOME\src.zr'p
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Imports
+- The import statement provides a way to identify
+classes that you want to reference in your class
+Instead ct: java.Jtll.RandOIn :anucm e new java.Jtll.Rando:r\li;
+impart java.util.11andom; The long name loe class
+igneen tanner" e new Raridurrill; // e the Simple lslzurtl name
+- Importing an entire package: import java.util.*;
+- No need to importjavajang or classes from the same
+package as the current class.
+- The import statement only “tells” where to look for a
+class; it does not perform any kind of code inclusion.
+- Static imports makes the static members of a class
+available under their simple name.
+import static Java.long.Mo:h.ranaom;
+doable o 1 :andoﬂl)?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+~ The import statement only tells the suﬁx of the
+file containing the source orthe bytecode.
+import com.example.model.5' Jder';
+some place . \con\exanple\r\odel\Student,java
+other place \rtnn\exanple\nodel\f3tuds-nt,class
+~ In order to identify the exact location of the file,
+we need the preﬁx as well.
+d: \java\MyProject\src\cow\exempl e\iviodel \5: JdeY'i 4 f ave
+d:\java\HyProject\build\classes\com\example\model\StJdert.class
+- The CLASSPATH environment variable speciﬁes
+the locations Where to look for classes, above
+the location of the package hierarchy.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+javac, Java
+' Javac
+-c|asspalh or -cp <path to other classes>
+isourcepath <path m search rm class deﬁnitions>
+-d <the destination directory for class ﬁles>
+javac isourcepath src *classpath classes;llb\pdfbcx . jE-I
+5:C\<:Om\exampl@\mOdPl\SLudenL .Jﬁva id classes
+' java
+'classpath or 'cp <path m other classes>
+java *cp di\jdVS\VinYOj€CC\CiSSS€57d1\:-Sva\iib\pdfb0><.]ar
+co'n.exa'nple . app.MalnClass
+Classpath deﬁnes a list of local or remote directories or JAR archives.
+This is where the classes are searched ior.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+The Lifecycle of a Class
+
+- Loading - the process of locating the binary
+representation of a class and bringing it into the JVM.
+— load the definition of the bytecode from a .class file
+— create an instance of class java.lang. Class
+a C/assNotFoundExcept/on may occur
+
+- Linking - the process incorporating a class (type) into
+the runtime state of the JVM.
+
+- Initialization - the process of executing the static
+initializers of a type.
+
+~ Unloading — When a type becomes unreachable (i.e.
+the running application has no references to the type),
+it becomes eligible for garbage collection.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:8**************
+Class Loaders
+Objects responsible for loading classes.
+- The JVM has the following built-in class loaders:
+
+— Bootstrap class loader, integral part of the JVM,
+responsible for loading the core Java classes.
+
+- Platform class loader. All platform classes are Visible to the
+platform class loader that can be used as the parent ofa ClassLoader
+instance. Platform classes include Java SE platform APls, their
+implementation classes and JDK-specific run-time classes that are
+defined by the platform class loader or its ancestors.
+
+_ System class loader. It is also known as application class loader
+and is distinct from the platform class loader. The system class loader is
+typically used to define classes on the application class path, module
+path, and JDK-specific tools. The platform class loader is a parent or an
+ancestor of the system class loader.
+
+- Every Class object contains a reference to the
+ClassLoader that defined it.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Delegation Model
+- Class loaders are arranged hierarchically in a tree,
+with the bootstrap class loader as the root of the tree.
+- The ClassLoader class uses a delegation model to
+search for classes and resources
+Buntinpﬁlzss I _
+“"“e' When requested to find a class or
+Z “WM resource, a ClassLoader instance will
+mm Emmi.“ delegate the search for the class or
+°‘B“‘°"°e' m?" resource to its parent class loader
+L lam.‘ before attempting to ﬁnd the class or
+Emu,“ resource itself.
+tam
+ll no class loader ls successtul In loadlng the type ~> ClassNotFoundException
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Namespaces
+A loaded class in a JVM is identiﬁed by its fully qualified name
+and its deﬁning class loader - this is sometimes referred to as
+the runtime identity of the class.
+Consequently, each class loader in the JVM can be said to
+define its own namespace. Within a namespace, all fully-
+qualified names are unique. Two different name spaces,
+however, can contain identical fully-qualified names.
+Because the defining class loader is part of the runtime
+identity of the class, the classes associated with these names
+are considered distinct (e.g. class x.y.z.Foo defined by class
+loaderA is NOT considered by the JVM to be the same class
+as class xay.z.Foo defined by class loader B),
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Dynamic Loading of a Class
+
+~ Class.forName(String className)
+
+Attempts to locate, load, and link the class or interface.
+Returns the Class object associated with the class or interface
+with the given string name, using the given class loader.
+
+- Assume that the name of the class is known
+only at runtime (read from a properties file):
+SLnng drucmamc a "0:9.postgmsql.m~tm",-
+
+Class claw i Class.forllame(drivezllame);
+
+l/ same as
+
+Claschade: loader a th;s.getfilass() .gEtCeassAaa/lerﬁ;
+Ladder.iuuuCLdstsmrlveiXL-mell
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Dynamic lnstantiation of an Object
+~ newlnstanceO
+- Creates a new instance of the class
+represented by this Class object. The class is
+instantiated as if by a new expression with an
+empty argument list.
+Class C1544 i C1655.[OIXZIYYC("Jdl/ﬂ.dv<L.3LLLOn")F
+RJtth b : lRJtton) (iawwethnshuctorU .newlnste'cell;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Example: Flle Shell Commands
+public interface emnd l
+vo'd execute(5tmwg pawns) throws TOFlXceptlcn;
+l
+public class Open implements Command l
+@Overrlde
+publlc vold @Xecut?($trlnq... params) throws IOE><Ceptlon l
+for (Strlﬂg pard'n = pardms) l
+Desktop.getnesktopl) .opeﬂlwew r‘ leﬂmavawll l;
+l
+l
+public class Copy implements Command (
+@(Jverrlde
+public vclu execute(€>trlnq. .. pdrqms) throws IOExceptlQn l
+strlrg ﬁoJYce : pa“ams[0];
+Strlrg target i paramsu];
+Fllcs.COpy(Path.chlsouzcc),PathvchlLalchl,REPLACEiEXISTINGl;
+l
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Example: Testlng the Commands
+public class TestComnandS 4
+puleC static V310 malr(S-tr1rg atqsm throws IOExcethon (
+Scanner Scanner Z new Sca'mrerkSystemJnH
+wrlle (true) (
+Strlnq comnandName Z scannerlnextl);
+1f [cnmandName.EqLasslqnoteCase("Ex1t"7) (
+break:
+l
+Strlan params : scannermextLinel).tr1m1).spllt("\\s+"l;
+tKy (
+// The command name lS actually the class name
+Class clazx = Class.£otNam:(command.Nam)r
+Comand command. = (Command) c1azz.new1nscance()i
+cmsnd.=x=cut=4psmms) ;
+l catch LClassNotFoundExceptlon InstantlationExceptlon
+IllegalAccEssExcEthox-A l IOExceptlow e) [
+system_ett.pnr.tln<e>;
+1
+l
+)
+l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+URLCIassLoader
+- This class loader is used to load classes and
+resources from a search path of URLs referring to both
+JAR files and directories.
+~ getUrIs() returns the search path of URLs for loading
+classes and resources. This includes the original list of
+URLs speciﬁed to the constructor, along with any
+URLs subsequently appended by the addURL()
+method.
+- Creating and using it:
+URLClassTioader urllioader : new URTiClassTioade/rl
+new URL '1], - some URLs
+LhiagetclassO.geiClassLoaderlll; » parent ClossLoooer
+Lrchader.loadCla55("rotlniotualctshell.0pen"),'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+allblla class MyClassloader extends URLClassLoader <
+
+prllC MyClasslcadel'U l
+
+auparlnaw URL'O], ClassLoader‘get3y$tel1clalssllcalderll l;
+
+l
+l
+// Load dynmically a class
+MyClassLoader myLoaderl : new MyClassLoaderH;
+myLQaderl.loadClass1":Qlinfolualclshelllmen") ,-
+// Modify, recompile and reload the class
+myLoaderl.1oadclass1":0.info.ua1c.shell.0pen"l; // _ doeenlr, \Iork!
+// Create a new class loader
+MyClassLoader myLoaderZ = new MyClassLoaderH;
+myLoader2.loadClass("ro.1nfo.ualc.shell.0pen"]; // lox
+
+The delaull class loaders always check to see if me class requested has already been loaded.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Dynamlc classpath
+public class Myclassloadex extends URLClassL-oader (
+prllC MyClasslcader() l
+superlnew llRLHll, ClassLoadel;.getSystemClassLoadPrll)/'
+l
+@Ovcrrldc
+public void addURL-(URL url) l
+super.sddURL(urll: //addUrl l5 protected ir the superclass
+)
+l
+// Adding dynmically a JAR to the classpath
+Flle paLh : new FilefpaLhToJaIOrClaSSeS)F
+lf(path.exl$t5()l l
+URL \ltl : path.toURI () .toURLU;
+classLoaderladdURL (ml):
+)
+addUﬂ sppsnds me speclﬁed URL to ms lisl of URLs lo search lor classes and resources.
+If the URL speciﬁed is null or is already in me llst of URLs, or il lhis loader l5 closed‘ men invoklrlg
+mis melhod has no eﬂect
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Reflection API
+
+- Most of the types used by an application are statically
+speciﬁed during design time and their usage is verified
+by the compiler:
+java.awt.BLiton thton : rew java.awt.Bution("Hello");
+gutter . setBackgrOJnd (Cole! . YLLLOW);
+
+- There are situations when the name of a class,
+method, field etc. is not known at compile time.
+
+String ccrhpunentName e <:eau the name of an Aw'r Colllponerlf>7
+Class claw : class.meame[<-omp;>ner:kame)r
+// How do we create the component and set its properties?
+
+- Reﬂection - the ability to inspect or use types at
+runtime without knowing their names at design-time,
+instantiate new objects, invoke methods and get/set
+field values.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+java.lang.reflect
+- For every type, the JVM instantiates an immutable
+instance of javaJang. Class which provides methods to
+examine its runtime properties.
+a Class Name
+a Modifiers (public, ﬁnal etc‘)
+a Package
+a Superclass
+a Implemented Interfaces
+a Constructors
+a Methods
+— Fields
+, Annotations
+- Each type property from the above list has a
+corresponding class: Constructor, Method, Field, etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Inspectlng Classes
+
+' ObjectgetClassO
+Class c1 = "Hello World",qetClassU;
+
+Class c2 = Systen'uouhgetClassO;
+
+- The .class and .TYPE Syntax
+String.class; java.10.?r1nt5tream.class;
+doublewlass; Double.class7 DoubleJYPE;
+
+' Class.islnterface(), isEnum(), isPrimitiveO, isArray(),..
+int buffed] z new int[10];
+Systemsout,prlntlmbuffenqetﬂlass 1) ‘lsArrayU 1.-
+
+- Class.getSuperclass()
+java.awt‘Button.class_get5uperclass 0;
+
+- Classgetlnterfaceso
+Arrays.toString(java.utll.HashSet.class.getlnterfaces1)1
+
+- Class.getPackage() Ob]ect.class_getPackaqé1);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+- Constructors
+qethrstructorSO, quDeclaredConstzucthSl)
+_ returns an array: Constructorl]
+
+- Methods
+qctMcthodS (), qctDcclarchcthcds ()
+, retLrns an array: Methodﬂ
+
+- Fields
+getFreldsU, getDsclardeieldsO
+s reLLr'ls an arzay: Fieldl]
+
+~ Inner Classes
+qecmasseso, getDeclaredClassesl)
+_ returns an array: Classll
+
+The Declaring Class
+
+getJeclarlrgClasseSO . qethlncloslngclasso
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+Inspectlng Modifiers
+- Classes, Methods, Fields etc. may have
+modifiers, like "public", "private", "static" etc.
+- getModifiers() returns an integer encoding
+int modifiers = java.ioistzinqgetModifiezs();
+Moth fier d i sAbstractlir: moth fierg)
+Modifier.1s?1nal(1nt modlflersl
+MOdlfleI4lSIHLQIIGCQ(inl modifiers)
+Modltienlsﬂatlvehnt moditlersl
+Modlfier.1sPr1\/at9(lnt “Odlflef5)
+MOdlfiEI415PIOtECC€d<th modlfierSl
+Modlfler.1sPub11C(1nt modlflerS)
+Modiflef4lsSLQLlC(lnL modifiers)
+Modifier.1s$tr1ct(1nt modifiers)
+Modifier.lsSynchronlzedflnt nodlflers)
+ModlfierilsTransient(int modlfierSl
+Modlfler.1svolatllellrt modifiers)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+- Class.new|nstance()
+Class c1544 i Class.£o:NamC("Java.awL_P0lnL“)7
+Pnlnt pnlnt : (PQLnt) c;ezz.newnstance<>;
+- Constructor.newlnstance(0bject args)
+CLass clazz Z java.awt_Pcint.class;
+// Identify a specific constructor
+ClasSU signature I new ClassL] (lnt.class, inttclass);
+Constructor cto: e elezz.qetCenstructer<51gnature>,-
+// Prepare the arguments — they must match the signature
+Integer >< : new Tnteqev'HO);
+Tnteger y : new Tnteqev'UO);
+// Create the object
+PomL pomL I (PomL) CLO[.newInSLarCe(x, y):
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+- Method.|nvoke(0bject Obj, Object args)
+Class clazz i java.awt.KEctanglE.class;
+Rectangle {FffanglP : new Rectanglem, o, 120, 1m);
+// Identify the method by its name and arguments
+CTassH slqﬂatbre Z new Class X (Pointxlass);
+Method nethod : c'577,ge:Method4"contaw‘s", 5\gnaturel;
+// Prepare the arguments
+PomL pOlﬂL i new Pomulc, 201,-
+// Invoke the method
+metholervoke(rectangle, pillﬂt) ,-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Settlng and Gettlng Flelds
+
+~ Field.set(), Field.get()
+
+Class clazz i ija.awt.Pclnt.class;
+
+Pnlnt pnlnt : Few Pawns, 2n),-
+
+// Get the fields
+
+FlClC xFlCJA : u,a44.chFlcidl"x");
+
+FlQlu yFleJi 7 :Jzz.getr1eld(“y">;
+
+// Sat x
+
+xFWe d.set(po\rt, m):
+
+// Get y
+
+kitegsr yams i ykleld.get(p01nt);
+- How about private (inaccesible) fields?
+
+erlc prxvateFWe d : c1e77.qetneclaredFWe'dt'W");
+
+pip/aLcFchd . semccessible (cruel ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Working Dynamically with Arrays
+- Array.new|nstance()
+@bJGCL a 1 Array.newlnsLarcemnulass, 10):
+a.qetClasS(); // class [1
+mqeccldssodsArrayO: // true
+a.gerClasS() -QQtCompom=anyp€(l/‘ //1nt
+- Array.getLength(), set(), get()
+for (1nt 1:0; i < Array.geZLeanh(a); 1++) (
+Array.seL(a, l, new InLegerml;
+1
+for (int iiO; i < Array.ge:Lenq:h(aJ; 1++) (
+System.our.prlnt(Array.qet(a, 1) \ " "b;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+java.beans.lntr0spector
+
+~ Introspection is the automatic process of
+analyzing a bean's design patterns to reveal the
+bean's properties, events, and methods.
+
+- The Introspector class provides a standard way
+for tools to learn about the properties, events,
+and methods supported by a target Java Bean.
+c1355 boanClass : java.awt.l3uttcr.class;
+
+BeanInfo lnfO e Introspector.getBeanIrzfo(beanClass);
+
+for (Propertybescripto: pd 1 1nfn.getPropertyDescrlptOrS(l) l
+Syste'n.cu:_p:intln(po.ge:Name())7
+
+l
+
+'/ beskqunnd, enubued, (Queenie, {\nt, (medium, label, name, 151b7€y
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Drawbacks of Reflection
+
+- Performance Overhead - Because reﬂection involves
+types that are dynamically resolved, certain JVM
+optimizations can not be performed. Consequently,
+reflective operations have slower performance than their
+non-reflective counterparts.
+
+- Security Restrictions - Reflection requires a runtime
+permission which may not be present when running under
+a security manager.
+
+- Exposure of Internals - Since reflection allows code to
+perform operations that would be illegal in non-reflective
+code. such as accessing private fields and methods, the
+use of reflection can result in unexpected side-effects,
+which may render code dysfunctional and may destroy
+portability.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+An notations
+@Override, @lnject, @Entity, @HelloWorld,...
+- Aform of metadata, similar to comments.
+- Unlike comments, annotations are strong-typed
+~ Provide data about a program that is not part of the
+program itself. Annotations have no direct effect on the
+operation of the code they annotate.
+- Annotations can be applied to declarations of classes.
+ﬁelds, methods, and other program elements.
+- Annotations are used for:
+— Information for the compiler
+e Compile-time and deployment-time processing
+e Runtime processing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Bullt-ln Java Annotatlons
+- @Deprecated
+@Depzecated
+,H
+@deprecated use MyNewFarcyClass 1rstead.
+*/
+publlc class MyOldUglyClass 1 .v >
+- @Override
+CUbllC class Hellowcrlu (
+@Override
+String toStrlan ( returr "Hello World)"; )
+~ @SuppressWarnings
+@SuppxessWarnings ( "deprecation")
+pubnc vold netteoiﬂlth'vlarrlngﬁ ¢
+// Questionable, neprPcared rhmgs rapper here
+)
+- @SafeVarargs, @Functionallnterface
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+- Declanng annotatlons: @lnterface
+/,,
+k Thls 15 a annotation declaratlon
+* It ccntame [our members (paraﬂeLers)
+*/
+puh;1e @intexface RequestFoxEnhancement 1
+Str;ng requestl);
+Stt;nq solicitozU; Complles to _
+bco'ean urgent!) default false; RequestForEnhancement@1655
+Str;ng dateU default "Vunln'plementedl";
+)
+- Usmg annotatlons
+@RequestForEnhancement (
+request t "ln'plement th;s metqod ;n O(;oq n)",
+SoleClLOI : "qu Boss",
+date Z "yesterday"
+)
+publlc VOld hellchrldU (
+System.out.pr;ntln("HelLO worldl");
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+SpeCIal Types of Annotatlons
+
+- Markers
+nubllc @1ntcrfacc PICllmlTBIV < ) // No members (parameters)
+@Preliminary puzllc class Tlchravcl ( )
+
+- Single-MemberAnnotations
+pumlc @1ntertace Note ( // Only one parameter called 'value'
+
+Strlnq value ();
+J
+@NoteC'W/ super fast uptwnved chkSort")
+publlc VOld serulnc v[]> 4 )
+
+- Meta-Annotations (annotations for annotations)
+@Retention(RetertlonPollcy.RUNTIME) // CLASS, SOURCE
+@Tazger.(ElememTypeMETI-loo)
+
+//CONSTRUCTOR, FIELD, METHOD, PACKAGE, PARAMETER, TYPE)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Reflectlon API and Annotatlons
+Example
+Create a framework for automated testing...
+1nport java.lang.annoiatlon.*;
+N
+“ We are golwq to use this annotation To hark methods.
+* The marked methods will be SLbjeCt to testqu.
+t IL wlll only work [or 5t,aLlc methods wl;h no parameters”.
+’/
+@Retention (RetentionPolicy . RUNTIME)
+@Tazget (ElementType .METHOD)
+public @intezface Test ( l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+_ u 11
+Example. The Tested Class
+public class MyProgram 4
+@Test public Static VOld mlU ( )
+public Statlc VUld m2(> < >
+@Tesc public statu: vmd m3l) <
+throw new RuntimeExceptlcr ("Beam");
+l
+public Stdth VOld m4() ( )
+@Test public Static VOld msu 4 )
+public Statlc VOlCl m6(> ( l
+@Test public stem: vcuj m7l) <
+throw new RuntimEEXCeptlQr ("Crash");
+l
+public Sfatlc void mBO l ‘r
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Example‘ “The Framework”
+imporL Javﬂ.l<1ng.[efleCL.*i
+publlc class MyTestr‘ramework (
+public sLaLlc vmd malmsulngH args) Lhrows Excppuon (
+int passed i O, falled i 0,-
+for (Method m = Class.fozName(azgs[O]).getMethcdsO) (
+1f (m.isAnnctaticanesel-At(Testmlass)) (
+try (
+m.1nvoke(nLLl)7
+passcd++;
+) caLch (Throwable ex) 1
+System.out.pr1ntt["Test %s failed: is %n",
+m, ex.getCause(] );
+failed» >;
+)
+)
+)
+systemouppnntfmassed; w, Famed win", passed, failed),-
+)
+‘
+
+***************Ending Page***************
+

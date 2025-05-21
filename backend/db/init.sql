@@ -500,27 +500,30 @@ ALTER TABLE ONLY public.users ALTER COLUMN userid SET DEFAULT nextval('public.us
 -- Data for Name: course; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.course VALUES (21, 'Algoritmica Grafurilor', 'Curs despre algoritmi pe grafuri.', 66, '3');
-INSERT INTO public.course VALUES (22, 'Arhitectura Calculatoarelor și Sisteme de Operare', 'Structura și funcționarea sistemelor de operare.', 7, '1');
-INSERT INTO public.course VALUES (23, 'Baze de Date', 'Modelarea și interogarea bazelor de date.', 63, '3');
-INSERT INTO public.course VALUES (24, 'Calcul Numeric', 'Metode numerice pentru rezolvarea problemelor matematice.', 2, '1');
-INSERT INTO public.course VALUES (25, 'Fundamentele Algebrice ale Informaticii', 'Bazele algebrice ale logicii și informaticii.', 5, '2');
-INSERT INTO public.course VALUES (26, 'Grafică pe Calculator', 'Tehnici de afișare și procesare a graficii.', 7, '6');
-INSERT INTO public.course VALUES (27, 'Ingineria Programării', 'Metodologii de dezvoltare software.', 63, '4');
-INSERT INTO public.course VALUES (28, 'Inteligența Artificială', 'Introducere în AI, agenți inteligenți.', 71, '5');
-INSERT INTO public.course VALUES (29, 'Învățare Automată', 'Algoritmi de machine learning.', 7, '5');
-INSERT INTO public.course VALUES (30, 'Limbaje Formale, Automate și Compilatoare', 'Teoria limbajelor și automatizări.', 69, '3');
-INSERT INTO public.course VALUES (31, 'Logică pentru Informatică', 'Logică propozițională și predicate.', 72, '1');
-INSERT INTO public.course VALUES (32, 'Probabilități și Statistică', 'Bazele probabilităților și statisticii.', 66, '2');
-INSERT INTO public.course VALUES (33, 'Programare Avansată', 'Programare procedurală și funcțională avansată.', 65, '4');
-INSERT INTO public.course VALUES (34, 'Programare Orientată-Obiect', 'Paradigma OOP în Java și C++.', 5, '2');
-INSERT INTO public.course VALUES (35, 'Proiectarea Algoritmilor', 'Strategii eficiente de proiectare algoritmică.', 64, '2');
-INSERT INTO public.course VALUES (36, 'Rețele de Calculatoare', 'Protocoale, modele OSI și TCP/IP/UDP.', 70, '3');
-INSERT INTO public.course VALUES (37, 'Securitatea Informației', 'Principii și tehnici de securitate.', 72, '4');
-INSERT INTO public.course VALUES (38, 'Sisteme de Operare', 'Gestionarea proceselor și resurselor.', 2, '2');
-INSERT INTO public.course VALUES (39, 'Structuri de Date', 'Liste, arbori, grafuri și complexitate.', 64, '1');
-INSERT INTO public.course VALUES (40, 'Tehnologii Web', 'HTML, CSS, JavaScript și backend.', 72, '4');
-
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (21, 'Algoritmica_Grafurilor', 'Curs despre algoritmi pe grafuri.', 66, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (22, 'Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare', 'Structura și funcționarea sistemelor de operare.', 7, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (23, 'Baze_De_Date', 'Modelarea și interogarea bazelor de date.', 63, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (24, 'Calcul_Numeric', 'Metode numerice pentru rezolvarea problemelor matematice.', 2, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (25, 'Fundamentele_Algebrice_Ale_Informaticii', 'Bazele algebrice ale logicii și informaticii.', 5, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (26, 'Grafica_Pe_Calculator_Si_Geometrie_Computationala', 'Tehnici de afișare și procesare a graficii.', 7, '6');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (27, 'Ingineria_Programarii', 'Metodologii de dezvoltare software.', 63, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (28, 'Inteligenta_Artificiala', 'Introducere în AI, agenți inteligenți.', 71, '5');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (29, 'Invatare_Automata', 'Algoritmi de machine learning.', 7, '5');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (30, 'Limbaje_Formale_Automate_Si_Compilatoare', 'Teoria limbajelor și automatizări.', 69, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (31, 'Logica_Pentru_Informatica', 'Logică propozițională și predicate.', 72, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (41, 'Matematica_Calcul_Diferential_Si_Integral', 'math', 72, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (42, 'Practica_Sisteme_De_Gestiune_Pentru_Baze_De_Date', 'bd', 72, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (32, 'Probabilitati_Si_Statistica', 'Bazele probabilităților și statisticii.', 66, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (33, 'Programare_Avansata', 'Programare procedurală și funcțională avansată.', 65, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (34, 'Programare_Orientata_Obiect', 'Paradigma OOP în Java și C++.', 5, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (43, 'Programare_Python', 'serpi', 5, '5');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (44, 'Programare_Rust', 'rugina', 5, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (35, 'Proiectarea_Algoritmilor', 'Strategii eficiente de proiectare algoritmică.', 64, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (36, 'Retele_De_Calculatoare', 'Protocoale, modele OSI și TCP/IP/UDP.', 70, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (37, 'Securitatea_Informatiei', 'Principii și tehnici de securitate.', 72, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (38, 'Sisteme_De_Operare', 'Gestionarea proceselor și resurselor.', 2, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (39, 'Structuri_De_Date', 'Liste, arbori, grafuri și complexitate.', 64, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (40, 'Tehnologii_WEB', 'HTML, CSS, JavaScript și backend.', 72, '4');
 
 --
 -- Data for Name: enrollment; Type: TABLE DATA; Schema: public; Owner: -
@@ -738,18 +741,377 @@ INSERT INTO public.grade VALUES (3, 13, 6.8, '2024-03-18 09:30:00');
 -- Data for Name: material; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.material VALUES (1, 'Teorie algoritmi Dijkstra', 21, '/path/to/material/algoritmi_dijkstra.pdf', 1);
-INSERT INTO public.material VALUES (2, 'Algoritm QuickSort', 39, '/path/to/material/quicksort.pdf', 2);
-INSERT INTO public.material VALUES (3, 'Big O Notation', 39, '/path/to/material/big_o_notation.pdf', 3);
-INSERT INTO public.material VALUES (4, 'Stive și Cozi', 39, '/path/to/material/stive_cozi.pdf', 4);
-INSERT INTO public.material VALUES (5, 'Introducer arbori', 21, 'https://example.com/material/arbori.pdf', 5);
-INSERT INTO public.material VALUES (6, 'Căutarea binară', 33, 'https://example.com/material/cautare_binara.pdf', 6);
-INSERT INTO public.material VALUES (7, 'Linii și Coloane', 26, 'https://example.com/material/structuri_date.pdf', 7);
-INSERT INTO public.material VALUES (8, 'Algoritmi dinamici', 35, 'https://example.com/material/algoritmi_dinamici.pdf', 8);
-INSERT INTO public.material VALUES (9, 'Recursivitate în programare', 30, 'https://example.com/material/recursivitate.pdf', 9);
-INSERT INTO public.material VALUES (10, 'Introducere în grafuri', 21, 'https://example.com/material/introducere_grafuri.pdf', 10);
-INSERT INTO public.material VALUES (11, 'Cicluri și arbori de acoperire', 21, 'https://example.com/material/cicluri_arbori_acoperire.pdf', 11);
+-- Algoritmica_Grafurilor (courseid = 21)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (1, 'agr1.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr1.pdf', 1);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (2, 'agr10.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr10.pdf', 2);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (3, 'agr11.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr11.pdf', 3);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (4, 'agr12.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr12.pdf', 4);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (5, 'agr2.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr2.pdf', 5);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (6, 'agr3.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr3.pdf', 6);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (7, 'agr4.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr4.pdf', 7);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (8, 'agr5.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr5.pdf', 8);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (9, 'agr6.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr6.pdf', 9);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (10, 'agr7.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr7.pdf', 10);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (11, 'agr8.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr8.pdf', 11);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (12, 'agr9.pdf', 21, 'cursuri/Algoritmica_Grafurilor/agr9.pdf', 12);
 
+-- Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare (courseid = 22)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (13, 'curs1.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/antepartial/curs1.pdf', 13);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (14, 'curs2.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/antepartial/curs2.pdf', 14);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (15, 'curs3.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/antepartial/curs3.pdf', 15);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (16, 'curs4.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/antepartial/curs4.pdf', 16);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (17, 'curs5.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/antepartial/curs5.pdf', 17);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (18, 'curs6.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/antepartial/curs6.pdf', 18);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (19, 'curs7.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/antepartial/curs7.pdf', 19);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (20, 'Curs1-asm-ro.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/Curs1-asm-ro.pdf', 20);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (21, 'curs10.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs10.pdf', 21);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (22, 'curs11.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs11.pdf', 22);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (23, 'curs12.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs12.pdf', 23);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (24, 'curs13.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs13.pdf', 24);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (25, 'Curs2-asm-ro.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/Curs2-asm-ro.pdf', 25);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (26, 'curs3-asm-ro.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs3-asm-ro.pdf', 26);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (27, 'curs4-asm-ro.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs4-asm-ro.pdf', 27);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (28, 'curs5-asm-ro.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs5-asm-ro.pdf', 28);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (29, 'curs6-asm-ro.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs6-asm-ro.pdf', 29);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (30, 'curs8.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs8.pdf', 30);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (31, 'curs9.pdf', 22, 'cursuri/Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare/postpartial/curs9.pdf', 31);
+
+-- Baze_De_Date (courseid = 23)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (32, 'Curs10-11.ROPhysicaldesign.pdf', 23, 'cursuri/Baze_De_Date/Curs10-11.ROPhysicaldesign.pdf', 32);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (33, 'Curs12-13.RO-Indexes.pdf', 23, 'cursuri/Baze_De_Date/Curs12-13.RO-Indexes.pdf', 33);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (34, 'Curs14.ROQueryProcessing.pdf', 23, 'cursuri/Baze_De_Date/Curs14.ROQueryProcessing.pdf', 34);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (35, 'Curs2-BD.pdf', 23, 'cursuri/Baze_De_Date/Curs2-BD.pdf', 35);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (36, 'Curs3-BD.pdf', 23, 'cursuri/Baze_De_Date/Curs3-BD.pdf', 36);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (37, 'Curs4-BD.pdf', 23, 'cursuri/Baze_De_Date/Curs4-BD.pdf', 37);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (38, 'Curs5-6-BD.pdf', 23, 'cursuri/Baze_De_Date/Curs5-6-BD.pdf', 38);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (39, 'Curs9.ROERModeling.pdf', 23, 'cursuri/Baze_De_Date/Curs9.ROERModeling.pdf', 39);
+
+-- Calcul_Numeric (courseid = 24)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (40, 'CN-curs01-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs01-2025.pdf', 40);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (41, 'CN-curs02-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs02-2025.pdf', 41);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (43, 'CN-curs03-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs03-2025.pdf', 42);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (44, 'CN-curs04-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs04-2025.pdf', 43);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (45, 'CN-curs05-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs05-2025.pdf', 44);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (46, 'CN-curs06-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs06-2025.pdf', 45);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (47, 'CN-curs07-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs07-2025.pdf', 46);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (48, 'CN-curs08-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs08-2025.pdf', 47);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (49, 'CN-curs09-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs09-2025.pdf', 48);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (50, 'CN-curs10+11-2025.pdf', 24, 'cursuri/Calcul_Numeric/CN-curs10+11-2025.pdf', 49);
+
+-- Fundamentele_Algebrice_Ale_Informaticii (courseid = 25)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (51, '12AFCS-RingsI.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/12AFCS-RingsI.pdf', 50);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (52, '13AFCS-RingsII.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/13AFCS-RingsII.pdf', 51);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (53, '14AES_unlocked.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/14AES_unlocked.pdf', 52);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (54, '15+16AFCS-Vector_SpacesI+basis+and+dimensions.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/15+16AFCS-Vector_SpacesI+basis+and+dimensions.pdf', 53);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (55, '17+18AFCS-Vector_SpacesII+Linear_maps+inner+product+orthogonality.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/17+18AFCS-Vector_SpacesII+Linear_maps+inner+product+orthogonality.pdf', 54);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (56, '19AFCS-Applications_to_Linear_Codes_unlocked.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/19AFCS-Applications_to_Linear_Codes_unlocked.pdf', 55);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (57, '1AFCS-Closures.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/1AFCS-Closures.pdf', 56);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (58, '2AFCS-NumberTheoryI.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/2AFCS-NumberTheoryI.pdf', 57);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (59, '3AFCS-NumberTheoryII.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/3AFCS-NumberTheoryII.pdf', 58);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (60, '4AFCS-NumberTheoryIII.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/4AFCS-NumberTheoryIII.pdf', 59);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (61, '5AFCS-AppInCrypto.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/5AFCS-AppInCrypto.pdf', 60);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (62, '6AFCS-Semigroups_and_Monoids.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/6AFCS-Semigroups_and_Monoids.pdf', 61);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (63, '7AFCS-Variable_Length_Codes.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/7AFCS-Variable_Length_Codes.pdf', 62);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (64, '8AFCS-Huffman_Codes.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/8AFCS-Huffman_Codes.pdf', 63);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (65, '9+10+11AFCS-Groups+discrete_log+applications+in+cryptography.pdf', 25, 'cursuri/Fundamentele_Algebrice_Ale_Informaticii/9+10+11AFCS-Groups+discrete_log+applications+in+cryptography.pdf', 64);
+
+-- Grafică_pe_Calculator (courseid = 26)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (66, '02Rasterisation_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/02Rasterisation_pub.pdf', 65);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (67, '03Rasterisation2_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/03Rasterisation2_pub.pdf', 66);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (68, '04Antialiasing_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/04Antialiasing_pub.pdf', 67);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (69, '05GeometricTransformations_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/05GeometricTransformations_pub.pdf', 68);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (70, '06Projection_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/06Projection_pub.pdf', 69);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (71, '07shaders_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/07shaders_pub.pdf', 70);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (72, '08numericalSimulation_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/08numericalSimulation_pub.pdf', 71);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (73, '09vertexBufferObjects_pub.pdf', 26, 'cursuri/Grafica_Pe_Calculator_Si_Geometrie_Computationala/09vertexBufferObjects_pub.pdf', 72);
+
+-- Ingineria_Programării (courseid = 27)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (74, 'IP01.pdf', 27, 'cursuri/Ingineria_Programarii/IP01.pdf', 73);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (75, 'IP02.pdf', 27, 'cursuri/Ingineria_Programarii/IP02.pdf', 74);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (76, 'IP03.pdf', 27, 'cursuri/Ingineria_Programarii/IP03.pdf', 75);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (77, 'IP04.pdf', 27, 'cursuri/Ingineria_Programarii/IP04.pdf', 76);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (78, 'IP05.pdf', 27, 'cursuri/Ingineria_Programarii/IP05.pdf', 77);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (79, 'IP06.pdf', 27, 'cursuri/Ingineria_Programarii/IP06.pdf', 78);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (80, 'IP07.pdf', 27, 'cursuri/Ingineria_Programarii/IP07.pdf', 79);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (81, 'IP08.pdf', 27, 'cursuri/Ingineria_Programarii/IP08.pdf', 80);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (82, 'IP09.pdf', 27, 'cursuri/Ingineria_Programarii/IP09.pdf', 81);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (83, 'IP10.pdf', 27, 'cursuri/Ingineria_Programarii/IP10.pdf', 82);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (84, 'IP11.pdf', 27, 'cursuri/Ingineria_Programarii/IP11.pdf', 83);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (85, 'IP12.pdf', 27, 'cursuri/Ingineria_Programarii/IP12.pdf', 84);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (86, 'IP13.pdf', 27, 'cursuri/Ingineria_Programarii/IP13.pdf', 85);
+
+-- Inteligența_Artificială (courseid = 28)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (87, 'IA_10_PLN.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_10_PLN.pdf', 86);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (88, 'IA_11_curs_retele_bayes.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_11_curs_retele_bayes.pdf', 87);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (89, 'IA_12_curs_planificare.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_12_curs_planificare.pdf', 88);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (90, 'IA_2_SBM_I.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_2_SBM_I.pdf', 89);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (91, 'IA_3_SBM_II.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_3_SBM_II.pdf', 90);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (92, 'IA_4_curs_CSP.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_4_curs_CSP.pdf', 91);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (93, 'IA_5_GT.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_5_GT.pdf', 92);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (94, 'IA_6_curs_NN.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_6_curs_NN.pdf', 93);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (95, 'IA_7_curs_MDP.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_7_curs_MDP.pdf', 94);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (96, 'IA_8_curs_RL.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_8_curs_RL.pdf', 95);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (97, 'IA_9_RCO.pdf', 28, 'cursuri/Inteligenta_Artificiala/IA_9_RCO.pdf', 96);
+
+-- Învățare_Automată (courseid = 29)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (98, 'cluster.pdf', 29, 'cursuri/Invatare_Automata/cluster.pdf', 97);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (99, 'foundations.pdf', 29, 'cursuri/Invatare_Automata/foundations.pdf', 98);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (100, 'hmm.pdf', 29, 'cursuri/Invatare_Automata/hmm.pdf', 99);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (101, 'ML.ex-book.SLIDES.ANN.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.ANN.pdf', 100);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (102, 'ML.ex-book.SLIDES.Bayes.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.Bayes.pdf', 101);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (103, 'ML.ex-book.SLIDES.Cluster.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.Cluster.pdf', 102);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (104, 'ML.ex-book.SLIDES.DT.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.DT.pdf', 103);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (105, 'ML.ex-book.SLIDES.EM.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.EM.pdf', 104);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (106, 'ML.ex-book.SLIDES.IBL.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.IBL.pdf', 105);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (107, 'ML.ex-book.SLIDES.ProbStat.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.ProbStat.pdf', 106);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (108, 'ML.ex-book.SLIDES.Regression.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.Regression.pdf', 107);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (109, 'ML.ex-book.SLIDES.SVM.pdf', 29, 'cursuri/Invatare_Automata/ML.ex-book.SLIDES.SVM.pdf', 108);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (110, 'ml0.pdf', 29, 'cursuri/Invatare_Automata/ml0.pdf', 109);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (111, 'ml13.pdf', 29, 'cursuri/Invatare_Automata/ml13.pdf', 110);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (112, 'ml3.pdf', 29, 'cursuri/Invatare_Automata/ml3.pdf', 111);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (113, 'ml4.pdf', 29, 'cursuri/Invatare_Automata/ml4.pdf', 112);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (114, 'ml5.pdf', 29, 'cursuri/Invatare_Automata/ml5.pdf', 113);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (115, 'ml6.pdf', 29, 'cursuri/Invatare_Automata/ml6.pdf', 114);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (116, 'ml7.pdf', 29, 'cursuri/Invatare_Automata/ml7.pdf', 115);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (117, 'ml8.pdf', 29, 'cursuri/Invatare_Automata/ml8.pdf', 116);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (118, 'svm.pdf', 29, 'cursuri/Invatare_Automata/svm.pdf', 117);
+
+-- Limbaje_Formale_Automate_Si_Compilatoare (courseid = 30)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (119, 'LFAC07.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/LFAC07.pdf', 118);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (120, 'LFAC08.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/LFAC08.pdf', 119);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (121, 'LFAC09.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/LFAC09.pdf', 120);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (123, 'lfac1.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/lfac1.pdf', 121);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (124, 'LFAC10.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/LFAC10.pdf', 122);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (125, 'LFAC11.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/LFAC11.pdf', 123);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (126, 'LFAC12.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/LFAC12.pdf', 124);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (127, 'lfac2.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/lfac2.pdf', 125);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (128, 'lfac3.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/lfac3.pdf', 126);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (129, 'lfac4.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/lfac4.pdf', 127);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (130, 'lfac5.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/lfac5.pdf', 128);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (131, 'lfac6.pdf', 30, 'cursuri/Limbaje_Formale_Automate_Si_Compilatoare/lfac6.pdf', 129);
+
+-- Logica_Pentru_Informatica (courseid = 31)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (132, 'antepartial.pdf', 31, 'cursuri/Logica_Pentru_Informatica/antepartial.pdf', 130);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (133, 'postpartial.pdf', 31, 'cursuri/Logica_Pentru_Informatica/postpartial.pdf', 131);
+
+-- Matematica_Calcul_Diferential_Si_Integral (courseid 41)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (134, 'Curs01.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs01.pdf', 134);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (135, 'Curs02.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs02.pdf', 135);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (136, 'Curs03.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs03.pdf', 136);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (137, 'Curs04.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs04.pdf', 137);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (138, 'Curs05.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs05.pdf', 138);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (139, 'Curs06.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs06.pdf', 139);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (140, 'Curs07.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs07.pdf', 140);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (141, 'Curs08.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs08.pdf', 141);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (142, 'Curs09.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs09.pdf', 142);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (143, 'Curs10.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs10.pdf', 143);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (144, 'Curs11.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/Curs11.pdf', 144);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (145, 'NC01.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC01.pdf', 145);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (146, 'NC02.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC02.pdf', 146);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (147, 'NC03.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC03.pdf', 147);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (148, 'NC04.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC04.pdf', 148);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (149, 'NC05.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC05.pdf', 149);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (150, 'NC06.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC06.pdf', 150);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (151, 'NC07.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC07.pdf', 151);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (152, 'NC08.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC08.pdf', 152);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (153, 'NC09.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC09.pdf', 153);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (154, 'NC10.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC10.pdf', 154);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (155, 'NC11.pdf', 41, 'cursuri/Matematica_Calcul_Diferential_Si_Integral/NC11.pdf', 155);
+
+-- Practica_Sisteme_De_Gestiune_Pentru_Baze_De_Date (courseid 42)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (156, 'SGBD123.pdf', 42, 'cursuri/Practica_Sisteme_De_Gestiune_Pentru_Baze_De_Date/SGBD123.pdf', 156);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (157, 'SGBD456.pdf', 42, 'cursuri/Practica_Sisteme_De_Gestiune_Pentru_Baze_De_Date/SGBD456.pdf', 157);
+
+-- Probabilitati_Si_Statistica (courseid 32)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (158, 'probability1.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability1.pdf', 158);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (159, 'probability10.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability10.pdf', 159);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (160, 'probability11.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability11.pdf', 160);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (161, 'probability12.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability12.pdf', 161);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (162, 'probability2.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability2.pdf', 162);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (163, 'probability3.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability3.pdf', 163);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (164, 'probability4.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability4.pdf', 164);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (165, 'probability5.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability5.pdf', 165);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (166, 'probability6.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability6.pdf', 166);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (167, 'probability7.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability7.pdf', 167);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (168, 'probability8.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability8.pdf', 168);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (169, 'probability9.pdf', 32, 'cursuri/Probabilitati_Si_Statistica/probability9.pdf', 169);
+
+-- Programare_Avansata (courseid 33)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (170, 'collections_slide_en.pdf', 33, 'cursuri/Programare_Avansata/collections_slide_en.pdf', 170);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (171, 'concurrency_slide_en.pdf', 33, 'cursuri/Programare_Avansata/concurrency_slide_en.pdf', 171);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (172, 'exceptions_slide_en.pdf', 33, 'cursuri/Programare_Avansata/exceptions_slide_en.pdf', 172);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (173, 'generics_slide_en.pdf', 33, 'cursuri/Programare_Avansata/generics_slide_en.pdf', 173);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (174, 'gui_slide_en.pdf', 33, 'cursuri/Programare_Avansata/gui_slide_en.pdf', 174);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (175, 'i18n_slide_en.pdf', 33, 'cursuri/Programare_Avansata/i18n_slide_en.pdf', 175);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (176, 'input_output_slide_en.pdf', 33, 'cursuri/Programare_Avansata/input_output_slide_en.pdf', 176);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (177, 'interfaces_slide_en.pdf', 33, 'cursuri/Programare_Avansata/interfaces_slide_en.pdf', 177);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (178, 'jdbc_slide_en.pdf', 33, 'cursuri/Programare_Avansata/jdbc_slide_en.pdf', 178);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (179, 'jpa_intro_slide_en.pdf', 33, 'cursuri/Programare_Avansata/jpa_intro_slide_en.pdf', 179);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (180, 'networking_slide_en.pdf', 33, 'cursuri/Programare_Avansata/networking_slide_en.pdf', 180);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (181, 'objects_classes_slide_en.pdf', 33, 'cursuri/Programare_Avansata/objects_classes_slide_en.pdf', 181);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (182, 'reflection_slide_en.pdf', 33, 'cursuri/Programare_Avansata/reflection_slide_en.pdf', 182);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (183, 'spring_slide_en.pdf', 33, 'cursuri/Programare_Avansata/spring_slide_en.pdf', 183);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (184, 'streams_slide_en.pdf', 33, 'cursuri/Programare_Avansata/streams_slide_en.pdf', 184);
+
+-- Programare_Orientata_Obiect (courseid 34)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (185, 'Curs-1.pdf', 34, 'cursuri/Programare_Orientata_Obiect/Curs-1.pdf', 185);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (186, 'Curs-2.pdf', 34, 'cursuri/Programare_Orientata_Obiect/Curs-2.pdf', 186);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (187, 'curs-3.pdf', 34, 'cursuri/Programare_Orientata_Obiect/curs-3.pdf', 187);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (188, 'curs-4.pdf', 34, 'cursuri/Programare_Orientata_Obiect/curs-4.pdf', 188);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (189, 'curs-5.pdf', 34, 'cursuri/Programare_Orientata_Obiect/curs-5.pdf', 189);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (190, 'curs-6.pdf', 34, 'cursuri/Programare_Orientata_Obiect/curs-6.pdf', 190);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (191, 'curs-7.pdf', 34, 'cursuri/Programare_Orientata_Obiect/curs-7.pdf', 191);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (192, 'curs-8.pdf', 34, 'cursuri/Programare_Orientata_Obiect/curs-8.pdf', 192);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (193, 'curs-9.pdf', 34, 'cursuri/Programare_Orientata_Obiect/curs-9.pdf', 193);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (194, 'design-patterns.pdf', 34, 'cursuri/Programare_Orientata_Obiect/design-patterns.pdf', 194);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (195, 'modeling.pdf', 34, 'cursuri/Programare_Orientata_Obiect/modeling.pdf', 195);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (196, 'testing.pdf', 34, 'cursuri/Programare_Orientata_Obiect/testing.pdf', 196);
+
+-- Programare_Python (courseid 43)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (197, 'Curs-1.pdf', 43, 'cursuri/Programare_Python/Curs-1.pdf', 197);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (198, 'Curs-10.pdf', 43, 'cursuri/Programare_Python/Curs-10.pdf', 198);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (199, 'Curs-11.pdf', 43, 'cursuri/Programare_Python/Curs-11.pdf', 199);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (200, 'Curs-12.pdf', 43, 'cursuri/Programare_Python/Curs-12.pdf', 200);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (201, 'Curs-2.pdf', 43, 'cursuri/Programare_Python/Curs-2.pdf', 201);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (202, 'Curs-3.pdf', 43, 'cursuri/Programare_Python/Curs-3.pdf', 202);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (203, 'Curs-4.pdf', 43, 'cursuri/Programare_Python/Curs-4.pdf', 203);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (204, 'Curs-5.pdf', 43, 'cursuri/Programare_Python/Curs-5.pdf', 204);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (205, 'Curs-6.pdf', 43, 'cursuri/Programare_Python/Curs-6.pdf', 205);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (206, 'Curs-7.pdf', 43, 'cursuri/Programare_Python/Curs-7.pdf', 206);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (207, 'Curs-8.pdf', 43, 'cursuri/Programare_Python/Curs-8.pdf', 207);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (208, 'Curs-9.pdf', 43, 'cursuri/Programare_Python/Curs-9.pdf', 208);
+
+-- Programare_Rust (courseid 44 )
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (209, 'Course-1.pdf', 44, 'cursuri/Programare_Rust/Course-1.pdf', 209);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (210, 'Course-10.pdf', 44, 'cursuri/Programare_Rust/Course-10.pdf', 210);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (211, 'Course-11.pdf', 44, 'cursuri/Programare_Rust/Course-11.pdf', 211);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (212, 'Course-12.pdf', 44, 'cursuri/Programare_Rust/Course-12.pdf', 212);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (213, 'Course-2.pdf', 44, 'cursuri/Programare_Rust/Course-2.pdf', 213);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (214, 'Course-3.pdf', 44, 'cursuri/Programare_Rust/Course-3.pdf', 214);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (215, 'Course-4.pdf', 44, 'cursuri/Programare_Rust/Course-4.pdf', 215);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (216, 'Course-5.pdf', 44, 'cursuri/Programare_Rust/Course-5.pdf', 216);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (217, 'Course-6.pdf', 44, 'cursuri/Programare_Rust/Course-6.pdf', 217);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (218, 'Course-7.pdf', 44, 'cursuri/Programare_Rust/Course-7.pdf', 218);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (219, 'Course-8.pdf', 44, 'cursuri/Programare_Rust/Course-8.pdf', 219);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (220, 'Course-9.pdf', 44, 'cursuri/Programare_Rust/Course-9.pdf', 220);
+
+-- Proiectarea_Algoritmilor (courseid 35)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (221, 'curs+10-greedy.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs10/curs+10-greedy.pdf', 221);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (222, 'greedy-notes.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs10/greedy-notes.pdf', 222);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (223, '9_dyn-prog-notes.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs11+12/9_dyn-prog-notes.pdf', 223);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (224, 'curs+11-dp1.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs11+12/curs+11-dp1.pdf', 224);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (225, 'curs+12-dp2.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs11+12/curs+12-dp2.pdf', 225);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (226, '13+bkt+bb.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs13/13+bkt+bb.pdf', 226);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (227, '13-bkt+bb.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs13/13-bkt+bb.pdf', 227);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (228, '1compl-alg-probl.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs2/1compl-alg-probl.pdf', 228);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (229, '2sorting-des-und.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs2/2sorting-des-und.pdf', 229);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (230, '3computing-wcet.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs2/3computing-wcet.pdf', 230);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (231, '1alg-nedet-prob-en.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs3/1alg-nedet-prob-en.pdf', 231);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (232, '2examples-nondet-alg.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs3/2examples-nondet-alg.pdf', 232);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (233, '3jacobi-symbol.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs3/3jacobi-symbol.pdf', 233);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (234, 'compl-medie-en.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs4/compl-medie-en.pdf', 234);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (235, 'curs+nou.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs5+6/curs+nou.pdf', 235);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (236, 'bm.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs8+9/bm.pdf', 236);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (237, 'curs+8+string-match1-en.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs8+9/curs+8+string-match1-en.pdf', 237);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (238, 'kmp.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs8+9/kmp.pdf', 238);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (239, 'rk.pdf', 35, 'cursuri/Proiectarea_Algoritmilor/curs8+9/rk.pdf', 239);
+
+-- Retele_De_Calculatoare (courseid 36)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (240, '10rc_NivelulAplicatie_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/10rc_NivelulAplicatie_Ro.pdf', 240);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (241, '11rc_ParadigmaP2P_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/11rc_ParadigmaP2P_Ro.pdf', 241);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (242, '11rc_ParadigmaRPC_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/11rc_ParadigmaRPC_Ro.pdf', 242);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (243, '13rc_ReteleWireless_RO.pdf', 36, 'cursuri/Retele_De_Calculatoare/13rc_ReteleWireless_RO.pdf', 243);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (244, '14rc_SecuritateRC_RO.pdf', 36, 'cursuri/Retele_De_Calculatoare/14rc_SecuritateRC_RO.pdf', 244);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (245, '2rc_ArhitecturiDeRetea_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/2rc_ArhitecturiDeRetea_Ro.pdf', 245);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (246, '3rc_NivelulRetea_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/3rc_NivelulRetea_Ro.pdf', 246);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (247, '4rc_NivelulTransport_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/4rc_NivelulTransport_Ro.pdf', 247);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (248, '5rc_ProgramareaInReteaI_ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/5rc_ProgramareaInReteaI_ro.pdf', 248);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (249, '6rc_ProgramareaInReteaII_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/6rc_ProgramareaInReteaII_Ro.pdf', 249);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (250, '7rc_ProgramareaInReteaIII_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/7rc_ProgramareaInReteaIII_Ro.pdf', 250);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (251, '9rc_SistemulNumelorDeDomenii_Ro.pdf', 36, 'cursuri/Retele_De_Calculatoare/9rc_SistemulNumelorDeDomenii_Ro.pdf', 251);
+
+-- Materials for Securitatea_Informației (courseid 37)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (252, '2IS-CryptoBasics_SKC_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/2IS-CryptoBasics_SKC_unlocked.pdf', 252);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (253, '3IS-CryptoBasics_PKC_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/3IS-CryptoBasics_PKC_unlocked.pdf', 253);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (254, 'curs1-IS-Introduction_to_IS.pdf', 37, 'cursuri/Securitatea_Informatiei/curs1-IS-Introduction_to_IS.pdf', 254);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (255, 'curs11+IS-IPsecurity_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/curs11+IS-IPsecurity_unlocked.pdf', 255);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (256, 'curs13-14+IS-EmailSecurity_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/curs13-14+IS-EmailSecurity_unlocked.pdf', 256);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (257, 'curs5-IS-Access_Control_DAC_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/curs5-IS-Access_Control_DAC_unlocked.pdf', 257);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (258, 'curs5-IS-Access_Control_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/curs5-IS-Access_Control_unlocked.pdf', 258);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (259, 'curs6-IS-Access_Control_MAC_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/curs6-IS-Access_Control_MAC_unlocked.pdf', 259);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (260, 'curs7-IS-Access_Control_RBAC_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/curs7-IS-Access_Control_RBAC_unlocked.pdf', 260);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (261, 'curs9-IS-Access_Control_ABAC_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/curs9-IS-Access_Control_ABAC_unlocked.pdf', 261);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (262, 'IS-DNSsec_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/IS-DNSsec_unlocked.pdf', 262);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (263, 'IS-TLS_unlocked.pdf', 37, 'cursuri/Securitatea_Informatiei/IS-TLS_unlocked.pdf', 263);
+
+-- Materials for Sisteme_de_Operare (courseid 38)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (264, 'ch1.pdf', 38, 'cursuri/Sisteme_De_Operare/curs1/ch1.pdf', 264);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (265, 'P1.1_intro_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs1/P1.1_intro_web-ro.pdf', 265);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (266, 'P1.2_commands1_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs1/P1.2_commands1_web-ro.pdf', 266);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (267, 'ch10.pdf', 38, 'cursuri/Sisteme_De_Operare/curs10/ch10.pdf', 267);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (268, 'P10_fork+wait.pdf', 38, 'cursuri/Sisteme_De_Operare/curs10/P10_fork+wait.pdf', 268);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (269, 'T9_memoryAdmin2-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs10/T9_memoryAdmin2-ro.pdf', 269);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (270, 'ch11.pdf', 38, 'cursuri/Sisteme_De_Operare/curs11/ch11.pdf', 270);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (271, 'P11_exec_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs11/P11_exec_web-ro.pdf', 271);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (272, 'T10_memoryAdmin3-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs11/T10_memoryAdmin3-ro.pdf', 272);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (273, 'ch13.pdf', 38, 'cursuri/Sisteme_De_Operare/curs12/ch13.pdf', 273);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (274, 'P12_pipe+fifo_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs12/P12_pipe+fifo_web-ro.pdf', 274);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (275, 'T11_hddAdmin-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs12/T11_hddAdmin-ro.pdf', 275);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (276, 'ch14.pdf', 38, 'cursuri/Sisteme_De_Operare/curs13/ch14.pdf', 276);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (277, 'P13_signal_web.pdf', 38, 'cursuri/Sisteme_De_Operare/curs13/P13_signal_web.pdf', 277);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (278, 'T12_filesysAdmin-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs13/T12_filesysAdmin-ro.pdf', 278);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (279, 'ch18.pdf', 38, 'cursuri/Sisteme_De_Operare/curs14/ch18.pdf', 279);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (280, 'ch19.pdf', 38, 'cursuri/Sisteme_De_Operare/curs14/ch19.pdf', 280);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (281, 'P14_ncurses.pdf', 38, 'cursuri/Sisteme_De_Operare/curs14/P14_ncurses.pdf', 281);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (282, 'T13_introSistemeDistribuite.pdf', 38, 'cursuri/Sisteme_De_Operare/curs14/T13_introSistemeDistribuite.pdf', 282);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (283, 'ch2.pdf', 38, 'cursuri/Sisteme_De_Operare/curs2/ch2.pdf', 283);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (284, 'T2_structure-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs2/T2_structure-ro.pdf', 284);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (285, 'ch3.pdf', 38, 'cursuri/Sisteme_De_Operare/curs3/ch3.pdf', 285);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (286, 'P3_shell1_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs3/P3_shell1_web-ro.pdf', 286);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (287, 'T3_processAdmin1-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs3/T3_processAdmin1-ro.pdf', 287);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (288, 'ch5.pdf', 38, 'cursuri/Sisteme_De_Operare/curs4/ch5.pdf', 288);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (289, 'P4_shell2_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs4/P4_shell2_web-ro.pdf', 289);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (290, 'T4_processAdmin2-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs4/T4_processAdmin2-ro.pdf', 290);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (291, 'ch6.pdf', 38, 'cursuri/Sisteme_De_Operare/curs5/ch6.pdf', 291);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (292, 'P5.2_WSL_ppt-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs5/P5.2_WSL_ppt-ro.pdf', 292);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (293, 'T5_processSync1-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs5/T5_processSync1-ro.pdf', 293);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (294, 'ch7.pdf', 38, 'cursuri/Sisteme_De_Operare/curs6/ch7.pdf', 294);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (295, 'P6_files_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs6/P6_files_web-ro.pdf', 295);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (296, 'T6_processSync2-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs6/T6_processSync2-ro.pdf', 296);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (297, 'ch8.pdf', 38, 'cursuri/Sisteme_De_Operare/curs7/ch8.pdf', 297);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (298, 'P7_flock_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs7/P7_flock_web-ro.pdf', 298);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (299, 'T7_IPC+deadlock-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs7/T7_IPC+deadlock-ro.pdf', 299);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (300, 'ch9.pdf', 38, 'cursuri/Sisteme_De_Operare/curs9/ch9.pdf', 300);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (301, 'P9_mmap_web-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs9/P9_mmap_web-ro.pdf', 301);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (302, 'T8_memoryAdmin1-ro.pdf', 38, 'cursuri/Sisteme_De_Operare/curs9/T8_memoryAdmin1-ro.pdf', 302);
+
+-- Materials for Structuri_de_Date (courseid 39)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (303, 'curs-01.pdf', 39, 'cursuri/Structuri_De_Date/curs-01.pdf', 303);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (304, 'curs-02.pdf', 39, 'cursuri/Structuri_De_Date/curs-02.pdf', 304);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (305, 'curs-03.pdf', 39, 'cursuri/Structuri_De_Date/curs-03.pdf', 305);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (306, 'curs-04.pdf', 39, 'cursuri/Structuri_De_Date/curs-04.pdf', 306);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (307, 'curs-05.pdf', 39, 'cursuri/Structuri_De_Date/curs-05.pdf', 307);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (308, 'curs-06.pdf', 39, 'cursuri/Structuri_De_Date/curs-06.pdf', 308);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (309, 'curs-07.pdf', 39, 'cursuri/Structuri_De_Date/curs-07.pdf', 309);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (310, 'curs-08.pdf', 39, 'cursuri/Structuri_De_Date/curs-08.pdf', 310);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (311, 'curs-09.pdf', 39, 'cursuri/Structuri_De_Date/curs-09.pdf', 311);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (312, 'curs-10.pdf', 39, 'cursuri/Structuri_De_Date/curs-10.pdf', 312);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (313, 'curs-11.pdf', 39, 'cursuri/Structuri_De_Date/curs-11.pdf', 313);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (314, 'curs-12.pdf', 39, 'cursuri/Structuri_De_Date/curs-12.pdf', 314);
+
+-- Materials for Tehnologii_WEB (courseid 40)
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (315, 'web-arhitecturaserverweb.pdf', 40, 'cursuri/Tehnologii_WEB/web-arhitecturaserverweb.pdf', 315);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (316, 'web01arhitecturaweb.pdf', 40, 'cursuri/Tehnologii_WEB/web01arhitecturaweb.pdf', 316);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (317, 'web02programareweb-http-cgi.pdf', 40, 'cursuri/Tehnologii_WEB/web02programareweb-http-cgi.pdf', 317);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (318, 'web03programareweb-http-cookie-sesiune.pdf', 40, 'cursuri/Tehnologii_WEB/web03programareweb-http-cookie-sesiune.pdf', 318);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (319, 'web04dezvoltareaaplicatiilorweb-inginerieweb.pdf', 40, 'cursuri/Tehnologii_WEB/web04dezvoltareaaplicatiilorweb-inginerieweb.pdf', 319);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (320, 'web05dezvoltareaaplicatiilorweb-php.pdf', 40, 'cursuri/Tehnologii_WEB/web05dezvoltareaaplicatiilorweb-php.pdf', 320);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (321, 'web06modelarexml-familiaxml.pdf', 40, 'cursuri/Tehnologii_WEB/web06modelarexml-familiaxml.pdf', 321);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (322, 'web08procesarixml-dom.pdf', 40, 'cursuri/Tehnologii_WEB/web08procesarixml-dom.pdf', 322);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (323, 'web09serviciiweb-rest.pdf', 40, 'cursuri/Tehnologii_WEB/web09serviciiweb-rest.pdf', 323);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (324, 'web10serviciiweb-api-microservicii-serverless.pdf', 40, 'cursuri/Tehnologii_WEB/web10serviciiweb-api-microservicii-serverless.pdf', 324);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (325, 'web11serviciiweb-mashups-spa-pwa.pdf', 40, 'cursuri/Tehnologii_WEB/web11serviciiweb-mashups-spa-pwa.pdf', 325);
+INSERT INTO public.material (index, name, courseid, path, materialid) VALUES (326, 'web12securitateweb.pdf', 40, 'cursuri/Tehnologii_WEB/web12securitateweb.pdf', 326);
 
 --
 -- Data for Name: streak; Type: TABLE DATA; Schema: public; Owner: -

@@ -29,7 +29,7 @@ jobs:
           registry-type: public
 
       - name: Build Docker images
-        run: docker compose -f docker-compose.yml build
+        run: docker compose -f docker-compose.build.yml build
 
       - name: Generate version tag
         id: set_tag
@@ -38,17 +38,23 @@ jobs:
 
       - name: Tag and push backend image
         run: |
-          BACKEND_IMAGE="myapp-backend"
+          BACKEND_IMAGE="quizzy-backend"
           BACKEND_REPO="public.ecr.aws/w9j1e0m5/quizzy/backend"
           docker tag $BACKEND_IMAGE:latest $BACKEND_REPO:$VERSION_TAG
           docker push $BACKEND_REPO:$VERSION_TAG
+          docker tag $BACKEND_IMAGE:latest $BACKEND_REPO:latest
+          docker push $BACKEND_REPO:latest
+          echo "Backend image pushed as $BACKEND_REPO:latest and $BACKEND_REPO:$VERSION_TAG"
 
       - name: Tag and push frontend image
         run: |
-          FRONTEND_IMAGE="myapp-frontend"
+          FRONTEND_IMAGE="quizzy-frontend"
           FRONTEND_REPO="public.ecr.aws/w9j1e0m5/quizzy/frontend"
           docker tag $FRONTEND_IMAGE:latest $FRONTEND_REPO:$VERSION_TAG
           docker push $FRONTEND_REPO:$VERSION_TAG
+          docker tag $FRONTEND_IMAGE:latest $FRONTEND_REPO:latest
+          docker push $FRONTEND_REPO:latest
+          echo "Frontend image pushed as $FRONTEND_REPO:latest and $FRONTEND_REPO:$VERSION_TAG"
 
   cleanup:
     runs-on: ubuntu-latest
@@ -103,10 +109,22 @@ jobs:
           clean_repo "quizzy/frontend"
 
   deploy:
-    needs: cleanup
     runs-on: ubuntu-latest
+    needs: cleanup
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Copy docker-compose files to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./docker-compose.yml"
+          target: ~/quizzy-app/
+
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -114,8 +132,16 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            if ! command -v docker &> /dev/null
-            then
+            cd quizzy-app
+            echo "VITE_BACKEND_URL=http://backend:3000" > .env
+            echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
+            echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> .env
+            echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
+            echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+            echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+            echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
+
+            if ! command -v docker &> /dev/null; then
               sudo dnf update -y
               sudo dnf install -y docker
               sudo systemctl start docker
@@ -124,36 +150,26 @@ jobs:
               newgrp docker
             fi
 
-            aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+            if ! docker compose version &> /dev/null; then
+              mkdir -p ~/.docker/cli-plugins
+              curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) \
+                -o ~/.docker/cli-plugins/docker-compose
+              chmod +x ~/.docker/cli-plugins/docker-compose
+            fi
 
-            BACKEND_REPO="quizzy/backend"
-            FRONTEND_REPO="quizzy/frontend"
-            
-            # Get the latest image tags
-            LATEST_BACKEND_TAG=$(aws ecr-public describe-images \
-              --region us-east-1 \
-              --repository-name $BACKEND_REPO \
-              --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' \
-              --output text)
+            # Install the Amazon ECR Docker Credential Helper
+            sudo yum install -y amazon-ecr-credential-helper
 
-            LATEST_FRONTEND_TAG=$(aws ecr-public describe-images \
-              --region us-east-1 \
-              --repository-name $FRONTEND_REPO \
-              --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' \
-              --output text)
+            # Configure Docker to use the credential helper for ECR
+            mkdir -p ~/.docker
+            cat > ~/.docker/config.json << 'EOF'
+            {
+              "credHelpers": {
+                "public.ecr.aws": "ecr-login"
+              }
+            }
+            EOF
 
-            echo "Latest backend tag: $LATEST_BACKEND_TAG"
-            echo "Latest frontend tag: $LATEST_FRONTEND_TAG"
-
-            docker pull public.ecr.aws/w9j1e0m5/$BACKEND_REPO:$LATEST_BACKEND_TAG
-            docker pull public.ecr.aws/w9j1e0m5/$FRONTEND_REPO:$LATEST_FRONTEND_TAG
-
-            docker stop myapp-backend || true
-            docker stop myapp-frontend || true
-            docker rm myapp-backend || true
-            docker rm myapp-frontend || true
-
-            docker run -d --name myapp-backend -p 3000:3000 public.ecr.aws/w9j1e0m5/$BACKEND_REPO:$LATEST_BACKEND_TAG
-            docker run -d --name myapp-frontend -p 80:80 --link myapp-backend public.ecr.aws/w9j1e0m5/$FRONTEND_REPO:$LATEST_FRONTEND_TAG
-            
-            rm ~/.docker/config.json
+            docker compose down || true
+            docker compose pull
+            docker compose up -d

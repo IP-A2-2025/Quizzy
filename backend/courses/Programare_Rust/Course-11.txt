@@ -1,0 +1,2759 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 11
+Gavnm Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+®; Agenda for today
+1. Macros
+2. Procedural macros
+3. Procedural derive macros
+4. Function-like procedural macros
+5. File operations
+6. File System operations
+7. Execution Environment
+8. FFI /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+7
+Macros
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+g; Macros
+Macros are a kind of metaprogramming designed to extend the capabilities of a
+program in regard to problems like the following ones:
+
+~ DRY lion't Hepeat ﬂourself) —) for cases where similar code must be repeated in your program
+- DSL iiomeih Epeeiric Banguagesl —> for cases where you need a special syntax Within your owri
+code
+- Variadic parameters or repetitions -> keep In mind that Rust does not have varladic
+parameters (like with the case of I in c/c++i. Instead, it uses macros to achieve similar results.
+Rust macros don't work like C/C++ ones (by performing some sort of replacement in
+the precompile phase). The work directly with the compiled AST and their output is
+also integrated in the AST (ibstract Iyntax Iree)t As such, their parameters have a
+type (a token type as it is represented by Rust AST).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+g; Macros
+A macro in Rust is defined in the following way:
+macrruuleslnﬂmvl where - is defined as (S ]:> l3 l?
+":51 '_ where a puttern_mutcher is a sequence of tokens (as they are
+3:11 defined in the Rust AST) including some regular expression like
+_ 3’ operators such as I, I orl, and “i” in rulei is in [1..n]
+rule", The process that matches some parameters and converts them
+l into rust code is also called transcribing.
+This is very similar to how the match construct works (with at least one rule needed
+to be present).
+To use a macrojust use the name define in the macr0_rules definition followed by
+the Icharacter: where parameters is a sequence of tokens a
+they are obtained by Rust compiler
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Macros
+Let's start with a very simple example where a macro translates to a number
+(similar to how a simple macro works in C/C++).
+Rust 6/6“
+OBS: Notice that you can use I or I or .with a macro in Rust, us specified in the
+macro rules.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Macros
+Not using I or or. with a macro in Rust will trigger a compiler error. Similar, you
+have to add the sign after the macro in order for the syntax to be correct.
+Rust
+Z MAYJIALUEi i.
+5 i ‘at .~ V HM wituEi,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Rust however adds more context to a macro (in the sense that any variable that is
+being used must exists in the macro context)‘ Let's analyze the following scenario:
+Rust C/C++
+
+H 7 Hummrw.‘ . ‘I M M “with; Vi 7m‘ i ii .1“
+l livill'lll w i lvllll
+
+i H u m i» NW CH‘ L.‘ m;
+
+Vl'slllislljtl'li i‘ ‘ Hm; 1.1!‘
+
+‘Til-Till H m.- r M W D
+a l _ ‘ i H _ 1
+> l ll ll mull‘ l‘ M huglilmd n up. an)"; Z
+~ l muumw i, 2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+®
+Macros
+Rust however adds more context to a macro (in the sense that any variable that is
+being used must exists in the macro context)‘ Let's analyze the following scenario:
+Rust (/cw
+i wrar ms‘ r i .i
+M 7 1 outlivrjwh ’ 1; ih'e*u> mug-ms.‘ J 1m‘ H .1“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+E; Macros
+Let’s see an even more complex example where we use macro parameters. In Rust,
+each parameter is defined using the I (dollarsl'gn) followed by a name, and a type
+(with the mention that the type refers to how that variable is referred to by the AST
+Format: -where type can be one of the following:
+expr An expression in the AST pet A pattern
+ldent An l'dentlfler (Including Rust speclflc keywords] patiparams A pattern (backwards mmpatlblllty with
+block A block of either statements and/or expression 2°15 Mm",
+
+surrounded by{..)lhraces) liletirne A liretirne
+llEm Afunctlon, struct , module, path A path to a module(e,g.mad1::mod2:.,.,)
+literal A eanstant value leg. 100, "some string”, true, 'a'] vis A visibilltv keyword leg. pub) /
+tt Aslngle token tree meta A meta item all. .]
+(V AWPE
+Stmt Astatemerlt
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+g; Ma cros
+Each one of these constructs (-l can be followed by:
+expr => , ;
+idem N0 restrictions
+block No restrictions
+llem No resmcuons
+literal N0 resKriclions
+It N0 restrictions
+w :>,:|;:>>>[i6$where
+5km! => I I
+pat => , = 1f in /
+pam :>,:|;:>>>[(aswhere
+mama NO restrictions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+a Macros
+Let see how a function like macro that adds two number looks like:
+Rust c/cn
+U‘ s‘ + i‘: ‘ 1 "-er iLW~u-, ‘M
+‘ 1‘ m 1mm:
+So our macro sum has two parameters:
+- - 9 of type expr [meaning it can be any type of expression]
+- - 9 of type expr
+But why do we actually need to exp\ain each parameter (metavariable) type ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Let's consider the following macro:
+Rust c/c++
+‘ rH lt)D1\‘ 1
+"1“;““:‘ "R ww~vu|vn,.w~v
+‘ l. .111 Hi)!‘\\ 1
+‘ ‘WU; 7w 7 ‘LLilr'LwlleiMl
+7W a N,‘ w 'H"T\‘\w1_l,l_5l>
+1,,‘17'1,U\1+1.3‘1M ‘ ww" ‘. v‘, ‘ , ‘.
+uantJnH“ . . H r ‘
+200,17999999999999998- 200,1.799999999999999WB
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+®
+Macros
+Let's consider the following macro:
+m \ c/cw
+Spa SDI V% -
+ﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+®
+Let's consider the following macro:
+Rus!
+:m 'MULTIPL'nbLZGM
+- ‘W Z WG-1‘
+Mﬂ— -
+200,1‘799999999999999812
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Let's see a slightly more complex example:
+Output
+trelt ( Frv lﬁselF), } 5
+ma<miru1e5l implementipmntime -; We
+as» m Q .1
+)mpl For‘ S '
+m (£5510 <
+l‘! “lavlflv
+l
+l
+l;
+impwmtyij )‘
+lmplementipmnlimeﬂ 1,
+f" n l
+$7 <1,
+mu <7,
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+®
+Macros
+Let's see a sllghtly more complex example:
+w l l g _. 45
+wmm“:w ,
+equal‘ 1
+"U 7 e,
+W 1 J75‘ m 1 valll(...))
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Let's see another example, but this time we will use multiple rules to create a
+
+simple calculator that gets a command followed by a two values and then applies
+
+that command over the two numbers/expressions.
+
+Rust
+‘and at aw, s“ ETD!“ 7- i w ntlr'li ,mww i, 1': 5
+‘min n >2.4pi-_1.\.‘ [mi a, i ,H will‘ ,m-n ,_ ;, cw
+lsub 1i “up. .w aw‘ Z in mm sip,» i. l.
+n1“ no \sk'pi. .m exp!" Z itumm ,iu it». i: 20
+
+; 33
+
+Mum 1mm,
+:uall W1 5,4‘.
+231‘ m magi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+g; Macros
+But -) what if we want to have a variable number of expression instead of two) for
+the previous example: eg. to be able to write something like:
+
+To create a loop in a Rust macro use the following format:
+Where:
+- I is a list of tokens, parameters that need to be repeated
+- - is an optional parameter that describes a separator between (m)
+- — is a parameter that explains how repetition is being performed:
+- |-) u or multlple repetltlons
+- |-) 1 or multiple repetitions
+- |-) at mos! one repetillon
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Let's see an example that uses repetition:
+Rqu
+H‘; “My; "idizm
+; t 7 ‘a ,
+i ‘~71 i s
+H 54
+“HUN-w‘ i i i‘ 3
+EV11H\ 1.2.3.4.5.b‘7.8,8.1\3i.
+Ex!l‘i1.2‘v
+Let's analyze this macro:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+®
+Macros
+Let's see an example that uses repetition:
+RUE!
+mu
+3
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+®
+Macros
+Let's see an example that uses repetition:
+RUSI
+in ,t 7 § , ‘
+putl\ wu". v uh
+‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+®
+Let's see an example that uses repetition:
+Rust mm (translated)
+‘ \ \ \ 7 1,
+‘ \ v 1.
+‘ ‘ \ .1 1.
+1;‘ J: t, 4;
+‘ * ,7 s;
+w \ ,7 a.
+‘ \ v 1.
+1;‘ J: t, a;
+rust-analyzer‘ Expand macrorecurswelv ‘ " J '7 1m
+us m 1 1m.»
+‘U my“
+i m z z \ ‘u
+f [ ‘l.
+> M,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+A macro can call another macro (including the same macro thus creating a
+recursive call). There are some limitations on how man such calls the compiler will
+do, but they can be overwritten by the use of“ (with
+different values).
+RUE!
+ll ‘iBLlSIZE',
+l$ = l {lusize};
+llmze + Humid‘; mi
+‘ MY ‘l l
+>: LuuritilllrL-"ljl,
+pr-mnnll “ "l;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+E; Macros
+Rust also has several system macros that can be used in different scenarios:
+EDIE-
+print, println, write, writeln String formatting
+stringify Converts argument(s] tn a string
+concat Concatenates multiple strings/literals into a static string
+line, column, file information about current ﬁle, current |ine and current column
+compile_ermr Triggers a compiler error
+include, includeistr, Allows loading an external file directly into the code as an expression, as an
+include_bvles UTF-8 string or as a sequence of bytes
+env A macru to access environment variables
+unimplemerlled A macro to trigger a panic if unimpleniented code is reached
+assert, assert_eq, assert_ne, Used in tests function to evaluate an expression. These macros will panic if
+debug_assert, the evaluation is false. The difference between the debug_xxx version and
+debuLassertieqP" the rest of the macros is that debuuxx are removed from release build.
+
+%
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+. stringify! Has singular tokens as parameters 9 meaning it can be used with
+everything (including keywords, items, etc). It also adds an extra space after a
+token (except for comma)‘ OBS: Its output might change infuture versinns
+
+' concat! has iiterals as parameters (so it can be used with numbers, strings, etc)
+
+m mm-
+n M it i ,v
+
+A .t , WWEW,»i1,2,;,4‘<~i; 113,4,»
+
+'r y Z strlnglﬂii1s2+3+4+5yq 1tlt3t4+5
+
+pet 1 e [111(01th 10, m; L54", abclmwelﬁa
+
+tit t : ;n-1w>1m w then Hit‘ a:a*Lw‘i, ifa/bthena:arbeisea:a+b
+
+;vr'niti'i‘\ ‘ x1 i,
+
+rwmrnu'“ y: i:
+
+prmtlwy'zi r:
+
+prlntl'iii“ ti ‘i:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+|ine()! , columnlj! and fi|e()! return literals‘ As such, they can be used with concat()!
+‘° g2‘ a '°g'“ke mg‘ m:-
+RIISt
+We arc at lmc 1mm src\mam VS
+
+- r rum 1 ,
+
+~lx1rumafli W r> l > ‘line-ll“, l > ‘rrlv'ﬂli;
+
+r'ir'ir'il'lnli ,~. r:
+Similarly, env(<system_variable>)! can be used to read the value of a system
+variable:
+“5' mm-
+;r ramq:
+
+p1 R 7 mil r w r; c'\i"'=f;'B"\Fi|¢i\
+
+mnuwr x r.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+— can be used to trigger an error if some parameters are Incorrect
+(in our case we can not sum up 0 or 1 values)‘
+mommy sum <
+new {Irwrwttrrwr r Nth),
+(s: 17w [~""‘vi ':'t\ rw'rti'w, ~~ "mg",
+1; ‘m v m: 7w
+r
+1H M result Z s r
+s<
+resulthS 1
+)r
+mm
+)
+x»
+Fn (‘I '
+Mt x l >um‘l1‘/,','¥_f/‘ Olav.“
+pnnmu (x) m 10
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+— can be used to trigger an error if some parameters are Incorrect
+(in our case we can not sum up 0 or 1 values)‘
+(s: 17w [~""‘vi ':'t\ rw'rti'w, ~~ "mg",
+mm” m J u
+r
+3 1 (5m m") " < ETHTTTT“Tiff'ﬁﬁfiffff‘111%???t11351?‘TltYflinffTYYﬁfiif' y’
+1:‘ m x 1 mm»
+r H [Us mm MOW
+meun‘ ‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Let's consider that we have a C++ file (called temp.cpp) that contalns the following
+code and it ls located in the src file where the main.r5 is located as well.
+c++
+:mw' -> l'llll llPlYl - ,‘,l ‘WV
+m1 “lawn l
+LLJ : llULTIPL‘r'll.2l;
+htcl : llULTU‘L‘r'l_1.Z,1.5l,
+pr HUM ““:'d ‘.Ld", - ,1 .‘i
+Then , the execution of the following code in Rust will produce the followlng output:
+'V'l v'tum 1 l “deﬁne MULTlPLleNllW
+H ,1: mm» ctr-l, llu l w. ‘,mdmmm
+l""1"‘*l"'l » J; autuxIMULYIPLVUZJ
+l autoyIMULTlPl-YU 1,115»
+Wmemancm,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Procedural macros
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+g; Procedural macros
+There are cases where a simple macro will not suffice , as it implies a more complex
+logic on the transformation that needs to be made before compiling the code (elg,
+for example converting a code written in a different language in a Rust language).
+The general approach here is to use procedural macros.
+
+A procedural macro can be used in the following way
+or
+'l l ll
+Where:
+- - -) the name of the procedural macro
+~ — -) arguments that are being passed to procedural macro (optional)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+g; Procedural macros
+
+To create a procedural macro, the following steps must be performed:
+
+1. Create a separate library where the procedural macro will be defined.
+
+2, In that library define an export with the name of the procedural macro
+
+3, Modify —to explain that the new library is to be used by the compiler
+as a procedural macro
+
+4, Compile the new library and linked it to a new project (where you want to use
+it) via dependencies from — (you can either uploaded to cratesjn , or
+use it directly from the local/older or a git repo).
+
+5. Rust compiler will load the library and whenever the procedural macro is being
+called it will execute your exported function with a list of tokens from the code
+(not an AST- but sufficient to build one) that needs to be translated into Rust
+code.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Procedural macros
+Let's discuss an actual example. Rust does not have the concept of a bit flag enum
+(an enum where each variant is a flag: 1,2,4,8,16,32,64, ].
+The reason for this is that bitflags can be combined and since an - must have a
+value from the specified list, this can be tricky to evaluate.
+For example — lets consider the following snippet:
+Rust
+H V 1i “Human w. “Mailman m mi mi
+, ‘H l u."
+The code will not work as -trait is not implemented!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+®; Procedural macros
+But this is not enough -) to have a proper bitflag enum the following operations
+should exist:
+BitOr Test::V1 | TestzVZ |Test::V3
+BilAnd Test::V1 &Test::\/2
+BitOrAssign ﬂags |= Test::V1;
+BitArldAssigrl ﬂags &= TestziVl;
+PartialEq The possibility to compare two values arid see if they are equal or not
+nisplay lfwe want to print ah enum value
+Empty variant The case where no bits are set up (the memory value is 0]
+Representation A bit-ﬂag enum is ultimately an unsigned value of type u8,u16,u32,u64 or u128.
+Methods Various method (e.g. contains, clear, set, a.)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+g; Procedural macros
+Obviously, all ofthe precedent requirements can be written manually. But this
+implies a lot of work for a very simple enum‘
+In particular, if we are to compare this with other languages (like C/C++ where this
+kind of feature is already there), having to write the same code over and over for
+each bit flag enum can be frustrating‘
+So let's see how we can build a procedural macro that can do this for us
+(automatically) /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+g; Procedural macros
+: Create a separate library where the procedural macro will be defined‘
+- let’s call the new library —
+- To create it run the following command : cargo new EnumBitFlags --|ib
+The procedural macro will also be called EnumBitFIugs, and ultimately, we will
+need to be able to write something like this:
+:T i I,’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+® Procedural macros
+m: Modify libtrs to export this function
+Rust libJs
+l > rm; marina
+l m H ,WUWN.
+it.‘ ‘ml n w H‘ 1%“,th Ml l ,, in V MM w M;
+Notice the — attribute and the pub visibility specifier (this tells
+Rust that this function should be called whenever something like #[EnumBitFlags] is
+found in another Rust program.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+g; Procedural macros
+: Modify Iiblrs to export this function
+Assuming we have the fOIIOWing code: This pan will be sent as the input parameterfurthe
+EnumBilFIngs method. In reality this is seen more like
+a tree lAsT). In this case it will receive the following
+V1
+enum Z
+T851 1
+l l
+v1
+2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+g; Procedural macros
+: Modify librrs to export this function
+Assuming we have the fOIIOWing code: This part will be sent as the args parameterfor the
+EnumBilFlugs method. This is useful ifyou wantto
+control the way the code is being genemted.
+m
+15
+QM i
+We
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+: Modify Iibtrs to export this function
+a uteLF/e e‘ ‘ t t ‘e
+Assuming we have the following code: This pm represents the mnpm stream [the new code
+mm that will he inserted instead enhe old onel.
+‘HM M‘ 71;‘ e
+, 1 For comp\ex code changes, usually the new code is
+t belng bth in a String variable and then converted mm a
+TokenStream using : : \ \ w‘ 5m
+method
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Procedural macros
+m: Modify libtrs to export this function
+Let's see a very simple example:
+Rust lih.rs
+WU sari . = a
+In this code we replace the existing code with a function that sums up two integer
+variables.
+OBS: If an error occurs during processing the token stream from input or args, a
+must be thrown. This will be intercepted by the compiler and used to show
+the error (e.g. very useful in IDEs like Visual Studio Code)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+®
+Procedural macros
+m: Modify libtrs to export this function
+Let's see a very simple example:
+Rust mm
+ln—ms up two integer
+va
+O; 1 - a a r n '| l | - w - |'-' -| ' a" inputurargs,y0u
+should .l. This will be intercepted by the compiler and used to should the error.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+m: Modify-t0 explain that the new library should be used as a
+procedural macro‘
+
+Cararam/
+
+[nitkae
+
+¢ thwr V TEL)‘
+
+l ‘l ‘W r “lumlhr l v v," w» w Hm“ Hr Flu". ‘Wm r-l- mm»
+ll H r ‘m r
+
+l l :[
+
+7 [ l-Elerwgmr:@;l; J ital-Mm”17mm; ;
+
+r l" f'l. V “l'tti: ,1)tl1ll:.:wl :ﬁtﬂfM”: EulrrPltFlnjt “
+
+l l“ r “F-‘l'r'\l'l‘ll' my
+
+W
+
+' " ' ' protrrnacro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+g; Procedural macros
+I: Publish the new library (0r store it locally or into a git repository).
+In particular for our example, —was published to crateslio:
+- Git repo: httgs:[[github.com(gdt0505791EnumBitFlagsl
+- Crates: httgszﬂcrates.iolcratesZEnumBitFlags
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Procedural macros
+To use procemacro, add the following in your dependencies section from cargotoml:
+Caramml
+Then, you can write the following in your Rust programs:
+Rust
+EnLviEthlagE :Enu'EltFJQI;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+Upon compilation, the foHowing code will be converted into:
+mm mm up.“
+V l M l ‘1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+.
+Procedural macros
+Once this is done, you can write a code like this:
+RuSt
+y> ,i
+1 V : v1;
+' i7 v1.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+Derive procedural macros
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+g; Derive procedural macros
+Derive procedural macros are ver similar to procedural macros, except that they
+provide additional input for the m attribute.
+
+Just like any procedural macro, you need to create a separate library and mark it as
+a procedural macro from cargo.taml file‘
+
+As a general rule, a derive procedural macro will implement a trait and its
+additional method for a structure or enum. It is a common practice that larger
+application create a library that exposes a trait and another library that allows
+deriving out of that trait via #[derive(...)] attribute.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+® Derlve procedural macros
+The difference (from how a standard proc-macro looks) lies in the how the entry
+point function looks like (notice that there is no arguments in this case 9 as it is
+not required by the way #[derive(name)] works:
+Rust lleS
+l.» ll ‘l ll ‘ll ml,‘ lllllllllll llll l Mr- .w e l Hm m l
+The usage will be something like thls:
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Another difference between a proc-macro and a derive proc-macro is how the
+output is being used,
+A) ln case of proc-macro
+I I
+Token Prue-macro New Token Stream
+- - - Stream Functlon - - - thatreglucesthe source
+Regiaces
+B) In case of derive proc-macro
+I - ,
+Token Derive-Warn) |—i—| New Token Stream wlll be
+|—|—| _ . _ --- _ _
+- - - Stream I Functmn m added m the existing une
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+g; Derive procedural macros
+Another observation is that a derive procedural macros don’t have an way to
+customize them (keep in mind that deriving is done via I-in with not
+specific customizations.
+
+However, there might be cases where such a customization is required, For such
+cases, Rust has a helper attributes system, with the following format:
+i_ i_' , , jiji
+limit-e i a: i ‘i
+To use this helper attributes: #[At'tri] or #[Attroalue]
+These attributes (if used) will be present in the - parameter from the macro
+derive function and can be used to change how the deriving will be implemented.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+'
+Derlve procedural macros
+Let's see an example:
+A) Atthe |ibrary(crate)source
+Rust Mus
+\L - l, n
+rm\.w-rm;mrrrim4n-y-w; I e.» {. 1'
+B) At another rust source that uses this custom derive
+RMSF
+[;\r\'\.\-':'r*LTm'alu-J : "Some information related to convertjon"
+r
+\
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+Function-like procedural macros
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+g; Functlon-llke procedural macros
+Function-like procedural macros are procedural macros, that can be called like a
+normal macro. However, they workjust like a procedural macro 9 they receive a
+stream of tokens and must return an output (a new code that will be inserted in the
+program AST),
+
+Just like any procedural macro, you need to create a separate library and mark it as
+
+a procedural macro from cargo.t0ml ﬁle‘
+
+Vou will also need to mark the function that will be called with a specific attribute:
+#[proc_macro]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+‘ . .
+Functlon-llke procedural macros
+Let's see an example:
+A) The library should have something like this:
+Rust (inn)
+B) The application that uses this will use it like this:
+RIIS!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+g; Functlon-llke procedural macros
+This type of macros are very suited for different type of optimizations and
+automatizations:
+
+- Computing best hashes
+
+- Generating code from another language (maybe something that is received as a
+string parameter)
+
+- Generating tables with data (e.g. an automaton)
+
+- Generating code based on the data from a file or multiple files
+
+a Etc‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+File operations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Rust supports file operations via a specific type called File (located in std::fs::File)t
+A ﬁle object can be created in the following way:
+"MM M-
+-"""r'1t" i “"’l' K ‘ ' e Creates a new filer If the file already exists, the ﬁle will
+be truncated‘
+wwr 1r r‘ - K r Opens afilethat already exists. If the file rs missing or
+in case of other system errors, it returns Error
+Returns an Openoptiun object that can be used to
+decide how E file Should be opened‘
+Notice that the Error result is part of the namespace (std::io::Error). /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:61**************
+Let's see a simple example:
+""5! ME-
+
+naimj'» '(l, std::in:: , y
+
+l Z ;;Jealjl~j_lr 9;); Fllealxthasbeencrealedl
+l,\.‘r‘\frl_'“l»~l l q w l1‘.n1wnwm1jljlv;
+
+pr‘ir'll:lr\ll“Flll ,\.l l l. W, ‘l ll‘ “y;
+
+mum
+Let's analyze this code:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+. . .
+F||e operatlons
+Let's see a simple example:
+Rust
+mm-
+Let's analyze this code: \
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:63**************
+. . .
+F||e operatlons
+Let's see a simple example:
+Rm mm-
+Let's analyze this code:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+. . .
+F||e operatlons
+Let's see a simple example:
+M m!-
+Let's analyze this code:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+lfyou don't want to used the ”?' operator, the previous code can be written in a
+different way:
+5m‘ ‘ m», ' m" J‘ FIIE am has been created!
+maimt r
+iF rm H Z :wwr-mr-Uamxt"? r
+1r okr r : Yum mgr’ "Hello WOFld“_L11» wrwlyr r
+pr‘1ntln!("File artxt has been created Z");
+1'
+Ir
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+/ Flle operatlons
+Orin a more classical way, by checking the resuks each time:
+use std::{fs:: , 10:: ); ,W—‘
+F" 0 < Fllezlxthasbeencreated!
+let Fires 1 ;; (“ mm");
+n F_res. () (
+FCturn;
+}
+let mut f : Fires. 0,-
+let Fiwriteiresult : f. (‘HM w: .“ww. ()1;
+if Fiwriteiresult. () (
+PCturrv;
+}
+println!(“\ e hm, m; new ‘YfllLrgll P‘);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:67**************
+. . .
+File operatlons
+
+Notice that there is no - method in type File. This is because it is not needed.
+When “f” scope is over, any handle to the file object will be closed‘
+lfyou need to control when file is being close, you can open/create it into its own
+scope. When its scope has ended, any handle that a File might have will be closed‘
+RuSl‘
+
+l ': ::u'eetel:"a.txt")?;
+
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+F||e operatlons
+Alternatively, you can force dropping the variable (via function -). This function
+moves the object (takes the ownership of the memory the object has). Under the
+hood, if the Drop trait is implemented, it acts as a destructor and it is called. For an
+object of type File, the immediate result is that its handle is closed.
+Rust
+std: :f§:: ;
+Prepare w create a ﬁle .v
+rrdirnjr (ll, 5m; 10;; > t; Fileatxt has been created!
+pr‘)ntlnli_"Pr‘epar‘e m create a fuels/‘r;
+r' : :;rmnr-i_"a.t><t")>;
+l.i-:r'lLel"Hello wor‘ld".a> bytest'i'ir‘;
+pr'intlnli"Fjle a.txt has been created i'y;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+But what if we want to open a file in a different way (for example, create it if it does
+not exist, but if it does, just open it and move the file position at the end ofthe file
+so that we can add data at its end)‘ For this we have the - method that
+returns an — type with the following methods:
+mm r ‘we r V Speciﬁeslhatkeud mode should he used when openmg
+we,
+mm .t v m‘ - Spetiﬂes that Write mode should be used when Opening
+awe
+“we . r r t r r a Speciﬁesthattheﬁlepointerwillbeposmonattheend
+olthefile
+Specifies thatthe ﬁle (ifexistsl should be truncated.
+[mum . 1M; r 7- ; Specifleslhatlheilleshouldbecreatedihldoesnut
+mt.
+Opens a ﬁle usingthe specific open file options specified
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+®
+Let's see how - can be used:
+Rust
+mam!) r> q). std::io:: vi Output
++ Z ::n['\('\m\i(:hr‘r'adk_' ‘v
+.m'lLel 11
+.appemﬂ j
+.Cv‘>33(e\ ,1
+‘\:>per\("a‘txt"'/?i
++.\.-.w-iw("123\n".aLnwaiFIv-w
+pr'intln!("Fjle written l");
+0M0)
+i 123
+123
+123
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:71**************
+Once a file has been opened / created, there are a set of method that can be used:
+
+mam L- ‘ e v E- ‘ \ Reads me (omen! oﬂhe Me mm (he buﬁev Returns (he
+numbev 01 hytes veed, or an evrorv
+
+rim he em- a . h -> e Readnhesome"!loeMe(iromthecurremposmonmthe
+Me ends) We a vectur
+
+We m ,We v. . L v. e Readsﬂvewriter“Mastrmgmwaitrwg mewmemmuewe
+a we meme"
+
+ee-e, e. ‘ \ \ q ‘ e Wmesmecontentufbufmtotheme The resultMOk
+represents the number M bytes wnﬂen
+
+i‘ i‘ \ 1‘ , ‘ Wnteslheenhrecuntemufbufmmtheme \htzrmnmwme
+themmenta!huhnmaHe,\tremrnsanerrur
+
+5U an ‘ 71L \ ‘ Se“ the \ength Mme ﬁle Truncnes (he Ne \f needed madds
+Ourmlthenewsue
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+g; File operatlons
+
+In terms of Read/Write operations, there are two scenarios:
+
+1. You either want to write an entire buffer/data to a file, or you want to read a
+content of a s ecific fix-sized buffer from a file‘ If this is the case, you should
+use the or methods, This is usually one of the most
+common case, where you write/read binary data that reflects a certain
+structure into a file and writing/reading partial data is consider an error,
+
+2. It is ossible to read/write partial data. In this case, you should use - and
+i methods. This is a less common case, but it is useful in certain
+situations. For example, writing data to a log (even ifthe disk space does is not
+enough, it is still important to write as mush information as you can).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:73**************
+Let's see an example:
+Rust
+"mm; -> - U, std: :1o:: - ‘I ompuupossible)
+
++' Z ::Dpvm'"a.txt")";
+
+LUHLEHL : :h' HZHELM y;
++.1m<<'5@@m~m; :QMPH'BH‘; Comem:[49,50,51,1U,49,50,51,10]
+new w EVH1(& JJﬂUHLM’;
+pmnnm x_ "Content size: "w "ﬁr. \gnm;
+pr'intln.‘ ("Content H m 7'1‘;
+0M1»)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+g; File operatlons
+You might have notice that there is no equivalent for a tell/[tell methods. This is
+because it is not needed 9 we can use seek.
+
+The SeekFrom enum is defined as foilows:
+
+Firm-ii i, x
+
+Eiitii' ji,
+
+iiii‘i‘(‘HT\‘_ i,
+i
+This means that we can use _and get the same result as
+a fteIi/tell method. Similarl ifwe want to obtained the size ofa file, we can use
+someiiiig iiiiiiiiii h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:75**************
+- -
+Fl Ie operatlons
+Every file has a set of meta data information associated with it (such as permission,
+times (created, modified, iast accessed), attributes, etc).
+m- Returns an IHSIAHLE 0i lype Metadala
+new m a“ m“ m rm [he current Me
+Rem m m Wm we we was new
+Returnthelimewhenlheiilewasiasimodilled,
+True w current ubiecl i5 a me, iaise othervnse
+rm i M omen a a Wm, a.“ MW
+“1",th W We we
+WmmompeymmnswiiMame
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Let's see an example:
+Rust
+mam ‘v J
+m1- ::Qpen("a.txt").um-n‘ap() .metadata! 7.un\~1r*ap\_ >;
+pr‘)ntlr\.‘\'_"0‘eated: ".rxetaxreatem).um-IFBDUM
+println \ ( "Mndifird: ",\m+n.modified{} .unWI‘ap1_'1',\;
+printlnh'"Last access: ",\a'ra.a(cessed\')_m\\~lr“ap());
+Dr‘1ntln.‘k_"Len: ",mew j> >;
+printlnH"IsFlle: ",qumjsifileL'v);
+println.‘\'_"Permission: ",neta.per‘n\issions()¥;
+Output Womble,
+mm inurememM "Wm null-173575141954‘,
+WM “awn-“H mh'rvik. mm 1712194243271 x
+Max:015; Swsu'lmﬁmc ; \ntvrm‘; uslllsassozxagnu
+m >1
+LFHe W!
+Penmfmn Per"HZMHIAFHEPE!rmsmm ‘I my‘ 32 h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:77**************
+Every file operation, if it fails returns an Error object with details. In the next
+example, let's assume that file “blablabla.txt” does not exist, In this case, opening
+that file will return an error as follows:
+Rust
+m mint‘; i
+1w r 7 File::openi“ 1mm" i m“),-
+1i f.js_er‘r‘l) i
+pnlntlnli ‘in i “,F.el‘r‘\_'i.unWI‘aDl_'i');
+l D»:
+l wile l
+lurid NurFouvrrL
+HiEsiqllF! “The fvsremIannnrtindrheﬁle speriﬂed“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+For simplicity, the file system namespace (stdnfs) has two methods that can read
+and write the entire content of a file.
+and an exampie:
+RUST
+"mini", i
+
+‘Timpani-m : STGI24:5:2i'Fﬂd(“E-t)<t":i‘uniir'ﬂpﬂ;
+
+LLHLH LilL‘iVE , std:11:5:Zreddiluiﬂtrjrig["a.t)<t"‘i.LHH'MApt’);
+prﬂntlnlUSin : "ﬁrite'itjqnqi v);
+printlrw\i'"5tn : r writ ‘Lari r5); “mum l,
+
+\ EVI:[49,54151 10 +3 “51,101
+1 Sr1:‘123\n123\n“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:79**************
+Keep in mind that File type does not have any caching mechanism. As such,
+multiple small 0 erations (e.gl read file byte by byte) will be slow, However, Rust
+has two types: and-that can be used for caching.
+W. Vi is Createsanewbufferedreader/writeroverthe
+i i Inner 0mm 1m. inner 0mm hasto have the
+Read/Wnte (mt). The delault cache sue .5 used
+(for must OS'es l5 Bk)
+t‘ {winiw 7' i . i i i = i Createsa new buffered reader/writer, but in
+~ *1 t i > i i i i speciﬁed cache sue,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+®
+File operations
+
+Once a BufReader/BuﬂNriter object has been created, the following methods are
+available:
+
+@i \. ‘ l \. i i Similav to what File (we provides (the only differznce is that
+mm linefromﬁeiileand putsnintnelmevariable
+Reads all bytes into a vectuv “Mil "delim" “a value l5 1mm
+Return; an iterator over all bytes from the veadev
+Returns an iteratoruverall llnesfromwe reader
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:81**************
+Let's see an example that reads a file line by line and prints all lines that have a
+specific text:
+RIIS!
+~ : :mpw1 "logttxt" 1?: OWWWNW V V
+Fm‘ 1sz 1n V.1ir'\£‘5'1,l I;
+1% omlJE) : 1w {
+if mwzmmiw"[ERRQRT',‘ [
+pr'irvtlnlu'" luv: "w;
+1.
+)
+mm
+k
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+® File operations
+Keep in mind that .Iines() iterator builds a new string for each line. If you want to
+reuse an existing one, use the treadilineO method. Keep in mind that if .readiline()
+method returns Ok(0) then the end of file (reader) has been reached.
+Rust
+ﬁr mini» PEbLilL<il i, 5td::iu::Er'r'ur> r
+iet F : Uléizrivperif‘ rig, <rg>?;
+1M’ rm r : BUTIFEEJEFZIL'ijtiiiedPUCI-ity4JQX19989, r};
+let "rut line : :n-ingmmn [apatltyUGZ-M:
+irt Oki bytesyead) : iﬁiv'adiiinni'éiirinit line) {
+bytesiread :: o I; ; ';
+11He.rjv]r‘rtmnsi“ii rim imi i
+i ’
+Oki r1 11>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:83**************
+Keep in mind that once a BufReader/BuﬂNriter has been created, the ownership for
+the file object is transferred to this object and as such, the original File object can
+not be used anymore:
+Rust
+mini,» <ii. StiJIIJOII > r
+- : itrijEr'ii"lOg.tXt"j9;
+r : 1mititaniumwijonaeaa, +1;
+:f-r : ﬁver-JV);
+Mrwmiitnietrwngilil Ti’ -r‘,i;
+5 i 1e. M r Z “Mm-Wm. mmwwm, n;
+‘ r v,1u, mav.¢ here
+r. i w W W Z bring PM a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+® F||e operatlons
+However, if for some reason, access to the original object ls required, there are two
+method .getireﬂ) and .getimuto that can be used with BufReader/BufWriter to
+get a reference to the original object:
+Rust
+{U Umiml Flt-mm“), std::io::Er‘r'or'> <1
+1:7. F : Fll-Jtlllpem' A». U-lyw;
+w r : raw/mnw;;mw;Upnnwljexloeee, F‘);
+lU-t \HLIL text i slrlrrgzmer-Ul;
+let "MT firef : rage: rem»;
+ﬁver.wadjnjwingrsm r textl;
+BMW 113
+r‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:85**************
+a F||e operatlons
+Rust implementation of file operations is based on 3 traits (Write, Read and Seek),
+defined as follows:
+
+mm I Write viz/24mm malirsi
+Ruxr [Seek mm *Imm mndJSi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+® F||e operatlons
+Rust implementation of file operations is based on 3 traits (Write, Read and Seek),
+defined as follows:
+m: [Write Ira/tifrnm mm;
+minim v M w i,‘ .i n H
+Mi“ it‘ it,“ ‘.i
+it.“ “mum .i in it; i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:87**************
+g; File operatlons
+The logic behind the implementation of these traits is that you can perform
+agnostic operation on every type that implements these traits, such as:
+
+- File
+
+- TcpStream
+
+~ Sinkﬂust Write]
+
+- Stdin (just Read) and Stdout/Stderr (just Write)
+
+- ChildStdin (just Read), ChildStdout/Childstderr (just Write) —) for stream related to child
+
+DI'OCESSES
+
+- and many more
+These traits can be used to perform generic operation (for example you can provide
+to a function a file or a TCP stream and it will behave in a similar manner as they
+both implement - trait)‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+File system operations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:89**************
+®
+Rust library lstd::fs) provides a series of methods that can be used for file system
+operations:
+
+Cw, rem a r eh i ~ v CopieskhecorrtentoloneMeinkoanmher.iﬂhe
+deslmztlon hie exists, it wm be overwrinen The 'UHCUOH
+returns me numberof bytes cupied
+
+create (m 1 HM s r . . Createsadirectorvlsimpie olrecursivelv)ifalulipaihis
+
+"mmmun 1w r .w r e p,owded_
+
+MUM ii H s r z. r e. > Createsahard urasohlmk.
+
+We)“ ii H; a r , x re- v
+
+“meme 1 "i r a r e - Remavesadirecmrylemprv nrrecursrvelv].
+
+rériim'éidirlall wt‘: a r e
+
+Muir r, . r a r e » RelurnsanIteralurthalailowsenumeratmgthecontent
+ufadlrectDW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+In the next example we will do the following:
+' Create a new folder (called temp)
+- Write a ﬁle (named am) m foldertemp
+~ Rename that ﬁle from ant to but
+' Delete foldertemp and all 0f lts Content
+Rusz
+{n "mm, r,» Rwanlttl'l, Hm» l’ ommpmible)
+std: :fs: :LWaL-e dimﬂ‘ envy‘;
+Stdlllc5117'ﬁl'ldlll-JLlllllll\l_l>lll,lll“llll.l'lll:l>;
+Stdiilsiirerum'e ‘11" @111 “Wye;
+mmtlnlwn ‘l ">;
+owjn
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:91**************
+std::fs::readidir(..t) method returns an iterator that can be used to enumerate the files
+and subdirectories from a given folden The iterator yells a structure for type DirEntry
+for each ﬁle, with the following properties:
+' fileinarne -) the name of the file (as represented in the OS yuu are running).
+' path -) the path of the file (as represented in the os you are running). Output [possum]
+~ metadata -) access to a entry metadata (times, type, permission, etc). “m - nglt
+l min” 1t‘ , 5w 1r; - Wt an- ‘ u t, rim ."ewwre"
+dlricnfryirvmﬂt wit ; m) path' -\,,,,=m,tme
+l httmrgutryi Z dlilelvtryivegult -> “'1” "‘"“
+J 1mm‘, w l w l , dir'ientr'ym'it it h; m] pm. “,‘HtEUAF
+mnmw it‘ thi- El'itry_ihthivtr t “Wm i.‘ h mat, Wm
+, m1 M» -\ m‘-
+‘ i MW . rake
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+g; F||e System operatlons
+Every operating system has a different way of storing strings.
+' API from - has to be generic, the methods that return a string (such as
+) return a string in the OS formats To simplify, these methods store a vector of
+ytes u ) that represent how a specific string is store in the OS the code is running,
+Examples:
+- Windows stores paths as WTF-lG {followed by a I char) or Ascllz
+- MAc/osc uses urns (also followed by a I char)
+' Llnux Work weli UTF'B but in reailty, Llnux is encoding agnostlc‘
+Rust does not have the gchar as a concept (all strings are UTF-8 and have a size), As
+such it has to store the result in a buffer and converted in a string that has follow
+the internal requirements (UTF-8)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:93**************
+The following code iterates through all files and subdirectories from the current folder
+and converts their name into a Rust String object (via the .intoistringll method)‘
+Rust
+Hki‘ 5m: :10: :Er‘r‘nv‘; Outpuupossihle)
++11 nian) r> Remit-g], Frrm“ l "we all
+1ft dir i StdiliziiIFEdLlitijllll.‘ ‘P; "amengmgﬂwe
+dillentryiresult air l namezvvswde
+1n dinientry : dirientryiresult’; "Bmeilm
+1w. Okt'fnamei : dir‘_entry.l'lle "Helium gummy‘ ( "amEICargO-lock
+pr‘intlnll_'“'i'iii U ‘, fnamel; name Cargotoml
+l nszISfC
+l namezlarget
+Grim
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Let's see how we can use to recursively traverse a folder:
+Output (possible)
+use Std :(101: , paw: ), M “WWW
+Fne “ \\R\r\\d&sc1wnon“
+Fn (Wm. a ) r> <(), > ( We “\\g\r\\HE/\D‘
+12c dir' 1 m1. 15.: ﬂaw)’, Fﬂc “\\grn\nwks\\apmwmmmsggimme“
+w dlrientryiresult w rm r Mr “\\gw\\mm\wmmmsgmmwr“
+let ﬁleipam Z djriemryjesultk (1, m! “\\gm\hmmmmwpmmmnsampre“
+1F fllCithh- O ( r r
+(Mileipathy, :1: “:§::::fie\\\aunch|son
+) pm ( mt “WWW
+println‘<“>> w (-2) , filejath); m! “\\Cargutum\“
+}
+) We “.\\targe(\\measewwsrexe“
+mm) m “\\(argl‘\\fC\CaSL‘\\'WSKpdb“
+> wwwokﬂh
+Frv (l 4
+primlMWw r (Q), ( -: <“ >>1r
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:95**************
+Let’s see how we can use to recursively traverse a folder:
+Output (possible)
+we “\\gl\\\u.lrlllg“
+we l \\ Hll\\d&scrlulloll“
+Flle “ \\ Ell\\HE/\[l‘
+Fllc “ \\ El!\\llDGk§\\€pPlVPi\Thr"\Sg simple“
+lllr “ \\ gll\\rlr>nks\\mrnrnll msg mmplr“
+>_ we “ \\ gl\\\lluuks\\l>rrlullllurrwatthlmll sulllple“
+Flle “ \\ vscode\\lalmch pow‘
+Fllc “ \\a rxl“
+Notice the usage of "2,"; this translates in the following way:
+' If the left-most expression results in an error, then return the error .
+- Else, grab the object returned by the left-most expression and call member 9W“ m“
+operator ("l on it r\\lllsr pdb“
+. In our case -) if dlr_en!ry_result is not an error, then call method path(] from
+dirientry and return the result.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+We can also use a callback so that we can externalize What we do with the file name:
+m < mm; a Mm lmut )7) m‘ >
+where
+Y gs, 1, Outpqunssible]
+l Jet m Z 5m v< “my, Pam \(argcﬂdchugmrskd
+m nlrientryjesull: 11 w ; Pm \mrgwdrhummsmr
+let ﬁleJm 7 mumryjesulv 1:, "I" \ld'¥*‘\debug\'">lvdh
+l’ F112 pith I] -'
+lﬂFﬂvath, 1mm, Paw \Karge\\releese\cavgolock
+7' Jet Sonelfﬁleipathistmng) 7 Flleipath U < PM" “WNW““‘“\““P‘\'"§'d
+(huflleipathistringl, Path \targe\\relea>e\dep>\llr>taxe
+.7 Pam \lanzel\velease\deD§\lvvslDdb
+, I Pam \(argﬂVclcastlrud
+‘3W1? pm \tnrgr\\rrlmw\ﬁrqrxr
+a ‘ Pm \targe\\relea>e\llu\pdb
+m 11 l
+{sum 1‘ ‘;, mm ll.‘ l 1 println'l , l <l1l)‘>,>/,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:97**************
+g F||e System operatlons
+We can also use a closure to store some data locally and then process them
+afterwards:
+
+Hr < >(‘vd llI 2. > 1m: qul: >V> <0, >
+where
+I (& )1
+l Output (possible)
+) ltems in s: 18
+Frr (l l
+let mats’ 1< >:: (1,
+(Paths (‘.“), Smut limbl l
+n’ Wm. ( Mgr ll
+5. ( ‘a lr‘ (>1;
+l
+l);
+printlrrl( n‘ l m 1 r) , 5. 0);
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Execution environment
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:99**************
+®
+
+Every program upon execution has an execution context / environment that
+
+consists of command line arguments, current directory, home directory,
+
+environment variables, etc. All ofthese can be obtained via - namespace.
+angsi i 7- Returns aii imam over CUmle'id iiiie arguments. Ali arguments
+were‘ ‘ ' must he vaiid Unicode Strings USE argLns irvwe program (an
+
+receive non valid UTF'B characters
+
+ii=i~ i i .i m i Return the vaiue 0'3 system variable The name 0er variabie
+Wu“ i i ~‘ i ~ ' must be provided Via anOsStrobiect.
+var ~i i 7- Returns ari iterator that (an be used tn iterate over the existing OS
+iai sin:- ~ varlables
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+Let's see an example:
+Rust
+nmn!) Q
+pr'intln‘L'"[u|‘|‘er1t path: 5m: :cnv: :mvwmjiwj'y“
+println.‘ \1 "Current exe z 5m: :erw: :Lm rem 91.2(11;
+pr‘int1n_‘k"'H0me folder‘ : std: :env: :hmnﬁini V‘( "n;
+pr'intln.‘ k "Temp {alder : 5m: :env: : LEiniLUV r H:
+“ Outpuﬂpnssible)
+Current path Oki“E:\\Lucru\\Rusr\\firsl“)
+Current exe . OWE \\Lu¢ru\\Rust\\i\rst\\targe!\\debug\\ﬂrsnexe")
+Home foider : Sume("C:\\User§\\<USER>“)
+Temp miner : “C:\\Users\\<USER>\\AppData\\Local\\Temp\\"
+OBS: Keep in mind that the result of this snipped might vary depending on the OS.
+Furthermore, .home_dir() is considered deprecated.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:101**************
+‘ . .
+EXECUtIOn enVIronment
+Let's consider that we run our executable [first.exe) with 3 arguments ["Rust”, "1" and
+“true”)t Then this script should output the following:
+Rust
+nvmn( ‘v 1
+for‘ We in std::env::ar'gp1'i \‘
+printlmp'arg: m i >;
+i
+"
+arg: ﬁrstexe
+erg: Rust
+arg: 1
+arg: True
+OBS: Ifarguments order is required, consider using enumerate
+(std::env::args::enumerate)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Similarly, the following code lists all system variables available upon execution of a
+Rust program (specific to Windows environment):
+Rust
+Him m ‘r i
+for‘ .1‘iristd::env::vawlil
+printlnllWar‘: -> Mama, ,Jr.1);
+\
+.t J Output [possible]
+' w Antwwmrtzw ‘pinivrrrrw
+mummyHimmrv
+w fnnwrnnriprncramfiles ,t r WWW mermw“ Vile;
+WWW . Limiter»
+in“; “Um; '1
+M m iii-‘MN
+vzr mqumnw lrrreli-Ulrwlyiilulndel14‘ “WW, Zeruimelntel
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+4
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+s; F Fl
+FFI (loreign Iunction Interface) is used for interoperability between different
+programming languages and interfacing with system-level APlst In particular for
+Rust, we will discuss C/C++ and Rust interoperability,
+
+FFI can be divided into two major categories:
+A) Access from Rust code written in a different language
+' FUHCtIDVIS
+' Classes / structs
+B) Access from another language code written in Rust
+‘ Functions
+' Classes / structs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:105**************
+®; FFI
+I Accessing a function from an external library
+We also have two scenarios in this case:
+1, We want to link the external library statically
+2, We want to dynamically load an external library and then load the function
+Scenario no. 2 is more suitable for building a — application where each
+plugin is a library that is loaded dynamically.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+I Accessing a function from an external library (—)
+The general format in this case is as follows:
+extern " "
+1’
+/'/ other‘ attributes
+// functions
+l
+Where:
+- -attribute provides information an the library that needs to be linked
+' — provides information on the calling conversion
+OBS: It is important t0 notice that every cal! ta afunctian imparted in this way is
+nsafe as Rust can nat guarantee the safeness 0f the imparted code.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:107**************
+I Accessing a function from an external library (—]
+The #[Iink(..l)] attribute is defined in the following way:
+[ ( = J]
+Where:
+narne No Name ofthe libraryto link
+kind ves Type pf library: could he one of -r -r —, -. llmis parameter
+is not provided, its value will be defaulted m dylih.
+modifiers ves How me linkage has to be performed: values like - — -
+Some specifier can be used only with a certain type of linkage.
+More details on: httpszﬂdoctrust-IangorgZreferencelitemslexternalhlockslhtml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+®; FFI
+I Accessing a funckion from an external library (-
+The ABI type can be one of the following:
+—m
+mm The default caIling conversmn used hv Rust
+c The defauh caIlIng com/amen used by c/cH comleer
+system 02mm calling conversion used by the cs. UsuaIIy, me same as me une used by c/c~~ ComleEr
+except [or Win32 where is stdcill
+mm Defauk far c cede (>046sz
+stdcall Deﬁul! for winiZ
+hsrcaH In MS c mmpIIeI- (Jasmu), In ccc or C-Lang (faltthuteiﬂhstcaIlli
+vectorcall In MS c compller Lvectorcall I, In scc or OLang [fattributeiﬂvectorcalln
+lhI'scaH In MS c compiler Ltmscall I, in GCC or C-Lang Lattributeiﬂthisczlln
+eﬁapi Used (or UEFI AEI
+I There me other AB/s uvm/ub/e (for various imam
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:109**************
+I Accessing a function from an external library (—]
+Let’s assume the following simple function in C++ and see how the assembly looks
+like if we call it with different specifiers:
+HIM") m-nm-m-
+Functiun Push ebn PUSH ebD mov eaX, ecx // X
+cm mw ebp, esp mov ebp, esp add eax, edx // y
+mnv eax, [ebwﬁ] // x mnv sax, [ebPOB] // x re!
+add eax, [eupnz] // y add sax, [ebpdl] // y
+mov esp, elm mov ESP, ebp
+90D ebn POP ebP
+m ret a
+@3ng push y push y mov ecx, X
+Code push X push x Innv EdX, y
+c311 sum (all sum call sum
+add “my // B:2(par‘am5)"4
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+I Accessing a function from an external library (—)
+There are also some scenarios where:
+
+' We don't want t0 use the same name for the Imported functlon ieig. the Imported function
+dues not use snake case formatting i GetTiszuunt is the narne of a Windows API Function,
+but it is written in camel case —) the similar name in Rust should have been get_tick_count)
+
+' When the name ofthe exported function is mangled.
+
+~ The function we want to import is exported via an ordinal (instead of a name)
+
+In these cases, we can use other attributes directly when describing the imported
+function:
+“iiiil HM“ it: 'l
+i i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:111**************
+1. Accessing a function from an external library (static linkage)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Ru“ _ Output (possible)
+‘New Mi l
+in carnaiwimrwmy;
++1‘ malnl') i;
+m result : \mm'ih" l (li'tln'lifmmﬂ) 1';
+printlnli“l' ‘,resulti;
+j,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+FFI
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:113**************
+FFI
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Rust dylib
+i_ : “ke|‘nel32", :“dylib“‘v
+"system" i
+UQ'IiJiIiLJIHH'iTiiH ;
+Hidlvvi'i i mov Fax, qword pt!‘ [__imp_GetTickEount]
+printlni k " , i H, i; mov ﬂuord pt!‘ [result],ezx
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:115**************
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Ru" When using static, a direct
+
+i : . Z i call to the API is being used.
+
+i‘
+l,€‘ti]i'i\,i:ll”‘ilf\‘_l" ;
+iiisiiiii i;
+H V‘ if Z _i ‘1in 1s ‘m W,‘ i.‘ (all GetTickCount
+- ‘is “ “\ mov dword Pt?‘ [result],ea><
+piiiiiliiii , i mi i,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+1. Accessing a function from an external library (static linkage)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Enliéiw “1,: all“ 1
+in iiiﬂ]!'i(l l
+
+let result e unmet i GULTieiliuuiiLii 1';
+
+pmntlnhﬂW. ‘,resulti;
+OBS: Notice that we have removed the #[link(...)] attribute. In this case, Rust will
+search for the imported function in the libraries normally loaded by the current
+application (and as kerne|32.d|| is loaded in every user mode program in Windows
+the code will work as expected).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:117**************
+1. Accessing a function from an external library (static linkage)
+It is important to highlight that the more complex an exported function is, the more
+complicated the code that calls that function will be, Let's analyze how the code the
+calls the following function defined in Win32 API (GetSystemTime) should look like:
+with: also mu glrzllnlg l
+
+l-llm llHtllll-l
+
+lllw lllllil-lllte;
+
+llll- llll. l all ll, l ~,llllll~,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+® FFI
+1. Accessing a function from an external library (static linkage)
+Rust (SVSTEMTIME library) Where:
+“will > - #[repr(C)] —) we don't want Rust to reorder data
+l_ l members order (we want to keep them exactly
+:t w: SYMLWWL ~I how C language will align them in memory)
+Ijilij'm'il'l' . ﬁ[clerive(Defau|t)] 9 Rust will not allow us t0
+leEyOfWEEL: ma, create an uninitialized data object. As such we
+“may: ‘11L: need a default way to initialize all fields.
+wHour: Ulla.
+\vll-linute: uld, . #[all0w(n0nisnakeicase)] 9 By default Win32
+wSecond: um, APls are camel case. If we don't want Rust to yield
+_ \"l'lillisew'ldSi "1“ a warning in this case, we have to tell him that
+i this is infact how we want the structure to be
+named.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:119**************
+®
+I Accessing a function from an external library (—)
+Rust (SYSTEMTIME Irbmry) Rust (/mk/‘ng thefunction)
+i > r :"ker‘nel$2"'7
+ﬂpr'lwei '> "Si/stew ‘v
+k l : "GetSystemTime"
+~I geiriridléitlmé(lulyJLEiriTiiei i;
+wVear‘: , r
+“Month: , J
+leayOfWEEil: ,
+\uDay: ,
+wHour: .
+wMinute: ,
+\uSecond: r
+\ili-iilliseconds:
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+1. Accessing a function from an external library (—)
+( > ( :“kvmi'QU
+( > extern ‘7%ch {
+( ) : ‘01%;; my m “
+struct i fn (1;15y>1emue: xmut )3
+wVear‘: , >
+wMonth: ,
+wDayOfWeek: , Output (possible)
+wzay.‘ , fn () i 20:17:15 12A
+w 9w‘ J let m at , : o;
+lenUtEI 1 unsafn ( (Mint dt) );
+wSecond: , printlnH
+milliseconds: “I v P i w () i) i) (M
+} dthour‘, dt.wM1MtE, dt.w5&cond, dt.wM111159cor\ds
+);
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:121**************
+I Accessing a function from an external library (—]
+
+Notice that the more complex a function is (in terms of parameters) the more code
+and structures we need to create to accommodate.
+
+Up to this point, all ofthe examples used data types that were compatible with the
+ones from Rust (such as WORD that is an U16 in Rust, or DWORD that is a u32 in
+Rust). But what if there are some data types that Rust does not support ? (for
+example, an ASCIIZ string ?)
+
+For this case, Rust has a special module (stdxffi) that helps make the transion more
+easily by providing different C/C++ data types and methods.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+®; FFI
+
+I Accessing a funckion from an external library (-
+
+The following types are available via std::ffi:
+
+——m ——m
+
+dual 18 c_chzr Iokl 7 cJold
+
+unslplm char m: Um: l)
+
+shun us when "W 7 "m" ‘—"""‘
+
+unsl'nm shun “15 Um" m" "“W 7 'M“ ‘-“°‘d
+
+‘m 131 c ‘m magma) 7 CSmng
+
+mum h“ .51 gm"! (nus! am- ammo m, csrr
+'wnstc_char
+
+um 132 or |s4 cJonE
+
+unsigned m.‘ "31 nr “54 UAW,
+
+lw lonl i64 cJonglonE
+
+unsl'ned 1mm" "54 (fulnnglnng
+
+ﬂoat Bl chca!
+
+double 664 cidnuble
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:123**************
+1. Accessing a function from an external library (static linkage)
+Let's try to create a file and write a text into it, by using Windows API. The C/C++
+code will look like the following:
+c“
+mnrl m "i-mdmnm“
+#UlLlJiliL‘ < lunch.
+vmn lHEilViU l
+HANDLE n : l'r'natﬁFilPlll"t~ t.T-t", GENEPICJARITE, FILEiiHAREil-JRITE, NULL,
+(Rsmsjuimvs, o, NULL);
+w x: INVALIUiHANDLEJ/ALUEJ l
+‘7;,th 7m‘ limit-w. , ‘ll it‘ l";
+nwurn amen-ii law ;
+win-nh-(h, vii-mm, <tr'1r-n('nntint"l, Sillyttmll'nttﬁ'i, HULL];
+ijluse-Hamlleﬂvl;
+I,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+I Accessing a funckion from an external library (-
+To translate the previous code into Rust, we first need to look on how the APls used
+in that code look like:
+m-—_
+- molt (“mm MRS;wearmimsmlwm
+CreateFlle [m wtsm lnFllelu-e, us mm mnlngzlhlngn new“?
+W] mu dukslmdlaess, "meme,
+[m1 mu dmamlwdm
+lm. thal] LPSECIIIWJWHWYES leemrnyAnnmms.
+[m] m0 m-(ruummsmsiuml
+[In] mu lehgsM-ﬂurllwtei,
+“m Mm“ mum “@ch
+)1
+> > m mum“ My411m.mkmmmrw
+wmenle m1 mm Mlle, u; mmqmzm,[may mm“?- /
+m Mm “MM Meme
+lm] MRO "nu-bewFByxesYWnre. i
+[mm thal] “mom qu-Dewfmuhlnttem
+hm, ma, noumzl] LPWERLAPPED lam/"mm
+J;
+soar (loseﬂimﬂel [m] WOLE mum ): hrmsqllearnmkrcsoﬂ.quen-
+ClCISEHBﬂdIE uslwinduwslwinKiligiﬂlamﬂeagiLnf'hamﬂeagi'
+minim
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:125**************
+1. Accessing a function from an external library (static linkage)
+First, let's define some constants and a type for HANDLE. We will also need std::ffi
+to convert a string to ASCIIZ and std::ptr to get the NULL values
+Rust (conszants and modules]
+
+l std: :+'+'i::‘;
+
+LL»: 5m; mm‘;
+
+up» HQHDLE : inn-,-
+
+LUllbL GENERICJIRITE: ta: : maeeeaeo;
+
+Ionit FILLsHARUlRUE: “52 : 8x2;
+
+LUllLL CREATEiALNAVS: tel 2;
+
+wrist lNVALIDiHANDLEJ'ALUE: HANULL : -1;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+1. Accessing a function from an external library (static linkage)
+Secondly, let's import the 3 APls (since all of them are located in kerne|32.d||) we
+don't have to explicitly link it via #[link(name=”kernel32")]
+mm (AP/ inporrs)
+m Cwiatcl'jlg'w -' l-Jrltulllul'
+1;’,1LWLHMJ. ‘will UAW, mm HQHDLII‘
+hum”~ncwv-wm2'. -m.r ifu'gc, 'JlHWY‘!\FPytr-L-jyirf'q 'qu’ mg,
+1.1:‘ "mute-47;)» = ~31. li‘-:‘.Lllupl“1i12 Ht um,
+‘1.111; a Ll-ZLL ital» : UPI, ‘l v 13;.
+lvlllilﬁl>’l r1 'llllli ‘41ml.
+l » Plﬂlill»; *- l awwm Qil'lﬁl'qvfl': HAHN») 7- w";
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:127**************
+1. Accessing a function from an external library (static linkage)
+Finaly, let's write the main function. Notice that we can use fi|e_nameras_ptr() to
+get an ASCIIZ pointer as required by CreateFileA ABL
+Rust (main function)
+mm 11.xalvnjmlnl Um
+“rims if in _ mm
+nu 1PM Hm mm 1: y’ l , a ,Y Ur‘
+WUWUW Wm v‘ H l .
+W W M l. immune“
+9t it we w H in‘
+L?‘ Mr w l cl We mm;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+I Accessing a class/object from an external library (—)
+
+Let’s analyze a more complex scenario. Let’s assume that we want to access an
+
+object or class via FFI (for example, can we use a C++ class in Rust) ?
+
+There are also two solutions here:
+
+1, Build a C-language wrapper and access the elements from that class via that
+wrapper
+
+2. Call the methods (ctor, dtor, other methods) directly‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:129**************
+1. Accessing a class/object from an external library (static linkage)
+Let's assume the following C++ class:
+0+
+ﬁlm MM: .- H m‘ iv»
+:1“; my‘: l
+7m ~ name;
+will l‘ .
+Ml‘ X, y,
+Jrv'ltlr'l-xc the!" nl '
+;-: , v , a:
+name : m.‘ UVH[-¢;wlm . 1];
+mu ‘miname, n. ‘.1 1-,va; l 1;,
+Privtﬂl ' Ww Uname, 1
+Mn ‘7m w. will l name; l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+1. Accessing a class/object from an external library (static linkage)
+To export the class via a C wrapper we also need to add the following code. Notice
+that we need to create a method for ctor, dtor, and some methods to access public
+data members x and yr
+0+
+e ta H
+‘ lawn‘mum-M‘ whirl,» willy‘ ll.‘ mm; li‘.¥‘li'li ‘W;
+fr» “Willa-1,11.“ “Jill1‘l\il'wvil‘.wil'iv H H; l ‘l my“ m H ‘M l. ;
+iJeLJLJL-cldjleapwt we Mm, Juicy‘ Us.‘ 7H “Hr-l
+\ lll")'i"il‘ll‘w ‘,'l“vi'il‘
+fr» 'wililllvvpzzvl w- ,H will) H ~l l M 1 rm‘ .r H H,‘ 1' ,M
+iJELJLJecldlléapirt M, tweak,‘ "v ‘all. .1 l U‘: w“ “Hr-=7 r; l
+"Jankaany-part‘ 0"th :m ‘went M ran-2 ,3" n :ta cal
+‘ llFll"\lll\ 'wlml,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:131**************
+®
+I Accessing a class/object from an external library (—)
+To export the class via a C wrapper we also need to add the following code. Notice
+that we need to create a method for ctor, dtor, and some methods to access pubHc
+data members x and y‘
+0+
+‘ wow-‘r t
+it, 1| ,W t
+JEULM‘ -
+it“ ,W t
+fleck-pew
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+1. Accessing a class/object from an external library (static linkage)
+Now for the Rust part —) first we need to import the exported method. We will
+assume that the C++ code results in a DLL file called mydllfile.d||
+Rust
+l l ml m a
+l l \d my‘
+l V ll all‘, l
+ll ,lvlll,‘7l,|vllll ll ll ‘will.
+H “Mil y'all“ m) ml ‘.7 will’ true,
+Hr pant ‘at Hum; wt l; W1" 15:.
+H l-ml-r w ,ll l 7W ~le ﬂu‘ 1 :.
+ll WM ,ll ll.“ ll- ll‘ m, “than.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:133**************
+1. Accessing a class/object from an external library (—)
+Secondly, we need to write a Rust class that will resemble the C++ one.
+pub strum: l
+)rvstarvze ‘mut
+>
+mp1 l
+m my»: s ‘View [
+19¢ (Jame 7 : 1m» »; <1,
+5ch l “mm unsnﬂ‘ l {Um <m ;
+l
+m men)» l unsafe l (Sen Just-ante‘; ; >
+m 1195216» r unsafe ( {Sen instante‘; ‘, )
+Frv (half) > ( unsafe l (SelenstaME') l l
+F" (nsplrym <YY.>
+l
+mp1 For I
+Frv (Mnut self‘, l unsafe ' (self )rvstarv<E); ‘ l
+>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+®
+I Accessing a class/object from an external library (—)
+Secondly, We need to write a Rust class that will resemble the C++ one.
+RIIS!
+a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:135**************
+1. Accessing a class/object from an external library (—)
+Secondly, we need to write a Rust class that will resemble the C++ one.
+m 1mm” q
+unsafe g
+m (istr 7 (Selﬁjnstanceh
+rcm, 11*Danitli‘ w ‘a:
+r" (“new <77.) ' ‘fffffsgil ' 4U") (’ <
+barvklllv‘ we‘ v' r r »rv+nn ;,
+>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+I Accessing a class/object from an external library (—)
+This method comes with pros and cons:
+PROS:
+- Every type er Object can be exported m (hrs way
+~ Virtual methods can be called asthe caH re bemg perrerrrred In (he c wrerwer
+CONS:
+- YOU need to wme a lnl do code and wrappers m make (hrs work
+- Slower (you Ce“ not {all (he method from a (he; dlrecllv, you need to go through a wrapper)
+~ You can not access mrmre data members, mstead, garters and setters need m be created.
+- YOU tall not create such an object directly ﬂll the stack. The wrapper rdreee YOU to create every oblecl Dn me heap.
+For smaHEroblect m5 could be a dreedvemege
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:137**************
+I Accessing a class/object from an external library (—)
+
+The second option is to try to create a class with the same memory layout as the on
+from C/C++ and when a method is being called, call the exported method from C++
+code, Since Rust optimizes the calls that perform one single call within their code,
+this will achieve the same level of performance as with C/C++.
+
+On the other hand, it is more complicated to link.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+I Accessing a class/object from an external library (—)
+First, lets export the Point class (notice that we no longer use the extern "C”) format;
+The _declspec(dl|export) are still required for MS compiler to export this class,
+The resulted DLL will have the symbols mangled as follows:
+Symbol (method) Exported name (mangled) for ms cl.exe compiler
+PointnPOintlchir mun’) ??DPnlnl@@QEAA@PEBD@Z
+Pnint::“Point[) 7?1Polnt@@QEAA@XZ
+Pointﬁ Foint::cper=lor=(Pcint (onst&) ??4P0lnl@ @QEAAAEAVO@AEBVO@ @Z
+void Polnl::_aumclasslnltZlunslgned long long) Fiautoclass|n|t1@Po|nt@@QEAAXiK@Z
+char Dons!‘ Painmgegnamel) ?ge\,name@ Poinl@ @QEAAPEBDXZ
+buol Pnim::is_origin(] ?isiongin@P0lnl@@QEAA7NXZ
+%
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:139**************
+I Accessing a class/object from an external library (—)
+First, lets export the Point class (notice that we no longer use the extern "C”) format;
+The _declspec(dllexport) are still required for MS compiler to export this class,
+The resulted DLL will have the symbols mangled as follows:
+Symbol (method) Exported name (mangled) for ms cl.exe compiler
+
+This is a copy constructorthat was automatically generated by the
+
+compiler. Since it was automatically generated, it performs bitwise
+copy over the content of the object.
+%
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+I Accessing a class/object from an external library (—)
+First, lets export the Point class (notice that we no longer use the extern "C”) format;
+The _declspec(dllexport) are still required for MS compiler to export this class,
+The resulted DLL will have the symbols mangled as follows:
+Symbol (method) Exported name (mangled) for lvls cl.exe compiler
+This is a method used ta initialized the painter in the class
+PointiimhenamaimNattpaimeiiaianlsedm
+create static variables].
+%
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:141**************
+1. Accessing a class/object from an external library (static linkage)
+Just like in the previous case, we need to import the exported files from
+mydllfile.d|l, We can skip some of them (for example if We don't want to allow a
+Pointer object to be copied [so only MOVE semantics), we don't really need the
+copy constructor).
+Rim
+l ,m m n
+l. m w.
+l = l l l l
+e ts H : l
+V l ll l in l‘
+lu ‘W WWW.‘ h ‘ ill.‘ WW W Hi l l Ml l,
+in new .uu W ‘W W Mull‘
+7 e V‘Vrlr‘slisi‘[" Z
+m 1m T l, W1 inn’ t'n'f 1 W r WT‘ W;
+it linilllll
+lH W t l HMHWW W‘ 'Wll‘ 7v ‘l 1 NW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+1. Accessmg a class/object from an external l|brary (—)
+The Rust class is similar (as form) with the one from C++:
+< a
+pub 5mm \ “Pl ‘D’ '
+Hm, .M, , m \Bmuk gem i
+M, X v Wm» <
+pub y . aswm
+v )
+)le < v
+‘n n ; V» m; 1. r
+we» g
+Jet (Jame Z (m ‘, n.
+let mut memory, < > 7 5m :mzrrzt : <1,
+(memory. n, (Jam m,
+\u’m' memory (7,
+)
+)
+m (“Elm V> j UHSEFE [ vsgm w j
+Frv \Mself‘, > 84 ( Y
+>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:143**************
+®
+I Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+RIIS!
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+1. Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+Allocate: an unlnlillled memory lone
+of the same size of structure Pointt
+let Mt memory t > e Stu men: ; u,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:145**************
+®
+I Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+RIIS!
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+®
+I Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+RIIS!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:147**************
+®
+I Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+RIIS!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+1. Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+M léiseJ‘ V> s l
+s t stv L” l
+1m :Qm i r \ r a,
+>
+r r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:149**************
+I Accessing a class/object from an external library (—)
+This second method also comes with some PROS and CONST
+PROS:
+- Fasler, .1 works lust \rke c“ code m terms ul£aH|ng1nu wrappers),
+~ You nan access Dublicdata members “m \ike in 0+ case
+' Can be limited On the stack
+CONS:
+- Mangling is diﬂerenl between various c“ compilers Assumveu needspedh:codeforcaseswhere os
+imerenereernw \s required‘
+- Calling virtual functions is "icky as you would have m hamﬂe czlhng Khem dlrecrly \nslead a! me c++ wrapper.
+- Addinga capy-cmrthat has a diﬁerenl behavior makesthings more complicated as yuu Wm have m mllmtlhxl
+behawur in an enwrunment where COPYsemantics meaHS bitwwe <0va
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+I Accessing a class/object from an external library (—)
+
+What about exceptions ?
+
+Or various un-secure behavior that can be encountered in C++ language (for
+example throwing an exception while in constructor body)‘
+
+As a general note, no exception should be sent to Rust, so we will have to identify
+them at the C++ level and treat them accordingly.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:151**************
+FFI
+
+I Accessing a class/object from an external library (—)
+
+Let's analyze the original C++ class Point:
+
+c”
+
+19-71m- <5t|‘ing.h'
+
+‘Whlku'itt L on m l
+
+-——
+“Divinityl'narue, n, 5w 1w a + 1i;
+In this case we have 2 options:
+1. Use - to stop the program at this point. The disadvantage is that we can
+not control the flow in this case
+Z. Use —and change the logic in the Rust code.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+®
+I Accessing a class/object from an external library (—)
+The second solution Implies the foHowing changes:
+0+
+#nmluJL (stringm:
+#nu 1UP ‘thew;
+:13’: -;
+mm mm H1 i
+X Z Z 2,
+1F [name 17 r y
+Hvivﬂiwdhame, H. strlvzrmu ¢ 1'15
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:153**************
+FFI
+
+I Accessing a class/object from an external library (—)
+On the Rust side, the P0int::new(n.) method has to be changed as well to return an
+Option<Point>. This way, if an allocation error is triggered on the C++ side, we can
+handle it on the Rust side by not returning an object.
+RUE!
+
+H QM“; ’ ‘ NULL
+
+lhj ~v Ir‘ ‘u
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:154**************
+I Accessing a class/object from an external library (—)
+
+As a general observation, importing an object from an external library is a tedious
+
+job and implies a lot of knowledge on how compilers work internally,
+
+To make things easier, Rust also provides an internal tool called - that can be
+
+used to automatically generate the code needed to link an external library to a Rust
+program.
+
+More details on: httgszﬂrustilanggithub.io[rust'bindgen[ /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:155**************
+I Accessing a class/object from an external library (—)
+
+lt’s also important to notice that polymorphism is quite complicated to achieve
+
+using object generated from another library‘ The main reason is that the concept of
+
+virtual functions and tables are treated differently in Rust than in C++ (for
+
+example).
+
+It is not without a solution, but the solution implies to actually make the calls
+
+yourself and understand how the virtual table looks like for different C++ compilers
+
+and versions. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:156**************
+I Accessing a function from an external library (—)
+
+The other scenario is when we try to dynamically load a library during runtime (this
+
+is useful for cases where your program supports plugins).
+
+Let's consider the following example:
+
+- We want to create a Rust program that receives integer values two values and the
+name of a plugin that can perform a mathematical operation using those values
+
+' Rust will try to load that plugin and assume that a specific method [let's call it
+perform_op is exported, and if so, calls that method with those two values
+received and prints the result).
+
+~ The interesting thing is that the plugin does not have to be written in Rust [but
+can be written in other languages as well i such as C++).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:157**************
+I Accessing a function from an external library (—)
+
+To do this we need to functionalities:
+
+- A way to load a library given its name / path on the disk
+
+- A way to identify the location in memory of a function exported by the loaded
+
+library
+
+These functionalities are different from one OS to another as presented in the next
+table.
+———mm-
+
+loading a library LoadLibraryA or dlopen dlopen
+
+glven a name/path LoadleraryW
+
+locatlng an GethcAddress dlsym dlsym
+
+exported function
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:158**************
+I Accessing a function from an external library (—)
+Let’s see how LoadLibraryA and GetProcAddress are defined in Windows API:
+1. LoadLibraryA
+- Definition: HMODULE LoadLibraryA< [in] LPCSTR lpLibFileName);
+' Documentation:htt95:1Zlearn.microsoﬁcomlen-uslwindowslw'inSZZagiZiibloaderagilnf-
+iibloaderagirloadlibrarya
+2. GetProcAddress
+~ Definition: FARPROC GetProcAddress( [in] HMODULE hModule,
+[in] LPCSTR lpProcName);
+' Documentation: htlgsiﬂlearn>miCVOSOH.00m[en'usZWindows[w'in32[agi[iiblcaderagilnf'
+iibloaderagi-getgrocaddress
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:159**************
+FFI
+I Accessing a function from an external library (dynamic linkage]
+Let's start by creating the import code (for Windows):
+Rust
+5m 2H) I‘.
+“515w,”
+Notice that the result of GetProcAddress is a raw pointer (We will need to convert it
+to a pointer to a function to use it in Rust).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:160**************
+FFI
+
+I Accessing a function from an external library (dynamic linkage]
+Secondly, we need a Rust function that can load a plugin and returns a pointer to a
+function (provided that function is ex orted from the loaded plugin). Our function
+Wm have the following signature: 1h}-
+RIIS!
+
+ﬁlm‘ ‘elm w w,‘ Hi ‘Lllhlll'll,
+
+in‘ ‘in :mnm l in.” l‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:161**************
+FFI
+I Accessing a function from an external library (dynamic linkage]
+Secondly, we need a Rust function that can load a plugin and returns a pointer to a
+function (provided that function is ex orted from the loaded plugin). Our function
+will have the following signature: m
+RIIS!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:162**************
+I Accessing a function from an external library (—]
+
+Now, let's write a plugin (in C++)‘ We will create something that computes the sum
+
+of two numbers:
+
+The plugin exports one function (operation). Let's also assume that the plugin is
+
+called mv_plugin.dll /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:163**************
+FFI
+I Accessing a function from an external library (dynamic linkage]
+And the code from Rust that puts all of this together:
+Rm Im-
+l 21;‘: ‘l
+.ivnitlnHWail m load plugln w‘ nusslng 'Dpevatiun‘ expert “‘ ,
+Keep in mind that this code is designed for Windows. For Linux/MacOSX you will
+need to modify the list of imports [use dlopen instead of LoadLihraryA) and
+recompile the C++ plugin with gcc or clang.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:164**************
+I Accessing a class/object from an external library (—)
+To access an object/class via dynamic linkage, the steps are similar to the ones used
+to access a function,
+
+- You will need to use GetPrccAddress / LoadLibrary as well
+
+- However, when using GetProcAddress, you will load a mangles export/symbol instead of a
+
+name fora function
+
+' You will also need to store that raw pointer to be able to access it later.
+The rest ofthe steps are similar (creating a wrapper class in Rust over the C++
+object) and calling the methods obtained in the previous step, /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:165**************
+I Exporting a function to be used by an external library
+To export a llbrary from Rust, there are a couple of thl'ngs that need to be performed on cargoxorrll
+(to explain the Rust compiler that we need to create a library and not an executable).
+[package] The first step ‘ls to add a - section and specify that the crate type
+(- ls gynamic warm
+Crate'tvpe supports other tvpes as well:
+- cdylib
+[dependencies] . dyhb
+- rlib
+[lib] - staticlib
+r proc-macro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:166**************
+I Exporting a function to be used by an external library
+We will also need to change the way we write our exported functions:
+7
+J
+1. The “—" attribute is required as Rust mangles symbols and as such
+other applications can't use them.
+2. The ’_" specifier is required so that Rust exports that function in a way a
+program like C/C++ can understand’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:167**************
+Z. Exporting a function to be used by an external library
+Upon compiling, a .dll or a .50 or a .dylib will be created that export the function add‘
+That Ilbrary can be used in a C/C++ program in the following way:
+C/C++ program (/0, Wmdaws)
+wwvm-r mm .1’;
+#5171er QLLUJJ >
+fwwiwt' awn; 13 want);l_mr'-‘z;,mraz;‘>;
+‘mid mm’) l
+auto lwmr 1 lmmim-mwxljmiml; mm l“);
+leLIJ arm : (FMDD)EeLF'r'uUMdr 9L;1_'lldlh.ll:,"¢i l" l;
+prmul"%d",m1l1,27u;
+)
+OBS: We consider my_muth_/ib.dll the binary result obtain when running cargo build.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:168**************
+I Exporting a function to be used by an external library
+
+The same logic for exporting object can be applied here as well, but we will need an
+equivalent code on the C++ part that loads and manages objects writtin in Rust.
+
+And , just like in the case of C++ to Rust, there is a helper library called cbindgen that
+can help converting Rust structures to C++:
+
+Link: https:[[github.corn[mozilla£cbindgen
+
+***************Ending Page***************
+
+ 

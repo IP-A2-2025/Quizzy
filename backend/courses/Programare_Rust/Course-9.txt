@@ -1,0 +1,2430 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 9
+Gavnm Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+®; Agenda for today
+1. Modules (visibility concepts)
+2. Modules and multiple files
+3. Crates
+4. Conditional Compilation
+5. Tests
+6. Documentation
+7. Workspaces /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+7
+Modules
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+g; Modules
+Rust does not have namespaces, but it does have a way to separate code in
+modules. This separation implies some visibility restriction (within and/or outside
+the module).
+
+The general rule is that within a module, everything (declared in that module) is
+visible for every code in that module,
+
+A module can be declared in two ways:
+
+1. Using mod {...}
+
+2. Using mod <fi|e>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+. Modules
+Let's see a simple example:
+Rust
+l l prlvate ‘UHKQlDVl
+lssrlillt'liii1i'ila.2v3li l ""
+i‘ l
+Notice that function - is not visible (cannot be called) from function -.
+Function add is considered private outside its module.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+® Modules
+Let's see a simple example:
+M’ m1-
+i l in i i
+w Hllvlll _.|i 1,1‘,
+Notice that function test can call function add‘ This is because both ofthem are
+part of the same module (math) and as such each one of them is visible for the
+other one.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+g; Modules
+So how can we change the visibility of a function/object so that it can be
+accessible outside its module ?
+
+Rust has a special keyword called - (short from public) that can be used for this
+scopes
+- keyword has several formats:
+
+' pub
+
+~ pub(super)
+
+- pub(crate)
+
+- pub(self)
+
+- pub(in <narne>)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Modules
+Let's see a simple example:
+Rust
+“Iii ‘i 1 : "illl'i ii‘ii1U.lUi.
+Wm, w
+Now the code work.
+Notice the usage of "pub" keywork in front of the definition for a function.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Inner modules have to be made public in order to be accessible from outside their
+module the pub keywork must be use in front of them, even if — is
+defined as pub.
+Rust
+inﬁll
+MW 1
+,‘ “mm 14 n
+l
+smile: m slnple: 31¢‘ m :r “ l "' "" ’" ~31 “$521: will»
+l l
+pistol-w V l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+® Modules
+One We add the pub specifier in front of the simple module, we can access
+math::simp|e::add. Keep in mind that we can not access math::add as it is not pub,
+but that function can access the add function from modme simple.
+Rust
+v m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+® Modules
+
+In this case, math::simple::add is not public while math::add is‘ This means that
+from main math::add is accessible, and from mathnadd, math::simple::add is
+accessible because it is public.
+Rust
+W mm
+
+W 51ml: l
+
+mule; wimp»; 31¢‘ Hi‘ :l
+plinth-ll ire; l;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+At the same time, if we remove the - from the math::simple::add, then it can
+not be access from math::add and as such the program will not compile.
+
+RUE!
+
+va , l v ‘ ‘ 3 ‘l m am‘, 02, v 021'» m;
+‘ l uvuv Emmi] HmiJfEn mlvl A; w “1b:
+,H- mhn“ l Wm Wm
+l M» m lumucn “m 1, WM m,-
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Modules
+
+But what if we want to access a function define in another module that is not a
+child of the current module ?
+M M
+
+muh
+
+‘ llllllilvl,‘
+
+Ii)lllDlQII"1J 21ml}? ‘r1l~, .l, I
+Ullntlr'll“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+®
+Modules
+But what if we want to access a function define in another module that is not a
+child of the current module ?
+M mm-
+‘ WWW, ->
+-=:1llp1@==@1.1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Another observation is that we need both "add" function to be public and the modules
+they are in to be public as well (simple and complex) for the next code to compile.
+Output
+mud with 1
+pub m mp» i 50,30
+pub fry (x , , i, V> t
+>
+}
+pub m (omplex 1
+Dub m w ,, ,2 17> t
+suDErUSWDleU (suver mm; in 0,, w:
+'/
+i
+fn n t
+let res V nat'v: complex‘ (18, 26, 38],
+m m5; 7 W» MW (m, my,
+pmum (m) mm 7‘
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+®
+Modules
+Another observation is that we need both "add" function to be public and the modules
+they are in to be public as well (slmple and complex) for the next code to compile.
+RUE!
+51w ‘1E 1
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+The solution is to declare math::simple::add function as —. This will make it
+unaccesible from outside math module.
+uvmlEBsBll “mm m is mm
+A l l Wm Function
+l l
+l
+1 l uub l§lpuyl f" nﬂﬂlx 111. y 111; V> 111 l
+l
+m m5; 7 W» mm (m, my,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+The solution is to declare math::simple::add function as —. This will make it
+inaccessible from outside math module.
+Output
+mud mm‘ ~ 50
+pub m mm,» <
+mm {Mm} m v , , i r» l
+l
+l
+pub m romplvx .;
+mm m U , , , .r i '> <
+superrslniple“ Isuper mime (A, J), ij
+l
+l
+in u <
+m res Z matw mp1“: (10, 20, my‘
+printlnll (res) (res2) 1,
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+g; Modules
+The rule is that by default, everything declared within a module is considered
+private (meaning that it can be access by everything declared in that module and
+its ancestors) but not from other locations (other modules),
+
+OBS: for a struct, this rule includes its member and its implementation (if a struct
+its declared public but its members are not, then its members can not be accessed
+from another modules).
+
+There are two exceptions from this rule:
+
+1. If a - is declared public, its associated items are public as well
+
+2. If an - is declared public, its variants are public as well
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Modules
+
+Let's see some examples and discuss how visibility rules work here:
+M MEI
+
+H‘; . ‘ 7- ‘1
+
+d
+
+m-z. ‘ V 1
+
+I m U \ 1,
+_ mm \‘\"uk"\;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+®
+Modules
+Let's see some examples and discuss how visibility rules work here:
+M MI
+An‘- ‘, V ,>*"\
+M
+E
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+®
+Modules
+Let's see some examples and discuss how visibility rules work here:
+M" EM.
+E!
+M
+E
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+®
+Modules
+Let's see some examples and discuss how visibility rules work here:
+M" MI
+uper::5uper::add(...)
+a::b::add1v )
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+®
+Modules
+Let's see some examples and discuss how visibility rules work here:
+M MI
+—In
+_ m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+®
+Let's modify the previous examp\e so that we can access function .from main.
+RMSI
+a ¢ evvw'lwmilv mm b WW
+t ‘v ‘v >y-pna1u,r':-:15:16
+“11" \ ‘I ‘ " " ' ‘ , i ‘5| letx:a"b"["d"§ub(lmlll
+, | ~ Wm Mule
+“W. ‘ V 1 41, x
+d ‘ Wink $1: 9:.de M
+:3: nv;:.‘1.w_v,r,\ 2‘ "11H
+Z s u L a .u'u]9,4h
+wmmw‘ -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+®
+Modules
+Let's modify the previous examp\e so that we can access function .from main.
+M MI
+III ‘Y I
+III ‘
+U. “twm- ,.: V, ;
+Z A L‘ ‘i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Mod u les
+
+Let's see how a structure works with modules:
+Rust
+
+. l
+_ l nr- un wrurr
+
+l
+
+Notice that in this example, MyClass structure is private and as such trying to access it
+from outside its module is not possible.
+The first step We should do is to make it public.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Modules
+Let's see how a structure works with modules:
+RuSl‘
+
+l":l } Wilfrid’ £29213‘ M emu’ mm, i7 and»
+However, even if We make struct ublic the code will not compile as one of its
+fields that is required for initialization ( ) is not public!
+
+The solution is to make — public as well.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+® Modules
+Let's see how a structure works with modu\es:
+M Mm]
+W ~A ‘I,
+LIMEJWW ,asu:
+Now the code compiles as expected‘
+But what if we don't want MyStruct::x to be accessible ?
+Can wefind a way tn create an object oftype MyStrucr but withaut having access to
+dam member ”x” ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+®
+Modules
+
+Let's see how a structure works with modules:
+M" MI
+
+rm i l
+
+‘if’, mm‘.
+
+WWW“ “gull it‘
+Notice that both - and I methods from MyCIass have the - specifier. If we don't
+explicitly add that speciﬁer, those methods will not be available outside module "a" and
+as such the code from main .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+a Modules
+But what if we have a different scenario (for the same structure MyCIuss).
+We want to be able to access data member "x" at any time (both read and write) but
+we don't want to be able to create an object of type MyCInss in the standard way. In
+other words, considering the following code:
+
+turtlﬂi is.“
+
+We would like for:
+1. Line let a = a: :MyClass {xz 10}; to be impossible (should not compile]
+2. Line pr‘int1n!("{)",a.x); to be possible( )
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:32**************
+Modules
+The solution is to add an extra member to the structure - (let's call it for the
+moment '”-) That member has to be private and as such instantiation of -
+object will not possible. This is often referred to as a Qhantom member.
+Rust
+This solution has a drawback 9 an object of type - now has a size of 8 (instead
+of 4, its original size).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+® Modules
+Let's see how this solution works:
+M a r » .
+m‘ ,r ‘r v
+Mm v!
+w‘ M rim “1n 1:‘1\ F113;’ Yp'hij l x: 1H" eltr‘; B 1 I
+:w x.“ ‘w 1
+prmtl'm r 1 ,3 x,:t1:vvw::1:srr a: hug: \w‘
+Q: What can we do to make MyC/ass ofsize 4 (its designed size) but still respect our
+constraints (in C++ we would have used a private constructor).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+® Modules
+The solution lies in creating a ZST (Zero Sized Type) that can be used for the type ofthe
+“iextra” data member:
+:tww, "MEPDLJ'FHI',
+w‘ w» '1,‘ v‘:
+W '4 .1.
+72:08: vatt.£nJl
+W m m; n“ ‘w 1w. v { ‘Lth- w t yum "mrm. *ruJH ;
+Wm“ 1 1 ,J “m 'm'rr ‘Hr ,. 1w.“ ‘m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+® Modules
+A similar solution can be obtained via a special generic/template called PhantomDatas
+This allows adding various data members within a structure that will are not public but
+have a size 0 and as such no impact on the final size ofthe structure.
+”“" MM-
+r.» rm mew r
+, .ir r .
+ﬁrm H villi-‘rill mi l -
+ll [c M13:
+r.» 7r m. .ri‘ 1 1‘ .m,:1'.:' r ‘ruin’: J. -.; > r , Q'trr'a:flr1rt'i'l'i1r1: Hm“ r r
+runny-u r r r ,= n,:tr1.:rrierv: w a; i M1?’ m‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+An even more simple solution is to use the void type (j. The result is similar, and it does
+not require any use of another module or an ZST structure.
+Output
+mnil r, <
+pub mm r 10,5ize:11
+pub X; ,
+iextra: (a
+1mm 1
+pub m wit )'> l
+X V31 c,
+extra (l
+l
+l
+l
+r" r) r
+m r, 7 r, rm,
+pmumr i; n ‘a mu W 4a >1)»
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Modules
+A similar solution can be obtained via a special generic/template called —
+This allows adding various data members within a structure that will are not public but
+have a size 0 and as such no impact on the final size ofthe structure.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+®
+Modules
+A similar solution can be obtained via a special generic/template called —
+This allows adding various data members within a structure that will are not public but
+have a size 0 and as such no impact on the final size ofthe structure.
+-—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+Modules
+
+Let's see how an enum works with modules:
+M" MEI
+
+Uiv'wi. h
+
+QM‘
+
+_ 91.19
+This is one exception (since we have an enum we don't need to add pub for each of its
+variants, they are impiicitly public when we define the enum public).
+OBS: The same logic applies/or public traits in regard to their methods.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+We can also use modules to slmulate a static data member for a structure.
+mud d 1
+mm m (Hunter 7 a, Output
+pub mm j pub x ;
+m1 r 1
+w: r" (a ,, r 2
+uvr<are 1 3
+crate: 5-1me +1 1‘
+t X (rate a: counter r 4
+r 5
+r
+mm r" lﬂwll) V> r ~e1(.>< ;
+r
+r" r: J
+r,‘ 1 ‘I, a \r
+1M mm“ , a <1,
+pmntlnl: u , IHStame, m
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+a Modules
+There are also cases where you might not want to use the full qualifier name every
+time (especially it is long) -> for example the next example:
+
+H l l, whiwwlmuh- 1
+H‘ l m -;
+Why-Ml 1.qu ,1.
+The solution is to use the "use" keyword in the following way:
+l ,1 wr‘, w"; Wm.‘ -, .l 1w, ‘my-Mimi.» r, i.“
+‘inmellpm haw)‘ or illm'evlmkl».wl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Modules
+It is also possible to re-export a structure or a function b using the - syntax
+within another modules In the next example, is not visible from main
+because I is not public‘ However, the use of in module I makes it visible.
+Rust
+a ; L‘ ;
+‘ ::b :E, 3m,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+Modules
+lt is also possible to re-export a structure or a function b using the - syntax
+within another modules In the next example, is not visible from main
+because I is not public‘ However, the use of in module I makes it visible.
+
+Rust
+U—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Modules
+It is also possible to re-export a structure or a function b using the - syntax
+within another modules In the next example, is not visible from main
+because I is not public‘ However, the use of in module I makes it visible.
+Rust
+H
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+Modules & Multiple ﬁles
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+g; Modules & multlple flles
+Sometimes a program is too large to keep it in a single file‘ Even ifthat file is
+organized into multiple modules, it is still hard to navigate around its The solution is
+to split that ﬁle into multiple ones and create a module like hierarchy around this,
+Currently, Rust considers that each module should be form out of:
+' A file with the name —that contains module specific definitions, re-
+exports, etc
+' An optional folder with the name _that will include subemodules of the
+parent module (if any — hence optional)‘ /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+g; Modules & multiple files
+Let’s consider the following hierarchy for a mathematical module:
+~ - 9 root module
+- - —> a modulethat contains simple operations (like sum oftwo number, multiplication of two
+numbers, etc]
+- - 9 a module that contains more complex operations (like sum of all numbers from an
+array, or their product, ...]
+~ -9 a module that contains some mathematical constants (like Pi, E, etc]
+- - —> logs and debug stuff
+' - 9 debug methods for testing the result
+- I 9 log method
+Observations:
+~ "malhuother" module should not be accessible outside math module.
+~ Methods from "math::other::log” or "math::other::dehug” must be visible within math m ule
+- "M module inust have some configuration functions (to enable/disable dehug/logl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+®; Modules & multiple ﬁles
+9 create a hierarchy of files and folders within the - folder of our Rust program
+I src
+i math
+simple.rs
+complex.“
+constantst
+i other
+debuglrs
+Iog.rs
+othenrs
+mathrs
+B maimrs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+Modules & multlple flles
+m 9 Let's write the code for "debug" and "log" modules
+i src Rus!
+AVA-4L \uL enabled: qul : m».
+i math w k Hmwmm (mu.q1_»=a»r.y-y¢
+simple.!s “"“3” ‘ bl 1 v
+> Em a :
+complex.rs _ unmlm ‘; w, U;
+constantst ; I
+i other [H w; 'rrhinmaﬂw m awwlejemi )\‘.E\_.'HH"; may .;
+debug.rs ‘HEW 1i
+é I emu-m : ‘JlLlu;
+- og.rs ;
+othenrs “
+math.rs
+B main.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+®
+Modules & multlple flles
+m 9 Let's write the code for "debug" and "log" modules
+i src Rust
+i math
+simple.rs
+camplex.rs
+constantsrs
+i °he'
+debung
+Iong
+othenrs
+math.rs
+B maimrs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+a Modules & multlple flles
+m 9 Let's write the code for "debug" and "log" modules
+i src Rus!
+i math AVA-4L \uL enémea; qul : ‘pl-J.‘ _ ._ ‘
+W k Hmunmm m WWW m . @m, V. shy;
+simple.!s “"“3” ‘ ‘
+> enabled 1'
+complest prlntlnhb UH, w WU . m w. amt)“, :p;
+constantst ; I
+i other [H w; 'rrhinmaﬂw m eniﬁléilrgiwv'nm\a' .0: "\ﬁﬂﬂ 1
+debug.rs ‘HEW 1i
+é emu-m : ‘JlLlu;
+1
+é othenrs “
+math.rs
+B main.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Z Modules & multlple flles
+m 9 Let's write the code for “other” module
+i src m n 1 t
+t ed» taunt
+i math t 1mm‘ Log.
+sim Ie.rs
+> p m tlws case the code is qwle mine FHe '-' just creates two new
+complex.“ sub'modmes (debug and log) that corresponds to me ﬁles - and
+constants rs - and that are public (m cratezzmath19 meaning that they are \/\sib\e
+' withm math meame, but not oumde it
+i other
+debug.rs
+é I0.!s
+é muthJs
+B maimrs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+g; Modules & multlple flles
+m 9 Let's write the code for "constants" module
+i src [-1 7 V‘ U
+imath E;- :Lﬁ‘.
+simple.rs
+> In rm case both constants are dedared as public (meaning that they can be
+complex.“ used from (“1de module -.
+i other
+debug.rs
+log.rs
+othenrs
+muthJs
+B maimrs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+m 9 Let's write the code for "complex" module
+is": Ru“ V ‘H H
+w w :Hrvu.: my]; r: 151-;
+i math p» m elementsisum : a;
+. elem . ‘1
+é s:mple.rs ElemEntsisum +1 915m;
+c0mplex.rs 1
+> elementsisum
+constantst I:
+w’ n prudla, &[i3:“> - 132 1‘
+i other A m Elementsiprwd 1 1;
+elem u a’
+é, debug.rs elementsipmd '7 elem;
+I0g.rs F
+, elementsipmd
+othenrs >
+math-"5 Notice \ha\ bmh "sum" and “prod” mncuons are dedared as pubhc (so that
+B main rs they Wm be accesyble from oulyde math mam)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+® Modules & multlple flles
+m 9 Let's write the code for "simple" module
+RUE!
+‘1 h \ _ V » 1
+simple” Hm» may: Jug ‘W M V \. M \ ‘ W‘ u
+camplex.rs I My‘ _ n ;
+constantsrs mil»- ;w: Jug ‘w \ ‘ M . ‘ M \ ‘z
+i other 1 _
+debug.rs Nouce that both "I and "I function; are declared as pubhc.
+[091$ Before each one of them is caHed, \hey caH iunction from both "'- and
+other rs "I modmethat lfwme Wm prmt a message an the screen
+math.rs
+B maimrs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+®
+Modules & multlple flles
+9 Let's write the code for "math" module
+i src Rm
+5)" \le.
+i math ‘:MFFFL
+simple.rs mi?“ A“ "
+camplex.rs (QUE 1
+constantst MW, ‘
+i other ‘ [IL-Eng
+debug.rs ‘ V
+Iong my‘ $1;le“:|l;‘.l“\|‘7"> ‘Luﬂww ,, WM“
+é other“ athzr :ng: :x:LJ-:71u§7uun:\uw‘ :1 :L»g\.
+math.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+®
+Modules & multlple flles
+9 Let's write the code for "math" module
+Rust
+i i; th
+ma n'vvvﬂlih' ,
+simple.“ ‘M
+camplex.rs
+constantsrs
+i other
+debug.rs
+Iong
+E othenrs
+math.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+®
+Modules & multlple flles
+9 Let's write the code for "math" module
+i src Rust
+i math
+simple.rs pubhncrate, math]
+camplex.rs "he
+math
+constantst
+i other
+debug.rs
+Iong
+E othenrs
+math.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+‘Cl
+® Modules & multiple files
+9 Let's write the code for "math" module
+i STC Rust
+i math
+simple.rs
+camplex.rs “Email l
+constantst MW, k
+debug.rs l
+Ioglrs
+E othenrs
+math.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+®
+Modules & multlple flles
+9 Let's write the code for "math" module
+i src Rust
+i math
+simple.rs
+camplex.rs
+constantsrs
+i other
+debug.rs V
+Iong Hm; Jill???"ELY“,A ‘1mm ,, WM“
+é otherrs ‘ my In‘; Mil’ mg‘.
+math.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:61**************
+®
+Modules & multlple flles
+9 Let's write the code for "main.rs” fi\e
+i math ‘ 1
+simple-rs Wm?“ > W‘; m‘
+camplex.rs W h \ ‘ 4 Z .W W. H 4‘
+i other ,WvaE-v-umzl "F L1 r 91ml Hum J .~ ‘#411 1],,‘ L. § m3, M
+debug.rs ,‘HMW, Z , E Z \ M W p; mm Wm. ;_
+Iong
+othenrs LlJl"‘ll“§iMl'lifil “"1” ‘T11 l‘
+prur'thH 1w: : .th Imp}? W14‘,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:62**************
+®
+Upon executiun, the next program should print the following:
+i src Ru“
+i math EE-
+s:mple.rs 1+2 Z 3
+camplex.rs T4 I 8
+Sum of all Hements fmm [1, z, 3, a, 5] IS 15
+constantst Product Oran e\ements (mm [1, 2, a, 4, 5] i5 120
+i other P\:314,E=2.71
+d b add two numbers
+e “9-” 1+2 : 3
+[091$ icigmgt [Funcuum slmple 1;,de A add [WU numbers
+> + :
+‘ othenrs 1+2 z 3
+math.rs
+B maimrs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:63**************
+7
+Crates
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+g; Crates
+A crate in Rust is a c ilation unit (elg a lib y). In terms of binary output, a crate
+rrespund to aiDﬁIe in Windows or a ifile in Unix based systems or a
+
+Wn OSX,
+To create a crate, use the following cargo cemmand:
+argc new --lib <libraryiname>
+
+Example: running the next command: ‘cargo new *lib myirnathilib” will create:
+' Folder: myinewimathilib
+
+- Folder: src
+
+' File: - -) this is the main entry for the new library‘
+' File: Cargo.t0ml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+g; Crates
+Usually, the code from - will indicate the functions/modules that are exported:
+r : , : l V l - ‘
+lfthe library is more complex, other modules can be built (similarto what we have
+discussed on the previous chapters) and -just links all modules together
+Notice that ifyou want to export something out of the crate you have to mark it as
+public.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+g; Crates
+But what happens when we build a crate 9 it depends on what is its purpose. There
+are a couple of reasons a crate is being created:
+
+1, To act as a library for another Rust program (the default case). This implies static
+linkage between another Rust program and this crate
+
+2, Adynamic linked library( [Windows: idll, Linux: ‘so, OSX: .dylib] )i This implies
+other programs (maybe written in a different language can use this library)
+
+3. A static library for other programs written in a different language‘
+
+While each one of these cases, relies on the existing of - the difference is made
+
+from — file
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:67**************
+g; Crates
+
+9 a static library for another Rust program
+The —file contains just the regular fields: name,
+
+[PackagE] version and edition. Optionally if other similar crates are being
+used in this one, they are refered in the section dependencies.
+
+d d 4 The execution of cargo build will not produce a binary, but an
+
+l we" Hues] object file named: (in our case it will be named
+Iibmy_math_lib.rlib)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+g; Crates
+
+9 a static library for another Rust program
+The —file contains just the regular fields: name,
+
+[PackagE] version and edition. Optionally if other similar crates are being
+used in this one, they are refered in the section dependencies.
+
+d d 4 The execution of cargo build will not produce a binary, but an
+
+l we" Hues] object file named: (in our case it will be named
+Iibmy_math_lib.rlib)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:69**************
+g; Crates
+9 a static library for another Rust program
+You can use such a crate in other Rust programs in different ways:
+1, You can publish it in cratesio and then use it as a dependency
+2, You can upload it to a git repository and link it directly from there
+3, You can keep it locally and link it directly from its local folder
+4. You can use your own registry
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+9 a static library for another Rust program
+1. Publish to cratesjo and use it as a de endenc
+Before you publish it, you need to make sure that your cargoloml has the following fields:
+cargowml
+[package]
+“Wiyimatliillb”
+“1821"
+["dutlior'l" ]
+“SDH'E descrlpmon rm what (rate 15- nmng"
+“l-lIT“
+["keywordl“ 1
+[“cnfegm‘y1" 1
+"https: Mgithubmom“ . . .
+"PEADME.WG"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:71**************
+®
+Crates
+9 a static library for another Rust program
+1. Publish to cratesjo and use it as a degendency
+Before you publish it, you need to make sure that your cargo.toml has the following fields:
+wrgoloml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+®
+Crates
+9 a static library for another Rust program
+1. Publish to cratesjo and use it as a degendency
+Before you publish it, you need to make sure that your cargo.toml has the following fields:
+cargomml
+_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:73**************
+Crates
+9 a static library for another Rust program
+1. Publish to cratesjo and use it as a degendency
+Before you publish it, you need to make sure that your cargoloml has the following fields:
+wrgoloml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Crates
+9 a static library for another Rust program
+1. Publish to cratesjo and use it as a degendency
+Before you publish it, you need to make sure that your cargoloml has the following fields:
+wrgoloml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:75**************
+g; Crates
+
+9 a static library for another Rust program
+
+1. Publish to crates.io and use it as a dependency
+After you finish completing your cargo.tom| file , you can run the following command to
+publish your crate:
+
+argo publish
+You can also run cargo publish "dryerun to test for errors before uploading a new
+version.
+OBS: You have to create an account on cratesvio first I
+OBS: Make sure that you increment your version (in cargotoml) file before you are
+uploading to cratesjo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+g; Crates
+
+9 a static library for another Rust program
+
+1. Publish to crates.io and use it as a degendency
+Once you finish upluadirig , you (or someone else) can use it by simply adding yuur crate
+in his Rust application cargo.tom| dependencies sections
+
+[package]
+In this case, another application is using [dependenciES]
+
+“my_math_lib" version 0.1,0 in its
+
+dependencies,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:77**************
+g; Crates
+9 a static library for another Rust program
+2. Link your crate from a git regository
+
+Once you crate is completed, uploaded to a link repo and link it in another application in
+
+the following way:
+
+[package]
+
+[dependendes]
+In this context, “a git LIRl> can be an URI towards any git
+based system lag. github, bitbucket from Atlassian, etc].
+
+The branch name is optional.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+g; Crates
+9 a static library for another Rust program
+3. Link from your local hard drive
+
+In this case, it is easier, just specify the location of the crate in your hard drive in the
+
+following way:
+
+[package]
+
+[dependencies]
+In this context, - path to (VEIE ~is a local folderwhere the
+:Iate is located. Relative paths ("../../.....") are accepted as
+
+well.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:79**************
+g; Crates
+m 9 a dynamic library that another program can use
+The first step is to add a - section and specify that
+[paCkage] the crate type [- [Q d_ynamic @raryl)
+Crate-type supports other types as well:
+[dependencies] Z 33ml]
+_ ' rlib
+[11"] ' staticlib
+- proc-macro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+g; Crates
+
+m 9 a dynamic library that another program can use
+
+We will also need to change the way we write our exported functions:
+
+,
+
+r
+
+1. The “—" attribute is required as Rust mangles symbols and as such
+other applications can't use them.
+
+2. The ’_" specifier is required so that Rust exports that function in a way a
+program like C/C++ can understand’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:81**************
+m 9 a dynamic library that another program can use
+Upon compiling, a .dll or a .so or a .dylib will be created that export the function add‘
+That library can be used in a C/C++ program in the following way:
+C/C++ program (/0, Windaws)
+wi'i'lurr mm .1’;
+#i 171m:- ‘anneal >
+mural-f MHZ; 15 Films;i_1nr'-‘z;,1nraz;i;
+‘mid mm’) l
+mm h'indlr 1 lnnrililv"nv‘ysl\i_'"ii,iintl" mm l“);
+ﬂaw :lillLl : (FMDD)EeLF'ruUhltlr eeeijiiauugywi l" i;
+prmui"%'d",1i1i1i1,27u;
+\
+J
+OBS: We cansider my_muth_/ib.dll the binary result obtain when running cargo build.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+g; Crates
+m 9 a static library that another program can use
+The first step is to add a - section and specify that
+[paCkage] the crate type [-)
+The execution of argo build will produce a static library
+[dependencies] f|le( .llb) (In our case It Wlll be named my_math_hb.hb]
+_ That library file can further be used in a C/CH program
+[11"] for linkage (option -| from C/C++ compiler). /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:83**************
+Conditional Compilation
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+g; Condltlonal Compllatlon
+In rust, a Conditional compilation means building different branches of code based
+on some condition (features) that can be activated or not.
+
+The closest similarity in C/C++ is - or - compounds.
+In Rust a similar functionality is achieved with:
+1. cfg proc macro attribute: "[cfgl ..)]
+Z. cfg macro:
+Conditional compilation works based on features (that can be considered a
+Boolean value), that can be:
+1. Custom ldefined by user]. _be defined in cargo.toml file
+2. Predefined (e.g. current operation system).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:85**************
+g; Condltlonal Compllatlon
+The following steps must be performed when defining custom features:
+1. Add a list of features in —file into the sectionfeatures
+2, Use that feature (via - or -) in your program
+3, Either:
+1v enable that feature directly irl curgalaml lvia default key)
+or
+2. use “features (namel, namez , name" > with cargo command line to enable one or multiple
+features
+OBS: Notice that unlike C/C++ where a feature that enables conditional programming in a program
+does not have to be deﬁned but can be used with the parameter "mD" from command llne, in Rust all
+feature MUST be defined in cargotoml file ll'l order to be used with cargo command l'lne,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+g; Condltlonal Compllatlon
+The general format of #[cfgLul] attribute implies a logical condition (expression) that
+if evaluated with true will enable the next block from the program in the compilation
+phase, An expression from #[cfg(<expression>)] can be:
+
+- A simple key=”va|ue” expression (where key is usually feature). Example: —
+- Another expression that uses not, and or any to create a more complex expression
+The compound after the #[cfg(,..)] can be:
+1. A function/method. _
+z. A block —
+3. A condition/loop _
+4. A variable deﬁnition —
+5. A type/struct definition _
+6- A mom _
+7. And others
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:87**************
+. Condltlonal Compllatlon
+Let's see a simple example (with code and cargoloml).
+cargovtom! Rm c++ [equivu/ent c0119)
+[package] 7 “HEMP a“ a H \ m HUI x
+"3631" ‘ V 7 “1%anan W "w
+[features] ,f:ﬂ‘www.-rm 5w‘ a w \ ‘1” H113‘
+‘ H7 w w :
+1 a» m
+There are two options to run this program: ; m“ "
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Let's see a simple example (with code and cargoloml).
+mrgamm! Rm c++ [equivu/ent cude}
+[package] 7 “WW a“ a H \ m HUI v‘
+,lm w nl!v‘\“M»leurJ Aw ‘ MM mm N \:
+"1621" ‘ ﬁw'1“+
+[features] a \\‘\‘Vr‘v>'r<‘t.\sir“
+: H “MM ; Jmtwmenm s“;
+I [1 7W M .‘V
+; a» m
+H J M‘ 1 .
+There are two options to run this program: ; m“ "
+1. Run “cargo run “features METHOD_A”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:89**************
+Let's see a simple example (with code and cargoloml).
+cargovtom! Rust c++ [equivalent cude)
+, WWW a“ a ll l in HUI i
+w Hui ‘iv-Milan Aw ‘ NM" "Milled A‘ ‘=
+‘ a‘ i'1lt
+a ll l Ht H113‘
+H .i Mi i .
+There are two options to run this program: ; m“ "
+1. Run “cargo run “features METHOD_A”
+2. Set a default field with a list of features to be automatically enabled upon execution and run the
+program with a "cargo run"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+Condltlonal Compllatlon
+Let's see a simple example (with code and cargoloml).
+cargovtom! Rust
+, “mm a“
+"m ‘ l Em“ llnmm w m Mm n‘ ml
+Those two methods, if combine are NOT exclusive [meaning that if we run: "cargorun"
+features METHOD_B" then both METHOD_A and METHOD_B will be enabled and the code will not
+compile as there are two .methods).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:91**************
+. Condltlonal Compllat|on
+
+Let's see a simple example (with code and cargotoml).
+cargovtom! Rust
+
+w m1, ii“l'l»leud Aw
+
+l V 7 “METHOELB”
+[features] pi‘ nllrli“l-h~thm1 5M‘
+: ["METHODiAﬂ ‘ W‘ ‘ 1
+The solution in this case is to use --no~default-features parameter in the cargo
+command line followed by the enablement of another feature via "features parameter:
+cargo run --no»default-features “features METHOD_B
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:92**************
+® Condltlonal Compllat|on
+But what if we don't want to define two separate features, but instead we want to
+define one and if not set have another action/function defined that we can use
+(something like ﬁifdef #else #endif from C/C++). To do this we can negate the cfg
+attribute in the following way: #[cfg(not(..,))]
+curgavtoml Rust CM (equivalent rude)
+Z l l7» WW “mom
+[Dishes] a‘ 71w‘ l ’ w l
+na'vie ill-7min w H l‘ W, l' w l
+\p'EI'SJ'JH i ,l h
+‘edition l Z l ‘if i‘ ' ' ,l i
+email‘ ,Wl l
+Features] v Wm,“ w H i‘ ‘ I
+l'lETHUD n : U . ‘M’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:93**************
+Similarly, I and I can also be combined to check is one feature has been set up or if
+all features have been set up. The general format is:
+' ANV 9 #[cfg(any[feature=“featurel” , feature=”feature2” , feature="featuren”))]
+‘ ALL 9 #[cfg(all(feature=”feature,”,feature="feature1”,v.‘feature="featuren”J)]
+~ NOT in various combinations such as —) #[cfglnot(a||(fea(ure=”feature," feature=”featuren")))]
+targo.t0ml Rusz
+r r , “Fwy, V “@er
+[package] r r“ r; .;
+"my app" 'v"ivv\lnl1“(lm' Dr lea!) Hr M175»
+‘ll-1"? l r r V "Fwy, 7 weary“
+"29:1" w» ﬁr a w’ r r
+mmwwacw FEAT A m FEAT a“ v
+Z l] iiu.7tu.li7ul7-L7uriiwi a
+I l] J )litirillllllOt rim-r FEAT} and Fwy .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Condltlonal Compllat|on
+In fact, any and all and not can be used to create a complex conditional compilation
+expression. In the next example we condition the existence of method "foo" with the
+following expression: q“museum/(an(mum-Tm)", mwree'ran), nnt(feature=“FEATj"))))1
+cargomml Rust
+[package]
+name
+WNW‘ 1 e‘ l i. 'l l i, i fin l ‘1w
+@111th ',l‘llil, n i m
+[features] ‘
+19mm: [w q w] ‘ "will ‘0°
+FEﬂTia : [1 1 ‘“
+rrm n : [[
+Frat; : [1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:95**************
+Condltlonal Compllat|on
+Each one of the features from [features] section can have dependencies (e.g. a feature
+might pe dependent on another one)’ The list of dependencies is described as the value
+of a specific feature as follows:
+- feature = ["dependency,”, “dependency,”,... “dependencyn”]
+Cﬂlgoioml Rust
+[Package] i l V “FE/ALB“, V “FEM-w
+"iii/gem" mi i
+“9.1.;1“ print “we-mm
+"3521“ l
+[Features] MIL!‘ l
+: ["FEALAW i
+: ["FEATiB“ , "FE/ALF]
+,U
+:H
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+®
+Condltlonal Compllatlon
+Each one of the features from [features] section can have dependencies (e.g. a feature
+might pe dependent on a m
+of a specific feature as foli
+- feature = ["depend
+Cnlgoioml Rust ‘
+i i 7 “re/ALB", 7 “FEALUH
+[Features]
+: "FEAT A"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:97**************
+g; Condltlonal Compllatlon
+Features can also be used to conditionally compile dependencies.
+[package]
+[dependencies]
+I i, : Hm “‘, : true i
+[Features]
+: [uni-a i ‘1 /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Condltlonal Compllat|on
+Features can also be used to conditionally compile dependencies.
+wlgOfom/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:99**************
+Condltlonal Compllat|on
+
+At the same time, when using a dependency, one can enable features from that
+dependency:
+zurgumm/
+[dependencies]
+It is also possible to disable the default features setup from a librar for cases where we
+want to compile a dependency with a specific setup via ' ” key).
+:mgomm!
+[dependencies]
+
+HZ!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+Condltlonal Compllatlon
+You can aiso define a features that forces some features from dependencies to be
+enabled upon compilation:
+rulgaloml
+[package]
+"Vin/inpp“
+
+"6.1.9"
+
+"bill"
+[dependencies]
+
+:[ : "0.141", : Fain‘)
+[features]
+e ["Asc/FEALX", "ABC/FEATiV'ﬂ
+: i"AB(/default“i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:101**************
+Condltlonal Compllatlon
+You can aiso define a features that forces some features from dependencies to be
+enabled upon compilation:
+CDIgU 10ml
+[dependencies]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+®
+Condltlonal Compllatlon
+You can aiso define a features that forces some features from dependencies to be
+enabled upon compilation:
+CDIQO 10ml
+features
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:103**************
+®
+Condltlonal Compllatlon
+You can aiso define a features that forces some features from dependencies to be
+enabled upon compilation:
+CDIQO 10ml
+[features]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+E; Conditional Compilation
+Besides features, there are a couple of attributes (that have values — not Boolean
+values like features) that are already set up by Rust compiler. They can be used in the
+following way:
+
+#[cfg(<attribute1>=“value" , <attribute2>=“va|ue" , <attributen>=“value“)]
+
+M—
+
+targeLanh x86, x56_64, mips, PowewC, DowerDcM, arm, aarch64
+
+targeLfeature avx, avxl, art-static, Fdraﬂd, sse, ssel, sse4.1
+
+targeLos WINIOWS, macos, ins, linux, android, freebsd, dragonfly, openbsd, netbsd
+
+targetjimily HﬂlK, windows, wasm
+
+largeLenv gnu, msvc, musl, sgx
+
+lirgeLendian big, little
+
+timeLpulnleLwidth 16,32,54
+
+targeLvendor apple, fonamx, pc, unknwon
+
+t:rgn_llas_:lomic s, 15,32,511, 125, pv
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:105**************
+Let's see an example where we use target_0s to set up the name of the current
+operating system.
+Rust
+L : ‘mmwgv
+
+{n gF'tiIiinamPUV>&‘ifﬁﬂf an‘ < Outputlpossihle)
+y “U “"L-‘J Current os is Windows
+‘ K : ‘WW-w
+m get namelyﬂﬁtatli 5m -{
+
+‘ 1 1 ‘H
+7‘
+m nmnz) (
+
+printanF u' w r‘, Fm l. n “ ,5;th J'mww 3 1,-
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+®; Conditional Compilation
+Besides custom features and attributes, there are some predefined / preset features
+that can be used:
+—m—
+debuussertluns Enabled when compiling in debug mode (without optimizations)
+Llan Equivalent with targetjamily : "unix"
+windows Equivalent with targetjamily : "windows"
+test Usualiy used with modules to indicate that a module is used for unit testing
+proc_maclc li a crate is being compiled with proc_macr0 ﬂag
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:107**************
+Condltlonal Compllatlon
+Let's see an example that use — to enable a method only ln debug
+mode:
+Ru“ A) Normal execution (debug mode)
+Dr‘1ntlnll_"F00“ l;
+l B) Compiled in release mode [cargo run -r)
+“mm l ‘WH- WM; WW m1 mw'vll W ll “us- w,"
+I‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+® Condltlonal Compllat|on
+Additionally, Rust provide another macro called cfg_attr, that can be used to add
+other attributes based on a condition. The general format is:
+#[cfg_attr(condition, Attributel, Attributez, Attributenﬂ
+Several such conditions can be applied over the same block.
+cargo.toml RIIS!
+[PMkage] i, , "1 lE yum“, i jii
+name , l l H
+imam“ +7 +7 , ,‘ Z ‘ " W ‘ )
+. . n now
+ammo" printiiiiifWJJ l;
+l
+[features] icll llljilll l 1|
+‘HELL J.LlllL : [] “HWY
+TEGTJ-lﬁbE : [1 } "l '
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:109**************
+®
+Condltlonal Compllatlon
+Additionally, Rus dd
+other attributes
+#[cfg_attr k‘ J
+Severalsuch con {mu i pr‘jntlr\|i_“f00"); ‘,
+curga tom! Rim ,
+i_ JMAKEJNLINE", ( ‘,1;
+L' :"TESTiMODE", )
+Fwd) [
+p|‘int1n1("foo"i;
+,
+Z [i
+Z [1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+® Condltlonal Compllat|on
+
+This technique is particularly useful for modules (e.g. if you want to have different
+modules with the same name but different file names for every OS specific build.
+Rust
+
+( : “Lsntwg : Quinn ‘j>
+
+y : “n'mw. : ‘mm: l" “l
+ma OSirncthodS;
+For example, in the previous context, the module OS_methods will be defined in 3
+different files (windowsrs, linuxtrs and macos.rs). The compiler will choose what file
+to compile based on the path attribute of the module 05_meth0ds. The path
+attribute is selected based on the operating system (meaning that if we run on
+Windows, the previous code will look like the following one:
+Rust
+"ran OSJriethimﬁ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:111**************
+a Condltlonal Compllatlon
+"cfg" can also be used in cargo.toml (as a way to specify additional properties
+depending on the selected configuration). The most common one is to add additional
+dependencies based on the operating system.
+
+Carataml
+ltarget.‘ [dependencies]
+
+: "t'il'i'ii" ‘.‘i"l"lm'i 9
+[target ‘ dependencies]
+
+: ‘ ' fulﬁl" yPlSlDi'i >“
+In this case we specify that different libraries need to be linked depending on the
+target operating system‘ The general format for dependencies is:
+[targerkcfg rule>’sdependencies]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+Z Condltlonal Compllatlon
+Because of this format, we can write even more complex conditions for conditional
+compilation. Let's analyze the following example:
+
+[target.‘ ‘ dependencies]
+: “~ i mm‘ w‘! li'iH -“
+This translated into the following compilation logic:
+' If the target operating system is unix
+and
+~ lfthe pointersize torthat operating system is stored on 64 bits
+then
+- Add e dependency lﬂ the current project to “Pointer_optimizer_for_unix" crate.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:113**************
+a Condltlonal Compllatlon
+The cfg! macro works similar with #[cfg(...)], with the difference is that it returns true
+or false. It is important to notice that even if the code is not enabled, if the cfg!
+macro is used with an if compound , the block of that if must compile.
+
+Rust
+In this case, cfgllfeature = "METHOD_B") will translate to either true or false, and as
+such xwill be 1 or Z.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+7
+Tests
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:115**************
+g; Tests
+Working with library implies having some sort of unit test to run before
+releasing it‘ While in other languages this is done via a 3rd party
+application, Rust ecosystem can do this within the same integration (via
+cargo).
+
+Let's consider the following problem 9 we need to export a function
+
+that sums up two u8 values, but returns an Option for cases where an
+integer overflow appears (eg. adding 200+200 will result in an integer
+overflow for u8 scenario). /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+Tests
+Let's see how we can do this.
+m —) lets create a new library via cargo by running:
+argo new --lib addlibrary
+m —) lets add an add method:
+Rust (Mm)
+and“: , ‘,1 > r> 4- ,- -;
+rm l’ : la l + (l; '>,
+1r wul: > 2551;
+PEUHVW NONE;
+l
+rem n some-v" wall, l:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:117**************
+Let's see how we can do this.
+m -) add some methods to test if function "add" works properly.
+Rust (Hm)
+mt‘ +11 mm"; Us, ;: Us", [\ptmmuB: x‘ 1»
+tESt
++11 HW'HLJHHU {
+assert‘(mlLHIIJIYIISOMQQEI)2
+assertieqz(awnrleersw ,Somer'255jjr;
+ESEEV‘tJ\EV[74dd(B,BU,SD|ﬂel_1‘/_7§
+,1
+TFif
++1‘ mm Urey-{1mm r
+assertieq!(manBBJBQW ,None);
+653E7‘t’ﬂ€'[Add(yle@,199'l,NDﬂE‘7§
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+®
+Tests
+Let's see how we can do this.
+m -) add some methods to test if function "I" works properly.
+Rusff/rb '51
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:119**************
+®
+Let's see how we can do this.
+m -) add some methods to test if function "I" works properly.
+RusH/rb '51
+dSSi-JFU(dddl:1,Z:Y::Sumek_'31)2
+assertieq! (awnqleersw ,Somer'255jjr;
+assertinel[3dd(8,@ﬁ,501ne£_1)7;
+assertieq! (annqzemmew ,Hone);
+assertJIEY (3dd(182,199'y ,Nmm;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+®
+Tests
+
+Let's see how we can do this.
+m -) add some methods to test if function "I" works properly.
+Rusff/rb '51
+
+Tﬂif
+
+chertkipamtitestk) r
+
+. : addrzoe,zoomwwapyn ’
+
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:121**************
+g; Tests
+Let's see how we can do this.
+Now that the testing was performed, it can be run in various ways:
+' All tests: -) cargo test -) run all tests
+running 3 tens
+lest Chelkiidd 0k
+“it MUM“ at
+M check_panlc_reslr mu.“ pm 0k
+test result: 0k‘ 3 Passed; Ofailed; D ignored; H measured; H ﬁltered mil; ﬁnished in ﬂvﬂﬂs
+— One test: -) cargo test <name> -) run a test with a name
+Ex: "cargo test add” will produce the following result
+runnilli 1 test
+lest Chélkiidd 0k
+(as: rm“: ck. i mm; Ofailen; o mm; n mm“; n mm M his...“ in mun;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:122**************
+Tests
+It is a common practice to group all test in a separate module (often
+name test). For example, in our case, the code could be organized in
+the following way:
+Rust (libJS)
+mam ,y: ,i -> -. yin)»
+tCStS i
+LeSL
+rhetliaddi ‘l iv.)
+test
+riwi~jw~mwii l i
+bird’
+[new perm: testl} {..i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:123**************
+Tests
+
+It is also recommended that modules that are designed for tests to
+have a special attribute ( #[cfgltesﬂ] ) that will only compile then if
+tests are being run.
+Rust (/ers)
+
+may: , ,1 l" ' ‘ll
+_
+
+[nectar-J‘ i l
+
+watt pa'JL l'h;l>lul l i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+Documentation
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:125**************
+g; Documentatlon
+Every project needs documentation. And there are usually two forms of
+documentation:
+
+' Function/Module documentation [very useful when using an IDE and you trying to
+use a method/function)
+Example [for Vector): httgs:[[doc.rust-lang.org[stdivecistructVeehtml
+
+' Project documentation (that usually explain a library/ a project / general way of
+using that project / etc)‘ Usually these types of documentations are presented as
+books.
+Example: httgs:[Zdocsrust-langnrgZbookl
+
+In both cases, Rust uses Markdown to write documentation:
+
+httgszﬂen.wikigecliauorglwikilMarkdown
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+e
+Documentatlon
+Every project needs documentation. And there are usually two forms of
+documentation:
+' Function/Module documentation [very useful when using an IDE and you trying to
+use a method/function) y
+' H““‘,iii1."\.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:127**************
+1e
+Documentatlon
+Every project needs documentation. And there are usually two forms of
+documentation:
+' Project documentation (Rust book):
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+g Documentatlon (Functlon/Module)
+To write a documentation, use I characters (on multiple lines] to explain [in
+Markdown format what that function / module is doing).
+W 1c! o
+‘r m mm V ‘ WA 1M mm e
+
+WWW ‘ \ my“
+
+Ninth‘ V ‘ ‘ JNCE4 , w , V y ulvxmnmenummms nine/\msé KYEiuVIvS§CIWE~
+‘" vi‘ ‘7 7" ‘ > ~' ‘/< Example
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:129**************
+g Documentatlon (Functlon/Module)
+If a documentation is provided, this documentation will be built when a crate is
+uploaded to crates.io and is being visible on docs.rs [for example for the random
+library you can find the documentation on llll )Ld/i'dOL3J s Handum Wale-st ’random’ ).
+To view the documentation locally, run the following command:
+For the previous example this should open the browser to something that looks like
+
+aim Crate ['1
+H Functions
+
+mm ll a lml ll Mil“ NW W» MW
+W.‘ new ‘ M n ““"“' "l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+o
+' ' Documentation (Function/Module)
+Function rust_tester:: “Mg H
+rusueszer f m r, V Example
+Mm Crater ‘ gummy-Mn r up.‘ ‘ \ -:
+“WA-w Functio > 1 ‘ _ H
+“ ‘ /i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:131**************
+® Documentation (Function/Module)
+The use of /// characters is in fact a syntax sugar for #[doc = ".J'] attribute. For
+example, the following two cases are the same:
+Rust Rust
+'1 11m 731, , '31‘ >731l 'l'l1i17 VII, , 112i ~1IIl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+g; Documentatlon (Functlon/Module)
+
+The - attribute can be used for multiple purposes:
+
+1. Load the documentation from an external document
+#[doc = include_str!(”<path to external documentation file>")]
+
+2. Set the favicon for the documentation
+#![doc(html_favicon_url = "<url to favicon>")]
+
+3t Set the playground URL for your documentation (this allows you documentation
+t0 add a <P|ay> button to your examples so that you can test them:
+it![doc(html_playground_url = "<url to playground site>")]
+
+4. Move some part ofthe documentation in a separate document or not (via inline
+or no_inline attributes)
+#[doc(in|ine)] or #[doc(no_in|ine)]
+
+More details on these attributes:
+
+htt s: doc.rust'|an .or rustdoc writeedocumentation the'doceattributevht
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:133**************
+E Documentatlon (Functlon/Module)
+Its also important to distinguish between function/method documentation and
+documentation for the entire crate or module.
+
+' Use /// for function / module documentation
+' Use //! for crate / module documentation (this type of documentation is usually
+added at the beginning of |ib.rs file
+Ru“ Crate rilStiteStel
+it in‘ Modules
+‘ “ ‘ ‘ ‘ ‘ "Lilli llhujuli nnhnnuhnm
+1 u H ‘ H v > v > v > Functions
+i M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+. . .
+Documentatlon (Functlon/Module)
+Another key aspect of Rust documentation is that examples that are added in the
+documentation can be tested as well. This makes sure that if you change something
+to a function, you will be notified if the new functionality is not correct according to
+what the documentation says.
+Rm
+itistitastawgmmm
+“(PM at 5 a 1M infant-Hr; i
+V‘il<\' teeter‘ l\h"d1v;
+ESSENlEqHPi'\‘i19,2'i,'>t‘nii5iSjii'
+assertiriqi {i11v1_5,i3i,‘iiiiru2,i,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:135**************
+. .
+
+Documentatlon (Functlon/Module)
+
+Another key aspect of Rust documentation is that examples that are added in the
+
+documentation can be tested as well. This makes sure that if you change something
+
+to a function, you will be notified if the new functionality is not correct according to
+
+what the documentation says.
+
+Rm malt» ‘ V
+
+Exam -le:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+. .
+Documentatlon (Functlon/Module)
+The solution is to use - to hide some lines in the example that should not be
+presented in the documentation (but still have to be used when running tests)’
+Ru$f
+imiilviwn 1M“ ii'li‘ v
+VlAStit'DZCL'l"11UI Idjh‘ i Example:
+JQSthiLkll 1E1 2 5 . l ‘mm 1‘ in‘
+assert Elli 5 0 I I ll :inJAi‘ i‘ ‘
+‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:137**************
+I I
+Documentatlon (Functlon/Module)
+You can use - to define functions and other variables that you might need to test
+a function. If you deﬁne a function around you test code, Rust will not create another
+one around your code. This can also allow you to use special operators such as I in
+your documentation code.
+rust Lester‘ lib..d1\1.
+‘mic tester 1m. .tm >:> hwirpini 1
+
+In‘ "m “ msrzrcieql lijl‘;ll@,l_l,‘InilllCi'yi i;
+
+‘Pf/111' “"1 5 QSSU(fullMUMlSaJ'lJlquli
+
+disentiuql 5 u ‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+g; Documentatlon (Functlon/Module)
+However, testing code from example is not without challenges. This is because the
+code from an example might reflect an error or something that is not recommended
+to be done. As such, there is a need to add some additional attributes to explain how
+that particular example should be tested.
+
+This is done my adding attributes (keywords) after the I characters (several
+attributes can be added if separated by I)‘
+
+You can find more on example test on:
+https:[[d0c.rust-Iang.0rg[rustdoqwrite-documentation[documentatlon—tests.html
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:139**************
+g; Documentatlon (Functlon/Module)
+
+Let's see some examples:
+- — -) this attribute indicates that the code will panic
+- --) this indicates that the code should not be run (but should compile).
+
+For example, infinite loops or code that needs a lot oftime to run should be
+
+prefixed with this attribute‘
+
+/
+
+' — 9 this indicates that the code should not compile
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+g; Documentatlon (Functlon/Module)
+There are several additional configurations that can be added when describing how
+documentation should look like such as:
+
+- Ignoring a code
+
+' Specifying an edition to be used for testing
+
+- Specifying some compiling attributes
+
+- The use of cfg attribute for documentation
+
+More on this topic can be found on:
+httgs:[[doc.rust-|ang.org[rustdoqhow-to-write-documentationhtml /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:141**************
+ﬁi Documentation (Book)
+lfyou want to write a project documentation ( a book ), Rust provides a utility called
+mdbook that helps you here.
+To build a book you have to perform the following steps:
+1. Install mdbook —) use this command: cargo install mdbook
+2‘ Create a file in the root folder of your project (named: book.toml):
+[hook]
+The most important fields in are:
+l n . "w" -) the source folder for your documentation
+~ “bulld'dlr” -) a folder where the resulted
+[mm documentation (in html format) will be outputted
+3, Create a SUMMARled file in the src ﬁle (this will be the entry point)
+4, Run mdbook build and open the index.html file from the destination folder
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+E; Documentatlon (Book)
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+i ruslitoursejii
+
+i docs [Dir-i ]
+suMMAﬂmd a :‘hilw : in“ H i iii i,‘ i
+mu!ses.md rvi.i"img.'|i ,
+administrativemd 5' r Z ‘ i
+ii labs i M, ‘ 1
+
+i iabgl i'i.ii1~iir"“‘
+Inb01.md
+.merlu.png
+Inbs.md
+i courses
+Course-LPdI
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:143**************
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+Markdown
+f3
+SUMMARXMd [Administrative] i anminisrranvem,i
+tourses.md [Courses]imLu's-i-smid'i
+. _ _ [Lab51i labsglahmdi
+é “dm'n'mm've'm', [Lab 811(1ah5,‘lah81,rlahi31.mi1“[
+i labs [Lab 021[labs/lanazulannzmi
+[ 1 [Lab BB][labiﬂlabﬂBflabElEJnd,‘i
+i EU [Lab [ML llbs['lablZi-li'labB-Lmd‘i
+WWI-""1 [Lab 05]‘ labwlabBSrlahBSLmd>
+menu.png [Lab eaﬂlaha, lahﬁb,ilah8(,v.mri'[
+Inbs.md
+i courses
+Course-14:11]
+E7 bookatuml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+®
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+i rusticoursejii Mﬂrkdﬂwﬂ
+i docs ”
+SUMMARK'M Introduitlnri
+> . . . Varlables
+é ndmimstmtlve.md Opmms
+i labs nmmm s; {kw-93nd" >tatement>
+iibﬂl -.“- ‘w .
+Ibﬂl d LJHV: [Cuwse ll[CDMPSGS'CDAAV‘SE'1.[|I1F'\
+I a .m
+menu,png Ownership
+Prev'equi>ite: String type
+'"bs-Md OhmPPShip niariangwrif
+i COMES Em‘r'D\-1ing a Waferenzes
+I C _1_ d Optlmizations
+B E UNIS! P I Link: [(oume 2] (cuursesﬂluurswlwdfi
+bookituml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:145**************
+®
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+i rusticoursejii MWkdOW"
+i docs u
+SUMMARImd
+i m-
+toursesmd
+ndministmtive.md UH Wm 1mm; “nun! mu” WWW
+ii labs
+mm,- Gutiarial gummy
+i iabﬂl Err-w’ 1w. {m iwmw.Warn“)
+“mum, mi nu ,gi
+men-mung
+Inbs.md m,
+i courses
+{mu 1;. a mi that iizipi Loung m paiiaglvvg Rust appiuatlum.
+fumed-Pd! m Mil Wm“, 1;:
+B bDUKXIJmI inn-m a (er'niinal
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+Workspaces
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:147**************
+g; Workspaces
+Larger project usually imply a smaller set of projects (libraries, utilities, examples,
+books, etc). To organize all ofthese, Rust uses a concept of workspace.
+
+A workspace also have a cargo.tom| file in its root, but it also has a cargo.tom| file for
+each of the projects from that workspace.
+
+The cargotoml file from the root contains the references of other projects from the
+workspace. It also contains default dependencies for all projects. A project can however
+overwrite them if needed. The main advantage is that if a workspace has multiple
+projects, you have one place to keep all your common dependencies (and you can
+change them from that place).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+®
+Let's see an example to better understand how a workspace works‘
+i Workspace root TOML
+i Projectrl [workspaw]
+i “c “NM-L Z [
+B curgmoml "ijedA“,
+i Projecti "p"°J'E°"3“'
+i m "examples"
+B curglmoml ]
+i Documentauon [workspace]
+i docs m“ Tina-‘intgmg 7 "VEV'SjﬂII"
+Bhookmml Law J'idLLHJHLHLyii 7 "\mrsiun"
+i EXEmp'ES LUW J' \J‘ LwJYJ nu‘, 3 : "version"
+B curgamml
+IL’ curga.tuml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:149**************
+®
+Let's see an example to better understand how a workspace works‘
+i Workspace root TOML
+i Prolectrl [Package]
+i 5m Wm 1 “(name)”
+E9 (amalgam, net'wﬁﬂ 7 "1,9.6“
+H‘. *3; 7 " 11 H
+i Prolecti ' 1' " 2k 1
+i 5r:
+B cargamml
+i Documentalwn [dependencies] commonidependencyil
+i docs WWJ'Juu'ndwwil : "1.9.7"
+Bhoukmml LMH w L1‘ Mum‘, 1.».m Nu Z
+i Examples [futures] UmmOH_dependenc\/_
+Bcnrgoxuml 1'1‘leer , n
+Linwvigmuwnmns Z [1
+IL> cargomm/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+®
+Let's see an example to better understand how a workspace works‘
+i Workspace root TOML
+i Miami [package]
+i 5m mum a “exalnples“
+way-:1" 7 "a.|a.o“
+B mun-mm! New: a
+i Projech M1 a” a "1011“
+i 5r: ,
+» [dewdependencles]
+E1 wwv-w'vvl mum 7 1 wrnm 7 “1.8.5", p31h’ “_.,'pm]e(t71" 1
+i Documentation [[ 1 1]
+examp e
+Ede“ mm» a “example-71"
+IL bookmml mm 7 “examplalmy
+i Exam-lei
+f. [[examplen
+L "IN-'0'"! ‘Hum a “example-72“
+Bulgomm’ ‘171th a “exalv\ple72.r‘5“
+
+***************Ending Page***************
+
+ 

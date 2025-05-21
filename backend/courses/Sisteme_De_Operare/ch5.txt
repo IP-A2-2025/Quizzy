@@ -1,0 +1,1326 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 5: CPU Scheduling
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+W Chapter 5: cpu Scheduling
+I Basic Concepts
+I Scheduling Criteria
+I Scheduling Algorithms
+I Thread Scheduling
+I Mulli-Processor Scheduling
+I Real-Time CPU Scheduling
+I Operaling Sysiems Examples
+I Algorithm Evaluation
+WWW““mm-5.1.,“ s: snimmm“Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+A . .
+“W Ob jectlves
+I Describe various CPU scheduling algorithms
+I Assess CPU scheduling algorithms based on scheduling cniena
+I Explain the issues related to multiprocessor and multicore
+scheduling
+I Describe various real-time scheduling algorithms
+I Describe the scheduling algorithms used in the Windows, Linux,
+and Solaris operating systems
+I Apply modeling and simulations to evaluate CPU scheduling
+algorithms
+am“, 5m... Cum,“ e m- mm is Sllhvmhnu. Bllvln "a m". mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+W‘ Baslc Concepts
+I Maximum CPU Utilization I
+obkained with multiprogramming ‘m m“
+I CPUil/O Burst Cycle , Process 72312:“,5 Wm‘
+execution consists of a cycle of
+CPU execuﬁon and l/O wait Ithuvst
+I CPU burst followed by IIO burst nmelncmmnl
+. . . . . Index cw m
+I CPU burst dlstnbuhon ls of mam wan-mm-
+concern ‘mm
+mu smle
+m m. cw mun
+Mﬁumﬂlu
+0mm", 5m... Camp‘. , “1- mm 5A sllhmmu. mm“ m sq". @zuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+q); Histogram of CPU-burst Times
+Large number of short bursts
+Small number of longer bursts
+3L>
+=
+2
+g
+1:
+bumduralion
+0mm 5m... CW,“ 7 “1- mm is Sllhvuzhlu. am m m... @zuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+t‘
+e9 CPU Scheduler
+I The CPU scheduler selects lrorn among the processes in the
+ready queue, and allocates a CPU Gore t0 one 0f them
+
+. Queue may be ordered in various ways
+
+I CPU scheduling decisions may take place when a process:
+1. Switches from running to waiting state
+2. Switches from running to ready slate
+3. Switches from waiting to ready
+4, Terminates
+
+I Scheduling under 1 and 4 is nonpreemptive
+
+I All other scheduling is preemptive
+° Consider access to shared data
+0 Consider preemption while in kernel mode
+. Consider interrupts Occurring during crucial OS activities
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+W D lspatcher
+I Dispatcher module gives OOnerI Of the CPU [0
+the process selected by the short-term
+scheduler; this involves: P
+0 switching context
+' switching to user mode L
+° jumping to the proper location in the user
+program to restart that program ‘m 90- .1 wm
+I Dispatch latency - time it takes ior the i Mm
+dispatcher to stop one process and start mum.”
+another running Y-w KB,
+"v
+mm;
+WNW“ mumm- WM 5'1 gimme W“ m minim“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+r‘
+‘$9 Schedullng Crlterla
+I CPU utilization — keep the CPU as busy as possible
+I Throughput , number of processes that complete their execution
+per time unit
+I Turnaround time , amount of time to execute a particular process
+I Waiting time — amount of time a process has been waiting in the
+ready queue
+I Response time — amount oi time it takes irom when a request
+was submitted uniil the ﬁrst response is produced, not output (for
+time-sharing environment)
+Dummy“... Cummiemwmm u Snowman-u. GIIvinlrldG-IMQZMI
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+W Scheduling Algorithm Optimization Criteria
+I Max CPU utilization
+I Max throughput
+I Min turnaround time
+I Min waitingtime
+I Min response time
+WWW.““NH-Ed.“ iv. smmumWWW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Mair First- Come, First-Served (FCFS) Scheduling
+Process Burst Time
+P, 24
+F’2 3
+P3 3
+I Suppose that (he processes arrive in the order: P, , P2 , P,
+The Gantt Chan for (he schedule is:
+n 1‘ 11 20
+I Waiting time for P1 = U; F’2 = 24; P3= 27
+I Average wailing iirne: (0 + 24 + 27)/3 = 17
+ommmm“mm-mm 5w mmmm.mmimw
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+t‘
+
+“if 7 FCFS Schedullng (Cont)
+
+Suppose that the processes arrive in the order:
+
+P2 , P3 , Pi
+I The Gantt chart for the schedule is:
+a 1 6 10
+
+I Waiting time for P1 = 6;)?’2 = OVP3= 3
+
+I Average waiiing iirne: (6 + 0 + 3)/3 = 3
+
+I Much better than previous case
+
+I Convoy effect - shori process behind long process
+
+. Consider one CPU-bound and many l/O-bound processes
+
+ommmumcmmiem»mm it. mmmm.mqniﬁm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+t‘
+‘W Shortest-Job-Flrst (SJ F) Schedulmg
+I Associate with each process the length of its next CPU burst
+' Use these lengths to schedule the process with the shortest time
+I SJF is optimal — gives minimum average waiting time for a given set
+of processes
+. The difﬁculty is knowing the length ol the next CPU request
+i Could ask the user
+' Or, the OS could estimate (i.e., approximate) the length, with
+some error of approximation
+I Preemptive version of SJF is called shonest-remaining-time-first
+om“.“summwmismwm m “imam-vi““minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+W Example of SJF
+Process Burst Time
+P’ 6
+P2 8
+F’3 7
+P‘ 3
+I SJF scheduling chan
+"II--
+u x g 15 z»
+I Average waiting time = (3 +16 + 9 + 0)/4 = 7
+W.Ws,...mc.m.,.m.im-m m mmmm.mmiem
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+‘WC Determining Length of Next CPU Burst
+I Can only estimate the length — should be similar to the previous one
+i Then pick prooess with shortest predicted next CPU burst
+I Can be done by using the length of previous CPU bursts, using
+exponential averaging
+1. tfactua] lengthofnm CPU bum
+2. 1”, , = predicted value for the next cvu burst
+3. a, Osasl
+4. Deﬁne: 1,,,,=mn+[1ealrw
+I Commonly, ot set to l/z
+om»,Spammmumi'mwdm m “Wham-vi““twig,”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Q
+kW‘ Prediction of the Length of the Next CPU Burst
+IIII==;;!
+EIIIIIIII
+III-IIIII
+IIIIIIIII
+IIIIIIIII
+m_.
+
+cPunumm a 4 5 4 1a 1Q 13
+“Quess“11,) 10 B 6 6 5 9 H 12
+
+Wm 5w..." “WP m» mm m “mm W“ .n. WNW.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:16**************
+W Examples of Exponential Averaging
+I 0. =0
+' ‘ml = T"
+. Recent history does not oounl
+I a =1
+' w = u I"
+i Only the actual last CPU burst oounts
+I If we expand lhe formula, we get:
+TM = at"+(1- (1)0. 54+
++(1 -a)1th+
++(1 - a )n" to
+I Since bolh a and (1 — a) are less than 0r equal l0 ‘Leach
+successive lerrn has less weight than its predecessor
+OMMWM“mammal.” m sum-e “mas-‘Jam
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+is; Example of Shortest-remaining-time-first
+I Now we add the concepts oi varying arrival times and preemption to
+lhe analysis
+Process Arrival Time Burst Time
+P, o a
+P2 1 4
+P3 2 9
+P‘ a 5
+I Preemptive SJF Garill Chan
+In-——
+0 l s ii? w 16
+I Average wailing lime = [(10-1)+(1-1)+(17-2)+5-3)]/4 = 26/4 = 6.5
+WmSwememwiemwmm w “mime-ii“denim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+r‘
+saw Round Robln (RR)
+
+I Each prooess gets a small unit of CPU time (time quantum q),
+usually 10400 milliseconds. Aﬂer this time has elapsed, the
+process is preempted and added to the end oi the ready queue.
+
+I If there are n processes in the ready queue and the lime quantum
+is q, then each process gets 1/n of the CPU time in chunks of at
+most q time units at unoe. N0 process waits more than (n-1)q
+time units.
+
+I Timer interrupts every quantum to schedule next process
+
+I Performance
+
+' qlarge Q FIFO
+Q q small :> q must be large with respect to context switch,
+otherwise overhead is too high
+OWNS..."“mammal m Slim-a “Mum-‘Jew.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+“WC Example of RR with Time Quantum = 4
+Process Burst Time
+P, 24
+P2 3
+P3 3
+I The Gantt chan is:
+n l 7 m u u 12 25 xn
+I Typically, higher average turnaround than SJF, um better
+response
+I q should be large compared lo context switch lime
+I q usually 10ms to 100ms, context switch < 1O usec
+WmSyiumumpmmm 5w sum»; sum-"demiw.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+W Time Quantum and Context Switch Time
+process ﬁlne : 10 qusnlum oonlexl
+SWIWIIBS
+D 1D
+\:I:l 6 '
+o 6 1o
+5313131311 ' 9
+0 I 2 3 4 5 5 7 B 9 10
+WNW.“mmmm m “WNW“"me
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+w“ Turnaround Time Varies With The Time Quantum
+mm
+‘=5
+12,0
+5 “,5
+g 11,0
+105
+E 80% 0f CPU bums
+"1° should be shorter man q
+0,6
+w
+1 z 3 4 s e 1
+hm-qu-mum
+ammunsmmmmmimm :11 mm.‘ “Mum-vmw
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+t‘
+8W Priority Scheduling
+I A priority number (integer) is associated with each process
+I The CPU is allocated to the process with the highest priority
+(smallest integer e highest priority)
+0 Preemptive
+. Nonpreemptive
+I SJF is priority scheduling where priority is the inverse of predicted
+next CPU burst time
+I Problem E Starvation — low priority processes may never execute
+I Solution z Aging — as time progresses, increase the priority of the
+process
+Dummies."etmtwm 512 trimmer““requiem
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+W Example of Priority Scheduling
+Process Burst Time Priority
+P, 10 a
+P, 1 1
+P3 2 4
+P‘ 1 5
+P5 5 2
+I Priorii schedulin- Garm Chart
+n 1 a 16 1a 19
+I Average wailing time = 8.2 A
+0mm 5m... Cum,“ 7 “1- mm s u sun-mm; DIM" m: e-v-l- mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+‘6&4? Priority Scheduling wl Round-Robin
+Process Burst Time Priority
+P, 4 3
+P2 5 2
+P3 a 2
+P‘ 7 1
+P5 3 3
+\J Run ihe process with the highesi priority‘ Prooesses with the same priority
+run round-robin
+I Gan" Chart wit 2 ms time quanium
+o 7 9 ll 13 i5 ls 20 22 24 25 27
+Wmswhmcmmiqmm w inhmmm“minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+W Multllevel Queue
+I With priority scheduling, have separate queues for each priority.
+I Schedule the process in the highest-priority queue!
+o
+o
+0
+0mm 5m... Cum,“ 7 m- mm s 15 “mm-m um“ m Glilll mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+“f4 v Multllevel Queue
+I Prioritization based upon process type
+theswﬂomy
+Inwesl Dnnr!!!
+OPIIIHW am... Cum-W71» Em s u “mm-m mm“ M Blvnlﬂllﬂ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+t‘
+“W Multllevel Feedback Queue
+I A process can move between the various queues; aging can be
+implemented this way
+I Multilevel-feedback-queue scheduler deﬁned by the tollowing
+parameters:
+. number 0f queues
+Q scheduling algorithms tor each queue
+' method used to determine when to upgrade a process
+' method used to determine when to demote a process
+l method used to determine which queue a process will enter
+when that process needs service
+om»,seememumemwdm 521 stamens-M““minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+‘4}; Example of Multllevel Feedback Queue
+I Three queues:
+° On i RR wilh ilme quanwm 8
+milhseoonds
+0 o‘ e RR wilh ume quanhum16 —4
+0 o, e FCFS
+. _
+' WWW —‘
+o A new ‘on emere queue Q” winch \s
+served FCFS
+> When u gams CPU‘ 10b recewes a —4
+meme —
+' l1 N does no! ﬁnish In 5 milﬁseoondi
+Job is moved w queue o‘
+I Al Q‘ 10b is agam served FCFS and
+mcelvee 16 addlllonal mllhseocnds
+> u u sun does no! wmple1e, u \s
+preemﬂled and moved m queue Q, A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+r‘
+‘4} 9 Thread Schedullng
+I Distinction between user-level and kernel-level threads
+I When threads are supported by OS, the CPU scheduler schedules
+threads, not processes
+I Many-tQ-Qne and rrlarly-tp-marly models, thread library Schedules
+user-level threads to run on LWP
+. Known as process-contention scope (PCS) since scheduling
+competition is within the process
+' Typically done via priority set by programmer
+I Kernel thread scheduled onto available CPU is system-contention
+scope (SCS) — competition among all threads |n system
+Dammit..."“WHMW 519 WMMM“minimum
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+A
+“W Pthread Schedullng
+I API allows specilying either PCS or SOS during thread creation
+0 PTHREADiscoPEiPROCESS schedules lhreads using
+PCS scheduling
+0 PTHREADiscoPEiSYSTEM schedules threads using
+SCS scheduling
+I Can be limiled by OS — Linux and macOS only allow
+PTH READ_SCOPE_SYSTEM
+ommmumcumwmm ssu mmmm.mmimw
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+‘fr Pthread Scheduling API
+“include <std10.h>
+
+unread; tileUM THREADS];
+
+Pthzeadiattrit an;
+
+/' get the default attrxhutes '/
+
+pthzeadiattrixnlt Manx);
+
+/' first 1“qu an the current 5|:an w
+fpzxntﬂstdezx, "Unable t0 get schedullnq scope\n"17
+1r kscOPe :: PTHREADisCOPEiPROCESS)
+
+Pnntft“PTHREADisCOPILPROCESy'>:
+else LE LsCOF/e :: PTHREADisCOPiiSYSTEM)
+printf1“PTHREADiscDPEiSY5TEM'U ;
+ipnmnsme“, "Illegal scope value.\n");
+» A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+“WV Pthread Scheduling API
+/“ set the scheduling algorithm to PCS or SCS '/
+pthreadiattrisetsccpe(Sattr, PTHREADiscoPE’SYSTEM);
+/* create the threads ‘/
+for 11 = 0; i < NUM_THREADS; i++)
+pthreadicreate (Ltid[i] , sattr, runner,NULL)7
+/* new join on each thread */
+for (i = O; i < NUMiTI-IREADS; i++)
+pthreadijoin 1tid[i] , NULL);
+)
+/* Each thread will begin control in this function */
+void ‘runnerWoid *param)
+(
+/‘< do some wozk */
+pchread_exit (0);
+> A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+W Mu ltiple-Processor Scheduling
+I CPU scheduling more complex when multiple CPUs are
+available
+I Multiple-processor may be any one of (he following hardware
+architectures:
+l Mullicore CPUs
+' Mullilhreaded cores
+' NUMA systems
+' Heterogeneous mulliprocessing
+OMMWM BMW m» e...“ s u Silhvmhu. W“ m em‘. W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+'4’, 7 Multlple-Processor Schedullng
+I Symmetric multiprocessing (SMP) is where each prooessor is self
+scheduling.
+I All threads may be in a common ready queue (a)
+I Each processor may have iis own private queue of threads (b)
+IIIII
+r" a ‘ x ¢ ¢ .‘
+common ready queue per-core run queues
+(a) (bl
+om», 5m... CW,“ , “1- Wm s u Sllhvumlu. W“ m m... @zuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+W‘ Mult|core Processors
+I Recent trend lo place multiple processor cores on same
+physical chip
+I Faster and consumes less power
+I Mulliple lhreads per core also growing
+. Takes advantage of memory slall to make progress on
+another thread while memory relrieve happens
+we
+0:!le sh..." Cum,“ , “1- mm s as Sllhvuzhlu. Bllvln ".4 m". mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+‘Wk Multithreaded Multicore System
+Each core has > 1 hardware threads.
+If one thread has a memory stall, switch to another thread!
+lime
+0mm 5m... Camp‘. 7 m- mm s as Sllhvmnlu. DIM“ m m". mun
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+‘a? Multlthreaded Multlcore System
+I Chip-multithreading (CMT) pmcessor
+assigns each core multiple m m
+hardware threads. (Intel reters '
+t th' h nh d‘ .
+° '“s y” '°“ ‘"9’
+m, M,
+I On a quad-Core system with 2 M —
+hardware threads per core, the
+operating system sees 8 logical _ _
+processors. operatlng system Vlew
+Emu“
+wwwiummmsmp.Mm w “swam-mmantis,”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+‘$7 Multlthreaded Multicore System
+I Two levels of scheduling:
+Mwareihreads
+1 The operating system ‘MM-1*
+deciding which software level l ‘1.
+thread to run on a logical
+CPU .f'
+mammalian:
+[logizal prrxessoril
+2t How each core decides
+which hardware thread to run level} f
+on the physical oore. i _
+DIOOESSIng
+0mm“...Cunmriermm m mm.‘ s.|vin.n¢=.g;@m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+M Multiple-Processor Scheduling — Load Balancing
+I ll SMP, need to keep all CPUs loaded for efficiency
+I Load balancing allempls lo keep workload evenly distributed
+I Push migration — periodic task checks load on each processor,
+and il found pushes task from overloaded CPU to other CPUs
+I Pull migration — idle processors pulls waiting task from busy
+processor
+gamma."swam-am 5,, Siam-WM“Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+r‘
+mg; Multiple-Processor Scheduling — Processor Affinity
+I When a thread has been running on one processor, the cache
+contents ofthat processor stores the memory accesses by that
+thread.
+I We reier to this as a thread having affinity for a processor (i.e.
+“processor afﬁnity")
+I Load balancing may affect processor affinily as a lhread may be
+moved from one processor to another to balance loads, yet that
+thread loses the contents of what it had in the cache of the
+processor it was moved off of.
+I Soft afﬁnity — the operating system attempts to keep a thread
+running on the same processor, but no guarantees.
+I Hard afﬁnity — allows a process to specify a set of processors it
+may run on.
+tsp-Mm “so... Cum,“ e m» Eamon m sue-mm. Gllvln v.4 sq“. em
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+“yr NUMA and CPU Schedulmg
+If the operating system is NUMA-aware, it will assign
+memory close to the CPU the thread is running on.
+
+\:| CPU \:| CPU
+s/OW
+last access ‘34108 iasi access
+is
+—
+memory = memory
+—
+cumpmer
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+“4} 7 Real-Time CPU Scheduling
+I Can present obvious challenges
+I Soft real-time systems i Critical real-time tasks have the
+highest priority, but no guarantee as to when tasks will be
+scheduled
+I Hard real-time systems — task must be serviced by its
+deadline
+0mm sit..." Cum,“ e “1- mm 542 Sllhvumu. Bllvin m m". @zutl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+t‘
+“39-. Real-Tlme CPU Schedullng
+I Eveni laiency i ihe amount 01
+time that elapses irorn when
+an eveni occurs to when it is
+sen/med. evenl E m! occurs
+I Two types of latencies affect mnuawy
+performance ‘I i‘
+I. Interrupt latency-time T
+from arrival of interrupt to veal-lime system responds to s
+start of routine that
+services interrupt
+2. Dispatch latency-time me
+for scheduler t0 take
+current process off CPU
+and switch to another
+omwsmmWWMWW 541 inhmmm.mmimw
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+‘3}; Interrupt Latency
+l 6...“.
+Fm"
+
+%.Mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+W Dlspatch Latency
+I Conﬂict phase 01
+dispatch latency: M" Maul-run“!
+1. Preemption of WWW“.
+nmmm
+any process 1mm mum
+running in kernel
+mode mnbllcnlalnncy
+2, Release by low- 32L":
+priority process mm
+of resources mum mun-w»
+needed by high-
+priority
+processes “_.
+Wmswkmmmmwm-m 545 mm.‘ “Wmamiwu
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:46**************
+“if i Pnonty-based Schedullng
+I For real-lime scheduling, scheduler must support preemptive, priority-
+based scheduling
+0 5m only guaranlees soil real'lime
+I For hard real-lime musl also provide ability to meet deadlines
+I Processes have new characteristics: periodic ones require CPU at
+constant intervals
+0 Has processing lime z‘ deadline d, deridd p
+0 0 s rs d s p
+0 Rate dr periodic task l5 1!»
+l+l l+ll+l
+l%l l+l l+l
+l+l l+l l+l
+l—l&l—l Time
+"war em! “m1
+dp-mm sh..." dump“ , “1- mm m Sllhvmnlu. Bllvln In! m". mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+“4} I Rate Monotonlc Schedulmg
+
+I A priority is assigned based on the inverse of its period
+
+I Shorier periods = higher priority;
+
+I Longer periods = lower priority
+
+I P‘ is assigned a higher priority than P2.
+
+deadlines P1 P‘, P2 P1 P‘, P2
+
+m “Milli
+
+0 1O 20 30 40 50 60 7D BO 90 100 HO120130140150160170180190200
+ommshmmwm-Em 541 “imam-vi“.mmiw“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+w‘ Missed Deadlines with Rate Monotonic Scheduling
+Process P2 misses ﬁnishing its deadline at time 80
+deaﬂlmss P. P2 P‘ P1’ P2
+“nu-“Ii!
+o 1o 20 so 40 so so 7o so so 100 no 120 130 14o 150 160
+ommmm“www.mu w summummug-‘Wm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+A}? Earliest Deadline First Scheduling (EDF)
+I Priorities are assigned according to deadlines:
+the earlier the deadline, the higher the priority;
+the later the deadline, the lower the priority
+deadlines P. P2 F, P‘ p2
+l l l l l
+Inn-mam“
+o 10 20 so A0 so en 7n an so run 1m 120130140 150 ran
+new, slit... CW,“ , “1- mm 54! Sllhvmnlu. Bllvln m m". em
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+‘fly’? Proportlonal Share Schedulmg
+I Tshares are allocated among all processes in the system
+I An application receives N shares where N < T
+I ThiS ensures each application will receive N/ TOf (he total
+processor lime
+Dam", slit... CW,“ , m» mm s so Sllhvuzhlu. mm“ "a w" mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+W?’ POSIX Real-Tlme Schedullng
+I The POSIX.1b Slandard
+I API provides funclions for managing real-time threads
+I Defines two scheduling classes for reaHime threads:
+1 SCHED_F|FO - threads are scheduled using a FCFS siraiegy with a
+FIFO queue. There is no lime-slicing lor threads of equal priority
+2 SCHED_RR - similar l0 SCHED_F|FO excepl time-slicing occurs for
+threads of equal priority
+I Defines Iwo furrcllons for gening and sening scheduling policy:
+1. pthzead_att2_getsched_policy (pch:ead_attz_t *actz,
+int *policy)
+2. pthread_att2_setsched_palicy (pth:ead_att:_t *accz,
+int policy)
+0pm.“.seemewupﬁewdm in enemas-n"weenie,“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+“97V POSIX Real-Time Scheduling API
+Jinclude <pthread.h>
+{include <stdio.h>
+#aefine NUMiTHREADS 5
+int mainUnt axgc, chax *atgvH)
+(
+int i, pelicy;
+pthreadititid [NUMJHREADS] :
+Pthread_attr_t attr;
+/" get the default attributes '/
+Pthtead_attt_xnxt uettn;
+/~ get the current scheduling policy ~/
+if (pthreadiattrigetschedpo)icy(&attr, &policy] !: 01
+fpnncfkscderr, "Unable Lo gen pol:cy.\n">;
+else (
+1t (policy == sunken-mm pr;nr,f["SCHED_OTHER\n"1;
+else if (policy e: scnznjm printnwcnznjam");
+else if (pency :: scasnjlm) ptsntnwcasnjmom");
+» A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+“fr POSIX Real-Tlme Schedullng APl (Cont)
+/~ set the scheduling policy 7 FIFO, RR, or OTHER ~/
+if (pthreadiattrisetschedpolicy(&attr, SCHEDiFIFO) !: 01
+fpnntfkstderr, "Unable t0 set POllcy-\n");
+/' create the threads '/
+for (i : u; i < NUMiTHREADS; i++
+pthread_createz&tidlil,iatt:,runner,uutt>;
+/' now join on each thread '/
+for (i : 0; i < NUMiTHREADS; i++
+Pﬂhieadijciﬂ (Cid [i] r NULL);
+)
+/* Each thread will begin control in tnis function */
+vuid ~iunnei<void ~pninm
+i
+/* do some work ‘/
+pthreadiexit(0)7
+' A
+om.wsy.mm.,.l.ln-m w mm.‘ WWW-“mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+W Operating System Examples
+I Linux scheduling
+I Windows scheduling
+I Solaris scheduling
+Dummy“...alumni-mm w summum“ml-mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+r‘
+~43}; Linux Scheduling Through Version 2.5
+I Prior to kernel version 2.5, used variation ol standard UNIX
+scheduling algorithm
+I Version 25 moved l0 Constant order 0(1) Scheduling lime
+I Preemptive, pricrily based
+I Two prierily ranges lime-sharing and real-lime
+' Real-time range from 010 99 and nice value erm 10010 140
+. Maplimc global priority Wilh numerlcally lower values indicating hlgher
+prlomy
+v Higher priority gels larger q
+' Task run-able as lung es lime lerl in lime slice (aelivel
+. If Vie lime left (eXpired), HO! run-able unlil all Olher (aSkS use their slices
+' All [unable (asks (racked irl per'CPU runqueue dale slruclure
+> Two priority arrays (actlver expired)
+> Tasks indexed by prionly
+> When no more active, arrays are exchanged
+i Worked well, bul poor response limes for interactive processes
+WW,,i,_mm,mw,m,,m m alumnae-W.naaqriem
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+A
+“W Linux Scheduling in Version 2.6.23 +
+I Completely FBI! Scheduler (CFS)
+I Scheduling classes
+v Each has speciﬁc prlollly
+. Scheduler pmks mghssl phnmy lask m mghesl schedulmg class
+I Ralher lhah quamum based eh ﬁxed lime allolmems, based on propnrllun of CPU
+lime
+' 2 scheduling classes included‘ olhers can be added
+l delaull
+2 real-lune
+I Quantum calculated based on nice value lrom '20 m +19
+I Lower value IS higher priority
+' Calculates large! latency a inlerval 01 lune duvlng which ‘ask should run al leasl
+once
+v Targsl lalency ash increase il say number ol ash/a lasks hereaaas
+I CFS scheduler maintains per bask virtual run time in variable vruntime
+I Associated wilh decay laclur based D" phorily nl lask e lower leDl'ily is higher
+decay Vale
+' Normal delaul! DHDVWY yields vlrlual run lime = actual run lime
+I To decide nemask lo run. scheduler plckS task with luwesl virtual run MFA
+WWW mam- m Mama W“ ."a MW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+W CFS Performance
+mumuvrwuuwmnM-wmh-Imm
+Mummmmmmmmm
+WMMMQiMthdeMM
+mum
+
+Takvmhmelmllhl
+
+vuwnmunﬁ
+
+‘MW Vduenlvnnum W
+
+m.mmM»-.MWM.-M.
+mhmMWmmmmmhmk
+mmmmmmmwhwm
+(mﬂnvﬂndmnlh)nmnllhkﬂﬂdlkhllduh
+“mmwmmmmmkmhm...
+www.mmmhmwm.*
+hymmhhukdmmduhh-xinﬂhmi
+mmﬂehldmpMIyMI-eﬁeldmmbhd-mtmvvﬂn‘
+hbmmwmﬂmmwm"
+iﬁmﬁmmnwmmmmk
+mmmﬂmhﬁmnmmdh
+mmmmnmwmumm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+~43; L|nux Schedullng (Cont.)
+I Real-lime Scheduling according (O POSIXJD
+i Real-time tasks have static priorities
+I Real-time plus normal map into global priority scheme
+I Nice value oi >20 maps m global priority 100
+I Nice value 01 +19 maps to priority 139
+o 99100 1&2
+<—>
+ngl'lel Lower
+Priority
+omwslm“mm-Em m stimuli““Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+M L|nux Schedulmg (Cont.)
+I Linux supports load balancing, but is also NUMA-aware.
+I Scheduling domain is a set of CPU oores that can be balanced
+against one another.
+I Domains are organized by what they share (i.e. cache memory.) Goal is
+to keep threads lrorn migrating between domains.
+physaal pmcesso! domain
+(NUMA node)
+dommo domain‘
+H
+Dewitt..."“Well-5.1.,“ ssa “imam-n“Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+t‘
+
+‘63¢ Windows Scheduling
+
+I Windows uses priority-based preemptive scheduling
+
+I Highest-priority thread runs next
+
+I Dispatcher is scheduler
+
+I Thread runs uniil (1) blocks, (Z) uses time slice, (3)
+
+preempted by higher-priority thread
+
+I Real-lime lhreads can preempt non-real-time
+
+I 32-level priority scheme
+
+I Variable class is 1-15, real-time class is 16-31
+
+I Priority 0 is memory-management thread
+
+I Queue for each priority
+
+I If no run-able lhread, runs idle thread
+admin..."“mm-5.1.1.,“ 550 QMMMM“Mimi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+A
+“W Windows Priority Classes
+I Win32 API identiﬁes several prionly classes w which a process can hebng
+. REALTIMEipRIORITYicLASS,HIGHiPRlORlTYicLASS
+ABOVEiNORMALiPRIORITYicLASS,NORMAL’PR\OR\TV’CLASS,
+BELOW_NORMAL_PR\OR\TV_CLASS, |DLE_PR|OR|TV_CLASS
+. All are variiMe eXle REALTIME
+I A thread wrmrrr a gwen priority dass has a rslallve priority
+. 'HMEJZRWICAL. HIGHEST, ABOVEiNORMAL. NORMAL, BELOWJ~IC>RMALv
+LOWEST, IDLE
+I Priorily dass and re\ahve pnority combine \o give numeric pnorily
+I Bass prionly \s NORMAL wiKhin \he class
+I If quantum expires, priority lowered, but never below base
+“Erwin...”Marina-Em w sllhmm-mallvm“amateur:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+t‘
+MW Windows Priority Classes (Cont.)
+I ll wait occurs, priority boosted depending on what was waited for
+I Foreground window given 3x priority boost
+I Windows 7 added user-mode scheduling (UMS)
+i Applications create and manage lhreads independent of kernel
+' For large number ol threads, much more efficient
+' UMS schedulers came from programmmg language libraries like
+C++ Concurrent Runtime (ConCRT) framework
+ommsmm“mammal 552 dammed-d““dd-“km
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:63**************
+qu Windows Priorities
+
+"ﬂ-%-
+—unnnnlu
+WEI-nun“
+—uquI-u
+mun-“unl-
+mull-II
+M-III-III-u
+mun-II...-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+r‘
+W Solaris
+I Priority-based scheduling
+I Six classes available
+' Time sharing (default) (TS)
+i Interactive (IA)
+' Real time (RT)
+Q System (SYS)
+' Fair Share (FSS)
+° Fixed priority (FP)
+I Given thread can be in one CIHSS Bl a time
+I Each class has its own scheduling algorithm
+I Time sharing is multi-level feedback queue
+. Loadable table configurable by sysadmin
+gamma."“mm-am ssa “Wham-vi““Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+“if? Solarls Dlspatch Table
+ﬂmI
+"@ﬁ
+“unm-
+nun“
+III-tun“
+II“_I-
+“IE-“u
+“IE-“u
+III-“u
+III-n“
+“um-n
+nun“
+“um-u
+nun“
+III-“n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+“W v Solarls Schedulmg
+WWW emu
+WWW
+a;
+mama-m:
+m
+5' mmrrssmr-m
+ﬁxad BMW {FXD mud-
+“mm...”
+D WWW“. M A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:67**************
+“ﬁr Solarls Schedulmg (Cont)
+I Scheduler converts class-specific priorities into a per-thread global
+
+priority
+
+Q Thread with highest priority runs next
+
+' Runs uniil (1) blocks, (Z) uses time slice, (3) preempted by
+
+higher-priority thread
+
+o Muliiple ihreads ai same priority selected via RR
+
+omwsmmmmmmm ss1 EMMMMmule“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+My‘ Algonthm Evaluation
+I How to select CPU-scheduling algorithm for an OS?
+I Determine criteria, then evaluate algorithms
+I Deterministic modeling
+Q Type of analytic evaluation
+' Takes a parlicular predelerrnined workload and defines the
+performance of each algorithm lor that workload
+I Consider 5 processes arriving at lime 0:
+PM Bume
+F1 lil
+P2 29
+P: 3
+P4 7
+P5 12
+Dammsym“mm-Em m “Wham-vi“.mqnimm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:69**************
+“43$, I Deterministic Evaluation
+I For each algorithm, calculate minimum average waiting time
+I Simple and fast, but requires exact numbers for input, applies only to
+those inputs
+l FCS is ZBms:
+n w a u u u
+I Non-preemptive SFJ is 13ms:
+alum-
+n s m m 12 n
+' RR is 23ms:
+u_m 20 a n o m s: n
+0:!le 5m... Cum,“ 7 “1- mm s so Sllhvumu. Bllvln m m". mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+“3;?
+._ Queueing Models
+I Describes the an'ival oi processes, and CPU and l/O bursts
+probabilistically
+. Commonly exponential, and described by mean
+' Computes average throughpui, utilizaiion, waiting time, etc
+I Computer system described as network of servers, each with
+queue 0f waiiirig processes
+. Knowing arrival rates and service rates
+' Computes utilization, average queue lengih, average wait
+time, etc
+0mm 5m... Cum,“ , in" mm s w Silhvuzhlu. aim-i "a m". em
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:71**************
+ﬁe
+._ L|ttle s Formula
+
+I n = average queue length
+
+I W= average waiting time in queue
+
+I A = average arrival rate into queue
+
+I Little's law i in steady state, processes leaving queue must equal
+processes arriving, thus:
+
+n = A x W
+. Valid for any scheduling algorithm and arrival distribution
+
+I For example, if on average 7 processes arrive per second, and
+normally 14 processes in queue, then average wait time per
+process = 2 seconds
+
+omwsiicmcmmpmam“, s" “imam-vi“menial“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+ﬁe
+“4} I Slmulat|ons
+I Queueing models limited
+I Simulations more accurate
+' Programmed model of computer system
+i Clock is a variable
+' Gather statlstlcs Indicating algorithm performance
+' Data to drive simulation gathered via
+> Random number generator according l0 probabilities
+> Distributions deﬁned mathematically or empirically
+t Trace tapes record Sequences of real evenls in real syslerrls
+0mm slim... Cum,“ 7 m- mm s 12 Sllhvmnlu. Bllvln "a m". owl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:73**************
+h\jfrEvaluation of CPU Schedulers by Simulation
+“mm.
+of‘; .10
+IIO 21$
+mull em I! peﬂomlncn
+3;.’ 8.1‘? n’ ‘7521?
+IIO H7 ‘
+W173 "
+m...»
+WWW
+M’ . §;‘F“““.,
+1m“ m a:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+i‘
+W Implementatlon
+I Even simulations have limited accuracy
+I Jusl implemeni new scheduler and tesi in real systems
+I High cost, high risk
+I Environments vary
+I Most ﬂexible schedulers can be modiﬁed per-site or per-system
+I Or APls lo modlfy priorities
+I Bul again environments vary
+ommshm“Winn-mm m “imam-vi“Mamie“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:75**************
+End of Chapter 5
+—
+
+***************Ending Page***************
+

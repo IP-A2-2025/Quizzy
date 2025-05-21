@@ -1,0 +1,836 @@
+***************Beginning Page***************
+***************page number:1**************
+Lenuta Alboaie
+adria@info.uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cupﬂns
+' sa ne amintim: client/server TCP
+iterativ - primitive
+' Modelul client/server UDP
+' Primitive I/O
+- Aspecte de programare avansata
+Internet
+' API-ului socket — discutii si critici
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Model
+server/client
+TCP
+- Client
+Server
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Client/Server UDP
+Sewer UDP Client UDP
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Client/Server UDP
+
+' Pentru socket() se va folosi SOCK_DGRAM
+
+' Apelurile |isten(), accept(), connect() nu vor mai fi
+utilizate in mod uzual
+
+- Pentru scriere de datagrame se pot folosi sendto()
+sau send() (mai general)
+
+~ Pentru citire de datagrame se pot folosi recvfrom()
+sau recv()
+
+~ Nimeni nu garanteaza ca datele expediate au ajuns
+la destinatar sau nu sunt duplicate
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Cllent/Server UDP
+- Socket-urile UDP pot fi “conectate”: clientul poate folosi
+connectl) pentru a specifics adresa (IP, port) a punctului
+terminal (serverul) — pseudo-conexiuni:
+
+— Utilitate: trimiterea mai multor datagrame la acelasi
+server, fara a mai specifica adresa serverului pentru
+fiecare datagrama in parte
+
+— Pentru UDP, connecﬂ) va retine doar informatiile despre
+punctul terminal, fara a se initia nici un schimb de date
+
+— Desi connectl) rapurteaza succes, nu inseamna ca
+adresa punctului terminal e valida sau serverul este
+disponibil
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Client/Server UDP
+' Pseudo-conexiuni UDP
+
+—Se poate utiliza shutdown() pentru a opri
+directionat transmiterea de date, dar nu
+se va trimite nici un mesaj partenerului
+de conversatie
+
+—Primitiva close() poate fi apelata si pentru
+a elimina o pseudo-conexiune
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Alte prlmltlvel l/O
+
+#include <sys/types‘h>
+
+#include <sys/socket.h>
+
+int send (int sockfd, char *buf'f, int nhytes, int flags);
+
+int recv (int sockfd, char *buff, int nhytes, int flags);
+
+- Pot fi folosite in cadrul comunicatiilor orientate conexiune sau pentru
+pseudo-conexiuni
+Apelurile send() si recv() presupun cé sunt cunuscute mate elementele
+unei asocieri, adicé a fost efectuat in prealabil un apel connec“)
+
+~ Primele 3 argumente sunt similare cu cele de la write(), respecliv read()
+
+~ Argumenml a patrulea es\e de regulé 0, dar poate avea si alte valori
+care precizeazé conditii de efectuare a apelului
+
+- Cele 2 apeluri returneazé la execugie normalé lungimea transferului in
+octeyi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Alte primitive | l/O
+#include <sys/types‘h>
+#include <svs/socket.h>
+int sendto ( int sockfd, char *buf'f, int nbytes, int flags,
+struct sockaddr *to, int addrlen);
+int recvfrom (int sockfd, char *buff, int nbytes, int flags,
+struct sockaddr *from, int *addrlen);
+' Sunt folosite pentru comunicatii neorientate conexiune
+- La sendto() si recvfr0m() elementele pentru identificarea
+nodului la distanté 5e specificé Tn apel, prin ultimele 2
+arguments
+' Cele 2 apeluri returneazé la execugie normalé lungimea
+transferului Tn octegi
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Alte primitive | l/O
+#include <sys/uio‘h>
+ssize_t readv (int fd, const struct iovec *iov, int iovcnt);
+ssize_t writev (int fd, const struct iovec *iov, int iovcnt);
+— Mai generale decit read()/write(), ofera posibilitatea de a
+lucra cu date aflate in zone necontigue de memorie
+#include <sys/types.h>
+#include <sys/socket.h>
+ssize_t recvmsg (int s, struct msghdr *msg, int flags);
+ssize_t sendmsg (int s, const struct msghdr *msg, int flags);
+— Receptioneaza/transmite mesaje extragindu-Ie din
+structura msghdr
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+E = Exemplu de server/client UDP
+Sewer UDP Client UDP
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Alte primitive | informatii
+- getpeernameO — returneaza informatii despre celalalt capat al
+conexmnu
+#include <sys/socketih>
+int getpeername (int sockfd, struct sockaddr *addr,
+socklen_t *addrlen);
+- getsocknamel) — returneaza informatii asupra socketuluiﬂocal)
+specificat —> (adresa Ia care este atasat)
+#include <sys/socket.h>
+#include <sys/typesih>
+int getsockname( int sockfd, struct sockaddr * addr,
+socklen_t * addrlen);
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Programare retea avansata
+' Optiuni atasate socket-urilor
+—getsockopt() si setsockopt()
+- Multiplexare I/O
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Primitive | optiuni
+' Optiuni atasate socket-urilor
+— Atribute utilizate pentru consultarea sau
+modificarea unui comportament, general ori
+specific unui protocol, pentru unele (tipuri de)
+socket-uri
+— Tipuri de valori:
+' Booleene (flag-uri)
+~ Mai "complexe":
+int, timeval, in_addr, sock_addr, etc
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Primitive | optiuni
+' getsockoptl) i consulta rea
+optiunilor
+#include <sys/types.h>
+#include <sys/socket.h> A
+int getsockopt (int sockfd,lint leve'l/i'rit opéname, voili *optval,
+z," sockle'h_t *optlen);
+Exemplu:
+len : sizeoi 10pm";
+gelsockopt isockfd, SOL_SOCKET, SO_REUSEADDR, &optva|, Eden);
+Regele de calwlamare — http://wwwiiMoiuaiaro/"cnmputernetworks I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Primitive | optiuni
+- setsockopto — setarea -
+optiunilur Numele, valoarea 5i lungimea
+optiuni]
+
+#include <sys/types.h> ,,
+
+#include <sys/socket.h>
+
+int setsockopt (int sockfd, int level/HR opéname, void ‘iiiptval,
+
+socklen_t *optlen);
+
+Returneaza:
+
+— O = succes
+
+— —1 = eroare: EBADF, ENOTSOCK, ENOPROTOOPT...
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Pr|m|t|ve | optlunl
+0p\iuni generale
+- lndependente de protocol
+- Unele suportate doar de anumite tipuri de socketuri
+(SOCKiDGRAM, SOCKiSTREAM)
+i SO_BROADCAST
+i soizmzon
+i SOJ<EEPALIVE
+i SOJJNGER
+i soincvaur, soisunsw
+i SOJIEUSEADDR
+r soiooamuue
+[Mlliz/Iwwbeq usNummnet/cmwvmm‘Imuwniﬂysetsockwlman Mm‘!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Primitive | optiuni
+- SOJJROADCASleoulezn]
+i Activeaza/dezacliveaza lrimilerea de dale in regim broadcast
+e Utiiizatz doar pentru SOCKiDGRAM
+- Previne anumite aplicztii sz nu trimita in mod nezdecvat broadcast'uri
+~ SO_ERROR (imi
+- lndica eroarea survenita (similara lui ermei
+- Poate ﬁ folosita cu primitive getsockopl()
+- SO_KEEVALIVE(booIeani
+- Folosiba penlru SOCK_STREAM
+- Se va lrlmile o informalie de proba celullall punct terminal daca nu s-a realizat
+schimh de date timp indelungat
+- uziiizm de TCP (e.g., telnet): permits proceselor 5e determine daca
+procesul/gazda cealaila a pica!
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Primitive | optiuni
+- SO_L|NGER (5mm iiriger)
+— Controleaza daca si dupa cit timp un apel de inchidere a conexiunii va
+astepta confirmarilACK-uri] de la punctul terminal
+— Folosita dear pentru socket-uri orientate-conexiune pentru a ne asigura ca
+un apel close() nu va returns imediat
+i Valorile vor ﬁ de tipul:
+struct linger(
+int l_onufi; /* interpretat ca boolean ‘l
+In! l_|inger; /* limpul in secunde'l
+i
+i |_onoff = 0: c!ose() returneaza imediat, dar datele netrimise sunt transmise
+— |_onoff !=0 si l_linger=0: 5/0520 returneaza imediat si datele netrirnise sunt
+sterse
+— l_onuff!=0 Si l_|inger !=Dr 6/0590 nu returneala pina 12in datele netrimise
+sunt transmise (sau ConeXiunea este inchisa de Sistemul remote)
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:20**************
+Primitive | optiuni
+- SO_L|NGER — Exemplu
+int result;
+struct linger lin;
+lin.l_onoff=1 ; /‘u -> l_|inger este ignorata ~/
+lin.|_linger=1; /* u : pierderea datelov; nonzero: asteptare pina
+Se nimk dalele */
+result= setsockopt( sockfd,
+SOL_SOCKET,
+SO_L|NGER,
+&|in, sizeof(lin));
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+Pr|m|t|ve | optlunl
+- SO_RCVBUF/SO_SNDBUF(int)
+— Modifica dimensiunile buffer-elor de receptionare sau de
+trimitere a datelor
+— Utilizate pentru SOCK_DGRAM si SOCK_STREAM
+' Exemplu:
+int result; int buffsize = 10000;
+resu|t= setsockopt (s, SOL_SOCKET, SO_SNDBUF, &buffsize,
+sizeof(buffsize));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+- SO_REUSEADDR—(booIean)
+- Permite dszdrss ls o adresa(portl deia in uz
+> nu intake regula de asociere umca reaﬁlata de bind
+- Folosita pentru ca un socketpusr'vsa poata fclosi un port deia utilizat de alte
+procese
+dsms ssssssmss Lssdlsdsds sssvsss>
+Stare1 Prom sssvss Send'Q Local Address Foreign Address {stale}
+ssp n s ~ sssd . . um“
+ssssd sssv's Sssdss Lsss] Address ssssd Address indie)
+StareZ sss d o sddsssdssdsm “216250.1052000 ssssssssssd
+ssp s a - 2mm - - mm.
+~ Daca daemon-ul care asculta ls porlul 2000 este killed, intercarea de restart a
+daemon'umi va esua dzcz SOiREUSEADDR nu este setzt
+Exemplu
+1m optva‘ s 1;
+setsockopt (sockfd, 50050061 SOJEUSEADDR, &optval, sizeaflopwam;
+bind (suckfd, Sssm, sizeoﬂsinl );
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Primitive | optiuni
+
+Optiuni specifice protocolului IP
+
+- IP_TOS permite setarea cimpului "Type Of Service"
+(e.g., ICMP) din antetul IP
+
+' IP_TTL permite setarea cimpului "Time To Live” din
+antetul IP
+
+Exista si optiuni pentru IPv64(RFC 2460,2462)
+-lPV6_V60NLY,
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Prlmltlve | optlunl
+
+Optiuni specifice protocolului TCP
+
+- TCP_KEEPAL|VE seteaza timpul de asteptare daca
+SOiKEEPALIVE este activat
+
+' TCP_MAXSEG stabileste lungimea maxima a unui segment (nu
+toate implementarile permit modificarea acestei valori de catre
+aplicatie)
+
+- TCP_NODELAY seteaza dezactivarea algoritmului Nagle
+(reducerea numarului de pachete de dimensiuni mici intr-o
+retea WAN; TCP va trimite intotdeauna pachete de marime
+maxima, daca este posibil) — utilizata pentru generatori de
+pachete mici (e.g‘, clienti interactivi precum telnet)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Multiplexare l/O
+- Posibilitatea de a monitoriza mai multi descriptori l/O
+
+— Un client TCP generic (e.g., telnet]
+
+— Un client interactiv (egr, ftp, scp, browser Webw)
+
+— Un server care poate manipula mai multe protocoale (TCP si
+UDP) simultan
+
+— Rezolvarea unor situatii neasteptate (Le. caderea unui server
+in mijlocul comunicarii)
+
+- Exemplu: datele citite de la intrarea standard trebuie scrise la
+un socket, iar datele receptionate prin retea trebuie afisate la
+iesirea standard
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Multiplexa re I/O | solutii
+
+- Utilizarea mecanismului neblocant folosind primitivele
+fnctl() / ioctl()
+
+' Utilizarea mecanismului asincron
+
+' Folosirea alarm() pentru a intrerupe apelurile de
+sistem lente
+
+~ Utilizarea unorprocese/threud-uri multiple
+(multitasking)
+
+' Folosirea unor primitive care suporta verificarea
+existentei datelor de intrare de la descriptori de citire
+multipli: select() si poll()
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Multiplexa re l/O | solutii
+' Utilizarea mecanismului neblocant folosind primitiva
+fnctl()
+
+— Se seteaza apelurile I/O ca neblocante
+
+int flags;
+flags = fcntl ( sd, F_GETFL, 0 );
+fcntli sd, F_SETFL, flags | O_NONBLOCK);
+
+— Daca nu sunt date disponibile un apel read() va
+intoarce -1 sau daca nu este suficient spatiu in
+buffer un apel writei) va intoarce -1 (cu eroarea
+EAGAIN)
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Multiplexare l/OI solutii
+Utilizarea mecanismului neblocant folosind primitiva ioctll)
+#include <sys/ioctl‘h>
+.- mg eﬂs Am 90mm la nu m!
+inc“ (5d, HOSNBIO' gar-g7;
+'Daca mtare vahiars 1, mum ELIE ZEIEI m mm neblncant
+Daca socketul este in mod neblocant, urmatoarele apeluri sunt afectate
+astfel:
+i acceptO — daca nu este prezenta nici o cerere, acceptO returneaza cu
+eroarea EWOULDBLOCK
+i connecﬂ) — daca conexiunea nu se poate stabili imediat, connectO
+returneaza cu emarea EWPROGRESS
+i recv() — daca nu exista date de primit, recvl) returneaza -1 cu eroarea
+EWOULDBLOCK
+i sendﬂ — daca nu exists spatiu in buffer pentru ca datele sa ﬁe transmise,
+send() returneaza -1 cu eroarea EWOULDBLOCK
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+Multiplexare l/O| solutii
+Trimiterea si receptarea datelor in mod asincron
+
+— Problema: In conditiile in care socket-urile sunt
+create implicit in mod blocant (I/O), cum s-ar putea
+instiinta procesul atunci cind se intimpla “ceva” la
+un socket?
+
+— Socket-urile asincrone permit trimiterea unui
+semnal (SIGIO) procesului
+
+— Socket-urile asincrone permit utilizatorului
+separarea "procesarilor socket” de alte procesari
+
+— Generarea semnalului SIGIO este dependenta de
+protocol
+
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:30**************
+Multiplexare l/O| solutii
+
+Trimiterea si receptarea datelor in mod asincron
+' Pentru TCP semnalul SIGIO poate aparea cind:
+
+— Conexiunea a fost complet stabilita
+
+— 0 cerere de deconectare a fest initiata
+
+— Cererea de deconectare a fost realizata complet
+
+— shutdown() pentru 0 directie a comunicatiei
+
+— Au aparut date de la celalalt punct terminal
+
+— Datele au fost trimise
+
+— Eroare
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Multiplexare l/O| solutii
+Trimiterea si receptarea datelor in mod asincron
+
+—Pentru UDP semnalul SIGIO apare cind:
+
+- Se receptioneaza o datagrama
+
+' Apare o eroare
+—Putem permite proceselor sa realizeze alte
+
+activitati si sa monitorizeze transferurile UDP
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Multiplexare |/O| solutii
+Trimiterea si receptarea datelor in mod asincron
+- lmplementarea
+— Sacket-ul trebuie setat ca fiind asincron
+#include <sys/unistd.h>
+#include <sys/fcntl.h>
+int fcntl (int s, int cmd, long arg)
+Exemplu:
+int sd = socket(PF_|NET, SOCK_STREAM, 0);
+fcntl (5d, F_SETFL, 0_ASYNC); /* setarea asincrona l/O */
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Multiplexare l/Ol solutii
+
+' Utilizarea alarmelor
+whi|e(...)(
+
+signal (SIGALRM, alarmHaernﬂ'
+
+alarm (MAX_T|ME);
+
+read (0,.0); Funclie scrisa de
+
+' programalor
+
+signal (SIGALRM, alarmHandler'”
+
+alarm (MAX_TIME);
+
+read (tcpsockwlpu
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Multitasking
+Sen/ere concurente — per-client process
+Servere concurente pre-forked
+— Se creeala un numar de procese cupil imediat la initializare, fiecare proces
+liber interactionind cu un anumit client
+Servers concurente pre'threaded
+— Ca mai sus, dar se folosesc threudmri (fire de executie) in locul proceselor
+(vezi POSIX threads —pthread.h)
+— Exemplu: serverul Apache
+Prohleme:
+i Numarul de clienti mai mare decit numarul de process/thread-uri
+— Numarul de pracese/rhrend'uri prea mare fata de numarul de clienti
+— OS Overhead
+(curs viitor)
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Multiplexa re l/O | solutii
+Probleme care apar:
+' Folosind apeluri neblocante, se utilizeaza intens
+procesorul
+' Pentru alarm(), care este valoarea optima a
+constantei MAX_T|ME?
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Multlplexarea l/O | select()
+- Permite utilizarea apelurilor blocante pentru un set de descriptori (fisiere, pipe-
+uri, socket-min“)
+- Suspenda programul pana cand descriptori din liste sunt pregatiti de operatii de
+|/0
+#include <sys/time.h>
+#include <sys/types.h>
+. . ,___--" Valoarea maxima a
+#lnclude <un|std.h> _—________.-'—- descript. plus 1
+int select (int nfds',
+fd_set *readfds,
+‘a fd * ' fd
+Mulhmea _set wrlte s,
+descriptonlor fd_set *exceptfds, ,/ TWP“l de New’?
+d5 F'f're' struct timeval *kimeout)-/'
+scrlerE,
+exceptie
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Multlplexarea l/O | select()
+Manipularea elementelnr multimii de descriptori (tipul fd_set) 5e
+realizeaza folosinduise macrourile:
+FDJERO (fdiset ‘setj; Sterge multimea de descriptori din
+set.
+Faisn (int m, fd_set ‘setl; Adauga descriptorul m in multimea
+set.
+FDitLR (int fd, fd_set *set); Sterge descriptorul m din multimea
+set.
+FDJSSETlint id, fd_set 'set); Testeaza daca descriptorul fd
+apartine sau nu multimii set.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Multiplexarea l/O | select()
+Pentru timpul de asteptare se foloseste structura definite in
+sys/time.h:
+struct timevaH
+\ong tv_sec;/* secunde*/
+\ong tv_usec;/‘ microsecunde*/
+)
+' Daca timeout este NULL, select() va returna imediat
+' Daca timeout este !=O specifica intervalul de timp in care
+select() va astepta
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Multiplexarea l/O | select()
+
+Un descriptor de socket este gata de citire daca:
+
+' Exista octeti receptionati in buffer—u| de intrare (se
+poate face read() care va returna >0)
+
+' O conexiune TCP a receptionat FIN (read() returneaza
+0)
+
+~ Socket-ul e socket de ascultare si nr. de conexiuni
+complete este nenul (se poate utiliza acceptO)
+
+' A aparut o eroare Ia socket (read() returneaza —l, cu
+errno setat) — erorile pot filtratate via getsockopt() cu
+optiunea SO_ERROR
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Multiplexarea l/O | select()
+Un descriptor de socket este gata de scriere daca:
+
+— Exista un numar de octet] disponibili in buffer-ul de
+scriere (write() va returna > 0)
+
+— Conexiunea in sensul scrierii este inchisa
+(incercarea de write() va duce Ia generarea
+SIGPIPE)
+
+— A aparut 0 eroare de scriere (write() returneaza —1,
+cu errno setat) — erorile pot fitratate via
+getsockopt() cu optiunea SO_ERROR
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+Multiplexarea l/O | select()
+' Un descriptor de socket este gata de exceptie
+daca:
+— Exista date out-of-band sau socket-ul este
+marcat ca out-0f-band (curs viitor optiona|©)
+—Daca capatul remote a socket-ului TCP a fost
+inchis in timp ce date erau pe canal;
+urmatoarea operatie de read/write va
+intoarce ECONNRESET
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Multiplexarea l/O | select()
+select() poate returna
+— Numarul descriptorilor pregatiti pentru o operatiune de
+citire, scriere sau exceptie
+— Valoarea 0 —timpu| s-a scurs, nici un descriptor nu este gata
+— Valoarea *1 in caz de eroare
+Utilizarea lui select() — pasii generali:
+— Declararea unei variabile de tip fd_set
+— Initializarea multimii cu FD_ZERO(]
+— Adaugarea cu FD_SET() a fiecarui descriptor dorit a fi
+monitorizat
+— Apelarea primitivei select()
+— La intoarcerea cu succes, verificarea cu FD_ISSET() a
+descriptorilor pregatiti pentru l/O
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+Demo
+Exemplu de utilizare a
+primitivei select()
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Socket-uri BSD | utilizare
+- Serviciile Internet (serviciile folosesc socket—uri|e
+pentru comunicarea intre host»uri remote)
+— Exemplu de aplicatii distribuite
+' World Wide Web
+' Accesul remote Ia 0 baza de date
+' Distribuirea de task-uri mai multor hosturi
+~ Jocuri on-Iine
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+Socket-uri BSD | critici
+APl-ul bazat pe socket-uri BSD are 0 serie de limitari:
+
+— Are o complexitate ridicata, deoarece a fost proiectata sa
+suporte familii de protocuale multiple (dar rar folosite in
+practica)
+
+— Nu este portabila (unele apeluri/tipuri au alts
+denumiri/reprezentari pe alte platforme; numele fisierelor 7
+unfeth depind de sistem)
+
+i Exemplu: la WinSock descriptorii de socket sunt pointeri,
+in contrast cu implementarile Unix care folosesc intregi
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Rezumat
+' 5a ne amintim: client/server TCP
+iterativ - primitive
+' Modelul client/server UDP
+' Primitive I/O
+- Aspecte de programare avansata
+Internet
+' API-ului socket — discutii si critici
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+“2K
+Q
+
+***************Ending Page***************
+

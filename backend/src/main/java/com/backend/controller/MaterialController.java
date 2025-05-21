@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -96,27 +97,28 @@ public class MaterialController {
         return ResponseEntity.ok(materials);
     }
 
-    @GetMapping("/{courseName}/pdf/{index}")
-    public ResponseEntity<Resource> getPDF(@PathVariable String courseName, @PathVariable Integer index) {
-        logger.info("Received request to get PDF for course: '{}' at index: {}", courseName, index);
+    @GetMapping("/path/cursuri/{courseTitle}/{courseName}")
+    public ResponseEntity<Resource> getPDF(@PathVariable String courseTitle, @PathVariable String courseName) {
+        logger.info("Received request to get PDF for course: '{}' with name: {}", courseTitle, courseName);
         try {
-            Course course = courseService.findByTitle(courseName);
+            Course course = courseService.findByTitle(courseTitle);
             if(course == null) {
-                logger.error("Course '{}' not found", courseName);
+                logger.error("Course '{}' not found", courseTitle);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
 
-            List<Material> materials = course.getMaterials();
-            if(index < 1 || index > materials.size() + 1) {
-                logger.error("Material index '{}' out of bounds for course '{}'", index, courseName);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            Optional<Material> materialOptional = course.getMaterials().stream().filter( m  ->m.getName().equals(courseName)).findFirst();
+            Material material = null;
+            if(materialOptional.isPresent()) {
+                material = materialOptional.get();
+            } else{
+                logger.error("Material couldn't be found by name {}, for {}!",courseName,courseTitle);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-
-            Material material = materials.get(index - 1);
 
             String s3Path = material.getPath();
             if (s3Path == null || s3Path.isEmpty()) {
-                logger.error("Material at index '{}' for course '{}' has an invalid S3 path", index, courseName);
+                logger.error("Material with name '{}' for course '{}' has an invalid S3 path", courseName, courseTitle);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             }
 
@@ -127,13 +129,13 @@ public class MaterialController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
 
-            logger.info("Successfully retrieved PDF for course '{}' at index '{}'", courseName, index);
+            logger.info("Successfully retrieved PDF for course '{}' with name '{}'", courseTitle, courseName);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(pdfResource);
 
         } catch (Exception e) {
-            logger.error("Unexpected error while retrieving PDF for course '{}' at index '{}': {}", courseName, index, e.getMessage(), e);
+            logger.error("Unexpected error while retrieving PDF for course '{}' with name '{}': {}", courseTitle, courseName, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

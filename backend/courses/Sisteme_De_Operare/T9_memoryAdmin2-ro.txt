@@ -1,0 +1,856 @@
+***************Beginning Page***************
+***************page number:1**************
+Sisteme de Operate
+Administrarea memoriei
+partea a II-a
+Cristian Vidrascu
+htTps://profs‘infouaicxo/Nvidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+Alocarea memoriei (continuare)
+
+' Scheme dc aloeare necontigue
+
+i Paginarea
+
+i chmcmarca
+
+i chmcmarca paginaté
+(va urma)
+' Scheme de alocare cu memorie virtualé
+
+l 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Alocarea paglnaté / 1
+’ Paginarea (paginare puré, féré swapping)
+i permite ca memoria alocaté unui proces sé ﬁe
+necontigué
+i paginare hardware
+
+- memoria ﬁzicé este impérgité in blocuri de Iungime ﬁxi,
+numite cadre de paginé (frames), sau paginiﬁzice
+
+' Iungimea cadrelor de paginé este 0 putere a lui 2 gi este 0
+constantz'l a SC-ului (e.g‘ pentru arhitecturile Intel este 4 K0)
+
+- memoria logicé a unui proces (zona de cod + zona de date)
+este Tmpirgité Tn blocuri de lungime ﬁx?) (egalé cu
+lungimea cadrelor de paginé), numite pagini (pages), sau
+pagini virtuale
+
+I 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Alocarea paglnaté /2
+> Paginarea (cont.)
+i paginarc hardware
+' pcntru cxccugia proccsului, paginilc salc trcbuic incarcatc in
+oricc cadrc dc pagina libcrc (nu ncaparat contiguu!)
+' SO-ul pastrcaza cvidcnra cadrclor dc pagina libcrc
+' pcntru a rula un program cc ncccsita N pagini, cstc ncvoic
+sa se gaseasca $i s5 se mapeze N cadre libere
+' Avantaj: datorita alocarii necontigue, se elimina
+fragmentarea extermi, ire. nu réman zone de memorie
+nealocate ce nu pot ﬁ folosite
+' Apare insa fragmentarea internd a memoriei i poate ramane
+spaliu nefolosit, dar alocat proceselor (dcoarccc dimcnsiunca
+procesului nu este un multiplu exact de lungimea paginilor)
+4 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Alocarea paginaté /3
+' Paginarea (cont.)
+
+i Adresele logice sunt fonnate din 2 componente:
+numérul de paginé (p) $i deplasamentul in pagin51(d)
+
+i Adresele ﬁzice sunt formats din 2 components:
+numérul de cadru (D §i deplasamenlul in cadru (d)
+
+i Pentru maparea paginilor in cadre de paginé (Le. translatarea
+adreselor logice in adrese ﬁzice) se folosegte 0 tabeld de
+pagini per proces, care pistreazé pentru ﬁecare paginé,
+adresa de bazé a cadrului asociat ei (in care este incércaté
+pagina respectivé)
+
+i Mai precis, penlru translatare se folosegte numirul de paginé
+drepl index in tabela de pagini, conform schemei urmétoare
+
+<40
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Alocarea paglnati /4
+Translatarea adresei logice in adresi ﬁzicé:
+adresa fizicé
+adresa Iogicé a (i
+’ '- ‘
+f
+A , v
+i > > }d
+// ////////////////////// m
+p i
+v i
+> f
+momoria ﬁzicé
+tabela de pagini 1, M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Excmplu:
+
+P 0 Page l
+
+age - -
+Page I - Page 3
+Page 2 = Page 0
+
+m3 -
+Page 2
+
+" 4n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Alocarea paginaté /6
+> Paginarea (c0nt.)
+
+i Alt avantaj : suportﬁ partajarea memoriei i doué sau
+mai multc proccsc pot “vcdca” acccasi zoné dc mcmoric prin
+maparea (i.e., incércarea) cite unei pagini virtuale din ﬁecare
+proces in acelasi cadru ﬁzic
+
+— Cod reentrant I cod nemodiﬁcabil (poate ﬁ partajat)
+
+i Dezavantaj: programul trebuie, incé, sé ﬁe rezidcnt in
+ingregime in memoria principal?!
+
+' Inléturarea acestui neajuns: paginarea la cerere (folosind
+tehnica de swapping, la nivel de paginﬁ)
+
+i Alt dezavantaj: ﬁccare acces la memoric presupune
+un acces suplimentar la tabela de pagini din memorie,
+pentru calculul de adresé M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Alocarea paglnata /7
+Exemplu vmual addr 5pm“ Physical Memory
+de alocare 0, Ti
+
+paginati ' ,‘>
+- -
+5 iriﬂrgheuii, =-='- Z
+m" Mm“. — iii
+vim-‘18 “pnsihile” \ j
+l ‘ I l 'l I
+$135 $.21“ ° MI ———
+mmmmm." v -
+in memori: ﬁzici) O‘ ‘I a
+'- E
+- :
+Al-l: g
+virtual addr space‘ NOn-antigtym _
+allocanon - nxed slze pagcs ms
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:10**************
+Alocarea paginaté / 8
+' Implementﬁri pentru tabelele de pagini
+— Péstrarea tabelelor de pagini se poate face in:
+regi§tri hardware sau memoria principali
+i Solulia cu regi$trii hardware este mult mai rapidé,
+dar devine prea costisitoare pe mésuré 0e cregte
+dimensiunea tabelei cle pagini;
+in plus, acccsul rcgistrilor hardware cstc privilcgiat
+i Problema solugiei cu memoria principaléz access
+multiple la memorie pentru a accesa 0 informagie din
+memorie (intéi trebuie accesaté tabela de paginl, pentru aﬂarea
+adresei ﬁzice asociate adresei logice dorite, gi abia apoi se
+acceseazi memoria ﬁzici la adresa aﬂati pe baza translatérii)
+l0 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Alocarea paginaté /9
+' Tabela de pagini in memorie
+— O tabelé de pagini per proces
+i Un registru, PTBR (page table base register),
+conﬁne adresa de bazé (Lee, de inceput) in memorie
+a tabelei d6 pagini (e.g,regislru1 CR3 in cazul CPU x86)
+i Un alt registm, PTLR (page table length register),
+indici dimensiunea tabelei dc pagini
+i Problemé: ﬁecare acces la date sau instrucgiuni
+“costé” doud accese de memorie
+i Soluﬁa: TLB (traslatl'on look-aside buﬁﬁer)
+l \ 41:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Alocarea paginaté /10
+> Traslation Look-aside Buffer (TLB)
+
+— Este 0 memorie specialé de dimensiune mica, numité
+memorie asociativd (hardware special, scump)
+
+— Calitatea ei fundamentalé este adresarea prin
+conﬂnut, §i nu prin adresﬁ: g5se$te locayia care are un
+conyinut speciﬁcat, céuténd simultan (i.e., in paralel) in toate
+locagiile ei
+
+Page # Frame #
+13 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+> Traslation Look-aside Buffer (TLB) (c0nt.)
+
+i TLB are rol de cache pentru tabela dc pagini din memorie:
+cénd se incearcé aﬂarea numirului de cadru asociat unui numir de
+pagini virtualz'i, aceasta este cziutaté mai intéi in TLB, iar dacé nu-i
+gisili in TLB, este ciutaté in tabela de pagini din memon'e
+
+(PU p d f d
+_—
+—ll'l':_ ..
+—— WM‘
+—— mm"?
+—
+p —
+—
+r
+—
+H 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Alocarea paginaté /12
+' Traslation Look-aside Buffer (TLB) (cont.)
+i Performanya adusé de folosirea TLB este daté de:
+i Hitiratio I procentajul de gésiri in TLB a paginii céutate
+i Timpul efectiv de acces:
+EAT I 1* MemoryiAT + (Hitiratio * TLBiAT +
++ (l i Hitiratio) * (TLBiAT + MemoryiAT) )
+i Valuri uzualc: McmoryiAT >> TLBiAT 5i Hitiratio Z 90-95%
+$i ca urmare EAT este foarte apropiat de 1* Memory_AT
+i in tabela de pagini, paginile mai au asociagi 5i alﬁ bigi de
+informagie folosigi pentru protecgia memoriei i restricgii de
+acces (ReadAccess, WriteAccess, ExecuteAccess, $.21.)
+H 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Alocarea paginati /13
+> Tabele de pagini pe nivele multiple
+
+i Tabelele dc pagini pot avea dimensiuni mari
+
+i Presupunem un spagiu de adresare dc 232 octegi,
+adicé 4 GO (mg. cazul arhitecturii x86 i pe 32 bigi)
+
+i Dacé cadrul de paginé are 4 K0, atunci numiml de
+intréri in tabela de pagini este de cca. un milion (l)
+(mai exact, in acest caz tabela are 22° = 1,048576 de intréri)
+
+— O tehnicé utilizaté pentru reducerea dimensiunii
+tabelei consté in utilizarca unei tabele de pagini
+pe nivele multiple
+
+M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Alocarea paginati /14
+" Tabele de pagini pe nivele multiple — exemplu:
+i Spatiul de adrese: 232 octepi, dimensiunea paginii: 4096 octeti
+i Deci vom avea 1M (i.e., 1.048.576) de intréri in tabela de pagini
+i O adresi logicz'i aratﬁ astfel:
+numérul de paginé deplasamentul
+(pe 20 bixi] (pe 12 bigi)
+i Partigionim tabela de pagini in 4 “bucégi” (secgiuni),
+ﬁecare secgiune avénd 256K (1.6., 262.144) de intriri
+i Aloczim numai cétc scctiuni sum ncccsarc, nu pc toatc 4 !
+i Acum 0 adresé logicé araté astfel:
+nr. sectiune numz'uul dc paginé deplasamentul
+(pe 2 him (pe 18 bigi) (pe 12 biﬂ)
+1f» J1:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Alocarea paginatﬁ /15
+> Tabele de pagini pe nivele multiple — exemplu:
+outer page table
+(page directory)
+page lﬂhIES memory l7 46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+> Tabele de paglnl pe nlvele mult1ple(cont.)
+m Vlrtual Address Translation
+Translalarea adreselor pentru
+un CPU x86 (i.e., pe 32 hi“) -_
+A» de paginare: m p2 d
+I
+—
+'“g” -
+dirtctnry
+- l ‘ 'zz'r: 1.7.11. - I “W -
+Ek- i‘ i‘ \i iv“ Translalarea adreselor penlru un CPU X64 (i.e.,
+E k j ‘ \i i , pe s4 bigi) a se utilizeazi doar 4s de bin pentru
+g . ‘ I‘: adresele logice 5i mbele de paginare cu (!)
+i ..,., ._ .., ‘ ._ Noldznumémlde paginﬁ vinual5136 bm)se descompune
+:4-.,- m’ "M "" ’mrF: in 4 grupuri (p1, pl, p; 5i p4) de cite 9 biyi ﬁecarev m 4h
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Alocarea paginatﬁ /17
+», Tabele de pagini inverse
+
+(utilizate de sisternele IBM RT, IBM AS/400, HP-UX)
+
+i O alté modalitate de reducere a dimensiunii labelelor de
+Pagini stocate in memorie
+
+i In loe de a avea 0 intrare in tabelé pentru ﬁecare paginé
+virtualé, avem cite 0 intrare pentru ﬁecare paginé ﬁzicé, ce
+conﬁne 0 pereche de forma: (PID, numér paginé virtualé)
+
+i Cénd se translateazé 0 adresé virtualé, se produce 0 céutare
+a numérului de paginé virtualé dorit, in tabela inversz'i de
+pagini, $i se relurneazz'i numa'mll paginii ﬁzice asociate,
+reprezentat de indexul intrérii gz'lsite
+
+I‘) 41:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+> Tabele de pagini inverse (cont.)
+CPU pld p a r a
+Physlcal
+mm
+—
+—
+—
+I-
+—
+2041's
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+Alocarea paglnata /19
+' Tabele de pagini Viﬂuﬂlpﬂge number-
+Inverse — delayanta] e: Inverted Page Table
+i Prezmti dlﬁcultégl in suportul --
+memoriei partajale (deoarece Hash 1 --
+en-nite 0 sin uri adreszi vinualé ’
+pentru 0 pagma ﬂzma) --
+i Céutarca cstc inccaté (pentru - --
+05 trebuie céutati intreaga tabeli)
+- Solugie: milizarea tehnicii de lmhmg
+Noni: despre mm; w rabele has/1 probabxl
+an Emma! la disciplinele FA] sau m in caz
+c5 nu. pmeu consulw umawarele refenme:
+funqie hash 5i tabeli hash. Hash Anchor Table (HAT)
+l‘ 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Segmentarea /1
+
+' Segmentarea = “paginare” in segmente (ie,
+pagini de dimensiuni variabile)
+
+' Segmentarea reprezinté 0 vedere a memoriei
+d.p.d.v. a1 utilizatorului — 0 mulgime de
+“bucﬁgi” de memorie de diverse dimensiuni:
+
+i programul principal
+i proceduré
+i funcgie
+i stivé
+i vector / matrice
+l1 41v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Segmentarea /2
+' Vederea utilizatorului asupra memoriei nu este
+aceea§i cu organizarea memoriei ﬁzice a SC-ului
+' Fiecare din modulele gi elementele de date ale
+programului (proceduri, funcgii, stive, vectori, ...)
+este referit prin nume, féré ca utilizatorul $51 ﬁe
+interesat ce adrese in memorie ocupé aceste
+elamente ale programului
+' Spre deosebire, 1a paginare se practicé 0
+impérgire dupﬁ organizarea memoriei ﬁzice,
+transparenté pentru utilizator
+l‘) 45
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Segmemarea /3
+Memoria realé
+Spaﬁul logic de adresare
+-
+(‘0d I
+24/“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Segmentarea /4
+' Segmentarea (c0nt.)
+
+i Este 0 schemé dc administrare a memoriei care
+suporté vederea utilizatorului asupra memoriei i
+programul este divizat in mai multe unitégi logice
+
+i Spagiul logic de adresare al programului consté
+dintr-o colecgie de segmente (céte un segment
+pentru ﬁecare unitate logicé din program)
+
+i Fiecars segment ars un nume gi 0 dimﬁtnsiune
+
+— Adresele logice speciﬁci atét numele segmentului,
+cét 5i deplasamentul in cadrul segmentului
+
+5%
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Segmentarea /5
+' Segmentarea (c0nt.)
+
+i Programatorul speciﬁcé ﬁecare adresi prin doué
+components: numele segmentului §i deplasamentul,
+i.e. adresa virtualé = (segment , deplasament)
+
+i Deci programatorul vede spagiul virtual de adresare
+a1 programului ca un spayiu 2-dimensi0nal, nu ca un
+spagiu 1-dimensi0na1 ca 1a celelalte metode
+
+i Ficcare proces are 0 tabela' de segmente, cc conﬁne
+adresa de inceput a segmentului in memoria ﬁzicé
+
+lvab
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+> Segmentarea (cont.)
+i Calculul adresei ﬁzice se face ca la paginare:
+I-
+Ina
+I-
+cvu > d --
+§ O
+27 46
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:28**************
+Segmentarea /7
+" lmplementarea segmentirii
+i CPU gcncrcazi adrcsc virtualc: (nume segment, deplasament)
+Intel x86: scgmcmclc CODE, DATA, STACK
+i Sc cautz'i in tabcla dc scgmcntc adrcsa dc fnccput in mcmoric
+a scgmcntului, iar apoi so aduné dcplasamcnlul pcmru a
+obtiné locagia dorité din memoria ﬁzicé
+i Ca 5i 1a paginare, se pot folosi regi$tri hardware specializagi,
+care pistreazé translatarea segmentelor in adrese real€
+Intel x86: registrul CS i adresa segmemului de cod, DS i adresa
+segmentului de date, SS i adresa segmentului de stivi, ES i
+adresa segmenrului de date suplimentar (extra-segmentul)
+i Probabil nu toate translatirile pot ﬁ pistrate in regi§tri, dacz'l
+existi un numér mare de segmente
+lN 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+Segmentarea / 8
+' Segmentarea - avantaje:
+i Divizarea logicé a spatiului virtual: toate portiunile
+unui segment au probabil acelasi inteles semantic
+i Memoria realé este impirtiti in fragmente logice
+i Partajarea memoriei este simplé: mai multe
+segmente care au aceeasi adresé ﬁzicé;
+in particular, partajarea codului reenlrant
+— Protectia memoriei — ﬁecare segment primeste anumite
+drepturi de acces, trecute in tabela segmentelor; 1a ﬁecare
+calcul de adresé se pot face si astfel de veriﬁcéri
+i Altc lucruri, prccum gcstiunca limitclor vcctorilor sc pot
+face mai simplu prin accasté mctodé dc alocarc a mcmorici
+l‘) 1:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Segmentarea /9
+' Segmentarea - dezavantaje:
+
+i Segmentele trebuie 551 incapé in memorie, deci nu
+pot avea lungimi mai mari deceit dimensiunea
+memoriei ﬁzice
+
+i Necesitatea ca ﬁecare segment s5 ﬁe alocat intr-o
+porgiune contigué a memoriei ﬁzice (folosind algoritmi
+gen FFA, BFA, WFA, $43.), plus dimensiunile variabile
+ale segmentelor, fac posibilé aparigiajfagmentdrii
+externe a memoriei
+' Pemru a inlétura fragmentarea se poate utiliza tehnica
+
+de compactare (i.e., defragmentarea memoriei)
+' O alté solugie: segmentarea paginaté :0 41,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Segmentarea / 1 0
+' Segmentarea paginati
+i Introdusé de SO-ul MULTICS (‘65-‘69, AT&T + GE + MIT)
+i Fiecare segment este impﬁrgit in pagini
+i Astfel se eliminé doui dezavantaje ale segmentirii
+pure: alocarea contiguﬁ si fragmentarea externﬁ
+— Fiecare proees are 0 tabeld de segmente (care conﬁne
+referinge citre tabelele de pagini asociate segmentelor), iar
+ﬁecare segment are 0 tabelzi de (mapare a) paginilor
+(in cadre de paginé din memoria ﬁzicé)
+i adresa virtualé = (segment, paginé, deplasament)
+i adresa ﬁzicé I (cadru de paginé, deplasament)
+I‘ 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+> Segmentarea paginatﬁ (cont)
+i Folosité pe calculatorul GE 645 (cu SO-ul MULTICS)
+' Adrese logice = m: segment: 18 bigi + deplasament: 16 bigi
+' Se utiliza un numér relativ mic de segments de 64 K0
+>- 11 a
+- bl
+. f d‘
+1: 46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+‘P Segmentarea paglnata (cont)
+ﬁ Arhitectura x86,
+. incepzmd de lu
+micro-pmcesoml
+--- 1"‘6180386'
+pennile prin hardware
+— administrarea
+m m5 —m IIII memorial folosind
+’ segmemarea cu
+a:
+n 4:,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Memorie virtualé
+> Memoria virtualél
+i Conceptul de memorie virtualé
+i Principiul localite'qii
+(va urma)
+i Paginarea 1a cerere
+i Algorilmi dc inlocuire a paginilor
+i Fenomenul de trashing
+i Segmentarea la cerere
+=4 41,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Memorie virtuale'l / l
+
+' Memoria virtualﬁ: pﬁstreazé separarca
+spayiului dc adresarc logic (virtual) de cel ﬁzic
+(real), introdusé de tehnicile de paginare gi de
+segmentare pure, dar
+
+' Acum, 0 parte din spagiul logic de adrese
+poate ﬁ rezident, in fapt, pe disc (in situagia in
+care memoria ﬁzicé este prea micé pentru a
+putea cuprinde in intregime spagiile logice dc
+adrese ale tuturor proceselor active in sistem)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Memorie virtualé /2
+"Memoria virtualz'l
+i SC-urile cu memorie virtualé au capacitatea de a adresa un
+spagiu de memorie mai mare deceit memoria interni (Le,
+RAM) disponibilé in sistemul respectiv
+— Ideea: swapping-ul pe disc a1 unor “bucéﬁ” de memorie
+(tehnicé introdusé de SOiul ATLAS i 1960, Univ. Manchester, UK.)
+i Avantaje:
+' Spagiul logic de adrese poate ﬁ mult mai mare decét
+memoria ﬁzicz'l disponibilﬁ
+' Esle nevoie ca doar o pane a programului s51 ﬁe rezident
+in memoria principalé pentru a pulea ﬁ executal (deci nu
+mai este nevoie s5 ﬁe prezent intregul program in memorie)
+‘(v 41:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Memorie virtualé / 3
+"Memoria virtualz'l
+
+i Cum s51 0 implementim?
+
+i Este nevoie ca “bucégi” de memorie 55 ﬁe swap-ate, 1a
+cerere, din memorie pe disc §i invers
+
+— Implementare — tehnici de virtualizare folosite:
+paginarea la cerere (egi Windows, Linux) §i segmentarea
+la cerere (e.gi OS/Z)
+
+i Presupune mutarea, controlati de sistem, in susul 5i in josul
+ierarhiei de memorii (RAM <—> disc)
+
+i Poatc ﬁ privité ca 0 automatizarc a overlay-urilor (nu mai
+cstc sarcina programatorului dc aplicagii, ci a sistcmului):
+SO-ul Tnccarcé sﬁ determine in mod dinamic care “bucégi”
+incﬁrcatc anterior pot ﬁ inlocuitc dc “bucégi” ncccsarc acumh
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Memorie virtualé /4
+'Memoria virtual?!
+
+i Metoda funcgioneazi doar datoriti “localitétii” referinyelor 1a
+memorie
+
+— Este adesea strains legaté de tehnica paginérii / segmentﬁrii,
+deoarece necesité alocare necontigué, label?! de mapare, etc.:
+paginarea la cerere / segmentarea 1a cerere
+
+— Observagie esengialé: numai un subset din codul $i, respectiv,
+datele unui program sunt necesare la un moment arbitrar de
+timp, Poate SO-ul $5 prezicﬁ care va ﬁ acel subset la un
+moment urmétor, doar din observayia componamentului
+programului 1a momentele trecute de timp 7
+~> Principiul localititii (principiu curistic, dcsprins din practici)
+
+1N 41:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+Principiul localitétii /1
+'Principiul localitiﬁi (vecim'ltéﬁi) ('68 Pl Denning)
+' D0115 tipuri de localizare a secvengelor dc accesare a memoriei:
+
+i Localitate temporal?! i tendinga de a accesa in
+viitorul apropiat locagii accesate deja in istoria recenté
+(e.g. instrucgiuni repetitive, variabile utilizate frecvent)
+
+i Localitate spagialﬁ i tendinga de a accesa in viitorul
+apropiat locagii apropiate de alte locagii accesate deja
+in istoria recenti
+(e.g. instrucgiuni secvenyiale, structuri de date contigue i
+vectori, inregistriri, etc‘)
+
+Se justiﬁcé astfel mutarea in “buciﬁ” mai mari pt. swapping
+I‘) 45
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Principiul localitﬁgii /2
+"Principiul localitiﬁi (cont)
+i Datorité lui s-a impus programarea slructuratﬁ (in locul
+progTamirii cu goto), precum $i structurarea datelor
+localitatc buné: localilale rea:
+'-': 1+>< t“‘:0:'++:‘ 1
+_ Mora/a: (1805 l01‘(| ‘U_1 .1 11) 0| (J .l ‘ .|\ln-
+0 manice este for Ll : g; JH; _]-:m] f'or{1= 0; |++:1( n)
+introdusé in Alikl] I BU‘ j] Alini] I BUJ]
+mcmoric pc
+linii (coloane), Awlmr A10.01.A[0J]‘
+we bine $5 ﬁe 1.1.1). 111.11 A11.U1A11.11 >A1uv1 A10_11A11_01A12ﬂ1 A12 11
+— 0111mm“) i
+prel_LlL:1-'ata tot AIM] All“ Bad lncallty is a unnh il11111|1g
+pe lmn (resp1 1 V V .
+1ac101 In Thrushmg ( p11 gs
+pc coloanc) 1 . '
+. .. tuullmgMun1111-1l0111111alu1.
+Exphcagu: a se vcdca pe verso, 41, 41,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+Pr1nc1p1ul locahtapl /3
+*Prmclplul localltatll (cont)
+i Explicagii suplimentare:
+Exemplul amenor lrsblus gandn p5 malncl marl, 6g. n mamce 1024x1024 d2 numere d2 Up
+im (lieu o celula ocupé 4 DClﬁu), Amnu ﬁscare linie a mall'icii va ocupa exacl o paginé in
+mcmul'ic.
+lnlrucél malricile Sunl "hmannle" pe Iinii, nu p: coloane, alunci cénd cmupilmorul de C1:
+31m spagiu de swoare m memorie, rezullé 05 m codul am slénga, rala mixs'uriloresle egalé
+cu 1024 'mrmdrul ram! de urrese . iar in codu] dm dreapm rala mim'unlor esle: 1024x1024 /
+nmmiml mm! L18 unww 1 1m‘ mmdm! 1am! (Jr access esle: 1024x1024, in ambele cazun.
+Observagie 1mm; acesl: rale a: miss, calculate mm sum se aplici in ambele snuagii, cm
+descrisé in acesl curs [$1 anume, la calculul esumalw al duralei accesulux la memone, linénd
+com de mapal'ea adresei paglnli vmuale in adresa paginii ﬁzice‘ pe baza z'm'hr'ului TLB;
+revedeyi formula de la slide'ul #14), 05! 5i intro siluayie descrisi in cursul vntor (5i anume. la
+calculul ratei de pm faulzruri, penlru un algonlm de paggwappmg cum este alg. LRU,
+carc pistrcaﬁ cclc mai rcccntc valon, inlocmai prccum un cache).
+J‘ 41>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Memorie virtualé
+Va urma:
+' Tehnici de implementare
+— Paginarea cu incércare 1a cerere
+(: paginarea combinaté cu Iehnica de swapping)
+i Segmentarea cu incércare la cerere
+(= segmentarea combinatz'i cu tehnica de swapping)
+' Algoritmi de swapping a paginilor/segmentelor
+41 4b
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+Bibliograﬁe
+' Bibliograﬁe obligatorie
+
+capitolele despre gestiunea memoriei din
+i Silberschatz I “Operating System Concepts”
+
+(cup.§, ultima pant: §9.3ix, din [05cm]
+sau
+— Tanenbaum : “Modern Operating Systems”
+
+(061).}, §373 5i §3.7, dln {MOSH}
+
+4‘) 4b
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Exerciﬁu de seminar
+' Aplicayie la: Alocarea paginaté
+i Enunp Se considerﬁ un sistem cu paginare puré (i.e., nu la cerere) ce
+péstreazé tabela de pagini in memorie.
+a) Dacé un acccs la memoria ﬁzicé durcan'l 225 ns (l "5:10 qs), cél limp va
+necesita referirea la o adresé logic?! ‘7
+b) Dacé se adaugé un registru asociativ (TLB), cu r01 de cache a Iabelei de
+pagini din memorie, gi dacé 85% din loale referirile la tabela de pagini sunt
+gésite in acest registru asociativ, care va ﬁ timpul efectiv de acces la o adresﬁ
+Iogicé 7 (Presupunem of: gésirea unei inmiri din tabela de pagini in registrul
+asuciativ, in caz 05 existil, necesilz'l limp zero.)
+c) Care este rma (exprimaté in procente) de gésire in registrul asociativ a
+intrz'n'ii climate, minim acceptabilé pentru a avea un limp de acces efectiv nu
+mai mare de 243 ns ‘I
+JusliﬁcaLi réspunsurilc.
+i Rezolvare: ‘.7
+44 41,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+Sumar
+Alocarea memoriei (continuare)
+
+' Scheme de alocare necontigue
+
+~ Paginarea
+
+i Segmentarea
+
+i Segmentarea paginati
+(va unna)
+' Scheme de alocare cu memorie virtualﬁ
+
+intrebiri ?
+40 4h
+
+***************Ending Page***************
+

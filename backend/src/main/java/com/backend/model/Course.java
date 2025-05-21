@@ -39,7 +39,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     @JsonBackReference
-    private List<Material> materials;
+    private Set<Material> materials;
 
     @OneToMany(mappedBy = "course")
     @JsonBackReference
@@ -69,7 +69,7 @@ public class Course {
     public User getProfessor() {
         return professor;
     }
-    public List<Material> getMaterials() {
+    public Set<Material> getMaterials() {
         return materials;
     }
     public Set<Enrollment> getEnrollments() {

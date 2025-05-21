@@ -1,0 +1,500 @@
+***************Beginning Page***************
+***************page number:1**************
+PROGRAMARE DE SISTEM iN C PENTRU PLATFORMA LINUX (V)
+Gestiunea proceselor, partea a ll-a:
+Reacoperirea proceselor — primitivele exec O
+Cristian Vidra$cu
+vidraschinfo .uaic . r0
+Aprilie, 2021
+1/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Sumar
+‘""mm lntroducere
+Reacugerirea gmceseiur
+Demo-Biogramwm Reacoperirea proceselor
+ML Primitiveie din tamilia exec
+Caracteristicile procesului dupa exec
+Demo: programe cu exec
+Exemplui #1: Reacoperirea unui program cu alt program
+Exemplui #2: Reacoperirea recursivé
+Exemplul #3: Reacoperirea unui program cu fisiere deschise
+Exemplui #4: Redirectarea tiuxuiui stdout
+Exemplul #5: Reacoperirea unui program cu un script
+Alte programe demonstrative
+Referinte bibliografice
+Meniu de navigare Gestiunea procession parlea a li-a: Reacopelirea proceselor- primitiveie execO 2/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+lntroducere
+‘Rm ‘ Dupé cum am vézut Tn lectia anterioaré, singura modalitate de a crea
+Dem Emgramwem un nou proces Tn UNIX/Linux este prin apelul functiei fork.
+ARQ'WWW W’ Numai cé Tn acest fel se creeazé 0 copie a procesului apelant, adicé o
+noué instanté de executie a aceluia$i program (i.e., fi$ier executabil).
+Si atunci, cum este posibil sé executém un alt fisier executabil decét cel
+care apeleazé primitiva fork ?
+Réspuns: prin utilizarea unui alt mecanism, acela de “reacoperire a
+procese/of’, disponibil Tn sistemele de operare UNIX/Linux prin
+intermediul primitivelor din familia exec.
+Meniu de navigare Gestiunea proceselor parleaa H-a Reacopewea proceselor-prirnilive\e execO 3/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Agenda
+‘Mm lntroducere
+Reacugerirea gruceseiur
+Z;;gg§1;fgg;'gig;ﬁc Reacoperirea proceselor
+WW Primitiveie din tamilia exec
+Demo: grngrarne cu exec
+Heterrnlebihiingratice Caracteristicile procesului dupa exec
+Demo: programe cu exec
+Exemplul #1: Reacoperirea unui program cu alt program
+Exemplul #2: Reacoperirea recursiva
+Exemplul #3: Reacoperirea unui program cu fisiere deschise
+Exemplul #4: Redirectarea tluxuiui stdout
+Exemplul #5: Reacoperirea unui program cu un script
+Alte programe demonstrative
+Referinte bibliografice
+Meniu de navigare Gestiunea proceselor. parlea a li-a: Reacoperirea proceselor- primitiveie execO 4 / 20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Primitivele din familia exec
+
+mm“ I Familia de primitive exec “inlocuieste” programul rulat in cadrul
+
+Reacugerirea gmcese m
+
+gggggmtgggggjc procesului apelant cu un alt program, specificat prin numele f|$|eru|u|
+
+dupéexec I I I I
+
+Dem._g,.g,.mem.c executabll asomat, transmls ca argument al apelului exec.
+
+Amman m’ Spunem ca noul program “reacopera” vechiul program in procesul ce executa apelul
+exec. Simplificat spus, noul program “reacopera”procesulape/ant al functiei exec.
+in plus, procesul “transformat” prin inlocuirea cu noul program “mosteneste”
+caracteristicile avute de la vechiul program (cu exceptia catorva dintre acestea),
+inclusiv PlD-ul (deoarece, d.p.d.v. ai SO-ului, el este acelasi proces).
+Existé 6+1 functii in familia de apeluri exec ([5]). Aceste functii diferé intre ele prin
+nume si prin lista parametriior de apel, putand fi impartite in doua categorii ce se
+diferentiaza prin forma in care se dau parametrii de apel:
+I numarul de parametri este variabil (i.e., Iinia de comanda este data prin enumerare)
+I num'Elrul de parametri este fix (i.e., linia de comandé este specificata printr-un vector)
+
+Meniu de navigare Gesiiunea proceselor parleaa li-a Reacoperirea proceselor-prirniliveie execO 5/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Primitivele din familia exec (cont)
+‘""me'e 1) Prima pereche de primitive exec este reprezentaté de apelurile execl 5i execv,
+Reacugewea gmceseim . V
+Pumiwieamiamiiamc ce au interfetele urmatoare:
+CaiaCieiiSiiCiié procesului '
+du ‘ x ,
+m u I mt execl(char* ref, char>i< arng, . . . , char>i< arng)
+Demo. gmgrarne cu exec
+Heimmimm I int execv(char* ref, char* argv[] )
+— ref = argument obligatoriu, fiind numele programului ce va reacoperi procesul
+apelant ai respectivei primitive exec
+— N Z 1, adicé celelalte argumente (cu excepiia arng $i arng) pot lipsi, ele
+expriménd parametrii efectivi ai liniei de comandé pentru programul ref
+
+Observafii:
+
+1. Argumentul ref trebuie sé fie un nume de fisier executabil care sé se afle in directorul curent (sau
+sé se specifice si directorul in care se aﬂé, prin cale absoluté sau relativé), deoarece nu este céutat
+in directoarele din variabila de mediu PATH. De asemenea, ref mai poate fi 5i numele unui script,
+care incepe cu o linie de forma # ! interpreter.
+
+2. Argumentul arng, respectiv argv[0], specificé numele procesului “transformat” (i.e., numele
+procesului dupé reacoperirea cu noul program), afieat de comenzi precum ps, pstree, w, s.a.
+
+3. Ultimul argument arng, respeciiv ultimul element din tabloul argi/[J , trebuie 5'51 fie pointerul NULL.
+
+Meniu de navigare 6 l 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Primitivele din familia exec (cont)
+‘""me'e 2) A doua pereche de primitive exec este reprezentaté de apelurile execle $i
+Reacugeiiiea gmceseim . V
+Funnelsamiamiwec execve, ce au interfetele urmatoare:
+Caiacieiisiiciie procesului '
+du ‘ x >
+m u I mt execle (char* ref, char>l< arng, . . . , char>l< arng, char* env[] )
+Demo. gmgiame cu exec
+Heieiinlebibiingiaiice I int execve (chari< ref, char* argv[] , Char* env[] )
+— env = parametru ce permite transmiterea unui environment (i.e., un set de
+variabile de mediu) cétre noul program ce va reacoperi procesul apelant
+— celelalte argumente sunt la fel ca la prima pereche
+Observaiii:
+1. Si in acest caz au Ioc restrictiile din observaiiile 1., 2. si 3. specificate Ia prima pereche.
+2. La fel ca pentru argv[], ultimul element din tabloul env[] trebuie sé fie pointerul NULL.
+Noié: functia execve esle apelul de sistem pentru reacoperire (a se consulta man 2 execve ), iar
+celelalte funclii sum de fapt niste wrappere definite in STANDARD C LIBRARY, ce apeleazé Ia réndul lor
+functia execve (a se consulta man 3 exec).
+Meniu d9 navigare Gesiiunea proceselor parlea a li-a Reacopeiirea proceselor - primiliveie exec 0 7 / 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Primitivele din familia exec (cont)
+‘""me'e 3) A treia pereche de primitive exec este reprezentaté de apelurile execlp $i
+Reacugeiiiea gmceseim . V
+WWW.amiamiiamc execvp, ce au interietele urmatoare:
+Caiacieiisiiciie procesului '
+duDé exec ,
+
+I mt execlp(char* ref, char>I< arng, . . . , char>I< arng)
+Demo. gmgvame cu exec
+Heiemiemhimgim I int execvp(cha1M< ref, char* argv[] )
+
+— argumentele sunt la fel ca la prima pereche
+
+Observaiii:
+
+1. Argumentul ref indicé un nume de fisier executabil care, dacé nu este specificat impreuné cu calea
+absoluté sau relativé péné Ia acel fisier (i.e., ref nu coniine oaracterul V‘), atunci el va fi céutat in
+directoarele din variabila de mediu PATH. De asemenea, ref mai poate fi $i numele unui script, care
+incepe cu o Iinie de forma it i interpreter.
+
+2. Si in acest caz au Ioc restrictiile din observatiile 1., 2. 5i 3. specificate Ia prima pereche.
+
+Noté: a 77a functie, numité execvpe, este o extensie GNU si are interfaia urmétoare:
+
+I int execvpe(char* ref, Chan argv[] , chain env[] )
+
+— argumentele sum Ia fel ca la apelul execvp si mai avem in plus $i un environment
+Meniu de navigare Gesiiunea proceselor pariea a li-a Reacopeiirea proceselor - primiiiveie exec 0 a / 20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Primitivele din familia exec (cont)
+
+‘""M'E Valoarea returnaté: in caz de esec (e.g., datorité memoriei insuficiente, sau altor
+
+Reacugewea gmceseim . . I I I v
+
+Prlmiilvelediviamiiiaexec cauze p05|b||e), toate primitivele exec returneaza valoarea -1.
+
+Caracierisiiciie procesului
+
+a“ éexec _ “
+
+D” Altfel, in caz de succes, apelunle exec nu returneaza (i), deoarece programul apelant
+
+Heisvmlebihimgvance nu mai existé (fiind “reacoperit” de noul program).
+Nata“: familia de primitive exec este singurul exemplu de functii (cu excepiia
+primitivelor exit $i abort) al céror apeluri nu returneazé inapoi in programul apelant.
+Observatie: prin conventie arng, respectiv argv[0] , trebuie sé coincidé cu ref (deci
+cu numele fisierului executabil). Aceasta este insé doar 0 convent/e, nu se produce
+eroare in caz cé este incélcaté.
+De retinut: argumentul ref specificé numele real al fisierului executabil (sau scriptului)
+ce se va incérca $i executa, iar arng, respectiv argv[0] , specificé numele procesu/ui
+"transformat"(i.e., numele procesului dupé reacoperirea programului apelant cu noul
+program), afisat de comenzi precum ps, pstree, w, $.a.
+
+Meniu de navigare Gesiiunea proceselor parlea a li-a Reacoperirea proceselor - primiiiveie exec 0 9 120
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Caracieristicile procesului dupé exec
+‘"‘mm'e Prin “reacoperirea” unui proces, “noul program" mo$tene$te caracteristicile “vechiului
+m program" (119., are acelasi PID, aceeasi prioritate, acelasi proces périnte, aceeasi
+“PM” descriptori de fisiere deschise, $.a.), cu unele excepiii, in conditiile precizate in tabel:
+Demo. m vamecu exec
+Proprietarul Dacé este setat bitul seluid al fi$ieru|ui Tncércat, proprietarul aces-
+Grupul proprietar Dacé este setat bitul setgid al fisierului incércat, grupul proprietar
+Hand/er-ele Sum reinstalate handler-ale implicite pentru acele semnale ce
+de semnale erau “corupte” (i.e., interceptate).
+Descriptorii Dacé bitul FD_CLUEXEC de Tnchidere automaté in caz de exec,
+de fi$iere al vreunui descriptor de fisier, a fost setat cu ajutorul primitivei
+f cntl, atunci descriptorul respectiv este inchis Ia exec (ceilalti
+descriptori de fisiere rémén deschisi).
+Meniu de navigare Gestiunea proceselor parleaa H-a Reacopewea proceselor-prirnilive\e execO 10/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Agenda
+‘Mm lntroducere
+Reacugerrrea grocesetur
+Dem Emgramwem Reacoperirea proceselor
+Exemplurar Reawperirea . . _ . . .
+WP'DQWM'W'DW Pr|m|t|ve|e drn famrlra exec
+Exemphrr x2 Reawpenrea
+$55175 *3. Rememea Caracteristicile procesului dupa exec
+\mw program cu trslere
+Ziiﬁﬁirmedmma Demo: programe cu exec
+tluxutur stdout
+ﬁgjppfygfm-jjjfgjgf: Exemplul #1: Reacoperirea unui program cu alt program
+”‘e”'“g'm"*'“°"s““ve Exemplul #2: Reacoperirea recursivé
+Reierrnle brbtrugrafrce . _ . _ .
+Exemplul #3: Reacoperrrea unur program cu frsrere deschrse
+Exemplul #4: Redirectarea tluxului stdout
+Exemplul #5: Reacoperirea unui program cu un script
+Alte programe demonstrative
+Referinte bibliografice
+Menru de navigare Gestiunea proceselor. parlea a lt-a: Reacopenrea proceselor - primitivete exec 0 1r / 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Exemplul #1: Reacoperirea unui program cu alt program
+‘""me'e Un exemplu ce ilustreazé folosirea unui apel din familia exec, precum $i conservarea
+Reacugewea gmcesehwv II I I v I I v I I I _
+DIM III WWW catorva dlntre proprletallle procesulm dupa executla apelulul exec, ar f| urmatorul.
+ExemplmM Reacopenrea
+ymP'DQ'EMH'W'DQ'“ A se vedea programul before_exec . c, ce apeleazé execl pentru a se “reacoperi”
+xemplu] wz Reampenrea
+$175“. Empma cu un al doilea program, after_exec . c ([2]).
+u m m v uhsl v
+Exemplul‘ #4. Redwemarea I A . \4
+‘éﬁﬁﬁﬁilmpm II ObservaIt/e: executand programul before_exec vejn putea constata faptul ca
+in:IffjjjjmijIjjIZZIIII variabila anytesRead va avea valoarea —1 Tn mesajul afi$at de programul
+nemwwmgm after_exec (motivul fiind cé intrarea standard stdin este mostenité ca fiind inchisé
+Tn procesul “reacoperit” cu after_exec).
+Aceasta constituie o dovadé a faptului cé “noul program" de dupé reacoperire,
+after_exec, mo$tene$te descriptorii de fisiere deschise de la “vechiul program" de
+dinainte de reacoperire, before_exec.
+Meniu de navigare Gestiunea proceselor parlea a H-a Reacopewea proceselor - primilive\e exec 0 12 120
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Exemplul #2: Reacoperirea recursivé
+
+‘""me'e Un al doilea exemplu: un program care se “reacoperé” cu el insusi, dar la al doilea
+Reacugerrrea gmceserur A I I I V II I II I
+Dem III WWW apel |$| modlflca parametrll de apel pentru a-$| putea da seama ca este la al d0||ea
+iiili'uirlkffiiﬁi'g'il apel $i astfel sé nu intre intr-o “buclé infinité" de apeluri recursive.
+Exemplm #2 Reacuperrrea
+$175 as. RENEW A se vedea programul exec_rec . c ([2]).
+unm pmgram cu hslere
+deschrse
+Exemplul‘ #4. Redrremarea
+{luxurur stdout
+Exemplul‘ x5. Reampenrea
+Ame prugrame demonsvairve
+Referrnle brbhngraﬂce
+
+Menru d9 navigare Gestiunea proceselor parlea a H-a Reacoperrrea proceselor - primilivere exec 0 13 / 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Exemplul #3: Reacoperirea unui program cu fi$iere deschise
+
+‘""me'e A se vedea programul com-0 . c, care se “reacoperé” cu programul com-2 . c ([2]).
+Reacugewea gmcesehwv
+new Ewgramwexec Observaﬁe: programul comio . c redirecteazé fluxul stdout Tn fisierul fis .txt,
+ExemplmM Reawpenrea
+gxﬁj'jgggmjjrfj folosind primitiva dup ([5]), si ca atare programul com-2 . c mo$tene$te aceasté
+$55175“. Reawpem redirectare. Astfel, veti observa cé mesajele scrise vor apare Tn acel fisier $i nu pe
+\mm pmgvam cu hslsve
+$3155». Redwemarea ecran.
+(luxmm stdout
+Exemplm x5. Reampenrea
+Ahe prugvame demonsvaiwe
+Refennle mbhngraﬂce
+
+Memu d9 navigare Gestiunea proceselor parlea a H-a Reacopewea proceselor - primilive\e exec 0 14 / 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Exemplul #3: Reacoperirea unui program cu fi$iere deschise (cont)
+‘""me'e Comportamentul in cazul fi$iere|0r deschise in momentul apelului primitivelor exec:
+Reacugewea gmceseim I‘ I I . . I I II .
+Dem III WWW daca s-au folosn InstruciIunI de scriere buffer-Izate (ca de exemplu funcillle fprlntf,
+iiili'uiilkffiiﬁi'g'il fwrite $.a. din biblioteca standard l/O de C), atunci buffer-ele nu sunt scrise automat
+Exempluiwz Reamperirea II I I I II I I I I I
+5m in flSlel‘ pe dlSC in momentul apelului exec, deal informatla din ele se plerde (i).
+xernplui as. Reampenrea ~ v
+imm pmgvam cu iislw
+Ziiﬁgiiimmma Noté: in mod normal buffer-ul este scris in fisier abia in momentul cénd s-a umplut,
+iluxuiui stdout
+fﬁrpfmg'jjjfgjgfa sau la intélnirea caracterului ".\n Dar se poate forta scrierea buffer-ului in fi$ier cu
+“e“'°‘~"““*'“°"S"a“"e ajutorul functiei ff lush din biblioteca standard l/O de C.
+Reiennle bibiiugrafice
+A se vedea programul come1.c, care se “reacoperé” cu programul come2 . c ([2]).
+ObservaItie: dacé eliminém apelul ff lush din programul com-1.c, atunci pe ecran
+se va aﬁ$a doar mesajul incomplet . . , tuturor!“. Acest lucru se intémplé
+deoarece mesajul de inceput “Salut. . se pierde prin exec, coniinutul buffer-ului
+nefiind scris pe disc.
+Meniu de navigare Gesiiunea proceselor parleaa li-a Reacopenrea proceselor-primiliveie execO 15/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Exemplul #4: Redirectarea fluxului stdout
+
+‘""me'e Pe léngé primitiva dup, mai existé ei o alté primitivé, cu numele dup2, ambele fiind
+
+Reacugewea gracesetuv II I I I I I
+
+Dem III WWW utlllzate pentru dupllcarea unUI descrlptor de f|$|er ([5]).
+
+iiili'uiylkffiiﬁi'g'il Cu ajutorul acestor apeluri se poate realiza redirectarea fluxurilor standard de l/O,
+
+ExempluMZ Reampenrea I_ II I
+
+S5518“. IIIIIIIIIIIIII precum am vazut m exemplul precedent (/.e., programul com-O . c).
+
+unm pmgvam cu mew
+
+deschtse * ~k ~k
+
+Exemplut M. Redwectarea
+
+tluxutm stdout
+
+EXEW'Mﬁ-“mpewea Un alt exemplu de redirectare a fluxului stdout: programul redirect. c ([2]).
+
+Atte prugvame demonstraiwe [I . .4 . . . . . .. .
+
+Mumwmgm In acest caz redlrectarea se face catre f|$|eru| f1s.txt, Iar ap0| este anulata (pnn
+redirectarea inapoi cétre terminalul I/O fizic asociat sesiunii de lucru curente, referit
+prin numele /dev/tty ).
+
+Mentu d9 navigare Gestiunea proceselor partea a lt-a Reacopewea proceselor - primitivete exec 0 1e / 20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Exemplul #5: Reacoperirea unui program cu un script
+‘""me'e Un exemplu ce ilustreazé folosirea unui apel din familia exec pentru a “reacoperi”
+Reacugewea gmcesehwv _ _ V
+Dem m WWW programul apelant cu un scrlpt, ar f| urmatorul:
+ExemplmM Reawpenrea
+g1::;fj'j§;“;§g§j§§ A se vedea programul exec_script . c, ce apeleazé execl pentru a se “reacoperi”
+$175“. Empma cu un script bash, my_script . sh ([2]).
+unm pmgvam cu HSIEYE
+descmse
+ﬁg:m'j;§gjfmma Noté: mai exact, aici, efectul apelului exec este acela de a “reacoperi” programul
+Ex IuWSJR v . v . . . . . . . . . . u
+WERLWJZZ“§ZT$ apelant cu o Instanta a Interpretorulul speclflcat pe pnma llnle dln scrlpt, lar aceasta
+AHe prugvame demonsvaiwe . V , , . . . . . A . v
+mum W‘ Instanta va Interpreta scrlptul llnle cu ||n|e ($l-| va executa, astfel, In manlera
+interpretaté).
+Memu d9 navigare Gestiunea proceselor parlea a H-a Reacopewea proceselor - primilive\e exec 0 17 / 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Alte programe demonstratlve
+‘"Wduwe laté un exemplu de program care ape/eazé prin exec o camandé uarecare, insotité de o listé de arguments, iar apoi
+Reacugerrreagrucesewr prerucreazé siatusul execuﬂei comenzri respective (i.e., succes vs. esec):
+W #iuelude . . .
+giﬁiygnsjaaiﬁgj“ int main (int argc, char ~argv [1) {
+EXEWWHEMDEWE putt pid; int ret; char)‘ dirname : (argc < 2) ? = arng];
+recurswa /* Creez un proces fiu, care va rula comanda ls prin exec. */
+EXEWPIHWQ-REBCWEWEH if(71 1: (pid:fork()) ) { perror("Eroare 1a fork"); exit(1); }
+SSZLS'ZS'EMCWS'E'E /* In procesul fiu apelez exec pentru a executa comanda dorita. */
+r . .
+ExempluW4.Redrreclarea 1f (P1cl == 0) {
+"uxmurstdout exec1("/biu/1e","1s","e1","ei",diruame,|rlrLL);
+Exemvwwemperree perror("Eroare 1a exec");
+“"“ng'amwmsmm exit<10); // Beturuez un numar mare, nu 1,2,... care at putea fi returuate si de 1:!
+AME programe demonstrahve )
+aerwrabmgmm /» (Dear in procesul pariuts) Acum cercetez cum s-a tsrminat procesul fin. */
+uait(&ret);
+if( HIFEXITED(ret} ) {
+suitch( UEXITSTATUS(ret) ) {
+case 10: printf("Comanda ls nu a pntut fi executata (eroare 1a exec).\n"); break;
+case 0: printf("Comanda ls aea executat cu succes.\n"); break;
+default: printf("Comanda ls aea executat cu esec (cod: Zd).\u",wrzxr'rsn'rus(ret));
+}
+}
+else priut£("(:omauda ls a fest terminata fortat (sen-Anal: '/.d).\n",WTERMSIG(ret));
+return 0;
+}
+Noté: programul complet este drsponin in exemplul [Exec command #1: ls], prezentat in suportul online al
+laboratorulur #11.
+Meruu de navigare Gestiunea proceselor parleaa H-a Reacoperrrea proceselor-prlmil'rve\e exec() 18/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Alte programe demonstrative (com)
+‘Wmmm Demo: exemplele [Exec command #2: last] si [Exec command #3: ls rm ], ce sunt prezentate in
+Wm suportul online al Iaboratorului #11, ilustreaza alte doua programe care apeleaza prin exec o comandé
+W simpla si, respectiv, o secventé de doua comenzi simple, insotite fiecare de céte 0 Iisté de argumente.
+“"“‘P'“g'a'“““a"‘"“g'a'“ lar la final, fiecare program prelucreaza statusul executiei comenzii respective (i.e., succes vs, esec).
+Exempiuiwz Reamperirea
+recursivé
+5:31:22: :jzzgjiea Observati'e: functia system permite Iansarea de comenzi uzuale de UNIX/ Linux dintr-un program C,
+mm printr-un apel de forma: system(comanda) ;
+Exempluiﬂ. Rediremarea v A A v _ _ _ _
+glimiupiljrg-gmpem Elect: se creeaza un nou proces, in care se incarca sheI/—u| implicit, iar acesta va execute comanda
+W nmgiamw “mini specificata (pentru detalii suplimentare, consultati documentatia man 3 system). Exemplificare:
+Aile programe demonstralive
+Reieiiriie bibiiugiaiice “huhme ' ' '
+int main (int argc, char *argv [1) {
+int ret; char cmdline [19+2*PATH_HAX]; char‘!K dirname : (argc < 2) ? " . " : argv [1];
+sprintf (cmdline , "ls ,1 7.5 ; rm ex ii 7.5" , dirname, dirname);
+rel: = syscem( cmdline ); /|I Apelul functiei system pentru executia liniei de comanda */
+printf("Apelul eystemt) Sea terminat, returnand valoarea: '/.d.\n", rec);
+return 0;
+}
+Demo: exempiul ['SuperVisor-workers’ pattern #1N: Acoordinated diSlrlbuled sum #iN (vi, USlrig regular liles lor |PC)], prezentat in
+suportul oniine al iaboralorulw #1i, ilustreazé un program cu o funclionaiitale mai complexa decél cele din exemplele
+precedents, ce uliiizeazé de asemenea primiliveie fork, wait si exec pentru implementarea iunclionaiitélii oierite.
+Acest program iluslreazé o aplicare a sablonuiui de cocperare ‘Supervisor/workers’ penlru realizarea Linui calcul paraiel.
+Meniu de navigare Gestiunea proceselor partea a li-e Reacherirea proceselor - primitiveie exec 0 19 / 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Bibliografie obligatorie
+‘"‘mdm'e [1] Cap. 4, §4.4 din cartea “Sisteme de operare — manual pentru ID‘, autor C. Vidrascu, editura UAIC,
+w 2006. Noté: este accesibila, in format PDE din pagina disciplinei “Sisteme de operare":
+Demn Erngrame cu exec
+Rew'ebm We o https : //profs . info . uaic . r0/~vidrascu/SU/books/ManualID-SD . pdf
+[2] Programele demonstrative amintite pe parcursul acestei prezentari pot fi descércate de Ia:
+l https : //pr0fs . info . uaic . r0/"vidrascu/SO/cursuri/C-programs/exec/
+[3] Suportul online de laborator asociat acestei prezentari:
+o https I //profs . info . uaic . ro/"vidrascu/SO/labs/suport_1ab11 . html
+Bibliografie suplimentara:
+[4] Cap. 27 din cartea “The Linux Programming Interface : A Linux and UNIX System Programming
+Handbook", autor M. Kerrisk, editura N0 Starch Press, 2010.
+I https : //pr0fs . info . uaic . r0/"vidrascu/SO/b00ks/TLPI 1.pdf
+[5] POSIX API: man 2 execve, man 3 exec , man 2 dup.
+Meﬂiu d9 navigare 20/20
+
+***************Ending Page***************
+

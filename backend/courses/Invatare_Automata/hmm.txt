@@ -1,0 +1,1036 @@
+***************Beginning Page***************
+***************page number:1**************
+1
+Hidden Markov Models
+Based on
+0 “Foundations of Statistical NLP” by C. Manning & H.
+Schiitzc, ch. 9, 1\HT Press, 2002
+n “Biological Sequence Analysis”, R‘ Durbin et a1‘. ch. 3 and
+11.6, Cambridge University Press, 1998
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+3
+PLAN
+lll Markov Models
+Markov assumptions
+ll‘ Hidden Markov Models
+Fundamental questions for HMMs
+3.1 Probability of an observation sequence:
+the Forward algorithm, the Backward algorithm
+3.2 Finding the “best” sequence: the Viterbi algorithm
+3.3 HMl\/I parameter estimation:
+the Forward»Backwal-d (EM) algorithm
+l4l HMM extensions
+Applications
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+ll} Markov Models (generally) 3
+Markov Models are used to model a sequence of ran-
+dom variables in which each element depends on pre-
+vious elements.
+
+X : (X\.,.XT) x, 6 5: Nun“)
+X is also called a Markov Process or Markov Chain.
+S : set of states
+H : initial state probabilities
+~. I P(X‘ I s»); 2L“, :1
+A : transition probabilities:
+a], a P(X¢—1 a m1 a w; 2,11 <1’, e 1 W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+l
+Markov assumptions
+0 Limited Horizon:
+P(Xr+i I ~51\X1 - v-Xr) I P(—XV+1:51‘—XV)
+(ﬁrst-order Markov model)
+I Time Invariance: 11X,“ I s,\X, I 8,] I II,’ Vt
+Probability of a Markov Chain
+P(X1---XT) I P(X1)P(X2\XUP(X:K\X1X2)
+P(XT\X1X2 ---<YTII)
+I P(X1)P(X2\XUP(X1\X2)-Y-P(XT\X1I1)
+I Inniillkux,“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+A lst Markov chain example: DNA
+(from Durhin et 31., 1995‘)
+NDLB:
+HEre We leave
+transition
+prulmhililin»
+unspeciﬁed.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+ﬁ
+A 2nd Markov chain example:
+CpG islands in DNA sequences
+Maximum Likelihood estimation of parameters using real data (+ and -)
++ 11$ , 127
+a‘ i a~ i
++ A C G T i A C G T
+A 0.180 0.274 0/120 0.120 A 0300 0.205 0.285 0.210
+C 0.171 0368 0.274 0.188 C 0.322 0.208 0.078 0.302
+G 0.161 0.330 0.375 0.125 G 0248 0.246 0.208 0.208
+T 0.079 0.355 0.38/1 0.182 T 0177 0.235] 0.202 0292
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Using log likelihoood (log-odds) ratios
+for discrimination
+PM‘ 1 model +) L a’ I‘
+g 1 I 1 "i I 1 i I ‘31 .
+1”) °g1m¢1model I) g °g2a7ﬂh g '
+33 A C G T
+A *(l.7/1U 041$] (1.581) *UBUB
+C *O.913 0,302 1.812 *0685
+G *O.624 (1,461 0.331 41.730
+T *1169 [1573 (1.393 *UVEJE]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+x
+Hidden Markov Models
+K : output alphabet : {1:1‘ . . ..Ir\,}
+B : output emission probabilities:
+in,‘ I 1’(O.:k\x,:v~,ix,+. 28,)
+Notice that I!“ does not depend on L.
+In HlVIMs we only observe a probabilistic function 0f
+the state sequence: (0| ...OT)
+When the state sequence (X1 . .XT) is also observable:
+Visible Markov Model (VMlVI)
+Remark:
+In all our subsequent examples [1,,‘ is independent of 7,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+n
+A program for a HMM
+
+t I l;
+start in state ‘w, with probability 1r, (i,e,, Xi I I);
+forever do
+
+move from state s, to state s, with prob, [1,, (i.e., XH I ‘7),
+
+emit observatien symbol O, I k with probability by‘;
+
+I I 1 + 1;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10
+A lst HMM example: CpG islands
+(from :Durbin et 31., 1998])
+Notes:
+
+l. In ndditiun tn the tinn»
+sitinns sltnwn, there is hlsn
+f $ 4 ‘ a complete set of transitions
+s i t Q V within each set (+ nespee
+
+‘\~ \wél“,% trively»).
+‘ \:4\4‘/>"Q/. 1 2. mensitinn pitilishilities in
+\ I4§4lyA 11> ”\ / this model she set so that.
+‘>.i’.‘i‘4 ' within each group they are
+/\"‘""y>§t~/‘\\ close tn the ttensitinn pinhn»
+) 4% ‘IQ'\>‘~§ x ' ltilities nithe uriginal mmlnlt
+»/ '/\ \ but there is also a small
+A , ,‘\ , e chance of switching intn the
+~ 4 & ' other sninpenent. 0m»
+all, there is nnire chant-n tir
+switching from ’+’ to ‘I Lhan
+
+viceversa.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+n
+A 2nd HMIVI example: The occasionally dishonest casino
+(from Dm'hin or “1., 1998])
+1: 1/6 1: 1/10
+2: 1/5 2: 1/10
+3: 1/6 3: 1/10
+4: 1/5 4: 1/10
+s: us °-°5 5:1/10
+6: 1/6 6: 1/2
+0.95 0'9
+/ 0.1 \
+0-99 0,01
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12
+A 2rd HMM example: The crazy soft drink machine
+(from klnnning 1v, Schiitzn. 2uuu1)
+- 0.3
+GHQ lceitea
+0.5
+"051
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+A 4th example: A tiny HMM for 5’ splice site recognition 13
+(Hum [Eddy, 2004])
+news A:U.05 A:04
+0:025 0:0 0:0.1
+5:025 6:0.95 6:01
+T:c.25 T=U T=LH
+sum End
+Om, m 1.0 (n O
+09 0.9
+Sequence CTTCATGT AAA CAGAC TAAGTCA
+Smepam EEEEEEEE- EEE EEEEE - | | | l l ll ‘DEF
+-— -41,22
+\ \ 1 \
+_u 4290
+_ __ 43.“
+_ _42155
+-4\,71
+46%
+Posterior a 28%
+ﬂecodmg _ _ ___ "f._ __
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+u
+Three fundamental questions for HMMs
+
+1i Probability of an Observation Sequence:
+Given a model u I (A.B.l'l) over SK, how do we (effi-
+ciently) compute the likelihood of a particular sequence,
+MOM/)7
+
+2. Finding the “Best” State Sequence:
+Given an observation sequence and a model, how do We
+choose a state sequence (X\. . .Xqﬂ) to best explain the
+observation sequence’!
+
+3. HMM Parameter Estimation:
+Given an observation sequence (or corpus thereof)7 how
+do We acquire a model N : (/1. Bil'l) that best explains the
+data?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+15
+3.1 Probability 0f an observation sequence
+Howl) I nil:lP(0;‘XpXH|-[L):IIXPXJI),I7,\2A;UZ‘HbAqXIHUq
+may) i Zmomdquwp Z @1119“th,bmmo,
+x x. xm
+Complexity - (2T+1)N“K tooinefﬁcient
+better : use dynamic prog. to store partial results
+(m) I P(0.02...0,,,._X,,:SJ”).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+lﬁ
+3.1.1 Probability of an observation sequence:
+The Forward algorithm
+1. Initialization: n,(1) I m, for l 5 i, g N
+2‘ Induction: a,(t+ 1) I Ellamauhwm 1 g1 g T, 1 g J g \
+3. Total: P(()\p) I 21114le + l). Complexity: 2N2]-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+17
+Proof of induction step:
+“NI/+1) I MONO; oMo..XMIA/|1
+N
+I 2mm)? 0,40,.XNI1 XM IA”)
+‘Z.
+N
+I ZPWNXNNNINWNON 0MXNINN)P(0N01 . 0,4,XNIM
+N’.
+N
+I 2mm“ 0,419:,\,N)P(0,,x,+,:j\o,01 .0,,,,>;,:1,N1
+NZ.
+N
+I ZINUWwNXNNIMXNIL”)
+W.
+N N
+I Zummmx, I NXN, I j- M)P(X1A1 I AX, I MN) I ZumNJNNNJ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+IR
+Closeup of the Forward update step
+allbllnI
+.\ mcawcavxmn.v I“)
+a u bunl
+no?“ o‘... x.=q I»)
+i ¢ i ‘+1 4)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+10
+Trellis
+" . .' a.
+Each node (snt) ‘
+stores informa- 3 . . ‘ g.
+tion about paths H
+through s at time ‘ é
+' § ' . ' z
+t. 0 0 0
+Sm: '
+‘ A
+w a.‘ >0
+1 2 Timal ‘m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+2F!
+3.1.2 Probability of an observation sequence:
+The Backward algorithm
+@341): P(0,.,.0,\x, :11”)
+
+1. Initialization: 3,(T+ l) I l, for l 5 1 g N
+z. Induction: w) i Z}; n,,lh,0,ﬁ,(r+ 1). 1 g 1 g T, 1 g i g N
+3. Total: P(0\;1) I 2;‘:11,;3’,(1)
+
+Complexity: 2N2?‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+The Backward algorithm: Proofs 2‘
+Induction:
+gm) : mm,H Nomad“)
+V
+: mem .0120“ :/‘XN:1.;|)
+NZ.
+N
+= 211010,” (>1\XN=»-Xl+1= Jl/1)P(XL+1= AX, = w)
+1:.
+N
+: ZIP(0“. . “MONA; : 1.,XH : ,/.;N)P(0,\X, : 1.x,“ : j-ujuu
+,z.
+N N
+I ZIP(0“. 01m.:mINNNUU:ZﬁNIHﬂNNNNU
+NZ. ,Z,
+N N
+Totahme I ZPnoNoN armIN.,N)P<x.:1w>:2m(nm
+1:‘ ‘:1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+4 4 . . . 22
+Comblnlng Forward and Backward probabllltles
+m0 xﬁml) a (“mam
+N
+mm.) a 204mm forlgngT+1
+H
+Proofs:
+max‘ :W : m0, ()1,X,:1\/1)
+: H0. 0, |.X, :/_0, (11M!)
+a 11(0,..,0,,..x,ammo,“ 0m)‘ 0,7‘.X,*1.;L)
+a (ammo, “07m, a W)
+I (MUM)
+N N
+mow) a 21’(0,.‘(,*1\;1)*Zu,[r)3,(i)
+(a. a,
+Note: The “total” fnrward and backward fnrmulae are special cases of
+me above one (for 1 : T + 1 and respectively / : 1)‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+3.2 Finding the “best” state sequence 23
+3.2.1 Posterior decoding
+One way to ﬁnd the most likely state sequence underlying the
+observation sequence: choose the states individually
+WU) I P(Xt I lilo/l)
+Sc, I ergmaxw) for l g r g T+1
+mm‘
+Computing 7,(1):
+1’ X : 1,0 l n,(t .17. f
+7,9) I ﬁx, I MUM) I “CTN I “in
+< l‘ Dela/(Wm
+Remark:
+X maximizes the expected number of states that will be guessed cur-
+rectly. Hewever, it may yield a quite unlikely/unnatural state se-
+quenee.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+24
+Note
+Sometimes not the state itself is of interest, but some
+other property derived from it,
+For instance, in the CpG islands example, let g be a
+function deﬁned on the set of states: y takes the value
+1 for AbstlGﬂTor and 0 for /L,C,.GHT,.
+Then
+ZPth I \Olgtn)
+/
+designates the posterior probability that the symbol 0,
+come from a state in the — set.
+Thus it is possible to ﬁnd the most probable label of
+the state at each position in the output sequence 0t
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+3.2.2 Finding the “best” state sequence 25
+The Viterbi algorithm
+Compute the probability of the most likely path
+argmilx mxlo. n) a r'lrgllmxl’(X. Ola)
+through a node in theAtrellis x
+1§,[/):x‘lll§()‘( ‘F(Xl .Xum. v Olinx, : Ml“)
+1. Initialization: 51(1) uni. for l g 1 g N
+2. Induction: (see the similarity wltli the Forward algorithm)
+tY,(t+1) innings.» A,(r)n,,li,ﬂ,,. l g i g T, 1515A‘
+“(v + ll i Algllmiqgsn l§,(r)auh,,0,, 1 < t < T, l <1 < E\
+3. Termination and readout of best path:
+#020an a iiiaXVr/tnpu'i 1)
+law :r\lglllz|x|9i\§,(T\ l), it, : hx‘ ‘(l l I]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+2G
+0mm 1mm, m m, mm
+nypﬂ) 1U [1'21 [10162 (1021201
+(wt?) rm mm 0 037x 0 010206
+1mm.‘ (1H) 1.0 03 n r184 0.0315
+‘$1,101 n 031*» o n 1r, 0 u 1.0
+Example: ‘ﬂu-11] 0 029 u 245 0 1 m
+. . PM 0,) n vim
+Varlable calculatyans for WM?) i U U 3 0155 U 076
+the cmzy 80ft drink ma- mu] u 0 u 7 012 0 324
+chine HMM 3%, 0P 1P CP 0P
+6mm 1.0 0.21 001m 0011523
+mu) n u u nu u nan u 00507
+mm (JP IP CP
+@1141) (11’ 11* (‘P
+X‘ (‘1' II’ r21’ (‘P
+1’(X) 0 019404
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+21
+3.3 HMM parameter estimation
+Given a single observation sequence for training, we
+want to ﬁnd the model (parameters) (I, I (14.51) that
+best explains the observed data.
+Under Maximum Likelihood Estimation, this nleans:
+argmaxPwn-ammgw)
+ll
+There is no known analytic method for doing this.
+However we can choose N so as to locally maximize
+Ploualningll‘) by an iterative hill-climbing algorithm:
+Forward-Backward (or: Baum-Welsh)7 which is a spe-
+cial case of the EM algorithm.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+2x
+3.3.1 The Forward-Backward algorithm
+The idea
+
+0 Assume some (perhaps randomly chosen) model parame-
+ters, Calculate the probability of the observed data.
+
+I Using the above calculation7 we can see which transitions
+and signal emissions were probably used the most; by in-
+creasing the probabily of these, We will get a higher prob-
+ability of the observed sequence‘
+
+0 Iterate, hopefully arriving at an optimal parameter setting,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+2Q
+The Forward-Backward algorithm: Expectations
+Deﬁnn the probability nr traversing n certain arc at 'imo 1, givnn the oh»
+scrvution sequence 0
+will-1) Z P<XV I I-XM I M041)
+PX :'_X : .0 ‘ ,i,b,61+1
+MM) Z K i / 1H / 11,1:1i(?\f11](1ri1€ )
+P<0W> 2m:.1>".<r)nm(v)
+(~.(1nnme1a(i + 11
+33):, Lin “ininannrhnnre,m + 1)
+Sunlming over r:
+21:‘ "(1,1) : nxpcctml number of'rnnsitions from n to e, in u
+3,1, XL. my, ,) I expected number of transitions from a‘ in 0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+. .
+.\ a || bun‘
+
+E .
+. .
+ql (t) f5 (n+1)
+
+1-1 ﬁt ‘4* 1+1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+3|
+The Forward-Backward algorithm: Re-estimation
+From p I (A, B. ll), derive [1 I (1:13.11):
+A Z)! 111 (L I) A ,
+m ‘i’ II (w) M1)
+2L 2,21 mm) 2 ‘
+» i 21111414)
+‘Lu i \' 1 v
+E/AZMp/U-I)
+i; k I 2mm. l<¢<TIJf(I=J)
+’ szn
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+.12
+The Forward-Backward algorithm: Justification
+
+Theorem (Baum-Welch): 1’(Ol[i) Z 1’(O\/1)
+
+Note 1: However, it does not necessarily converge to a global
+optimnnt
+
+Note 2: There is a straightforward extension of the algorithm
+that deals with multiple observation sequences (Leu a cor-
+pus),
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+3:;
+Example: Rc-cstimakion of HMM parameters
+The crazy soft drink machine‘, after one EM iteration
+on the sequence O : (Lemon, Ice-tea. Coke)
+- 0.4514
+“ﬂag PrelerenUemence j ‘7-8949
+
+\wi, wiJ/
+
+0.1951
+'EF‘
+On (his I'D/ILL we Dbtained 11(0) i 0 1324, a signiﬁcant ilnprovement on
+the initial l’[()) *4H1315.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+.u
+3.3.2 HMM parameter estimation: Viterbi version
+Objective: maximize P(O l 1]’(0141), where
+l'l‘(O) is the Viterbi path for the sequence O
+Idea:
+Instead of estimating the parameters u, ,, h,“ using the ex-
+pected values of hidden variables (p,(z.j))7
+estimate them (as Maximum Likelihood), based on the
+computed Viterbi path‘
+Note:
+In practice, this method performs poorer than the
+Forward-Backward (Baum-Welsh) main version. However
+it is widely used. especially when the HMhI used is pri-
+marily intended to produce Viterbi paths.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+3':
+3.3.3 Proof of the Baum-Welch theorem...
+3.3.3.1 ...Ih the general EM setup (not only that of HMM)
+
+Assume
+
+some statistical mode] determined by parameters e
+
+the observed quantities i.
+
+and some missing data ,t/ that determines/inﬂuences the probability of
+
+l.
+The aim is tb ﬁnd the model (iii fact. (he value of the parameter 1)) that
+
+maximises the log likelihood
+
+lug mi l0) I meg: Pt, i, l 1/)
+t
+
+Given a vnlirl model U’, wc want to estimate a new and better model 0H,
+
+Le. one for which
+
+leePti M“) > leePtrle')
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+."(ﬁ
+Pf.‘ ,/ l a) “my “k PM helm la] :> lugP[| W) : lug Pp, l/ a) elrig P([/ l m)
+By multiplying the last equality by ml/ l men and summing over l/,
+it follows (since EyPh/l 1.9‘) I l):
+10g Pp; l a) I 2 P(l/ l r,9')1i)gP(1,l/\ we Z P(;/\ i a’) 10;; P(;/\ ‘.01
+y i
+Tlie ﬁrst sum will be rleriuieul QU-I l a‘).
+siriee. we want PM ml; larger than PW l .i 1+’)? the differeriee
+Pill l re‘)
+, , i , l I i i i i , ,
+1111:1(1 l 9) 10mm) OWE) 0(9W)+;[(l/\f-9)1011 PM M)
+should be positive.
+Note that the last sum le the relative eiiiropy of Pill l 19*) wiili respect w
+Pm, l La), therefore ii is iieii-riegmive. $0,
+10:1”(1 W) *102P[I\ 9’) 2 (2(9 l 9'] i 52(9’ l 9')
+with equality only if 0 : 0‘, or if Pp l 0) : Pii, l 0‘) for some other o ¢ 0'.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+31
+
+Taking 6H i Afglllnxﬂqw l a’) will imply logPLI 6”‘) i logPLr l 9') g o.
+(If 9”‘ : H‘, the maximum has been readied‘)
+Note: The function Qw l a‘) "‘J gum, l I ll’)log PU.” l u) is an average
+er lug P(l_l, l H) over the distribution hf l, obtained with the current sot er
+parameters ll‘. This [L01 average] can he expressed as a functinn el' I) in
+which the constants are expectation values in the old model. (See details
+in the sequel.)
+The (backbone of) EM algorithm:
+initialize Z) to some arbitrary value U”;
+until a certain sinp criterion ls mot, r10:
+
+Eistep: compute the expectations Ell, l ‘.9']; calculate the Q function;
+
+lVI-stcp: colnputn 11'" i argmnzﬂQUl l 1/‘).
+Note: Since the likelihood increases at each iteration, the procedure will
+always reach a local (Or mnyhe global) lnnXinIllni asymptotically as 1, H 0c.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+SR
+Note:
+For many models, such as HMM, both of iimse sieps can be carried mil
+analyiieally.
+If ilie second step cannot be carried out exactly. we can use solnc numerical
+npiimisaiinn technique in maximise Q,
+ln fact, ii is enough to make QM“ a’) > ()(e' i H’), thus getting generalised
+EM algorithms. See [Delllpsteh Laird, Rubin‘ 1977], [Meng, Rubin, 1992],
+[Nina], Ilininn, 1993].
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+3Q
+3.33.2 Derivation of EM steps for HMM
+In this case. the ‘missing data’ are the state paths m We want te maximize
+Qw \ y‘) : Z P[,~. \ 1.0‘)ieg, P(1, n \ t1)
+For a given pnth, eheh parameter of the model will hppeni some number
+of timee in 1’(1,Tr i e)_ eempnted as usual. We will note this number Ami)
+rei- transitions and Emir.) f0!‘ emissions. Then,
+PW i t1) I Hi’1min(mm"'Hi’nni".u;‘r“”>
+By taking the logaritlun in the above inrmnin, it follows
+n .n n
+(2(6 i t1‘) e Z PW 1,9‘) >< [2 Z L; (h. 7r) 10;; t M) + Z 2 AM“) 10min]
+7 iei t ien iei
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+40
+The expected values ill, aiul Em) can be written as expectations of Am)
+and Mb h) with respect to Pm l 'I a’);
+L'l(1l) i 2m: l hwlblul. t) and All i 211w l 1,9’).4uwl
+Thereleie, W W
+u u .u
+(2(9 l a'l i E Z: L'l(17]i0g4‘l(b)+ Z Z: AM 101141“
+lei b lei, lei
+To maximise, let us look ﬁrst at the A term.
+A
+The difference between this term for ~91 : i and for any other 0U is
+A " 1L
+u ,u a” .u .u “l,
+A I , ll i
+eh lei eh l lei
+The last sum is ﬂ relative eulmpy, and ihlli it is larger than 0 unless
+(ll, e (lyu This proves that the maximum is at mg‘.
+Exactly the same procedure can he used for the E term.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+41
+
+For the HMM, the E-step of the EM algorithm consists ot' calcu-
+
+lating the expectations Al, and EiUr). This is dune by using the
+Forward and Backward pmhnhilitios. This cnmplnmly determines
+
+the Q function. and the lnaximum is expressed directly in terms
+
+of these numbers.
+
+Theroinro, the M-stop just consis's of plugging .th and mil) iutn
+
+the re-estimation formulae fur (ll, and quill (See formulae (3,18)
+
+in the R. Durbin et al. BSA book)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+42
+l4‘ HMM extensions
+I Null (epsilon) emissions
+u Initialization of parameters: improve chances of reaching
+global optimum
+u Parameter tying: help coping with data sparseness
+I Linear interpolation of HMMs
+u Variable-hlernory Hltllﬂs
+I Acquiring HlWM topologies from data
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+43
+i Some applications of HMMs
+o Speech Recognition
+I Text Processing: Part Of Speech Tagging
+o Probabilistic Information Retrieval
+o Bioinformatics: genetic sequence analysis
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+41
+5.1 Part Of Speech (POS) Tagging
+Sample POS tags for the Brown/Penn Corpora
+AT article RB adverb
+BEZ it- RBR adverb: comparative
+IN preposition TO lo
+JJ adjective VB vnrln base form
+JJR adjective: cnmparative VBD verb: past tense
+MD modal VBG verb: préient participle, gel-null
+NN noun: ringulnr or mass VBN vnrln past pnrtioiplo
+NNP noun: singular proper VBP vcl'b: non-3rd singular present
+PERIOD .1?! vsz verb: 3rd singular present
+PN personal pronoun WDT wlrrleterrninor (what, which)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+4'.
+POS Tagging: Methods
+[Charniak, 1993] Hequency-based: 90% accuracy
+now considered baseline performance
+[Schmid, 1994] Decision lists; artiﬁcial neural networks
+[Brill, 1995] Transformation-based learning
+[Brants, 1998] Hidden Markov Modelss
+[Chelba 1Q
+Jelinek, 1998] lexicalized probabilistic parsing (the best!)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+1r.
+A fragment of a HMM for POS tagging
+(from [Charm-elk, 1997)
+0.218 (adj
+\i 0.45
+0-01@
+n “F1 V\i/V V\i/V
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+41
+Using HMMs for POS tagging
+PQFLMU MPUL n)
+ar “me! ,, u: ,, I 2t!‘ maxi
+i H (‘ ‘ ‘ > ‘i n Pm ,.)
+I ar'gmaxthLﬂtl ,,)P(f1 n)
+1 H
+using the twa Markov assumptions
+I MgmaxH[;1P(w1\iy)n,”:1P(fl\f, 1)
+v, H
+Supervised POS Tagging:
+MLE estimations: P(u'\f) I %, P(f”\f’) I 2%,”)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+4x
+The Treatment of Unknown Words:
+I use apriori uniform distribution over all tags:
+error rate 40% ~> 20%
+o feature-based estimation [ Weishedcl ct al., 1993 ]:
+P((w\f) : 17P(uwlnmwn word‘ t)P(Uapzmlzzed\1,)P(Emlm_q\1)
+o using both roots and .suﬂixes [Charniak, 1993]
+Smoothing:
+, i (/1. i] >1
+P(t|u) i W [Church,1988]
+where k“. is the number of possible tags for u;
+(I r’ r” .
+P(‘t”|t/) : (1 — {hi/‘Ty + s [Charmak et alt, 1993]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+W
+Fine-tuning HMMs for POS tagging
+See [ Brants, 1093 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+an
+5.2 The Google PageRank Algorithm
+A Markov Chain worth no. 5 On Forbes list!
+(2 >< 18.5 billion USD, as of November 2007)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+5|
+
+"Sergey Brin and Lawrence Page intruduced Gedgle in 1998, a
+
+thne when the pace at whieh the web was growing began te enstiip
+
+the nhility of enn-ent senneh engines tn yield nsnhle resulti.
+
+ln develeping Geegle, they wanted te improve the design of search
+engines by moving it inte a more open, academic environment.
+
+In additien, they felt that the nsage of statieties for their search
+engine wenld provide an interesting data set for research."
+
+nein David Austinl “Huw Gengle ﬁnds yuur needle in the web's
+haystack". Monthly Essays 0n Mathematieal Tepies. 2006.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+52
+Notations
+Let n I the nnniher of pages on Internet, and
+n and .1 two n X n matrices deﬁned hy
+l ii page 7 pnims L0 page r (nn'atinn: P, e n‘)
+It‘ e .
+1 n otherwise
+l if page l contains nn outgoing links
+(1,, : _ .
+U othelwise
+n c in. l] (this in a parameter that was initially eel to 0.85)
+The transition matrix of the Gouglc Mnrhev Chain is
+1 e
+r.‘ e "(IMAHJA
+n
+where 1 is the u >< n matrix whose entries are all 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+n3
+The signiﬁcance of G is derived from:
+0 the Random Surfer model
+o the deﬁnition the (relative) importance of a page: com-
+bining votes from the pages that point to it
+UP )
+I P, : 7
+( > Z 1,
+lit/1,
+Where lj is the number of links pointing out from P].
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Til
+The PageRank algorithm
+[Brin at Page, 1993]
+G is a stochastic matrix (m, & [u l _ 2L‘ 7/‘, : l)7
+therel'ere i. the greatest eigenvalue of (J is 1, and
+G has a stationary veeter I (Lt-2., 01 : I).
+G is also primitive (l A; l< l, whom A; is the second eigenvalue of G)
+and irreducible (1 > my
+Dram the matrix calculus it follows that
+I ean he computed using the pewer method:
+if!‘ e01" 1‘*(r'1' 1‘ emP‘ then 1‘ 4t].
+I gives the relative impel-tame of pages.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+Suggested readings
+“Using conga"; Pagannk algorithm m identify impomm attribmos
+of genes“. G.M. Osmani, SJVL Rallman, 2006
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+an
+ADDENDA
+Formalisation of HMM algorithms in
+“Biological Sequence Analysis” [ Durbin et al, 1998 ]
+Note
+
+A begin stnte was inttedneeli. The transition probability eel from this begin
+stnte Ln shite i enn he Lliuuglii as Hm prnlmlilliiy er starting in state. i.
+An end stnte is assumed. which is the reason for en. in the termination step.
+ir ends arc net nielielled. this en, will disappnar.
+Fur eenvenienee we lnhel heth begin and enti stntes a» u. Them is no eenﬂiet
+becausu you can only tiansit ent er the begin stnte and enly inte the end
+state, se variables are net used nlOrE than once.
+'rhe emieiien nrebnbilitiee are considvrcd inilenemlent e; the origin stnte.
+(Thus te emissinn of (penis er) synihnls enn he seen a» being thine. when
+iesehing the nun-end staLes.) The begin and end sLales are silent.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+Forward:
+1. Initialization (z I O): f0(U) I l: fﬂO) I 0, for k > 0
+2, Induction (1::1.../,)= f,(,) I my“); M17 I 1)”H
+3, Total: P(x') I Z‘ f;(L)nm,
+Backward:
+1. Initialization (z I L): bl“) I am, for all k
+2, Induction (i 14I1,....11 hm) metﬂanﬂlbzu > 1)
+3, Total: P(r) I Z, llmt‘y(.'f1)b[<l)
+Combining f and l7: P(m~f) I f;(z)ln(z)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+as
+Viterbi:
+1, Initialization (z I (I): 1M0) I iz'u‘((l) I l)7 for k > (l
+2, Induction (i I 1 ../,):
+1:,(1') I If](;lf,)!!lk\X;('!';,(l I WIN)?
+ptrl(l) I arglnaxh u“! I Du“)
+3, Termination and readout of best path:
+P(117r') I 1)]8X‘('L“(L)ﬂm)§
+w; I zn'gmaxk “111%,, and 7r; L I 13mm), for 1' I L. H1.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+so
+Baum-Welch:
+
+l. Inhinliznliun: Pick :u'hilnu'y inniiei uncunieiecs
+2. Induction:
+
+Fur each sequence j : i. u esicuisie mi) and aim for sequence j using iiie
+
+fucwncd and rcepu'tivoly blu'kWilHl ulgucinuns.
+
+Cnicuinie Hm expei-Leii unmiiec ur limes emf]! iniusiiiuu ni eiiiissiun is useii,
+
+given the training sequences:
+
+i
+A” : ZmZ/zuwiuimws1)
+i i
+m, : 2 i Z minim
+Pm)
+1 man,»
+Calculate the new mudel paranleters:
+A“ sin»
+0 e i d i ii e i
+" Z‘, AW a“ H ) 3,130»)
+
+Calculidv Hm new lug liknlihnnil ur ﬂu: "indul.
+a. TerminaLiun:
+
+Stop is Lhe change in log likelihood is iess mien some predeﬁned threshold 01'
+
+Ll]: mﬂXiITIUrA-l number 0f iiemien» is cxccrdcdv
+
+***************Ending Page***************
+

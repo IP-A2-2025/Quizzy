@@ -1,0 +1,801 @@
+***************Beginning Page***************
+***************page number:1**************
+Sisteme de Operate
+Structuré, componente, servicii
+Cristian Vidra§cu
+htips://pr0fs‘infouaicxo/Nvidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+* Organizarea unui sistem de calcul
+' Structura unui S.O.
+> Servicii oferite de S.O.
+" Abstractizéri 5i API-uri S.O.
+' Programe de sistem
+' Nucleul S.O.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Preliminarii
+
+Pentru ca operatiile CPU si I/E sé se poaté “suprapune”
+in timp (i.e., s51 se execute in paralel), trebuie s5 existe
+mecanisme, oferite de hardware-ul sistemului de calcul,
+care s51 permitﬁ sincronizarea operatiilor:
+— transfer dc date controlat prin intrcrupcri
+— transfer de date prin DMA (direct memory access)
+
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Organlzarea s1stemulu1 /1
+Placa de bazi, in care sunt momma celelalte componene hardware (CPU, RAM, periferice):
+Cnnsrdcrﬂmdcskmp vc motherboard Wm. a Pmccisnr Wm shown hclnvr
+in“ m, mi“, mm
+i\ \ /
+x f W
+,7 q t I I \ H
+_FL-i1.'! 90 '—.!H!'!\
+1: ‘jib-E22 :l Q Q '
+gal.“ Lb “a mm
+1m, mam a, i. fully'hlncﬁuning computer, unce m slob m pupulaled,
+n consisls D: a Pmcesmr snckel conlaining a cvu, DRAM sockeis, PCIE bus
+:lnu, and I/n cnnncclnrs of various l'ypns Evcn 1M MGM-ml 5mm»
+Purpose cru mum multiple cums, Some motherboards contain multiple
+Processor mm. Mm’: advanced cumpulers allaw mm m.“ m gym“
+b0: “a. (mating NUMA Swim";
+4/46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Organlzarea s1stemulu1 /1a
+inlervuls
+E MEM'Y B“ we B'idqc
+Main I/‘OBus
+Memory
+
+ControHer Commﬂer \Hleﬂace
+
+' ° K
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Organlzarea s1stemulu1 /1b
+Imervuls
+-|
+E MEM'Y B“ v0 Bridge
+Main 1/0 Bus
+MENU‘! -
+COOUOHEr Commler \nleﬂace
+- -
+Memory hierarchy k _ _ m
+64h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Organizarea sistemului / 1 c
+-
+E MEM'Y B“ we Bridge
+Mgriigw | 1/0 Bus DM A
+. . 1/0
+DIsk Graphlcs Newmrk
+Em l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Organizarea sistemului /1d
+Context switching
+E Memory Bus WJ B'idgc
+
+1/0 Bus
+Memory
+Controﬂer Controﬂer \Hleﬂace
+m m
+X 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Organlzarea s1stemulu1 /2
+' Termeni I/E
+— Trap (excepgie) i o intrerupere generaté software,
+cauzaté de 0 eroare sau dc 0 cerere explicité
+dintr-un program utilizator
+- Polling i activitatea dc determinare a tipului de
+intrerupere apérutz'l
+' Operarea in mod dual a CPU-ului
+- User-mode (modul utilizator):
+modul de lucru neprivilegiat
+— Kernel-mode (modul sistem, sau supervizor):
+modul de lucru privilegiat
+q 4h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Organlzarea s1stemulu1 /3
+Pentru ca Pn qulzex-taisa poata _ u," Prawn‘ Kama]
+face ceva ‘pnvﬂeglat , el trebule
+55 apeleze acea procedurz'i a S.O. “'le Hap
+0e fumizeazé acel serviciu. ‘K / ‘:fgf'f
+- TA (a
+Un apel de slstem (system call). m
+i m /
+"Um ‘ \ all‘ Came
+My“, ~ . m ‘U
+, l ‘ Kcmcl “my v V
+'/ all?“ 1 hnmupi \ ' O instructiune trap specialé, care salveazé contextul,
+‘ \ m / WWW", schimbé modul de lucru (neprivilegiat A privilegiat)
+j gi transferé contrulu] lu o rutinﬁ handler.
+\ Excmplc:
+, I» ‘ v) penlru allulecluva ‘<64 (amen : SYSCALL/ SYSRET
+r’ Y)c\'im: \ "7 Wm Km Imcl sstNTER /sstx|T,\ AMD SYS(‘ALL/ svsRET
+\ 1m pnrntlc gtncrxlu dc Xxs 41mm» .h» mm Pcnllum n q AV“) m-zu
+‘ ' VH7 ' slslemnl Lmnx {Moses “\T 0x80. mr \dem\s [chases INT 0X1]: H] 46
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Structura unui S.O.
+Componentele sisternului de operate:
+- Gestiunea proceselor
+- Administrarea memoriei principale
+- Administrarea memoriei secundare
+— Gestiunea sistemului I/E
+- Gestiunea ﬁgierelor
+- Sistemul de protecgie a accesului la resurse
+- Networking (gestiunea legéturii 1a regea)
+- Sistemul de interpretare a comenzilor
+\ \ 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Gestiunea proceselor
+
+' Proces
+
+- Un program in curs de execugie
+
+- O entitate activi (dinamicé) a S.O.-ului
+
+- Unitatea de lucru intr-un sistem de calcul
+' Activitiyi SO.
+
+- Crearea $i distrugerea proceselor user/sistem
+
+- Suspendarea §i reluarea execuyiei proceselor
+
+- Mecanisme pentru sincronizarea proceselor
+
+- Mecanisme pentru comunicatii intre process
+
+- Mecanisme pentru tratarea inter-blocajului
+
+\2 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Gestiunea memoriei principale
+' Memori€
+- Un vector f. mare de octegi (cuvinte de memorie),
+avénd ﬁecare propﬁa sa adrcsé
+- Pentru a putea ﬁ executat, un program trebuie
+sé se aﬂe Tn memoria principalé
+' Activitigi S.O.
+- Alocarea gi dealocarea spagiilor de memorie la cerere
+— Gestiunea spaﬁilor de memorie libere 5i a celor
+ocupate, precum 5i a proceselor ce le ocupé
+— Decide ce procese vor ﬁ Tncércate in memorie atunci
+cénd un spagiu de memorie devine disponibil
+\ \ 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Gestiunea memoriei secundare
+
+' Memoria secundar51(dispozitivele de stocare)
+
+- O extensie a memoriei principals
+
+— Pentru stocarea nevolatilé a programelor §i datelor
+
+- Dispozitive de stocare: hard-discuri, benzi
+
+magnetice, CD-ROM-uri, memorii ﬂash,
+
+' Activitégi S.O.
+
+- Gestiunea spagiului liber
+
+- Alocarea spagiului pentru stocare
+
+- Planiﬁcarea acceselor la discuri
+
+\4 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Gestiunea sistemului I/E
+
+' Sistemul I/E
+
+- Lucreazé pe bazé de zone tampon (caching)
+
+— Sistem de drivere pentru periferice generals
+
+- Drivere pentru diverse periferice hardware speciﬁce
+' Activitégi S.O.
+
+- Ascunderea detaliilor speciﬁce diverselor periferice
+
+hardware, fagé de utilizatori/programe de aplicagii
+- Rutine de tratare (handlers) a intreruperilor
+M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Gestiunea ﬁgierelor
+
+' Figier
+
+— O colecgie de informayii deﬁnitﬁ de creatorul ei
+
+- Unitatea logicé de stocare a informagiilor
+
+- Figierele sunt mapate (Le, stocate) pe perifericele ﬁzice
+' Activitégi SO.
+
+— Crearea $i gtergerea ﬁgierelor/directoarelor
+
+- Suport pentru manipularea ﬁgierelor/directoarelor
+
+- Maparea ﬁ$iere10r pe dispozitivele de stocare
+
+- Backup-ul ﬁ§ierelor pe medii dc stocare nevolatile
+
+‘(a 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Sistemul de protecyie a accesului
+», Protecgie
+- Un mecanism pentru a controla
+accesul programelor / utilizatorilor
+la resursele sistemului dc calcul
+" Activitﬁyi S.O.
+— Controleazé utilizarea (autorizaté vs. ncautorizaté)
+a resurselor sistemului de calcul
+\7 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Networking
+' Sistem de calcul distribuit
+- O colectie de procesoare care nu partajeazé o
+memorie comuné sau un ceas intern comun
+- Fiecare procesor are propria sa memorie localé
+- Procesoarele (PCs, workstations, minicomputers, ...)
+sunt conectate printr-o retea de comunicatie
+' Activitéti S.O.
+- Oferé acces la resursele partajate
+- “Ascunde” detaliile legate de topologia ﬁzicé
+a retelei de comunicatie
+Example de topologilz SIEZI, inel, magistralé, arboret hlpercub, $73,
+\X 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Sistemul de interpretare a comenzilor
+" Interpretorul de comenzi
+— Un program folosit pe post do interfaté cu utilizatorul
+- lnclus in nucleu sau privit ca un program special
+— Numit interpreter linie de comandé sau shell
+' Instructiuni de comandé
+- Interfata utilizator text (e.g. DOS, UNIX)
+- Interfata utilizator graﬁcé (e.g‘ Macintosh, Windows)
+i9 44v
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:20**************
+Servicii oferite de S.O.
+' Execugia programelor
+' Operagii I/E
+' Manipularea sistemului de ﬁgiere
+' Comunicagii
+° Detecgia erorilor
+' Alocarea resurselor
+' Accounting (raportéri)
+° Protecyia accesului
+
+34! 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+[lair-ll vo mourn!
+m m
+11m‘ BMW"
+I'd
+m IMIMY
+WNW"
+11/46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Abstractizéri §i API-uri S.O.
+' Mediu de tip Maginﬁ Abstract?!
+— S.O.—u1 deﬁneste un set de resurse logice (abstracte)
+gi de operagii asupra acelor resurse (ire., 0 interfagé
+de utilizare a acelor resurse)
+' “Ascunde” partea de hardware
+' Apel sistem (= o primitivé a S.O.-u1ui)
+- Interfaga intre un program in curs de execugie §i
+serviciile oferite de SrO.
+- Apeleazé 0 rutiné a nucleului (i funcgie de bibliotecé)
+El 46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Abstractizari si API-uri S.O. /l
+Categorii de apeluri sistem
+- Controlul proceselor
+end, abort, load, execute, wait, wait event, signal event, allocate,
+free, get/set attributes
+- Manipularea ﬁsierelor
+create, delete, open, close, read, write, reposition, get/set attributes
+- Manipularea dispozitivelor periferice
+request, release, read, write, reposition, attach, detach, get/set
+attributes
+- Administrarea informatiilor
+get/set date, get/set system data,
+- Comunicatii
+create, delete, send, receive, write, reposition, get/set attributes
+2t at»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Abstractizﬁri gi API-uri S.O. /2
+Abstractizéri UNIX tradigionale:
+- Procese (secvenﬁale)
+un ﬁr dc executie (thread), cu context dc execugie
+(Leu spagiu de memorie alucat, listé de ﬁgiere deschise, §.a‘)
+- Fi$iere
+un ﬂux liniar, cu nume, de octegi dc date
+- Socket-uri
+capete ale canalului de comunicagie dintre
+doué procese neinrudite
+24 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Abstractizﬁri gi API-uri S.O. /3
+Modelul dc proces in UNIX 5i APl-ul POSIX
+- Primitive simple, dar puternice, pentru
+crearea 5i inigializarea procesului
+' fork() creeazé un proces ﬂu (inigial) ca 0 cloné a
+procesului périnte
+' programul périntelui se executé in procesul ﬂu pentru
+a-l pregéti pentru exec()
+' ﬁul poate exitO, périntele poate wait() ﬁul inainte de a
+face ceva
+Excmplc din Windows API: (‘i'cchl-occsso, WaitliorSinglcObjcc&()_ uanmm)
+1< 44»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Abstractizﬁri gi API-uri S.O. /4
+Modelul de proces in UNIX (cont)
+- Facilitégi puternice pentru controlul proceselor
+prin semnale asincrone
+' notiﬁcéri ale apariﬁei unor evenimente interne $i/sau
+exteme pentru procese sau grupuri de process
+' sunt asernenea 5i au puterea intreruperilor §i excepgiilor
+' acgiuni de tratare implicite: stoparea procesului, omorirea
+procesului, dump core, nici un efect (ignorare)
+' rutine de tratare (handlers) deﬁnite de utilizator
+3!: 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Abstractizﬁri si API-uri S.O. /5
+F isiere UNIX si API-ul POSIX
+' Sesiune de lucru - descriptorii d€_ﬁ,§l-€V€ sunt numere intregi
+pozitive folosite ca “handles” (referinge) pentru a manipula
+toate obiectele din sistem care se aseaméni cu ﬁsierele
+' open() cu un nume de ﬁsier returneazi un descriptor
+' read() si write() opereazé la poziyia (foset) curenté din ﬁsier
+- lseek() repozitioneazé ﬁsierul, close() termini) sesiunea de lucru
+- Pipe-urile sum ﬂuxuri l/E unidirecgionale ﬁré nume create
+de pipe(); pentru pipe-uri cu nume se foloseste mkﬁfo()
+' Dispozitivclc pcrifcricc sum ﬁsicrc spccialc create dc mkn0d(),
+cu parametrii spcciﬁci dispozitivului sctagi cu i0ctl()
+° Socket-urilc ofcré cﬁtc 3 formc dc apcl scndmsg() si rccvmsg()
+Exemple d". Windows AP]: CrealeFileU‘ ReadFiIe(), WriteFileO, CloseHandle() 27 44»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+mm“(,rwmmmwpw-X5mm“
+Wlndows API m. mm“) W,
+"W “mm, mm
+vs. mum-O mm)
+MM.“ cm."
+UNIXAPIOLPOSIX) M. “WWW.” mm
+NW WWW." M,
+“WM G..M...W...m wpmo
+Mm". 5.".."0 .MO
+Mun-KM mm?!" Wu
+MWMWW MM
+WWW my‘,
+mm WWW, MU
+“anwnmmn MO
+28'46
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Abstractizﬁri gi API-uri S.O. /7
+Abstractizéri PalmOS (a mobile 0s for PDA, 1996-2007)
+i Aplicagii : programs single threaded, event-driven
+— Elemente administrate de S.O.: A‘ >~ 7 l ‘
+
+' Obiecte din interfara ulilizator: \
+windows, forms, menus “Q @ L9“ r
+
+' Obiecte din memorie: resurse, _; Q Q ®
+Zone de memorie, databases “"k “mm 5"“
+
+~ Facilitéli de comunicalie: Mari?“ Q mg“ ‘
+linie serialé, IR (infra-rosu) g mg“ Q ng I ‘
+
+' Facilitégi de sistem: alanne (timers), (Vi y“;
+generator de sunete, funclii de ‘T
+adminisuare a puterii electrics ‘%= ‘ ‘.9 1
+consumale, acces la evenimemele de ' if f f; I“ ,‘V, ‘
+nivel scézul generate dc lastaluré $i pen ‘~10?’ ‘IQ kg @ﬁ
+
+V" zq 4a»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Programe de sistem
+° Interpretoare de comenzi (shell-uri)
+' Manipularea ﬁ§ierelor
+° Modiﬁcarea ﬁgierelor
+' Informagii dc stare
+° Suport pentru limbajele de programare
+' Incércarea 5i execugia programelor
+' Comunicagii
+~ Programs dc aplicagii
+
+“H! 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Nucleul /1
+' Este cea mai importanté componenté a S‘O.—ului
+' Oferé servicii pentru procesele utilizator prin
+intermediul primitivelor (apelurilor de sistem)
+' Activitigi importante desfégurate de cétre nucleu:
+i Gestiunea proceselor
+i Gestiunea memoriei
+i Gestiunea sistemelor de ﬁ§iere
+i Gestiunea perifericelor I/E
+“H 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Nucleul /2
+
+Plasarea serviciilor oferite de S.O.:
+i Incluse in spatiul proceselor utilizator:
+
+funcgiile de bibliotecé
+
+(cu legare static?) vs. legare dinamicé)
+i in nucleu: apelurile de sistem
+i Tn userspace ca procese separate: procese server
+
+12 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Nucleul /3
+' Tipuri de nucleu:
+— Nucleu monolitic
+— Micro-nucleu
+— Nucleu hiind
+— Exo-nucleu
+33/46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Nucleul /4
+
+Nucleu monolitic:
+
+i toate componentele S‘O.—u1ui ruleazﬁ in kernelspace
+(Le. in mod privilegiat) §i oferé servicii aplicagiilor
+prin intermediul apelurilor de sistem
+
+i exemple: UNIX, VMS, DOS, Windows 3‘x/9x
+
+— dezavantaje: greu de scris, inﬂexibilitate
+
+i Nuclﬁe monolitice modulate: au module executabile cc
+se pot incirca/descérca la cerere in/din memorie 1a rumime
+Example: Linux, Solaris, FreeBSD §i alte variante
+
+14 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Micro-nucleu: Nucleul /5
+— principiul minimaliligii: doar componentele esengiale ruleazé in
+
+kernelspace, majon'lalea serviciilor ruleazé in userspace (Le. in
+
+mod neprivilegiat) sub formé de ptocese server
+i modularitate, scalabilitate, adaptabilitate, dimensiune micé
+— example: Mach (@CMU), L4 microkemel, MlNlX, QNX
+
+MOHOIIUUC Kernm MlUOkemel
+based Ulleratmq SYSKem based Ulleraﬁnq System
+35 46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+_ _ Nucleul / 6
+Nucleu hlbrld:
+i 0 combinagie a arhitecturilor monolitici $i micro
+i exemple: NT kemel (Le. familia Wmdows NTA/ZDOO/XP&Srv2003/Vista&Serl)08/
+Wm7&SerOOBRZ/Wan&Sr\/ZUlZ/WmlOSLSerUlﬁ), Plan 9 (@Bell Labs), ReactOS
+Mmmm WWW‘ WWW
+mm 0mm 5mm m“ Qpevannq Sysmm W QM“ 5mm
+w ___ __
+m...- 1;
+Rr-In- 5.».
+- m... V a
+----~' E m-
+‘Ha 44v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Lw now...“
+T Nucleul / 7
+hm- chcl ~, ' -~
+R1;-;\_|}_v;|_““ __________ ___________
+Nucleul
+I UNIX
+l-‘ils suhmmu W...“ .
+mum» (schema generala,
+“"""“""‘ nucleu monolitic)
+Em
+mm Observagie: cxisté
+diferenle man'
+> dc implementare
+, .
+Km.“ “M mtre diversele
+TGJJ-Z-T-ICLII'"'-“nu'u'u'u'uun variame d5 UNIX
+Traditional umx Kernel
+17 46
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:38**************
+IIm
+Nucleul/8
+—
+IIIIW Nucleul
+
+Wmd°WSNT
+
+Execume (cu arhitecturﬁ
+de nucleu hibrid)
+
+3846
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+Familia S.O.-urilor de tip UNIX
+197D HAD i99n 1mm 20in “m
+Familia BSD
+n --—— “-'mm"mm
+EE- WWW.”
+".an
+W‘: Wm: Maids m
+Anamshnmbmm """"““““"’
+Mm” m "WM m?
+Denmlu(m.nu. . V \
+Am WWW
+isunmmnmm
+SYS!emlll&\/'am1ly a
+VIM —
+w 39 45
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Istoricul familiei UNIX ‘IE!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+Structura nucleului Linux, diagrami simpliﬁcaté:
+Memory Process
+l/o subsystem management management
+subsystem subsystem
+Vlrtual Flle S Stem Virtual Signal
+a, — Generic
+w é block layer Paging process/thread
+5 ‘if page creatlon &
+2 llnux kernel replacement termlnatiun
+u — I/O Scheduler
+UM kernel
+Chamcter Block Page Process
+devlce dewce cache Scheduler
+drlvers drivers
+41 44»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+, diagrami detaliaté:
+Linux kernel mill
+ngghnshusnu... 3mm», Wmm-y “mm. yum.“ "1:13;;
+‘ISIS’ \ if’? :55:- mm j":
+J ‘\\\ " \ A '11:: Q82, "** M
+M V. ‘ MM- ,
+,7 - ,- was’...
+_,, a. -- r ,4;
+'"' IZ: .1"... >“ . ‘
+J=\ Ill mui-I
+424a»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+Structural sistemului de operare Android
+1)d1agrama slmpllﬁcata. Apphcalms
+Appﬁcalion Framework
+MW" MW" 5M,"
+Mznzmr Mama-1 onvkims
+Lmraries / _ v
+Anamdmnhme
+i
+Mm.” mm“
+BM Dnvm W.“ Dnvms
+ii) diagrama mai detaliaté —>
+Mmmm Mmmm WW...“
+4346
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+1) dlagrama slmpllﬁcata:
+m
+preMazsthyL-nm ‘aygred WM am" ssn Um‘: m
+WWW“ :nwnrwerl
+- Eeww\1Reynaconsxshngomlachmmkeme ancESD Um 1 i
+pans c “5 \ o m m dynarmcauy madame mndmes med n
+\ \ ‘M WE I
+‘ can ma m‘
+[
+'5"
+ii) diagrama mai detaliata u
+44 44»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+Bibliograﬁe
+' Bibliograﬁe obligatorie
+
+capitolele introductive din
+i Silberschatz : “Operating System Concepts”
+
+(capl din [05010])
+sau
+i Tanenbaum : “Modern Operating Systems”
+
+(a doua paﬂc a capvl din 040341)
+
+44 46
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Sumar
+P Organizarea unui sistem de calcul
+" Structura unui S.O.
+> Servicii oferite dc S.O.
+' Abstractizéri §i API-uri S.O.
+' Programe de sistem
+> Nucleul S.O.
+intrebéri 7
+
+***************Ending Page***************
+

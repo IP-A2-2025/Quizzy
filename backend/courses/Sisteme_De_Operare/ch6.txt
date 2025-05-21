@@ -1,0 +1,920 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 6: Synchronization
+Tools
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+“ﬂy Chapter 6: Synchronization Tools
+I Background
+I The Criiical-Seclion Problem
+I Pelerson‘s Soluiion
+I Hardware Suppori ior Synchronization
+I Muiex Locks
+I Semaphores
+I Monitors
+I Liveness
+I Evaluaiion
+0mm in..." “my w mm e2 mm.‘ W“ .n. W1 W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+A . .
+W Ob jectwes
+I Describe the critical-section problem and illustrate a race
+condilion
+I Illustrate hardware solutions to the critical-section problem
+using memory barriers, Compare-and-swap Operations, and
+atomic variables
+I Demonslrale how mulex locks, semaphores, monitors, and
+condition variables can be used to solve the critical section
+problem
+I Evaluale lools lhal solve lhe critical-section problem in low-.
+Moderate: and high-contention scenarios
+amt.“ an..." Cum,“ e w mm e a s-lmmz Gllvln m w“ Wt‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+r‘
+W Backgro u nd
+I Processes can execute concurrently
+. May be interrupted at any time, partially completing execution
+I Concurrent access to shared data may result in data inoonsistency
+I Maintaining data consistency requires mechanisms to ensure the
+orderly execution of cooperating processes
+I Illustration ot the problem:
+Suppose that we wanted to provide a solution to the consumer-
+producer problem that ﬁlls all the buffers. We can do so by having
+an integer counter that keeps track 0f the number 0f full buffers‘
+lnltlally, counter is set to O. It is incremented by the producer after
+it produces a new bufler and is decremented by the ppnsumer after
+ll consumes a buﬂer.
+OM", in..." “We m» em a mm.‘ a.“ .n. w“. emu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+W Producer
+while Mme) (
+/" produce an item in next produced v
+while (counter :: BUFFER_SIZE)
+; /~ do nothlnq */
+butterun] : nextjroduced:
+in = 1111 + l) % BUFFERisle;
+counter”;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+“yr Consumer
+while (true! 1
+while (counter Z: 0)
+,- /~ do nothing ~/
+nexticonsumed = buffexlout];
+out = {out + l) ‘is BUFFERisIZE;
+councer--;
+/‘ consume the naem 1n next consumed */
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+A
+s4?) Race Condltlon
+I countez++ could be immemenled as
+regiseen = counter
+registetl = registetl + 1
+counter = "queen
+I counte:—— mum be rmplememeu as
+registet2 = counter
+XOQistaxZ = xegistaxZ 7 1
+counter = zegieeezz
+I Consider (hi5 execution interleaving Wm’! “OOLIM = 5W initially:
+so; producer execute registezl = counter (regisleﬂ = 5)
+S1.pmducerexecute xegistezl = zegistezl + 1 (register1=6)
+52‘ consumer execute registerZ = counter (regis\er2 : 5)
+sa. consumer execute registerZ = regisberZ - 1 (register2=4)
+s4: producer execute counter = :egistezl (counter = e)
+$5; consumer execute counte: = :egisbezZ (eeumer = 4)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+“4,, I Race Condltion
+I Processes Pu and Pt are creating child prooesss using the fork t) system
+call
+I Raoe condition on kernel variable nextiavallableipid which represents
+the next available process identiﬁer (pid)
+Pu B
+MJ mu Z lurk or WJ we s (um or
+m1 pld
+g Maw-mm :M
+2615 2615
+makzus sit-iazzm
+I Unless there is mutual exclusion. the same pid could be assigned to two
+different processes!
+Opumtmi an..." sum,“ e w mm u Ellhmmtz. Gllvln m sq", mutt
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+t‘
+‘W Crltlcal Sectlon Problem
+I Consider system cl n processes (Po- P" pM)
+I Each process has critical section segment of code
+. Process may be changing common variables, updating
+table, writing rile, etc
+. When one process in critical section, no other may be in its
+critical section
+I Criﬂ'ca! section problem is to design protocol to solve this
+I Each process must ask permission to enter critical section in
+entry section, may lollow critical section with exit section,
+then remainder section
+0mm, 5"..." “mm. , m 5.1.“, e , inhuman-z. Mm m Gm. elm:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+W Critical Section
+I General siruciure oi process P,
+do 4
+mmnilider sedion
+i While (WE);
+0;..va an..." Camp‘. 7 w mm e w “mm; 8..“ m w": mun
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+r‘
+“W Solutlon to Crltlcal-Sectlon Problem
+1‘ Mutual Exclusion - If process P; is executing in its critical section,
+then no other processes can be executing in their critical sections
+2. Progress - It no process is executing in its critical section and
+there exist some processes that wish to enter their critical section,
+then the selection oi the processes that will enter the critical
+section next cannot be postponed indefinitely
+3. Bounded Waiting - A bound must exist on the number of times
+that other processes are allowed t0 enter their critical sections after
+a process has made a request to enter its critical section and
+before that request is granted
+. Assume that each process executes at a nonzero speed
+. No assumption concerning relative speed of the n processes
+OM", in..." was m» em 6 i. stem.‘ a.“ .n. sullen“
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:12**************
+“WC Critical-Section Handling in OS
+Two approaches depending on if kernel is preemptive or non-
+preemplive
+. Preemptive — allows preemption 01 process when running
+in kernel mode
+. Non-preemptive — runs until exits kernel mode, blocks, or
+voluntarily yields CPU
+P Essentially free of race conditions in kernel mode
+0mmEYMCWMHWW w Siam.‘ Gimmqﬁmm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+r‘
+i , _
+“)9 Peterson s Solution
+I Nol guaranieed in work Dl'i modern architectures! (But good
+algorithmic description of solving the problem)
+I Two process solution
+I Assume that the load and store machine-language
+instructions are atomic; that is, cannot be interrupted
+I The iwo processes share two variables:
+' int turn;
+' boolean Slagl2]
+I The variable turn indicates whose turn it is to enter the critical
+seclion
+I The nag array is used to indicate ii a process is ready to enter
+the critical section. Elagli] = true implies that process F‘ is
+ready!
+OM",Shhmmmxwemdm en Eli-um Mum-“imam
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+“ﬁr Algorithm for Process Pi
+while (t:ue)(
+flag[i.] = true;
+turn = j;
+while (£1ag[j] n turn = = j)
+Ellg[i.] = false;
+l
+OM",MMCWMHWW W mm.‘“WMHQQM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+._ Peterson s Solutlon (Cont)
+I Provable that the three CS requirement are met:
+1. Mutual exclusion is preserved
+PA enters CS only if:
+either £1ag[j] = false or turn = i
+2. Progress requirement is satisfied
+3. Bounded-waiting requirement is met
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+r‘
+“$er , .
+._ Peterson s Solutlon
+I Although uselul tor demonstrating an algorithm, Peterson's Solution is not
+guaranteed to work Dl'l modern architectures.
+I Understanding why it will not work is also useful for better understanding
+race conditions,
+I To improve perlormance, processors and/or compilers may reorder
+operations that have no dependencies‘
+I For single-threaded this is 0k as the result will always be the same.
+I For multithreaded (he reordering may produce inconsistent 0r unexpected
+results!
+OM", in..." “We m a.“ e is Sit-um GM m sullen“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+“W , .
+._ Peterson s Solutlon
+I Two threads share the data:
+boolean flag = false;
+int X = O;
+I Thread 1 periorms
+while (Iflagi
+Print x
+I Thread 2 performs
+X : 100:
+flag 1 true
+I What is the expected output?
+0mm", an..." Cum,“ 7 w mm e {1 “mm; 6..“ m m.“ mun
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+“3;; , .
+Peterson s Solutlon
+W=§n_. —>—A\E!
+m“.—- “WWW —-|I:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+A
+t g? j . .
+__ Synchronlzatlon Hardware
+I Many systems provide hardware support for implementing the
+critical section code.
+I Umprocessors — could disable all the hardware interrupts
+' Currently running code would execule without preemption
+. Generally loo inefficient on multiprocessor systems
+> Operating systems using this not broadly scalable
+I We will look at three forms of hardware support:
+1. Memory ban'iers
+2. Hardware instructions
+3. Atomic variables
+0M", in..." Emma m» Em 5 t, Sit-um Mm m wig,“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+r‘
+r_ Memory Barrlers
+I Memory model are the memon/ guarantees a oomputer architecture makes
+l0 application programs,
+I Memory models may be either:
+> Strongly ordered — where a memory modiﬁcation of one processor is
+immediately visible to all other processors.
+> Weakly ordered — where a memory modiﬁcation of one processor may not
+be immediately visible to all other processors.
+I A memory barrier is an instruction that iorces any change in memory to be
+propagated (made visible) to all other processors.
+Dry-mm“... mwmwmm em Ella-mum; Minna-menu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+'4} 7 Memory Barrler
+I We could add a memory barrier to the following instructions to ensure
+Thread 1 Dulpuls 100:
+I Thread 1 now peﬂorms
+while (lilagi
+memoryibarrler 1);
+pt 1 nt x
+I Thread 2 now peﬂorms
+x = 1007
+memory_barz1er 0.-
+flag : true
+0,.va Syn-m Cum,“ 7 w mm e =1 “mm; 6..an m w": mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+“if I Hardware Instructlons
+I Special hardware instructions that allow us to either tsst-and-mndify the
+content 0f a word, 0r IWO swap the COHIGMS Di M0 words atomically
+(uninterruptibly.)
+I Tast-and-Set instruction
+I Compare-and-Swap instruction
+Wm, 5"..." BMW m mm e u “mm-z W“ .n. W181."
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+W test_and_set Instruction
+Definition:
+boelnln ta:t:_and_set: (Melon-i "tllget)
+(
+hoolean 2v = ‘target,-
+*tazget = txuar
+zacum n;
+)
+1 EXecuied aiomically
+2. Returns the original value of passed parameter
+3. Set the new value oi passed parameter to true
+om",Munmwmmm en “hm-.1 amnmqnimm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+q}; Solutlon usmg test_and_set()
+I Shana hnnlean vanalﬂe lock, mmaﬁzsd to hue
+I Solution‘
+an l
+“bu. (h|t_ind_|tt(iloﬂi))
+; /1 a» menu-g '/
+/t nmnmlu lactinll */
+, ‘m,’-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+t‘
+W -
+i_ compare_and_swap Instruction
+Definition:
+mt compare _and_a\|lp(ant: *value, m expected, ant’. m_va1ue) t
+m: temp = "value;
+if ("value = expected)
+‘value = new_va1ue;
+return cup;
+l
+1. Executed atornically
+2. Returns the original value of passed parameter value
+3. Sel the variable value lhe value ol lhe passed parameter new value
+but only it *value = expected is true. That is, the swap tak_es place
+only under this condition.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+W Solution using compare_and_swap
+I Shared integer lock initialized to 0;
+I Solution:
+While (trueH
+while (cumpara_llnd_lwap(&lock, u, 1) != 0)
+; I’ do nething */
+I’ critical section *l
+lock = D?
+I’ "mimic! lectiun *l
+3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+P Bounded-waiting Mutual Exclusion
+_ with compare-and-swap
+mule (true) (
+wlztulqh] = true;
+key = 1;
+while (waitinqﬁl n k5,, = 1,
+m = CWPI:5_lnd_lIIP(51°Ck,0,1) ,-
+mﬁmi] : mu,-
+l' criticll suction ~/
+j : u + 1) \ n;
+while (u v= i) ii Inuitinqijl)
+j - (j + 1> \ n,
+if (j — i)
+leak = o:
+.1.-
+liAtl-Ilqul = hm,-
+/" remainder laction *l
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+A
+g ‘g; . .
+._ Atomlc Varlables
+
+I Typically, instructions such as compare-and-swap are used as building
+blocks for other synchronization tools‘
+
+I One tool is an atomic variable that provides atom/‘c (uninterruptible)
+updales on basic data types such as integers and booleans‘
+
+I For example, the increment-.0 operation on the atomic variable
+sequence ensures sequence is incremented without interruption:
+incrementﬂsequence) ;
+
+0mm", 5"..." Cum,“ , m mm 5 u momma Mm m am. elm:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+“if I Atomlc Varlables
+I The increment“) (unclion can be implemented as follows:
+void inc:ement(atamic_int *v)
+(
+int temp?
+do (
+temp = *v;
+}
+while (temp != (compare_and_swap(v,telllp,telllp+1))7
+1
+Wm.“ 5M... mum. e m mm 5 gs 5mm.‘ QM“ m w“ WM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+r‘
+W Mutex Locks
+I Previous solutions are complicated and generally inaccessible to
+application programmers
+I OS designers build software tools to solve critical section problem
+I Simplest is mutex lock
+I Protect a critical section by ﬁrst acquireﬂ a lock then
+release () the lock
+. Boolean variable indicating if lock is available or not
+I Calls to acquire () and release () must be atomic
+I Usually implemented via hardware atomic instructions such as
+compare-and-swap.
+I But this solution requires busy waiting
+I This lock theretore called a spinlock
+am".“MCWWMM sun gleam-1W“Mariam
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+W‘ Solution to Critical-section Problem Using Locks
+while (me) 4
+critical saccion
+remainder section
+>
+WWWmmkmm W snow-25..“WWW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+“3} Mutex Lock Definitions
+I acquireO (
+while “availablei
+; /* busy wait */
+available = falslii
+i
+I :eleaseO i
+available = true,-
+i
+These two functions must be implemented atomically‘
+Both test-and-set and compare-and-swap can be
+used to implement these functions.
+0mm,,,i..m@.m.,.m.,.n.i.,.m w mm.‘ Gimmqniﬁm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+A
+W Semaphore
+I Synchromzauon tool that prowdes more sophislicated ways (than Mulex locks)
+for process m synchronize their achvnies,
+I Semaphore s- \nlegervariable
+I Can only be accessed via iwo indivismle (atomic) operations
+I vaitO and signalQ
+> (OnginaHy caHed m) andV())
+I Deﬁnition of the Iait() operation
+wait (S) (
+while (5 <= U)
+; // busy wait
+S-_;
+)
+I Deﬁniﬁon of the signal 0 operation
+signal (s) 1
+S++;
+1 A
+Wm,5,‘...mwpmm ea: “mm W“ .n. W18,“
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+~
+Meg?) Semaphore Usage
+I Counting semaphore , lnleger value can range over an unreslneled domalﬂ
+I Binary semaphore - integer value can range only belween 0 and 1
+' Same as a mutex lock
+I Can solve various synchronizalion problems
+I Consider P. and Pelhal require s, m happen belole s,
+Create a semaphore “syncl-l" iniiiallzed to O
+P1 :
+5,:
+aigna1(synch) ;
+P2 2
+unit. (eyi-ieh) ,
+51;
+I Can lmplenienl e ceunllng semepnpre s es a binary semapnere
+em, e...“ “new .e elm e p slime-e We .n. Mien“.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+A
+“5i Semaphore Implementation
+I Must guarantee that no two processes can execute the wait: ()
+and signal () on the same semaphore at the same time
+I Thus, the implementation becomes the critical section problem
+where lhe wail: and signal Code are placed in the critical
+seclion
+. Could now have busy waiting in critical section
+implementatiun
+t But implementation code is short
+> Little busy waiting if critical section rarely occupied
+I Note that applications may spend lots of time in critical sections
+and lherefore lhis is not a good solution
+OM", in..." mama m» am t as Ellhmmlz Gllvm m atria“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+W Semaphore Implementation with no Busy waiting
+I wvm each semaphore were rs an associated wailing queue
+I Each smry in a waiting queue has Mu dais iiems:
+~ value 101 type integer)
+. poinier 10 nexi record in ihe lisi
+I Two nperslians:
+. block i piaoe the process invoking ihe operaﬁon on the appropriaie
+wamng queue
+. wakeup - mmove one oi pmcssses in mu walilng queus and plane n in
+the ready queue
+I “pd-s “ms: i
+m value;
+mm PM.“ '11“,-
+) .mpMn;
+Wm, 5"..." “my w mm e as sum.‘ W“ .n. WZW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+M Implementation with no Busy waiting (Cont)
+waitﬁemaphote *5) (
+S-Walua—_;
+if (‘S-Wall): < 0) t
+add this process to S—>list;
+blocko;
+i
+v
+signi] (semaphore 's) i
+S>>va1ue++;
+it (s->va1ue <= 0) (
+remove a prccell r £10m s->1i-c;
+wakeupﬂ’) .-
+1
+v
+mummy Syn-m Cﬂﬂulmii In!‘ Edlhnﬂ e a1 Sllhnamlz 61M“ Ind GI!“ emu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+~
+“$9 Problems WIth Semaphores
+I Incorrect use of semaphore operations:
+' signal (mutex) .. t wait (mutex)
+' "it (mutex) "it: (mucex)
+' Omitting ohmic (mutex) and/or signal (mucex)
+I These — and others — are examples of what can occur when
+sempahores and other synchronization iools are used
+incorrectly.
+OM",s"..mc.m.=.mpm.,.m W sub-um GIIviIi-r-dﬁlgn:©lml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+A
+“W Momtors
+I A Mgr-level abstracuon 'hat pmvldes a convenient and effecllve
+mec anism 1w process synchronization
+I Abstract data type, internal variames only accessime by oode wnnin me
+procedure
+I Omy one process may be ac1ive within lhe munllor 31 a time
+I Pseudocode syntax ofa rnonnor:
+moniwr monitor-name
+l
+// abated vniinhie declarations
+functien P1 (.v) ( . v )
+function P2 (.) ( l
+function Pn (. ) (m l
+initialization code (.J 4 )
+) A
+Dvlmmn Syn-m Cum,“ 71M mm e as gnu-om‘ on“ .nn an!" W“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+up’; Schematic view of a Monitor
+‘.t "
+"mam ‘
+g ‘ 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+A
+W Condltlon Varlables
+I conditiun x, y;
+I Two operations are allowed on a condilion variable:
+' xmaito — a process that invokes the operation is
+suspended unlil x . signal ()
+. x . signal () i resumes one 0f processes (if any) lhal
+invoked x .wait ()
+> If no x . wait () on the variable, then il has no effect on
+the variable
+0mmShhmmmkmdm an Elam.‘ amnmqnimm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+My}; Monitor with condition Variables
+emu ‘ ~ ‘ ‘ ﬂ
+WM” ‘
+qweumowym£ x41“
+mom-mm M
+W
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+t‘
+“W Condition Variables Choices
+I If process P invokes x . signal () , and process Q lS suspended in
+x .vait () , wnat should happen next’!
+° Both Q and P cannot execute in paralel. If Q is resumed, then P must
+wail
+I Options include
+° Signal and wait — P waits until Q either leaves the monitor or it waits
+for another condition
+° Signal and continue — Cl waits until P either leaves the monitor or it
+waits for another condition
+° Both have pros and oons — language implementer can decide
+° Monitors implemented in Concurrent Pascal compromise
+> P executing signal immediately leaves the monitor, Q is resumed
+. Implemented in other languages including Mesa, 0%‘, Java
+0min,enumemmieii-eﬂm an inhuman-m.snlvinmns-gn:e1nu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+F
+“W Monitor Implementation Using Semaphores
+I Variables
+semaphore mutex; // (initially = 1)
+semaphore next; // (initially = 0)
+int next_count = 0;
+I Each function F will be replaced by
+waithnutex) ;
+may of r:
+if (n;xt_count > 0)
+signalU'leXt)
+else
+signal (mutox) :
+I Mutual exclusion within a monitor is ensured
+0M",Enumewwemdm eu Ellhmmllz-GIIer-dﬁlgn:©lml
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+“WC Monitor Implementation — Condition Variables
+I For each condition variable x, we have:
+semaphore x_sem; // (initially = 0)
+int x_count = 0;
+I The operation xmaiu) can be implemented as:
+x_count++;
+if (next_c¢unt > 0)
+signal (next) ;
+else
+signal (mutex) ;
+vait(x_sem)¢
+x_count——;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+w Monitor Implementation (Cont.)
+I The operation x‘ signal () can be implemented as:
+
+if (X_count > 0) l
+next_c0unt++ ;
+Signal (x_sm) ;
+wait (next) i
+next_count—- 7
+
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+\Wﬁ Resuming Processes within a Monitor
+I li several processes queued on condition variable x, and
+x. signal () is executed, which process should be
+resumed?
+I FCFS lrequently not adequate
+I conditional-wait construct 0f the form erait (c)
+I Where c is priority number
+. Process with lowest number (highest priority) is
+scheduled neXi.
+memEmmiemm w Sit-m.‘ admmqnim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+F
+W Slngle Resource allocatlon
+I Allocate a single resouroe among competing processes using
+priority numbers that specify the maximum tlrne a process
+plans to use the resource
+R.acqui:e (t);
+access the :esurce;
+R‘ release;
+I Where R is an instance of type ResourceAllocator
+0mmmmmmummmﬂirm eu sub-um Min-"minim"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+WA Monltor to Allocate Slngle Resource
+Mnitnr Rascuzcehllocatoz
+(
+bouleln huly;
+conditien X,‘
+Void acquire (int time) (
+i: (busy)
+Lnaif-(time) i
+busy = b108,‘
+l
+void zelelleo (
+billy = FALSE?
+x.si.gnal() .-
+l
+initialization 00580 (
+busy = false;
+l
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+t‘
+‘4;. _ i L|ve ness
+I Processes may have to wait indeﬁnitely while trying to acquire a
+synchronization ‘DUI such as a muteX lock 0r semaphore.
+I Waiting indeﬁnitely violates the progress and bounded-waiting criteria
+discussed al lhe beginning of this chapter.
+I Liveness refers to a set of properties that a system must satisfy to ensure
+processes make progress,
+I Indeﬁnite waiting is an example ofa liveness failure.
+0mm an..." Cum,“ , w mm e so gimme 6min m w“ WM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+K‘ .
+egyi Liveness
+I Deadlock — two or more processes are waiting indefinitely lor an
+event that can be caused by only one ol the waiting processes
+I Let Sand Q be two semaphores initialized to 1
+Pu Pl
+aims); “11(9) ;
+wait-(Q); wait:(5)r
+signal (S) ; signal (Q) ;
+signal (Q) ; signal (s) ;
+I Consider if F’n executes wait(S) and Pr wait(Q). When F’n executes
+wait(Q), it rnust wait until P. executes signal(Cl)
+I However, P. is waiting until P.7 execute signal(S).
+I Since these signal() operations will never be executed, Puand P, are
+deadlocked.
+Wmmwm Cummiemmm est “mm-z Quinn's-QM!“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+A .
+
+s4?) Lweness
+
+I Other forms of deadlock:
+
+I Slarvalion — indeﬁniﬁe blocking
+
+I A process may never be removed rrom lhe semaphore queue m which il is
+suspended
+I Priority Inversion — Scheduling problem when lower-priority process
+holds a lock needed by higher»priority process
+
+I Solved via priority-Inheritance protocol
+
+om. m..." “We w Em e d sub-m.‘ W“ .n. wield.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+r‘
+we?’ Prlority Inheritance Protocol
+
+I Consider the scenario with three processes P1, P2, and P3. P1 has
+the highest priority, P2 the next highest, and P3 the lowest. Assume a
+resouce P3 is assigned a resource R that P1 wants. Thus, P1 rnust
+wait for P3 to ﬁnish using the resource. However, P2 becomes
+runnabie and preempts P3. What has happened is that P2 - a process
+with a lower priority than P1 - has indirectly prevented P1 lrurn gaining
+access to the resource.
+
+I To prevent this from occurring, a priority inheritance protocol is
+used. This simply allows the priority of the highest thread waiting to
+access a snared resource to be assigned to the thread currently using
+the resource. Thus, the current Owner oi the resource is assigned the
+priority of the highest priority thread wishing to acquire the resource.
+
+I 0mm, 5mm mm,“ , m, mm 5 s1 “Mme GM m mum“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+End of Chapter 6
+—
+
+***************Ending Page***************
+

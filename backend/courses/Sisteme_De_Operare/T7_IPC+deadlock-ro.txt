@@ -1,0 +1,1154 @@
+***************Beginning Page***************
+***************page number:1**************
+Sisteme de Operate
+Comunicagii inter-process
+§i interblocajul proceselor
+
+Cristian Vidrascu
+httpszl/profs‘infouaicxo/Nvidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+. . . . Cupnns
+" Comunlcagu 1nter-procese (IPC)
+i Problema comunicapei
+i Tlpuri de comunicagie
+Comunicaﬂa dirccui
+, Comunicagia indirccté
+i Excepgii
+i [PC sub UNIX
+" Interblocajul proceselor
+, Deﬁnigie
+i Context
+Modcl
+, Ccringclc intorblccajului
+i Grafu] de alocare a resurselor
+i Strategil: prevemre, evnam delecﬂe $i reslablllre
+" Infometarea proceselor
+i Deﬁniue
+i Slralegii dc rezolvare 1 (‘1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Comun1ca§11 1nter-procese
+' Comunicajnii inter-procese
+(lPC = Inter-Process Communication)
+' Problema comunicagiei
+i Proiectarea unor mecanisme care 55 permité comunicagia
+intre procesele ce doresc $5 coopereze; existé 2 models:
+
+' Sisteme cu memorie partajati (modelul shared memory) i
+necesiti ca procesele comunicante sz'l partajeze nigte
+variabile (zone) de memorie
+
+' Sisteme cu mesagerie (modelul message-passing) i permit
+proceselor s5 schimbe mesaje intre ele (chiar Eire": a avea
+memorie partajaté)
+
+i Procesele ce comunice'l pol ﬁ execulate local sau la distangﬁ
+I (‘I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Comunicagii inter-procese
+' Primitivele sistemelor cu mesaje:
+i send (mesaj)
+— receive (mesaj)
+' Mesajele pot ﬁ de lungime ﬁxé sau de
+lungime variabili
+° intre procesele comunicante trebuie s5
+existe 0 legﬁturi de comunicagie
+4m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Comunicagii inter-procese
+' Tntrebéri l€gate de implementare:
+— Cum se stabilesc legéturile de comunicagie intre
+process?
+i O legéturé poate s5 ﬁe asociaté cu mai mult de
+doué procese?
+i Cite legéturi pot exista intre 0 pereche de procese?
+i Care este capacitatea unei legéturi?
+i Care este dimensiunea mesajelor?
+i O legéturé este unidirecgionalé sau bidirecgionalé?
+W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Comunlcapl 1nter-procese
+
+° Modalitigi folosite pentru implementarea ﬁzici a legiturii
+
+de comunicagie:
+
+i memorie partajati
+
+i magistrali hardware
+
+i regea
+- Modalitégi folosite pentru implementarea logicé a legéturii
+
+dc comunicaiie $i a operatiilor send() 5i receiveQ:
+
+i comunicagie directé sau indirecte'l
+
+i comunicagie simetricé sau asimetricﬁ
+
+i hufféring (= stocarca mosajului intr-o zoni tampon pcntru prcluarca
+
+uhcrioaré dc 05m: dcstinatar) implicit sau €Xplicil
+i trimiterea mesajului prin copie sau prin referingé
+i mesaje de lungime ﬁxé sau de lungime variabilﬁ
+<, n1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Comunlcapl 1nter-procese
+' Comunicagie directé:
+
+— Primitivele send() §i receive() speciﬁcé explicit numele
+procesului destinatar, respectiv expeditor (comunicare
+simelricd)
+
+i Legitura este stabilité automat intre ﬁecare pereche de
+procese ce doresc si comunice; ele trebuie sé cunoascé
+doar idcntitatca ccluilalt
+
+i 0 legéturi esle asociaté cu exact doué process
+
+i intre ﬁecare pereche de process comunicame existﬁ exact
+0 legéturé de comunicagie
+
+i Legétura poate ﬁ $i unidirecgionalé, insé de obicei este
+bidirectionali
+
+" (‘I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Comunicagii inter-procese
+' Problema Produczitor-Consumator (reluare)
+i O solugie bazaté p6 comunicagie directé
+e Procesul producﬁtor:
+repeat
+produielemen tiin (nextpro) ;
+send (consumer, nextpro);
+forever
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Comunicagii inter-procese
+' Problema Producétor-Consurnator (reluare)
+e Procesul consumator:
+repeat
+receive (producer, nextcon);
+consumaielemen tidin (nextcon) ,-
+forever
+i Varianta: comunicaﬂe asimetricd i destinatarul
+poate primi un mesaj de 1a oricine: receiveﬁd, mesaj)
+i O alté SOlugie pOSibiléi bazatz'l pe comunicaﬁe indirecti
+9 (‘I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Comunicagii inter-procese
+' Comunicagia indirecti
+
+i Mesajele sunt trimise/primite prin intermediul
+unor cutii pogtale (numite gi porturi)
+
+i Doué procese pot comunica numai daci au 0
+cutie pogtalé in comun (i.e., partajaté de cele
+doué procese)
+
+i Primitivele de comunicaﬁe au forma:
+
+i send(PORT,mesaj)
+i rsceive(PORT,mesaj)
+W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Comunicatii inter-procese
+' Comunicatia indirecti
+
+i Per-mite folosirca unei legéturi de comunicatie de
+citre mai multe procese
+
+i Permite la un moment dat cel mult unui proces si
+execute 0 operatic receive() pe un anumit port
+
+i Permite sistemului sé selecteze arbitrar care
+prOCCS V3 primi mcsajul (in caz de mai multe operatii
+receive() efectuate “simultan” de process distincte, acestea nu
+au nici un control asupra ordinii de satisfacere a ceren'lor lor)
+
+H m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Comunicagii inter-procese
+' Comunicayia indirecté
+— Operagii asupra cutiilor p0§ta1e3
+' crearea unei cutii po§tale
+° trimiterea/primirea de mesaje prin intermediul
+unei cutii po§tale
+' distrugerea unei cutii pogtale
+i Temé: reformulaﬁ solupia problemei producétor-
+consumator folosind comunicagia indirecté
+1: m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Comun1ca§11 mter-procese
+' Comunicagiile pot ﬁ blocante sau neblocante
+i Operagii blocante (sau sincrone)
+' sendo blocant: expeditorul e blocat péné cénd mesajul esle recepgionat
+° receiveo blocanl: destinalarul esle blocal pﬁné 05nd un mesaj esle
+disponibil penLru recepgionare
+i Operagii neblocanle (sau asincrone):
+' send() neblocant: cxpcdilnrul lrimilc mcsajul $i7$i continue‘: cxcculia
+' receiveo neblocant: destinataml recepgioneazé imedial, ﬁe un mesaj
+valid, ﬁe mesajul null (ce semniﬁcé l'aplul c5 incé nu s-a primil un mesaj)
+i Rezultz'l astfel 4 combinagii posibile
+' combinalia scnd() bloczml + rcccivc() blocanl sc numc$lc rendezvous
+11m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:14**************
+Comunicagii inter-procese
+° Excepjcii
+i Terminarea unui proces inainte de primirea mesajului
+i Pierderea mesajelor
+i “Amestecarea” (scrambling-111) mesajelor
+° Soluyii
+i SO-ul trebuie 551 detecteze excepgiile, folosind diverse
+mecanisme:
+- notiﬁcéri de terminare trimise celuilalt proces
+- timeout-uri §ipr0t0coa1e dc conﬁrmare
+- sume de control, de paritate, CRC, etcv
+Hm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Comunicagii inter-procese
+' IPC sub UNIX
+*pipe-uri (canalc anonime)
+' pipeO
+' pot ﬁ utilizate doar de citre process inrudite prin fork()
+— named pipe-uri (canale cu nume), Le‘ ﬁgiere ﬁfo
+' mkﬁf0()
+' pot implementa schimbul de mesaje intre procese
+oarecare, dar locale (i,c,, cxccutatc p0 accla§i calculator)
+i socket-uri (Noni - 5e vor sKudia Ia regele de calculatoarev in anul 2)
+~ pot implementa schimbul dc mcsajc intro proccsc
+oarccarc, 1a distangé (i.e., executate pe calculaloare diferite)
+i semnale UNIX m;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Comunicatii inter-procese
+' IPC Sllb UNIX (cont)
+i semafoare (UNIX System V)
+° implementate cu mesaje
+° semgetO, sem0p(), semct1() — UNIX System V
+° creatsemO, opensem(), waitsem(), sigsem() — Xenix
+i zone de memorie partajaté (UNIX System V)
+' shmget(), shmat(), shmdt(), shmctl()
+— cozi de mesaje (UNIX System V)
+° msggetO, msgsnd(), msgrcv(), msgctl()
+' Alte mecanisme de IPC (pentru UNIX $1 Windows)
+i RPC (Remote Procedure Calls) si RMI (RPC in Java)
+i standardul MP1 (Message Passing Interface) ‘W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Interblocaj
+' Interblocajul (deadlock-ul) proceselor
+
+' Deﬁnigie
+' Context
+' Model
+> Ceringele interblocajului
+' Graful de alocare a resurselor
+' Strategii de rezolvare: prevenire,
+
+evitare, detecgie $i restabilire
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Interblocaj
+“' Deﬁnigie
+° lnterblocaj: doué sau mai multe procese
+agteapté la inﬁnit producerea unor evenimente
+ce pot ﬁ cauzate doar de unul sau mai multe
+dintre procesele ce agteapté, prin unnare nici
+un eveniment nu se va produce niciodatéu
+' Existé 0 “a5teptare circularé” (necesaré dar nu §i
+suﬁcienté pentru a avea interblocaj, dupi cum vom
+vedea pugin mai incolo).
+M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Interblocaj
+P Context
+~ Problema interblocajului proceselor
+va ﬁ studiaté in contextul unui sistem
+de calcul abstract, in care procesele
+sunt in competigie pentru accesul la
+TGSUISG (CPU, memorie, periferice l/O, etc)
+W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Interblocaj
+“' Modelul matematic:
+° Tipurile de resurse: R1,R2,R3,
+c.g. RIIproccsor, RZIimprimamé
+' Fiecare resursé Ri are W1 instanye (Le. numérul
+de “unitﬁgi” ale acelei resurse)
+e. g. R2 are W2:2 instange (udicﬁ smcmu] mpmiv arc 2 imprimamc)
+' Procesele utilizeazé resursele astfel:
+i cerere de alocare a resursei necesarc
+i utilizarea resursei pentm 0 perioadé ﬁnité de timp
+i eliberarea resursei
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+Interblocaj i Ceringe
+' Sunt necesare 4 condigii pentru a ﬁ posibilé aparigia
+interblocaj ului (Coffman, Elphic, Shoshani i 1971):
+l. excluderea mutuali: procesele soliciti controlul in mod
+exclusiv asupra resurselor pe care 1e cer S.O.-ului
+2. hold & wait (péstrare & agteptare): procesele péstreazﬁ
+resursele deja deginute in timp cc agteapti 55 obginé alte resurse
+3. no preemption (ne-preempﬁe): resursele deginute de un proces
+nu-i pot ﬁ luate de citre SO. tﬁré voia sa
+4. a$teptare circularﬁ: se poate stabili o 0rd0nare P1, P2, .H, Pn
+a proceselor astfel incét P1 a$teapté 0 resursé deginuté de P2,
+P2 agteaptﬁ 0 resursé deginuté de P3, $.a.1n,d, , Pn a$teapté
+0 resursz'i deginuté de Pl
+l‘ Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Interblocaj i RAG /1
+> Pentru modelarea sistemelor se folosegte
+graful de alocare a resurselor (RAG I
+resource allocation graph), care ne araté:
+— Ce procese cer resurse §i ce resurse cer ele
+i Ce resurse au fost acordate 5i ciror procese
+au fost ele acordate
+i Céte unitégi din ﬁecare tip de resursé sunt
+disponibile
+l1 Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Interblocaj i RAG /2
+
+' Un RAG G este un graf bipartit orientat (V, E),
+
+cu Vniulgimea vzirfurilor §i E multimea arcelor
+' Vﬁrfurile din V sunt elemente de doué tipuri:
+
+*P = {P1, P2, ..., Pn}: toate procesele din sistem
+
+— R : {R1, R2, m, Rm}: toate resursele din sistem
+' Arcele din E sunt de doué tipuri:
+
+i arce de cerere: arc orientat Pi —> Rj
+
+— arce de alocare: arc orientat Rj H Pi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Interblocaj i RAG / 3
+Proces Resursé
+(3 unitégi)
+Arc dc ccrcrc Arc de alocaxe
+Cerere
+5i
+Alocare
+lJ Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Interblocaj i RAG /4
+' Observatii
+i Daci este interblocaj —> existi circuit in RAG
+i Daci nu existé circuite (orientate!) in graful dc
+alocare a resurselor, atunci nu existé interblocaj
+i Dacﬁ, in schimb, existé un circuit in RAG, aceasta
+in general este 0 conditie necesari pentru
+interblocaj, dar nu este $1‘ suﬁcienta'
+(Observatie: este 5i suﬁcienté numai in cazul resurselor cu
+instante unice ; mai precis, doar resursele care intervin in
+circuit trebuie $51 ﬁe cu instants unice)
+5m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:26**************
+Interblocaj i RAG / 5
+Exemple l
+Nuii interblocaj I
+E mtcrblocaj
+Nu-i interbloc'dj
+if» Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Interblocaj i Strategii
+> Strategii de rezolvare a interblocajului:
+' Ignorare
+i majoritatea SO-urilor ignori interblocajele!
+' P revenire ; Ambele presupun utilizarea unui protocol
+_ care asigurz'i faptul 05 sistcmul nu va intra
+' EVItare niciodaté intr-o stare de interblocaj
+° Detecgie §i restabilire
+Sc pcrmitc intrarca sistcmuluhntr-o stare dc inlerblocaj,
+situagie in care se face recovery (se iese din interblocaj)
+l" Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Interblocaj i Ignorare
+" Ignorarea interblocajului
+
+i Cea mai simplé metodé de rezolvare a interblocajului:
+nu-l rezolva!
+
+i Te prefaci Ci nu va apare niciodati un interblocaj, sau
+presupui c5 dacz'l va apare, atunci sistemul se va
+comporta “ciudat”, moment 1a care va putea ﬁ rebootat
+
+— Avantaj: simplicitate
+
+i Dezavantaje:
+
+' Necesité intervengie inteligenlé umané
+' N esiguranga faprului dace'l existé intr-adevir interblocaj
+' S-ar putca sé nu ﬁc aplicabilﬁ in sistcmc rcalc critics
+lN Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+Interblocaj i Prevenlre /1
+" Prevenirea interblocajului
+i Presupune eliminarea a cel pugin uneia dimre cele 4 condigii
+necesare pemru interblocaj, Eacﬁnd astfel interblocajul imposibil
+i Excluderea mutualé ~> “relaxarea” (eliminarea) ei at insemna:
+folosirea simultani, dc cétre mai multe process, a unei resurse
+' Evident, aceastz'l condigie poate ﬁ relaxaté numai pemru resurse
+partajabilc, nu $i pcntru rcsursc exclusive, c.g. imprimanta
+i Hold & wait —> “relaxarea” (eliminarea) ei ar Insemna:
+' Nu lésa procesul s5 pz'lstreze resursele in timpul cét agteapté s5
+obLiné alto rcsursc
+' Cum se poate implementa? De exemplu, procesul trebuie sé
+obLiné dcodati toatc rcsursclc ncccsarc (c.g., prealocarea =
+alocaxea 1a inceputul execugiei a tuturor resurselor)
+° Dezavantaje: proasta utilizare a resurselor $i posibilitatea de
+infometare a proceselor 1» m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Interblocaj i Prevenlre /2
+" Prevenirea interblocajului (contv)
+i Ne-preempﬁe —> “rclaxarca” (eliminarea) ci ar inscmna:
+
+' Prccmﬁc, 1,0, so pcrmitc SO-ului 55 ia inapoi rcsursclc dc la
+acele procese ce degin resurse, dar a§teapté pentru alte resurse
+
+- Resursele luate sum adéugate la lista resurselor de care
+procesul “victimé” are nevoie pemru a-§i continua execugia
+(ca §i cum acel proces nu le-ar ﬁ primit niciodaté)
+
+' Dezavantaj: p01 apare complicagii la luarea inapoi a
+resurselor‘ Solugia este aplicabili doar pentru resurse pentru
+cart: contextul poatc ﬁ salvat 5i rcstaurat cu usurinté (0g
+CPU $i memoria intemé)
+
+10m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Interblocaj i Prevenire /3
+> Prevenirea interblocajului (cont.)
+i Agteptarea circularé —> “rclaxarca” (eliminarea) ci ar putca ﬁl
+' Se impune 0 ordonare a resurselor
+i discun' hard ~> 1
+i unitati CD-ROM —> 2
+i imprimante —> 3
+° Procesele trebuie sé cearé resursele in ordine crescétoare
+(sau inainte de a cere o resursi, trebuie $5. elibereze toate
+resursele deginute deja ce au numere de ordine mai mari),
+ceea ce eliminﬁ posibilitatea de a$teptare circularﬁ:
+P1: request(disc); Pz: requestﬁmprimanté);
+rcqucstﬁmprimanté); rcqucst(disc);
+I‘ Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Interblocaj i Evitare /1
+'Evitarea interblocajului
+
+i Strategia de evitare nu eliminé vreuna din cele 4 condiyii
+ncccsarc pcntru aparigia intcrblocajului (ca la strategia dc
+prcvcnirc), ci in schimb folosc$tc alocarea controlaté: sc
+cxamincazé toatc ccrcrilc dc alocarc a rcsursclor si sc iau
+dccizii astfcl incét sﬁ sc impicdicc aparigia intcrblocajului
+
+i Starea curentﬁ (i.e., la un moment dat) a sistcmului: numérul 5i
+lista rcsursclor disponibilc $i rcspcctiv alocatc, prccum $1
+ccringclc maximalc dc rcsursc alc proccsclor
+
+i Stare sigurﬁ: o stare in care sistemul poate aloca, intr-o ordine
+oarecare, ﬁecérui proces alte resurse solicitate de citre acesta,
+in limita maximului declarat, firi s5 aparz'l un interblocaj
+
+:1 Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Interblocaj — Evitare /2
+> Evitarea interblocajului (conn)
+— Stare “nesigurﬁ” = posibilitatea ‘ ‘
+de apariﬁe a unui interblocaj, Higaflljhilfu
+nu $i necesitatea aparigiei lui k'
+— Solugie:
+' Un algoritm pentru pistrarea
+sistemului intr-o stare siguri:
+algoritmul bancherului
+(the banker‘s algorithm)
+[Dijkstra '65-‘68, Habermann '69] Spatiul stirilor
+33 63
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Interblocaj i Evitare /3
+' Algoritmul bancherului
+— Procesele trebuie sé-gi declare necesitigile
+maximalc de resurse
+i Cénd un proces face 0 cerere de alocare de
+resurse, algoritmul bancherului determiné
+dacé satisfacerea acestei cereri ar cauza
+intrarea sistemului intr-o stare nesiguri
+' Dacé da, atunci cererea este respinsé
+' Dacé nu, atunci cererea este aprobaté
+W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Interblocaj I Evitare /4
+' Algoritmul bancherului I structuri dc date
+— n I nr. proceselor , m I nr. tipurilor de resurse
+I Max[1..n, l ..m] = ceringa maximalﬁ din ﬁecarc
+resursé a ﬁecéiui proces
+Dacé Max[i,j] I k, atunci procesul Pi va solicita cel mult
+k instanye din resursa Rj pe parcursul execuyiei sale
+I Disponibil[l ..m] (t) I nr. dc instange disponibile
+curent (la momentul t) in sistem, din ﬁecare resursé
+Dacii Disponibilﬁ] I k, atunci existi k instange
+disponibile din resursa Rj 1a momentul respectiv
+lnigial (la tIO) : Disponibilﬁ] I Wj (nr. de instange din R1)
+u m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Interblocaj i Evitare /5
+" Algoritmul bancherului — structuri de date (com)
+i Alocare[l ..n,1..m] (t) = alocarea curenté (i‘e., la
+momentul t) a ﬁecérei resurse pentru ﬁecare proces
+Dacé Alocare[i,j] : k, atunci procesul Pi are alocate k
+instange din resursa Rj 1a momentul respectiv
+i Necesar[1“n,l ..m] (t) I necesarul curent (Lew la
+momentul t) din ﬁecare resursi a ﬁecérui proces
+Dacé Necesar[i,j] : k, atunci procesul Pi mai are nevoie de
+inci cel mult k instanye din resursa Rj Ia momentul respectiv
+i Observagii: Necesar (1) = Max i Alocare (t)
+§i Disponibilﬁ] (I) = Wj i (Zlgign Alocare[i,j] (t))
+:(v Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Interblocaj I Evitare / 6
+' Algoritmul bancherului — structuri de date (cont)
+I Cerere[1.4n,l..m] (t) = cererea curenté (idea la
+momentul t) din ﬁecare resursé a ﬁecirui proces
+Daci Cerere[i,j] I k, atunci procesul Pi cere k instants din
+resursa Rj la momentul respectiv
+I Notagii:
+' Cererei I vectorul cererii curente a procesului Pi
+(Le. Cererei U] (t) I Cerere[i,j] (t) )
+' Necesari I vectorul necesarului curent a1 procesului Pi
+(Lcd Ncccsari Li] (t) = Ncccsar[i,j] (t) )
+- Alocarei I vectorul alocérii curente a procesului Pi
+(Le. Alocare‘ [j] (t) I Alocare[i,j] (t))
+1" Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Interblocaj i Evitare /7
+' Algoritmul bancherului
+i Ideea: cunoagterea numérului maxim de instange
+din ﬁecare resursé pe care le poate cere un proces
+i Cunoasterea alocirii de resurse curente a ﬁecérui
+proces §i a necesarului curent (max i alocarea curenti)
+i Cénd apare 0 cerere, sistemul “pretinde” cé 0
+onoreazé
+i $i apoi, consideré cazul cc] mai rﬁu posibil:
+incearcé sé satisfacé necesarul curent a1 tuturor
+proceselor intr-o ordine oarecarc
+i Dacé ii este imposibil, atunci refuzé cererea
+1N Iv?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Interblocaj i Evitare /8
+' Algoritmul de solutionare a cererii i executat cénd
+este fﬁcuté 0 cerere de resurse dc citre un proces Pi
+1. If Cererei > Necesari then { eroare; exit}
+// procesul $i-a depé$it cerinta maximal?! pretinsé la inceput
+2. If Cererei > Disponibil then (wait(Pi); exit)
+// Pt trebuie s2‘: a$tepte deoarece nu existé resurse disponibile
+3. Disponibil ;: Disponibil — Cererei;
+Alocarei := Alocarei + Cererei;
+Necesari z: Necesari — Cererei;
+// sistemul “pretinde” cé a alocat resursele solicitate de Pi
+4. If EStareSiguréO then {alocé resursele procesului Pi}
+else (Wait(Pi); rollback pasul 3. )l/ refé vechea stare
+1‘)th
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Interblocaj — Evitare /9
+' Algoritmul de sigurangé EStareSiguréO — testeazé dacé
+starea curenté a sistemului este siguré sau nu
+1. Date: doi vectori Work[1..m], Finish[1..n]
+Inilializari: Work z: Disponibil, Finish[i] z: false, i=1..n
+2. Cauta un i ce satisface conditiile
+Finish[i] = false and Necesari <= Work
+I/ caut procesul Pi care ar putea fi servit din resursele disponibile
+3. If (exista un astfel de i) then
+{Work z: Work + Alocarei; Finish[i] :: true; goto 2.; }
+l/ sper ca Pi se va termina $i voi putea folosi resursele lui
+else { goto 4.; }
+4. If (Finish[i]=true for all i) then { starea este siguré}
+else { starea este nesigura }
+4M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+Interblocaj i Evitare / 10
+' Algoritmul dc sigurangﬁ EStareSiguréO i exemplu
+Considerim un sistem cu un singur tip de resursi: unitégi de band?!
+magneticé, in numir de l2 unitégi, gi cu 3 process P1, P2 §i P3, care la
+un moment dal t au alocate respectiv cite 5, 2 §i 2 unitégi de bandi, §i
+care §i—au dcclarat la inccput, ca si ccrintc maximalc, rcspcctiv cétc
+10, 4 $i 6 unitz'agi de bandé,
+Deci: Max = (10,4,6), Disponibil (1) = 3,
+Alocare (1) = (5,2,2) $i Necesar (t) = (5,2,4)
+Este starea sistemului siguré? Da, este sigurz'i, deoarece aplicénd
+alg. de sigurangé obginem 0 secvenpi sigure'l: < P2, P1, P3 >
+(de asemenea, 5i secvenga < P2, P3, P1 > este siguri)‘
+' Notdi cu 0 micé modiﬁcare, alg, poate furniza $i secvenga siguré
+4‘ Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+InterblocaJ i Ev1tare /11
+' Algoritmul de sigurangé 2 a] doilea exemplu
+Un sislem cu 3 Iipuri de resurse: A (10 instanle), B (5 instange) 5i C (7 inslame),
+avénd 5 process P0,P1,...,P4, care $i-au declarat la inceput ceringele maximale 5i,
+la un moment dat t", au alocale resursele conform celor de mai jos:
+Alocarcﬂ”) Max Dispunibilﬂ") Nah-mu“)
+A B C A B C A E C A B C
+Pa O l U 7 5 3 3 3 2 7 4 3
+PI 2 U U 3 2 2 l 2 2
+I’Z 3 O 2 9 O 2 6 O 0
+P3 2 l l 2 2 2 O l l
+P4 O O 2 4 3 3 4 3 l
+Rezului 05 vectorul Disponibil @i matricea Necesar la momenlul l‘, sunl ca mai sus.
+i) Esta starea sistemului la to siguré? Da, este siguré, deoarece aplicﬁnd
+alg. de sigurangé oblinem 0 secvengé siguré: < P1, P3, P4, P2, P0> .
+ii) Procesul P‘ face cererea (l 0 2) la tn‘ Poate ﬁ aceasta satisfécuté?
+42 Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+InterblocaJ i Ev1tare / 12
+' Algoritmul de sigurangé i a] doilea exemplu (cont)
+ii) Proccsul P‘ face ccrcrca (1 0 2) la t“. Poatc ﬁ accasta satisticuti‘?
+Dacé a: ﬁ salisﬁculé, noua slate a sislcmului la momcnlul urmélor I‘, at ﬁ:
+Alocareﬂl) Max Dispnnibilﬂ‘) Necesam‘)
+A B C A B C A B C A B C
+
+Pa ()lU 753 230 743
+
+Pl 3 O 2 3 2 2 0 Z U
+P2 3 0 2 9 0 2 6 0 0
+
+P; 2 l l 2 2 2 O l l
+PA O O 2 4 3 3 4 3 l
+
+Este starea sistemului la t‘ signré‘! Da, este siguré, deoarece aplicénd alg‘ de
+sigurangé 0bginem o secvengé sigurﬁ: < Pl, P3, P4, P2, P0> , Prin urmare, cererea
+pruccsului P, la t" poalc ﬁ salisféculé.
+
+iii) Procesul I’4 face cererea (3 3 0) 1a to. Poate ﬁ aceasta satisﬁcuté?
+iv) Procesul Pu face cererea (O 2 O) la IO. Poate ﬁ ea satisficuté'? 41 m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Interblocaj i Detecgie / 1
+' Detecgia interblocajului
+i Pentru a detecta interblocajul, este nevoie de:
+
+' Un algoritm de detecgie a interblocajului
+
+' Un mecanism de rezolvare (Lo, dc a icgi din intorblocaj)
+
+' Este mai ugor in cazul 05nd toate resursele au instange
+unice, deoarece in acest caz un circuit in RAG este
+condigie necesari §i suﬁcienté pentru interblocaj
+
+i Pentru a detecta inlerblocajul in cazul resurselor cu instanyte
+unice, graful de alocare a resurselor esle “strains” intr-un
+graf de a§teptare (wait-for graph) 5i se caulé circuite in
+acest graf, Algoritmul de detecgie a circuitelor are in acest
+caz complexilatea O(n2).
+
+44 Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+Interblocaj i Detecgie /2
+, Detecgia interblocajului (cont)
+i “Stringerea” unui RAG intr-un graf wait-for:
+i Observagic: accasté tchnicé nu funcgioncazé in cazul
+rcsursclor cu instangc multiple 4; m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Interblocaj i Detecgie /3
+> Detecgia interblocajului (com)
+i Pentru cazul resurselor cu instange multiple, algoritmul
+de detecgie a interblocajului opereazé in mod brut,
+incercénd sé reducé graful RAG prin veriﬁcarea
+tuturor posibilitiyilor de alocare a resurselor
+i Dacé nu existi nici 0 posibilitate de alocare a
+instangelor resurselor care sé permiti ﬁecérui proces
+si-gi termine execuyia, atunci este interblocaj
+i Complexitatea algoritmului este in acest caz O(n2'm),
+cu n : numirul de procese gi m : numérul de resurse
+Algoritmul este prezentat in continuare
+40 Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+Interblocaj I Detecyie /4
+' Algoritmul de detecgie I structuri de date
+
+— n I nr. proceselor , m I nr. tipurilor de resurse
+
+I Disponibil[l..m] (t) = nr. dc instangc disponibile
+curent (la momentul t) in sistem, din ﬁecare resursé
+Dacé Disponibilﬁ] I k, atunci existi k instange
+disponibile din resuIsa Rj 1a momentul respectiv
+lnigial (la tIO) : Disponibilﬁ] I W1 (nr. de instange din Rj)
+
+I Alocare[1..n,1..m] (t) = alocarea curenté (idea la
+momentul t) a ﬁecérei resurse pentru ﬁecare proces
+Dacé Alocare[i,j] I k, atunci procesul Pi are alocate k
+instants din resursa Rj 1a momentul respectiv
+
+4" Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Interblocaj I Detecgie /5
+' Algoritmul dc detecgie I structuri de date (conL)
+I Cerere[1 “n, l Hm] (t) I cererea curenté (1a momentul t)
+din ﬁecare resursi a ﬁecérui proces
+Dace'l Cerere[i,j] I k, atunci procesul Pi cere k instange din
+resursa Rj la momentul respectiv
+I Notagii:
+' Cererei I vectorul cererii curente a procesului Pi
+(Le. Cererei [j] (t) I Cerere[i,j] (t))
+- Alocarei I vectorul alocérii curente a procesului Pi
+(Le. Alocarei [j] (t) I AloeareﬁJ] (t))
+I Obs.: Disponibilﬁ] (t) I Wj I (21515“ Alocare[i,j] (t))
+4N Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+Interblocaj — Detectie /6
+' Algoritmul de detectie — testeazé daci starea curenté a
+sistemului este interblocaj sau nu
+1. Date: doi vectori W0rk[1..m], Finish[1..n]
+Initializéri: Work z: Disponibil,
+Finish[i] :: ( Alocare[i,j]=0 for allj ? true : false), i=1 ..n
+2. Cauté un i a.T. Finish[i] = false and Cererei <= Work
+ll caut, printre procesele care detin deja resurse, un proces Pi a cérui
+ll cerere ar putea fi servité din resursele disponibile
+3. lf (existé un ast'fel de i) then
+{Work z: Work + Alocarei; Finish[i] z: true; goto 2.; }
+ll sper ca Pi se va lermina §i voi putea folosi resursele eliberale de el
+else ( goto 4.; )
+4. If (Finish[i]=true for all i) then { starea nu este interblocaj)
+else {este un interblocaj al proceselori cu Finish[i]=false}
+4‘)le
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Interblocaj I Detecgie /7
+' Algoritmul dc detecyis I exemplu
+Considerém un sistem cu un singur tip de resursé: unitigi de bandé
+magneticé, in nume'u' de 12 unitégi, §i cu 3 procese P1,P2 §i P3, care
+1a un moment dat t au alccate respectiv cite 5, 2 5i 3 unitigi de
+bandi, 5i care mai solicité incé rcspcctiv cétc 5, 2 5i 4 unitéti,
+-’ Disponibil (1) I 2, Alocare (l) I (5,2,3) §i Cerere (1) I (5,2,4)
+Este starea curenté a sistemului un interblocaj?
+Nu, nu este, deoarece aplicénd alg, de detecgie obginem o
+secvengé de servire a tuturor cererilor: < P2, P3, P1 >.
+' Observagie: cu 0 micé modiﬁcare, algoritmul poate furniza §i
+secvenga de servire.
+40m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+InterblocaJ i D€t€C§16 /8
+' Algoritmul de detecgie i al doilea exemplu
+Un sislem cu 3 Iipuri de resurse: A (7 instanle), B (2 instange) 5i C (6 inslame),
+avénd 5 process P0,P1,...,P4, care, la un moment dat to, au alocate resurse $i mai
+cer alts resurse confon-n celor de mai jos:
+Alocarcﬂ”) mun) Disgonibilﬂn)
+A B C A B C A B C Rezullé c5 vectorul Dispnnibi]
+Pa O l 0 0 0 O 0 0 0 la momcntul t0 cstc ca in ﬁgural
+P, 2 0 0 2 o 2
+P2 3 O 3 0 () 0
+Px 2 l l 1 0 O
+P4 o 0 2 0 o 2
+i) Esle starea sislemului la l“ un interblocaj? Nu, nu este interblocaj, deoarece
+aplicﬁnd alg. de detecgie obginem u secvengé de servire: < Po, P2, P3, P1, P4 > .
+ii) Dacé la t“ cererea procesului I)2 at ﬁ (0 O 1), in loc de (0 O O), atunci sistemul
+ar ﬁ in interblocaj la starea tn, procesele interblocate ﬁind Pl, P2, P3 $i P‘.
+H Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Interblocaj i D€t€C§1€ /9
+> Detecgia interblocajului (com)
+i Problemé:
+° Cit de des ar trebui executat algoritmul de detecgie?
+i Réspunsul depinde de mai mulgi factori:
+° Cit de des este posibil s5 aparé un interblocaj?
+' Cite procese pot ﬁ afectate de interbloeaj?
+° La aparigia unui interblocaj, se poate intémpla ceva
+foarte grav mai inainte ca un operator uman s51
+observe ceva suspect in sistem?
+' Cit de mult overhead a1 sistemului ne putem permite?
+‘I Iv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+Interblocaj i Restablllre /1
+" Iegirea din interblocaj
+i Dacﬁ s-a detectat un interblocaj, cum se poate
+restabili sistemul (Lev, iegi din blocaj) ?
+i Réspunsuri posibile:
+
+° Violarea excluderii mutuale (numai pentru resurse
+partajabile, cg‘ memorie, discuri hard, m)
+
+° Abort-ul (in, terminarea anormalé a) tuturor proceselor
+
+° Abort-ul unui(0r) proces(e) aj. s5 dispari interblocajul
+(Ce efect are almrt-ul asupra integritégii aplicagiilor?)
+
+° Preemtia unor resurse: selectarea unui(0r) proces(e)
+victim?! §i luarea inapoi a resurselor deginute de el(e)
+(Dezavantaje: necesitatea de a face rollback pentru
+victimi, posibililalea de infometare a victimei) Q) m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Interblocaj i Restabilire /2
+"Iegirea din interblocaj (cont)
+i Céte procese s5 ﬁe alese drept victimé (pentru abort
+sau pentru preemptie & rollback) ?
+' Nr.minim I cite un proces pentru ﬁecare circuit disjunct in RAG
+i Care procese? Réspunsul depinde de mai multi factori:
+' Prioritatca proccsclor
+- Cét timp a rulat procesul piné la interblocaj 5i cét mai are de
+rulat pimé la terminarea sa
+' Cite resurse a utilizat procesul 5i ce fel de tip de resurse
+(ugor/diﬁcil de preemptat)
+' Dc cite rcsursc mai arc ncvoic proccsul pcntru a sc tcrmina
+- Tipul procesului (interactiv sau serial)
+' Numirul de process ce vor trebui abortate sau preemptate <4 m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+Interbloca] i Restablllre /3
+"Iegirea din interblocaj (com)
+i Care procese sé. ﬁe alese drept victimé (pentru abort
+sau pentru preemptie & rollback) ‘I (c0nt.)
+' Se deﬁne§te o funcgie de “cost” pe bazzl factorilor amintigi in slide»ul
+anterior, ﬁccarc factor avénd 0 anumitz'i pundcrc in cost
+' Ponderile sunt alese conform preferingelor proiectangilor SO-ului
+' Alcgcrca victimci so dctcrminé prin minimizarca funcﬁci dc cost
+- Posibilitatca dc szarvalinn: accl(c)a$i proccs(c) sé ﬁc alcs(c) drcpt
+victim-£1 imotdeauna, la execugia periodic-Ex, repetaté, a algr de detecgie
+' Rezolvarea acestui neajuns: includerea in funcgia de cost a nume'mllui
+dc alegeri anterioare drept victimé, pentru ﬁecare proces
+<< m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+infometare
+° infometare (starvation) a proceselor
+' Deﬁnigie
+' Strategii de rezolvare
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+infometare
+' Deﬁnigie
+
+' infometare: situagia care apare atunci cénd un
+proces, ce a cerut permisiunea de acces la 0
+resursé (e.g. 1a CPU, in cazul alg. de planiﬁcare a
+proceselor, sau la un semafor, in cazul alg. de sincronizare,
+em), asteapté 1a inﬁnit primirea acelei resurse,
+deoarece existé un ﬂux constant de alte procese
+care solicitﬁ acea resursé gi 0 §i primesc, in
+defavoarea procesului infometat (datorité politicii
+de servire a acelei resurse implementate de SO-ul respectiv).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+' Strategii de rezolvare Infometare
+
+' Ignorare: o lésém in sarcina operatorului uman
+
+' FIFO: implementarea unei politici de servire care sé
+respects ordinea dc primire a cererilor (e‘g‘ 1a alocarea
+CPU-ului: alg. dc planiﬁcarc FCFS sau RR, sau pcntru
+scmafoarc: implementarca cozii dc a$tcptarc sub formé dc
+coadé FIFO, $5,).
+
+' Aging-u]: implementarea unei politici de servire
+care s51 favorizeze procesele ce agteapté de mult timp
+primirea resursei solicitate (e.g. la alocarea CPU-ului:
+alg. de planiﬁcare cu prioritégi dinamice, in care prioritatea
+unui proccs cstc mirité trcptat in timp cc cstc ready, cu rcvcnirca
+la valoarea inigialé a prioritégii dupé ce ruleazi 0 cuanti). 4N m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+Bibliograﬁe
+' Bibliografie obligatorie
+capitolele despre [PC 5i despre deadlock din
+i Silberschatz : “Operating System Concepts”
+(mags/m dcsprc 1pc + caps dcsprc deadlock, din [03010])
+sau
+— Tanenbaum : “Modern Operating Systems”
+(cap.2,§2,3,8-9 despre IPC + capvﬁ despre deadlock, din [MOS4])
+‘Viv?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Exercigiu de seminar
+' Aplicaﬁe la: Interblocajul proceselor
+i Enunt:
+Fie un sislem cu 4 procese P‘, iIO," .,3 5i 5 lipuri de resume alocabile, ce aplicé 0
+polmcé de evilare a interblocajulul. La un moment dal I avem slarea de mai jos.
+i) Complelali labelul cu cominulul malticii Necesarﬂ) din algoriunul buncherului.
+ii) (‘are cstc cca mai micé valoarc u lui "x" pcntru carc sistcmu] csxc in star: slguré la
+ace] moment z ‘I Justiﬁcagi réspunsul (speciﬁcagi micar o secvengi siguri» dacé existﬁ).
+Max Alocare(t) Disponihil(t) Necesar(t)
+P01121410210 OOZlX iiiii
+P|222OI 20101 iiiii
+P221311 llOll iiiii
+P;11222 llllO _____
+i Rezolvare: 7
+1mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:61**************
+Sumar . .. .
+P Comunlcagu 1nter-procese (IPC)
+, Problema comunicayiei
+i Tipuri de comunicalie
+- Comunicagia dircctﬁ
+, Comunicagia indircmé
+i Excepgii
+i [PC sub UNIX
+" Interblocajul proceselor
+, neﬁnqie
+i Context
+Mode]
+i Coringclc interblocajulm
+i Graf'u] de aloczre a resurselor
+A i Slralegii: prevenm evnare, delecgie 5i reslablllre
+" Infometarea proceselor
+i Deﬁmpe
+A , i Slralegii de remlvare
+Intrebérl ‘.7 4,: m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Gestiunea proceselor
+
+' Recapitulare
+
+' Deﬁnigia procesului
+
+' Stérile procesului
+
+° Concurengé
+
+' Planiﬁcare
+
+° Problema secgiunii critice
+
+' Probleme clasice de sincronizare
+
+' Comunicagii inter-procese
+
+' Interblocajul §i infometarea proceselor
+' Urmeazé: Administrarea memoriei
+
+M;
+
+***************Ending Page***************
+

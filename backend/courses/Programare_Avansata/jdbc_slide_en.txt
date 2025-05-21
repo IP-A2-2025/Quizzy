@@ -1,0 +1,507 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+JDBC
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Databases
+O DB — Collection of structured data
+' DBMS — A Database Management System offers all
+the “tools” for: creating, accessing, updating a db
+O Efficiency(indexes, etc.) i
+' Consistency (FK, PK, triggers, etc.) .0, is, l]
+0 Security (users, permissions, etc.) ‘hi/4;”?
+. Models: relational, object-oriented, graph, XML,
+NoSQL, NewSQL, etc.
+' Producers: Oracle, Microsoft, Sybase, etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Applications That Use a DB
+- Create the database: SQL script
+- Connect to the database: driver
+- Communicate with the database:
+— Execution of SQL commands
+- DDL, DML, DCL
+a Processing results
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+J DBC
+
+0 JDBC (Java Database Connectivity) is a Java API that
+can access any kind of tabular data, especially data
+stored in a relational database.
+
+' Allows the integration of SQL statements into a
+general programming environment by providing library
+routines which interface with the database.
+
+' Independent of the database type
+
+0 Based on adapters (drivers) between the client and
+the DBMS
+
+' java.sql — the core JDBC API
+
+0 javax.sql — Java EE specific
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Driver
+The interface between the application and the database
+r; [G
+i i its?“
+t t t
+m.i-M.,Mmmm‘ \ immmmmnmigi.
+WeWmmmmmtmm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Usmg a SpelelC Driver
+v Identifying the specific database driver
+1 for example: mysql-connector-javajar
+“ adding the jar to the CLASSPATH
+V identifying the driver class: com.mysql.jdbc.Driver
+O
+NOTE The DateSource interface‘ new in the JDBC 2 O API‘ provides another way to oonnect to a
+data source The use 01a DetaSource oblect i5 the preferred means otconnectlng lo a data source‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Connections
+O Connection (session) - Acontext through which the
+communication with a database takes place.
+e SQL statements are executed and results are returned
+within the context of a connection.
+e An application may create multiple connections (to the
+same database or to different databases).
+'_ I
+Clients a
+Q7
+. I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Locating a Database
+JDBC URL
+jdbc:sub-protocol:identifier
+
+The sub-protocol identifies the driver type, for instance:
+eelbe, mysql, oracle, sybase, postgres, etc.
+The database identifier is usually specific to a protocol:
+
+jdbc:postgresql://l92 . 168.0.125432/test
+
+jdbc :mysql : //localhost/test
+
+jdbc : oracle : thin@persistentjava A com: 1 52 1 : test
+
+jdbc:sybase:test
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Connectlng to a Database
+A connection is represented by an object of type
+ja va. sql. Connection
+Connection conn = DriverManager‘getConnectiOn(url),'
+Connectlon conn I DriverManager‘getConnectlon(
+url, username, password);
+Connectlon conn I DriverManager‘getConnectlon(
+url, dbpropertles);
+Don't forget to close the connection: conn t close 0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+String url = "jdbc:mysql://lOcalhost/test" r
+COnneCthn COn : null;
+try (
+Connection con = DrivezManage:.getConnection(
+url, "myUserName", "mySecretPassword");
+> catch(SQLExceptlon e) (
+System.err.println("Cannot connect to DB: " + e);
+) finally t
+if (cOn I: null) COD-010590 ?
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+-
+1M “CHM m “1; J‘ m“ m
+-
+
+-
+-
+Auhmﬂe Dru! Dru! “E m m: “=
+JM JWC MN ‘ale "3!‘
+-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+JDBC-ODBC Bridge
+(obsolete)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Using Connections
+O Creating statements for executing SQL commands
+and returning the results.
+' Statement, PreparedStatement,
+- Callab/eStatement
+' Getting the metadata: information regarding the
+database or the results of queries
+- DatabaseMetaData, Resu/tSetMetaData
+0 Transaction control
+- comm/t, rollback
+- setAutoCommit
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+The object used for executing a static SQL statement and returning the results it produces.
+~ Creating a Statement
+Connection con e DrlverManager‘getConnection(nrl);
+Statement stmt = contcxeatestatemento;
+- Executing a gueq
+String sql 1 "SELECT * FROM persons";
+ResultSet :5 = stmttexecuteQuery(sql);
+- Executing an update or a delete
+StIlnq sql : "DELETE FROM persons WHERE age < 0";
+int: anowsAffected = stmtuexecuteﬂpdateﬁql);
+sql : "DROP TABLE temp";
+stmt4executeUpdate(sql); // Returns 0
+~ Generic SQL statements
+stmttexecuteU'any kind of SQL command");
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+PreparedStatement
+
+An object that represents a precompiled SQL
+
+statement.
+An SQL statement is precompileu anu stored In a
+PreparedStatement object. This object can then be used
+to efficiently execute this statement multiple times.
+e Batch Commands
+String sql = "UPDATE persons SET name = ? WHERE id = ?";
+Statement pstmt = contpreparestacemenusql);
+pstmt.setSt1ing(l, "Ionescu"); -
+pstmttsetlnt (2, 100); Database
+pstmttexecuteUpdate ();
+
+Stamme'lCame
+
+pstmttsetStrlng (1, "PQpescu"); JavaApplicaﬁon Ir-
+pstmt.executeUpdate 0;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+JDBC Data Types
+javasql. Types ~> deﬁnes the constants that are used to
+identify generic SQL types, called JDBC types.
+
+Java Data Types — SQL Data Types
+setObiect - If arbitrary parameter type conversions are
+required, the method setObject should be used with a
+target SQL type.
+pstmttsetObje/Jt (1, "Ionescu", TypestCHARH
+pstmttsetObjeCt (2, 100, TypeslNTEGER); // or slrrply
+pstmt.set(>bject(2, 100);
+setNu/l
+pstmt.setNull (1, Types.CHAR);
+pstmtztsetlnt (2, null);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Handling Large Values
+setBinaryStream, setAsciiStream, setCharacterStream
+When a very large binary or char value is input to a LONGType
+parameter, it may be more practical to send it via a stream object.
+The data will be read from the stream as needed until end-of»file is
+reached.
+F119 flle : new Flle ("SOmeFlle")?
+InputStream fin = new FileInputStream(file);
+java.sqi.Preparedstatement pstmt :
+con.prepare5tatement(
+"UPDATE files SET Contents : '2 " +
+"WHERE name : 'someFile' "l?
+pstmttsetBinaryStream (1, fin);
+pstmttexecuteUpdate(l7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Cal/able Statement
+
+The interface used to execute SQL stored
+
+procedures.
+//Cratinq S Callablestatement
+Connection con : DriverManager‘getConnectlon(url)t
+Callablestatement cstmt = con .preparecall (
+
+"(call myStoredProcedure(?, ?))");
+
+//Setting the IN parameters
+cstmt.set5tring(l, "Ionescu");
+cstmt . Setlnt 12, 100) ;
+//Reqisterinq the OUT parameters
+cstmt.registerOutParameter(1, java.sq1.Types.FLoAT);
+//Executing the call and retrieving the results
+cstmt.executeQuery() ;
+float result : cstmt .getDouble (1) ;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+A tab/e of data representing a database result set, which is usually
+generated by executing a statement that queries the database.
+Statement stmt I con.create5tatem€nt U;
+String sql : “SELECT id, name FROM persons";
+ResultSet rs = struttexecuteQuerywa);
+200 Popescu
+while (rs.next()) r
+1nt cod : :s.get1nt("id"); //ts.getInt(l)
+String nume = ts.getStting("name");
+System.out_println(id + ", " + name);
+)
+A ResuItSet object maintains a cursor pointing to its current row of data. Initially the cursor
+is positloned before the first row. The next method moves the cursor to the next row.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Scrollable and Modlflable Cursors
+Statement Stmt : COn.CreateStatement(
+ResultSet 4 TYPE_SCROLL_INSENSITIVE,
+ResultSet‘ coucua_upnuunz> ;
+String sql : "SELECT id, name FROM persons";
+ResultSet rs : stmtrexecuceoueryrsql):
+// Is mu be scrollable,
+// will not show changes made by others
+// and Wlll be updatable
+Additional Methods
+~absolule
+~updaleRow
+~ moveTulnserlRow
+'msertROw
+- moveToCurrentRow
+~deleieRow
+supportsPositionedUpdate/Delete
+A default ResuIISe! objecl is nol updalable and has a cursor that moves forward
+only.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+RowSet
+Adds support lo (he JDBC API for the JavaBeans component model
+
+- Extends Resu/tSet
+- Conforms to JavaBeans specifications
+
+i Properties
+
+— Supports JavaBeans events
+- JdbcRowSet
+- CachedRowSet (disconnected)
+- WebRowSet (XML)
+- JoinRowSet (offline join)
+- FilteredRowSet (offline filtering)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Examples
+JoinRovSet jrs = new JoinRowSetImle;
+ResultSet {$1 Z stmteexecuteQueryP'SELECT “ FROM EMPLOYEES");
+Cachediowset empl = new Cachedkowsetlmplﬂ;
+empl .populate1rsl)?
+empl.setMatchColumn11) 7
+jrs.ad.d.RowSet(snpl) :
+ResultSet r52 I stmt,executeQueryU'SELECT * FROM BONUS PLAN");
+CachedRaISet bonus = new CachedRaISetImplQ; i
+bonnepnpnlntewsm;
+bonus.setMatchColumn(l)7 // EMPilD is the first column
+jrs . addRowSet (bonus) :
+FilteredRoNSet ﬁrs = new FilteredRoNSetInlplo;
+frs.populate(r$1)r
+Range name = new Range("Ionescu", "Popescu", "EMP_NAME");
+fresecnlteuneme) ; llaccepts Predicate objects
+frsnneXtH;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Comprehensive information about the database as a
+whole.
+Implemented by driver vendors to let users know the
+capabilities of a DBMS in combination with the JDBC driver
+that is used with it —> tables, stored procedures, connection
+capabilities, supported SQL grammar, etc.
+Connection con : Driveermage1.getCmmeCt'On (\lrl i:
+DatabaseMetaData dblnd = comgetMetaDataO;
+// Get the tables of trio database
+Resul tSet ‘s : dbmd.get1'ables (mil l , null, nu] ' , nu‘ l );
+// catalog, schemaPattern, tableNamePatteri-i, types]
+wnlle (Yemen o)
+Systom.out.prlntln(zs.get5tzing ("TABLEiNAME"));
+con . close ll;
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+ResultSetMetaData
+
+Information about the types and properties ofthe
+columns in a ResultSet object: the number of columns,
+their types, their names, etc.
+Resultiﬁet rs : 5111f.eXecutiPQuery("SELECT “ FROM ScmPTablP")?
+BesultSetMetaData zsmd = ts_getMetaD8Ca();
+// Fwd the number of COTU'WS in the ResultSety
+1nt n , :sll\d_getColull\nCount();
+// Flrci the name: of the columr:
+Sting nJmeH Z new St:1ng[r\];
+(emu: t:F/; Kr; it‘) t
+
+Jume[l] , rsmd.gethlumnName(i-);
+t
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Transaction Control
+' Transaction = An ACID unit of work
+- ACID = Atomic, Consistent, Isolated, Durable
+~ COMMIT, ROLLBACK
+can.commit()7
+controllbacko 7
+- Savepoints
+Savepcint savel = con.set5avepoint();
+gonirollback(save1) ;
+- Disabling the AutoComm/t Mode
+can. setAutcCcmmit:(false) ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+~ SQLExceptlon
+publlc “the void ppncsctuxceppuntsQLuXL-Epnon ex) t
+for (Throwable e = ex) t //SOLLIxcept10n unglements Iterahle<Thtowable>
+//chained exceptions
+15 (Q instEA/Jeof SQLEXcethc/"y t
+SQLEXFethOn <11,“ : (SQLExceptlon)n);
+Syefemtekr.px1“fln("EQLSfafe = " + sqlixtgatSQLStataO];
+‘lysLew.err.prwt\ntWr'cr Code: " v sthx.qetE!rorCode());
+Sy>tcnucz1.pxtf.tint"t-'|us§agu = " < QqLExvgetMessagelh;
+Throwable z : ex_getCause() ,-
+whllett I’ null) (
+Systen.uu:.pr,m1—Hausa: " + z»,-
+t : i.gst[jauset];
+t
+w t
+t
+° SQLWarnlng (for example, DataTruncation)
+Connection, Statement, ResuItSet - getWarnings()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Connection Pools
+Reusable set (cache) of database connections
+~ Data access pattern designed at reducing the
+overhead involved in performing database
+connections.
+m -I I-
+- Apache Commons DBCP, C3PO, HikariCP, etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Data Acces Objects (DAO)
+x‘ x |
+x‘ nmainslmnmnas |
+\ \_ Imam/uses
+\_\ V
+—
+~ BusinessObject- the object that must access the data
+' DataAccessObject - abstracts and encapsulates all operations related
+to the data
+~ DalaSource - RDBMS, OODBMS, XML. etc.
+~ TransferObject- a representation of the data: entities, beans, etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+WM
+—
+‘welbummerDAﬂOCusmmelﬂw
+A l A
+‘ um.» paw
+Qumran-(ultimatum omuummmnu
+_ _ _
+A. V
+mm
+_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Java Tutorial
+Trail: JDBC(TM) Database Access
+http://docs.oracle.com/javase/tutorial/jdbc/TOC>html
+
+***************Ending Page***************
+

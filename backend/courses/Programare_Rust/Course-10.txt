@@ -1,0 +1,2758 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 10
+Gavnm Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+g; Agenda for today
+1. Unsafe blocks
+2‘ NonNuIl pointers
+3. Interior Mutability
+4. Reference Count
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Unsafe Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+g; Unsafe Rust
+Unsafe Rust is a mechanism that one can use to enable a set of features / behavior
+of the program that have the potential to trigger a problem / bug in your program if
+not treated correctly. For this type of behavior, Rust uses a special keyword: unsafe
+that can be used to declare a block or a function where the safety rules don't apply.
+Cases where unsafe can be used:
+
+~ To work with regular pointers (just like c/c++l
+
+~ To modify mutable global variables
+
+- To run a method from an external module that was not compiled With Rust (e.g. a module
+compiled in c/c++, a system API, etc)
+
+- To implement an unsafe trait
+
+~ To access a field of a union (similar to the concept of union from C/C++j
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+A pointer in rust can be defined in the following way:
+- ‘constdvpv » (or constant pomters (equlva\ent w —from C/c“)
+- ‘mm <wpe> —> 1m non'constcmt mums) pmmers (equlvakank w -iwm c/c++1
+In Rust, pointers are not \imea by any ownership / borrowmg rules. As such, they are £0"deer
+unsafe. Let's anaer the foHowing code:
+Rust
+\\<|v\ ‘ v gvvuvriqlzz “2,2;gvgnL! u; ,.ﬂ ,MAHY!’ ‘a un5.;! ."u ,2uu1,!5 un5.;! ;un Vim" M, LluLk
+, 1a: \
+v D H ‘ El ' \
+1nd (‘MVP 61‘, VQVF' :vv n’
+We W Meme“ WWW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+A pointer in rust can be defined in the following way:
+- ‘consl<tvpe> —> (or constant pointers (eqmvalent w —fv0m c/c”)
+- ‘mm <type> —> rm non'constam lmutable] pointers (equivalent w -iwm c/c++)
+in Rust, pointers are not limited by any ownership / borrowing rules. As Mn, they are considered
+unsafe. Let's analyze the following code:
+w-Mrlﬁ'r v r l 1 r, 7r ni'mrlrli‘ ,3 . i
+Output
+m
+The SDlUUDH in this case is to use the unsafe keyword to enable reading a value from a pointer.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+a Unsafe Rust
+One can use pointers to avoid various safety protocols:
+Convert u const pointer tn u mumble pointer
+
+lilivvrvvi,‘ ‘_ i,
+
+In this example, even if "l' is defined as immutable, we can create a mutable
+pointer towards it and change its value. In reality, this technique is quite dangerous
+as "I" might be located on a read-only memory page and trying to write something
+at that location might crash the program.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+a Unsafe Rust
+One can use pointers to avoid various safety protocols:
+EAccessing a memory allocated to a type with a pointer of another type
+lilivviuiﬂ ‘_ iv
+In this example, "I" is a pointer of type i32, but we are going to access its memory
+via "I" ( a pointer of type i8 ). This is considered to be unsafe as you can write data
+outside allocated memory space/breaking invariants.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+a Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Apply pointer arithmetic's
+
+lilivvruiﬂ ‘_ iv
+
+We can also apply pointer arithmetic‘s via specialized functions such as - or
+-. In our case, we will set the next 8 bytes of .to value 11, making the total
+value of .to be 10 + 11 * 256 = 2826. The main risk here is that using pointer
+arithmetic's might move a pointer to an unallocated memory space.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+g; Unsafe Rust
+One can use pointers to avoid various safety protocols:
+u Create a vuriuble that points to a hardcoded memory location
+
+jllllilll I ll
+
+In this case I is a immutable reference (&i32) that points to an invalid address
+(0x123458l.
+As a result, when trying to read the value of I a runtime error (crash) will happen.
+Keep in mind that these error rely on the fact that on most system there should be
+no memory allocated around 0x123458. However, this is an undefined behavior
+(UB) as it is theoretically possible to find a memory page allocated at that memor
+with a read right and in this case the program might not crash.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Cast between different structures / types
+Rust m a» [equivalentcude]
+
+‘ =1117‘D.F:,1l.
+
+Dr'lntlnl”‘ r = m wit - ,
+In this case, we convert the address of structure IP to a pointer of type *const u3Z
+and then we read the value from there. This means that the value read (on little
+endian) architecture will be: 127 + 0 x 23 + 0 x 215 + 1 x 224 = 16777343
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Cast between different structures / types
+—
+In this case, we convert the address of structure IP to a pointer of type *const u32
+and then we read the value from there. This means that the value read (on little
+endian) architecture will be: 127 + 0 x 23 + 0 x 215 + 1 x 224 : 16777343
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+® Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+RIIS!
+MM‘; r ‘HQ ‘m
+So, let's see what happens in this case:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+RIIS!
+So, let's see what happens in this case:
+1v We create ‘from a raw pormer —> (hrs translates that both Ias I use (he same memory
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+RIIS!
+or .mr I'r'r ,
+So, let's see what happens in this case:
+1v We create ‘from a raw pormer —> (hrs translates that both Ias I use the same memory
+2' We dear the memery aHocated (or .1and we repraee it with another stnng "123"). Nance that the
+new slrmg has the same size as the prevrous one —> thrs way We make sure that the pomter er not
+change, and me varuee rrem 5er remain vahd Hength s. capacity)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+Rm
+123,123
+So, let's see what happens in this case:
+1v We create ‘from a raw pormer —> (hrs translates that both Ias I use (he same memory
+2' We dear me memory aHocated (or I (and we repraee it with anamer smng "123"). Nance that me
+new slrmg has the same size as the prevrous one —> (hrs way We make sure that the pointer er not
+change, and the vames from 5 er remain vahd1\ength& capacity)
+3, Prlnt both land I (as they have the same pomter 9 they wrll have the same varae 123)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+123,123
+"
+So, let's see what happens In thls case: “"me “““"" "‘
+1v We create ‘from a raw pormer —> (hrs translates rnar born Ias I use (he same memory
+2' We dear the memory aHocated (or .1and we repraee it with another smng "123"). Nance mar me
+new slrmg has the same size as the prevrous one —> (hrs way We make sure that the pointer er not
+change, and me yarnee rrem 5 wrn remain vahd1\ength& capacity)
+3, Prlnt born 5 and 52125 they have the same pomter 9 they wrll have the same verue 123)
+4' Deallocale memory (or s and 52 (since mey have the sarne pomter, a rumime error er occur)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+One can use pointers to avoid various safety protocols:
+i Evade borrowing rules
+RIIS!
+H mm‘ x MvData(texl “ab1123“,value' MILAN/Dela(text:"abc123“,value*10)
+‘M m W.
+win: Al‘
+9- MW ;
+w a r hm .1
+Wt H - W M
+“his 5.
+Lit PM; 7 “d
+w refmut i r \ m -; W.‘ mm‘ N \* mm \ . ‘w rvw
+MNU Wm.‘ 7 m,
+NAHUM,“ , 1 h’ 1H ,
+J mm‘ ; \ , mi)‘ MUM)‘.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+®
+One can use pointers to avoid various safety protocols:
+i Evade borrowing rules
+RUE!
+MvDalz ( text‘ “abc123”, value: 10 )MyDela (text: "abc123“, value’ 10)
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+®
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+i Evade borrowin ’ rules
+' M
+ll
+value*10)
+:\
+‘ ' u’ \ 1 w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+One can use pointers to avoid various safety protocols:
+i Evade borrowing rules
+We can even create generic function that creates a mutable reference:
+Rust
+'" 1" , abc12,zb:12
+m m 7 Var r’ r 1; mm ,
+‘r nmt m 7 w r w v‘
+‘hm WU”,
+9- rm 1
+w Sr rm‘! P-ul‘ m
+w HUM; , w a. ‘Wt-n‘
+w may,‘ Z if U‘ ~7runhsr‘
+refinrutilqn'h 1 r‘
+refimutilvwﬂ'r r‘
+J')nhn‘l‘ll 1 v ref mut L ref’ rvmt 2M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+i Evade borrowing rules
+We can even create generic function that creates a mutable reference:
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+®
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+i Evade borrowing rules
+We can even create generic function that creates a mutable reference:
+m mm-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+®
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+i Evade borrowing rules
+We can even create generic function that creates a mutable reference:
+Ru“ mm-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+®
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods /Iunctions
+Rust
+gatymm \ >7 7;‘ w 2x ‘ H A v
+"H V ‘v , . ,
+H \ Z w , s
+\ U \ ,1 Z gaygwu 1‘,
+M ‘I ; 7 w w mink‘,
+\\\| \\.'u‘2"
+y\v1ullv‘\_“‘ , ‘ u‘ \,\ \ \.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+® Unsafe Rust
+One can use pulnters to avold varlous safety protocols:
+I Create unsafe methods /Iunctions
+Rust mm (unsafe function)
+wﬂétvarvmtT1>ri ’: SJ‘ ~AH'TY \I?’-:'\,‘Et Er vmtT \ z’ 'HT: ELY‘ ~\:¢w\tT\
+mm‘. wwrvrw NV;
+\ w r ‘ -\ \. L NJ“ r w H.‘ ‘
+\ my» Z w ‘ m . iux WU“
+3M, MUN, ;
+\ 5,“, H, Wm M ‘. \ ,7 W M‘ \ H
+1, my“; = WJJJH,\;5.‘. 1~ “QM; Z A .w ; yw~wmm ;.
+J! rem“; 7 E? M “was” 1e: “mm; V 1 We ; 1% w mucus‘ ;;
+r'eﬂmutilmv'w , y-EUMme \ 1‘
+Rm“; ,H. , "Um; W 1‘
+yvmth 1 ‘ PMJMJ, Pvl'imulil‘. w mhm ; , Mimi)‘ Pvl'imukil‘,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods /Iunctions
+Rust Rust (unsafe function)
+ram \ i n \ ‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+®
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods /Iunctions
+Rust
+ma
+‘ff‘17>’EEVV'Q*HJV\QI‘, M‘ ; 12th:’ wtmtln ;=
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+®
+Unsafe Rust
+
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods /Iunctions
+
+Rust mm (unsafe mm")
+
+my" \ 1
+
+x 1
+
+u \ m um my V g>
+
+\ é,péLLéd "gyms, ¢n, ¢Uund u" s¢e ¢n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Unsafe traits
+7.}
+rumilrrii"FuO" ,
+But what if we know that the code we are going to add, adheres to Rust safety
+grincigals but for is in order to write it we need to use unsafe block ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Unsafe traits
+The solution in this case is to use an unsafe traits
+Rust
+— M
+<7“. t 1
+W‘1ntlr“ t 'Foo“ ,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+One can use pointers to avoid various safety protocols:
+Modify/change global variables
+Rust
+ii iii i 1
+rm" 1H a 2 i z
+l r i i ii < 1i 3
+Viv-rm Hi H “.‘iii i l‘
+Global variable can onlv be immutable (this avoid various problems that could appear if multiple
+threads access and modify the same global variable), However, using unsafe, this behavior can be
+avoided like in this snippet.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+One can use pointers to avoid various safety protocols:
+.Access APIs/ABIs
+Rust
+
+H .rr : wt \‘rrrrrr'ﬂr
+
+J lntrn‘ or r r ‘:Etitmgmtr n;
+Rust can not guarantee the safeness ofan AP\ (induding the ones of the operating system). For
+examp\e, in thrs examp\e, we uv to access the method GetTickCount (avaHable in Windows). We can
+get a reference to that method (vr'a extern keyword), but if we want to use it , we can only use it
+usIng unsafe keyword‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+One can use pointers to avoid various safety protocols:
+Access the ﬁelds of a union
+M mm-
+;lgit: ' s 525 <7) 410Aoouo
+r 1 25 <7 smoonoo
+H l . 7 ‘ (11,11 2,5;5
+. rim-.1“ r ‘- . . ,HM, . m r‘ r
+mun“ w- .7 - float‘ )nti‘ r
+Rust support unions ljust like C/C++). The unlv difference being that accessing union fields might
+result in unsafe operations (for example ii one ﬁeld is a heap allocated object and another one is a
+value). As such, accessing a value lag. for reading) must be done in an unsafe block
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+g; Unsafe Rust
+
+Finally, a word of advice:
+
+' Using unsafe is m recommended (if you want t0 code in Rust, you should first
+try to solve a problem using the safe functions)
+
+- When using unsafe (and especially when using pointers) make sure that you
+consider all scenarios where the memory where a pointer points to might be
+moved, changed or deallocated (the memory management in this case become
+the programmer'sjob)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+NonNull pointer
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+g; NonNull p0|nter
+One potential security issue with raw pointers is that they can have a special value
+(called -) that implies an invalid memory address that, if read or write will
+produce a crash‘
+
+As such, Rust has a special wrapper around a raw ointer (called —) that
+guarantees that the inner pointer will never be i (even ifthe pointer is
+dereferenced . This features allows some optimizations for compounds such as
+
+where the impossible value (-) is used as a discriminant
+( means None in this case and any other value is associated with Some).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+a NonNull p0|nter
+
+Let's see an example:
+Rust
+
+J mun 11 .zm: new hill 1 JLLVJH Hunlltsl 7;,» ii , 8
+
+:nnmi:‘;;‘.:m WE"! v Hr. il'l ii i it w» ii‘
+In this case, we can see that a NonNull wrapper and a raw pointer have the same
+size in memory (8 bytes for a 64 architecture), but an Option<NonNu|l<...>> is
+smaller [only 8 bytes) than an Option<*const ...>. This is because in case of
+NonNull, the Option enum can use the NULL value as a discriminant to reflect the
+None option. In case of raw pointers, it has to add an additional member for the
+discriminant 9 hence the size of 16 bytes.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+g; NonNull p0|nter
+NonNuII implements the following traits:
+‘ Cvpv
+' Clone
+~ Debug
+. Eq
+' PartialEq
+- 0rd
+' PartialOrd
+~ Hash
+' lSize [meaning you can not transfer it between multiple threads — multithread safety]
+- From (with different parameters). /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Keep in mind that does not allocate memor on creation (you need a valid
+pointer to create a wrapper). To create a use one ofthe following:
+—nzl_
+— Check ptr, if null returns None, otherwise returns Some
+Sets me lnner value w plr, wllhuut checklng it. Lise this
+only wnen you are sure that ptr is nor null Because of
+\hlS, this functlorl is unsafe‘
+Creates an inillalized (nut NULL) pointer an invalid
+memory address. Don't try to read/write its value as it
+will result irl e UBr
+or one of the following From<T> implementations:
+~ From<&T>
+' From<&mut T>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+g; NonNull p0|nter
+
+Notice that — method creates a NonNull (non-initialized pointer).
+One question here is why this method is NOT unsafe ? The reason for this is that
+you can not access the inner raw ointer without an unsafe block, and as such it is
+no problem when using *methodt It is important to mention
+that NonNull::dangling() method will never create an inner pointer equal to Null‘
+This method is useful for:
+
+- Lazy initialization cases lsuch as for a Vectorl
+
+~ Structures where you need to initialize a pointer later , but after initialization you know that
+
+that pointer will never be Null /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+- wrapper has the following (stable) methods (there are also several
+unstable method that will not be discuss here).
+Returns the tnner pernter, wtnle cunsummg tne NunNull omen
+en ‘ellqé'; ‘r e > a Returns en \mmutable reference te the otneet wnere tne rnner
+pornter polmstov Thls rnetnoa r5 unsale (rneenrne You can only
+call rt from wntnn an unsafe block)
+
+.yt. rttt rt: r e r t: Returns an mutablereferencelothe eeyeetwneretne mner
+pewter pomlsw Thls tnetneu ls unsafe (meamng you ten only
+call tt from wilhln arr unsaie block)
+
+Converts current NonNull pmnlerfrom type "r" lotvpe "u"
+
+.ytrtt , rte t t; ‘y e; Perfurmsapomler addmnn over tnernner pomterand returns
+a new NonNull wrapper, consuming tne orlginal one
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+a NonNull p0|nter
+In the next example we create a NonNull structure over i32 and change its value via
+asimut[) method:
+
+Rust Rust
+V
+w»; l m); 1: iiJ'ii 7 2a l J 1mm i all:
+‘Hymn iv‘ l
+Notice that in both cases, we still need to use an unsafe block to access the value
+where the inner pointer points to.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+g; NonNull p0|nter
+NonNull::danglingl) to create a valid NonNull wrapper. Its purpose is to create an
+object that will be later initialized‘
+
+—
+:tdv [lt' l
+“ targeuaenugn“(Janene lent time;
+‘ f 7 u h “‘ BKCGBBHBGE, STATUSiAUIE55’VIOLATIDN7
+In this example, "x" will have an inner pointer (non-null, correctly align) that points
+to a possible invalid memory address‘ The result of accessing or modifying the data
+from the inner pointer is an undefined behavior (in most cases, it will translate into
+a crash during the runtime execution of the code).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+a NonNull p0|nter
+NonNu||::dang|ing() can however be used to create a structure where you only
+need to initialize a NonNull member later. These scenarios are useful when you
+know that the NonNull pointer will be valid from the moment of its initialization
+and until the end of its lifetime, It's also up to the programmer to make sure that
+between initialization of the structure and the actual initialization of the NonNull
+wrapper, the inner pointer will not be accessed.
+
+Rust
+r we mi'tw l wt» lli'inud 13: l
+ll i’ -; warm ,, WM , :0,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+However, if a data member of a structure can be either NULL or a valid pointer, it is
+best to use it with an Option‘
+W ~ir| W , Output
+struct i 20
+w < < >>v
+i
+r" i7 i
+m m y r w‘
+let M m Z 1 w M.» i,
+Mn V 5mm’ =' {Mint ywi,
+yr let WW x; r m w i1) <
+mm- -;
+w), t» Z m,
+x:
+i
+m W r MW‘
+wwuw r) » y)»
+>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+® NonNuII p0|nter
+
+Let's analyze the following example:
+Rust
+tr mil 1
+
+it M », , mulls;
+
+‘i U , ~. ‘mm iv'tiinuJ w‘
+
+‘i Hi wt») >. illullqt-h Z Um...‘ ,
+“y” is initialized with 1024 -) meaning the layout of “y” in memory for LE
+architecture is: u-uu =>y = U + 4x 25+ U t1‘ +01 l = 1024
+"p_byte_y” is a uS pointer that points towards the first byte of "y". Setting the
+value 1 at that byte means a change the memory layout of "y" for LE as follows:
+“ﬂu that implies that y : 1 + 4 x za + 01' + o 1»; 1; ‘ : 1025
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Interior Mutability
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+g; Interlor Mutablllty
+Sometimes, you need to create an object that even if from the outside does not
+have to change, internally you have to change a state/data members. In Rust this
+ability is called interior mutability s
+Interior mutability is often used for cases where normal ownership and borrowing
+rules can not be applied due to the nature ofthe algorithm that is being used, such
+as:
+- Graphs
+~ Doublelinked list
+- Trees (ifa child needs to keep a handle towards its parent) /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+g; Interior Mutability
+Let's consider the following scenario:
+r We want to create a pseudoVrandom object that retrieves random values between 0 and a
+maximum number
+- One simple algorithm will be to start with a ﬁx seed
+a Then Whenever a new number is requested, we use the following algorithm:
+return seed X maximumivalue
+e Notice that 0n any step we need tp change the seed , so that the next tirne we will generate
+another number.
+This algorithm can be written In various Ways using either unsafe 0r cell. A Cell In Rust ls a type 0f
+wrapper around a given type that provides interior mutability. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+g; Interlor Mutablllty
+Before we start discussing about implementation scenarios, let’s set up some
+evaluation criteria that we can use:
+
+1. Multi thread protection 9 means that there is no scenario where accessing a
+resource from multiple threads can lead to an undefined behavior
+
+2. Use of unsafe block 9 means that the program must use "unsafe" when using
+a specific approach
+
+3. Works with references —) means that a described scenario can be utilized with
+references or not
+
+4. Global variable protections —) means that there is a protection against
+changing a global variable from multiple threads
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+I I I
+Interlor Mutablllty
+Write this just like a regular Rust program
+Rqu
+
+, s
+med, , 5
+; o
+
+u \>H\ H 1 1 3nd l 1
+
+h“ U‘ L 7 Vi MJIWHJ new h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+Interior M uta bi | ity
+a Write this just like a regular Rust program
+M M
+s
+5
+o
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Interior M uta bi | ity
+a Write this just like a regular Rust progmm
+RMSF
+rnmwr ; Output
+1
+u
+‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+®
+Interlor M uta bl | lty
+a Write this just like a regular Rust progmm
+RMSI
+r'rmﬂnm 1 OHIDUQ
+1
+w
+‘
+r
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+a Interlor Mutablllty
+So thinking about the previous algorithm, how can we make variable r
+immutable, and still generate (use the same algorithm) to generate a pseudo-
+random number (just like in the next snippet).
+
+Rust (desired behavior)
+So how can we rewrite module random su that we get this behavior ?
+(the solution to this requirement is called interior mutability)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+® Interlor Mutablllty
+a Use unsafe to change the mutability of dam member seed
+Rust
+
+W M» W‘ , 8
+
+H; w-nw ; 0
+~ n ; Wu m1 "
+W u\‘p7\07mv' \(wau-vml . H‘ w." d M u».
+
+‘UM, Z MLMQ.
+_ "BUM n’ ,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Interior Mutability
+a Use unsafe to change the mutability o ' . - u - u I - - - '
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+Interlor Mutablllty
+a Use unsafe to change the mutability of dam member seed
+M M
+s
+5
+o
+‘7 J‘ Z ‘ 7‘ \.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Interlor Mutablllty
+
+So .. is this a good approach [using unsafe), in terms of Rust safety principles ?
+Let's evaluate a couple of cases:
+A. Dangling! invalid pointer
+
+Assuming we create multiple references to the same variable, is there a
+
+possibility of accessing an invalid memory address through a pointer ? The
+
+answer to this question is I
+
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:61**************
+g; Interlor Mutablllty
+So H is this a good approach (using unsafe), in terms of Rust safety principles 'x‘
+Let's evaluate a couple of cases:
+
+B. Single thread soundness
+Assuming we run our code in a single thread scenario, are the results
+consistent‘ The answer is - —) the results are not only consistent, but
+deterministic for the current pseudo-random code generatoc
+
+C. Multi thread soundness
+In this case there is a possibility that two threads might call the -
+method at the same time’ If this is the case, the result for each thread will be
+—. However, we should still mention that no runtime crash will
+happen as even if we access the same memory from multiple threads, its still
+the same memory so we will not end up with an invalid pointer‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+ﬁi Interior Mutablllty
+So n is this a good approach (using unsafe), in terms of Rust safety principles ?
+Let's evaluate a couple of cases:
+D. Code optimizations
+An immutable variable might be optimized by Rust. One special case is if that
+variable is declared as a global variable. In such cases, Rust might decide to
+allocate space for that variable into a non-writeable page (for example in a
+section like .rdata in case of PE executable for Windows). This could be
+problematic when trying to write data through a pointer.
+l If pitnirrlé pointsto a memory located in a readconly page (such as
+‘ , c l’ ~ ,rdata section) this operation will crash the application with a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:63**************
+. Interlor Mutablllty
+So .. is this a good approach [using unsafe), in terms of Rust safety principles ?
+Let's evaluate a couple of cases:
+D. Code optimizations
+Let's consider the following scenario:
+RUSK
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+s; Interlor Mutablllty
+So .. is this a good approach (using unsafe), in terms of Rust safety principles ?
+Overview:
+
+Use of unsafe block Multi thread Global Variable Working with
+protection protection references
+Raw pointers Yes No No Ves (unsafe)
+As a result, the approach is correct (safe and sound), but only for a single thread
+scenario.
+So the next question is —) can we enforce a code like the similar one to run only
+on a single thread case ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+® Interlor Mutablllty
+a Use UnsafeCeII
+Rust has a special structure (called UnsafeCell) defined in the foHowing way:
+Rum/mm £811.75)
+Wm 1
+with a method .getL.) defined in the following way:
+Rusrffmm calms)
+Hm v‘ m m \ \ d ‘ v‘ d H. \
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+®
+Interlor Mutablllty
+a Use UnsafeCeII
+Rust has a special structure (called UnsafeCeH) defined in the foHowing way:
+Ruxtﬂlom [911.751
+with a method defined in the following way:
+Rmmgm ceIIJs]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:67**************
+Interlor Mutablllty
+a Use UnsafeCeII
+Rust has a special structure (called UnsafeCeH) defined in the foHowing way:
+Ruxtﬂmm cell.rsl
+with a method i
+murmom CEIIJS] \
+5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+a Interlor Mutablllty
+a Use UnsafeCeII
+Rust
+m \"\j* r H:\>H\ ~I~I: 1 5:" ' :22 ‘1:? eta z new \ 1 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:69**************
+Interior Mutability
+a Use UnsafeCeII
+M M
+s
+S
+1 retw'u 'i'I" ‘ \v' ﬁlm,
+mm:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+I I I
+Interior Mutablllty
+a Use UnsafeCeII
+Now let's see if we create a global variable using this code base on UnsafeCell
+and we test it to see the effects of a possible optimization what happens).
+mt
+l 1i dum : lnlllllllll u .‘l i. " "PM!" "~ "‘i 11
+r-i- 11 a. .:. 1 i MM mm may
+Notice that the behavior is different than us usin a raw ointer (in the sense that
+we can not create a static variable using it Thi5 error and other
+checks are likel to be employed by the compiler due to the special trait that was
+added to i: !Sync
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:71**************
+g; Interior Mutablllty
+Let’s see an overview of using UnsafeCell for our previous problem:
+Overview:
+Use of unsafe block Multi thread Global Variable Working with
+protection protection references
+UnsafeCell Yes Yes (Will not Yes (Will not Yes (unsafe)
+compile] compile)
+As a result, this approach is better than the previous one. Furthermore, since
+UnsafeCe/I is part of the standard in Rust, we should expect that even if some
+things change in terms of raw pointer casting in Rust, UnsafeCe/I will maintain its
+functionality.
+However, we still have to use an block -) can we do something about this
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:72**************
+Interlor Mutablllty
+a Use Cell
+On top of UnsafeCell, Rust has another structure called Cell defined as follows:
+Rust (from mm)
+with two methods - and - defined ln the following way:
+Rust (from cell. '51
+l‘ ‘mm-lull
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:73**************
+g; Interior Mutablllty
+
+a Use Cell
+
+The - struct in Rust implements the following traits:
+
+r Copv trait
+
+' Clone trait
+
+~ PartialEq
+
+‘ PartialOrd
+
+. Eq
+
+r 0rd
+
+- -) meaning that a Cell<T> can not be used in a multi'lhread scenario
+Since - implements - and - an object ofthis type is used with data types that /
+implement Copy / Clone. Furthermore, method get(...) returns an object and not a reference
+(transferring the ownership), Similar, set(u.) receives an object lthus transferring the ownership) an
+not a reference.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Interlor Mutablllty
+a Use Cell
+
+Let's see how Cell get(...) method works.
+Rust (Example 1) Rust (Example 2)
+
+'H" ‘ V u i-nlll _ ""l ‘ 7' ll“. l'r lll"?lhf"l‘_
+In the first example, we use Cell with an U32, Eli'luu'di if‘ £11211?" "m" "Emu" '
+and as such, method .get(...) can copy the n7} 177 h 7 7 w‘
+value. ‘i L "My?" ‘
+ln the second case, we use Cell with String, a" l $373515??? am l am‘ 3'1"»: [Wu
+and method .get(...) is not available as String Z ,W rlu: .1 nl {W n nr l'lwul; W W mmW
+does not have the Copy trait. 5 “HE W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:75**************
+® Interlor Mutablllty
+aUseCell
+Rust
+uw w vnH-u‘ V ‘ 1W ‘52m "~17 w‘ 1 1,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Interior Mutability
+a Use Cell
+Rqu M
+0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:77**************
+g; Interior Mutablllty
+Let’s see an overview of using Cell for our previous problem:
+Overview:
+Use of unsafe block Multi thread Global Variable Working with
+protection protection references
+Cell No Yes (Will not Ves (Will not No (Will not
+compile] compile) compile]
+As a result, this approach is better than the previous one. We don't need to use
+unsafe block, but this code works only types that have Copy/Clone trait.
+So .. What if we want to do the same thing, but for types that don't support Copy
+trait. To do this, we would need to work with references l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+g; Interlor Mutablllty
+u Use ReICeII
+On top of Cell and UnsafeCell, Rust has a structure called RefCell:
+The idea on top of RefCell is that it enforces the ownership & borrowing rules of
+Rust at runtime (more exactly, it panics if one of those rules are being broken.
+This is done via using a BorrowF/ug (an isize) where Rust keeps count on how many
+immutable reference are and if there is one mutable reference. Based on these
+information it can enforce the ownership & borrowing rules at runtime, as follows:
+- Value 0 -) not borrow at all (immutable/mutablel
+' Values between 1 and isizezzlleX -) count of immutable references
+' Negative value -) an mulable reference exists
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:79**************
+ﬁi Interlor Mutablllty
+u Use RefCeII
+— Returns a mutable reference to an object
+—— Ram an immutable em to an one“
+Each one ofthis methods have a special logic in place:
+
+‘ borrow_mut -) if at least one mutable or Immutable reference was made then a panic is
+thrown. Otherwise, an internal flag that marks that an immutable reference was made will be
+set and then a reference is returned
+
+' borrow -) if at least one mutable reference was made then a panic is thrown. Otherwise, an
+internal flag that
+
+This is why the return value of those methods are objects of type RefMut and Ref,
+that when dropped will update a flag in a RefCell that stores the active
+immutable/mutable count.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Interlor Mutablllty
+u Use ReICeII
+The logic of RefCell is that it upholds the safety (ownership & borrowing) rules
+
+that Rust enforces, only during execution (runtime) and not at compile time.
+Let's analyze some examples:
+
+Rust(exnmple 1) m Rust (example 2)
+
+Rust (example a) Rust mum/E 41
+
+penny-n" , .7‘; wmwl“ , ,7‘:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:81**************
+® Interlor Mutablllty
+a Use ReICeII
+Rust
+u‘ Him,‘ 1
+w» a»: n MW V ge; 1 ‘5:: 31:91: FaHIEJJ: Wm 1 1 5
+rm H :nt ﬁllwkljix, n ,Wlw ‘ED ~JIZ} 0
+L'V'17"11'\\ ‘I'YPI’.3J11]B\‘I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+g; Interior Mutability
+Overall status:
+[Elm-M
+Use of unsafe block Yes Yes No No
+Multi thread No Won't eompile Won't eompile Won't eompile
+protection
+Global variable uiisale Won't compile Won't compile Won't compile
+protection
+Working with ref Unsale Unsale Won't compile Safe
+As a general observation, use: /
+
+~ Ce||<T> if you work with basic types / data with Copy traits
+- RefCe||<T> for Mutable data
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:83**************
+Reference Count
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+g; Reference Count
+The way Rust safety measures are designed, certain type of algorithms are hard
+(complicated) to write. Let's take for example a double linked list:
+
+ElemA ElemB ElemC
+This type of construct is relatively simple to create in languages like C/C++ (as we
+just need some pointers to the next and previous elements). However, in Rust we
+need to think about this problem in a different way.
+For example, both elements A and C have either an ownership or a reference to
+element B (through Next and Prec links). But the ownership rules state that there
+could be only one owner for a memory zone (meaning that we will need to think
+about this problem in a different way).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:85**************
+' Reference Count
+Let's explore some ideas for solving this problem in Rust:
+C/C“ I. Try to write Node struct using Optlon<Node>
+Arr l l Rust
+> prev" next: - .
+M value, prec: -‘
+ll
+"V ‘"9" ‘WE ' ' 1 l 'ffZYEf/E'ff "
+Wm 7 ML‘ 1 mum MW Mm,
+w r rn n. l
+1 1 W W" w. W _
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+5/ Reference Count
+Let's explore some ideas for solving this problem in Rust:
+a. Try to write Node struct using Optlon<Box<Node>>
+mm l
+~ "m,
+Y pret, mm r
+int value, nnxt 4 ( w‘
+1, pm < ( M,
+' ( ' r , )er H l") value
+< l
+waive 7 751,7 m um 21mm < M Mn‘ 37> r 1
+f’ Y'P*i'>next‘/ ( m Wt n 7 x (next NUH'v pvec ~th value Mn ‘H,
+w >ne><t WK r , V let vaallleftinext) 7 77y: next U <
+» leftinextvpre: 7 53mm;
+7mm 7 l wmm l
+7m“ 7 J—lL, n "m 7 l We
+ﬂew“ 7 , n pm 7 S,,lv(‘lv m
+"M'Pn n, ‘etrn En,
+‘ l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:87**************
+Let's explore some ideas for solving this problem in Rust:
+errurliulsll eeeee" [a peel a: waved velee e"
+l
+x l 1c: mu! n = Bax nuwmuuclncxz Nuns‘ Pm Nana‘ value valuﬁl)‘
+l “M Wm M H We we» BnmNoLU , W" dam m MM‘ Um (buy We
+5 l A‘ let sumelle'l hex!) V le'l next as mull) l
+m l ‘eel "eel We, e mew.
+l e value moved here
+U l l
+11 l n um ml "ch,
+l eeeeee velee eeeeeelly e,,eenee here e-eee muve
+Thls can no! work,asfmm theimomentwe V let SWUMJEXU 7 t "m {a <
+llnk left_next m our current object ("n"), we lemme ore: e Scl'qﬂnl;
+transler the ownershlp and as such we can l
+not use ourobject ("n") anymore. " ""X‘ ' ‘ ""X“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+g Reference Count
+Let's explore some ideas for solving this problem in Rust:
+a Try to wrlte Node struct uslng references
+mm l
+~ "My
+Y pret, mm <'a> r
+m value, "m 4&2’ m A,»
+1, pm <&‘a m (‘mm
+' ( ' r , )er H l") value
+< l
+Name 7 “51sz m mm‘ w an, 1m up‘ , u» 7 7> KXa mm <ni>1
+f’ {VP’TV>HEXK‘/ ( m Wt n 7 (next mm“, pre: mm“, value ,,l ‘m
+w >ne><t WK 7 , V let Salvalleftinextl 7 77y: next U <
+7 leftinextvpre: 7 53mm“ n7.
+7mm 7 l rmme l
+7m“ 7 J—lL, n "m 7 l We
+ﬂew“ 7 , n pm 7 mum n1,
+"M'Pn n, ‘etrn mt n,
+‘ l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:89**************
+evvvv Easaav [dvvv- dvvvvv ~v v vext vevdvve vi ,v vvvvvwed
+§.Try "vaWMvvvn;
+
+v
+
+7 \ M addﬂmllcf: Ah m4: Nodeﬂmv mhc 1123 > Ah m: Nodc4‘n>(
+v 1vvvvvvv ~\d~ dvvvvvd vvvv
+
+\e v \vvav-vv vv.r Z ‘nvv<vv.v vv
+v Vﬂﬂﬂﬂr "ﬂﬂﬂﬂﬂ
+v v v
+v v ~v vvxv~ v5 vvvvvvvd vvvv
+v dvvvvvvsv- vPQvasv ~vd- v ,v vvvvvwsd vvv a
+
+“v v
+
+“v wwu11kﬁwu3
+v MWWWWW”Hm;mmwmwmmmmmwmwwm
+
+This is a similar case, when we transfer a
+mutable reference fromnto |eft_next.prec, MUM pm V Srvvvrvxvvut n;.
+we can not access/use the same mutable v
+rememe again‘ vv vth 7 v vvmv
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+ﬁi Reference Count
+So what are our options for this problem ? (Because any C-like similar solution
+ultimately will try to break the ownership rules and as such it will not compile).
+More generically, any problem where two objects have reference one to another
+(just like in the following image) is hard to design in Rust due to ownerships rules.
+As the two links can not be build at the same time (we must first build one of the
+objects and then the other, and as such for the first object, the link to the next one
+can not exist). The solution is to use an Option so that we can link the objects later
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:91**************
+Reference Cou nt
+Let's review a couple of solutions for Objectl and Objeth.
+I. Objectl has ownership over Objeth and Objeth has ownership over Objectl
+Rust
+} i 7777777 rirureiii “irhqur \ndirirriqn
+. i r
+4 i mu t no,“ :2 i
+i
+5 i M». mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+® Reference Count
+Let's review a couple of solutions for Objectl and Objeth.
+E. Objectl has ownership over Objeth (via Box) and vice versa
+Rust
+, H w" i1 ;
+1m. JLCAUH a‘ Ub]:£1> .
+‘ u ‘mow;
+1m» MM HM 1i _
+lu' i ' 01 V 5r :riiu liri-Eitl y‘ link None i;
+i‘ i 02 r mini-1i» i mi.- Min-:11“
+n1 hm r ‘MUM .
+“mm Z mm)‘.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:93**************
+Reference Cou nt
+Let's review a couple of solutions for Objectl and Objeth.
+E. Objectl has ownership over Objeth (via Box) and vice versa
+Rust
+m rlzezzzl Mg , W i ~ .Li M 1
+u w my q Z w. “WWW i m» W n-
+1: .1 nu? V mm.
+n .1 m» 1 WW.
+v hm r w“ .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+® Reference Count
+Let's review a couple of solutions for Objectl and Objeth.
+E.Object1 has a reference to Objeth and Objeth has a reference to Objectl
+Rust
+, H ‘my \1‘ r- ;
+1m. JLCAUH 2' a Ubyfj I v
+‘ u cw»- ‘.1
+1m» ‘HM rm. Hm I» .
+lu' r ' 01 V W515I'J r llnk Hone 1,
+r r 02 r ‘>71 r 11m Hone ,
+n1 hm r “Mann
+“mm Z when»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:95**************
+®
+
+Reference Cou nt
+Let's review a couple of solutions for Objectl and Objeth.
+E.Object1 has a reference to Objeth and Objeth has a reference to Objectl
+
+4'. _, m» 1 ‘Iwwvu.
+
+I‘ :‘?:f?'.‘E.i.?:‘.“:‘.§:‘?."
+
+.1 m» ,7 ‘ﬁrm ,_ W W 1r W “My, WW
+v hm r ~1'vrw“. 1‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+® Reference Count
+
+Let's review a couple of solutions for Objectl and Objeth.
+
+E. Objectl has a RefCell to Objeth and Objeth has a RefCell to Objectl
+
+Rust
+
+1;: 5m ~:\;—11::F‘2H1211:
+
+~ H “Mew;
+1m mm H m d min-l ‘
+12m; “mm =7:qu ,1‘ \ we?" - v
+Jet \Vi 02 V ﬂmaiil 4 llnk None}.
+@1711,” V E:\\E\F2F\iwllz '\>I\>HHU1\\;
+n1 hm r ~rrnw~th Mum“,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:97**************
+®
+Reference Cou nt
+Let's review a couple of solutions for Objectl and Objeth.
+E. Objectl has a -t0 Objeth and Objeth has a -to Objectl
+Rust
+1:. q m M wwwn we“.
+‘1 1m. 15 M-‘M MM
+_ .1 m» ,7 ‘WM ,_ M, My 1r W mm, MUM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Reference Count
+
+Let's review a couple of solutions for Objectl and Objeth.
+E.Object1 has ownership over Objeth and Objeth has a reference to Objectl
+Rust
+
+nw; _ i,
+
+11M, h i w
+
+H‘ H‘ i J V i llnk hm: lore} i,
+
+7mm 1m V 5mm» n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:99**************
+Reference Cou nt
+Let's review a couple of solutions for Objectl and Objeth.
+E.Object1 has ownership over Objeth and Objeth has a reference to Objectl
+Rust
+11 _, m» m» 1 WW“.
+r, m» m» Y Winififill. iiihii'flﬂilin "W."
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+Reference Count
+Let's review a couple of solutions for Objectl and Objeth.
+E. Use unsafe10bject1 has ownership over Objeth and Objeth has a reference to
+Object1[bent the ownership rules by making a copy of the reference to Objectl)
+“5' m
+llnk & } ~ r
+W UH v’ 11M rm» rv-w 1.
+r r r e ,1“ r
+'\.)1nvvlmk V Quarry‘, if r r’ ‘n
+_ FrlrwlnM'Yva
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:101**************
+® Reference Count
+Let's review a couple of solutions for Objectl and Objeth.
+I. Use raw pointers (just like in C/C++)
+Rust
+1w» W l1
+1w (View;
+J! w D: 7 cw»: hm: 5m w .y-ini n:
+olJan V an: r: we’ Cilnectl;
+Oz hm r m v my - ‘will.
+mullnli‘ i.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Let's review a couple of solutions for Objectl and Objeth.
+i. Use NonNull wrapper
+M“ ME-
+‘.r rm, w 1mm. r‘
+W‘ My»);
+11er Uptlur .Ur ‘UV [qua
+‘r ‘w .H‘1H'f r
+hm Hr r M Wm.‘ ~er .
+1;’ Hi m 7 wmr 11w; “Ur-Er;
+r r. a: r r mm : 11an war,
+"1 rm r ‘umv H'WHLH "rrrurmlrr,
+01.1,,“ Z 5m u wurn 'rwuﬂulrm
+‘Hymn r;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:103**************
+g; Reference Count
+In all of the previous 3 solutions (E, land E) that worked (compiled) all we did was
+to transfer the responsibility of code safety to the programmer (meaning that the
+programmer has to be careful on stuff like dangling pointers, deallocations, etc),
+For example, Rust compiler keeps tracks of all object lifetime (in this case it will try
+to make sure that none of the Object 1 or Object 2 will outlive the other one) —
+meaning that you can not destroy one without destroying the other one. On the
+other hand, using the previous 3 solutions (a, and g) , this check will have to be
+made by the programmer.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+g; Reference Count
+
+The solution for this problems is a special template(generic) called Rc (Reference gount):
+-
+
+Rc are heap allocated objects that maintain two counts:
+- A strong count —) how many objects own (have a reference) towards the current
+object. An object will never be destroyed as long as this count is bigger than 0
+- A weak count —) this works more like a handle (meaning that you refer something, b
+you don't have ownership over it or more precisely you can not control its lifetim
+object might be destroyed (but not deallocated) event if this count is bigger th
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:105**************
+g; Reference Count
+Let’s see the memory layout for a Rc:
+EH-
+RcBoX
+BI weak
+value
+The size of a Rc<T> will be I or I (size of a pointer, depending on architecture).
+The actual size a Rc<T> in memory is: sizeof(ptr) + sizeof(strong) + sizeof(weak) +
+sizeoﬂT). Since ptr, strong and week have the same size(4 or 8), then the actual
+size of a Rc<T> is minimum — (depending on alignament)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+g; Reference Count
+
+Let’s see how a Rc works:
+
+1. To add a new owner over the data use -0r — methods‘ This
+will increase the strong count, and create a new Rc<T> object with the same ptr
+as the original one
+
+2, To create a weak reference (a handle — -) use —
+method. This will increase the weak count‘
+
+3. Whenever a - lifetime has ended, the strong count is decreased. If the
+strong count reaches 0, the destructor for object T is called‘
+
+4. Whenever a - lifetime has ended, the weak count is decreased‘
+
+5. When both strong and weak counts reach 0, the RcBox is actually deallocated
+from memory.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:107**************
+Let's see an example i but ﬁrst lets prepare a struct:
+“in m1 H < v >,
+strum 1
+text: ,
+1m <
+r" u k n ;V> snr;
+Sen (zen: : {Am}
+v
+)
+mp1 w \'
+r" {Mm »(-\F) ;
+pmum H NW, M H , >,
+v
+Friﬂﬂﬂ‘(‘() 'u. "U ‘ w (w 7‘ mm,
+)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:108**************
+®/ Reference Count
+Let's see an example — but first lets prepare a struct:
+SW2“. ‘~ Ourstruci contains a String (so that we have
+r ' ’ another heap allocation).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:109**************
+Reference Count
+Let's see an example i but first lets prepare a struct:
+RIIS!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+®
+Reference Count
+Let's see an example i but ﬁrst lets prepare a struct:
+RIIS!
+—I
+'v"\vv\1n‘\“ p: ,N: rt r _ hwy-m H‘ WU mm»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:111**************
+Reference Count
+Let's see an example (main code]:
+RIIS!
+".mwuz :vaM
+‘ ' \ \ V V N'Du ' \>I\~‘\"AB("‘M
+m l| \"Single Hwner“,‘\‘ \ ‘ M
+H‘ \ . 7 h v MW.
+UL.‘ “HHUWPvJ My‘
+J marital‘"uwepvdr. my,
+m 7| \“5rnm;",n ‘ v‘,
+m WM w ‘ ‘7 W‘ ;
+J warty.»“uwHwa-u.“. H7: .
+3%me ‘18:.er MW: .
+l‘ Aw M. 7mm:
+mmmwname w gain uwnevsmp P‘ \;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+Reference Cou nt
+Let's see an example (main code]:
+RIIS!
+— m-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:113**************
+®
+Reference Cou nt
+Let's see an example (main code]:
+RIIS!
+W.pU : n? strongicountﬂ
+“WW4 Ig weak—‘°“"“” ABC
+g ‘g t9XL|En=3
+z t
+ﬂ texl,a\loc:3
+>
+5 textvptr
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+Reference Cou nt
+Let's see an example (main code]:
+RIIS!
+w.plr : n? strongicountﬂ
+H owneril I; Weak_wum=0 ABC
+g g, taxplen=3
+z‘:
+
+a texl.a\loc:3
+
+>
+
+5 textptr
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:115**************
+®
+Reference Count
+Let's see an example (main code]:
+RIIS!
+W.pU : n? strongicountﬂ
+owneril IE Weak_coum=0 ABC
+-I—-IIIIII— ‘MW-2 IE? (“HEM
+ﬂ KEXLEHOCIZ
+5
+ﬁ Ll
+ex pr
+'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+®
+Reference Count
+
+Let's see an example (main code]:
+
+RIIS!
+w.plr : ??? strongicountﬂ
+owneril IE Weak_coum=0 ABC
+owner] IE? texl,len:3
+
+J waxy.»"uwepvdr. H ,1, s mum
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:117**************
+®
+Reference Cou nt
+Let's see an example (main code]:
+Rust
+w.plr ‘—|_. strongicountﬂ
+owneril ~—| weak_coum=1 ABC
+owner 2 IE m texl,len:3
+5; KEXLEHOCIZ
+E
+MP"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+Reference Count
+Let's see an example (main code]:
+RIIS!
+w.plr '_L. strongicountﬂ
+owneril ~—| weak_wum=1 ABC
+owner 2 1:? m texllend
+‘ éé
+.7). texl,a\loc:3
+5 textptr
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:119**************
+®
+Reference Count
+Let's see an example (main code]:
+w.plr -—|_. strongicount=3
+owneril ~—|__ x Weakicoum=1 ABC
+m owner] -—‘__§ g texl,len:3
+owner} I a; mxl.a\|uc:3
+5 textvptr
+mm_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+.
+Reference Count
+Let's see an example (main code]:
+RIIS!
+w.plr '_L. strongicount=3
+owneril ‘_L. é weak_wum=1 ABC
+owner_2 IE? :EXLIEHn:33
+owner} -—‘_. .7). exlj 0c:
+5 textptr
+m-
+J intirtsiﬂ"U‘-\\V\ev'3"..\ .~ ' .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:121**************
+®
+Reference Count
+Let's see an example (main code]:
+RIIS!
+w.plr -—|__ strongicountﬂ
+owneril ~—|__é weak_coum=1 ABC
+owner] 15%” texl,len:3
+ewﬁerf3 ‘- I zixmanws
+5 textvptr
+I '
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+Reference Count
+Let's see an example (main code]:
+RIIS!
+w.plr '_L. strongicountﬂ
+owneril ~—| weak_wum=1 ABC
+owner 2 1:? m texllend
+‘ éé
+.7). texl,a\loc:3
+5 textptr
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:123**************
+®
+Reference Count
+Let's see an example (main code]:
+RIIS!
+w.plr -—‘_. strongicountﬂ)
+ewaertl W1“ x Weak_coum=1 ABC
+weal ‘$.53’ (EXlJEnzﬂ
+5; mmlwe
+E “MW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+®
+Reference Cou nt
+Let's see an example (main code]:
+RIIS!
+w.plr -—‘__ strongicountﬂ)
+X weakicoumd ABQ
+a‘? m t9Xl,|En:U
+é E
+a mpauucw
+5’ \
+mum ~— -
+i
+mpmmsmr ‘i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:125**************
+®
+Let's see an example (main code]:
+RIIS!
+w.plr -—|__ strongicountﬂ)
+X weakicoumd
+3 m t9Xl,|En:U
+E >5
+f’; KEXLEHDCIO
+‘upgradsu 5 xenvpnﬂw
+mm_
+H .WHM ‘,1 JAM;
+wnumwname m gain mvnevshlp P‘ \;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+®
+Reference Count
+Let's see an example (main code]:
+RIIS!
+wpv l-&» stronLcounPO
+X » xcm “=0
+5‘ f ‘
+g tex. w;
+um.
+a > (‘:0
+> V
+5 textvptr1???
+I '
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:127**************
+®; Reference Count
+Let’s overview some of the methods from Rc:
+—IH_
+Use to construct a new Rc object.
+m Use m construct a cyclic Rc oblect
+m Creates a new Weak<T> imnn an existing Rc<T>.
+Relurnslhe number ofweak counts
+Returns the number ofweak counts
+Returns a mutable relerence onW ifstrong count is 1
+
+and weak count if o
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+Let's overview some of the methods from Weak:
+
+Mﬂh°ﬂWe=k<T>l na-
+Use m construct a new Weak object with an invalid
+pointer w an mm (unlinkedle To create a Weak object
+that points m an RcBox use the .dnwngradelm) method
+from Rc<T>
+Creates a Rc<T> from an Weak<T> omv mhe strong
+count ofthe RcBox where Weak<T> perms m rs bigger
+than 0.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:129**************
+g; Reference Count
+W=
+
+' Notice that some of these methods does not receive a self object but a
+parameter named of type - This means that these methods can be
+accessed via and not directly through the object. This allows
+avoiding a confusion of having the same method defined in the object as well,
+Keep in mind the Rc<T> implements Dereftrait meaning that you could
+access the methods ofthe T type directly from a Rc<T> object.
+
+' Rc and Weak are sub'ect to further optimizations. Currently, ifthe number of
+strong count is 0, — method will return 0 even if the number of
+weak count is bigger than 0 /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+Implemented traits for Rc<T> and Weak<T>
+clone Increments strung count lncrernentsweak count
+Drop Decremems strong count. If strong count is 0 calls Decrements weak count. If both strong
+the destrucmr of type r. If both strong and weak and weak counts are u, n deallocates
+counts are o, it deallocates the Rc<T> (er memorv. me Rc<T> from memory.
+Deref Provides access to theT obiec! -
+Eq, PartialEq Provides comparation of Rc<T> based on typeT -
+0rd, ParlialOrd
+AsRef, Borrow Provldes a dlrect Immutable reference tothe inner -
+object of type T from an Rc<T>
+Default Creates a new Rc<T> iiTsupporrs a dehuk value. Calls Weak::new(] *creates a new
+Weak<T> with an Invalid pointer m an
+RcBox object.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:131**************
+g; Reference Count
+W=
+
+' There is no trait that allows to access the inner object of type Tfrom a
+-. This is done on purpose, as there is a possibility that a -
+might exists, but the actual inner object of type T doesn't (esg, ifthe strong
+count has reached 0)‘ As such, you can only access the inner object via
+— method that checks first to see ifthe inner object exist. ln a way,
+we can say that - behaves like a - (you have him, but in order to
+access the data you need to check its validity every time).
+
+' Rc<T> implements Deref AsRef and Borrow but no trait that allows mutable
+access to data (such as _ - or —). This means that
+Rc<T> (as it is) can be used to read data but not to modify it!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+g; Reference Count
+Let's try to solve the last problem but using I this time. One way of
+trying to write this will be as follows;
+
+hm l \~~iiiii//
+11m l
+l i V :' i l1)!il\:"'ii l‘?
+’ ‘ l link ’ i‘ l‘.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:133**************
+.
+Reference Cou nt
+Let's try to solve the last problem but using I this time. One way of
+trying to write this will be as follows;
+Rust
+l h.» m“ mm.‘ is mm.“ m mm mm a 4M
+hi. ,. b m. Wm.“ m 1mm.“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+.
+Reference Cou nt
+Let's try to solve the last problem but using I this time. One way of
+trying to write this will be as follows;
+Rust
+l 'iLVi-sxll
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:135**************
+g; Reference Count
+Since that solution did not work, let's try creating an Rc object directly
+when initializing Objectl or Objeth
+
+hm l \~~iiiii//
+11m l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+g; Reference Cou nt
+Since that solution did not work, let's try creating an Rc object directly
+when initializing Objectl or Objeth
+
+lull l \ii
+Notice that since we constructing the data
+member link directly, we will no longer need
+the Option template for a lazy/late initialization.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:137**************
+'
+Reference Cou nt
+Since that solution did not work, let's try creating an Rc object directly
+when initializing Objectl or Objeth
+Rust
+l Um,- iwi-V-q n!»-
+l l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+ﬁi Reference Count
+So why this is not working .7 The main problem is that if we have a cycle
+(like in our case where Objectl owns through a I Objeth and Objeth
+owns through a I Objectl), those object will never be deallocated (the
+strong count will always be 2) and we will end up with memory leaks.
+The solution in this case is to make one link of type I and the other
+one of type -.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:139**************
+'
+Reference Count
+In this case we will try to have a Rc<T> link from Objectl to Objeth
+and a Weak<T> link from Objeth to Object 1. mmmmb
+hwy -
+W WWW”
+_ J:.‘JiH}.l)H} V ‘Jun: 31-142 J ,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+. Reference Cou nt
+However, this solution will not work as an Rc<T> object does not
+implement - trait. WWI)
+Rust
+wﬂwhm“,
+\ """"""\Iimn\f mug“
+\
+W" m. MM .5 W“ m mm, mm a Mum...
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:141**************
+g; Reference Count
+The actual solution is to use the — method from Rc<T>. This
+method is defined as follows:
+
+This method performs the following steps:
+
+1. It allocates a new RcBox<T> data with strong count = 0 and weak count: 1
+
+2. It creates < > object over that RcBox<T>. Since strong count is 0,
+any call to method will return None and as such there is no
+possibility to access the inner object of type Tfrom the RcBax<T>
+
+3, It calls _ callback with the Weak object obtained in step 1, and gets
+an object o type T
+
+4, It copies the memory from the returned object into the value field of the
+RcBox<T>
+
+5. It increments the strong count to 1
+
+6t It returns a new Rc<T> based on the constructed RcBox<T>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+s; Reference Count
+Let's see a graphical representation of how — works:
+1. A new RcBox is m on ‘he heap (mung BE- IE-
+count = o, weak count = 1)
+,( strung mum = n
+3 weak mun! : 1
+2
+Value: H?
+A! (Ins point the space for
+the lnner value wlthln the
+RcBoX object is allocated but
+Ir IS not ﬁlled wlth any l<|nd
+ofvalue m is unimllallzedl
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:143**************
+g; Reference Count
+Let's see a graphical representation of how — works:
+1. A m mm is met on the heap (Mg BE- IE-
+count : o, weak count : 1) Week<T>,ptr
+z. Creates z Weak<T> based un the RcBux mane mum = a
+created on step 1 5
+B weak mun! : 1
+g Value: 7??
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+ﬁi Reference Count
+
+Let's see a graphical representation of how — works:
+
+1. A "9w RcBox is ceaet on the heap (mg BE- IE-
+count 1 0, weak count
+
+z. Creates a Weak<T> [arr-d un the RcBux [sum Type T strong mum = a
+created on step 1 5
+
+3. A caH w 'ataifnl "LWz-ek'T» p \s performed‘ § we“ ‘°“"‘ Z 1
+The resuk ofthis call will he an oblect of type Value: m
+Tthatwﬂl be-
+rms “mm can use the Week<T> object
+internaHv for its data member initiahzation.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:145**************
+g; Reference Count
+Let's see a graphical representation of how — works:
+1. A new Reﬂux is we on the heap (We BE- IE-
+count = o, weak count = 1) Week<T>.ptr
+2. Creates a Weak<T> based on the RcBox “Mg mum = n
+created on step 1 5
+3. A cali to —s performed. 5 weak “"1": 1
+The resuit ofthis call will he an object of type
+T that will be stored on the stack.
+This object can use the Week<T> object
+internally for its data member initiaiilation.
+4. The resuited object is being copied into the A bitewise copy is performed at this point.
+RcBox From a semantic point oiview, we move the
+resiiited object oftvpe r ihth the RcBox,
+meaning that after this operetion, the
+resuited oblect Win he iehger be avallable,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+ﬁi Reference Count
+Let's see a graphical representation of how — works:
+1. A "ew Rem is we on the heap lemme BE- IE-
+courit : 0, weak count : 1) Week<T>.ptr
+z. Creates z Weak<T> based un the RcBux smug mum [I
+created on step 1 5
+a. A call to 1-5 pelteimedi 3 we“ W‘ I 1
+The result ofthis call will he an obiect of type Value: resullob
+T that will be stored on the stack.
+This ublect can use the Week<T> ubiect
+internally for its data member initialization.
+4t The resulted object is being eepied iﬂw the
+RcBOx
+s. We increment the strong wuht 1as we will
+return eh Rc<T> ebiectl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:147**************
+ﬁi Reference Count
+Let's see a graphical representation of how — works:
+1. A "ew rem is we on the reap (Sim BE- IE-
+courit : 0, weak count e 1) Week<T>.ptr
+z. Creates z Weak<T> based D" the RcBux RC6) to be returned smug mum = 1
+created on step 1 5
+a. A call to 1-5 performed‘ 3 we“ W‘ I 1
+The result ofthis call will he an obiect of type Value: resullobi
+T that will be stored on the stack.
+This ublect EZH use the Week<T> ubiect
+internally for its data member initialization.
+4r The resulted object is being eepied iﬂw the
+RcBOx
+s. We increment the strong wurit 1as we will
+return an Rc<T> ebiectl
+a. We create a new Rc<T> over the BXlSllng
+RCBOX and return it‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+® Reference Count
+
+While this method is good enough to instantiate an such a construct, in
+reality there will be a need to modify data members that belong to an
+Rc<T>/Weak<T> smart pointer. Let's analyze the following code:
+Rust
+
+11M: Fenllilri't- ,
+_ value 192
+
+ii Mei‘ it will ii
+
+ailliwzli i F1 iii i, i ‘a1 willie. 91.1mmvamei:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:149**************
+®
+Reference Count
+
+What if we want to change the field .value from both Objectl and
+Objeth after we construct them ?
+Rust
+
+\
+’ W‘ ESTE.’$273“impiimliii;'i§f“nl”if§;§£$§““" ‘ Mm“
+
+‘ ‘linkmlué ' Zn.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+g Reference Count
+The solutlon IS to use Interlor mutablllt throuh a :
+“SE 5m 1w ( , ‘h (C11 cum“
+“Hm < 01:10, 01:20
+1m < < W
+value: »
+3
+struct i
+hnk 4 4 >>‘
+mm
+)
+fn H (
+lek O] : HMM
+1m 1 \ < 1m <7, mug a511,
+mum
+Yr,
+him) (‘>7 valuc , m,
+mmmmm mommy“; m WM Z m‘
+wimw U , U 'X'x'i'ﬂll- i111»va1ue,<'(*<vi<‘on mymm- 0‘, value»:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:151**************
+®; Reference Count
+So lets come back to the original problem (a double linked list) and discuss some
+options in Rust:
+m Va.“ mm Value mm Value m
+Elem A Elem B Elem C
+Options:
+1. Use raw pointers or NonNull wrapper (similar like with c/c++|
+Z. Use a Rc combined with Weak and CellRef for interior mutability
+3v Design the double linked list in a different way (keep all of the elements in a vector and store
+the index for the next and previous elements).
+4. Use a handle-like system (keep all of the elements in a vector, but refer to each element
+through a handle that makes sures that you can not access an elementjust by using an ind
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+g; Reference Count
+Each one ofthese 4 solutions will be embedded in a struct called DoubleLinkedList,
+and for each one of them we will design:
+
+- Node structure
+
+- An initialization method -
+
+- A — method (for this exam Ie we will assume that each node has a
+numerical value attached to it a The h method iterates from the first to
+the last method (by using the data member from each node to go to the
+next one) and sums up all values.
+
+' A - method that adds an element at the end of the double linked list and
+updates the - and - data members
+
+' Additional methods (if needed — e.g. for access an element)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:153**************
+g; Reference Count
+I. Using NonNull (Node & DoubleLinkedList structures)
+m‘ ; " hm . R
+Notice that we use a raw pointer in a DoubleLinkedList structure (similar to a C/C++
+implementation). At the same time, - and - are 0ption<NonNuII<Node>>,
+meaning that instead of using null to indicate that there is next or previous link, we
+can simply use M variant from Option. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:154**************
+i. Using NunNull (DoubleLinkedList implementation: .new() & .add() methods)
+Rust (Nude structure) Rust (noun/amen,“ structure)
+—
+Rust (DuubleLinkedList structure)
+M MAM.‘ J Y -:
+[m H WEN I"}'|Il".1 \AIJE‘ > 111"}
+v‘ m» rmde r p v H v MW .w ,leil ; wt: NW, pref: NW. mm o m‘
+m ; hm“! “rum, m1 “NUME- ;
+m H wmant m. .1‘: nu‘ ;
+M new "m r = m m.» v m 1 new: Mme, pref: NWFE‘ Mm ,w,
+1.11%“ Z SumsH/vHuJJ MUMW “\HMUMQM
+\‘HEMJMLIEMPPQL 7 Lune nunuw;MUM-w; !\'\:-::.tall\1.
+\HYtiil ' new nndé.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:155**************
+g Reference Count
+i Using NonNull (DoubleLinkedList implementation: .sumia||(j method)
+Mm] <
+Dub in new,‘ > <
+m m M , v,
+m m currenl Z wlrmead‘
+mm: <
+Wm (
+m ‘V (‘(urrent/Nelué,
+vr m ‘,W'Ww , (‘(urr'cnt/ "m \' (urr'cnt , Hm n‘ > m,» < ‘mnm 1
+)
+)
+sum
+> .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:156**************
+g; Reference Count
+a. Using Rc (Node & DoubleLinkedList structures)
+value v ‘ , Lu! ,_
+In this case we will use a - for the .next field and a - for the .prec
+field. The double linked list structure will store a - for the head and for the tail
+(first and last elements in the list).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:157**************
+E. Using Rc (DoubleLinkedList implementation: .newU & ‘add() methods)
+Rust (Nude structure) Rust (Daub/eLmkedLlst structure)
+—
+Rust (Daub/elinkedLisr structure)
+m jwlldelJU-LLpV .
+[W m 1w ‘:w'flta Maia‘ >I\:1* :
+m m" We 7 H “nupmu; mm "w NW,‘ pm NW,‘ mm; r1 1n,
+m ; mm “WWW '1‘ n m1! Emma» ‘mm x
+bu m m-uam :>Jr. 1M; H14
+it mums 7 I‘: Wenﬂeii-Ll :y-gunne :
+mam: Nnm!‘
+yum Wm v ‘My, m w. Imnm
+Ham‘
+‘~;;;.¢311.>:;,-~;‘wt‘ n wt 7 SivnvEmm-Lnude 1w n;
+‘\thail ' new Hudé.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:158**************
+. Reference Count
+a. Using Rc (DoubleLinkedList implementation: .sumia||[) method]
+Rust (Node srlurrure) Rust (Daub/eLmkedLrs! smxrure)
+—
+Rust (Duub/eLmkedL/st Stu/(furs)
+Rust (DoubleLmkedL/st structure)
+H m. \
+\ v‘ \
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:159**************
+g; Reference Count
+
+a. Using index in a vector (Node & DoubleLinkedList structures)
+n2)! i . data mi
+_ value , _ ml .
+
+In this case we store all elements in a vector (-member from the
+DoubleLinkedList structure). Each element will have the index of next and previous
+element from the vector.
+A special value defined in the following way:
+will be used to mark an index as invalid (meaning it does not point to another
+element in the vector).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:160**************
+a. Using index in a vector (DoubleLinkedLIst implementation: ‘new() & .add(j methods)
+Rust (Nude structure) Rust (DuubleLmkedLlst structure}
+—
+Rust (Daub/elinkedLisr structure)
+m jwlldelJU-LLpV .
+w‘ m mug!» = Hilly V Jr: :
+7U: Wt "YE 7 YIN’ ' Hits: L-EC MJ:M ‘Iawiil'ZpV'U'Vl",M head: P), till: v7
+me_dnta y'H’ ‘\Sﬂmy Wm‘ 1 "91' . [IV-EC , MINE 6 UM
+bu m m-uam '1“. 1M; H14
+it mums 7 um; ‘. ne-‘t , Bret: :ilhtail‘ wilue m
+madam r‘. “WWW nodelu
+M |MJH.1.-. 7 n Md ‘\HM , 1.
+w 5W pmmgjam Z .1‘ g-YJWJW H ate)!‘ .1
+pmuWLJEn next 7 1559mm:
+\HYtail ' lust )Hdet‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:161**************
+Reference Count
+a. Using index in a vector (other methods)
+Rust (Node smxture) Rust (Doub/eLmkedLlst xtmmue)
+—
+RusHDuub/eLmked w WU w “a _ ‘W ‘ V ;
+1F 1 WE d3ti.l\im‘ 1
+.dnm‘ M1‘. v H. H
+1 W‘ I
+Hm»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:162**************
+a. Using index in a vector (DoubleLinkedLIst implementation: ‘sumiallO method)
+Rust (Node snuzrure) Rust (Doub/eLmkedLlst xrlumue)
+—
+Rust (Duub/elmkedLlst SULKHHE)
+Rust [DoubIeLmkedLrst strutzure]
+.wnh! ‘r 1
+
+7 t Z u‘
+v V V .héad‘
+
+Hi‘ H “alum
+7 t t .m'.‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:163**************
+Reference Count
+a. Using index in a vector (other methods)
+Rust (Node smxture) Rust (Doub/eLmkedLlst xtmmue)
+—
+Rust (Duub/eLmkedLlst strumue)
+Rust/Doublﬂm w HFM'UE. , 1w‘ \ ~ ‘4 > 1
+w W ﬂan-1mm‘;
+$1an‘ .l M ‘H
+1 >1 - -:
+HUVE
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:164**************
+g; Reference Count
+
+a. Using a handle [Node , DoubleLinkedList and Handle structures)
+
+my" l ‘ data l l
+
+‘Jet i Wan ‘ ' “up, _
+A handle contains two elements: an index into a vector and a unique identifier. The
+second one is being used to make sure that when you ask for an element, you know
+exactly what element you are referring to. In case of the index approach, one could
+just manufacture a valid index and would have access to that object. In this case,
+you can not just have the index of that object from the vector, you also need the
+unique id (that is private).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:165**************
+a. Using a handle lDoubleLinkedList imp\ementati0n: .new() method)
+Rust (Nude structure) Rust (DuubleLmkedLlst structure} Rust (Handle structlne)
+— —
+Rust (Daub/elinkedLisr structure)
+m jwlldelJU-LLpV .
+w‘ m mug!» = Hilly V Jr: :
+it Flr'stielementihandle V mu»: “Mal,
+M m me’ ‘w :
+hm hmtiglenvwvtihaudlE.
+(.21): r1Pstiblenventiharmlé‘
+mé.dm w Haw,‘ Imiv 1
+nmt H11 m “mum
+my va.U— mmm
+val“: 9,
+“mm-Um Firstgi'lementihandle.umquéiivl,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:166**************
+Reference Cou nt
+a. Using a handle lDoubleLinkedList imp\ementati0n: .new() method)
+Rust (Node srlurrure) Rust (Daub/eLmkedLlst snumue) Rust [Hand/E structure]
+— —
+Rust (Duub/eLmkedL/st Stu/(furs)
+HIUM m‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:167**************
+a. Using a handle lDoubleLinkedList imp\ementati0n: .addl) method]
+Rust (Nude structure) Rust (DuubleLmkedLlst structure} Rust (Handle structlne)
+— —
+Rust (Daub/elinkedLisr structure)
+m jwlldelJU-LLpV .
+W m avnﬂwut 77>“. 1m; M
+it nevtelewmex 7 :m mum‘ ‘z
+M new nod‘: handle ' 'n'ih v H‘ Mnéw Elem index v> Hv ‘v
+M “Minna” V Huh ;
+HM HuJJ- Imwum
+uric: Ezml,
+value‘
+“mane 1d new I'mde handleauuque 1d,
+"Mum “MW! rmhlirwde \.
+M mg preamp,“ 7 if“ wim-Uw;-V .ta11 1
+previausitai] ne-‘t 7 HQl-Lﬂtvdeihaﬂﬁlal
+mx mu 7 mwinndrihnndh'.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:168**************
+Reference Count
+a. Using a handle lDoubleLinkedList imp\ementati0n: .addl) method]
+Rusrwodsmun ‘ ‘ I } ‘ V V
+w ‘ WHUY! ,, H m “WWW ;
+.Mj M l. Um‘
+1 >1» HM
+1 Ell-F: l HIM-3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:169**************
+a. Using a handle lDoubleLinkedList imp\ementati0n: .sumialll) method)
+Rust (Node snuzrure) Rust (Doub/eLmkedLlst xrlumue) Rust [HGHd/E structure]
+— —
+Rust (Duub/elmkedLlst strumue)
+Rust [DoubIeLmkedLrst strutzure]
+.MMMZ ‘r 1
+
+7 \ Z u‘
+v V V .héad‘
+
+Hi‘ H mhﬂ'v
+7 \ \ .m'.‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:170**************
+g; Reference Count
+For all of the 4 existing scenarios, we will compute the time required for:
+1. Create a 10 million nodes double linked list
+2, lterate through all 10 millions of nodes and sums up the values from each
+
+nodes
+
+All test were performed 10 times and times were recorded‘ The tests were
+performed using a release version ofthe previous snippets of code.
+The test was performed on Window 11, over a laptop with the following
+configuration: 11th Gen lntel(R) Core(TM) i7'1165G7 @ 2.806Hz.
+A list of all 4 scenarios (and several others) can be found on the following github
+repository: httpsﬂgithub.com[gdt050579[double linked list test-rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:171**************
+g; Reference Cou nt
+Times (milliseconds) for creating a double linked list:
+----mlmmmmmm
+NOIINNII 502 495 534 511 093 508 510 Sllﬂ 503 499 505,6
+R: 512 614 6H 6H 601 606 528 505 592 708 519,!
+Index 55 SA 55 55 55 54 so 55 14 n 53.4
+Handle 111 105 108 107 107 1m: 1m: ms 112 154 1193
+Times (milliseconds) for iterating a double linked list:
+-mlmmmmm--W/
+NnnNull 52 E2 53 52 51 70 62 53 53 55 53.3
+n: 13v m 134 122 m 134 122 124 152 us 12m
+Index 30 31 3D 3U 33 30 29 31 37 35 31,5
+ﬂindlg 37 35 36 38 3E 37 35 37 45 41 37,9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:172**************
+The overall results look as follows:
+———-
+mmuull 505.6 53.3 22w;
+R: 62st 196,4 45716
+Index 5!.4 31,5 305.13
+Handle use 21.9 sun
+Some observations:
+~ Index and Handle based solutions rely on allocation of a large continuous memory. This
+means that creation time will be lower and as most CPUs cache memory, iteration will be
+faster
+~ R: solution seems to be generally slower and requires more memory than any other solution
+- NonNull (even if similar cu C/C++) will be slower than Index and Handle based solution due
+t0 the fact memory is not necessarily cached iri their case (as allocation will probably not b a
+continuous block].
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:173**************
+When dealing with large lists and recursive ownership (either via a - or -
+object) there is one other aspect we need to take into consideration‘ Let's take a
+close look Rc<T> implementation for a double linked list:
+Rust (Doublelrnkedlis! structure) Rust (main)
+Hm - . H l 7 in. liﬁmliﬁmli‘
+PW» i m in a Luouiuou i
+value i .aJm i:
+i ,lr'rnhnllml." >
+l or,
+, www.mmmm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:174**************
+Reference Cou nt
+When dealing with large lists and recursive ownership (either via a - or -
+object) there is one other aspect we need to take into considerations Let's take a
+close look Rc<T> implementation for a double linked list:
+Rust (Daub/slinkedtis! structure) Rust (main)
+El!
+mgr. prose“ m" K em successfully.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:175**************
+g; Reference Count
+When an object of type - or - is being dropped, Rust recursively drops
+any other objects that the current ob'ect owns,
+
+For example, if we have a let t : Box::new(MyString(...)); , where MyString is a
+
+structure that contains a String object, when t is being dropped, the String object
+contained in the MyString structure will be dropped as wells
+
+Rust does this by calling the destructor for each data member of structure
+
+MyString. While this is perfectly fine, having a list, a tree or graph where the
+
+ownership of one node expends to multiple children may create a stack overflow as
+
+when those children have to be dropped a recursive call to drop all ofthem will be /
+called.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:176**************
+®
+Reference Count
+
+The solution for these cases is to implement a custom Drop that does the same
+thing but instead of doing it recursively, it does it iteratively.
+mm Rust [015sz drop)
+
+"-4 l , v ‘ .iwp 1 il l l
+
+value i Bowel i t V .nentvtnleii Elie l
+
+n-dd > > l i l‘ i w Z H - MMUJU mneutJel-y l,
+
+ta)!‘ v i .next 7 it t‘
+
+MAM l V l l
+
+i
+
+***************Ending Page***************
+
+ 

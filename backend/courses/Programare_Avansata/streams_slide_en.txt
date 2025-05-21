@@ -1,0 +1,469 @@
+***************Beginning Page***************
+***************page number:1**************
+(5g) Java"
+Advanced Programming
+Stream API
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+The Context
+
+~ We have data stored in various collections.
+
+- We must perform various operations on that
+data: sorting, ﬁltering, grouping, mapping, etc.
+
+- Using only iterators, we may repeat the same
+constructions over and over again.
+
+~ We need a mechanism that is: terser (concise,
+declarative), functional, less mutable, loose-
+coupled, more performant(?) when working with
+collections.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Example
+int sum I 0;
+for(Item e 1 items) {
+1f (aqetWelqhto <: 10) t
+continue;
+>
+if (le.isl\vailable()) (
+continue;
+)
+sum +: egeanceU;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+What is a stream?
+~ A stream is a sequence of elements supporting
+sequential and parallel aggregate operations.
+~ Elements can be objects or primitive values (int,
+long, double). See java.util.stream package.
+~ Example
+int sum : items.stream()
+.filter(e ,> e.getvleight() > 10)
+‘filter (e —> etlSAVBllele (J)
+‘mapTOInt (e —> eigeance (J)
+‘sumU r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Stream Plpellnes
+
+- To perform a computation, stream operations are composed
+into a stream pipeline (query).
+
+~ Astream pipeline consists of a source (which might be an
+array, a collection, a generator function, an l/O channel, etc),
+zero or more intermediate operations (which transform a
+stream into another stream, such as ﬁlter(Predicafe))i and a
+terminal operation (which produces a result or side-effect,
+such as count() or forEach(Consumer)).
+
+- Streams are lazy; computation on the source data is only
+performed when the terminal operation is initiated, and source
+elements are consumed only as needed,
+
+- Collections are concerned with the efficient management of
+and their elements, streams are concerned with declaratively
+describing their source and the computational operations which
+will be performed.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:6**************
+Functional Interfaces
+
+- Afunctional interface is any interface that
+contains only one abstract method.
+
+- Instead of using an anonymous class, you use
+a lambda expression, omitting the name of the
+interface and the name of the method.
+
+ArraysrsortW, (Person pl, Person P2) —> l
+return pl ‘getName () ‘compareTo (page/thaws () ) ;
+
+l) r
+
+@Functionallntexface
+
+public interface Comparator l tn)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+java. util. function packages
+
+Functional interfaces, having various methods:
+- Function
+
+— app/y: accepts one argument and produces a result
+- Predicate
+
+— test: boolean-valued function of one argument
+- Consumer
+
+a accept: a single input argument and returns no result
+- Supplier
+
+— get: does not take any argument and produces a value
+
+Instances of these types will be usually created
+
+using lambda-expressions and method references.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+int sum : ArraysasLisUl, 2, 3, 4, 5).stream()
+‘filcenx ,> X >: 3)
+‘mapToIntUnceger: :intvalue)
+‘aumU;
+- ﬁlter
+Stzeam<T> filter<Predicate<? supe: T> predicaté);
+- mapTo/nt
+IntStream mapTOInt(ToIntFunctiOn<? super T> mapper);
+- sum
+int sum) i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+EprICIt Use of Functlonal Interfaces
+- Predicate
+Predicate<lnteger> predl : X ,> (X > 2);
+Predicate<1nteger> predZ e X ,> (x < 5);
+System.out .println (predljnmpredz) ‘negateU .tescu) J;
+- Function
+Function<5trlnq, Integer> funl : str *> str.length();
+Function<1nteqer, Integer> fun2 : X -> X*x;
+Systennoupprlntln (funl.and'1‘hen(fun2) .apply("Hello") >:
+.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Stream Creation
+
+- Streamempty
+- Collectionstream
+
+Stream<$trlnq> s I collecmomscream);
+' Streamof
+
+Stream<Strlng> s I StrearmOfF'a", "b", "c");
+- Arrays.stream
+
+1nt[] arr : (1,2,3);
+
+IntStream s I Arraysstreanﬂarr);
+- range, rangeC/osed
+
+LongStream lonqStream I LongStream_ranqe(O, 10);
+.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Intermediate Operations
+ﬁlter, map, reduce, distinct, sorted, skip, etc.
+- Intermediate operations are applied on a source stream.
+- Intermediate operations return a new modified stream.
+Stream<$tring> 5 : Stream.of ("5", "b"> .skip (1);
+- Operations can be chained
+stream. sortedt) .distinct (I .skip (l);
+- Intermediate operations are ended by a single terminal
+operation:
+long x I Stream.of("a", "6") .dlstinctU .Countl);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Terminal Operations
+sum, count, min, max, average, forEach, collect, etc.
+- Are applied on a (intermediate) stream.
+- Terminal operations return a value (not a stream).
+Si’n=am.nfl"a", "11") .countl);
+Stream.ofl"ﬁello", "World"] .fo:EachlSysten-.out: :prlntlnlr
+persons.strea1'\ll
+.f;lre:(p -> p.qetAqe() >: ;8)
+.napToInt lPerson: :getAqe)
+.average (>
+.getAsDouble 0 r
+- Terminal operations cannot be chained
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Iteratlng, F||ter|ng and Matching
+stream ~> ﬁlter ~> ﬁndFirsl. ﬁndAny, allMatch. anyMatch. noneMatch, etc,
+- Substitute for: for-each and while loops.
+- “Classical” iteration
+for (Person p : persons] i
+,t (p-geLAgeii >: 18 u p.9etmmei1.endsWtLh("escu)) i
+return p;
+>
+return nULl;
+- “Fancy” stream-based iteration
+personsstream)
+.fiiterﬂo i> p,getAge() >: i8)
+.filter(p -> p,qetNam€() >endswith("escu"ii
+.findFirsf-(l N _
+.0rE;S€(nu11); Opticnal<Person>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Optional
+Tired of Null Pointer Exceptions?
+
+- A container (wrapper) object which may or may not contain
+a non-null value. If a value is present, isPresent() will
+return true and get() will return the value.
+
+- What problem is it trying to solve?
+
+Strlnq countryName :
+person.getl\ddress () ‘gethuntryU ‘getName ();
+
+- Important for stream intermediate operations.
+
+- Groovy has a safe navigation operator:
+person?tqetAddreSS()?4qetCountry()?.getName();
+
+' Kotlin has a type system that distinguishes between
+references that can hold null and those that can not.
+var a: String : "abc" var b: String? : "abc"
+a : null //comprlatron error b I nu;l // 0k
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+- Exp||0|t|y
+Stung ra'ne e "Jenn"; //'\'\ay alsc be mm
+()ptlonal<$tr1ng> Opt e Cptional,of‘Nullable(name)/'
+assert opt.isPresentH; assert lopt.is!.llvpty();
+assert optgetu .equa]s(name)r
+opt.ifPresent (Syst9“.o\;t: :prlntlr‘)?
+mt len e opt.0rElse("") ‘lengthU;
+- Cascading operations
+String coLntryName e person.map(Person::qetAddress)
+.map (Address: :getcountry)
+‘map (Country: =getNeme>
+.orElsC ("UNKNOWN")?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:16**************
+Reducmg
+- Reducing a sequence of elements to some value
+according to a speciﬁed function.
+- The method reduce takes two parameters: a start value,
+and an accumulator function.
+List<1nteger> numbers e ArraysuasLlstU, 2, 3);
+Integer reduced e numbers
+.streaml)
+.reducelo, (a, b) ,> a + b);
+//same as
+Integer reduced e numbers.stream()
+‘reduce (0, Integer: :sum);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Mapping
+- Converting elements of a Stream, by applying a special
+function to them, and collecting the new elements into
+another Stream.
+1tems.st1eamll
+.maptltem *> 1tem.getProduct(l)
+‘niapToDoubletproduct ,> producttgetPrlCelH
+.everege (l .getAsDoubleU l?
+- The flatMap returns a stream consisting of the results of
+replacing each element of this stream with the contents of
+a mapped stream produced by applying the provided
+mapping function to each element.
+orderstflatMapmrder ,> ordertgetltems () .StreartU)
+‘forEach (Systemtout: :prlntln);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Collecting
+- Converting a stream to a Collection or a Map .
+- The utility class Collectors provides a solution for almost
+all typical collecting operations.
+- Collecting to a List, Set, etc.
+L15t<5tr1ng> names : personscstreanﬂ)
+‘maplp i> ptgetNameUl
+t collect (Collectors t toList i) l;
+- Collecting to a String
+Strlng listToStIing pelsons.st1eam()
+,map (Person: :getNamel
+‘collect (Collectorstjoiningt'ﬁ ", " l", "l "l l;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Sorting
+- Using the natural order
+Llst<$trlng> sortedLlSt : llSt.StI€am()
+.sortedO .collect (Collectors. toList () );
+~ Using a Comparator
+List<Person> sortedList : persons . stream ()
+. sorted (Comparator _ comparingInt (Use: : :getAge) )
+‘collect (COlleCCOISitOLlSC (l l;
+- Reversed
+Llst<Strlnq> reversedLlst I llSt.Streﬂm()
+‘sortedO ‘reversedo ‘collect (CollectorsitoLlst () );
+.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Grouplng
+Team barca 1 new Team("FC Barcelona");
+Team real Z new Team1"Real Madrid");
+PlayerH players : 1
+new Player("Llon€l M9551“, barca),
+new Player("Louls Suarez", barca],
+new Player("Antoine Griezman", barcah
+new Player("Karlm Benzema", real) ,
+new Player("Eden Hazard", real) . . .
+) ; _a classlﬂer function mapplng
+Input elements to keys
+Map<IeBIm List<Player>> teamPlayers 1 l
+Arrays.stream(players)
+‘collect (Collectors‘groupingBleayer: :qetTeam) b ,-
+System.out.println(teamPlayerS)i
+// (Real Madr1d=[!<arim Benzema, Eden Hazard],
+// FC Barcelona:[Llonel Me551, Louis Suazez, Antoine Griezman])
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+' Countlng
+Map<String, Long> counting I items.stream()
+
+‘collect (Collectorsqroupingnw a classiﬁer function mapping
+Item: :getName, é/V input elements to keys
+Collectorsaountingw ) );
+
+. ‘\V SDOIIQOID! implementing the
+' Summlng downstream redumion
+Map<5trlnq, Integer> sum : ltems.stream()
+.collect (collectorsgmupingaw
+Item: :qetName,
+Collectors.summing1nt(item: :getQty) > );
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Parallel Streams
+
+- Stream pipelines may execute either sequentially
+(default) or in parallel.
+
+' stream.parallel <) creates a parallel stream.
+
+- Advantage: it uses a multi-threaded approach in
+order to execute the functions inside the pipeline,
+making better use of multi-core processors.
+
+- Disadvantage: it has a much higher overhead
+compared to a sequential one. It pays off only if there
+is a large number of independent tasks.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Using a para/IelStream
+//Sequential
+IntStream streaml I IntStreanLranquloseCHl, 10);
+streaml.forEach (Systemmut: :prlntln);
+//12345518910
+//Parallel
+IntStream streamZ : IntStream.rangeClosed(1, 10);
+stream2.parallel () ‘forEach (Systexmout: :prlntln);
+//76325911048
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+pzlvate boolean isYzime(Long number) (
+long a : 2.-
+w'nle (d ’ d <: numbeﬂ (
+1f (number K\zv (d**) :: C) return fAlSE;
+)
+{Emu true;
+)
+prlvate vold test <
+1m n : luoioouiooo; //Lock1ng £01 a szne numbez 1n a large alray
+long am] : new longm];
+fuz(1“t1:071<n*li1+’) (
+BrI[i] : lUDOU3 * lOUUCB,‘
+)
+arr[n 7 11 Z 2;
+long m1 Z Arrastbxaumhzz) 74355
+‘Exile!Lth1521isPrime)‘fxndAnyH ‘getAsLongH;
+long nr2 = Azrays.stream(arr).parallelO
+.f)lter(this::isFrime).find.Any1).getAsLanU; -
+)
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Recap
+- Stream - sequence of elements supporting
+sequential and parallel aggregate operations.
+- Pipeline - a sequence of aggregate operations.
+persons.stzealn(l
+.filtezlp —> prgetAgEU >: 18)
+.filterlp -> p.getName() ‘endsW1th("escu"))
+‘fcrEach(s ,> Systemioutiprintln (s.getName() ) );
+- Mapping and Terminal ops.
+double averageAge = persons.stteam()
+‘filter(p —> pigetAgeU >: 18)
+.mapToInt(Pe:sonz :getAge)
+.averageO
+.getAsDeubleO ;
+
+***************Ending Page***************
+

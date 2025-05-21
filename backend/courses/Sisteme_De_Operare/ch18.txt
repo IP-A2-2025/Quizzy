@@ -1,0 +1,905 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 18: Virtual Machines
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+s4?!‘ Chapter 18: Virtual Machines
+I Overview
+I History
+I Beneﬁts and Features
+I Building Blocks
+I Types of Virtual Machines and Their Implementations
+I Vinualizaiion and Operating-System Componenis
+I Examples
+omwsh..."“WNW.” M WMMM.mmimw
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Y‘ . .
+W Chapter Objectlves
+I Explore the history and benefits of virtual machines
+I Discuss the various virtual machine technologies
+I Describe the methods used to implement virtualizatlon
+I Show the most common hardware features that support
+virtualizaticn and explain how they are used by operating-
+system modules
+I Discuss current virtualization research areas
+0mm, 5m... Cum,“ e tar mm 0 1 sllhmm-u. Bllvln "a m". mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+t‘ .
+$3317‘ Oveerew
+I Fundamental idea — abstract hardware of a single computer lnto several
+different execution environments
+0 Similar to layered approaeh
+° But layer creates virtual system (virtual machine, orVM) on wnich
+operation systems or applications can run
+I Several pomponenle
+' Host — underlying hardware system
+' Virtual machine manager (VMM) or hypervisor e creates and runs
+virtual machines by providing interface that is identical lo the host
+> (Except in the case ol paravinualizatlon)
+' Guest e process provided with virtual eopy ol the host
+t Usually an operatlng system
+I Single physical machine can rtin multiple operating systems concurrently,
+each in its own virtual machine
+em.",="..mem.aewe.“ in airmen-mmmention“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+processes
+pmtesses
+promises meesses
+! ! !
+i /
+7 pmglammmg
+W3
+vmual mamme
+manager
+ham“ hardware
+Non-virtual machine Virtual machine
+Wm", Syn-m Cum,“ 7 w Wm u s snmmm sum“ m any": mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+r‘
+W Implementatlon of VMMs
+I Vary greatly, with options including:
+' Type 0 hypervisors - Hardware-based solutions that provide
+suppori (or virtual machine creatiun and management via firmware
+t IBM LPARs and Oracle LDOMs are examples
+' Type 1 hypervisors - Operating-system-like soltware built to
+provide virtuallzatlon
+t Including VMware ESX, Juyent SmartOS, and Citrix XenServer
+° Type 1 hypervisors - Also includes generalpurpose operating
+systems that provide standard functions as well as VMM functions
+r Including Mlcrosofl Wlnduws Server wnn Hyper and ReoHal Linux
+with KVM
+. Type 2 hypervisors - Applications that run on standard operating
+systems but provide VMM features to guest operating systems
+' lnCiudeing VMWare Workstation and Fusion, Parallels Desktop, and
+Oracle Vlnualon
+0min, 5m... Wm“ e In.‘ mm tl e sllhvmh-u. snnn m an" mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+r‘
+‘4;; Implementation of VMMs (cont.)
+I Other variations include:
+' Paravirtualization » Technique ih which the guest operating system is
+modiﬁed l0 work in cooperation with the VMM (O Optimize performance
+. Programming-environment vinualizalion 'VMMS d0 n0! vinualize real
+hardware but instead ereare an optimized virtual system
+> Used by Oracle Java and MicrosoﬂNet
+0 Emulators - Allow applications written for one hardware environment lo
+run on a very different hardware environment, such as a different type cl
+CPU
+' Application containment - Not virtualization at all but rather provides
+vinualizatiori»like ieahrres by segregating applications irorrr the operating
+system, making them more secure, manageable
+> Including Oracle Solaris Zones, BSD Jails, and IBM AIX WPARS
+I Much variation due to breadth. depth and importance of virtualization in
+modern computing
+Orr-mm! am... Cam,“ e w mm {I 1 Silhvumu. arrhn .na a-r-r. am
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+K‘
+My} History
+I First appeared in IBM mainframes in 1972
+I Allowed multiple users to share a batch»oriented system
+I Formal definition of vlrtualization helped move it beyond IBM
+1. A VMM provides an environment for programs that is
+essentially identlcal to the original machine
+2 Programs running within that environment show only minor
+perlormance decreases
+3 The VMM is in complete control of system resources
+I In late 19905 Intel CPUs iast enough tor researchers to try
+virtualizing on general purpose PCs
+. Xen and VMware created technologies, still used today
+° Virtualization has expanded to many OSes, CPUs, VMMs
+om.w=m..ﬂcm.wwe.“ m Elem-“M“Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+A
+“W Benefits and Features
+I Host system protected from VMs, VMs protected from each other
+0 l.e. A virus less likely l0 spread
+' Sharing is provided though via shared ﬁle system volume.
+network Commurllcalion
+I Freeze, suspend, running VM
+o Then can move 0r Copy somewhere else and resume
+' Snapshot cl a given state, able to restore back to that state
+> Some VMMs allow multiple snapshots per VM
+' Clone by creating oopy and running both original and copy
+I Great for OS research, better system developmenl efficiency
+I Run multiple, different OSes on a single machine
+' Consolidation, app dev,
+swam,5y....ncm.m.sm.,.m i" Mamas-vi“Mariam
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+t‘
+‘W Beneﬁts and Features (cont)
+I Templating — create an OS + application VM, provide it to
+customers, use it t0 create multiple instances of that Combination
+I Live migration — move a running VM from one host to another!
+Q No interruption ct user access
+I All those features taken together -> cloud computing
+0 Using APls, programs tell cloud infrastructure (servers,
+networking, storage) to create new guests, VMs, virtual
+desktops
+Wm,enmemumiemtm M Silhvmn-u. “Windsurﬁw.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+t‘
+My» Bwldlng Blocks
+I Generally difficult to provide an exact duplicate of underlying
+machine
+0 Especially if only dual-mode operation available on CPU
+. But gelling easier overtime as CPU features and support for
+VMM improves
+. Most VMMs implement virtual CPU (VCPU)to represent
+stale of CPU per guest as guest believes it to be
+> When guest context switched onto CPU by VMM,
+information from VCPU loaded and stored
+° Several techniques, as described in next slides
+om",=,....n¢m.m.e.m.m M Silhvmn-u. slams-“1W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+l‘
+W Building Block - Trap and Emulate
+I Dual made CPU means guesl execules in user mode
+' Kernel runs in kernel mode
+0 N01 safe lo le1 guest kernel run in kernel mode too
+. So VM needs two modes — virtual user mode and virtual
+kernel mode
+> Bolh ol which run in real user mode
+° Aclions in guest 1ha1 usually cause switch to kernel mode
+musl cause swilch lo virtual kernel mode
+om“.5,...chWWW M Slammer““minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+r‘
+W Trap-and-Emulate (cont.)
+I How does swilch from vlrlual user mode l0 virtual kernel mode occur’?
+° Altempting a privileged lnslruction in user mode causes an error ->
+trap
+a VMM gains control‘ analyzes error, exeeures uperalion as
+snempred by guesr
+' Returns control to guest in user mode
+a Known as trap-and-emulale
+' Most vinualization products use this at least in pan
+I User mode node in guest runs er same speed as il nol a guesl
+I But kernel mode privilege mode code runs slower due to (rap-and-
+emulate
+a Especially a problem when mulllple guests running. each needing
+\mp'and'emulate
+I CPUs adding hardware support, mode CPU modes to improve
+virtuallzation performance I
+ere-an, syam sum,“ e w mm n la sllhmzh-u. Gllvln n4 sun. em
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+may; Trap-and-Emulate Virtualization Implementation
+Privﬂeged lnsirumion
+Gm“. ‘ Operamg I use’ "1°55
+1 System ,1?
+u _
+u E
+VMM Kernel Mode
+Emulaie Action iUpdaIe VCPU
+VMM
+om“.5,‘...ncmwﬁrwm M mm.‘ “IN-"46mm.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+A
+W Building Block - Binary Translation
+I Some CPUs don't have clean separation between privileged
+and nonprivileged instructions
+' Earlier Intel x86 CPUS are among lhem
+t Earliest Intel CPU designed ior a calculator
+l Backward campatibillly means diﬂicull lo improve
+. Consider Intel x86 pcpf instruction
+t Loads CPU ﬂags registerfrom conlenls of lhe slack
+t If CPU in privileged mode -> all flags replaced
+t If CPU in user mode -> on some ﬂags replaced
+a No trap is generated
+Wm,5y....lc.w.,i.tm.,.m ms “mum-vi““minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+t‘
+W Binary Translation (cont.)
+I Other similar problem instructions we will call special instructions
+' Caused trap-and-emulate method considered impossible until 1998
+I Binary translation solves the problem
+i Basics are simple, but implementation very complex
+iv If guest VCPU ls ll'l user mode, guest can ruri instructions natively
+2, ll‘ guest VCPU in kernel mode (guest believes it is in kernel mode)
+1 VMM examines every inslruclion guest is about to execute by
+reading a few Instructions ahead oi program counter
+2. Non-special-instruclions run natively
+3. Special instructions translated into new set of instructions that
+perform equivalent task (ior example changlng the ﬂags lI'l the
+VCPU)
+Wm,5y...m5m..,t.sm~a.m M sum-a mummieqnimm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+r‘
+“W Blnary Translatlon (cont.)
+I Implemented by translation ol code within VMM
+I Code reads native instructions dynamically from guest, on demand,
+generates native binary code that executes in place of original code
+I Performance of this method would be poor without optimizations
+Q Products like VMware use caching
+t Translate once, and when guest executes code containing
+special instruction cached translation used instead ol
+translating again
+> Testing showed booting Windows XP as guest caused
+950,000 translations, at 3 microseconds each, or 3 second
+(5 %) slowdown over native
+om", 5"..." “We w am i. i, Slam-a W“ m on“: W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+may; Binary Translation Vinualization Implementation
+User Processes
+KVMM Reads Instrucuorvil
+Speual lnstvunion
+Guest Open“; T User Mode
+System E
+VMM Kernel Mode
+Tvanslme
+ExecmeTvanslauoni Updaxe VCPU
+VMM
+om“, EYE..." BMW m Em {a u mm.‘ W" m WWW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+A
+MW Nested Page Tables
+I Memory managemem another general challenge lo VMM Implementations
+I How can VMM keep page-(able slale (or both guesls believlng they control
+(he page (ables and VMM lhal does control the (ables?
+I Common melhod (Icr lrap-and-emulale and hlnary lranslalicn) is nested
+page lables lNPTs)
+' Each guest melnlalns page lables lo lrenslale virtual to physical
+addresses
+I VMM malmains perguest NPTs lp represent guests page-lame slale
+' Just as VCF'U stores guest CPU slate
+I When guest on CPU e> VMM makes that guesl's NPTs lhe aenve syslem
+page (ables
+0 Guesl lrles lp change page lable _> VMM makes equivalenl change to
+NPTs and ils own page tables
+' Carl cause many more TLB misses -> much slower perlormanee
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+A
+W Building Blocks — Hardware Assistance
+I All virtualizaliun needs some HW support
+I More support »> more leature rich, stable, better performance of guests
+I Intel added new VT-x instructions in 2005 and AMD tne AMD-V
+instructions in 2006
+' CPUs wllh these lﬂSlflAEllOﬂS remove need for bmary translallon
+. Genemlly deﬁne more CPU medes - "guest" and “host”
+' VMM can enable host mode, deﬁne characterislics 01 each guest VM,
+switch te guest mode and guest(s) en CPU(s|
+. lrr guest mode. guest OS thinks il i8 running naltvely. sees devices (as
+deﬁned by VMM tar thal guest)
+' Access 10 vinuallzed device, DVIV instructtcns cause trap w VMM
+' CPU maintains VCPU, context switches it as needed
+I HW support (or Nested Page Tables, DMA, interrupts as well over time
+ewe“, 5"..." ewe.’ tar em tun stlhmm-u. Wt .n w‘. W.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+W Nested Page Tables
+m
+lam-ml 5
+Ian-——m
+———-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+r‘
+W Types of Virtual Machines and Implementations
+I Many variations as well as HW details
+' Assume VMMs lake advantage oi HW features
+r HW features can simplify implementation, improve performance
+I Whatever lhe lype, a VM has a lifecycle
+' Created by VMM
+' Resources assigned lo il (number of cores, amount of memory.
+networking details, slcrage details)
+O In type o hypervisor, resources usually dedicated
+' Othertypes dedicate or share resources, or a mix
+. When no longer needed, VM can be deleted, freeing resouces
+I Steps simpler, fasler ihan wiih a physical machine install
+. Can lead t0 virtual machine sprawl with lots Of VM5, history and
+state difﬁcult t0 track
+om“.mememxaemdm rm “imam-yr“weenie“.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+r‘
+“W Types of VMs - Type 0 Hypervisor
+I Old idea, under many names by HW manufacturers
+Q “partitions”, “domains"
+' A HW feature implemented by ﬁrmware
+' OS need lo nothing special, VMM is in ﬁrmware
+' Smaller feature set than other types
+' Each guest has dedicated HW
+I l/O a challenge as difficult (0 have enough devices, oonlrollers l0
+dedicate to each guest
+I Sometimes VMM implements a control partition running
+daemons that other guests communicate with for shared l/O
+I Can provide virlualization-within-virtualization (guest itself can be
+a VMM with guests
+° Other types have dil'ﬁculty doing this
+om",“amamumietmm a): Slam-a eta-"temiw.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+w Type 0 Hypervisor
+Guest‘
+CPUs CPUs CPUs CPUs
+memory memory memory memory
+Hypervisnr (m lilmwars) IIO
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+r‘
+~43}; Types of VMs — Type 1 Hypervisor
+I Commonly found in pernpeny eaiaeeniera
+' ln a senee becoming “aaiaeeniereperairng syslems"
+> Dalaoenter managers control and manage OSes in new,
+sophisticated ways by eenireliing (he Type 1 hypervisor
+. Consolidation of multiple OSes and apps onto less HW
+' Move guests between syslems lo balance perlormance
+> snapsnuis end cloning
+I Speeral purpose eperairng syslems that run nairvely on HW
+' Rainer lhan providing syslem ea|| inienaee, ereare run and manage guest
+OSes
+I sari run on Type o hypervisors but nei On einer Type 1s
+' Run in kernel mode
+° Guesls generally dun'l know they are running lﬂ e VM
+. Implement devlce drlvers lcr nosl HW because no other component can
+' Also provide olher rradiiipnai os semces llke cpu and memory
+managemeni
+Wm. am may .a arm “as “We W .n wig“!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+t‘
+W Types of VMs — Type 1 Hypervisor (cont)
+I Another variation is a general purpose OS that also provides
+VMM functionality
+° RedHat Enterprise Linux with KVM, Windows with Hyper-V,
+Oracle Solaris
+' Perform normal duties as well as VMM duties
+' Typically less feature rich ltiarl dedicated Type 1 hypervisors
+I In many ways, treat guests OSes asjust another prooess
+I Albeit with special handling when guest tries to execute
+special instructions
+om",“ammmumiewam a); Silhvmhu. “Madeiﬁﬁm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+r‘
+W Types of VMs — Type 2 HyperVIsor
+I Less interesting from an OS perspectlve
+. Very lillle OS involvement in virtualization
+° VMM is simply another process, run and managed by host
+> Even the host doesn't know they are a VMM running
+guests
+' Tend lo have poorer overall performance because can'l Lake
+advantage ol some HW leatures
+' Bul also a beneﬁt because require no Changes t0 host OS
+> Student could have Type 2 hypervisor on native host, run
+rnulllple guesls, all on standard host OS such as
+Wlndows, Linux, MacOS
+om",“ammmmwemdm 021 sum-a “Mums-$.81“.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+r‘
+W Types of VMs — Paravirtualization
+I Does not Tit the deﬁnition 01 virtualization — VMM not presenting an
+exact duplication ol underlying hardware
+° But still useful!
+' VMM provides serwces that guest must he modiﬁed lo use
+i Leads to increased performance
+. Less needed as hardware supperl for VMs grows
+I Xen, leader in paravirtualized space, adds several iechniques
+' For example, clean and simple device abstractions
+t Efﬁcient l/O
+t Good communication between guest and VMM about
+device l/O
+> Each device has circular buﬂer shared by guest and VMM
+via shared memory
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+*4}; Xen IlO Vla Shared Clrcular Buffer
+Requesr Cunsume! Requesl Produce!
+anaw pomler Shared pomlsr
+in Xen updated by guesl cs
+Response Pmducer
+Shared pomler Hesponse Cunsumer
+updaied by Private pclmer
+Xen m guesi os
+Re “en ueue - Descvi ms ueued b \he vm hm not 21 awe ‘ed n Xen
+q q v \1 v y P y
+- Outmndlng aemlpmn - Descnptor slols awamng a response Iram Xen
+- Ruponu quouo - Descnplms Rammed by Xen m vesponse w SENICEG requesls
+y—\ Unum ducrlplorl
+0mm, sh..." Camp‘. , w mm uzs Sllhvmhlu. 81M“ Ind m". @zuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+A
+W Types of VMs — ParaVIrtuallzatlon (cont)
+I Xen, leader in paravirlualiZed Space, adds several techniques
+(Cont)
+. Memory management does not include nested page tables
+> Each guest has own read-only tables
+' Guesl uses hypercall (call t0 hypervisor) when page-
+table changes needed
+I ParavirlualiZatiOn allowed virlualiZaliDn 0t Older X86 CPUS (and
+others) without binary translation
+I Guest had to be modified lo use run on paravirlualized VMM
+I But on modern CPUs Xen no longer requires guest modiﬁcation
+-> no longer palavirtualization
+om.",5y...mcm.mkmm W snow-a GIIvin-nds-gntezutl
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+r‘
+W Types of VMs — Programming Environment Virtualization
+I Also not-really-virlualizalion bul using same techniques, providing
+similar features
+I Programming language is designed lo run within custom-built
+virtualized environmenl
+° For example Oracle Java has many features that depend on
+running in Java Virtual Machine (JVM)
+I In this case virtualization i5 defined as providing APIS that deﬁne a
+set of features made available lo a language and programs written
+in that language to provide an improved execution environment
+I JVM compiled to run on many systems (including some smarl
+phones even)
+I Programs written in Java run in lhe JVM no mailer iiie underlying
+system
+I Similar to interpreted languages
+Wm.5,...m5rimmPdem int Sims-a WMHNNJW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+A
+My} Types of VMs - Emulation
+I Anomer (older) way ior running one operaung sysrern on a diﬂerenl
+operaling sysienr
+' Virluaiizatiun requires underlying CPU to oe same as guest was
+compiied for
+° Emuistiun allows guesi lo run on different CPU
+I Necessary re translate all guest instructions rrorn guest CPU to nnrive CPU
+' Emuiatiorlv not virtualization
+I Useful when husi system has one archlieclure‘ guesr compiled foroiher
+architecture
+I Company replacing outdated servers with new servers oeniaining
+different CPU architeciure‘ but stiil want to run old applications
+I Performance chalienge e order oi magnitude siower than neiive code
+. New machlnes faster than older machlnes so can reduce slowdown
+I \/ery popular- especially in gaming where old consoles emulated on new
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+r‘
+W Types of VMs - Application Containment
+I Some goals ol virtualization are segregation of apps, performance and
+resource management, easy start, stop, move, and management of them
+I Can do lhOSe things Without lull-ﬂedged VirtualiZaliOn
+' ll applications compiled forthe host operating system, don't need lull
+virtualization to meet trlese goals
+I Omcle containers / zones for example create virlual layer between 0s
+and apps
+Q Only one kernel running — host OS
+. OS and devices are vlrlualized, providing resources wilhln Zune wllh
+impression lhal they are only prooesses un system
+Q Each zone has its own appllcations; networking stack, addresses,
+and ports; user accounts, etc
+O CPU and memory resources divided between Zones
+r Zone can have its own scheduler to use those resources
+era-elm, an"... acme“ e rrn eaten u :3 sllhmm-u. snvln .r-e em. mull
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+CPU qumei naiwork ﬂddIBIEEI nemwk addeilS
+memory reswvces dsvlca acoess am» amass
+CPU resources CPU Iesoumes
+vmual plaﬂonn
+gm“, me devme management
+Sdllll kbmll
+rmwonk 561mm
+dawns - - ‘ demote
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+R
+W Vinualization and Operating-System Components
+I Now look at operating system aspects of virtualization
+0 CPU scheduling, memory management, l/O, storage, and
+unique VM migration feature
+> How do VMMs schedule CPU use when guests believe
+they have dedicated CPUs?
+> How can memory management work when many guests
+require large amounts of memory?
+Wm,=,i..m¢.m.,.m.em.,.m Ms mm.‘ GIIvin-nde-qntezuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+r‘
+W OS Component — CPU Schedulmg
+I Even single-CPU syslems act like mulliprocessor ones when
+virtualized
+° One or more virtual CPUs per guest
+I Generally VMM has one or more physical CPUs and number of
+threads to run on them
+. Guests conﬁgured with certain number of VCPUs
+> Can be adjusted throughout life of VM
+. When enough CPUs for all guests -> VMM can allocate dedicated
+CPUs, each guest much like native operating system managing ils
+CPUs
+‘ Usually not enough CPUs -> CPU overcommitment
+> VMM can use standard scheduling algorithms to put threads on
+CPUS
+> Some add lairness aspect
+Wm,5"..."cunupriem-am in: Slam-a amnesia“.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+A
+W OS Component — CPU Schedullng (cont.)
+I Cycle stealing by VMM and oversubscription oi CPUs means
+guests don't get CPU cycles they expect
+. Consider limesharing scheduler in a guest trying to
+schedule 100ms1ime slices -> each may lake 100ms, 1
+second, or longer
+t Peer response limes for users Di guest
+> Time-ol-day clocks incorrect
+° Some VMMs provide application to run in each guest to ﬁx
+iime-of-day and provide other integration features
+Wm, 5"..." Wm.“ m Em u =1 sum-e W“ m W‘. W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+A
+W OS Component — Memory Management
+I Also suﬂels lrem oyereubseriplrprl -> requlres extra managemem
+efﬁciency from VMM
+I For example, VMware ESX guesls have a conﬁgured amounlol physical
+memory, men ESX uses a melrrprls pl memory management
+r Double-paglrlg, in which lhe guest page table indicales a page is in
+a physmal name bul me VMM moves some uHhose pages lp
+backing slore
+2 Install a pseudo-device driver in each guesl (il looks like a device
+driver le me guest kernel but really lust adds kernel-mode code to
+llre guesl)
+
+' Balloon memory manager communicates with VMM and is (old
+lo allocate or deallucate memory to decrease or increase
+physreal memory use pl guesl, causing guest os lo lree pr
+have more memory available
+
+a Deuuplrealrerr by VMM determinlng if same page loaded more man
+erree, memory mapplrlg me same page inlo mullrple guesls
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+r‘
+W OS Component — llO
+I Easier for VMMs to integrate with guests because l/O has lots oi
+variation
+0 Already somewhat segregated / ﬂexible via device drivers
+. VMM can provide new devices and device drivers
+I But overall l/O is complicated for VMMs
+' Many short pains lor l/O in standard OSes for improved pendrrnande
+0 Less hypervisor needs td do ier lIO ier guests, the better
+. Possibilities include direct device aooess, DMA pass-through, direct
+inlerrupl delivery
+r Again, HW support needed ler lnese
+I Networking also complex as VMM and guesls all need network access
+' VMM can bridge guest to network (allowing direct access)
+0 And I or provide network address translation (NAT)
+t NAT address local lo machine on which guest is running, VMM
+provides address lranslaliorl lo guest to hide its address
+em", en..." “We lie and n i, sllhvmhu. We .d em“. an.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+r‘
+w)?’ OS Component — Storage Management
+I Both beet disk and general data access need be provided by VMM
+I Need to support potentially dozens of guests per VMM (so standard
+disk partitioning not suﬂicient)
+I Type 1 — storage guest root disks and conﬁg information within file
+system provided by VMM as a disk image
+I Type 2 — store as tiles in ﬁle system provided by host OS
+I Duplicate me -> create new guest
+I Move file to another system -> move guest
+I Physical-to-virtual (P-to-V) convert native disk blocks into VMM
+format
+I Virtual-tO-physical (V-tO-P) Convert from virtual forrnat l0 native 0r
+disk format
+I VMM also needs l0 provide access t0 network attached storage (just
+networking) and other disk images, disk partitions, disks, etc
+om", 5"..." “We m» em {m Slim-e W“ m sq“: my.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+say} OS Component - L|ve Mlgratlon
+I Taking advanlage ofVMM (ealures \eads (a new luncﬂonaﬁly not found on
+general pperanng syslems such as live migraliun
+I Running gnes( can be moved helween syslems, withcul inlerruplmg user
+access m (he guest er its apps
+I Very useful for resource management maimenanee downtime windows, etc
+1 The source VMM establishes a COWIeCliOﬂ Wi1h the target VMM
+2 Tne (argel creates a new gues( by creating a new VCF'U, etc
+a Tne source sends an readronly gues( memory pages (o (he (arge(
+4 The sddree sends an read-wnle pages (d (he large!‘ marking (nern as
+clean
+5 Tne sauree repea\s s(ep 4‘ as dunng that s(ep some pages were prpbably
+mUdlﬁSd by the guesl and are "OW dwiy
+6 When cycle 0f SQBPS A and 5 becomes very SN)“, SOUIOQ VMM freezes
+guest, Sends VCPU'S ﬁna\ slate, sends oiher S1315 deiaHs, Sends ﬁnal dirty
+pages, and \ells (arge( (o star! running (he gues(
+> Once (arge( acknowledges (ha( gues( running, souroe (ermina(es gues(
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+“d Live M ig ration of Guest Between Servers
+0 — meiw 1 - Esrabﬁsh 2 — Clem
+Guasl Source Guesl Target
+a.
+u _ S
+E a Send n10 Pages §
+m 4 >Send ww Pages E
+S
+E 5 - Send Dmy Pages (repeatedly) E
+1 - Terminals v s- Running
+Gues‘ Tame‘ "mmng
+menmmmmmmmm M, nnmnmnnWWW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+t‘
+“3;? Examples - VMware
+
+I VMware Workstation runs on X86, provides VMM tor guests
+
+I Runs as application on other native, installed host operating
+system -> Type 2
+
+I Lots of guests possible, including Windows, Linux, etc all
+runnable concurrently (as resources allow)
+
+I Virtualization layer abstracts underlying HW, providing guest
+with is own virtual OPUS, memory, disk drives, network
+interfaoes, etc
+
+I Physlcal disks can be provided to guests, or virtual physical
+disks (just ﬁles within host file system)
+
+Wm, 5"..." mum.’ w mm w slim-s W“ m W‘. my.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+v3); VMware Workstatlon Archltecture
+W W ,ym
+WED, ‘WWW WWW,
+MMWW
+(Lhurl
+Wm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+r‘
+W Examples - Java Vlrtual Machlne
+I Example 0f programming-environment virtualization
+I Very popular language / application environment invented by Sun
+Microsystems in 1995
+I Write once, run anywhere
+I Includes language speciﬁcation (Java), API library, Java virlual
+machine (JVM)
+I Java objects speciﬁed by class construct, Java program is one or
+more objecls
+I Each Java object compiled into architecture-neutral bytecode
+output ( .class) which JVM class loader loads
+I JVM compiled per architecture, reads bytecode and executes
+I Includes garbage collection to reclaim memory no longer in use
+I Made faster by just-in-lime (JIT) compiler that turns bytecodes
+into native code and caches them
+om",5,‘...ncmmiewam rm sum-a Win-"dwiw.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+my}; The Java Vlrtual Machlne
+Javaplogram ,, _ _ _ ,, JavaAPl
+.classﬂles > classbader < @
+Java
+imsrpvelsr
+hostsystem
+(Windows, Linux. sic‘)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+t‘
+W Virtuallzatlon Research
+I Very popular technology With active research
+I Driven by uses such as sewer consolidation
+I UnikernelS, buill on library operating systems
+I Aim to improve efﬁciency and security
+I Specialized machine images using one address space, shrinking attack
+surface and resource leotpnnt oi deployed applications
+I In essenOe, compile applicalion, libraries called, and used kernel services
+into single binary that runs in a virtual environment
+I Better control of processes available via projects like Quest-v
+I Real tlme execution and fault tolerance Vla virtualizatlorl Instructions
+I Partitioning hypervisnrs partition physical resources amongst guests, iully-
+committing all resources (rather than overcomrnitting)
+' For example a Linux system that lacks reaHime capabilities for safety’ and
+security-critical tasks can be extended vvith a lightweight real-time 0s
+ruririing in its own VM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+A
+“W Virtualization Research (cont)
+I Separation hypervisors like Quest-V, each task runs in a virtual machine
+i Hypervisor initializes system and slarls lasks but not involved in
+continuing operation
+i Each VM has its own resources the task manages
+. Tasks can be real time and more secure
+i Other examples are Xtratum, Siemens Jailhouse
+' Can build chip-level distributed system
+Q Secure shared memory channels implemented via extended page
+tables for inter-task oommunication
+i Project targets include robotics, self-driving cars, lnlemel of Things
+Wm.Synmcmpmdm an Slam-a “NMMGNJW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+End of Chapter 18
+—
+
+***************Ending Page***************
+

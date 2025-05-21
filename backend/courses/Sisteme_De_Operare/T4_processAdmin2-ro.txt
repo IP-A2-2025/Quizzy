@@ -1,0 +1,792 @@
+***************Beginning Page***************
+***************page number:1**************
+Sisteme de Operare
+Gestiunea proceselor
+partea a ll-a
+Cristian Vidragcu
+hnpszl/profs‘infouaicxo/Nvidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cursul precedent
+P Conceptul de proces (/ﬁr de execugie)
+" Stérile prOCCSUIUi (/unui ﬁr de execugie)
+> Relagii intre procese
+P Procese concurente
+> Planiﬁcarea proceselor (/ﬁrelor de execugie)
+' Obicctivc
+' Cozi dc planiﬁcarc
+' Planiﬁcatoarc
+' Schimbarca contextului
+' Prioritégi
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Cuprins
+' Planiﬁcarea proceselor (continuare)
+
+' Structura planiﬁcirii
+" Algoritmi de planiﬁcare:
+
+i FCFS
+
+— SJF §i SRTF
+
+i Planiﬁcarea cu prioritégi
+
+i RR
+
+$.21.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Structura planiﬁcérii / l
+- Concepts dc bazé ;
+Execugia unui proces/thread consti ‘mm; ‘
+Tmr-o secventé de calcule executate i’:f,“.‘,:';,,.e [0mm
+pe CPU §i de operagii de l/O: ‘L
+rafale CPU unnate de rafale I/O J V0 W5‘
+~ > ‘ ‘ > V v lssogincremem ‘ ms
+Dlsmbugla statlstlca uzuala a wldlleleme I CPU“ ‘
+duratelor rafalelor CPU: WWI/O 1W0 Ml
+. read'mmhle J
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Structura planiﬁcérii /2
+' Structura planiﬁcérii
+i Deciziile dc planiﬁcare a CPU se iau in urmﬁloarele situagii:
+
+l. cénd un proccs/thread trccc din starca running in starca
+wailing (e.g. cerere I/O, sau apel wait)
+
+2. cénd un proces/Lhrcad trece din starea running in starea
+réady (e.g. cénd apare 0 intrempere hardware de ceas ce
+marcheazé sférgitul unei cuante de [imp procesor)
+
+3. cénd un proces/Lhrcad trece din starea waiting in starea
+ready (e.g. terminarea unei operaiii I/O, sau ape] wait)
+
+4. cénd execuiia unui proces/Lhrcad se termini: (normal sau
+forgat)
+
+540
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Structura planiﬁcérii /3
+' Structura planiﬁcirii
+
+i Pentru situagiile l. $i 4‘, un nou proces/thrcad (dacé exislé
+vreunul in starea ready) trebuie sé ﬁe selectat pentru execugie‘
+
+i Cénd planiﬁcarea se face numai dalorité situagiilor l, $i 4.,
+schema de planiﬁcare este numité ne-preemptivé; altfel, ea
+cstc preemptivi.
+
+i O politicé de planiﬁcare este numitz'l preemptive‘! dacé, 0 daté
+ce unui proces/thread i s-a alocat CPU-u], acesta poate mai
+térziu sé-i ﬁe luat (in mod forgat).
+$i este ne-preemptivé dacé CPU-u] nu mai poate ﬁ luat de
+1a cel care-l deﬁne, Le, ﬁecare prunes/thread ruleazé péné 1a
+terminare sau péné la efectuarea unei cereri l/O (sau apel wail).
+
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Structura planlﬁcérn /4
+~ Preempﬁe
+
+i Puliricile dc planiﬁcare put ﬁpreemprive sau neipreemptive.
+Preempﬁe: planiﬁcaturul poatc forla un proccs 551 rcnungc la proccsor
+inainte ca procesul sé se blocheze (i.er 55 inigieze 0 operagie l/O), s5
+renunge singur la CPU, sau si se termini
+
+' Cuantiﬁcarea timpului CPU (timeslicing) previne
+monopolizarea CPU-ului de cétre vreun proces
+
+i Planiﬁcaturul alcgc un proccs ready $i-l cxccuté u cuuntﬁ dc limp.
+
+i Un pruces ce se execute? mai mull decét cuama sa de limp, este fonat s5
+rcnungc la CPU dc citrc codul planiﬁcatorului mlat prin handler-111
+intrerupcrii hardware de seas.
+
+~ In politicilc dc planiﬁcarc pc bazé dc prioritﬁgi sc foloscstc
+prccmpﬁa pcntru a onora prioritégilc
+
+i Pmcesul curent running este preemptat dacé un proces cu 0 prioritate
+mai mare inmi in starca ready. - ,0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Structura planiﬁcérii /5
+' Observayii:
+
+i O politic?! ne—preemptiv5 implicé mai puginé incércz'ituré
+(overhead) a sistemului $1 face ca timpul total de la startul
+execugiei unui program 5i péni la terminarea lui s5 ﬁe mai
+u$or de anticipat. Astfel de politici s—au utilizal indeosebi
+in sistemele serials (cu batch job»uri)‘
+
+i Schemele preemptive implicé schimbarea frecventé a
+proceselor pe CPU (prin context switching), ceea ce poate
+determina o incércare suplimentaré semniﬁcativé a
+sistemului. Ele sum utilizate in sistemele interactive (cu
+limp partajat), precum §i in cele in timp real, pentru a putea
+satisface constréngerile legate de timpul de réspuns.
+
+“<1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Planiﬁcarea proceselor
+" Algoritmi de planiﬁcare
+i Criterii de optimizare utilizate:
+~ Gradul dc utilizarc a CPU-ului (% timp non-idle; 40%-90%)
+' Rata de servire (numﬁrul de procese/unitatea de limp)
+' Timpul turnaround (intervalul scurs intre momentul
+submiterii $i cel a1 terminérii unui proces; timpul de viagﬁ)
+' Timpul de a$teptare (timpul petrecut in coada ready)
+' Timpul dc rz'ispuns (timpul scurs intre emiterea unei comenzi de
+citre utilizator §i producerea primului réspuns 1a acea comandi)
+i Scopuri:
+- Maximizarea utilizérii CPU 5i a ratei de servire
+- Minimizarea timpilor turnaround, de agteptare 5i de réspuns
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Algoritmi de planiﬁcare /l
+' Algoritmi de planiﬁcare:
+— First-Come, F irst-Served (FCFS)
+— Shortest-Job-First (SJF) §i SRTF
+— Planiﬁcarea CU. prioritéyi, preemptivé $i ne-preemptivé
+i Round-Robin (RR)
+i Planiﬁcarea cu cozi ready pe nivele multiple,
+simplzi $i cu feedback
+i Planiﬁcarea in timp real
+i Planiﬁcarea cu procesoare multiple
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Algoritmi de planiﬁcare /2
+' First-Come, First-Served (FCFS)
+i procesul care soliciti primul si i se acorde timp
+CPU, este primul céruia i se va aloca CPU-ul
+— implementare: 0 simplé structuri FIFO
+i algoritmul este simplu de scris §i dc ingelcs
+— alg. de planiﬁcare FCFS este ne-preemtiv (deci nu
+poate ﬁ utilizat pentru medii interactive)
+i procesele lungi sunt favorizate de politica dc
+planiﬁcare FCFS, iar cele scurte sunt defavorizate
+l \ 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Algoritmi de planiﬁcare /3
+' First-Come, First-Served (FCFS)
+
+i rata de servire i alg. FCFS este la fel de bun ca
+orice alté politicé de planiﬁcare ne-preemtivé
+daci CPU-ul ar ﬁ singura resursi planiﬁcabilé din sistem
+
+i echitate i alg. FCFS este intuitiv echitabil
+
+i timpul de réspuns i procesele lungi 1e gin pe toate
+celelalte in agteptare
+
+H'Munp or ‘ H ‘
+melyl'wknn M’ *“E' ""“W'
+Runwwl‘rum/(um!
+rumlr In! Ila)
+ll 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Algontnn de plan1ﬁcare/4
+' First-Come, First-Served (FCFS)
+Scenariul#l: Pruccsc Momcntul Timpuldc scrviciu I t “d I
+. c ~ v 0 >za > “cm:
+(un cxcmplu 50mm sollutat ‘imitmwlmmrm
+doar cu proccsc A 0 3 . .v
+CPU-inlensive, B 1 5 M°@F“l“.l 505"}:
+fava nicvoop m) C 3 2 1:ch Soslrc a
+(Upnunca ahemauvé
+E 192 g M n ~50,“ + .->
+m",
+Diagrama limp 1
+a planiﬁcﬁrii Z
+(pe 1 CPU): ‘ —
+sll1234§i7I9llllllzlSHliliHlllilﬂﬁlnp
+' “W.” _ mm“ “A” m‘ n 4n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Algoritmi de planiﬁcare /5
+' FCFS mmmm
+(FariI/O) 5%"
+a???“ Ens-5:553
+2:22“ :
+m. mm“, ,
+Ea.- EEEEII‘ i
+Sumaml planiﬁcirii:
+mummy 11111111111 9 11
+III-IIIIIIIEIEIEIEEIEIEIEI E
+l4/4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Algontnn de plan1ﬁcare/6
+° FCFS
+Proces Sosirc Scrviciu Start Finish T W P
+Sconariul #l A 0 3 0 3 3 0 L0
+Rezultatele B l 5 3 8 7 2 1'4
+planiﬁcérii C 3 2 8 10 7 5 3'5
+FCFS: D 9 5 10 15 6 l 1.2
+E 12 5 15 20 8 3 1,6
+Nataﬂi:
+Start I momentu] cénd devine running
+Finish I momenlul 05nd se terminé de executat
+t I timpul dc execugie propriuizisé (Le. Iimpul dc serviciu)
+T I timpul de viagé (I moment ﬁnish I moment sosire)
+W I timpul dc a§teptare (in 00(1le ready) (I T I t)
+P I rata de penalitene I T/t ; R I ram de réspuns I t/T
+15 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Algontml de planlﬁcare /7
+' FCFS
+Scenariul #2 : “hmmmm
+un exemplu in care (uncle) 2'." 'I-I'
+process execuu'n 5i operagii l/O Mm" ‘
+in coloana Serviciu se vor speciﬁca 5:1:
+am duralele mfalelor CPU‘ cu negru» $232.1
+05l$1dumleleoperagillan/O,ou row] ‘ 3:2.»
+, _ EEE=EEEED Z ,,
+A u- nun-mun“ - ~
+nmu-mnllu- , ,
+c 3 ‘ :1 '—:-— _-:7":- _--‘
+D 9 3;1;2 ‘ H "‘- _ -.- :11. 2.11 _ “-
+E 12 5
+l6/4U
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Algoritmi de planiﬁcare /8
+' FCFS W.
+1 1 _
+Scenariul #2 (cu l/O) 1 —
+, _
+Diagrama limp ‘ —‘ —
+“Planiﬁcﬁi 51.11 3 1 5 s 1 . 1 11.111211111511111Hm116,"
+(pelCPU): 1....“ _m mm 11m "
+ProcesSosire Serviciu Stan Finish T W P
+A O 2;];1 O 10 10 6 2.5
+Rezultatele B I 5 2 7 6 l 12
+planiﬁcérii C 3 2 7 9 6 4 3'0
+FCFS‘ D 9 3;1;2 10 20 11 5 1.83
+E 12 5 13 18 6 1 1.2
+Sumaru] planiﬁcam;
+00 0| 02 03 04 05 06 07 08 0910111213141516171319 20
+AABBBBBCCADDDEEEEEDD
+1241!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Algoritmi de planiﬁcare /9
+' Shortest-Job-First (SJF)
+
+— Ideea: scoaterea rapidé din sistem a proceselor
+scurte pentru a minimiza numérul dc procese aﬂate
+in a§teptare cit timp ruleazé un proces lung
+
+i Intuitiv: proceselc cele mai lungi déuneazé cel mai
+mult pentru timpii de a§teptare ai competitorilor lor
+
+i SJF este optimal (lucru demonstrabil matematic), in
+sensul 051 produce cel mai mic timp mediu de
+a§teptare pentru 0 mulgime daté de procese
+
+i Este nevoie de anticiparea timpilor de serviciu CPU
+
+It 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Algoritmi de planiﬁcare / 10
+' Shortest-Job-First (SJF)
+
+i Plniﬁcarea SJF poate ﬁ ne-preemptivi, sau preemptivi
+
+i Varianta SJF preemptivé este numité planiﬁcare shortest-
+remaining-time-ﬁrst (SRTF)
+
+— SJF favorizeazé procesele interactive, ce necesité réspuns
+rapid §i care interacgioneazé cu utilizatorul in mod repetat
+
+— SJF favorizeazé procesele ce produc rafale I/O (1/0 bursts) —
+cele care se blocheazé curénd, ginénd perifericele ocupate §i
+eliberénd astfel CPU-ul
+
+i Atengia este indreptati spre o misuré medic a performanyei,
+uncle procese lungi pot ﬁ infometate in cazul unei incércéri
+masive a sistemului sau a unui ﬂux constant de noi procese
+scurte ce intri in sistem 1» 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Algontml de planlﬁcare /11
+° Shortest-Job-First (SJ F)
+i Sacriﬁci echitatea pentru a micgora timpul mediu de rispuns
+i Planiﬁcarea SJF puri este impracticabili: planiﬁcatorul nu poale
+anticipa durata unui proccs
+i Totusi, SJF are valoare in sistemele reale:
+' Multe aplicagii executé 0 secvengé de rafale CPU scurte cu operayii I/O
+intro accstca
+' E.g., joburile interactive se blocheazé in mod repetat pemru a accepta
+input din panca utilizatorului
+Scop: furnizarea celui mai bun {imp de rispuns pentru utilizator
+' E.g., joburile pot trace prin perioade de activitate I/O imensivé
+Soup: cererea urmétoarei uperagii I/O cét mai repede pusibil pentru a gine
+perifericele ocupate 5i a furniza cea mai buné ratﬁ de servire pe ansamblu
+' Folosirea prioritdiii interne adaptive pentm a incorpora SJF in RR
+Strategia meteorologilor: previziunea viitorului apropiat pe baza trecutului
+recent
+10 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+. S .JF Algoritmi de planiﬁcare / 12
+Scenariul #1 PM?
+(ma 1/0) Z _—
+Diagrama limp 2 —
+aplaniﬁcérii n 1 x a . 5 1 1 1 1. llnnunlslnnnlvznzlimp
+(pe 1 CPU): "PM" —“"“"" ‘W’ "°’
+R l l Proces Sosirc Scrviciu Start Finish T W P
+ezu tene e
+planiﬁcérii A 0 3 0 3 3 O 110
+- B l 5 5 10 9 4 148
+SJF ("°" 31g‘ c 3 2 3 s 2 0 10
+“E'P'eemptwy D 9 5 10 15 6 1 1.2
+E 12 5 l5 20 8 3 1.6
+Sumaml planiﬁcéril:
+000102 03 04 05 06 07 08 091011 1213141510171319 20
+AAACCBBBBBDDDDDEEEEE
+2141!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Algoritmi de planiﬁcare / 13
+' SJF
+T§m5 (pent/u acaxﬁ): aplicagi SJF pemru Scenariul #2 (cu 1/0). 11,1.1111111111111“
+' SRTF
+Scenariul #3 (all cxcmplu, 101 {E1151 I/O)
+Diagrams: 1impap1aniﬁcari1 (p6 1 CPU): (lemﬁ pantru ﬂCﬂSli)
+Prunes Sosire Serviciu Start Finish T W I’
+Rezultatele
+planiﬁcérii A 0 3 0 3 3 0 1'0
+SRTF(i.e., B 1 5 3 10 9 4 118
+a1. rccm li : C 5 2 5 7 2 0 1'0
+gp pv) D 9 7 10 20 1141.57
+, H E 12 3 12 15 3 0 1.0
+Sumaml plamﬁcénl:
+000102 03 04 05 [16 07 08 0910111213141516171819 20
+AA AB BCC BBBDDEEEDDDDD
+11411
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Algoritmi de planiﬁcare / 14
+' Planificarea cu priOPitiiﬁ
+i Fiecare proces are asociaté o prioritate, iar CPU-ul
+este alocat procesului ready cu prioritatea cea Inai
+mare
+i Procesele cu prioritégi egale sunt planiﬁcate in
+ordinea FCFS
+i Valorile prioritégilor depind de implementarea S.O.
+(numerals mici pot semniﬁca prioritégi mari, sau invers)
+i Observagie: SJF poate ﬁ privit ca un algoritm cu
+prioritégi, unde prioritatea (p) este inversul duratei
+urmﬁloarei rafale CPU anticipate (c) : p I l/c
+I‘ 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Algoritmi de planiﬁcare / 15
+~ Planiﬁcarea cu prioritﬁgi
+i Prioritégile pot ﬁ statics, sau dinamice
+i Planiﬁcarea poate ﬁ preemptivé, sau ne-preemptivé
+i Problemé: Blocarea nelimitata sau infamelarea
+(starvation) proceselor cu prioritégi mici
+i Soluyie: imbalranirea (aging), Le‘ cresterea gradualé
+a prioritégii proceselor care agteapté in coada ready
+pentru o perioadﬁ mare de timp
+° Varianti: planiﬁcarea cu prioritﬁgi cu time-slicing
+i Pentru process ready cu prioritégi egale se aplicé R5 1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Algoritmi de planiﬁcare / 16
+' Planiﬁcarea cu prioritﬁgi
+Sconariul #1‘ (féré I/O) i reconsiderém primul exemplu, la care adiugz'lm priomégi:
+Diagramatimpaplaniﬁcérii (pe l CPU): (lemlipE/Itru acasﬁ]
+Proces Sosire ServiciUPnommc Start Finish T W P
+Requfate'? A 0 3 1 0 20 20 17 6'6
+plamnw" B 1 5 2 1 s 7 2 14
+“33$?” c 3 2 4 3 5 2 0 1'0
+réem 1&5- D 9 5 3 9 19 10 5 2.0
+pp'E1255121750110
+Sumurul planiﬁcéni:
+0001 02 03 04 OS 06 07 08 O9 1011 1213141516171819 20
+ABB CCBB BADDDEEEEEDDA
+1541!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Algoritmi de planiﬁcare / 17
+' Planiﬁcarea Round-Robin (RR)
+
+— Fiecérui proces i se ofera serviciul CPU pentru 0 perioada
+scurté de timp (numité cuantd saufelie de timp), dupa care,
+doar dacé nu a fost terminat, revine la sfargitul cozii ready §i
+asteapta si-i viné din nou randul 1a CPU
+
+i Aeeasta perioadé este adesea de ordinul 10 T 100 ms
+
+i A fost proiectati special pentru sistemele cu timp partajat
+
+i Coada ready este tratata ca 0 coada circular?!
+
+i Comutarea CPU-ului de la un proces la altul (schimbarea
+
+contextului) implica 0 incarcare suplimentaré considerabila
+a sistemului
+Ii‘ 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Algontml de planlﬁcare / 18
+° Planiﬁcarea Round-Robin (RR)
+i Timpul de viaﬁ
+RR rcducc timpul dc viaté pcntru proccsclc scurtc
+' Pentru 0 incércare daté a sistemului, timpul de viagé a1 unui proces
+este direct propotiional cu durata sa de serviciu
+i Echitate
+RR reduce varialia in timpii dc a$teptare
+- Dar: RR forgeazz'a procesele s5 a§tepte pentru alte process intrate mai
+térziu in sistcm
+i Throughput (rata de servire)
+RR impune 0 incércare suplimentaré a sistemului pentru
+schimbarea contextului, ceea ce diuneazé ratei.
+Pe un sistem multiprocesor, RR poate imbunz'ltégi rata de servire
+sub 0 incércare ugoaré (Le. numér mic de joburi).
+I‘ 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Algoritmi de planiﬁcare / 19
+' RR, cu cuanta: pm"
+: 1 unitatc dc timp l — —
+1 _ _ _ _ _
+Sccnariul #1 (1am 1/0) 1 - -
+1 _ _ _ _ _
+Diagramatimp s _ _ _ _
+aplaniﬁcérii , |1za¢§:1'_n uuunulsnnunmzlﬁmp
+(pi: l CPU) kinda: — MIMI‘; mil" 1/01
+Proces Sosire Serviciu Start Finish T W P
+Rezultatele A 0 3 0 6 6 3 2.0
+PlaniﬁciﬂiRR, B 1 5 1 11 10 5 2.0
+cu cuantaIl: C 3 2 4 8 5 3 2.5
+D 9 5 9 18 9 4 1.8
+E 12 5 12 20 8 3 116
+Sumarul planiﬁcérii:
+0001 02 O3 O4 05 06 07 08 0‘? 1011 1213141516171819 20
+ABAB CAB CBDBDEDEDEDEE "11411
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+Algoritmi de planiﬁcare /20
+' RR, cu cuanta: pm
+: 4 unitégi dc timp 2
+Sccnariul #1 (mm 1/0) 1 —
+Diagrama 1imp 2 __
+aplaniﬁcirii y nlz'utsn11slnlllzuulslllvnwzllnu'nw
+(pa 1 CPU): kpia: _ mm “w. v0:
+Proces Sosire Serviciu Slart Finish T W P
+Rezultatele A 0 3 0 3 3 0 1.0
+planiﬁcz'm'iRR, B l 5 3 IO 9 4 1.8
+cu cuama:4: C 3 2 7 9 6 4 3.0
+D 9 5 IO 19 10 5 2.0
+E 12 5 14 20 8 3 1.6
+Sumarul planiﬁcérii:
+0001 [12 03 04 05 [)6 07 08 09 1011 12 13141516171819 20
+AAABBBBCCBDDDDEEEEDE 10411
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Algoritmi de planiﬁcare /21
+' Planiﬁcarea Round-Robin (RR)
+i Problemi: Cit ar trebui sé ﬁe cuanta de timp ‘.7
+i Daci e prea mare, pur $i simplu RR devine FIFO (i.e., FCFS)
+i Daca e prea micé, CPU-u] este folosit (aproape) in intregime
+doar de citre rutina dispecer pentru selecgie §i comutarea
+contextului, deci joburile utilizatorilor nu mai apucé s5 ﬁe
+executate
+i Durata idealé a cuantei de timp depinde de mulyi factori
+i O bun‘?! reguli generalé este: acea perioadé de (imp in care marea
+majoritate a utilizatorilor interactivi pot ﬁ satisﬁcugi (10 + 100 ms)
+i Durala cuantei esle adesea schimbati dc doué ori pe zi (este
+mai lungﬁ noaptea, 05nd ruleazé joburi de tip batch)
+U 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Algoritmi de planiﬁcare /22
+° Planiﬁcarea cu cozi pe nivele multiple
+
+i Divizarea eozii ready in mai multe nivele distinete,
+i.e. mai multe (sub-)cozi ready separate
+E.g., coada proceselorﬁzreground (joburi interactive) §i
+coada proceselor background (batch-joburi)
+
+i Procesele sunt asignate permanent uneia dintre cozi,
+in general pe baza unei proprietati a procesului
+(dimensiunea memoriei, tipul procesului, etc.)
+
+i Fiecare coada are propriul algoritm de planiﬁcare
+
+— Trebuie 55 existe §i 0 “planiﬁcare intre cozi” (e,g,,
+poatc ﬁ utilizata o planiﬁcarc precmptivé cu prioritati ﬁxc)
+
+‘I 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Algontnn de planlﬁcare /23
+° Planlﬁcarea cu c021 pe nlvele multlple
+i Exemplu:
+1/0 buund jnbs wailing I'nr CPU
+, 1m balding msomcs
+- 1m mm high :xm'nal Manly
+I
+(i1N lT/R .ICI b
+Mihjfw; 51;; gggg; CPU-hound jobs yam: nmxmf
+prinrily qucnc 10 s WSW} 5mm
+wmmim m an “$23,312?” 1an and 5mm mwvwd
+M,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Algoritmi de planiﬁcare /24
+° Planiﬁcarea cu cozi pe nivele multiple
+i Alt exemplu:
+° Procese de sistern mamma
+' Process interactive Prioritate
+° Procese de editare de texte
+' Process batch minimé
+Algoritmi de “planiﬁcare intre cozi” (i.e,, de alegere a uneia dintre cozi):
+— O soluLie, pe baza prioritégii cozilor: ﬁecare coadé are intiielate
+absolute": asupra cozilor cu prioritégi mai joase
+i Alte'l solugie, RR: de impérﬁt timpul in cuante (time slice) intre cozi
+u 4n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Algoritmi de planiﬁcare /25
+- Planiﬁcarea cu cozi pe nivele multiple, cu feedback
+i Se permite unui proces s5 migreze intre cozi
+— Parametri:
+° Numérul de cozi + algoritmul de “planiﬁcare intre cozi”
+° Algoritmii de planiﬁcare pentru ﬁecare coadé
+° Metoda utilizaté pentru a decide in ce coadi va intra iniyial
+un proces (i.e., atunci cﬁnd acesta este lansat in execugie)
+° Metoda utilizaté pentru a decide cind un proces sé ﬁe
+avansa! intr-o coadé cu prioritate mai mare
+° Metoda utilizaté pentru a decide cind un proces sé ﬁe
+degrada! intr-o coadé cu prioritate mai micé
+i Exemplu: Windows utili7eazé 0 coadé ready pe 32 nivele de priorilale
+is 4n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Algoritmi de planiﬁcare /26
+' Planiﬁcarea in timp real
+i Planiﬁcatoarele in timp real trebuie sé supone
+execuyii regulate, periodice, ale taskurilor
+(e. gv, ﬂux media continuu)
+i Rezervdri timp CPU
+
+“Am nevoie s5 execut X din ﬁecare Y unitégi de timp.”
+
+' Planiﬁcatorul exercité contrnlul admirerii 1a momentul
+rezervérii: aplicagia trebuie s5 gestioneze e$ecul unei
+cereri de rezervare
+
+— Constrdngeri temporale
+
+“Ruleazé aceasti aplicagie inainte de termenul meu limité:
+
+momentul TY‘
+
+‘+411
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Algontml de planlﬁcare /27
+° Planiﬁcarea cu procesoare multiple (multiprocesare)
+i Probleme:
+' Tipul procesoarelor: sisteme omogene vs‘ sisteme heterogene
+' Tipul cozilor dc planiﬁcare: coada ready comuné vs‘ céte 0
+coadé ready separaté pentru ﬁecare procesor
+
+i Sisteme SMP (multiprocesare simetrici): sisteme omogene, in
+care procesele sunt planiﬁcale pe oricare dintre procesoarele
+disponibile
+
+i Planiﬁcare master-slave (multiprocesare asimetricﬁ)
+
+i PFOCESSOV affinity: aﬁnilate hard (un proces poate speciﬁca 55 ﬁe
+rulat dnar pe nn subset din CPU-urile existente) VS. aﬁnilate 80ft (SO-ul
+incearcé sé péslren un proces pe acclasi CPU, penlru a reaccesa informaﬂile
+din cache-ul CPU-ului, sau in cazul sistemelor NUMAY pentru acces local)
+
+3‘ 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Algoritmi de planiﬁcare /25
+' Planiﬁcarea multiprocesor
+Scenariul #4 (alt exemplu, tot ﬁiré I/O): planiﬁcare SMP (cu doué CPU),
+cu 0 singuré coadé ready
+Diagrama (imp a planiﬁcérii (pe 2 CPU) : (zemﬁ penzru acaxd)
+Rezullatele Proces Sosire Serviciupmnme Start Finish T W P
+planiﬁcérii A 0 3 l 0 5 5 2 1.66
+cu prioritigi B 1 7 2 1 12 11 4 1.57
+statics, C 2 2 4 2 4 2 0 1,0
+preemptivé, D 6 5 3 6 11 5 0 1.0
+pCZCPU; E 7 5 5 7 12 5 0 1.0
+Pmcusur 0001 02 03 U4 05 06 O7 08 O9 lO ll 12 l3
+lsungalimn CPU] A A C C A D D D D D B
+pm“... CPUZ B B B B B B E E E E E
+M41!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Bibliograﬁe
+- Bibliograﬁe obligatorie
+
+capitolele despre gestiunea proceselor din
+— Silberschatz : “Operating System Concepts”
+
+(0313.5 din [OSCIUD
+sau
+i Tanenbaum : “Modern Operating Systems”
+
+(a palra pane a capl din [MOS4])
+
+M,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+Sumar
+' Planiﬁcarea proceselor (continuare)
+
+> Structura planiﬁcérii
+> Algoritmi de planiﬁcare:
+
+— FCFS
+
+, SJF 5i SRTF
+
+— Planiﬁcarea cu prioritégi
+
+i RR
+
+$.11.
+intrebéri ‘F
+
+***************Ending Page***************
+

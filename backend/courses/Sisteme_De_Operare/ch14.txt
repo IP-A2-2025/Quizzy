@@ -1,0 +1,732 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 14: File System
+Implementation
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+k'éyirtChapter 14: File System Implementation
+I File-System Slmclure
+I File-Syslem Operaiions
+I Directory lmplernenlalion
+I Allocation Melhods
+I Free-Space Management
+I Efficiency and Performance
+I Recovery
+I Example: WAFL File System
+5,...5.5.5,...55555.5555r5555.555 “5 “Mme-555555.55im5r5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+t‘
+
+MW Objectlves
+
+I Describe the details of implementing local ﬁle systems and
+
+directory structures
+
+I Discuss block allocation and free-block algorithms and trade-offs
+
+I Explore ﬁle system efﬁciency and performance issues
+
+I Look at recovery from ﬁle system failures
+
+I Describe the WAFL ﬁle system as a concrete example
+Dummy sh"... Cum,“ , w Wm u 1 Sllhvumu. arm“ m m". @zutl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+A
+‘4}?’ File-System Structure
+I File structure
+O Logical storage unil
+° Collection of related information
+I File system resides on secondary slorage (disks)
+I Provided user irrlerieee \o slurage, mapping logical \o physical
+. Provides efficient and convenient aDCeSS (O disk by allowing data
+lo be stored, located retrieved easily
+I Disk provides ineplace rewrite and random access
+O l/o transfers performed in blocks of sectors (usually 512 bytes)
+I File control block (FOB) - storage structure consisting oi iniormailon
+about a ﬁle
+I Device driver controls lire physical device
+I File system organized into layers
+em", 5"..." ems.’ re elm r“ simmer-e errvv .nr em‘. em
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+W Layered File System
+application programs
+3
+logical lile system
+3
+lile-organizalion module
+3
+basic ﬁle system
+3
+l/O control
+3
+devioes
+A
+0mm, 5m... Cum,“ 7 w 5.1mm it 5 “mm-m um“ m a"... mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+r‘
+“W Flle System Layers
+I Device drivers manage IIO devices at the lIO control layer
+O Given commands like “read drive1, Cylinder 72, track 2, sector
+10, into memory location 1060" outputs lowlevel hardware
+specific commands to hardware controller
+I Basic lile system given command like “retrieve block 123"
+translates to device driver
+I Also manages memory buffers and caches (allocation, freeing,
+replacement)
+' Buffers hold dala in lransil
+' Caches hold frequently used data
+I File organization module understands ﬁles, logical address, and
+physical blocks
+I Translates logical block a m physical block w
+I Manages tree space, disk allocation
+Wm,“amamumislmm its “Wt-a mummiﬁml.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+A
+W File System Layers (Cont)
+I Logical tile system manages metadata information
+. Translates file narne into ﬁle number, ﬁle handle, location by
+maintaining file control blocks (inodes in UNIX)
+' Directory management
+° Protection
+I Layering useful for reducing complexity and redundancy, but
+adds overhead and can decrease performanoeTranslates ille
+name into ﬁle number, ﬁle handle, location by maintaining ﬁle
+control blocks (inodes in UNIX)
+. Logical layers can be implemented by any coding method
+according to OS designer
+om“.s"..mc.m.,mmm.m it, “Wham-vi““minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+A
+W F|le System Layers (Cont)
+I Many ﬁle systems, sometimes many within an operating
+system
+
+' Each wilh ils own formal (CD-ROM is ISO 9660; Unix has
+UFS, FFS; Windows has FAT, FAT32, NTFS as well as
+ﬂoppyv CDv DVD Blu-ray, Linux has more than 130 types,
+with extended file system ext3 and ext4 leading; plus
+distributed lile systems, etc.)
+
+° New ones still arriving e ZFS, GoogleFS, Oracle ASM,
+FUSE
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+t‘
+W Flle-System Operat|ons
+I We have system calls at the API level, but how do we implement
+their functions?
+' On-disk and in-memory structures
+I Boot control block contains into needed by system to boot OS
+from that volume
+° Needed if volume contains OS, usually first block ol volume
+I Volume control block (superblock, master file table) Contains
+volume details
+. Total # of blocks, # 0f free blocks, block size, free block
+pointers or array
+I Directory structure organizes the tiles
+° Names and inode numbers, master ﬁle table
+om",5,...mmmamkmmm us Slum-a G.W.M=.J.W.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:10**************
+“ﬂy Flle-System Implementatlon (Cont.)
+I Per-ﬁle File Control Block (FCB) contains many details aboul
+(he ﬁle
+' (ypically inode number. permissions, size, dales
+. NFTS stores into in master file table using relational DB
+structures
+Wm", sh"... Cum,“ 7 w mm u m Sllhvmhlu. 91M“ m m". mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+t‘
+‘W ln-Memory Flle System Structures
+I Mount table storing ﬁle system mounts, mount points, ﬁle system
+types
+I system-wide open-ﬁle table contains a copy oitl'le FCB oi each
+ﬁle and other info
+I per-process open-file table contains pointers to appropriate
+entrles irl system-Wide Open-ﬁle table as well as other W0
+I The renewing ﬁgure illustrates the necessary flle system structures
+provided by the operatlng systems
+I Figure 12»3(e) refers to opening a lile
+I Figure 12»3(b) refers to reading a lile
+I Plus buffers hold data blocks lrom secondary storage
+I Open returns a ﬁle handle for subsequent use
+I Data from read eventually copied to speclﬁed user process
+memory address
+swam, 5"..." Emma w mm u l. sllhvmh-lz. em .u em‘. my.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+W ln-Memory F|le System Structures
+I I U
+— El El
+I tmwmm
+onan (We HIM) -
+diraqaly Mr! m m
+usev 59809 kemel mlmy secondary mm
+ta)
+- \:| EB
+data [this
+_
+72M (\ndQX) I -‘ I
+mm mum “MM
+WEII'HI: mhll W416 We
+MW WWW WWW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+A
+W Directory Implementation
+I Linear list of iile names with pointer to the data blocks
+° Simple to program
+. Time-consuming to execule
+> Linear search time
+' Could keep ordered alphabelically via linked list 0r use
+B+ tree
+I Hash Table e linear list with hash data structure
+0 Decreases directory search time
+. Collisions e situations where lWO ﬁle names hash ll) the
+same location
+. Only good if entries are fixed Size, or use Chained-overﬂow
+method
+Wm.s"...nc.m.,.mp.m.m M “mum-W“denim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+~
+‘W Allocatlon Methods - Contlguous
+I An allocation method refers to how disk blocks are allocated for
+ﬁleSI
+I Contiguous allocation — each ﬁle occupies set of contiguous
+blocks
+° Best performance in most cases
+' Simple , only Starling localion (block #) and length (number
+of blocks) are required
+' Problems include finding space for ﬁle, knowing ﬁle size,
+external fragmentation, need for compaction off-line
+(downtime) or on-line
+om.n,=,...mcm.mkWm M Slim-a GIIvln-ndG-gntezuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+W Contlguous Allocatlon
+I Mapping from logical to physical
+- dummy
+Q mm m. .1." W»
+/ 0D ‘u =5 1U m. a z
+u u a
+W512\ 4U 5E1 uD'1D m.“ w 5
+R ID £1qu Q" 2: 2
+lemDquD
+Block m be amassed = o , shining mEIwEhaUuEI
+address \
+msplacemem into block = R aanﬂgDmD
+aDzsUaElnEl
+\-
+allzaﬂlgoﬁsﬂ]
+Wmshummmwmmm ms mm.‘ “WWW-mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+W Extent-Based Systems
+I Many newer ﬁle systems (i.e., Veritas File System) use a
+modified contiguous allocaliorl scheme
+I Extent_based file systems allocaie disk blocks in extents
+I An extent is a contiguous block of disks
+. Extents are allocated lor ﬁle allocation
+' A ﬁle consists ol one or more extents
+Wm", sh"... Cum,“ , w mm u ii Silhvumu. elm“ m m". mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+t‘
+W Allocation Methods - Linked
+I Linked allocation e each ﬁle a linked list 0f blocks
+' File ends at nil pointer
+° No external fragmentation
+' Each block contains poinler lo next block
+Q No compaction, external lragmentation
+o Free space management system called when new black
+needed
+' Improve efficiency by cluslering blocks into groups but
+increases lntemal lragmentation
+' Reliabilily can be a problem
+Q Locating a block can take many l/Os and disk seeks
+Om.n,s,...mcm.m.wam M “ammo-vi““twig,”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+“Wk Linked Allocation
+I Each file is a linked list 01 disk blocks: blocks may be scattered
+anywhere 0n the disk
+bIOCk =
+I Mapping
+Q
+/
+LA/51 1 \
+R
+Block to be accessed is the ch block in the linked chain ol blocks
+representing the ﬁle.
+Displacement into block I R + 1 A
+om.w=r...mcm.m.wmm M “imam-m.mqniﬁm
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+W Linked Allocation
+- directory
+Ne smrl and
+0E11 2E] 3D
+4E1 eI 7D
+sEl II1n11D
+12 aU1I15D
+16 WEISUIQD
+eoDszlmD
+24D25I2eUsz
+zeElstMEIQID
+0mm, Sm... mum 7 11» 5.1.1.,“ 1m illhmanlu. Ban ".1 a“... MM!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+“fr Flle-Allocatlon Table
+Mm .m
+HIM Ill?‘ NQGK
+E —
+217
+33$ —ﬂ
+51! ‘FE-
+numbsrnlmsk Huch 4 —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+W)?!‘ Allocation Methods - Indexed
+I Indexed allocation
+i Each ﬁle has its own index block(s) of poinlers lo ils dala blocks
+I Logical view
+QB
+l:|
+l:|
+l:|
+l:|
+index table
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+“33¢? Example of Indexed Allocation
+- dlrectory
+0E1 1EL\2E\ aEI leep ‘9
+4E1 5U vEl
+BE‘ 9I1u 11E| 9
+12EI13U14>\I1 ‘6
+1
+1sI Imlﬁgl. 19 g
+201:121D22723Ij
+24525I25E127EI i1
+stleUauElml]
+om“, =11..." CW,“ 7 w 5.1.1.,“ 1021 511mm.‘ 81M“ m m... @2011
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+“F? iv Combined Scheme: UNIX UFS
+4K bytes per block, 32-bit addresses
+E1:-
+m Er we
+M [IE
+mum-n IE‘
+B: m:-
+ELJL B:-
+IE]: E]:-
+EI-
+More index blocks than can be addressed with 32-bit ﬁle minis!“
+WMEYiumcunwmwm “a “mm-e anMn-nnmvmmuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+r‘
+“W Perfo rma nce
+I Besi method depends on me access rype
+' Contiguous great lor sequential and random
+I Linked good for sequenlial, nol random
+I Declare access type at creation -> seleCl either contiguous or linked
+I Indexed more complex
+' Single block access Could require Z index block reads (hen dale
+block read
+0 elusrerirrg can help improve throughput. reduce CPU overhead
+I For NVM, no disk head so differenl algorilhms and optimizalions
+needed
+. Using old algorithm uses many CPU cycles trying to avoid non-
+eXlSlerll head movemenl
+' Wilh NVM goal i5 (O reduce CPU m/cles and overall path needed
+for l/O
+ewe“, Syn-m Cum,“ e ml mm lozs Sllhvumu. e-M“ Ind m". em
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+W Free-S pace Management
+. “HMNMMWNHWWW“new”
+0 1 2 n-1
+1 a block| tree
+bit[l] =5? [1
+E. O a block[i] occupied
+Block number calculation
+(number of bits per word) “
+(number of O»value words) +
+offset of ﬁrst 1 bit
+CPUs have instructions to return oﬂset within word of ﬁrst “1" HA
+Ovulatmi Syn-m Cum,“ e tar mm u :1 Silhvumu. elm“ m m". mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+W. Free-Space Management (Cont.)
+I Bil map requires exlra space
+. Example:
+block size = 4KB = 2'2 bytes
+disk size = 2w bytes (1 terabyte)
+n = 2M2‘: = 2n bils (or 32MB)
+if clusters 0M blocks -> 8MB o! memory
+I Easy to gel conliguous ﬁles
+Wm.“ammmmwimdm Mu Slammer““denim.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+up)?!‘ Linked Free Space List on Disk
+I Linked lisiﬂreelisi)
+l Cannoigeiconiiguous -
+space easily neewnsmean
+. No waste of space 0U 1E12Iﬁl
+l Nolneediqtraverseihe 4- I EU 7U
+reenégfdlg)(|f# free blocks a. 9- m Im-
+12II13|4D15U
+1sEthwI1sEl
+20D21E] zaD
+24E|25iI2627I
+aeljstlsoUmD
+0...“...Mmuwpmﬁ...“ M. “Mum...Maui“...
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+t‘
+W Free-Space Management (Cont.)
+I Grouping
+. Modify linked list to store address of next n-1 free blocks in first
+lree block, plus a pointer to next block that contains tree-block-
+pointers (like this one)
+I Counting
+0 Because space is frequently contiguously used and lreed, with
+contiguous-allocation allocation, extents, or clustering
+> Keep address of ﬁrst free block and oount of following lree
+blocks
+t Free space list then has entries containing addresses and
+counts
+Wm, 5"..." “We m» mm it u sum»; W“ .nt W181."
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+r‘
+vi?’ Free-Space Management (Cont.)
+I Space Maps
+Q Used in ZFS
+' Consider meta-data l/O on very large ﬁle systems
+r Full data structures like bitmaps couldn't tit in memory ->
+thousands of l/Os
+' Divides device space into metaslab units and manages metaslabs
+> Given volume can contain hundreds of metaslabs
+' Each metaslab has associated space map
+> Uses counting algorithm
+° But records to log ﬁle rather than ﬁle system
+> Log of all block activity, in time order, in counting format
+Q Metaslab activity -> load space map into memory ln balanced-tree
+structure, indexed by oﬂset
+> Replay log into that structure
+> Combine contiguous tree blocks into single entry ‘
+0mm,s“..mc.m=.,.iem-e.m M, sum»; @.W.m.g;@m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+r‘
+W TRlMlng Unused Blocks
+I HDDS overwrite in place so need only free lisl
+I Blocks not treated specially when freed
+° Keeps its data but without any ﬁle pointers to it, until overwritten
+I Storage devices not allowing overwrite (like NVM) suﬂer badly with same
+algorithm
+' Must be erased belore written, erases made in large chunks (blocks,
+composed 0f pages) and are slow
+° TRIM is a newer mechanism tor the tile system to inform the NVM
+storage device that a page is tree
+r Can be garbage collected or it block is free, now block can be
+erased
+om“. 5"..." “We m» am u a Siam-a W“ m w“. W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+“yr Efficiency and Performance
+I Efficiency dependent on:
+
+i Disk allocation and directory algorithms
+
+' Types of data kept in ﬁle's directory entry
+
+i Pre-allocation or as-needed allocation of meiadata
+
+structures
+
+i Fixed-size or varying-size data stmctures
+
+Wm.§,...mcm.mpMd.“ M1 “mum-W“minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+W's‘ Efficiency and Performance (Cont.)
+I Performance
+i Keeping date and metedete close tegetner
+i Buffer cache e separate sectren oi main memory for irequently used
+biocks
+I Synchronous writes sernetrrnes requested by apps or needed try cs
+> N0 buiiering I caching i writes must hit disk before
+acknowledgemeni
+' Asynchronous writes more common, buffer-able, faster
+' Free-behind and read-ahead i iechniques i0 optimize sequeniial
+access
+¢ Reeds frequently siuwer than writes
+owner..."“WPWW Mu summer““requiem.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+~
+
+“W Page Cache
+
+I A page cache caches pages rather than disk blocks using virtual
+
+memory techniques and addresses
+
+I Memory-mapped l/O uses a page cache
+
+I Routine l/O through the file syslem uses lhe buffer (disk) cache
+
+I This leads lo (he followmg ﬁgure
+
+A
+
+om.",=,i..m“WNW.” M, mamas-w““minim”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+A
+°"""""" ‘""m WW“ * ‘M “'“W “w illhmmu. DIM“ .m a“... m“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+8%}; Unified Buffer Cache
+I A unified buffer cache uses the same page cache to cache
+both memory-mapped pages and ordinary ﬁle system l/O l0
+avoid double caching
+I But which caches get priority, and what replacement algorithms
+to use?
+OM". n..." “We.” mm tut mm.‘ W“ .n. “View.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+“3f 3 IIO Using a Unified Buffer Cache
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+A
+“W Recovery
+I Consistency checking — compares data in directory structure
+with daia blocks 0n disk, and \ries to ﬁX inconsistencies
+. Can be slow and sometimes fails
+I Use system programs to back up data from disk to another
+storage device (magneiic ‘ape, other magnetic disk, optical)
+I Recover lost file or disk by restoring data from backup
+OM",smumwmmm m “imam-vi““Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+r‘
+‘$9 Log Structured Flle Systems
+I Log structured (or journaling) ﬁle systems record each metadata
+update to the ille system as a transaction
+I All transactlons are written to a log
+. A transaction is considered committed Once ii is wriiien i0 the
+log (sequentially)
+' Sometlmes to a separate device or section oi disk
+° However, the ﬁle system may not yet be updated
+I The transactions in the log are asynchronously written t0 the file
+system structures
+' When the ﬁle system structures are modified, the lransactlon is
+removed from the log
+I lithe iile system crashes, all remaining transactions |n the log must
+still be performed
+I Faster recovery irorn crash, removes chance at inconsistency of
+meladala I
+om.,,s,i..mcm.mewem M alumnae-m“minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+“ﬁr Example: WAFL File System
+I Used 0n Network Appliance “Filers” i distributed ﬁle system
+applianoes
+I 'Writeanywhere ﬁle layout"
+I Serves up NFS, CIFS, http, ftp
+I Random IIO optimized, write optimized
+o NVRAM for wrile caching
+I Similar to Berkeley Fast File System, with extensive
+modiﬁcations
+om.n.=,‘..mWWHWW w mmmm“Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+W The WAFL File Layout
+Md IIIIIII
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+W Snapshots in WAFL
+m
+M I! E E E
+(8)8elwnavlvdwi
+mm
+\ I
+A\‘.~;~’4\
+M E E E
+m,.m.am.mwmmw
+\{ll
+m~§
+M El E E E EI
+(Blmvuaxnnasmnwdiou. A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+“W v The Apple F|le System
+MW, Mk, 1m, “WWW! Mm www.mwum
+New. m. M WWW.“ MW Mmmﬂm
+m PM M WW, ms M.“ “M, m M. m5
+Wmmm mwhmm “WWW We.“
+mum.“ “m.
+E m m a“ m. We dew, m .M We WM Mg“ W
+1/05, WW, and madﬁbwﬂzmly achallmgevAPESiﬂuluwl-kh‘ including
+dlmlvry sums. alumir Slfksive primilivcs, cvpyvlrwnbe design cucryp
+Mm. “PM MW we MWMM, M W mm
+Me i, W w M W h‘. W km“, M Wm mg mm
+Mammmmg Mmmmmwm Mk),
+Fui dindmy mi". pmldcs qu “MW: ukulalinn and updihlusv
+mm m PM“ mm a, m“, Md. M m“, m, MM m
+5!th atomic vpe'rahwns. 1/0 milesqng is an aplinuulwn m NVM devirxs
+Apple <th M w amplemenl mu as pill of m "w Am, Insuad
+m b .150 WM m m, Mug w, mm i.“ m
+dzpluymmm A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+End of Chapter 14
+—
+
+***************Ending Page***************
+

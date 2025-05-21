@@ -1,0 +1,896 @@
+***************Beginning Page***************
+***************page number:1**************
+Sisteme de Operate
+Administrarea perifericelor dc stocare
+Cristian Vidrascu
+httpszl/profs‘infouaicxo/Nvidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+" Introducere
+' Memoria secundaré (discul magnetic)
+i Structura
+i Planiﬁcarea
+i Administrarea
+“' Gestiunea spagiului de swap
+> Construirea unui disc mai bun
+* Administrarea memoriei tergiare
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Introducere
+° Clasiﬁcarea perifericelor (d.p.d.v. funcgional)
+i Periferice de intrare/iegire i pentru schimbul de
+informagii cu mediul extern
+(e.g. taslaturé, ecran, imprimanté, cititor de cartels, sna)
+— Periferice de stocare — pentru pistrarea nevolatilé
+(Le. permanenté) a informagiilor
+(e.g. disc magnetic, bandz'i magnetici, discheti, CD/DVD, $.a.)
+w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Alte clasiﬁcéri ale perifericelor /1
+' Clasiﬁcarea perifericelor d.p.d.v. a1 modului
+de operare (de servire a cererilor)
+
+— Periferice dedicate — pot servi un singur proces
+la un moment dat
+(modelul tipic: imprimanta)
+
+i Periferice partajabile i pot servi mai multe
+procese simultan, in sensul concurengei aparente
+(modelul tipic: discul magnetic)
+
+w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Alte clas1ﬁcér1 ale penfencelor /2
+' Clasiﬁcarea perifericelor d.p.d.v. a1 modului de
+transfer §i de memorare a infonnagiei
+i Periferice bloc
+' mcmorcazi informatiilc in blocuri dc lungimc ﬁxé, ﬁccarc cu
+adresa sa
+' blocul este unitatea de transfer intre periferic $i memoria intemé
+° ﬁecare bloc poate ﬁ citit sau scris independent de celelalte blocuri
+' blocul congine informagii propriu-Zise $i, in plus, mai conﬁne
+informatii dc control dc paritatc, pcntru vcriﬁcarca corcctit-udinii
+informapiei memorate
+' informagiile stocate pot ﬁ (re)citite de oricéte ori este nevoie $i, de
+asemenea, pot ﬁ reserise (modiﬁcate) daeé se dore$te acest lucru
+' e.g. disc magnetic, bandz'l magneticé, CD/DVD, memorii ﬂash, $.21.
+i Periferice caracter 5,‘,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Alte clasiﬁcéri ale perifericelor /3
+' Clasiﬁcarea perifericelor d.p.d.v. a1 modului de
+transfer §i de memorare a inforrnagiei (cont)
+i Periferice bloc
+i Periferice caracter
+° furnizeazé/accepté unﬂux de octegi féré nici 0 structuri de bloc
+' octegii din ﬂux nu sunt adrcsabili
+' ﬁecare octet este disponibil ca 5i caracter curent numai péni la
+aparigia urmétorului octet
+' informagiile transmise sum consumale (i.e., dalele respective nu
+pot ﬁ recitile mai tirziu)
+‘ c.g. tastaturé, mousc, ccran, imprimamé, difuzor, 5.a.
+w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Periferice dc stocare
+' Clasiﬁcarea perifericelor de stocare dupé variagia timpului
+d6 acces (lg = timpul de acces de la informagia i 1a informagiaj)
+— Periferice cu acces secvengial — timpul de acces tij are
+variagii foane mari (modelul tipic: banda magneticé)
+i Periferice cu acces complet direct i timpul de acces
+lij=k, este constant
+(modclul tipic: memoriilc bidimcnsionalc 0bi5nuitc i RAM)
+— Periferice cu acces direct — timpul de acces tij are
+variaﬁi foane mici (modelul tipic: discul magnetic)
+w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Discul magnetic
+> Memoria secundari: discul HDD (intern)
+' Tehnologia folosité, discul magnetic (apérut in anii ’50), a fost
+
+standardizaté incepzind de prin anii ’70 (vezi istoricul HDD).
+
+— Structura discului
+
+i Planiﬁcarea acceselor 1a disc
+
+i Administrarea discului
+
+' Noni: in anii ’90 a apérut o tehnologie mai nouz'i: discul SSD,
+ce se bazeazé pe diferite tipuri de memoriiﬂash (NAND)
+Aceasté tehnologie este incé in curs de standardizare, astfel cé
+ﬁecare producﬁtor folose§te propria implementare proprietari a
+tehnologiei NAND (vezi ismricul SDD),
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Structura discului /1
+' Discurile magnetice sunt adresate ca 0
+matrice 1-din1ensionalé (un vector) foarte
+mare de blocuri logice, unde blocul logic este
+cea mai micé unitate de informayii ce se poate
+transfera (intre disc §i memorie)
+Indexul unui bloc in acest vector este adresa sa LBA.
+' Matricea 1-dimensi0na151 de blocuri logice
+este mapaté secvengial pe sectoarele discului
+Adresa LBA se converte$te in adresa ﬁzicé (C,H,S), dc citre
+BIOS (in trecut) sau ﬁrmware-u] discului (in prezent),
+mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Structura discului /2
+° Organizarea m’ 1 ‘F""““ 4»
+dlsculul =_:.:’:34;_4!__ I _ ‘ m.
+_platane “ﬁx-uh; "-7 "'“me ’
+i Piste "w" i..- I?‘
+i cilindri I=$ﬂ££§
+*sectoare I g
+i data mm". --: l 7-
+' I
+I .
+9mm a
+mm M)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Viteza discului
+- Timpul de cﬁutare (Seek time)
+i timpul necesar penlru mi§carea (mecanicé a) ansamblului
+cu capetele de citire-scriere péné 1a pista speciﬁcati
+° Latenta de rotatie (rotational Latency)
+i timpul de agteptare necesar pentru ca incepulul sectorului
+speciﬁcat se'l ajungé prin rotatie sub capul dc citire-scriere
+' Timpul de transfer (Transfer time)
+i timpul necesar pentru a citi datele de pe sectorul speciﬁcat
+° Timpul total de acces = S + L + T
+l \ 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Probleme
+- Planiﬁcarea acceselor la disc
+i ideea este de a reorganiza cererile de acces 1a disc
+pentru a minimiza timpii de céutare (seek-urile)
+° Plasarea datelor pe disc (Layout)
+i un mod de plasare care 55 minimizeze overhead-L11
+operagiilor cu discul
+' Construirea unui disc mai bun (sau a unui
+substituent pentru discurile actuale)
+i exemplu: RAID
+ll 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+Planiﬁcarea discului /1
+° Sistemul de operare este responsabil pentru
+utilizarea eﬁcienté a hardware-ului
+— pentru discurile hard, aceasta inseamné a avea
+un timp dc acces rapid §i o lﬁgime de bandé mare
+° Légimea de bandé a discului (i.e., disk bandwidth)
+este numérul total de octegi transferagi, impérgit la
+timpul total scurs intre prima cerere de serviciu gi
+sférgitul ultimului transfer solicitat
+1: 4v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Planiﬁcarea discului /2
+' Timpul de acces are doué components majors:
+
+i seek time i timpul necesar discului pentru a deplasa
+ansamblul cu capetele de citire-scriere la cilindrul ce
+conﬁne sectorul dorit
+
+i rotational latency i timpul adigional de a$teptare pentru ca
+discul sé roteasci sectorul dorit sub capul de citire»scriere
+
+i cea de-a treia componenté, limpul efecliv de transfer, este o
+constanti speciﬁcz'l perifericului respectiv
+
+' Planiﬁcarea discului urméregte minimizarea timpului
+d6 Cﬁutam, eventual 3i a latengei de rotagie
+' Ideeai schimbarea ordinii de servire a cererilor venite de 1a
+procesele concurente (cu pistrarea ordinii cererilor ﬁecérui proces)
+H 4w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Planiﬁcarea discului /3
+~ Algoritmi de planiﬁcare (a acceselor 1a disc)
+
+i FCFS (First Come, First Served)
+
+i SSTF (Shortest Seek Time First)
+
+i SCAN
+
+i C-SCAN (Circular SCAN)
+
+— LOOK
+
+i C-LOOK (Circular LOOK)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Planiﬁcarea discului /4
+' Pentru exempliﬁcérile unnétoare ale algoritmilor
+
+de planiﬁcare, considerém urmitorul scenariu:
+
+— un diSC cu 200 Cilindri (numerotayi cu 0-199)
+
+i coada cererilor de acces (doar cilindrul cc conﬁne
+sectorul doril): 98, 183, 37, 122, 14, 124, 65, 67
+(ﬁecare cerere provenind de 1a un proces distinct)
+
+i pozigia initialé a ansamblului cu capetcle de
+citire-scriere a discului: cilindrul 53
+
+1M‘;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Planlﬁcarea dlsculul / 5
+° FCFS (First Come, First Served)
+_ , 4 queue : Einﬁir122141216567
+i Alg. cergrllAe head slams al 53
+sunFserv'te.",1. D 14 a? sa ass? as 122124 183199
+ordlnea sosmr 4*—I—I_H—1—H—l_{
+i Figura araté 0
+mi$care totalé a
+capului discului
+de 640 cilindri
+Ipmeya de Iucru:
+‘*coada slalicé"
+(\ c , mule ccrcnlc 1m mum
+in Quad} In mumenlul FO.
+in ordmca spccll'lcaléy
+1‘ 4w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Planiﬁcarea discului /6
+' SSTF (Shortest Seek Time First)
+i Alg; se alege cererea cu timp de céutare minim de 1a pozitia
+curenté a capului queue =93.1aa.a71 122.14 124. 65.57
+i Figura araté Q head slans a! 53
+migcare totalé a 14 37 53 5567 as 122m was 195
+capului discului |—'—'—'_“—U—A—|
+dc 236 cilindri
+i Este mai eﬁcient
+deceit FCFS, dar
+nu este echilabil
+(poate favoriza
+fenomenul dc
+starvatian:
+intérzierea servirii
+unor cereri) ,3 4‘,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Planlﬁcarea dlsculul / 7
+
+' SCAN (algoritmul elevator)
+
+i Alg.: brawl cu capctclc R/W inccpc la un capét al discului 5i sc
+dcplascazé sprc cclélalt capét, rczolvﬁnd 5i ccrcrilc pc parcurs,
+iar cénd ajungc la cclélalt capét, sc intoarcc inapoi, continuénd
+servlrea cererllor 2:32;“ a‘ 55 ‘ - ' - -
+
+i Figura aratﬁ 0 u H 3/ nab-be! 9a mama was we
+migcare totali a
+capului discului
+de 236 cilindri
+(in ipoteza c5 sensul
+initial de deplasare
+era “in jos”. Altfel,
+miscarea totalé este
+de 33] Cilindri),
+
+1w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Planiﬁcarea discului / 8
+° C-SCAN (Circular SCAN)
+
+i Alg.: bragul cu capetele R/W incepe la capétul O a1 discului $i
+se deplaseazé spre celﬁlalt capét, rezolvénd §i cererile pe
+parcurs, iar cénd ajunge la celilalt capét, se inloarce “imediat”
+(foarte rapid) inapoi la inceputul discului, {51-5 s51 serveascé
+nici 0 cerere pe drumul de intoarcere, §i apoi reia lucrul
+
+i Practic, acest algoritm trateazi cilindrii discului ca 0 listé
+circularé care “conecteazé” ultimul cilindru cu primul cilindru
+
+i Avantaj: furnizeazé un timp de a§teptare (a rezolvérii cererii)
+mai uniform deceit algoritmul SCAN (la care este posibil ca 0
+cerere sz'l a§tepte doué parcurgeri ale discului pénz'l cénd es£e servité)
+
+10 4W
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Planlﬁcarea dlsculul / 9
+° C-SCAN (Circular SCAN)
+i Exemplu: queue = as‘ 16137, 122, 14‘ 12475161
+head SEEMS 8153
+i Figura araté 0 14 37 53656? ea 122124 1&3 we
+mi§care totalé |—‘—'—‘—“—'—‘—‘—1
+a ansamblului
+cu capetele
+R/W ale
+discului de
+382 cilindri
+(in ipoteza cé
+sensul iniﬂal de
+deplasare era
+“in sus“)
+I‘ 4W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Planiﬁcarea discului / 10
+' LOOK §i C-LOOK (Circular LOOK)
+
+i Algx bragul cu capelele R/W se migcé la fel ca la algorilmii
+SCAN 5i respectiv C-SCAN, cu deosebirea cé aici se migci
+doar pﬁné la ultima cerere in ﬁecare sens, dupé care
+inverseazé direcgia de deplasare imediat, firi 551 meargé mai
+intéi péné la capitul discului
+
+i Noti: practic, LOOK/ C-LOOK reprezinté 0 optimizare a
+algoritmilor SCAN/C-SCAN
+
+II 4U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Planiﬁcarea discului /11
+° LOOK 5i C-LOOK (Circular LOOK)
+i Exemplu: queue = ‘1 _ 7.1 ‘ 4. 24.65. 7
+haad mans a153
+i Figura araté 0 14 a? 53 5567 98 122124 153199
+. y |_|_4_1_u—|_u—|
+m1$care totala a
+capului discului
+d6 322 cilindri
+pentru C-LOOK
+(in ipoteza cz'l sensul
+iniLial dc dcplasarc
+era “in sus")
+Noni: aplicind alg. I
+LOOK, deplasarea ar
+ﬁ dc 299 cilindri.
+11 4O
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Planiﬁcarea discului / 12
+° Selectarea unui alg. de planiﬁcare a discului
+i SSTF este ulilizat frecvent (dezavantaj: pericol de
+infometare a unor cereri de acces 1a disc)
+i SCAN 5i C-SCAN se comporté mai bine pentru sisteme
+care au o incdrcare mare a discului (i4e., multe operayii l/O)
+i Algoritmul de planiﬁcare a discului este indicat s5 ﬁe scris
+ca un modul separat a1 sistemului de operare, pentru a
+pcrmitc o inlocuirc u$oaré a sa cu un all algoritm dacé sc
+considcri ncccsar
+i Fic SSTF, ﬁc LOOK cstc o alcgcrc rczonabilé pcntru
+algoritmul implicit dc planiﬁcarc a discului
+:4 4v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Planiﬁcarea discului /13
+' Observagii l_ 3,14‘ 3‘ 10
+*Performanta depinde H V ,r -‘_ HTS
+‘ . sth- f ﬂ\
+de numarul§1t1pur11e 'f_ ,
+cererilor dc acces f/ -
+. f \ \
+
+i Cererlle de acces pot -‘ \ ‘ \ \ ‘.
+ﬁinﬂuengate dc i \‘ l \ l \ 1m“:-
+metoda de alocare a \ '\\" ‘ ' ‘ *
+ﬁ§ierelor utilizaté i
+
+Alt exemplu: SCAN #1:"
+(‘SCAN
+15w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Planiﬁcarea discului / 14
+' Observagii (cont.)
+i De exemplu, la alg. SSTF cele mai favorizate d,p,d,v.
+a1 timpului de acces vor ﬁ pistele din mijloc; ca
+urmare se p01 aloca pe aceste piste ﬁsierele cu
+frecventé ridicati de utilizare, sau structura de
+directoare (deoarece este folosité frecvent)
+i La fel, la 0 recompactare (defragmentare) a discului,
+se pot aloca in aceste zone favorizate ﬁ§iere1e pentru
+care s-a constatat cé au un grad de folosire mai ridicat
+It» 4W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Planlﬁcarea dlsculul /15
+' Observagu (cont.)
+i in cxcmplclc anterioarc am simplicat cxpuncrca, prcsupunénd coada
+ca ﬁind staticé (i.e,, toate cererile ajungeau in coadé la momentul 1:0)
+i in realitate, coada este dinamicé (ive. noi cereri ajung in coadé pe
+parcursul tracerii timpului); iaté urr exemplu In acest sens:
+Coada de cereri: 20, 45, 85 (loale ajung la 1:0) ; 120, 97, 72 (loale la [:100 ms)
+Se dau: seek timc I direct proportional cu dislany: (2 ms/lraversarea a 2 cilindri consecutivi);
+larenm de rorulie I l ms (in mcdrc, pcmru mate ccrcrilc); limpu/ de trans/Fr I ncglijabi].
+Imml, capul R/W cs1: la cllmdrul so, iar scnsul rlc dcplzszrc cstc Sprc cllmdrul cu nr, maxim
+Ordinea de servire a celnr 6 cereri, folosind algorirmul LOOK, esie:
+1) la momenlul ‘:0‘ Wm R/W m porlgiolval la cvlmdrul 5r).
+2) la momcmul ‘:70m5. capul ajungc 13 olhndrul as‘ m dupé lms inccpc scrvrrca ccmru rcspccnvc:
+z) la mumunlul r15 lms, “pl-1 ajungu 1a cllimlml 45‘ m dupﬁ lms inccpc mm» comm Imputllvm
+4) la mcmcnlul 1:202ms, “pm ajungc m cillndlu‘ 2n, i3. dupa rm; Tnccpc sclvvvca cclcviv vcspcclivc‘
+51m momcnlull:307m5,capu131ungcla (:lhndrul 12v m dupi lrns inccpc scnrrca ccrcrn rcspccuvc.
+n) la mnmenlul Fm,“ cupul njunge In cmmrmr 91 izr dupir 1m inccpc xervn'ez carer i1 mpecrwe.
+1) la momcmul ‘405mg. “pm ajungc la cllmdrul 120, m dupé lms inccpc scrvrrca ccrcrlr mpmlw. 1* 4‘,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Planiﬁcarea discului /16
+' Reducerea asteptz'lrii rotat'iei
+— in SO-urile mai pretentioase se urméreste si minimizarea
+latentei de rotatie
+— Ideea: reordonarea servirilcr cereﬂlor existente la un moment
+dat pentru acelasi cilindru — alg. SLTF (Shortest Latency
+Time First): cel ce asteaptd cel maipuﬂn vaﬁ servitprimul
+i Alté metodé (staticé) i numerotarea intretesutd a sectoarelor
+in cadrul unei piste:
+a) numerotare normalé
+b) numerolare intretesuté
+cu factorul l
+c) numerotare innetesuté
+cu factorul 2
+a) b) C) zx 49
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+Admlnlstrarea dlsculul /1
+' Formatarea ﬁzice'l (i.e., formatarea low-level )
+i inseamné operagia dc impérgire a discului in sectoare pe care
+controlerul de disc 1e poate citi $i scrie
+— Observalie: vreme de cca‘ 3 decenii (anii ‘80 i 200x) dimensiunea
+sectoarelor a fost de 512 B (dear informagia utilé), iar pn'n anii 200x au
+apérut discuri cu sectoare de 4096 B (discuri numite Advanced Format)
+$i au devenit standard pentru togi producétorii incepénd cu 201 l
+i “Tranzigia” de la discurile cu sectoare dc 512B 1a cele cu sectoare de
+4K8 a durat aproape un deceniu, datorité nevoii dc a rescrie mulls
+components software ce foloseau implicit sectoare de 512B
+i Primele models de discuri AF permiteau emularea sectoarelor de 512B
+pentru a ugura tranzigia, avénd insé si un dezavamaj: emularea era
+“costisitoare” (d.p.d.v. al performangei acceselor la disc pentru uperaﬁi de scriere)
+Refeﬂntﬁ' —
+$i — 29 4v
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:30**************
+Admlnlstrarea dlsculul /2
+' Pentru a stoca ﬁsiere pe disc, SO-ul trebuie sé-si anegistreze
+propriile structuri de date pe disc
+i Partigionarea discului intr-unul sau mai multe grupuri de cilindri,
+numite partilii, ﬁecare partipie puténd stoca un sistem de ﬁsiere
+Noni: existz'i mai multe scheme de partitionare a unui disc:
+- MBR: standardu] folosil de PC»uriIe mai vechi (cu ﬁn'nware BIOS)
+- GPT: standardul folosit de PC-urile mai noi (cu ﬁrmware UEFI)
+s.a.
+i Formatarea logicé a unei panigii I “crearea sistemului de ﬁsiere"
+rezident pe acea partigie
+' Blocul de boot folosit pentru inigializarea sistemului de calcul:
+i Bootstrap-L11 cstc péstrat in memoria ROM
+i programul bootstrap loader este pastrat pe disc in blocul de boot
+30 4W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+Admlnistrarea dlsculul /3
+' Schema de partitionare MBR
+i este standardul de partitionare folosit de PC-urile cu BIOS
+i un disc partitionat dupé aceastz'i schemé va contine:
+
+' prima pisti cstc zoné rczcrvati (63 secloare la discurile cu SIZE/sector)
+
+- maxim 4 partitii primare, din care una poate ﬁ partitie extinsé
+(i.e., poate contine un numir oarecare de partitii logice)
+
+' primul sector din cadrul primei piste se numeste sectorul MBR
+(I Master Boot Record) si reprezinté blocul de boot, ce contine
+urmétoarclc informatii:
+
+i primii 446 octeti: contin programul bootstrap loader
+
+i urmitorii 64 octeti: contin tabela de partitii (cu informatii despre pozitia
+pc disc a cclor 4 parlilii primarc si lipul sislcmclm' dc ﬁsicrc slncalc)
+
+i ultimii 2 octeti contin intotdeauna valoarea SSAA (cu r0] de semndtuni)
+
+' resrul de 62 sectoare din cadrul primei piste sunt rezervate
+(pentru programs de bootstrap mai mari de 446 octeti, e.g. grub 1.0 staigﬁZ)7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Administrarea discului /4
+- Alocarea blocurilor pe disc poate adresa ambele
+probleme, a timpului de céutare §i a latengei de rotagie
+' Alocarea blocurilor urmﬁre$te scopuri competitoarc:
+i costul alocérii
+i légimea dc bandé pentru transferul unor volume mari dc date
+i eﬁcienga operagiilor cu directoare
+' Scop: reducerea migcérii bragului (cu capetele R/W ale)
+discului 5i a overhead-ului datorat seek-urilor
+i mctrica utilizati: légimca dc bandi utilizati
+' Metode dc gestiune a blocurilor bad (c.g. sector sparing)
+1: 4v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Administrarea discului /5
+' O abordare posibilé pentm alocarea blocurilor:
+i Grupurile de cilindri utilizate de FFS (Fast File System)
+' FFS deﬁnegte grupurile de cilindri drept unitatea de
+localitate a discului gi factorizeazé localitatea in posibilitiyi
+de alegere pentru alocare
+' Strategia: plasarea blocurilor de date “inrudite” in acela§i
+grup de cilindri ori de cﬁte ori acest lucru este posibil
+Despr: FFS: a m.“ 0 rennplementare a slslcmulul de ﬁ$lera pmmctat in verslunca mmala
+lie UNIX, practic un non “slam (ls ﬁg'iere, inrmdus in versmnea 4.2 de BSD UNIX,
+Mal multe am!" pump cm in amcolu] dispnmbll am:
+—
+3} 49
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Gestiunea spagiului de swap /1
+' Spaﬁul de swap
+i Mcmoria vinualé utilizeazé spatiu pe disc drept o
+extensie a memoriei principals
+° Spagiul de swap poate ﬁ localizat:
+i intr-un ﬁsier (sau mai multe) din sistemul normal
+d6 fisiere (eigi Windows)
+i pe o partiiie (sau un disc) separatﬁ (eigi UNIX/Linux)
+u 4v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Gestiunea spayiului de swap /2
+° Exemplu:
+— UNIX BSD 4,3 ii alocé spagiu de swap la inceputul
+execugiei procesului
+— spagiul alocat conﬁne:
+segmentul de text (programul) 5i segmentul de date
+map
+3s 4w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Construirea unui disc mai bun /1
+' De ce?
+i “Mai bun” a insemnat de obicei 0 densilate mai mare pentru
+producitorii de discuri i discurile mai mari sum mai bune
+i I/O bottleneck i discrepanga de vilezé cauzaté de faptul oi
+procesoarele devin mai rapids mull mai repede deceit
+discurile
+i O ildee este de a folosi paralelismul mai multor discuri
+' Imprigtierea datelor (data striping) pe mai multe discuﬁ
+' Probleme dc sigurangi a pistririi datelor i introducerea
+tehnicilor de redundanté a datelor
+m‘,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Construirea unui disc mai bun /2
+' Solugie
+i RAID (Redundant Array 0f Independent Disks)
+° Discurile multiple asiguré siguranta pistrérii datelor
+prin redundanta datelor
+' Discurile RAID se clasiﬁci in 7 nivele RAID
+° Striping-ul utilizeazé un grup de discuri ca 0 singurz'i
+unitate de stocaIe
+° Schemele RAID imbunétégesc performanga §i siguranya
+sistemului de stocare prin stocarea redundanté a datelor
+i prin tchnica oglindirii (mirroring sau Shadowing) so péstrcazé
+un duplicat a1 ﬂecirui disc
+i Iehnica blovk interleavadparitjv folose$te mull mai pulini
+informagie pentm redundangé
+1‘ 4w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+a a ii a . .
+'° WWW“ "W Un dlsc mal bun / 3
+8 5 G a 6 5 E3 ii
+"""“““ - Nivelele RAID
+@EEEEEE?
+@ﬁiﬁﬁ?
+@ﬁﬁﬁi?
+EEEEE,
+aﬁﬁcgimhga 33/49
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+Construirea unui disc mai bun /4
+' Nivelele RAID
+i Nivelul 0: m5 redundangé, doar striping
+i Nivelul l: discuri oglindite
+i Nivelul 2: coduri Hamming corectoare de erori
+i Nivelul 3: un disc de paritate 1a ﬁecare grup, bit-interleaved
+i Nivelul 4: citiri/serieri independente, block-interleaved
+i Nivclul 5: datclc/informagia dc paritatc sum impr5$tiatc pc
+toatc discurilc (mércgtc acccsul concurcnt)
+i Nivclul 6: rczisté 1a mai mult dc o singuré croarc dc disc
+Mi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:40**************
+Construirea unui disc mai bun / 5
+- RAID (1+0) g :g :g :z
+mum ‘ ‘a Mm. mm ﬁsilmhm 40 49
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+Construirea unui disc mai bun / 6
+' RAID-nivelele2§i3
+
+I ‘ I ' I l I ' I I
+\\\\\\\\\\‘
+H H P1 H H
+’ - - ‘ -
+Striped Data Parity
+Disk
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Construirea unui disc mai bun /7
+' RAID : Paritatea
+— paritate bit/block-interleaved pentru tolerangﬁ 1a erori
+— exemplu: stocarea valorii binare 1010
+date propriu-zisc paritate
+i Tolereazé eroarea unui singur disc, Tntrucét eroarea este ﬁe pe
+discul de paritate, ﬁe pe unul dintre discurile de date
+i Citeste data, iar in caz de eroare, citeste informagia de paritate
+si corecteazé data eronaté
+i Scrierea necesité in plus si actualizarea informagiei de paritate
+4: 4v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+Construlrea unu1 dlsc mal bun /8
+- RAID — implementare hardware:
+i controlerul RAID este 0 placa hardware (ﬁe discreta, ﬁe integrate"! in
+chipserul northbridge, la unele modele de pléci de bazi)
+i plus un set de discuri, cu caracteristici speciﬁce nivelului RAID dorit
+' RAID — implementare software:
+i controleml RAID este implementat prin software
+i plus un set de discuri, cu caracteristici speciﬁce nivelului RAID doril
+Exemple de implemenlari software:
+, un device virtual, la nivclul nuclcului SOeului: md (Linux), soﬂraid (OpanSD)
+, some logical volume managzm': LVM (Linux), discuri dinamice create cu unealta
+Disk Management (Windows). sau lehnologia Storage Spaces (WinS/WinIO)
+i 0 component?) la nivelulﬁls-syxzem-ului: ZFS, btrfs (vczi unsul dCSprC slslemc dc ﬁsicrc)
+i un nivel/o aplicayie deasuprafileeslwzemeului: SnapRAID, FlexRAID, etc.
+Implcmcméri la nivc] dc ﬁrmwarc+driverc spccializatc: c.g. Intel Matrix RAID
+Meme- —
+41 40
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Administrarea memoriei tergiare /1
+~ Caracteristica deﬁnitorie a memoriei
+tergiare: costul scézut
+' in general, memoria tergiaré este construiti
+folosind medii de stocare de tip removable
+(6g dischele, CD/DVD-uri, memorii ﬂash, discuri
+clasice (i.e‘ magnetice) exteme)
+' Sunt disponibile §i alte tipuri. ..
+(e.g. discuri SSD externe)
+44 4v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+Admlnistrarea memorlel tertlare /2
+' Discuri removable:
+
+i Discul ﬂoppy (discheta) i un disc subtire §i ﬂexibil, acoperit cu
+un strat de material magnetic 5i inchis intr-o carcasa protectiva
+dc plastic
+
+i Discul magneto-optic i inregistreaza datele pe un platan rigid
+acoperit cu un strat de material magnetic
+
+i Discul optic i nu utilizeaza magnetismul; se folcsesc materiale
+speciale ce sunt modiﬁcate de raza laser
+
+° Mcdii WORM (Write Once, Read Many times)
+
+i Excinplc: CD-uri, DVD-uri
+
+° Benzi magnetice
+' Memorii ﬂash (diverse tehnologii de tip NAND)
+
+— Exemple: ‘\‘tickeuri USB, card-uri de memorie (in diverse formate:
+
+CF, sn, MMC, 5.5.), disk-uri SSD (cu diverse interfctc: SATA, NVMc, M.)
+4s w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Bibliograﬁe
+' Bibliografie obligatorie
+
+capitolele despre administrarea perifericelor
+de stocare din
+i Silbﬁrschatz : “Operating System Concepts”
+
+(cupll din [0300])
+sau
+— Tanenbaum : “Modern Operating Systems”
+
+(caps, §5,4 din [MOS4])
+
+4M‘;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+Exercigii de seminar
+' Aplicagii la: Planiﬁcarea acceselor la disc
+
+i Enuny: Se consideré un disc hard cu urmz'iloarele caracleristici: timpul
+de céutare este direct propoﬂional cu distama parcursé de bratul cu
+capetele de citire/scriere, ﬁind de 2 ms intre oricare doi cilindri
+consecutivi; timpul de transfer este neglijabil; iar latenla de mtatje este,
+in medie, de l ms pentru orice cerere de servire. La momentul t I 0 in
+coada dc servire ajung urmétoarele cereri dc acces la cilindrii discului:
+20, 48, 85 , iar la momentul t I 100 ms in coada de servire mai ajung $i
+urmz'itoarclc ccrcri dc acccs la cilindrii discului: 33, 94, 120.
+
+Care este ordinea satisfacerii cererilor 3i timpul necesar pentru
+satisfaccrca lor, folosind algoritmul LOOK? Brawl discului cstc
+pozitionat initial la cilindrul 50, iar sensul séu de deplasare este spre
+cilindrul cu numérul maxim.
+
+Reprezentati graﬁc ordinea de servire inn-0 diagramz'i planz'i xOy, pe axa
+orimntalé ﬁind rcprczcmaﬂ cilindrii discului, izn pc cca vcrticalé limpul.
+
+i Rezulvare: ‘I
+4‘ 4w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Sumar
+
+> Introducere
+> Memoria secundari (discul)
+
+— Structura
+
+i Planiﬁcarea
+
+— Administrarea
+' Gestiunea spaﬁului de swap
+" Construirea unui disc mai bun
+" Administrarea memoriei tergiare
+
+intrebiri ?
+WW
+
+***************Ending Page***************
+

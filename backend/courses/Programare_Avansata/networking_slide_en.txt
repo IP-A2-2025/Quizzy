@@ -1,0 +1,607 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Networking
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Protocol
+Protocol - A set of rules governing the exchange
+0r transmission of data between devices.
+When you write Java programs that
+Wm“ ,Precses:t0;prqcs$ _ mum communicate overlhe network, you are
+l i programming at me appiicatlon layer
+Wampum‘,,,VWHQ5!:EO:h9StWW , “mm Appliuaiiun
+l I (HTFRﬂpJEinzt )
+l I l T l I (TOF'rUDPr )
+Link link link Link m
+L t 1 i 1 l >
+Ethernet 5m" Ethernet Link
+“I (mavrrzdrwer )
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Internet Address
+java.net.lnnetAddress Router I Baum : Computel
+_ EnemaHP | mm i mew
+° lnnet4Address (32-bit) newsman wzresor E man;
+| z
+v 8512223145 —numerical l
+v fenrir.info.uaic.ro - symbolic ll‘ r _:
+- Innet6Address (128-bit) | mgr?"
+2002:0:0:0:0:0:557a:1791 l i 19216803
+l
+Address Types |
+. | \PCameraﬂ
+~ unlcast | i \rtemaHP
+‘ multicast lmwm | 19mm
+l'" lmemammmrk
+~ localhost (127.0.0.1)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Port
+
+A port is a 16-bit number, which uniquely identifies a
+process offering services over the network.
+- Possible values: 0 — 65535
+— Reserved values: 0 — 1023 (the well-known pods)
+
+T i i T
+
+Purl Dun Dun Purl
+
+TCP ur UDP
+Packet
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+The Client-Server Model
+
+“The Server Q Q
+
+v ofers some network services Q /
+
+, runs at a speciﬁed pon‘ /
+
+v must be able to handle [E] —W—>
+
+many clients concurrent/y chem mm S-{kx Q
+
+~‘- The Client
+
+, initiate the conversation with the server
+
+v must know the IP address and the port of the server
+
+v sends requests and receive responses
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Sockets
+Socket - A software abstraction describing mm
+of a two-way communication link between two programs
+running on the network.
+. TCP: Socket, ServerSocket WW iii Mg“ iii
+. UDP: DatagramSocket WW E ‘"“é” E
+Alpiéatim LE wiéw 2|
+java.netJnetSocketAddress W?“ 3 ‘"“é” W
+(lP adress, port) s 3 mp Top j
+ste S t
+(hostName, port) Sgttwanrqe M § Soyi'isvznrqe
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Communication Over TCP
+0 Transport Control Protocol
+e Connection-based
+e Reliable ﬂow of data between two computers
+AOIICQUE server CIIEI'JU
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+A Slmple TCP Server
+publlc class SlmpleServer (
+// Dsfme :he port On wwich the server is llsjenlng
+public scans ﬁnal Lnt PORT i 8100;
+public SimplnSizvnz() mm" IOExciption 4
+ServerSocket serverSocket : null ,-
+try (
+semrsocket = new Serve:50ck8t(PORTH
+while (true) l
+Systs'u.mut.pr1ntln ("Waltlng m a Cllént ..."y;
+Socket socket = serversocketacceptl);
+// Execute Me rllent's request 1n a new r'uread
+new ClientThread(socket) .staztl) 7
+\
+) catch (IOExceptlon e) (
+Systemern pruxtln venom... " + e1.-
+) flu-ally (
+servexSccket. close () 7
+1
+)
+public statlc von mam L Sfrinq [1 args r throws IOExceprlon (
+51mple5ervez server : new Simpleserve: <1;
+}
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Creatlng the Response
+class Client'l'hxead extends Thread (
+prlvafe Sacker socks? : null ;
+public ClientThread (Socket socket) i this.socket = socket i )
+public void run (I l
+tzy l
+// Get the “quit ﬁrm the lhput stream: clleht _ server
+Bufiezedkeade: in = new Buiferedkeader(
+new Inputstzeamkeader(socket.get1nput5tzeam() ) ) ;
+String request = inlleadI-ineov'
+// Send t'le response :Q the oputput stream: serve: < ClJEﬂt
+Printhitex out = new PrintWIiteX(snek:t.g:t0utput5tz:all\());
+String zaspuns = "Hello " + request + "I";
+nut.pnhtln(nspuh5) ,-
+nut.f1ush();
+) catc'l [IOExceptlcn e] (
+System.ett.pnhtlhl"c¢1\muhlcatwh Ettst... " ’ 277
+) flnally [
+try l
+socket.close(); // ct use try-vuth-resources
+) Petth (IQEXCEPZJOD er l 5ystﬁm.err.prln:ln (ep; )
+)
+l
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+publlc Class smplecllenr (
+pubHc sLamc vcxd mam (strqu arqs) Lhrows TOFxcepMon 1
+
+String servethress = "1210.04",- // The nerver'e IP edureee
+
+int PORT = $100.- // The server's port
+
+u; <
+Socket enekee = new Socket(servex1\ddzess, pom),-
+PrinevIrner eue =
+
+new Prinrjlzitex (socket.get0utput5txeam() , true) ;
+BufiezedReadax in = new Bufferedkeadex (
+new Inputstxeamkeadex(socket.get1nputstzealn())) 1 <
+
+// send a request m :he server
+String request = "world";
+out.print1n(raque$t)i
+// Wei; we response :mm we €erve' ("1e\ \o Worldl")
+String response = in.zeadl-ine (1;
+System.out.print1n(zesp0nse) :
+
+) catc" [Unkncwn-lostExceptlon e) 4
+System.5zr.prlwtlnl"k'c server llsfenlngﬂ. " + 5);
+
+>
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Backlogs and Timeouts
+
+- public ServerSocket(int port, int backlog)
+
+Backlog = the maximum queue length for incoming connection
+indications (a request to connect). If a connection indication
+arrives when the queue is full, the connection is refused.
+
+- ServerSocket.setSoTimeout(int timeout)
+
+Acall to acoept() for this ServerSocket will block for only this
+amount of time.
+
+- Socket.connect($ocketAddress endpoint, int timeout)
+Connects this socket to the server with a specified timeout
+value. Atimeout of zero is interpreted as an infinite timeout.
+
+- Socket.setSoTimeout(int timeout)
+
+A read() call on the InputStream associated with this Socket will
+block for only this amount of time.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Communication Over UDP
+
+- User Datagram Protocol
+
+- Independent packets of data, called datagrams
+
+- NOT connection-based
+
+- No guarantees about arrival or order of delivery
+Cumin
+
+Elx/ DJlJulnlnPncloel “~1-
+Dnlamamﬂnckelkx~ *"ﬂ/DnlﬂuimnSnckel
+
+Raspuns
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+1nt porrServeI e szno; // Server's pert
+// Create a server slde commumcatlon sucker
+Dataqzalnsucket socket = new Datagzamsocket(puzt5:zv:!)7
+// welt for lncumlng package
+byte bufH e new byte[2sa];
+DatagramYacket request = new neteqzemseekeubuf, buf.1enq=h );
+socket. receive (request) :
+// Get the eddreee and the pert of the cllent nhe eent the request
+InetAddzess clientAddress e requengetAddzessO;
+in: clientPozt e zequest.getPort();
+// Create the response
+String message e "heme " 4 new String(request.getData()l + "z";
+buf e message.getBytesH;
+// Send a response package te the clJent
+DataqzamPacket zsspense =
+new DatuqzamPacknt(buf, buf.1angth, enenudarese, clientPozt) ,-
+seekee. aand(!aupun50) ,-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+InetAduress serverAddress : InetAddress.geiEyNameL"127.0.0.l"],-
+1n: serverPort e szno;
+// Creeze a cllen'rsloe communlcatlon socket
+// The socks: ls mung to any avallable port on the local host necnlne
+Datagramsocket socket; = new DatagramBocketO;
+// Create and send a :equesi package
+byte bufferlU e "World".getEytes();
+DatagzamPacket zeq'uest =
+new nacagramracxeubuirenl, huffexl.length, serverAddxess, serveryozc);
+socket‘ sendkeq'uest);
+// Walt for Th9 response
+byze bufferZU e new byte[256];
+DatagramPacket response = new Datagram?acket(bu££er2, bufferZJength ):
+socket. receive (response) ,-
+// Here 1c is: Hello World!
+System.cut.pr1ntln(nev: Strlnglresponse.get0ata(lH;
+PcnUmeachsb/eExcepﬂan may be throw" w me socks! \e conneﬂed w a :unenny unreachable
+desﬁnallun
+we‘ (here IS no guarantee mm (he exception wm be mmwn
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+A multicast group of clients is specified by a class D IP address:
+224.00.1- 239.255.255.255
+When one sends a message to a multicast group, all subscribing
+recipients to that host and port receive the message.
+Inemddzess group = mandate“.qemsynmwzancmi“),-
+// 10m the part)...
+Multlcastsocket clientseckec = new Multlcastsocketo;
+Clientsncket. jﬂihGrﬂuF (gmup) ;
+mumsismei
+Daiaglalnﬁmkei DalaqlalnPaclzei \\\ llllll\lEElS\5ElZl(E\
+lllmsmm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Communication Over HTTP
+The Hypertext Transfer Protocol -v Communication tor the World Wide Web
+URL = Uniform Resource Locator
+ﬁ Static resources (HTML pages, texts, images, etc.)
+‘tip = / /p:<;fs .m£<>_ut1:_:<;/ nwf/ java,’slides/er|,'networkcngisclceien . pdf
+ﬁ Dynamic resources (servlets, JSP/PHP pages, etc.)
+n::p://85.122t23.14‘)z8080/WebApptHanan/relic.jsp
+A URL can be broken into several parts:
+- The protocol: http
+- The host machine: profs.info.uaic.ro, 85.122.23.145
+- The port of the inner TCP connection: default (80), 8080
+- The path to the component is both protocol dependent and host
+dependent
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Working With URLs
+java.net. URL
+
+Class URL represents a Uniform Resource Locator, a pointer
+to a "resource" on the World Wide Web. A resource can be
+something as simple as a file or a directory, or it can be a
+reference to a more complicated object, such as a query to a
+database or to a search engine.
+try l
+
+URL url = new U'RL("https://docs4oracle.com/javase/B/docs/apil");
+l oatvh (MaliormEQURLExcep' ion e) l
+
+Systerr\.errtp:intln("Invalid URL: " + e);
+l
+v Query the URL object
+O Read the contents of the URL
+0 Conect to the URL
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Readlng the Contents of an URL
+public class URLContentReadlng (
+publlc statlc vord me1n(Striﬂq[] args) throws IOExceptlon (
+Strlng resource Z "hccp://profs,rnfo,uarc,ro/~acf/nello.cxc";
+BufferedReader reader Z null 7
+try t
+URL utl = new URL (resource),-
+InputStream in = uxl.0penStreall\() ;
+reader = new Bufferedkeadetmew Inputstzeamkeadetdn) ),'
+// Read the contents of the URL, line by llne
+String line;
+whlle (t llne = reader. readLine (J) l= null ) t
+Systemoucrprrntln (line):
+)
+) catch ( MalformedURLExceptlon E) (
+System.err.pr1ntln ("Invalid URL: " + e];
+t finally t
+lf (reader I: null) reader. close U?
+l
+)
+)
+// Using stream:
+String text = readeriinesth4collecttCollectozs,joininq("\n"t);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+JavaScript Object Notation. Format for storing and exchanging data‘
+An easier-(o-use alternatwe to XML.
+Strmg resource : "http://aym.icndb,com/]okes/random"r
+Inputstrearr 1n i new URL(resource) .openStreamU;
+BufferedReader reader Z
+new BufferedReadeI(new InputStIean-Reade:(ln));
+String json = :eade:.lines() .collecHCollectozs.joining("\n"));
+/* "type": "success",
+"va,ue"t l
+"id": 546,
+nuke"; "Chuck Now s does \"MvHL mops in 4 seconds.",
+"Categories": "ncrdy"]
+)
+‘/
+// We use Gooqle Gson libxaxy
+Gson gson i new Gson();
+Map<Strlng, ObjeCt> n'ap i new HashMap<>();
+map = (Map<Stzing, object» gsan_fznszon(json, map.getClass());
+Map<5trlng, ODJECt> value i
+(Map<Strlng, Object>) mapxjetP'value");
+Systen'.out.prlnt;n(va;ue.get("joke"));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Establishing a a 2-way communications link between the application and a URL
+public class URLConnectlonDemO (
+
+PubllC statlc veld maln(Strinq[] argsi throws IOEXCepthn (
+URL url Z new URL("http1//localhost:BOHO/App/HellQWorldi;
+URLConnection connection = u:1.openconnecticn();
+connection . setDoOutput (true) ;
+cucputsccemnwcitez out =
+
+new Outputstreamwriter (connection.qetOutputStrearM) ) .'
+String pazam = URLEncodez.encode("Duke s World", "UTFBU;
+out.\lxite("string=" + param);
+ounclose ();
+Bufferedkeade: in = net Bufferedkeader(
+new Inputstzemeadez (connection . getInputStream() ) ) ,-
+String response;
+whlle ((response : unreadLLneiJ) l: null) i
+Systemiouciprincln {response};
+i
+in _ close (i 7
+i
+1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+H 7!
+JavaEE server components
+to be continued...
+- Servlet, HttpServlet (Java ServletAPl)
+publ;c class Hellcworldﬁervlet exte"cs HttpServlet (
+publLC ‘1031 dnGet[HttpSetvletReq-uest request,
+HttpServletResponse response 1 \
+Y€SDO“$E.SELCOY7L€M Type ("Lad #er \ ");
+P:1ntW:1tur cut : new 91;Univ:<r¢§g>un.@.qu:Wr1m:I»)r
+out.pr)ntl‘ ("Hello worldl'W;
+uui.clossl)7
+)
+)
+- REST Web SerVIce (JAX-RS)
+UPathW/hellcworld") // 77> Regource Ide‘t1f,e:
+pub‘ C (‘M353 He\!cwor!dResGurce (
+@GET @ProducesL"te><t/pla;"")
+publA‘ SLIM“) guLMcssagct) 1 :uLuxn "Hello mum".- v
+)
+- SOAP Web SerVIce (JAX-WS)
+@Hebsezvice(serv)reName:"G:eetlug")
+public (:1qu Hello \
+@WebMed-md
+publLC String sayHelloU 1 {gem ">ello World'"; )
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Remote Method Invocation (RMI)
+0 Higher level network programming
+a Allows objects running in one Java Virtual Machine to
+invoke methods ob'ects running in another JVM
+0 Distributed object applications
+A server program creates remote objects, makes references to these
+objects accessible, and waits for clients to invoke their methods.
+v Syntax and semantics similar to standard applications
+v Issues:
+v How to locate and identify remote objects?
+v How to send arguments and receive results?
+v How to handle remote exceptions?
+v What about garbage collection?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Remote Proxy
+- Proxy - An object which acts as an interface to
+another object (also called surrogate, placeholder)
+~ Remote Proxy - A local object representing a remote
+object (one that belongs to a different address space).
+Client Sen/er
+Application Appllcallon
+Oblect Network Object
+What other types of Proxy do you know?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+RMI Basic Principle
+The separation between behavior and
+implementation
+Sam'ce
+l-‘ll-I
+Proxy lmpiemenieiiun
+RMi
+“Magic“
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Identifying Remote Objects
+
+Name Services
+
+r- JNDI (Java Naming and Directory Interface)
+
+r- RMl Registry (JAVA-HOME/
+
+The common name services operations:
+
+~ bind- the association between an object and a
+symbolic name
+
+~ lockup - obtaining the reference to an object using its
+symbolic name
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+H H
+RMI Hello World!
+Hello.java ~> Interface describing the service
+Must be available to both server and client.
+package service;
+import java.rlniARelnote;
+import java.rmi.RemoteException;
+public interface Hello extends Remote (
+String sayHello(String name) thrdws Remoteilxception;
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+The Service Implementation
+Hellolmpl.java ~> Server-side implementation of the interface
+package server;
+import java.uni-RemoteException;
+import serviced-Kaila;
+public class Hellnlmpl implements Hello (
+
+public uellompli) throws RemoteExceptloi-i {
+superm
+)
+public String sayﬂello(5tring name) i
+return “llella “ + name ¢ “ I";
+i
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Exposing the Service
+HelloServer.java
+package server;
+import java.rmi.registry.*;
+import java. rml .server .UnicastRemoteObject;
+import serviceiﬂello;
+public class HelloServer (
+public static void mainlStringU args| throws Exception {
+Hello hello = new Bellolmplﬂ;
+Hello stub = (Hello) Unicastﬁemoteobject.export0bject(hello, a);
+Registry registry = Locatekegistry.getRegistry();
+registry.bind("ﬂellu", stub);
+System.out.println( “Hello Service activated! “ );
+)
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+The Client
+HelloClientjava
+package client;
+import java.rmi.registry.LocateReqistry;
+import java.rml.regiscry.Reqistry;
+import serviceJlello;
+public class HellcClient(
+public static void mainlStringH crgs| throws Exception {
+Registry registry - Locatekegistry.getkegistty("localhost");
+Hello hello = (Hello) registry.lookup(“llello“)7
+string response = hello.sayﬂella("World“);
+system.out.println(response);
+}
+>
+
+***************Ending Page***************
+

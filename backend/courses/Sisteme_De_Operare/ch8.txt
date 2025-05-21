@@ -1,0 +1,718 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 8: Deadlocks
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+W Chapter 8: Deadlocks
+I System Model
+I Deadlock in Mullilhreaded Applications
+I Deadlock Characterization
+I Methods for Handling Deadlocks
+I Deadlock Prevenlion
+I Deadlock Avoidance
+I Deadlock Deleclion
+I Recovery from Deadlock
+om.n,=,i..mc.,mpmam u Siam-mmmania“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+t‘
+W Chapter Objectlves
+I Illustrate how deadlock can occur when mutex locks
+are used
+I Deﬁne the tour necessary conditions that
+characterize deadlock
+I Identity a deadlock situation in a resource allocation
+graph
+I Evaluate the tour different approaches for preventing
+deadlocks
+I Apply the bankefs algorithm tor deadlock avoidance
+I Apply the deadlock detection algorithm
+I Evaluate approaches lor recovering from deadlock
+0mm=y....nc.m.,.m.em.,.m u “Mme-vi““Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+‘6p? System Model
+I System consists of resources
+I Resource (ypes R‘, R2, . . ., Rm
+CPU cycles, memory space, l/O devices
+I Each resource (ype Rr has W inslarlces.
+I Each process utilizes a resource as follows:
+' request
+' use
+l release
+om.".=,i..mc.mmewe.“ u “imam-yr“Mimi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+“fﬁZadlock |n Multlthreaded Appllcatlon
+I Two muiex locks are created an initialized:
+pthxeldmutexj nuumex;
+pthxeadmutexl secondmutex;
+pthxeadmutexjnit (liirstnuteXJlULL) ;
+pthxeadmutexjnit (lseccndmutBX,N\ILL) :
+0mm, sh..." Camp‘. 7 w mm ‘ s Sllhvmhlu. Bllvin m m". mu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+“PﬁZadlock m Multlthreaded Appllcatlon
+
+Iv momma: run- In zhh lunczkon -/
+
+( pthnnlmjacﬂlfknzmﬂx);
+Mmmmdmm
+/u
+. .k. ._ m.
+n/
+pthnndmmrmhcﬂlllmdmnx);
+Mmmﬂmmh
+pun-unmo):
+
+)
+
+I» LhrurLtIn nml in thin functinn v/
+
+( pun-amhmmmnmc-x);
+mummmmm
+. D. .- m
+~/
+pmnndmm'nnlncﬂﬁzxnmtu);
+mummununluckﬂuwuﬂluux);
+pthrlndjxiﬂmi
+
+) A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+‘ﬁadlock |n Multlthreaded Appllcatlon
+I Deadlock i5 possible i' thread 1 acquires £izst_mutex and thread 2
+acquires second_mutex> Thread 1 then waits for second_mutex and
+thread 2 waits for first_mutex.
+I Can be illuslraled wilh a resource allocation graph:
+omwsmmmmmwMd.“ u SIMMMM.mmiﬁm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+ﬁe
+“3?; Deadlock Characterization
+Deadlock can arise if four conditions hold simultaneously,
+I Mutual exclusion: only one process at a time can use a
+resource
+I Hold and wait: a process holding at least one resource is
+waiting to acquire additional resources held by other
+processes
+I No preemption: a resource can be released ohiy voluntarily
+by the process holding it, after that process has completed
+its task
+I Circular wait: there exists a set (P0, Pt, P") ofwailing
+processes such that P0 is waiting for a resource that is held
+by P“ P. is waiting for a resource that is held by P2, Pn»1
+is waiting for a resource that is held by P", and P" is waiting
+lor a resource that is held by P0.
+wwws...“ Conmpiielﬂliditron u silhmm-u. momma-wow‘!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+ugly Resource-Allocation Graph
+A set of vertices Vand a set of edges E.
+I V is partitioned into two types:
+i P = (Pi, P2, PH}, the set consisting of all the processes
+in the system
+° R = (Rt, R2, ..., Rm), the set consisting of all resource
+types in the system
+I request edge e directed edge P,» R,
+I assignment edge e directed edge Ft, ~> P,
+Wm,=y....nc.m.,.m.em.,.m u “imam-vi“ﬁne-“km
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:10**************
+q} ﬁesource Allocatlon Graph Example
+I One instance ol R1 R R
+I Two inslances of R2 ‘ 1
+. Onemsiancem H l‘
+I Three inslance of R4
+I T1 holds one inslance 01 R2 and is Q Q Q
+wailing for an inslance ol R1
+I T2 holds one inslance 01R1, one
+instance of R2, and is wailing lor an
+instance of R3
+I T3 is holds one insiance ol R3 R2
+R‘
+Wm.5,...MWBMPWGW aw mm.‘ “MMHNNJW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+“)f'p Resource Allocation Graph With A Deadlock
+R‘ R3
+H H
+6”.»
+R2 E
+R4 I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+“4);? Graph With A Cycle But No Deadlock
+F,‘ Q
+E G
+G
+G
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+My}? Baslc Facts
+I l1 graph contains no cycles Q no deadlock
+I ll graph contains a cycle 2
+' if only one insiance per resource \ype, lhen deadlock
+Q if several instances per resource type, possibility of
+deadlock
+OM",=y....nc.,w.sm.,.m cu summummug-“km
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+W Methods for Handllng Deadlocks
+I Ensure that the system will never enter a deadlock
+state:
+' Deadlock prevention
+' Deadlock avoidance
+I Allow the system to enter a deadlock state and then
+recover
+I Ignore the problem and pretend that deadlocks never
+occur in the system.
+Wm, 5"..." Emmy w mm . rt mm.‘ W“ m swim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+r‘
+53$} Deadlock Preventlon
+lnvalidate one ol the lour necessary conditions for deadlock:
+I Mutual Exclusion i riot required for Sharable resouroes
+(e.g., read-only ﬁles); must hold for non-sharable resources
+I Hold and Wait i must guarantee that whenever a process
+requests a resource, it does not hold any other resources
+' Require process l0 request and be ailocaled all its
+resources before it begins execution, or allow process
+to request resources only when the process has none
+allocated to it.
+. Low resource utilization; starvation possible
+Wm, 5"..." “WP tar mm t is Silhvmhtz. W“ m W‘. W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+(‘s
+“W Deadlock PreventIon (Cont.)
+I No Preemption ,
+
+Q If a process that is holding some resources requests
+anolher resource lhal cannot be immediately allocated to
+it, then all resources currently being held are released
+
+' Preempled resources are added to the list of resources
+for which the process is waiting
+
+' Process will be restarted only when it can regain its old
+resources, as well as ihe new ones that it is requesting
+
+I Circular Wait — impose a total ordering of all resource types,
+and require that each prooess requests resources in an
+increasing order of enumeration
+Wm." 5m... Cum,“ a In.‘ mm a to Silhvmhu. GIlvln m an" mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+“W Clrcular Walt
+I lnvalidaiing the circular wait condition is most common.
+I Simply assign each resource (i.e. mutex locks) a unique number.
+I Resources must be acquired in order. I- mm"- "- ,- nu 1mm -/
+m“ .1“ m. Mm. um.)
+I If: ' m... m...“ n.1,:
+,m... "m “nil-mu mm.
+1..
+first_nlutex = 1 I,"°”" "‘"
+second_n|utex = 5 5:12: Iii: :iﬁiiiiifﬁiii‘
+w...- .xnlﬂ):
+code for thread_t\lo could noi be i
+written as foIIOWSI 52.22121; mat-:2?“ "
+l Minn um wanna-4 nun‘
+m... .“u mum.“ mm),
+To, .- .m
+.1
+vi»... .M Him-“numnv
+w... .M mum” mm.
+w...- .nzlﬂ).
+i
+Wm", sh“... gnaw‘ 7 w mm a n “mm-m am m m... MM!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+A
+53$} Deadlock Av0|dance
+Requires that the system has some additional a priori information
+available
+I Simplest and most useful model requires that each process
+declare the maximum number of resources of each type
+that it may need
+I The deadlock-avoidance algorithm dynamically examines
+the resource»allocation state to ensure that there can never
+be a circular-wait condition
+I Resource-allocation stats is defined by the number ol
+available and allocated resourcesv and the maximum
+demands of the processes
+om", 5"..." “We tar am t u Siam-a W“ m W‘. W.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+A
+W Safe State
+I When a process requests an available resource, system rnust
+decide ii immediate allocation leaves the system in a safe state
+I System ls ln safe state if there exists a sequence <P,, P2, m, P,,>
+of ALL the processes in the systems such that for each F',, the
+resources that P, can still request can be satisﬁed by currently
+available resources + resources held by all the P,, withj < I
+I That ls:
+. If P, resource needs are not immediately available, then P, can
+wait until all P, have ﬁnished
+' When P, is ﬁnished, P, can obtain needed resources, execute.
+return allocated resources, and terminate
+I When P, terminates, PM can obtain its needed resources, and
+so on
+Wm,Spammmmiemdm m stem-s G.-vm."¢=.,;m,.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+qfr Bas lc Facts
+I If a system is in safe state :> no deadlocks
+I If a system is in unsafe state :> possibilily of deadlock
+I Avoidance a ensure \hal a system will never enter an
+unsafe state.
+Wm", 5m... Cum,“ 7 w Wm a m “mm-m DIM“ m an". @zuu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+my? Safe, Unsafe, Deadlock State
+unsafe
+deadlock
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+q); Av0|dance Algorlthms
+I Single instance oi a resource type
+' Use a resource-allocation graph
+I Muliiple instances oi a resource type
+o Use the Banker's Algorithm
+0mm, sh..." CW,“ , w mm a 22 51mm.‘ em m m... W1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+t‘
+“$9 Resou rce-Allocatlon Graph Scheme
+I Claim edge P, a R indicated that process P, may request
+resource R1; represented by a dashed line
+I Claim edge converts to request edge when a process requests
+a resource
+I Request edge convened to an assignment edge when the
+resource is allocated l0 the process
+I When a resource is released by a process, assignment edge
+reconvens to a claim edge
+I Resources must be claimed s prion‘ in the system
+om", 5"..." “WP w em a z: sum-e W“ m W181."
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+W Resource-Allocation Graph
+R‘
+R2
+WMWWWHWW an “WNWWWW.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+“WV Unsafe State ln Resource-Allocation Graph
+R1
+R2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+owl‘ Resource-Allocation Graph Algorithm
+I Suppose lhal process P, requesls a resource R,
+I The request can be granted only if converting the
+request edge lo an assignment edge does not result
+in the formation of a cycle in the resource allocation
+graph
+Wm.“ sh..." CW,“ 7 w mm a m Sllhvmh-u. Gm v.4 m“- W1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+“ﬁr Banker’s Algorithm
+
+I Multiple instances of resources
+
+I Each process must a priori claim maximum use
+
+I When a process requests a resource it may have to wait
+
+I When a process gels all its resources it must return them in a
+
+ﬁnite amount of time
+A
+
+Wm,“mmmmimm an mmum.MWIWM
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:28**************
+A
+“13$; Data Structures for the Banker's Algorithm
+Let n = number ol processes, and m 1 number of resources types.
+I Available: Vector 0f length m. If available [l] = k, there are k
+instances of resource type R, available
+I Max: n x m matrix. If Mex [i4] = k, then process P, may request at
+most k instances of resource type R’,
+I Allocation: n x m matrix. If Allocation[i,/] = k then P. is currently
+allocated k instances 0f R
+I Need: n x m matrix. If Need[i,_/] = k, then Pv may need k more
+instances of R,to complete its task
+Need [ij] = Max[i,/] — Allocation [i,/]
+om", Syn... BMW w a“... t u Slum-a W“ m W‘. W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+V l4" .
+.1!»
+My’ Safety AlgorIthm
+1. Let Work and Finish be vectors of length m and n, respectively.
+Initialize:
+Work = Available
+Finish [i] = false lori= 0,1,...,n-1
+2. Find an isuch that both:
+(a) Finish [l] = false
+(b) Need, s Work
+ll no such iexists, go to step 4
+3. Work = Work + Allocaﬁon,
+Finish[i] = true
+go to step 2
+4. If Finish [i] == true for all i, then the syslem l5 in a safe slale
+om“, in..." mm’ m» Em a 1'; mm.‘ W" m sq; W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+t‘ .
+
+q}; Resource-Request Algorlthm for Process P‘.
+Request, = request vector for process P,. If RequeSlilI] = k then
+prooess P, wants k instances of resource type Rl
+
+1. If Request, S Need, go to Step 2‘ Otherwise, raise error condilion,
+since process has exceeded its maximum claim
+2. ll Request, s Available, go to step 3. Otherwise P, must wait,
+since resources are not available
+3. Pretend to allocate requested resources to P, by modifying the
+slate BS lollows:
+Available = Available — Requestg
+Allocation.= Allocationv + Request;
+Need, = Need, — Request;
+' If safe Q the resources are allocated to P,
+' If unsaie Q P, must wait, and the old resource-allocation slate
+is restored
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+w)?!‘ Example of Banker’s Algorithm
+I 5 processes F"7 through P.;
+3 resource \ypes:
+A (10 insOances), B (Sinsﬁances), and C (7 instances)
+I Snapshm a1 time To:
+Allocation M A vailable
+A B C A B C A B C
+
+Pr. 0 1 O 7 5 3 3 3 2
+
+P‘ 2 O O 3 Z Z
+
+P2 3 O 2 9 O 2
+
+P3 2 1 1 Z 2 2
+
+PA O O 2 4 3 3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+“4} I Example (Cont)
+I The conieni oi ihe mairix Need is deﬁned to be Max - Allocation
+Need
+A B C
+Pn 7 4 a
+Pi 1 2 2
+P2 e u 0
+P1 0 1 1
+P, 4 a 1
+I The sysiem is in a sale siaie since the sequence < P‘, P3, PM P2v Pn>
+satisfies safety criteria
+OM",=y....nc.m.,.m.im.,.m ea: mmmm.mmimm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+r‘
+w Example: P1 Request (1,0,2)
+I Check that Request s Available (‘hat is, (1 ,02) é (3,3,2) Q true
+Allocatian Need Available
+A B C A B C A B C
+F’D O 1 O 7 4 3 2 3 0
+P1 3 D Z 0 2 D
+P2 3 O 2 6 O O
+P: 2 1 1 0 1 1
+P4 O O 2 4 3 1
+I Executing safely algorithm shows that sequence < P‘, P,. P.. Pu. P1>
+satisfies safely requiremenl
+I Can request for (3,3,0) by P, be granted?
+I Can request for (0,2,0) by P“ be granted? .
+om.",=,...mcm.mkMd.“ an “mm-m G.W."¢=.‘;W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+W Deadlock Detectlon
+I Allow system to enter deadlock state
+I Detection algorithm
+I Recovery scheme
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+my?!‘ Single Instance of Each Resource Type
+I Maintain wait-for graph
+' Nodes are processes
+I P, ~> P, il P, is waiting for P,
+I Periodically invoke an algorithm lhal searches for a cycle in the
+graph. ll there is a cycle, there exists a deadlock
+I An algorithm to detect a cycle in a graph requires an order of m
+operations, where n is the number of vertioes in the graph
+Wm. m..." mam.’ w mm i as stem-a W“ m w‘. W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+W Resource-Allocation Graph and Wait-for Graph
+a
+I F‘ I "a I R‘
+Q
+G G G
+avaa
+I Q I
+a, n, o
+1-) (a)
+Resource-Allocation Graph Corresponding wail-for graph
+Wm", sh..." mm‘. 7 w mm a as sllhmm-u. sum“ m alvlu mu
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+we"
+My’ Several Instances of a Resource Type
+
+I Available: A vector ol length m indicales lhe number of
+available resources oi each type
+
+I Allocation: An n x m matrix defines lhe number ol resources
+of each type currently allocated to each process
+
+I Request: An n x m malrix indicates the current request oi
+each process. If Request [ijll] = k, then process P, is
+requesting k more instances 01 resource type Ri.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+pt
+“$9 Detectlon Algorlthm
+1. Let Work and Finish be vectors of length m and n, respectively
+Initialize:
+(a) Work = Available
+(b) Fori= 1,2, ..., n, ifAIIocation,¢ 0, then
+Finishli] = false; otherwise, Finishli] = true
+2. Find an index i such that both:
+(a) Finish[i] == false
+(b) Request, s Work
+If no such iexists, go to step 4
+Wm,SMWWHWW w mm.‘ W“ m W181."
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+“WC Detectlon Algonthm (Cont)
+3. Work = Work + Allocation,
+Finish[l'] = true
+go to step 2
+4. ll Finishli] == false, for some i, 1 s i s n, then the system is in
+deadlock state. Moreover, if Finishm == false, then P, is
+deadlocked
+Algorithm requires an order of Dlm x n1) operations to detect
+whether the system is in deadlocked state
+Wm.“ 5m... Cum,“ , w mm a as Sllhvumlu. Gum“ m an" mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+‘WC Example of Detection Algorithm
+I Five processes Pu through P‘: three resource types
+A (7 instances), B (2 instances), and C (6 instances)
+I Snapshot at time T0:
+Allocation Request Available
+A B C A B C A B C
+F’D O 1 O O U U O O O
+P1 2 U U 2 0 2
+P; 3 O 3 O U U
+P1 2 1 1 1 O 0
+P‘ O O 2 O O 2
+I Sequence <P,, P1, P,, P" P,> will result in Flnlshﬂ] = true for all I
+om.",5y...mcm.mkmm aw “Wm G.W."¢=.J.W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+(Q
+“W Example (Cont.)
+I Pz requests an additional instance of type C
+Katmai!
+A B C
+Pu o o o
+P‘ 2 0 2
+P2 0 0 1
+P, 1 o o
+P; 0 0 2
+I State of system?
+° Can reclaim resources held by process Pn, bul insufﬁcient
+resources to fulﬁll other processes: requests
+' Deadlock exists, consisting of processes P4, P1, P3, and P‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+(Q
+“$9 Detection-Algorithm Usage
+I When, and how often, to invoke depends on:
+' How often a deadlock is likely to occur’?
+° How many processes will need to be rolled back?
+' one for each disjoint cycle
+I If detection algorilhm is invoked arbitrarily, there may be many
+cycles in (he resource graph and so we would not be able to tell
+which of the many deadlocked processes “caused” the deadlock.
+Wm.5,...mcEWPWGW w “mum-m“minim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+r‘
+MW Recovery from Deadlock: Process Termination
+I Abort all deadlocked processes
+I Abort one process at a time until the deadlock cycle is eliminated
+I In which order should we choose to abort?
+1. Priority of the process
+2. How long process has computed, and how much longer to
+completion
+3. Resources the process has used
+A Resources process needs to complete
+5. How many processes will need to be terminated
+e ls process interactive or batch?
+om.",=y...m“Newt.” an “imam-vi“.mqniﬁm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+M Recovery from Deadlock: Resource Preemption
+I Selecting a victim i minimize cosi
+I Rollbaok i reium 10 some sale state, reslan process for lhat
+slate
+I Starvation — same process may always be picked as victim,
+include number 01 rollback in cosk (actor
+ammsyhmmmmmmmm a“ “imam-vi“.mqimm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+End of Chapter 8
+—
+
+***************Ending Page***************
+

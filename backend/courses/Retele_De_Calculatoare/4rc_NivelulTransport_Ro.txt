@@ -1,0 +1,972 @@
+***************Beginning Page***************
+***************page number:1**************
+Lenuta Alboaie
+adria@info.uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cupnns
+Nivelul Transport
+' Preliminarii
+' UDP (User Datagram Protocol)
+' TCP (Transmission Control Protocol)
+' TCP versus UDP
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+vaelul transport | Prellmlnarll
+m.
+Utilizatoare de ‘B _- rummﬂww _ _- PM
+serviciide I I
+mm
+W , W
+Furnizoare de I
+transport .--w.|:\.,w, 7.‘:W -W-m
+Figure‘ Modeml 05' rmnbm.=l.a\|
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+vaelul Transport
+' Relatia (logica) intre nivele: retea-transportiaplicatie
+"a." Hun?
+raw“, Wammw ‘Mm,
+hwy Tnnlpurl rmerlnus \Byﬂl
+Adm / I
+1
+l nlnqull "My
+@ PW“
+m \
+mm, Tmuwnmmnm
+mm
+EMS-"1:?€E§'-"*|"_SP°"I"$"'§W TPDU (Transport Protocol Data Unit) -
+se'vfcff 9m” “.u' we? 5' ° era unitatea de date pentru transport
+SetVlCll aneIUIUI SUPEYIOY annlnIanmDule/llalworks 201D
+nndrewsnnmwmh
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Nivelul Transport
+' Ofera servicii mult mai fiabile decat cele de la nivelul retea (e.g,
+pachetele pierdute/incorecte de la nivelul retea pot fi
+detectate/corectate la nivelul transport)
+' Calitatea serviciilor i CloS (Quality ofServ/ce)
+— Intarzierea Ia stabilirea conexiunii
+— Productivitatea sau rata de transfer
+— lntirzierea Ia transfer
+— Rata reziduala a erorilor
+— Protectia
+— Prioritatea
+— Rezilienta
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Nivelul Transport
+' Asigura cornunicarea logica dintre process rulind pe host-uri
+diferite (comunicare end-to-end)
+' (Curs anterior!) Nivelul retea asigura comunicarea logica
+intre hast-uri
+' PORT
+' Adauga o noua dimensiune adreselor IP de la nivelul retea
+' Se asociaza unei aplicatii (serviciu) si nu unei gazde
+' Un proces poate oferi mai multe servicii => poate utiliza mai
+multe porturi
+- Un serviciu poate corespunde mai multor procese
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+Nivelul Transport
+' PORT
+— Este un numar pe 16 biti si poate avea valori intre O — 65535
+— 1-1024 — valori rezervate (well-known), 1-512 servicii de sistem
+(IANA — Internet Assigned Number Authority: RFC 1700)
+Example:
+/etc/services : sunt precizate porturile asociate serviciilor
+sistem
+HTTP — 80; SMTP — 25; telnet — 23; SSH - 22
+@mhﬂmmv‘ _ A__-" M‘
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Primitive generale
+i Permit utilizatorilor nivelului transport (eig, programe de
+aplicatie) sa acceseze serviciile
+Primitiva Uniulea de am lrlmlsa Explicatie
+(TPDU)
+
+LISTEN iﬂlmiC] Se blocheaza pane cand un proces
+incearca SE se conecteze
+
+couwscr CONNECTION REQUEST lncearca sa stabileasca conexiunea
+
+SEND DATA Transmite iniormatie
+
+RECEIVE [mimic] SE blocheaza pana Caﬂd se
+primeste date trimise
+
+DISCONNECT olscowuscnou REG. Trimisa de partea care vrea sa se
+deccnecteze
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Nivelul Transport
+
+Cele mai importante protocoale la nivelul
+transport:
+
+I TCP (Transmission Control Protocol) —
+protocol de transport orientat
+conexiune; RFC 793 (1122), 1323
+
+I UDP (User Datagram Protocol) —
+protocol de transport neorientat
+conexiune; RFC 768
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+UDP
+- Protocol de transport neorientat conexiune,
+nesigur, minimal
+' Nu ofera nici o calitate suplimentara serviciilor
+' Nu recurge la negocieri sau la confirmari ale
+primirii datelor
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+U DP
+' Analogie: UDP — similar postei terestre
+>Tr|m|terea une| scrlsorl
+>Nu se garanteaza ii Q‘ Q
+ordinea receptionarii
+>Mesaju| se poate L g
+pierde g’
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:12**************
+U DP
+
+' Utilizeaza IP
+
+' Pentru a oferii servicii de comunicare intre
+procese foloseste porturi
+
+' UDP transmite pachete: antet (8 bytes) +
+continut
+_—sw.s—.
+_m
+
+F‘““"“"‘°‘ “DP l“::m:“2';:':;.";":::nw‘"
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+U D P
+, Figura: Anlal UDP
+° Source port s| 3m
+Destination port WWW
+point”—urile de pe
+masinile sursa si . UDP/ength =
+destinatie 8 bytes +
+dimensiunea ' UDP
+continutului checksum
+nu este
+obligatoriu
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+' Exemple de utilizari:
+— DNS (Domain Name System)
+Use-case: A are nevoie de lPiul hostiului cu numele
+www4info.uaic.ro
+Pas 1‘ Atrimite un pachet UDP continind numele
+host-ului : www,info‘uaic‘ro
+Pas 2. Serverul de DNS trimite un pachet UDP de
+raspuns continind adresa IP a host-ului 18512213146
+— RPC (Remote Procedure Call) — mecanism de apel al
+procedurilor la distanta
+— DHCP foloseste un model de servicii fara conexiune,
+User Datagram Protocol (UDP)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+' mcurSu‘ amen'ur') RARP, EOOTP
+- Serverul DHCP puate gesliuna setirile w pemm dispullllvele am client server
+regeaua Iowa, prin ambuirea de adrese \P acewv dmpozitive
+automat w dynamic D'SCOVER
+~ oucv opereaza sub modelul clienkserver
+i Serveru‘ VDIOSESIE 0m!‘ UDP 67
+p oFFER .1
+i Cllﬁntu‘ Museste pﬂflul UDP 68 g
+- Dperath (DORA) serverdfscovzry, VPlease a/fu, lP/ease RE m
+request, sx IP lease acknnwlsdgement QUEST
+' Mecamsmuk i
+- Operatla DHCPDISCOVER = cllemm lace un broadcast (u o ACKNOWLEDGE
+cerere
+Ememe'l SOUICE<S€VIOEFS MAC, destinahofPFF FFFF FF'FF FF
+IP, souroe=0 0,9 0; desllnalion=255255 255.255
+UDP: source pm|=sa; destinalion poﬂ=67
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+DHCP (Dynamic Host Configuration
+P rotocol )
+Mechanism:
+- Serveml DHCP rezerva o adresa w address si trimite \m meszi
+DHCPUFFER ciientuiui a (Client ID (MAC address], IP Address, C'ie'“ SEN“
+suhnet mask, lease duration, DHCP Server IP) ersrowj
+e ciientui repiica ciientului, prin broadcast, cu un mesaj
+DHCPREQUEST, prin care cere adresa olerita ME“ 5
+~ u" client poate primi Merle DHCP de ia server multipii, si va “We, “‘
+accepla dear una _ ME l
+~ lnainte de a care adresa IP, clienlul v2 face o cerere ARP “NM
+(broadcast! , pentru a identifica daca exista ait host present
+care EYE acez adfesa iP
+- Cami serverele DHCP servers prlmesc acest mesaj, vur
+retrage ofenele care le'au iacut clientului, sr fac din nou
+disponiblle acele adrese iP
+e Faza Acknowledgement Impllca (nmilerea unul pachet DHCPACK
+ciientuiui si procesul de aiocare este complet
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+DHCP (Dynamic Host Configuration
+P rotocol )
+
+ripun a! alocare:
+
+Alncare dinamica:
+
+— Lln admlnlslralor rezerva un set de adrese lP pentru DHCP, 5| clienti'i DHCP dm LAN sum
+conﬁgurari' 5a ceara 0 adresa iP de la serverul DHCP Ia inlrarea in retea
+
+i Procesul de rEquesi'cnd'qmn! ulilizeaza conceﬂiul de lease Pentru u Deriuada controlata d9
+limp, permitand serverului DHCP reaiccarea adreselor lP daca nu sun! reinmte
+
+Alncare automala:
+
+i serverui DHCP atribuie permanent 0 adresa IF UHUi ciient sciicilan! dintr-un inrervai defini!
+d2 un admlnlstmter
+
+— este 5|m|lar cu alucarea dmamlca, dar serverul DHCP pésrreazé un rahei cu alocérl anrerloare
+d2 adrese IP, astfei inzét 55 poaté atribul preferenglai unul chem ECEER§I adresé IP p2 (are
+ciientul u avea anterior
+
+Alncare manuala:
+
+i numlta Si static DHCP uilcrmtmn saufrxed admires u/Iucﬂtiun
+
+i un administrator maﬂeala adresa MAC la u adresa ‘P, care este oferité ciientului solicilant
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+BUCITP UHCP
+
+auuwmm m Hunmup Prnanl wmm anPmm my Dyvumu M]:1\(UH|IQUIJ|ILHY[JKUIBUH
+unu | v does nui Dmvmetemnorery w Wmle UHCP Drnvmesiemliorary Waddmssmg mummy
+nddrrvnm] mum nmmml qr llmc
+
+emu | v dues notsunilnrl UHCP zllents Wmle m suuvnn uuu | v (hams
+
+x" nunw, mmmh unhqumhnn \akL“. Wmlu w anP, nulﬂ'l unhqumhnn lake‘. pl." p
+
+New.
+
+RUUW um". "m 1",».an mnbih‘ marhmr< Whl'rra'. anP “ppm. mnhﬂr mnrhivvr".
+
+snow can have ermrs ﬂue In manuak' Whereas m DHEP errors do “m nczur mnsﬂy mm sum’
+cannguralmn mnllgmamm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+- Ce nu ofera?
+
+— Controlul fluxului
+
+— Controlul erorilor
+
+— Retransmisia Ia receptionarea unui pachet eronat
+
+- Ce ofera?
+
+— Folosind partiuri extinde protocolul IP pentru comunicarea
+intre process aflate pe host-uri diferite si nu numai intre
+host-uri
+
+Dabagrama IP
+3 ‘ Dabagrama UDP _1
+Antet IP Antet UDP Date UDP
+1° ‘MES s “a LZTLYQEESEJZZLMMW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+TCP - Transmission Control Protocol
+' Protocol de transport
+orientat conexiune,
+fara pierdere de
+informatii - -
+I porlm I I poﬂn I
+calitatii maxime a
+Serviciilor conexlune TCP
+' lntegreaza mecanisme
+de stabilire side m“ m“
+eliberare a conexiunii
+' Controleaza fluxul de date (streamioriented)
+' Utilizat de multe protocoale de aplicatii: HTTP, SMTP,
+WWMIG/MW
+MMWWMM,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+TCP
+' Analogie:TCP-simi|ar telefoniei ‘
+
+\w/
+
+/ \
+>lnitierea unei g g
+
+convorbiri
+H
+
+>Dialogul dintre parti ' O {Y1
+
+\ ‘ /
+
+/ llll \
+>Terminarea convorbirii g ‘—ﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+TCP
+
+- Utilizeaza conexiuni, nu porturi ca abstractiuni fundamentale
+
+' Ambele parti (expeditorul, destinatarul) trebuie sa participe la
+realizarea conexiunii
+
+~ Conexiunile se identifica prin perechi reprezentate de
+adresa lePORT (sac/u - socket)
+
+— Exemplu:
+(8512213146: 12345, 851222314612)
+
+' Una din parti ofera o deschidere pasiva - asteapta aparitia unei
+cereri de conectare a partenerului de comunicare care
+realizeaza o deschidere activa
+
+' Un soc/u poate fi partajat de conexiuni multiple de pe aceeasi
+masma
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+TCP
+- Conexiunile TCP sunt full-duplex
+' O conexiune TCP este un flux de octeti si nu un flux de mesaje
+Exemplu:
+7 Emitatorul trimite 4 fragmente de 512 octeti
+- Receptorul poate primi:
+- 1. doua fragmente de 1024 de ccteti
+- 2‘ un fragment de 1 octet 5i unul de 2047 de octeti
+- 3. (orice alta combinatie)
+I I, I, I, \
+M Patru segmente de 512 octeti Livrafea oelor W‘?
+trimise ca datagrame IP separate omen catre apllcaglf
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+TCP Autumatul ﬁnirrcp
+IModeleaza componamentul protocolului
+ISlarile sun! ulilizate la managemenlul conexiunii
+(Mn!
+minim/5W m, ' a “WWMM
+:wseu
+m1 cum '
+t, wiqiwﬁw‘ IMEN
+‘a q" - Mali‘) 1 Legenda:
+Egg‘, i Client
+. sW/svmwn anmm,
+WWW" WWWWWWW serve’
+CIMWN = v
+“mm a‘ WW euchgtata cu n‘ pereche
+V V V V V V V (5.1»?ng V W V W :':'i""""':"}j;jii@m¥l V V evemment/actlune
+mu 1 1 ‘ i Exemplu: ACK/-
+Wm,“ M 3
+Wm PM,“ W 3 5 A?K 3
+a m w» [mnlorm Cnmpulav
+\ m WW, 1mm,“
+lévmhbm s T:nznhzum,enll
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+A ntetul TC P
+% M 5.. —.
+Li-l-l-l-l-l-l-l-l-l-l-l-l-l-l-l-l-l_l_l_l_hl_l_l_l_l__l_l
+
+V l
+
+N N
+
+Wwova-IMY looniovm
+"II-(M Yﬂilf'ém"
+| mm,
+em aLl
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+TCP
+Antetul TCP x
+Cimpu rile Source Port 5i Destination l My ,me MW
+Port identifica punctele finale ale I’ =Il
+COneXlUnll wu- “ma-y-
+l gnu-mm.“ 1
+Flaguri de control é]
+— URG (URGence) (1 bit) — daca este setat, campul Urgent
+Pointer este folosit
+i ACK (ACKnoMedgment)
+- daca este setat campul Acknowledge Number este folosit;
+I este setat in toate pachetele de confirmare
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+TCP
+Antetul TCP W
+' Flaguri de control will‘
+— PSH (PuSH)— datele vor fi :-
+transmise imediat aplicatiei %1
+destinatare —7
+— RST (ReSeT) — semnalizeaza erori in conexiune (e.g.
+deschiderea unei conexiuni este refuzata)
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Antetul TCP W
+' Flaguri de control will
+- SYN (SYNchronize) 1'
+- folosit pentru stabilirea &1
+conexiunii +1
+(Cererea de conexiune: SYN=1,
+ACK=0; Raspunsul Ia cerere:
+SYN=1, ACK=1;)
+- indica cererea de conexiune si conexiune
+acceptata
+i FIN (FINish)- indica inchiderea conexiunii
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+TCP
+
+Antetul TCP w
+
+Campul Sequence Number <_|— his;
+
+(SEQ) 2 Illlm
+
+- Daca flagul SYN este setat r W MMMWWM
+=> SEQ are valoarea initiala " “""M' 1
+a numarului de ordine;
+
+- Daca flagul SYN este nesetat => SEQ are ca valoare
+numarul de ordine a primului octet trimis in acest
+pachet
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+TCP
+Antetul TCP w
+Campul Acknow/dge Number mjfljw
+- Daca flagul ACK este setat I E" -I||m
+=> are valoarea numarului r W WMMWW
+de ordine al urmatorului " ”"’"'
+octet care se asteapta a fi
+receptionat;
+Campul Window size — numarul de octeti pe care
+receptorul doreste sa ii receptioneze (controlul
+fluxului)
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+TCP
+
+Antetul TCP w
+Campul Checksum —fo|osit mjfljw
+pentru verificarea sumei dew
+control al pachetului TCP r W ~»-~m~“»wm
+(antet si data) f
+Campul Urgent Point — aca agu URG este setat,
+
+indica deplasamentul fata de numarul curent de
+
+ordine Ia care se gaseste informatia urgenta
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Administrarea conexiunii TCP
+CONNECT HOE“ HM‘ 2 LISTEN
+SYN sso = n
+Stabilirea
+
+coneXIunll E swlsmﬂnvwm
+
+Th ree-way l
+
+handshaking
+($50“. LACsz‘ Ii
+
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Controlul fluxului
+Mecanism general:
+' Protocol de comunicare simplu: 5e trimite un pachet si
+apoi se asteapta confirmarea de primire de la Fianna,“
+destinatar inainte de a trimite pachetul urmator, Comunicarii
+' Daca conﬁrmarea (ACK) nu este primita intr-un interval "shah/‘my,
+de timp prestabilit, pachetul este trimis din nou
+W Primeste pachetul 1;
+<— conﬁrma (ACK) primirea
+W Primesle pachelm 2;
+<— confirma (ACK) primirea
+Problema: mecanismul asigura siguranta comunicarii dar
+determine folosirea doar a unei parti din banda disponibila a
+retelei
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Admlnlstrarea coneXIunll TCP
+Fereastra glisanta — context:
+
+— TCP asigura un ﬂux de octeti :> numerele de secventa sunt
+atribuite ﬁecarui octet din stream
+
+— TCP imparte fluxul de octeti in segmente TCP; segmentele trimise
+si conﬁrmarile vor transports numere de secventa (vezi slide 19)
+
+— Dimensiunea ferestrei este exprimata in octeti si nu in numar de
+pachete
+
+i Dimensiunea ferestrei este determinata de catre receptor cind
+conexiunea este stabilita si este variabila in timpul transferului de
+date; Fiecare mesaj ACK va include dimensiunea ferestrei pe care
+receptorul este apt sa opereze in momentul respectiv al
+comunicarﬁ
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Controlul ﬂuxului
+- Protocol de ccmunicare :u measm EHsanta:
+i emawm grupeala pachelele inv-un buffer
+i emamm pom tlansmite pachetele din (ereastra rm sa receptioneze n conﬁrmare1ACK],
+dzr porneste cake un cmnnmetru (care va semnalizz depxslrea unm mten/al de nmp
+prestabllit) penlru ﬁerare dinlre pachete
+V recemurul trebwe 5a conﬁrms fiecare pachet primm, indicand numarul de secventa a‘
+ulumulw uclel recEPtional wen
+i in urma conﬁvmarilov pvirmte ermkatuvu‘ depliseaza €eveaslra 10 ghse'ala)
+Fe'eas“ mm ,wnwn 1 —>
+Tmmv: {mm-n :. —>
+|—\ Trwvme ymihenﬂ 4 —) anssie pachelul 1;
+"manna. m, <_ mm W 1, Wm
+Fereaslra mmm pnchr'm‘ 5 —>
+-‘—'. - - - - -> w
+mm a: deplmre Emma‘ _ _ _
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Administrarea conexiunii TCP
+Controlul fluxului folosind fereastra glisanta — situatii
+- Pachetul z H pierdut
+— emitatcml nu receptioneaza ACK Z, deci fereastra ramine pe politia 1
+— receptnrul nu primeste pachetul 2, si nu va confirma inca pachetsﬂe 3,4,5
+— cronometrul emitatorului va semnaliza timpul de asteptare a confirmarii
+si pachetul este retransmis
+i receptorul primeste pachetul 2 si va emite conﬁrmarea ACK 5 (secventa
+de pachete 2-5 au fost receptionate cu succes) => fereastra glisanta se
+deplaseaza cu patru pozitii dupa receptionarea ACK 5
+' Pachetul Z a ajuns la destinatie dar confirmarea s'a pierdut
+- Emitatorul nu primeste ACK 2, dar primeste ACK 3 (toate pachetele pina
+la 3 au ajuns cu succes) :> emitentul deplaseala fereaslra glisanta ‘a
+pachetm 4
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+Administrarea conexiunii TCP
+Ferastra glisanta asigura:
+
+— Transmisie sigura
+
+— Folosirea mai buna a Iatimii de banda => 0 mai
+mare viteza de transmisie
+
+— Controlul transmisiei (receptorul poate intarzia
+confirmarea datelor, cunoscind memoria libera de
+care dispune si dimensiunea ferestrei de
+comunicare)
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Admlnlstrarea coneXIunll TCP
+w ‘minim SW" Raw-w Rawwors
+“Sam a n bullar ‘K
+m. m
+Exemplu: $5ng -
+Politica TCP de \
+transm|5|e a Auwmmn
+. “5.2K _
+datelor 5| m 2K 5mm“!
+managmentul \Il
+ferestrei SET-5m k 21:31?“
+‘mm
+TCP
+Wm, / E
+WM?“
+w
+MWWWW,
+m‘,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+Admlnlstrarea coneXIunu TCP
+' Detectia erorilor & retransmiterea datelor
+
+— Fiecare segment trimis contine un numar de secventa
+(Sequence Number) indicind pozitia octetilor transmisi in cadrul
+fluxului de date
+
+— Gazda destinatar verifica numarul de secventa pentru fiecare
+segment (5e testeaza daca anumite segmente 5e pierd, sunt
+duplicate sau nu sunt in ordine) si trimite inapoi pentru fiecare
+segment un numar de cunfirmare (Acknow/edgment Number),
+speciﬁcind numarul de secventa al urmatorului octet care se
+astepta a fi receptionat
+
+— Segmentele pierdute sunt detectate folosindu-se un timer de
+retransmisie a datelor
+
+— Pentru detectarea erorilor 5e utilizeaza 5i checksum»uri
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Admlnlstrarea coneXIunu TCP
+' Resetarea conexiunii
+
+— Uneori conditii anormale forteaza aplicatiile sau
+software-ul de retea sa distruga conexiunea
+
+— Pentru resetarea conexiunii, o parte a comunicarii
+initiaza terminarea, trimitind un segment cu bitul
+RST setat
+
+— Cealalta parte abandoneaza conexiunea, fara a se
+mai transmite eventuale date ramase netransmise
+
+— Transferul in ambele directii este oprit, buffer-ele
+sunt golite
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+Administrarea coneXIunu TCP
+' Fortarea transmiterii datelor
+
+— TCP poate divide fluxul de date in segments de
+dimensiuni diferite de pachetele vehiculate de aplicatii
+=> eficienta transmisiei
+
+— Uneori intervine situatia de a transmits datele fara a
+se mai astepta umplerea buffer-elor (e.g., aplicatii
+interactive)
+
+— Fortarea transmiterii se realizeaza prin push: se
+seteaza bitul PSH si se forteaza transmiterea
+segmentelor, indiferent de starea de umplere a buffer-
+elor
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Ad ministrarea conexiunii TCP
+- Inchiderea conexiunii
+— Conexiunile TCP fiind full-duplex, cand o aplicatie
+semnaleaza ca nu mai exista date de trimis, TCP va
+inchide conexiunea doar intr-o directie
+~ Partenerul de comunicatie poate expedia un
+segment TCP cu bitul FIN setat; confirmarea
+semniﬁca ca sensul respectiv de comunicare
+este efectiv oprit
+— Conexiunea este desfiintata cand ambele directii
+au fost oprite
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+' Automatul finit TCP
+— Modeleaza comportamentul protocolului
+— Starile sunt utilizate Ia managementul conexiunii
+Siam Descrirnion
+CLOSED Na Cnnlliﬂm i5 acme Of Deming
+USI'EN The server |s wamng mr an Incorlung caH
+5m RCVD A mnneclmn rsquest has awn/ed: Wail (o! ACK Figura, Staril e
+Th9 applmalmn has manna lu open a connecmn ulilizate in
+EFTAELISHED The normal Gala lrallsler state EUYOI'TIEYUl CU Slﬂl'i
+The apphnanun has gm m i1: hushed ﬁnite pentru
+FIN WAW 2 The other Side has agreed IO release COI'IU'OIUI
+TIMED WNT Wan aor a" Dackels tome on conexiunii TCP
+Both 5m“ have lrle m mm slmullanmsw
+CLOSE WAD‘ Th? miller Side has inmaiad a releaie
+LAST ACK Wan my a" DaikEli m a \s all Liﬁﬂlﬂmﬁmkw
+WWW," EL!
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+(sum
+mnzcnsw .5», ‘ m “.me
+TCP Automawl
+_ ‘my _ _
+usxsa-g cmsil- flnlt TCP
+smmtyéw
+Rm Smlsvluncx mmnammnmﬂ) 5E."
+5 ‘Mammals, Legends,
+x ACKI» smack/hex é Client
+"'“'““""“'“ ESYABLISMED (SI-psmlruiwlyhlnump
+cmszrrw 5 WVWWWWV Server
+MW '\ ‘915957777777 Evenimente
+i mm 3 E ' 5 >
+: FM 1 1 am = oblsnulte
+: WHY‘ ‘mm 3 1 wm 5
+5 um MK!’ 3 § ichEIFINE -Fiecarel|me esle
+= "MW/m 1 = - cuo ereche
+E w": FM“ wm 3 5 ‘ E evemmenz/umune
+;, Exemplu:ACK/'
+mmwv, 1
+{Gunaekmmanj MMDMJQWAMW
+§.Tan=nbm,m|.1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+TCP
+' Automatul finit TCP
+— Stabilirea cunexiunii:
+' CLOSED — dill aceasta sﬁare SE poale cere l) deschidere activa (SE
+trece in SVNiSENT] sau pasiva (svmiRcvo)
+~ LISTEN i se poate trimite o cerere de conexiune active (se trace in
+SVN_SENT) nri pasiva (SVN_RC\/D)
+— Conexiune stabilita:
+- ESTABLISHED — poate incepe transmisia de date (din aceasta stare
+se poate trece in CLOSE’WAIT sau FIN’WA\T’1)
+— Deconectarea initiata de procesul partener
+- cwsgvvxm, LASTiACK, CLOSE
+— Stari ce intervin in procesul de deconectare
+- FIN’WAIT’1, F\N’WAIT’Z, CLOSWGJIMLWAIT
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+E
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+TCP
+' Exemple de utilizari ale TCP:
+— Majoritatea protocoalelor de aplicatii:
+
+- HTI'P
+
+- TELNET
+
+- SMTP
+
+- SSH
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+TCP versus UDP
+~ Ambele se bazeaza pe IP, utilizeaza porturi
+' Unitatea de transmisie
+— TCP »> Segment TCP
+— UDP -> Pachet UDP
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+TCP versus UDP
+
+- UDP ofera servicii minimale de transport (efort
+minim de transmisie)
+
+TCP ofera servicii orientateconexiune, full-
+duplex, sigure — pentru transportul fluxurilor
+de octeti ( -> mecanism complex de transmisie)
+
+' Utilizarea TCP sau UDP depinde de aplicatie:
+e-mail, transfer de fisiere, operare in timp-real,
+transmisii multimedia in timp real, chat,
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Rezumat
+Nivelul Transport
+' Preliminarii
+' UDP (User Datagram Protocol)
+' TCP (Transmission Control Protocol)
+' TCP versus UDP
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+Bibliograﬁe
+
+- Andrew s. Tanenbaum, David J. Wetherall, Computer Networks ism Edition), ISBN’
+10: 0132126958 , Publication Date: October 7, 2010
+
+' A. Tanenbaurn, Computer Networks. 4th Edition. Prentice Halli 2003
+
+- James F. Kurose, Keith w‘ R055; Computer Networking: A Top-Down Approach 15m
+Edition), ISEN'10:0135(179679
+
+- Lydia Parziale, David T. Britt, Chuck Davis, Jason Forrester, Wei Liu, Carolyn
+Matthews, Nicolas Rosselot , iBM —TCP/|P Tutorial and Technical Overview, 2005
+
+- https://www.geeksforgeeksiorg/difierence-between-bontp-and-dhcp/
+
+' Tamara Dean, Network +Guide to Networks [Editia 5), ISBN-10: 1-423-90245-9, 2009
+
+—
+
+***************Ending Page***************
+
+ 

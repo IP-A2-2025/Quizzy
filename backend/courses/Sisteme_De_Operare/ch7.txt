@@ -1,0 +1,730 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 7: Synchronization
+Examples
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+W Chapter 7: Synchronlzatlon Examples
+I Explain the bounded-buffer, readers-writers, and
+dining philosophers synchronization problems‘
+I Describe the tools used bg Linux and Windows to
+solve synchronization pro lems.
+I Illustrate how POSIX and Java can be used to solve
+process synchronization problems.
+OM",sitummmmmwem 12 mm.‘ Gimnmqnism
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+93$!‘ Classical Problems of Synchronization
+I Classical problems used to test newly-proposed synchronization
+Schemes
+. Bounded-Buffer Problem
+' Readers and Writers Problem
+' Dining-Philosophers Problem
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+“4} I Bounded-Buffer Problem
+I n buﬂers, each can hold one item
+I Semaphore mutex initialized to the value 1
+I Semaphore full initialized l0 [he value 0
+I Semaphore empty iniiialized lo the value n
+Wm. 5"..." “We m Em 7. gimme W“ .n. W1 W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Ea?!‘ Bounded Buffer Problem (Cont.)
+I The siruclure loe producer process
+while (true) (
+/* produce an itm in nextjroduced */
+waithnutex);
+I'Idd nixt pruducad ta thi buffet "/
+.15; (mm, 7
+signal (full) .~
+l
+A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+vs?!‘ Bounded Buffer Problem (Cont.)
+I The structurs o! the consumer process
+while (true) l
+waiﬂfull) ;
+waichnucex) i
+/-'; Itemve an 1m from buffet ta next_conlumed V
+lignal (mutex) ;
+siqnllwlwty):
+l' consume the imam in next: consumed 'l
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+r‘
+may} Readers-Writers Problem
+I A data set is shared among a number of concurrent processes
+. Readers — only read the data set; they do not perform any updates
+' Writers e can both read and write
+I Problem — aliow multiple readers to read at the same tlme
+' Only one single writer can access the shared data at the same time
+I Several variations 0f how readers and writers are Considered — all
+involve some form of priorities
+I Shared Dala
+' Data set
+. Semaphore :w_mutex initialized l0 1
+° Semaphore mutex initialized lo 1
+. Integer read_count initialized to U
+Wm, 5"..." Emmi“ m, Em 1 1 Siam-a a.“ m w“. emu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+“jiF'V Readers-erters Problem (Cont.)
+I The structure cl s writer process
+while (true) l
+Iait(rw_mutex) .-
+I' ‘Qt-Lung 1! petionmed '/
+Iignll. (r._muth) r
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+“ﬁr Readers-erters Problem (Cont.)
+I The slruclure of a reader process
+(W.
+‘wait: (mat-x) ,-
+if ("adjourn 2 1)
+na£t(r\v_|||utnx):
+sign-1 (mute!) ;
+ulitlmutnx) :
+if (teachuunt == a)
+“gm (UM, ,
+)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:10**************
+saws‘ Readers-Writers Problem Variations
+I First variation — no reader kept waiting unless writer has
+permission to use shared object
+I Second variation — once writer is ready, it performs the
+write ASAP
+I Both may have starvation leading to even more variations
+I Problem is solved on some systems by kernel providing
+reader-writer locks
+0mm in..." “may m» em m Siam-a Mm m wig!“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+M Dlnlng-Phllosophers Problem
+o o\
+_ ,\
+\
+Q o é) o w
+/ O \ H/
+I F'mlosophers spend their lives allemaiing thinking and eating
+I Don't interact with their neighbors, occasionally lrylo pick up 2
+chopsticks (one at a time) to eat from bowl
+' Need both to eat, then release hulh when done
+I In lhe case 015 philosophers
+' Shared dam
+> Bowl olrics (deia set)
+v semaphore chopstick [5] iniﬂalized m 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+w Dining-Philosophers Problem Algorithm
+I Semaphore Solution
+I The structure of Philosopher i:
+while (truBH
+Wait (chapstick[i] );
+wait (chdpSticki (i + 1) a 51 1,-
+/* eat £0: awhile */
+signal (choystickﬁl ):
+signal (cl-mystic!“ ('1 + 11 a 51 );
+/* think £0: awhile */
+3
+I Whak is khe problem with (his algorithm?
+OM",shuchMWMdW m mm.‘“Mmmqum
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+w Monitor Solution to Dining Philosophers
+munitu: DiningPhilusuphAzn
+i
+enuln ( THINKING,‘ HUNGRY, EATING) state [5] 7
+condition self [5]?
+void pickup (int i) l
+stateU-I = HUNGRY;
+testu);
+if (ltatilil ‘= EATING) Iilf[i]4'lit;
+i
+vaid putdo'n (inc i) (
+stamﬁl = THINKING?
+// test: left and right neighbors
+teltﬂi. + I) is 5);
+tastHi + 1) \ 5)?
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+“i7; Solution to Dining Philosophers (Cont.)
+void tilt (int i) (
+if ((scateﬂi + A) Q 5] != RATING) ii
+(statelil == HUNGRY) ii
+(Icacaui + 1) ii 5] != nuns) ) (
+stateﬁl = EATING ;
+selﬂi].si.g'na1 () ;
+i
+i
+initialization_cod:() (
+fa: (int i = 0; i < 5; i044
+state[i] = THINKING;
+i
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+“yrSolutlon to Dlnlng Phllosophers (Cont.)
+I Each philosopher i invokes (he operations pickup () and
+pucdovm () in the following sequence:
+DiningPhilosophers .pickup (i) r
+/** EAT **/
+DiningPhilosophez-s .putdown (i) ;
+I N0 deadluck, but starvation is possible
+I om“, 5m." memdm H5 sum“; Wummgnim.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+y‘
+W Kernel Synchronization - Windows
+I Uses interrupt masks to protect access to global resources on
+uniprocessor syslems
+I Uses spinlocks on multiprocessor systems
+i Spinlocking_thread wiil never be preempted
+I Also provides dispatcher objects user-land which may act
+muleXes, semaphores, events, and timers
+. Events
+> An event acts much like a condition variable
+' Timers notify one or more thread when time expired
+i Dispatcher objects either signaled-state (object available)
+or non-signaled state (thread will block)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+“ﬂy Kernel Synchronization - Windows
+I Muiex dispatcher object
+owner thread releases mutex lock
+thread acquires mutex lock
+om“,Eyihmcwmmwdm H1 “mm-z s-lvmmmgmm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+A
+“W Linux Synchronization
+
+I Linux:
+
+0 Prior to kernel Version 2.6, disables interrupts to
+implement short critical sections
+
+0 Version 2.6 and later, fully preemptive
+
+I Linux provides:
+0 Semaphores
+' alomic iniegers
+° spinlocks
+' reader-writer versions of both
+
+I On single-cpu system, spinlocks replaced by enabling and
+
+disabling kernel preempiion
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+W L|nux Synchronlzatlon
+I Atomic variables
+amic_c is (he type ior atomic integer
+I Consider the variables
+atomic_t counter;
+int value;
+Atomic Operation Elm
+atomicjei: kcountet.5 ; counter - 5
+emmeeddumkcouncer); counter - counter + 10
+atomicJub(d,lcountax); counter - counter - A
+ecemieJucﬁceunzer); counter - counter + 1
+value = atonicxaadﬂcnnnteﬂi valua = 12
+Ovemmn an..." Cum,“ 7 w mm 1 i, Ellhmmiz. we“ m m", em
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+W POSIX Synchronization
+I POSIX API provides
+Q muiex locks
+' semaphores
+Q condition variable
+I Widely used on UNIX, Linux, and macOS
+0mm", “in... Cum,“ 7 w mm 1 m “mm-z SIM“ m nu“ @nm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+u?’ i POSIX Mutex Locks
+I Creating and iniiialilirlg the lock
+mnclmic <pcnxem4h>
+pthreadcmutexrt mutGX;
+/* create and initialize the mutex lock nl
+pthnzdmulujniﬂhnuteLNULL) :
+I Acquiring and releasing the lock
+I: acquire the mute: lock ./
+mdmulexluck(hnutex) ;
+I: critical section -/
+I: rel-ass the mutax lock ./
+pﬂuudmuerunlnck(hnutax) ;
+0mm Syn-m Cum,“ 7 w mm 1 2| “mm; $1M“ m cu.“ mun
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+“4; I POSIX Semaphores
+I POSIX provides two versions — named and unnamed.
+I Named semaphores can be used by unrelated processes, unnamed cannol.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+'4} i POSIX Named Semaphores
+I Creating an initializing the semaphore:
+‘include <semaphosep>
+some seem;
+/s Crease she semaphore and initialize it co 1 s/
+eem - umepen("sm', oecmT. uses. 1);
+I Anoiher process can access ihe semaphore by referring to its name sm.
+I Acquiring and releasing the semaphore:
+/o acquire she semaphore s/
+semwamsom);
+ls crmcel secnon o/
+ls release one semaphore s/
+um.pos\(aem)i
+0mm she... CW,“ e w a.“ 1 z: some“; 5am“ "a we om
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+“4} i POSIX Unnamed Semaphores
+I Creating an initializing the semaphore:
+‘include <5emaphotmh>
+Benet sew;
+I‘ Create the semaphure and initialize it to 1 ‘I
+semjniﬂtaw. 0, 1);
+I Acquiring and releasing the semaphore:
+h acquire the semaphore a/
+SnillJIait(llBiI) ;
+h critical SGCDXOn d
+h release the semaphore ~/
+samposﬂtuw) ;
+0mm Syn-m mum. , w mm 1 u “mm-i; Mn“ m m“ mm:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+“4} 7 POSIX Condition Variables
+I Since POSIX is typically used in C/C++ and these languages do not provide
+a moﬂilor, POSIX CDridiliDri variables are assucialed with a POSIX muleX
+lock lo provide mutual exclusion: Creating and initializing (he condition
+variable:
+pthrendmutexrt mutex;
+pthreadrcondrt condrvar;
+pthrendmutexrinit(mutux,NU1-L) ;
+plhtlidlﬂndjniKlCOhdJlaX.NULL) ;
+om, 5"..." BMW w mm 1 ,5 mm.‘ W“ m W18,“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+‘4,, j POSIX Condltlon Varlables
+I Thread waiting tor the condition a == b to become true:
+Pthrﬂldlutex lockﬁmltux);
+while (a i- b)
+pthnadmndrwaittkcond'vﬂr, mun“);
+pannmwzumlocumuux) ;
+I Thread signaling another thread waiting on the condition variable:
+pthreadmutexlnck<hnutex) ;
+a - h;
+putreadmndjignalucmmvar) ;
+pmreadmumLunlucht-cex) :
+0;.va Syn-m Cum,“ , w mm 1 as mm“; wt“ m w": ﬁlm‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+“if 7 Java Synchronization
+I Java provides rich sei oi synchronization features:
+> Java monitors
+> Reenirani locks
+> semaphores
+> Condition variables
+0mm, 5"..." mum. , w mm 1 2'1 “mm-z s-M“ m m", W‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:28**************
+W”
+._ Java Monltors
+I Every Java object has associated with it a single lock.
+I If a melhod ls declared as synchronized, a calling thread must own the
+lock for (he object.
+I If the lock is owned by anolher thread, lhe calling thread must wait for the
+lock unlll it is released.
+I Locks are released when (he owning thread eXils the synchronized
+method.
+am“. m..." mam.’ w a.“ 1, “mm-z W“ .n. W181."
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+“famed Buffer — Java Synchromzatlon
+Pllhlic 61.8! Wimflii<z)
+l
+privln ltlliﬁ “Ill int mill! _ 57
+pnvu. at] bulhr;
+Public BuundndBuﬂer (
+count - 0;
+in I D;
+0M I 0:
+M1111‘ I (in) I!" ubjuczlmsﬂk];
+)
+l‘ PXMHCCXI :llX ‘Ml lllthnd I/
+pun“ lyndlnmhld vom mum: mm) (
+In s.- n,“- 1.11 -/
+)
+/l CDMMI 1111 thil llltlﬂﬂ l/
+pubuc lynthlonlnd a "now-0 {
+/- a“ Hw- 1,“ -/
+)
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+“if I Java Synchronization
+I A thread that tries lo acquire an unavailable lock is placed in (he object's
+entry set:
+a uire lock
+W object
+‘00k
+30W.
+enlry set
+ownﬂwhmcwmwmm 1w slim-.1 meiw.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+“if I Java Synchronization
+I Similarly, each object also has a wait set.
+I When a thread calls wait: ()1
+1. lt releases the lock tor the object
+2. The slate of lhe thread is set lo blocked
+3. The thread is placed in the wait set for the object
+acqwelmx owe watt
+luck
+3m.
+|—'—| i—'—l
+entry w Will set
+um",5,...mcwmpmm 1,. gimme W“ .n. W18,“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+t‘
+“if I Java Synchronization
+I A thread typically calls wait() when it is waiting for a oondition to become
+true.
+I HOW does a thread get notiﬁed?
+I when a thread calls notify r):
+1. An arbitrary thread T is selected from the wait set
+2. T is moved trom the wail set to the entry set
+3. Set the state of T from blocked to runnable.
+I T can now compete tor the lock to check if the condition it was waiting for is
+now true.
+om“. m..." “We m mm 1 u slim-.2 W“ .n. at; W.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+“fifgunded Buffer — Java Synchromzatlon
+/* FXOdDCGXB call thiE method 1/
+public synchronized void insertﬂi ham) {
+HhilB (EDDIE == BUFFERSIZE) {
+try {
+wnim;
+}
+catch (Interruptedlkceptiau ie) ( )
+)
+bufieﬂin] = new;
+ill : (ill + 1) ‘A BUFFWSIZE;
+cm“;
+nob'fyO;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+“ﬁfunded Buffer — Java Synchromzatlon
+I! CDHSWIIQXI call thi! method l/
+public synchronized s rslnoveO {
+E it“;
+anus (count == o) (
+"v (
+waikO;
+>
+catch (Intemptedl'kception ie) { }
+>
+item : buifeﬂoub];
+MIC = (out + 1) 7| BUFFY-“SIZE;
+count";
+nuueyo;
+return it‘)
+>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+“if _ I Java Reentrant Locks
+I Similar lo mulex locks
+I The finally clause ensures the lock will be released in case an exceplion
+occurs in (he cry block.
+Lock key = new mennrthackK);
+key.lnck();
+try (
+/~ critical section ~/
+l
+finally (
+key.u|\lock()i
+l
+Wm", 5m... mum. 7 w mm 1 as “mm-z Gllvln m m“ W‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+“4;, I Java Semaphores
+I Constructor:
+Semaphoreﬁnt value);
+I Usage:
+Semaphore sem : new Semaphore(1);
+try {
+sem. acquimo;
+h critical section d
+)
+catch (IntermptedExceyticu 12> { }
+finally (
+sem. mleaseO ;
+)
+Wm“ 5m... CW,“ 7 w mm 1 as mm“; GM m m", ﬁlm:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+~
+“if I Java Condltlon Varlables
+I Condition variables are associated with an Reentzantbock.
+I Crealing a condition variable using newcondition () melhod of
+Reentzanﬂiock:
+Lock key = new ReentrantLockO ;
+Condition @011qu = key.newCondition();
+I A thread waits by calling the await () method, and signals by calling (he
+signalQ method.
+om“.anmmmmm 1,1 slim-.2 akinmqnimm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+t‘
+“w Java Condition Variables
+I Example:
+I Five threads numbered U .. 4
+I Shared variable turn indicating which thread's turn it is.
+I Thread calls dowozk () when it wishes to do some work. (But it may only
+do work il it is their turn.
+I If not their tum, wail
+I ll their turn, do some work tor awhile
+I When completed, notify the thread whose turn is next.
+I Necessary data structures:
+Lock lock = new ReentrantLockU;
+Conditionﬂ condllare = new Conditiun[5];
+for (int: i = 0; i < 5; m)
+cundVarsU] = lock-newConditionU;
+om,Mmmmmamm 1a gimme mammalian“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+up? a‘ Java Condltlon Varlables
+l: thnldllulbu n th- thnld that \IllhII to do lull won u/
+public void dolorkﬂu thundlu-b'x)
+(
+lncldockOi
+ml 4
+- n w- not I, mm, um nu
+- unm I’! nun-a.
+-/
+1! (lhnldlulbu !- mm)
+connvnn [mamllu-bcr] .awﬂlﬂ;
+In
+a/
+In
+.M.WM.MW.
+-/
+lun-(tun:¢l)1.5;
+“mm- [nun] Jigulo;
+)
+each (Inurruptudlxcupuon A.) ( )
+ﬁnally (
+lock-unlock‘):
+)
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+W Alternative Approaches
+I Transactional Memory
+I OpenMP
+I Functional Programming Languages
+Dmnmm“WPMW m mm.‘ Wmmmmm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+t‘
+MW Transactlonal Memory
+
+I Consider a function update() that must be called atomically. One
+option is to use mutex locks:
+
+vmd update 0
+
+(
+acquire O ;
+/- modify shared an; ./
+{eleasa () ;
+
+)
+
+I A memory lransactlon is a sequence of read-write operations
+to memory that are performed atomically. A transaction can be
+completed by adding aromas) which ensure statements in S
+are executed ﬂtnmirallv'
+
+void update ()
+(
+atomic (
+l: modify shared data ‘I
+}
+1 A
+Wm, 5"..." “We w a.“ 141 “mm-z W“ m W181."
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+l‘
+MW OpenMP
+I OpenMF' is a set of compiler directives and API ihai suppon
+parallel progamming‘
+void update (int value)
+l
+#pragm amp critical
+l
+count += value
+l
+l
+The code contained within the llpragma omp critical direcllve
+is treated as a critical section and performed atomically.
+Wm.5,...mcmwmm 142 “mm-z W“ .n. W18,“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+F
+“$9 Fu nct|onal Programml ng Languages
+I Functional programming languages offer a different paradigm
+than procedural languages in that they do not maintain state.
+I Variables are treated as immutable and cannot change state
+Once they have been assigned a value.
+I There is increasin? interest in functional languages such as
+Erlang and Scala or their approach in hand lng data races.
+OM", in..." “my m» em m sum-.1 Mm m wig,“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+End of Chapter 7
+—
+
+***************Ending Page***************
+

@@ -1,0 +1,783 @@
+***************Beginning Page***************
+***************page number:1**************
+£2»
+lava EE'"
+Advanced Programming
+Java Persistence API
+(J PA) - Introduction
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Per3|stence Layer
+
+The Persistence Layer is used by an application in order to gersist its state, that is
+to store and retrieve information using some son of database management system.
+
+La er $ , I
+
+PerSIstence __, i Database I
+/ Layer ‘_,/
+Bussines
+Layer
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+leferent Perspectlves About Data
+SQL Guy
+
+- Relational Level k
+CREATE TABLE pexsuns ( ‘
+
+1d lnteger N01‘ NULL,
+
+name va:char(5€l) NOT NULL,
+
+salary floaf,
+
+PRIMARY KEYlld) )r
+INSERT INTO persons (ld, Fame) VALUES <1, 'Zokn Joe’);
+UPDATE pe:son5 SET salaryZZOOO WHERE 1:111,‘
+- Object Oriented Level Program:
+public class Person 4 ~
+
+public Strlng name:
+
+publlc float sala:y;
+
+publlc Pcrson($trqu namc) l l
+l
+
+Person p : new Per50n1"J0hn Doe"li
+
+PersistenceLayer. save (p) ;
+
+p.5eCSalarylZOOOl;
+
+PetsistenceLaye: ‘update (p) r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+an SOL AP/ for Programmers
+// Specify the driver
+Class.forName1"org.postgresql.Driver");
+// Create a connection to the database
+Connection eon = DriverManagertgetConnecticn(
+"jdbc:pcstgresql://loca1host/demc", "dba", "sql");
+// Create an SQL Statement
+Statement stmt = cun.createStatement();
+Resultset rs : stmt.executeQuery("select id, name from persons"|;
+// Iterate through the Resultset (sqz. Cursor)
+while (rs.next()) (
+int id : rs.get1nt(“id"));
+string nume = rs.get5tring("name"));
+System.out.println(id + " + name);
+)
+rs.close()7 // Don't forget to close the ResultSet!
+stmt.close(); // Don't forget to close the Statement!
+con.close()7 // Don't forget to close the connection!!!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Object-Relatlonal Mapplng (ORM)
+- Accesing relational data using OO paradigm
+- Objects <—> Mapping Layer <—> Relations
+- Advantages:
+
+— Simplified development using automated conversions between
+objects and tables. N0 more SQL in the Java code.
+
+, m compared to embedded SQL and stored procedures
+
+— Sugerior gerformance if object caching is used properly
+
+— Applications are easier to maintain
+
+- Disadvantages:
+s the additional layer may slow execution sometimes
+s defining the mapping may be difﬁcult sometimes
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+“Impedance Mismatch"
+
+Graph of objects vs Relations (sets of tuples)
+ﬁGranuIarity
+
+-> How many classes vs How many tab/es
+“Subtypes
+
+-> Inheritance vs None
+ﬁ Identity ~
+
+->== or equals vs Primary Keys
+“Associations
+
+-> Unidirectional references vs ForeignKeys
+ﬁ Data Navigation
+
++One object to another vs Queries
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+The Mapping Layer
+- What database, what SQL dialect, etc?
+— Initialization parameters
+~ How to define the mapping?
+a Mapping metadata: XML files, annotations
+a Class ‘Person’ <—> table ‘persons’,
+- How to persist an object?
+— Standard programming interface (APl)
+- How to ﬁnd an object?
+a Object oriented query language
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+class H table‘ propeﬂyH column, easy...
+H The Class // The programmer writes:
+class Persan ( Persmn p Z new Persmnil;
+_ _ p.5etId(1|;
+1m: 1d; p.5etName1"Jahn Doe");
+- _ psetﬁizthDatei
+Stung name, new SimpleDateFurmat( “ddmmyyyyw
+Date birthDate; ‘paxse("01‘ﬂl‘1991");
+. 1 2 -
+double salary; P 55:55 “Y' °°°"
+) // mum-1 thinking:
+mappxngLayer.persLst(p);
+"The table //The sq). code is generated:
+mszm m-ro persons
+persons ( (id, name, daceiofibirth, incomsj
+. . VALUES
+1d mt NOT Nun" (1, ‘.1th Doe‘, Date('1991/01/01'), 2000);
+name varchar(50),
+dateiofibirth date,
+income numeric(10,2),
+)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Mapping: Example 2
+classw table,pmperty<—> easy?
+
+class Order 4 orders(
+int id; id in"
+
+date timestamp
+Date date; )
+Set<Item> items;
+} item“
+id int,
+
+“lass “em i order_id int
+private int id; references orders
+String Product; on delete cascade,
+double quantity, price; Prom?‘ varchar(50),
+
+quantity double,
+Order order; price double
+) )
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Mapping: Example 3
+2 classes ~—> 3 tables‘ "Di SD easy...
+class Product ( products(
+int id; id in"
+_ name varchar(50),
+Stu“? “a”; price double
+double price; >
+Set<Category> categories; “awrieu
+id int,
+) name varchar(50)
+)
+class Category { products_categories(
+productiid int
+Fri"ate int id? references products
+String name; on delete cascade,
+) category_id int
+references categories
+on delete restrict
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Mapplng Relatlons Problem
+' Types of Relatlons (Mu|t|p||c|ty/ Dlrectlon)
+0ne-to-One
+Employee 0H1 —holds- l Position (uni)
+Employee l —0wns— 0..1 Computer (bi)
+ame-to-Meny
+Employee 1..‘ —assigned— l Duty (uni)
+Employee o‘.* eworkee 1 Division 11:1)
+Many-to-Memy
+Employee or» —assigned— 0..’ Printer (uni)
+Employee or.’ —assigned— 0.» Project (bi)
+- The Cascade Issue
+0rder order = new orden);
+item item = new Iteml..e);
+ordereddltem'item); .,.
+mappingLayer. savemrdez);
+< item.setOrderIdIorder.getId( ) I;
+A mappingLayer.persiSt1item) ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+There is no nalurﬁl, emciemway m represent an inhentance relationsl'up m a relsnonal database
+Person o Slngle Table
+_> Customer personsud, type, name, salary, bonus»
+-> Employee personsud, isCust, isEmpl, lsEXec, name,
+. l .
+_> Executlve sa ary bonus)
+abstract class Person
+smug name; ‘ ' Table Per Concrete Class
+} customers (id, name, preferences)
+class Customer extends Pexson (
+String pngerences; employee: 11d, name, salary)
+) . .
+class Employee extends Person ( executxvas (1d, name, salary, bonus)
+float salary; ,
+} . Jomed
+class Executive extends Employee ( Persons he, name)
+float bonus;
+) customers (personld, preferences)
+employees (personld, salary)
+executives (employeeId, bonus)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+The Primary Key Problem
+Every entity oblect in the database is uniquely identified (and can be retrieved from
+the daiabase) by the combination of its type and its primary key.
+r- Semantic (Simple or Composite)
+-) Application Set Primary Key
+ﬁ Surrogate (not derived from application data)
+-) Automatic/Generated Primary Key
+. Autoincrement
+‘I Sequences
+q Universally Unique Identifiers (UUID)
+i HIGH-LOW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+The SQL Dlalect Problem
+The dialect of the daTabase deﬁnes the specific features of the SQL language
+lhal are avaﬂable when awessing a dalabase
+- DDL
+——Sybase
+CREATE TABLE persons (id integer NOT NULL DEFAULT autoincrement,
+name varchar(50) NOT NULL, "key" integer, PRIMARY KEY(id|);
+eeMySql
+CREATE TABLE persons (id integer NOT NULL iuto_increment,
+name vazchar(50) NOT NULL, ‘key’ integer, PRIMARY KEY 1id)
+) ENGINE : InnDDE ;
+- DML
+——Sybase
+SELECT FIRST id FROM clients WHERE name : 'Popescu' ORDER BY id;
+UPDATE Client-S, Cities
+SET Clients.cityNilne = Citielealne
+WHERE eitieeia : clieneeneitym;
+——PostgreSQL
+SELECT id FROM clients WHERE name : 'Popescu’ ORDER BY id LIMIT 1;
+UPDATE Clients SET CltyName = City.name
+non (select id, name from cities b as city
+WHERE cityId = cityid;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+ORM Implementations
+
+- Java
+
+, Hibernate (JBoss)
+
+— TopLink (Oracle) H EclipseLink
+
+, OpenJPA (Apache),
+' .NET
+
+— ADO.NET Entity Framework
+
+, NHibernate
+' PHP
+
+— Doctrine, Redbean,
+- Every respectable programming platform has it
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:16**************
+Java Persistence API
+
+- Object/relational mapping specifications for
+
+managing relational data in Java applications
+- Consists of:
+
+— The Java Persistence API
+
+, Java Persistence Query Language (JPQL)
+
+, The Java Persistence Criteria API
+
+— O/R mapping metadata (Persistence Annotations)
+~ Implemented by:
+
+— most of the Java ORM producers
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+It doesn't (shouldn't) matter from the programmer perspective...
+0m Layer
+JAVA
+Appiclliml ORM
+Vendor II
+1." ngiBu-m Daub“
+‘ mm“ "if;
+' l» . ‘ ~ ‘
+~l
+You don‘t like Hibernate runtime performance anymore?
+Simply replace its libraries with another implementation,
+like EclipseLink or OpenJPA for instance.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Entities
+- Entity = lightweight persistence domain object:
+, an entity class represents a table and
+— an entity instance corresponds to a row in that table.
+- Persistence annotations are used to map the
+entities t0 the relational data.
+- Convention over configuration
+@Entity
+@Table(name = "persons") Manly ccnflgu:e the excepilcns
+puhllc class Person lnpleme-"its senallznnle l
+@Id
+puvnte InLeger id,‘
+privatﬂ sznnq name;
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+Persistence Annotations
+@Entlty
+@Tabletname Z "PERSONS")
+punrre crass Person rmprements Serializable t
+@Id
+@SequenceGene:ator(nama = "sequence",
+sequenceﬁame = "persons_id_seq")
+@GenexatedValue(genexatoz = "sequel-Ace")
+@Column(name = "PERSON_ID")
+prrvate Integer ;d;
+@Column(name = "NAME")
+private Str;ng name;
+@Joincolumn(name = "pangs-u
+@ManyToDne
+private Dcpartan'cnt dopartamcnt;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Persistence Units
+- A persistence unit defines the set of all entity
+classes that are managed by an application.
+-) Defined at design time in persistence.xml
+-) javax.persistence.PersistenceUnit
+~ This set 0f entity classes represents the data
+contained within a single data store.
+->An application may use multiple persistence units
+- A persistence context defines a set of entity
+instances managed at runtime.
+-) javax.persistence.PersistenceContext
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+<per5isten¢e>
+(persistenceiuuit name="MyApplicationPU"
+transactionitype= “RESOURCEiLOCAL ">
+<providar>orgvhibernate.ejb.HibernatePersistence<lprovider>
+<class>myapp.entltyvPerscn</class>
+<class>myapp. entity. Depaztament</Class>
+(properties)
+<prcperty name:"hibernate.d1alect"
+value="Org‘hibernate.dialect‘PostgreSQLDialect“/>
+<property name="hibernate.connection.drivericlass“
+value="org.postgresql.Driver"/>
+<property name:"hibernate.connectlon.url"
+value:"jdbc:postgresql://localhcst/t1metable“/>
+(/properties>
+</persistence—unit>
+</persistence>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Managing Entities
+~ Entities are managed by the EntityManager.
+- Each EntityManager instance is associated with
+a persistence context: a set of managed entity
+instances that exist in a particular data store.
+- The EntityManager defines the methods used
+to interact with the persistence context:
+a persist, remove, refresh, find, v ..
+_ - not expensive
+QQeEQCElg/hilanager (-th thread safe
+' expensive
+an EntrtyManagerFactory ethread safe
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Creatlng an EntityManager
+- Application-Managed Entity Managers
+EntityManaqerFactory factory :
+Persistence. createEntityManagerFaccory1
+"MyApplicationPU“, propertles);
+EntityManager em = factory.createEntityManager()7
+Jame“,
+ééétorymlosei |,-
+<persistence-unit
+name=“MyApplicaticnPU"
+transaction-type=“RESOURCZ_LOCAL“>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Example
+The relational model
+create table products(
+id lnteger not "ull
+generated always as ldentlty (start n-lrn ;, l'lcrement Dy ll,
+name varchazllﬂOl not null,
+prl'uary key 41d)
+l I
+create table ordlet5(
+id lnteqer not rull
+generated always as identity lstazt mm l, lnczement by ll,
+oxd::_date date not null,
+prlmary key 41d)
+l .-
+create cable orderiitems (
+id integer not null
+generated always as identity lstarl; wlth l, lncrement by ll,
+erder_ia lntege: not null
+references orders on delete cascade,
+ptoduct_i.d lnteger nut null
+references products on delete zestklct,
+quantity duuble not rull,
+price double not null,
+prlmary key (m)
+l i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+The Product class
+
+@Entity
+@Table (name = "PRODUCTS" )
+@NamedQuerieS H
+
+@NamedQuery(name : "ProductilndByName",
+
+query : "SELECT p FROM Product p WHERE p4name::nan\e") )1
+
+public class Product implements Serializable (
+
+@Id
+
+@GeneratedValue1strategy = GenerationTypeJDENTITY)
+
+@Ba51c(optional : false)
+
+@Columﬂ(name : "ID")
+
+private Integer id;
+
+@Baslc(optional Z false)
+
+@Column(name I "NAME")
+
+private String name;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+The Order class
+@Encuy
+@Table(name : "ORDERS")
+public class Order implements Serializahle l
+@In
+@Genezatedvalué(strategy : GEne:at10nType.IDENTITY)
+@Baslc1optlmnal : false)
+@Columrﬂname 1 "ID"?
+pxivate Integer id;
+@Columnlname : “ORDERiDATE'W
+@Tempozal (TemporalType.DATE1
+private Date ordeznate;
+@OneToMany(cascade = CascadeType.ALL, mappedBy = "order“)
+private Llst<0rderItem> Jtems : new ArrayList<>();
+@OneToOneUn-appédﬁy Z "order");
+private Invoice lnvolce;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+@Entlty
+@Tablemame e "uanzailrms'w
+public class Ordexitmn implmnents Serializable (
+@151
+@Gerveretedvelue(strategy e GeneratlonType,IDENTITY)
+@Baslclopcional = false)
+@Coeumnmame : "ID")
+pxivata Integer id;
+@Coeumrﬂname 1 "QUANTITY")
+pzivate double quantity;
+@Cneumn(name e "PRICE",
+pnvare dounle Puts;
+@JoenColunntnane : "PRODUCTiiD", :efezencedColumnName : “ID'W
+@NanyTQOne
+pxivate Product prudent,-
+@CDLnCc/lulrnlrzure Z "ORDERilD", referercedcueumnsz-e Z "1D"1
+@ManyToOnE
+private Order order;
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+EntityManagerFactory emf I
+
+Persistence . createEntityManagerFactory1"DemoPU")r
+EntityManage: em 1 emf,createEntityManagen).-
+engetTransactiOnO ‘begino ;
+Product water : new Product("st111 water");
+Product nce : new Product1"Rlce");
+Product fish : new Product1"5alm0n"i?
+Order order I new Ordeﬂ);
+Date today = new DaceU;
+order‘ setOrderDatE (today);
+order.addltem(new OrderItem(r1ee, 1, 10));
+order.addltem(new Orderltemtish, 1, 30));
+ardenaddltemmew Orderltemmater, Z, 5) )?
+em.persist(order) ;
+engetnansucziono roman) ;
+em.close U:
+emf.close ()7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+Flnd, Update and Delete
+EntityManagerFaCtOty emf :
+
+Pe131stence . createEntityManagerFactory("DemoPU")7
+EntityManager em 1 emf,createEntityManaqerO;
+em,getTransactiOn() ‘beginO ,-
+int waterld : l;
+
+Product water = em.find(onduct.class, watezId);
+
+waterrsetNamE ("Sparkling water");
+
+Product rlce Z
+
+(Product) m. czeateNamedQuery (" Product. sindsyume")
+
+‘seLParameLerWnarve", "che")
+.getSmg'eResultU;
+
+rlcersetNamE ("Whlte rlce");
+
+1nt orderld Z 2t);
+
+Order order r em.f1nd(0rder.class, orderld);
+
+em.:emove(ozder) 7
+
+enugetTransactioﬂO -commit() ;
+
+em.close ();
+
+emf.close 0;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:30**************
+Automatic Dirty Checking
+
+- An ORM doesn't update the database row of
+every single persistent object in memory at the
+end of the unit of work.
+
+- An ORM must have a strategy for detecting
+which ersistent ob'ects have been modified by
+the applicationﬁ
+
+- An ORM should be able t0 detect exactly which
+properties have been modified so that it’s
+possible to include only the columns that need
+updating in the SQL UPDATE statement.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+0 @PostLoad
+0 @PrePersist, @PostPersist,
+0 @PreUpdate, @PostUpdate
+. @PreRemove, @PostRemove
+public class OrderLogger (
+@PostPersist
+public void logAddltiomObject order) (
+System.out.println1"Addedz" + order i;
+>
+@FreRemnve
+public vold logDeleticanbject order) (
+System.out.println1"Deletedz" + order);
+}
+>
+@Entlty
+GlntityI-istenetsﬂ OtdetLoggetmlass n
+public class Order {
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+JP Query Language (JPQL)
+- Queries for entities and their persistent state.
+- Portable queries that work regardless of the
+underlying data store.
+- Uses an SQL-like syntax
+QL_st:at:ement: : := select:_c1ause from_c1ause
+[where_clause]
+[groupby_clause]
+[having_clause]
+[orderby_c1ause]
+SELECT p FROM Person p WHERE p.name LIKE "lsDukels"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+Creatlng Querles
+- Dynamlc Querles
+public L15t<PeISDn> findByNalne(String name) (
+Query query = entityManager.craateQuery(
+"SELECT p FROM Person p WHERE p.nalne LIKE :personName")
+.setParalnater1"pEISQnNamE", name)
+.setMaxResults ( 10 )1
+return query.getResultL-ist();
+)
+- Statlc Quenes
+Ellamedquex'y(name=" ﬁnaaym" ,
+query="SELECT p FROM Person p WHERE p.id = :pexsonId")
+)
+@Enticy
+@Tablei name="persons")
+class Person ( )
+Usmg a static query:
+Person p = emcreatelamedQuerH"iindlyld")
+-Ser_Paralnater1"persQnId“, 1|
+.getSingleResult( )1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Queries That NaVIgate to Related
+Entities
+- An expression can traverse, or navigate, to
+related entities. JP-QL navigates to related
+entities, whereas SQL joins tables.
+- Using JOIN
+e T.\st<Fersor> persons : emit/Manager r) .createQuery(
+"select p from Person p join p.depaxtaments as d "
++ "where d.name a :dept "
++ "0:er by p.namc"l.
+setParaneterl'ldept", aemeDeprName).
+gelResulLLjSl ll;
+- Using lN
+a select drstmet p from Perean, in (p.departament5) d
+The p variable represents tne Person entity, and the d variable represents the related
+Depenarnent entity Tne declaration ford references the pmvious/y declared p variable
+The p.departaments express/0n navigates from a Person to rte related Depaltarnsnt
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Going back to good old SQL
+- SImple SQL querles
+EigInteger count = (Biglnteger) entityManagervcreateliativequery(
+"select. cDunc1*| from persons where dateiofibirtthiateU‘
+setParamecer( “dace“, birthDace).
+getSingleResult( n
+' SQL querles mapped to entltes
+String squuery = "select * from persons where dateiofibirth = ?“;
+Query q = eneicymnager.crescenaeiveguery(sqlguery, Persou.class);
+q.setParameter( 1, birthDate);
+List<Person> persList : q.getResultLlst1);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+- To be continued
+
+***************Ending Page***************
+

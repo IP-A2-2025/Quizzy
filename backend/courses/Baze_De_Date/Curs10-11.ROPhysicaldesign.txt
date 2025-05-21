@@ -1,0 +1,479 @@
+***************Beginning Page***************
+***************page number:1**************
+\L\ 1/ BAZE DE DATE
+Implementarea constringerilor
+Declan§atoare (Triggers)
+Tabele virtuale (Views)
+Mlhuelu Elena Ereubz'm
+v m 202072021
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Proiectarea Bazelor de date Relagionale
+Metodologie
+Speciﬁcayii
+\
+. independent de
+DmgmmeflAwML) ‘i considereme
+ﬁzize
+3, Mcdehre \ogicé
+Normallzzn'e
+Schem. rela iennla i’
+‘ er
+4.Modelarel\1icé V Speciﬁc dezvokaturului
+Ca\ibrnre/opt'\|uizare r SGBDR
+p 2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Conyinut
+> Constringeri de integritate
+r Declan§atoare
+> Tabele virtuale
+
+p a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Constréngeri de integritate (statice)
+(1)
+r Restriqioneazi stirile posibile ale bazei de date
+v Pentru a eHmina posibilitatea incroducerii eronate de valori la opemyia de inserare
+v Pentru a satisface corecticudmea la accuahzare/gtergere
+> Forgeazé consistent;
+> Transmit sistemului informagii utile stocirii,proces§rii interoginlor
+r Tipuri
+> Non-null
+v Chei
+v lntegritate relerenqali
+> Bazate pe atribut 5i bazate pe tuplu
+v Asemiunigenerale
+} 4
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+Constréngeri de integritate
+
+(2)
+
+> Declarare
+> Odati cu schema (comanda CREATE)
+> Dupé crearea schemei (comanda ALTER)
+
+> Realizare
+r Veriﬁcare la ﬁecare comandé de modiﬁcare a datelor
+> Veriﬁcare la ﬁnal de tranzacgie
+
+p s
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Constréngeri dc integritate peste 1 variabilé
+
+Implementare inline
+
+CREATE TABLE label (
+
+Gl tip not null. -- accepti doar valori nenule
+
+aZ tip unique, --cheie candidat lormaté dintr-un singur atrlbut
+
+a3 tip primary key, -- cheie primari formati dintr-un smgur atribut. implicit {not null,
+unique}
+
+a4 tip references tabelZ (bl), »cheie strélné formaté dintr-un slngur atribuc
+
+05 tip check (COndlﬂe) -- condigla e 0 eXpresie booleana formulati peste atributul aS:
+(a5<l l and 25>4), (a5 between 5 and IO), (35 in (5,6,7,B,9,|O))...
+
+)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Constréngeri dc integritate peste n variabile
+
+Implementare out-of-line
+
+CREATE TABLE tabel (
+
+a! tip,
+
+aZ tip.
+
+a3 tip,
+
+a4 tip,
+
+primary key (al,aZ),--cheie primari formati din 2 (sau mai multe)
+atribute
+
+unique(aZ,a3),-- cheie candida: formaté din 2 (sau mai multe) atribute
+
+check (condiﬂe),-- expresie booleani peste variabxle dedarate anterior:
+((a|+a3)/2>=5)
+
+foreign key (03,04) references tabeIZ(bI,bZ) -- cheie strémi multi-atribur.
+
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Integritate referentialé
+Deﬁnipii
+,Mfsa/V/er't \\ cangidat// \universitate
+nun. ummm MI-
+V V V V
+V V V V
+V V V V
+V V V V
+> Integritate referengialé de Ia R.A Ia SB:
+> ﬁecare valoare din coloana A a tabelului R trebuie s5 apari Tn
+coloana B a tabelului S
+v A se nume§te cheie stréiné
+> B trebuie $5 ﬁe cheie primare'l pencru S sau micar declarat unic
+> sunt permise chei striine multi-atribut
+p a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+Intsgritate referentialé
+Realizare
+r Comenzi ce pot genera Tncélcarea restricgiilor:
+> inseriri in R
+> §tergeri in S
+> actualiziri pe RA sau S.B
+> Acgiuni speciale:
+r Ia gcergere din S:
+ON DELETE RESTRICT (ImthU | SET NULL| CASCADE
+v la actualiziri pe S.B:
+ON UPDATE RESTRICT (\mplmc) | SET NULL | CASCADE
+p 9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Integrltate referentlalé
+oul sau. gdina?
+VC'REATEIABVLVE chicken (ch \NT PRIMARY KEY‘ V V , V V ' ' ' ' V V
+""elD LNT REFERENQESmeimI "
+CREATE TABLE egg1elD TRTERLMRRV k'EYY L V V
+VVV,L~~"b|'D INT REFERENCES midk'eﬂmb»; L , V 77
+cREATE TABLE eggielD TNT PRIMARY KEK cTD INT):
+ALTER TABLE 0mm ADD CONSTRAINT chickenREFegg
+FORETGN KEY 1elD) REFERENCES egg(e\D)
+DEFERRABLE INITIALLY DEFERRED; a T T
+ALTER TABLE egg ADD CONSTRAINT eggREFchicken
+FORETGN KEY ‘CID, REFERENCES cmckenktlD)
+DEFERRABLE INITIALLY DEFERRED LT T ~
+INSERT ‘NTO 899 VALU53(Z U; venﬁcarea conwéngeru se efecmealé
+COMMTT; Imedlat dupi ﬁecare Inserarel
+Dar problema gtergerii (abeTelcr!
+p lo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+Asertiuni
+create assertion Key
+check ((select count(distinct A) from T) =
+(select count(*) fromT)));
+create assertion Referentiallntegrity
+check (not exists (select * from Candidat
+where alD not in (select alD from Student)»;
+n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Constrzingeri de integritate
+Abateri de la standardul SQL
+
+r Postgres. SQLite, Oracle, MySQL(innodb) implementeazi 5i valideazi toate
+constringerile anterioare
+
+> SLandardul SQL permite utilizarea de interogiri in clauza check Tnsi nici un SGBD nu
+Ie suporti
+
+r Nici un SGBD nu a implementat aserﬁunile din standardul SQL,func§ionalitatea lor
+ﬁind {urnizati de declangatoare
+
+p I2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+. . . D EM O . . ‘
+(ﬁ5ierul constrﬁngen.sq!)
+| a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Declan§atoare
+
+(constrangeri dinamice)
+
+> Monitorizeazz'a schimbérile in baza de date, veriﬁcz'a anumite condigii §i inigiazé
+acgiuni
+
+> Reguli evenimenc-condigie-acgiune
+> Introduc elemente din logica aplicagiei Tn SGBD
+> Forgeazﬁ constrﬁngeri care nu pot ﬁ exprimate altfel
+> Sunt expresive
+> Po: Tntreprinde aqiuni de reparare
+> implementarea variaﬁ Tn funcgie de SGBD. exemplele de aici urméresc standardul SQL
+
+p l4
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Declangatoare
+Implementare
+Create Trigger nume
+BefqrelAfterjlnsrgad Of evem'mente
+vanabTIe-re eren late]
+For Each Row W acuune se executé p\ hecare Mme mmfcmé [Up row vs maternem)
+When ( condfrie )1 W EH u condwe WHERE dm SQL
+actfune W in siandardm SOL e n comandé SQL in SGBD'uH Dome n bhnc procedura‘
+r evenimente:
+> INSERT ON tabel
+> DELETE ON tube!
+> UPDATE [OF al,aZ,...] ON label
+r variabiIe-referen;iote (dupi declarzre pot ﬁ utilizate in condirie §i uqiune):
+> OLD TABLE AS var
+> NEW TABLE As var
+> OLD ROW AS var’ pcntru cv DELETE, UPDATE '1 dear Perm declansmm detip
+> NEyv ROWAS var; Denim ev. IN§ERI UPDATE l linie/row
+> ls
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Declan§atoare
+Exemplu (1)
+> integritate referentialé de la R.A la S.B cu etergere in cascadé
+Create Trigger Cascade Create Trigger Cascade
+After Delete On S After Delete 0n S
+Referencing Old Row As 0 Referencing Old Table As 0T
+For Each Row TerEzcn'Rnw-l
+Delete From R Where A = O.B Delete From R Where
+A in (select B from 01)
+p lé
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Declangatoare
+Problems potengiale
+> mai multe declan§atoare activate in ace|a§i timp: care se executi primul?
+r acgiunea declan§atoru|ui activeazﬁ alte declan§atoare:in|5nguire sau auto-
+declangare ce poace duce la ciclare
+n
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:18**************
+Declangatoare
+Abateri de la standardul SQL
+
+> Postgres
+> cel mai @um de standard
+> imp\emenleazé row+stalement,old/new+rowltable
+> simaXa sulen? abaten de la standard
+
+> SQLke
+, dozr up raw (4m chi/new table)
+> se executi ‘\mediAL dupi mammal ﬁecirm Hnii [ahalere comportamentaﬁ de ‘a standard)
+
+> MySQL
+> doar Up row (ma (Md/new table)
+> 5e executi imedlal. dupi modiﬁczrea ﬁecirm Hnii [abatere comportamenm\5 de m standard)
+> permits deﬂnirea unui singur declangalor / evenimenl asaciat unui label
+
+> Oracle
+> imp\emem.ea15 standarduk ruw+statemem cu modiﬁcéri u§oare de sintaxé
+, Lipul instead-of e permis numal pL.view-ur|
+> permits insemrea de blocuri procedurale
+> introduce restricgii pentru a eviu ciclarea
+, zprnﬁmdzte I; labomwr
+
+p ls
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+. . . DEMO. H
+(ﬁ§ierul dec/ansataare.sql)
+w
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+View-uri — Tabele virtuale
+m
+—‘ \‘ "—,— Cele :2 reguli ale ma Codd
+AJ.':£ ‘ WWW-
+—!|— 1w
+4!’. ‘z BMW Wigwam
+> 10
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+Motivatie
+
+> acces modular Ia baza de date
+
+> ascunderea unor date fagi de unii utilizatori
+
+r u§urarea formulirii unor interogiri
+
+> aplicagiile reale tind s5 utilizeze foarte multe view-uri
+1‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Definite 5i utilizare
+
+> Un view este Tn esengi o interogare stocati formulati peste tabele sau alte view-uri
+
+> Schema view-ului este cea a rezultatului interogirii
+
+> Conceptual, un view este interogat Ia fel ca orice tabel
+
+> Tn realitate, interogarea unui view este rescrisé prin inserarea interogirii ce deﬁne§te
+view-ul urmati de un proces de optimizare speciﬁc ﬁecirui SGBD
+
+> Sincaxa
+
+Create View numeView [a1,aZ,...] As <frazé_selec!>
+11
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+Modiﬁcarea view-urilor
+r View-urile sunt in general utilizate doar Tn interogéri Tnsé pentru utilizatorii externi
+ele sunt tabele: trebuie 55 poati suporta comenzi de manipulare/modiﬁcare a dacelor
+> Solugia: modiﬁcéri asupra view-ului trebuie s5 ﬁe rescrise in comenzi de modiﬁcare a
+datelor Tn tabelele de bazi
+de oblcei este p05\bl|
+uneori exisci mai mulce variance
+> Exemplu
+R(A,B),V(A)=R[A], Insert intoV vahmsB)
+R(N),V(A)=avg(N), updateV 5&[A27
+13
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+Modiﬁcarea view-urilor
+Abordéri
+r creatorul view-ului rescrie mate comenzile de modiﬁcare posibile cu ajutorul
+declan§atorului de tip INSTEAD OF
+> acoperi mate cazurile
+> garanteazi corecutudineal
+> standardul SQL prevede existenga de view-uri inerent accualizabile (updacable views)
+daci:
+> view-ul e crean cu comanda select ﬁré clauza DISTINCT pe o singuri tabeléT
+> acribuceIe me care M fac parte din deﬁnigia view-qui pot n NULL sau iau valoare default
+> subInterogérile nu fa: referire IaT
+> nu exIsté clauza GROUP BY sau aIti formi de agregzre
+p 24
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+View-uri materializate
+Creaﬁe Materialized View V [a1,a2,...] As <frazéiselect>
+> are Ioc crearea unui nou tabelV cu schema data‘: de rezultatul interogérii
+> tuplele rezultat al interogirii sunt inserate TnV
+> incerogirile asupra luiV se execuci ca pe orice alt tabel
+r Avantaje:
+> speciﬁce view-urilcr virtuale + cre§te vireza incerogérilor
+r Dezavantaie:
+> V poate avea dunenium foarte man
+> once mod\ﬁcare asupra tabelelor de bazé necesmé refacerea \uiV
+> problema modiﬂcirh cabelelor de bazé la modiﬁcarea view-thi rimﬁne
+p 25
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Cum alegem ce materializém
+
+> dimensiunea datelor
+
+> complexitatea interogirii
+
+> numirul de interogiri asupra view-ului
+
+> numirul de modiﬁciri asupra tabelelor de bazé ce afecteazé view-ul §i posibilitatea
+actualizirii incrementale a view-ului
+
+> punem Tn balangi cimpul necesar execugiei interogirilor §i timpul necesar actualizirii
+view-ului
+16
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+,..DEMO‘ H
+(ﬁ5ierul viewssql)
+11
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Bibliograﬁe
+> Hector Garcia-MolinaJeff UllmanJenniferWidom: Database Systems:The
+Complete Book (2nd edition), Prentice Hall; (june l5, 2008)
+> Oracle:
+http://ducs.oracle.com/cd/BZ8359_0I Iservenl I I lb283 I 0/generu!005.htm
+Imp://www.omclerbnse.com/mtIsles/9i/Mum!ingTableExceptrons.php
+hug.//wvm/.dbaromcle.c0m/L avovdmv mutating Lab/e erronhlm
+18
+
+***************Ending Page***************
+

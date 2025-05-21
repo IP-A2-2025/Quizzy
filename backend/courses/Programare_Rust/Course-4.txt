@@ -1,0 +1,2519 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 4
+Gavnm Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+®; Agenda for today
+' Strings
+- Type of string, creation
+' Methods
+' lterators
+' Coercion
+' Range operation, UTF78 constraints
+~ String formatting
+' Creating and updating strings
+' Associated traits /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+7
+Strings L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+g; St n n gs
+Rust has several type of strings:
+1. Dynamic strings (an object that can increase its size dynamically).
+Tvpei -
+2t String literals (a statically allocated/constant string with fixed size).
+Type: -
+3, String slices (a substring of an existing string)‘
+Type: -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+g; St ri n gs
+Approximation to C/C++ types:
+String stdzuﬂstring , std::string
+8&5" (string slice] std::u85tring_view, std::strinLview
+aw (string literal) const char‘ , std::u85tring_view, char‘
+Keep in mind that these are approximations (Strings in Rust are not
+ASCII-Z format (they do not have a \0 at the end of their body) and as
+such they are different than most C/C++ strings). /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+g; St r| n gs
+Let's see how these types look like (in memory):
+chars Pointer to a memory address where an array of u8 bytes are located
+capacity The amount of memory that was alienated (usize)
+len Length ufthe string (usize)
+With —
+chars Pointer tn a memory address where an array of us bytes are located
+len Length ofthe string (usize)
+The size of String is either 6 bytes, 12 bytes or 24 bytes (depending on
+architecture) and size of &str is either 4, 8 or 16 bytes.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+E; St n n gs
+An approximation of these types in C++ would look like this:
+i r
+‘ Mr ; ' _ ,i a
+Aer-i; " ' ’
+r1;'i.‘1f1t‘,,' ‘
+i ’
+Notice one difference: n-const pointer (meaning
+you can change its content, W i e has a const pointer (meaning
+you can access its content, but you can not change it)‘
+055' iVi reality the content 0/ a st! can be change yi'a unsafe memaal A/su, the actua/ &st! in rm: does
+riar have a cons: paimer iaai a regaiar pointer). Hawaver, for academic purposes i'l is easier m present it
+rri mi; way.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+g; St r| n gs
+Strings in Rust are UTF'8 encoded (and while this ensures a great compatibility it also
+comes with some limitations).
+
+As a difference, C++ supports different encodings (ASCII, ASCII-Z, UTF-8, UCS-Z/WTF-16).
+This provides more flexibility, but it also ads an extra level of complexity when it comes
+with dealing with strings, converting them from one format to another, etc.
+
+Ascn-z const char‘ N/A N/A N/A
+
+char "
+
+ASCII std::strlng std::strir\g_view String (‘i &str (')
+
+um std::u85tring std::u85tring_view String &str
+
+ucs-z std::u165tring std::u16§tringiview N/A NIA
+
+UTF-32 std::u325tring std::u32stringiview N/A N/A
+
+0st 1‘) Any ASC" “W can be imp/wily we" as ., urF-s smug
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+g; Strl ngs
+We will use the following format [-) to express how - character from
+C/C++ is represented (on Windows). A wide char in C/C++ (wchar_t) is consider an
+integer of 16 bits that can store some Unicode characters (but not all as there are
+more than 1.1 million Unicode characters and they can not be store on a 16 bits
+number).
+
+However, on Windows, a wide char is a 16 bits value (and the most accurate know
+representation is UCS-Z), UTF-16 has variable size (either 2 bytes or 4 bytes) and
+
+does not reflect wcharit behavior, Other names know for this type is WTF-16.
+
+On linux, wchar_t has 32 bytes and as such it can represent all Unicode characters, i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+s; Strlngs
+
+Differences between Ascii , UTF-8 and UCS-Z string formats:
+
+Let’s take for example the following string: —
+
+a) ASCII:
+wu-n-I-Inu
+up» s1 1m 22 ? 32 114 117 115 us
+Char W e 7 r u s l
+
+b) UTF—8
+EEIII-I-I-qullﬂ
+1,111 111 1111 32 225 153 151 11 111 111 115 11s
+c1111 w e 11 1 u s 1
+
+c) uc5»2
+Emu-unu-MIIIHE
+we; 111 11 1010 32 11 111 18 az <1 11111 11111 1151 11511
+c1111 w 1 v 1 .1 s 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+s; St ri n gs
+Differences between Ascii , UTF-8 and UCS»2 string formats:
+Let’s take for example the following string: —
+aim-m“
+Size (in bytes) 9 11 1s
+Charactersize (in bytes) 1 byte / character Variable (1 to 5 bytes) 2 bytes / character
+Unicode representation N0 Yes Yes
+Index access Yes no [ran nut bedrmein Um) Ves
+Any buffer Din be a valid string Yes NO Yes
+The main advantage of UTF-8 over UCS-Z is size (for regular strings UTF-8 is twice
+as small in memory than UCS-Z). The drawback is that index access is not possible
+(or at least not in 0(1))‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+. Strl ngs
+Let's see how a String object can be created:
+1- V‘a‘“e—me‘h°d‘ m-
+Rust H
+'1 : ::n>mk');
+py-lntlnwsr -, len: , capacity: ‘, “19,10, Y.Upd¢1r,\,wj»j>;
+\‘
+2' “a the ‘ 1W“ methw‘ mm_
+Rust ‘ ‘
+"2 : 1%!“ vv( "8123456789ABCDEF"',\;
+pr‘intlr\!1"5=' -, len: , capacity= , .1¢m;"», v.Ldp:1LlL\‘1',‘,\;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+. Strlngs
+Let's see how a String object can be created:
+3. Via the :1with_capacity method: m
+Rust
+'1 : C:\1\H‘U'n[mfity\_'118H
+py-lntlnwsr -, len: , capacity: ‘, “19,10, Y.Upd¢1r,\,wj»j>;
+k
+4' “a the “timing me"‘°"‘ mm_
+Rust v
+r : "text".rniifr1ng(‘7;
+pr‘intlr\!1"5=' -, len: , capacity= , .1¢m;"», v.Ldp:1LlL\‘(v,‘,\§
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+E; Strl ngs
+Let's see how a String object can be created:
+5. Via the : from uth method:
+— Output
+L y ‘ 5:'Aac', len:3l capacity:3
+7: ;; Wm'lpnb, Ha, n7]l. a‘):
+w-lntlniy ‘ y 1n Hymn l, ,_ (1», ,_ m;
+Keep in mind that this method returns a Result. Normally you should check the
+result first before assigning the value to a variable, however if you know for
+sure that the buffer that you are providing is a valid UTF-8 buffer, you can use
+.unwmp method to return directly a String object‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+I
+Strl rigs
+Let's see how a String object can be created:
+5. Via the : :‘From_ut1c8 method:
+Rust
+mam) 1
+r : II+7‘ﬁiiiiili’+;li\15k"[155, 255, 255]‘; ,im..m,-.~_ 1i;
+pi-lntlnir'ga ', len: , capacity: i, “19,10, “tapauitwijm
+i
+For example, in this case a runtime error (panic) will be triggered because
+(255,255,255 ) is not a valid UTF-8 buffer:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+a Strlngs
+Let’s see how a &str object can be created:
+l‘ Via direct assignment method:
+Rust Rust (mumble em; W
+fw'tnt'lntt 1" _ m‘ ;“, 5,51wm1; g'r"1r‘tlu‘1“7‘1 x - 7; ‘, 5, Stlvmuwl
+2‘ Via the String: :as_st|" method
+Rust
+rm mm) 4
+1~t s : texthm-tj'y;
+printlmt' 2:‘,1 , iv: 1 ‘, 5, 5&2va;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+a Strings
+Let’s see how a &str object can be created:
+3‘ Via - operator (obtain a &str from another &str):
+Rust
+Obs: all rangeformats ([startﬂ], [Mend],[..]) work in a similar manner as
+with vectors.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+g; Strings
+Let’s see how a &str object can be created:
+4‘ Via - operator (obtain a &str from a String):
+r : K [_..', WEIUVEI'USI' rust
+n‘1nt\n‘\“ 7H r“‘\:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:19**************
+g; Strl ngs
+Why did we talk about - (a reference) but not about .type ?
+Let’s see some example to clarify the behavior here:
+
+l. String as a reference
+mov rcx, qword ptr‘ [s]
+r = 1r r call first: :print_1en
+prmnm r m:
+U 1' The address of‘s‘ is senttothefuncticm
+r : 1: 1 r. print_len
+raw r;
+1 Output
+Sui-E3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+g; Strings
+Why did we talk about - (a reference) but not about .type ?
+Let’s see some example to clarify the behavior here:
+2. String as an object (changing the owner)
+mov rax,qword pt!‘ [5.ptr]
+‘ ; i‘ ‘r mov qword ptr‘ [temptptr],rax
+["1"th ‘ m; mov rax,qword ptl" [5.1m]
+i ' mov qword ptr [temp.1en],rax
+‘ H ‘v mov rax,c|wor‘d ptr‘ [stcapacity]
+11 ; .. l i‘. mov qword ptr‘ [temptcapacity],r‘ax
+‘a, ‘f' ' lea rcX,[t9nip]
+i ‘ ' call First::print_1en
+I
+we " ’ Acopy are" is made and send to function
+prin!_leri. That copy will be destroyed at
+the end of rint len function
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+g; St n n gs
+Why did we talk about - (a reference) but not about .type ?
+Let’s see some example to clarify the behavior here:
+3. str (as a slice/reference)
+muv rcx,qwor‘d pt!‘ [mm
+r = a ; mov rdx,qwcrd W [5.19"]
+[A mtlnu ‘ ‘1M: call first:zpr‘int_1en
+\Ev \ ; In this scenarin,Rust copies the pointer and
+I omput its length into two registers and then calls
+We i: 3 (he printilen function.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+I
+Strl ngs
+
+Why did we talk about. (a reference) but not about type ?
+
+Let’s see some example to clarify the behavior here:
+
+4‘ str (as an object)
+
+RUE!
+print lamb: y i
+printin!(“$ize is :4 mm;
+‘ Hilp d» z :11: LAIL! 11m! zuphwmzm m ,n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+E; Strings
+Why did we talk about - (a reference) but not about .type ?
+Let's see some example to clarify the behavior here:
+4t str (as an object)
+l. I l i V
+
+Di'iiitlri !i L he it ‘ , ti ‘i: ELPLQWKyla-$.17.'Eijiplliilillmlf "v' H
+The problem in this case is that I is a DST (a Iynamically Iized Iype) or
+unsized. These types don't have a fixed size (like i32 for example) that is
+known at compile time, and as such the compiler can not make the
+necessary computations to allocate space on the stack for that variable‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+g; Strings
+
+There are a couple of observations about .type:
+
+l‘ Since it is a DST, this mean that you can not create an object of type
+str. It also means that you can not take ownership over a string in
+memory
+
+2. str type is in fact a slice (so by design it can only be a borrow
+reference and not the object itself)
+
+3. Making a type to be DST is a way to make sure you can not create a
+variable that has ownership over a borrow reference to another
+owned variable. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+I
+
+Stri ngs
+
+But why make a I a DST ? To answer this, we need to explore some
+
+scenarios where a str type would be possible and discuss some
+
+implications.
+
+Let's analyze the following example:
+
+Rust l l
+
+nian'ill l
+Z Iil;l'filill"5b("lj
+>: “Hat. girlli
+pnnc n‘ L51 ; om m i tle 51:; +1" New .r M» m- :1"th m NW‘ 1!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+I
+Stri ngs
+But why make a I a DST ? To answer this, we need to explore some
+scenarios where a str type would be possible and discuss some
+implications.
+Let's analyze the following example:
+Rust l l
+"mini l
+Z ; Iii'ﬁiiii'ﬁbf'i; "x" lifetime is over, so Rim willtryto call drop method for
+> : ‘at. 1m; smype.
+i : ~<,:.-=;.wi;ji;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+g; Strings
+But why make a I a DST ? To answer this, we need to explore some
+scenarios where a str type would be possible and discuss some
+implications.
+
+So what would drop method could do ? There are two possible cases:
+
+1. Deallocate the memory allocated for pointer in that str object
+
+2. Do nothing —) assume that the memory is owned by another object
+and let that object deallocate the memory when its lifetime ends.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+. Strl ngs
+
+Case 1 9 deallocate the memory for "x".
+RUSK
+
+mm <1
+
+r : ;;+mm"abc"w;
+
+Wm m 15 r;
+Since “x” and “y” point to the same memory zone, deallocating the
+string when “x” lifetime ends, means that now “y” points to an already
+deallocated object -)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+®
+Strlngs
+Case 2 9 do nothing ,i‘
+Rust ‘
+> V : pfwvnWchW, ‘i,
+: \ ‘w-HH \U‘\',‘,
+puntlnw“ W:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+®
+Case 2 9 do nothing ‘
+Rust ‘
+malm] 1 ‘
+> V : :‘V'mvmhch, ‘ i4 '
+. 1 v‘ 'u'.u'\ ‘mtw
+But, (hi5 also means that the memory for [he String "zbc"
+r has to be [reed somewhere.
+pr‘1nt1n‘!_“ w;
+‘ \ lEL muL V iL'An,‘ wwm“,u.“n
+u \ uhmlmHWPw‘
+\ Um,- va'mm n!»- ij-y W»-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+I
+Stn ngs
+
+Case 2 9 do nothing
+RuSt
+
+Wmﬂnw ‘l; , l WW ‘ Wmmnm Mn in
+
+[ulntlnl w;
+
+When function main ends, so does the lifetime of "x'l This means that at that time,
+the drop method for Box will be called. That method will call the drop method for
+the type str and then will deallocate the memory from the box. However, since in
+this scenario, we postulated that the drop method from str does nothing,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+I
+Stn ngs
+Case 2 9 do nothing
+RuSt
+Muir i M
+i
+pr-inran“ :i;
+If we remove the usage of “s” from the inner block, the code compiles and works as
+expected. The memory for “abc” string is freed when the lifetime of “x” ends (at
+the end ofthe function main).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+I
+Stri ngs
+So if we can not do nothing in the drop (destructor) method of type
+str, this means that we need t0 deallocate the memory at that point, so
+we need to rethink case 1 again.
+RIIS!
+mini"; t
+V : Iiliiiiii1_"HbC");
+prlm m 15 i;
+But case 1 couldn't work because if we drop the memory when "X"
+lifetime end, "y" would point to an unallocated memory zone,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+. St n n gs
+A solution could be to implement a Copy for - assignments
+(meaning to duplicate the memory of "abc" into another location of
+heap/stack and as such "x" could have its own ownership over the new
+allocated memory.
+
+Rust
+Hldllllll i
+e =1+mm~ebe"ji;
+——
+i: 5.55- SJW \i
+pl'ilitlril "(y)" j»;
+prlntlnl "{5}" l;
+l
+Obs: There l5 u RFC —) RFC19179 mm proposes such u solution
+httgs [lg/UM[ICU"if/USPlUIIQZVtCSZblUbf/"USZCVZIEXYZIQUQ'HIISIZCG'VVUIHES md 0/
+httgs [Zdoc rustrlang orgzbemfunsmble'bnokglanguagerfeutu/esgunsized'localsvhtml
+However, keep in mind that this is "m part 0] the stable release
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+g; Strings
+While not decided yet, its however important to notice that string copy
+was a problem in C++ until C++11 when MOVE operations were
+introduced. If every time an assignment over a str type a copy will be
+produced, we may end up with a lot of unnecessary memory allocated
+and deallocated and as history shows us, in most of the cases it will be
+unnecessary and will lead to a significant performance impact.
+As such it is best to limit the usage ofstr type as a reference and avoid
+all these cases. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+/®
+Strings (methods)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+g; Strings (methods)
+Both - and - have a set of methods that can be used to modify,
+parse or generally change a string. These methods could be divided into
+several categories such as:
+
+1. Methods that use a read-only string and check some conditions
+over it (eg. starts_with something)
+
+2‘ Methods that result in a new object obtained via some changes
+that can be apply over the original string (eg. a lower case
+transformation)
+
+3. Methods that modify the current string (eg. insert, replace, etc)
+
+4‘ Addition
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+®
+1‘ Methods that use a read-only string and check some conditions over it:
+
+endsiwith (E; , 17112 ‘ ' ' Check l0 See if a strings ends with a pattern
+
+(1nd (K , U11. ) -I> l > Returns the ﬁrst posrlion of the pattern P m
+current smug or None mherwr'se.
+
+Mind {3 r PW: 1 e ~ : :> Rewmi the last DOSIUDH Of the pattern P m
+current string or None otherwise.
+
+isiasili (a r re, True w every character from the strmg is an
+aw. char, erse Ir umwde chars eve present,
+
+vim Hi ) e,- & Trims whilespaces (frum Stan/end or bum),
+
+trimjtww (a > ' > F‘ Returns a 5n Object that rs trimmed
+
+trimiend (a ‘r a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+g; Strings (methods)
+1‘ Methods that use a read-only string and check some conditions over it:
+There are a couple of observation that need to be emphasized here:
+
+- Search methods use a Pattern object (—)
+
+» Find methods don't receive an index. This is because we can always create
+another slice from an existing one that moves the start index to another
+position.
+
+- The definitions from the previous slide are simplified (in reality there are some
+extra information added for each one ofthem):
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+E; Strings (methods)
+Let's discuss a little bit about string patterns (std::str::pattern::Pattern).
+—is a trait. For the moment think about it as an
+interface with several methods such as:
+BEE-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+.
+Strings (methods)
+Let’s discuss a little bit about string patterns (std::str::pattern::Pattern).
+—is a trait. For the moment think about it as an
+Interface With several methods such as: Where-W505"ammmm
+with the following methods:
+_—
+_—
+_—
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+®; Strings (methods)
+
+Who implements std::str::pattern::Pattern:
+
+1, char
+
+2, &str
+
+3. String
+
+4. [char]
+
+5. [char;N]
+
+6. Function: FnMut(char)e>boo|
+This means that all of these forms can be used as a pattern argument for
+previous methods. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:43**************
+I
+Strlngs (methods)
+Let’s see a couple of examples:
+Rust
+' , " Test “;
+'l : “Rustu,
+pru\Lln‘l“‘ ' Starts wlth ‘RM : ". ‘_. ‘UV-LA L; .-.,LV\\I“Pu“"M
+w-mnnw“ ' ends mm 'ust' : y ‘.vw L. ‘NHMLHUSCHUZ
+py-mnnwm ' cnnrains "15‘ Z ‘ , ,wwr=.m:\ms",\j\;
+pr‘1r\t1n‘l“lndeu of ‘TE’ in ‘ ' is “, ', 1.F;\"1\‘_“Te“MunwjmH:
+prlntlnhﬁndex of ‘nx;<‘ in ' ‘ is “. '2. '2.Mwi\"xx;<"'w;
+w-mumw“ ‘trimmed 15 ‘ , .UJ ‘NM
+‘Rusl‘ Slaﬂs WM‘ 'Ru' : [me
+‘RUSU QHdS WMI ‘USU :(IUQ
+‘RHSF (OntamS 'uS‘ : true
+Index 0i‘Te'irv‘ Test ‘\53
+Index of ‘xxx' m 'Rust' IS None
+‘ Test 'knmmed i5 'Test‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+I
+Strlngs (methods)
+Let’s see a couple of examples:
+Rust
+\h :7 ‘8' Ml J .-, ‘9'
+mun" 1
+Z “A m: without any diglts“,
+7 : “The price is 180 USD "',
+prwﬂ'IWWH‘ ' (ontalni dlgltﬁ; , .Hmwm.(v. mum;
+pr‘)ﬂt1n‘l“‘ ' (rmtains digits: q .nmmnmvygm1‘,
+‘A th Without any d\glts' comems d\g\ls fake
+‘The pm is 100 USD !' cumalns digns true
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:45**************
+g; Strings (methods)
+Why - or - methods don’t have a position to start from ?
+The reason is that we don't need to (because we can use the range
+operator to get a new str object from the position we want to start the
+search and search the new string for there)‘
+Let's explore some ways to split a string (via -method) in Rust.
+— Let's assume that we have the sentence: "I have a Rust course today”
+and we want to split this sentence into words (we consider that words a
+separated by a single space).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+I
+Strlngs (methods)
+Solution no 1 (use a loop).
+RUSK
+lwip 1 l
+m» : .Umh" “3, have
+1+ HH- .1> ﬂux-PL‘ ; \w-Hm ; a
+pHHHFHQ“ “, sum“ 1.,u‘v17‘a'w‘:\l\1
+'7 ‘:vwv _\H‘HH‘\1[H',\ + 1H1 5:19
+ivy-mmm“ \ “1, today
+Let's analyze this solution step by step.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+-
+Strlngs (methods)
+Solution no 1 (use a loop).
+RUSK
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+-
+Strlngs (methods)
+Solution no 1 (use a loop).
+RUSK
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:49**************
+.
+Strlngs (methods)
+Solution no 1 (use a loop).
+RUSK
+mnemnwrapu
+— [-J'WWM'W/PBPUJ
+'7 511w .\ly'u\v'ap\'/ + 1H1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+-
+Strlngs (methods)
+Solution no 1 (use a loop).
+RUSK
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:51**************
+0 _
+Strlngs (methods)
+Solution no 1 (use a loop)_
+RUSK
+_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+.
+Strings (methods)
+
+Solution no 2 (use a -).
+In practice, Rust has a better way of doing this things (for cases where we
+iterate over something using an Option<...> object until that Opti0n<...>
+reched the state.
+RMSF V ‘
+
+111in 1
+
+iii : .Uiiii““"
+it ii- .1’ Hiiirifi I break; I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:53**************
+a Strlngs (methods)
+Solutlon no 2 (use a wh||e let).
+Rust
+\u MHMM-‘l M
+\vf “W 5 7 “ ‘ — ‘ } w ‘v huh I
+7'"? SCHHEdeK : SYF‘Y_U1‘1H \ l
+1L have
+pnuw 1; . K5:..id1]\_ a
+5 : mm‘ + 1H1, Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Strings (methods)
+Solution no 2 (use a -).
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:55**************
+-
+Strlngs (methods)
+Solution no 2 (use a -).
+Rust
+Z a m- + 1H1,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+a Strings (methods)
+Solution no 3 (use a -).
+The next solution is based on split method that allows splitting a string
+view into multiple strings and iterating over them.
+Murmur‘: ‘JFVHHHJHM; I
+Fil“ll‘iflﬁllu> , u. _ ‘ a
+i Rust
+i course
+today
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:57**************
+g; Strings (methods)
+Solution no 4 (use a I).
+The last solution uses for directly to iterate over what the iterator split
+method provides‘ This is the smallest and most straight forward solution.
+i i l Output
+. " " l have
+p mum: . ,i,
+i a
+It ' Rim
+course
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+g; Strings (methods)
+Let's see all split methods:
+Spiits only once tatter the first split, stop)
+simiiay to spl|t_once, but from rlghtto ieft
+In these methods it are different iterators.
+Option is used for as a tuple with two &str objects (we have to used
+an Option as there is a possibility that search pattern is not found).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:59**************
+g; Strings (methods)
+2‘ Methods that return a new String object with some changes (eg.
+replacement, case change, etc)
+—m
+Returns a new slrlng eenvened to lowercase.
+Returns a new strlng converted to uppercase‘
+
+ictitit [k , li ,‘i r r Returns a new String that sums up the Original
+string for nm tlmeS.
+ten e r5 , r r 1 , Returnsanew string wherealllmm patternsfrom
+t‘ " i‘ i r * current string are replaced with m string.
+Keep in mind that these methods create a new string in memory and
+might be slower or allocate too much memory.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+® Strings (methods)
+2‘ Methods that return a new String object with some changes (e.g.
+replacement, case change, etc), Example:
+Rust
+I *IYCLIIEVTK ~ t;
+pmtlrm“ 1,\_ \.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:61**************
+Strings (methods)
+3s Methods that modify the current (-) String object.
+Adds the content of wt: parameter at the end oithe stung.
+Adds the maractermm :h parameter at the end oflhe stringy
+\nserl a character at a spectﬁc posrnon m Swng
+\nserls a strmg at a Spectﬂc pusrtmrr m Strmg
+Deteles a characterfrum a spenﬁ: positron m strmg [index
+Parameter) and returns rt
+Remuves 2H accurrences of pattern p tram the slnng
+Replaces ah charactels Irom a gtven range rwlth a (Ext from
+L. ,I G \ paramewf UR
+Relamsatlcharacterthatmatchthemncuonfnc
+Changes the capaclly of the Smng abject
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+g; Strings (methods)
+
+3. Methods that modify the current (-) String object.
+
+Obs:
+
+- These methods may increase the size of the object and as such may
+perform additional allocation. If it is expected to increase the size of this
+object, a - method call is a good idea.
+
+» Methods that use indexes or ranges may - (more on this topic on
+UTF-8 support chapter)
+
+- This methods require a mutable String object.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:63**************
+a Strlngs (methods)
+
+3‘ Methods that modify the current (mutable!) String object. Example:
+
+Rust
+
+Fh mtuhw 1
+5.,“ he \ W \ ‘, HeHoRusH
+i,'.‘f.;g‘,‘l‘hjlm HeHo,RusU
+get-SEQQSNIQL Remove \m (har \
+pv:vt1n‘\_“;s}“¢, HEHOJMsl
+pmumw \ m \\ \ ,;,5.,-Hw,\5,1w,v 1w,
+m"anH“lsl“'lw
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:64**************
+® Strings (methods)
+3‘ Methods that modify the current (mutable!) String object. Example:
+R
+ML»
+lut Hurt 5 7 LC! IHEIZF'THYH ‘WW Y’ ‘L ‘t r _I:\““1,
+sneer,‘ rnuittlett; t;
+pqtlrr‘\“} 1M‘,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+a Strlngs (methods)
+3‘ Methods that modify the current (mutable!) String object. Example:
+Rust
+
+‘w “w 5 7 n-mp-w-mm“ ‘
+wiv'tlnHw ‘1H : n 11* r :1 w 1 ‘;35.1w>,5.‘::,.‘1‘:;t\.\1,5.;.:1:;n m;
+S.r>£uv~u‘1B'\;
+pgumv e1.“ ~ ‘*1.‘ v1“ w e; ‘1,smm,,§.LL.;‘1L,L.~L5.5.vimm.
+S.r'-,-'1~r">'\ZBB\I
+py-w-nnw“ w r ; 5 r; ‘hr : ‘1“,SJPm1‘,5.\'a'\a\"t,\>!‘5,55%"rm'H;
+5.[\.5hjt"\ 1;
+p;m1nn_“;»; H we,‘ e; Le; ‘we e; w“,§.1w\,5.L;‘;wdvr,w;,§.§.J;;.¢~ H;
+Keep in mind that reserve works M
+by adding the amount Of memory \en:3,napa¢iw:3,rexx:123, pn:0x1f19813b810
+t th . t. .t d t \en=3,¢apamv=13,lex(=123, pu=u><1f19313bsm
+0 _e QXIS lng C3935‘ Y (an no \en:3,capacitv:203,texﬁ:123, ptr:0x1f19313a1a0
+settlng the actual capaCIty), \en:6,capacity:103,\ext:123321,ptr10x1f19813a1a0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+g; Strlngs (methods)
+4. String concatenation
+— As a general way, use methods - or -
+- However, many programmers prefer to use + operator instead as it
+provides more insight into the operation.
+Rules:
+_@—
+5m"; + String Not possible
+String + slsxr String
+&str+ String Nut possible
+&str + as" No! possible
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:67**************
+g; Strings (methods)
+4‘ String concatenation‘ Example:
+l Z t ' 1 Heiio Rust
+i-m-iini i “ . ‘ii
+Let’s look under the hood and understand what‘s happening in this case.
+To do this, let's modify the example and add an extra operation. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+I
+Strlngs (methods)
+4‘ String concatenation. Example:
+Rust
+wmmW 1
+I 7 : F' :an “Hello"'v:
+L; : V + “ Rust";
+: ~ “ wurlll".
+m-mnnw“ , "1‘;
+\
+\ V "my: ram‘; hex-um: 1 r1; up‘; :nws v mun ma; nit “prawn rm; Din 01H
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:69**************
+g; Strings (methods)
+4. String concatenation‘ Example:
+So .“what happen ? Why has behaved like this ?
+In reality, in order for type A to capable of performing the add operation
+with type B, there is a trait that needs to be implemented for type A
+(called Add) defined for String as follows:
+#linllnel
+‘my . mid: ‘a l '1» l In reality, the add operation isquiledifferent
+.wtii t-Vi iii-.iiti i; (it is more similar toa+: operation, in the
+*
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+I
+Strings (methods)
+4‘ String concatenation. Example:
+This mean that the next two pieces of code are equivalent, and
+Rust Rust
+"lill'lll i “mi-iii l
+1 e ::;l'l'"'l "Hello" i; ' s t Frfiliil “Hello" i;
+. i ,
+will not compile as sis moved when first concatenation is performed.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:71**************
+g Strings (methods)
+4‘ String concatenation‘ Example:
+pub IFElt i
+tn (melt, :th & i r> ;
+i
+impl ‘OF One solution is to implement a function that
+7 behaves like other progiornining languages
+F E H, 1t: & o . .
+n let mut Josie“. 0.) > 0;‘ (C++,Java.e1c)vmtrais.
+5. (VJ;
+S
+i
+i
+Fri () i
+let s : : ( ‘lit ),
+let 52 1 5. K tn i )7 Output
+let 53 7 5> K“ t1"! i“), Hello Rus\,HeHo World
+printlnimszy (52) );
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+g; Strings (methods)
+4. String concatenation. Example:
+But why this behavior ?
+Why make I operator behave like I ?
+Well let’s analyze the performance of this operators:
+
+1, Ioperator implies (as a logic) that we have something like I and the result
+does not modify I or I. If this is the assumption, and we are working with
+strings, that this means that we need to allocate memory to store the results.
+
+2. I operators add the value to the current one. Depending on the capacity, this
+operation may NOT require a memory allocation.
+
+As a conclusion, I is faster than I (even if one might expect another behavior
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:73**************
+Strings iterators
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+- -
+Strings (iterators)
+
+Every string object has iterators (a way to iterate over a string and access
+
+its elements).
+
+iterates through aii characters irorh the string
+
+iterates thraugh aii characters tram the string
+
+iterates through aii lineslrom a strthg
+
+iterates thraughaii bvtesrrorh the string
+
+iterates overthe resuit oia spiit [based on a natterrr)
+
+iterates over the rirst "h" spirts (based on a patterhi
+
+Obtainslhe burierthattahtarhsthestrthgithattsrterahiei
+Returns a vector with ail bytes from the string [and moves
+ownership from the string object)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:75**************
+I
+Strlngs (methods)
+
+Example: count the number of vowels from a given string:
+Rust
+
+llmll'lll 1
+
+n :: ‘3' ll :: ‘9' ll :: ‘5' ll l Z: u,- ll l Z: ‘u’ .;
+w-l +7 1,
+
+pvjntlnlLKtring has V. l val-lug“);
+
+In this example 9 "c" is of type char
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+® Strings (methods)
+Example: count the number of vowels from a given string -) in this case
+we have created a function that receives a &str parameter.
+Rust
+in LLLHilialwiJljiLI mm to,» M
+c ',i'i'im"vi:i i
+c iic~w iiiﬁn iiiﬁ" ii1~w t:
+valelS +: 1;
+\‘rmvels
+in 5 : iii-imui mm ii ii i i.
+itir"i'itir'i‘i“i in i ii i ~>i ‘1mm we» ui'sw. '\'i;iii;
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:77**************
+a Strings (methods)
+In this example we try to count the number of vowels on even positions /
+indexes from the string,
+
+Rust
+vowels +7 1.
+itn iiijiini'i i
+lit 5 : >1,“in mi; ii ii n i i.
+;‘V‘;i'('lii‘i“i n i ii 1 ~>i ‘in - vii ii H.$‘Li\1"util"\‘i'1“1$>'l‘ with.“
+“c” in this case is a tuple (index,char).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+'
+Strlngs (methods)
+
+In this example we try to count the number of vowels on even positions /
+indexes from the string,
+Rust
+
+.mrlj +, 1;
+
+1% ‘1; ‘:‘z- K 2 ~ m as "'a‘ H 'hﬁ'e‘ H 'h"‘i' H t "My H \hﬁ'uW}
+We" o: 1:
+
+MCI! > j
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:79**************
+g Strlngs (methods)
+A more complex example that extracts the first number (in a &str format)
+from a given text‘
+rm (a a ) r> <5. > Output
+( Numberls Sume["123“}
+
+let mut Start: < > 7 Norm;
+m c ,1 g. () r
+H (.1 > m (.1 <: ‘r (
+w start. <> ( start 7 mummy); )
+) E150 r
+1r let So‘n(posistart) , start ( wtmr So“n(&:~[posistart.1.0:), }
+>
+r
+w let \rwﬂposistart) 7 SCBFQ r 'Ftl'rv Snr,=(&'»[DDs’Star‘t.,]); »
+“GHQ
+r
+r" 0 r
+println‘(“‘| rm r’ (=>), (“r r (,17\/Mrr~ r ‘w “n,
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+a Strlngs (methods)
+The next example splits a text into multiple lines:
+Ru“
+lvl midml l
+1m’ g : SLl-mgrl'mw: l H mm l lull r1: l l.
+llne silmwl ‘_l ‘ v ‘ _ Lme 1:\‘Welik€‘
+Pmltlv'lll lll“ 1 llnel l; Llﬂé 21>‘RUSICOUYSE'
+1 +7 1
+1 LlﬂE 3:)‘zt Fll l'
+line in this case is of &str type.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:81**************
+.
+Strings (methods)
+
+The .bytes() iterator iterates over the sequence of u8 values that form the
+string (for ascii string these values are equivalent to each character ASCII
+code).
+RUST
+
+'n' ' n .ihm'iili' ’ ’ ’ ’
+
+H print“ 3 i‘; 32,117,115,11s,
+
+LiFUlLlllH i,
+
+mr l m A-mu'i l
+
+pmiitli" a >1;
+
+ln this example (”R” has ascii code 82, "u" has ascii code 117, .H)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+I
+Strings (methods)
+
+The .bytes() iterator iterates over the sequence of u8 values that form the
+string (for ascii string these values are equivalent to each character ASCII
+code).
+RUST
+
+WM ‘ l :m-mnww ' Rust
+
+For ' 1n er'vii l
+
+in’, i m‘ ‘:lwrm l 27,191, 32,226,153,161, 32, 82,117,115,116, 32,
+
+pmntli" 3 ,“, iii;
+
+However, if a Unicode character is being use, the bytes will be different
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:83**************
+® Strings (methods)
+Split method also provide an iterator (that allows to iterate over the results).
+Rust
+w 5 Z F'o' ‘it with w H rt’ ; Andrei
+name 5.4mm ,“i t Dragos
+tritium: Mame‘ l. John
+v l‘ Mary
+| Alli
+We can also stop after a number of splits (using .splitn(...) method):
+M“ mm-
+wi llldlliLl i
+M 5 , i w will‘ (M; Andrei
+native 5.:p11m-ii3, ,“i ll Dragos
+platitlnuyinm i; John,Mar‘y,Ana
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+a Strings (methods)
+Method .into_bytes() [ ] can also be used to transfer the
+ownership of the list of bytes from a string to a Vector. One advantage to this
+option is that the list of bytes can also be changed.
+
+Rust
+iv iii bytes Z will; man;
+byteslﬁl e l1‘5';
+b byteS l
+mum ll , b u’ than
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:85**************
+I
+Strlngs (methods)
+
+Method —[ ] can also be used to transfer the
+ownership of the list of bytes from a string to a Vector. Keep in mind that “s”
+is no longer available after the .into_bytes() method is called.
+
+Rust
+
+‘J "a i “into tiltujl'l;
+plinth!‘ l " "\_ i
+I‘ lZVlTlFIELEE‘ hurt" or’ ll>rl1d .11» 5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+Strings coercion
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:87**************
+g; Strlngs (coeruon)
+Normally, Rust does not have implicit conversion between different types.
+This means that you need to explicitly convert an object of Type A into an object of
+Type B4 This is very different than how C++ behaves where specific cast operators for
+different coercions can be written, thus implicitly convert an object from one type to
+another.
+However, Rust has two traits called Derefand DerefMut, that can be used to coerce a
+reference of type I to a reference of type I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+g; Strlngs (coermon)
+
+String class has this trait implemented as follows:
+
+.. Z . .; t; i
+
+' #lJrilinel
+#[inliiie] and v 1am Mina ) V; a i i
+
+‘1,,- ~-i'& ids t 1' ’
+l l
+This means that as a general observation , any object of type &String and be coerced
+(converted implicitly) to a &str type.
+This is very useful when writing functions that don't need to change a String (for all of
+these functions we can define them using &str and used them with both String and
+&str parameters,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:89**************
+®
+Let's see an example:
+RMSI
+J H t; 7 a; Count1:3
+m V in Haw-m -: Count2:4
+1+ \ .: ‘9' as“ .-: ‘9' 1 H +: 1;;
+"w
+WW“, :
+m-mnwwcoum 1 : mmlnﬂm“ahr.12=;-,qu"\\;} .
+3 7 :,Frwvu“12~7~56"‘\:
+priv\t1n‘\_“(0urvt 2 : ‘7,,w:,:1;at5\ga,w,;
+‘y
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+®
+Let's see an example:
+RMSI
+,w t: * B; CGUMIIZ
+my V in Ham-7U -; [oun‘2:4
+1+‘ -: ‘0' as‘ ,.: ‘9' 1 H +: 1;;
+"W
+“WM (
+pmntlﬁWToth 1 : “, mmrjwww: “ahrJZBwyz'TN
+2 7 t‘Fr‘3rvvx“12~'~56"'\$ a
+Umlnwcmm z : ‘"1wt31ptw1syvu} w
+‘y
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:91**************
+g; Strings (coercion)
+In other words, for the previous example, the next instruction:
+- ( ,(ountidigits(&s));
+is equivalent to:
+. ( ,countidigitﬂs' 0));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+String range operations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:93**************
+g; Strings (range operation)
+Up to this moment, we have discussed about how strings can be used in Rust, but we
+have omitted one thing:
+
+This is because in Rust, this is not possible (or at least not via the index operator)‘
+More exactly, there is no index operator (-) defined for String or &str types.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+' '
+Strmgs (range operanon)
+Let's see some example:
+Rust
+ummw I‘
+: 7 : F'JHH“11~'~56""\;
+m : [a].
+\
+v‘ M h Z m.
+Notice that Rust clearly says that the trait lndex<(integer)> is not Implemented.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+g; Strings (range operation)
+So why accessing a string character via index is not possible in Rust?
+The actual reason is performance —) but in order to understand this we need to look
+on how Rust stores a string vs how other Celike languages store a string.
+C++ have multiple methods for storing a string:
+~ AsciiZ -) const char "
+- Ascii -) stdxstring and stdxstringiview
+~ UTF-8 -) std::u85tring and std::u85tring_view
+~ UCS-Z -) std::u16string and std::u165tringiview
+- UTF'32 -) std::u32stringand std::u32§tringiview
+For the purpose of this exercise, we will use UCS-Z variant (std::u165tring)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+E; Strlngs (range operation)
+Let's consider the string “-' written in UTF-8 (Rust) and UCS-Z (C++)
+um [Baum
+mm
+(5mm va av 101 32 zzs 1s: 151 32 114 117 11s 11s
+ch" w e e r u s t
+um mu
+c“
+(“55mm Dims av o 101 u sz o 97 as a: o 11o u 117 o 11s o 11s o
+Om w e v r u s t
+If we want to rend the 5"‘ character I '1’) how can we quickly find its position in these buffers ?
+' In Rust, the 5"‘ character (‘I') is located in the memory at offset I. However, there is no direct
+mathematical operation that allows us to compute that offset based on the index of the string,
+because there UTF-S implies that a character can have a size between 1 and 5 bytes. As such, we
+need to iterate through each characters from the first to the 5"‘ and sum up the size of each
+characters to get the actual offset of the 5“ charactec
+' This imglies O n comglexity.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:97**************
+E; Strings (range operanon)
+Let's consider the string “-' written in UTF-8 (Rust) and UCS-Z (C++)
+Rust
+(5mm va s7 m 32 zzs 1s: 151 32 m m us 115
+Chu w e u r u s t
+um mu
+c“
+(“5mm va av o 101 u sz o 91 as sz o m u m o 115 o us o
+Om w e v r u s t
+If w: want t0 rend the 5"‘ character I '1’) how can we quickly ﬁnd its position in these buffers ?
+' In C++, the ‘I character is located at offset -. However, in UCS-Z format, each character has 2
+bytes -) this means that if we multiply the index [5) with the size of the character (2) we will get the
+actual OWSet in the buffer 9 5 X Z 1 10
+- It also means we can compute this offset in 0(1 complexity
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+a; Strings (range operanon)
+
+Let's consider the string “-' written in UTF-8 (Rust) and UCS-Z (C++)
+
+um EEuu-uu-u
+
+M" awn s1 101 a: zzs 153 161 :2 114 11v 11s 11s
+
+(smug)
+Chu w e u r u s x
+
+um u
+
+c“
+
+(1115mm va av o 101 u sz o 91 as a: o 11o u 111 o 115 o 11s o
+Om w e v r 1 s x
+
+If we want t0 rend the 5"‘ character I '1’) how can we quickly ﬁnd its position in these buffers ?
+
+So
+
+' In Rust (UTFB) 9 0(n) complexity
+
+' In C++ (UCS-Z) —) 0(1) complexity
+
+Since Rust is focused on performance , the index operation is not allowed (this observation is
+
+based on the fact every programmers exgects 5(indexl to be gerform in 0(1) comglexity).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:99**************
+E; Strings (range operatlon)
+There are however several advantages to using UTFeS —the main one being that we
+can encode all Unicode characters in the smallest amount of sgace.
+
+It also implies that range operator can be tricky in some cases.
+Let's consider the previous exam le ”-” and assume we want to read a
+substring from index to index .
+
+“Yr-H M
+
+W“ an“ 57 101 22 225 1s: 161 22 114 117 11s 11s
+
+(String)
+
+Char w e v I u s t
+
+In reality this is not a v ' string (as it does not start at a valid position —) keep
+in mind that character ’ ‘starts at offset +3.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+Let's analyze the following code:
+Rust
+Hljliﬁl'l l
+Z , l mum-1e " rust“),
+‘l ,: a mush
+m-mmw ll“ w;
+thread MM a ‘M. 1m 4 M a my boundary; n ,5 mm v W“ 17.5) .1‘ w v
+mt ‘_ 1,mry\(m\m\§¢r\m.mm
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:101**************
+g; Strings (range operation)
+Let's analyze the following code:
+l r : s. i4- pair
+girvrtlnli“ lh-
+Whenever a string slice is created, rust checks its lower and upper boundaries [in this
+case 4 and 8) to see if they point to a start and end of a character ! If they not, a panic
+runtime error is thrown‘
+One thing that Rust guarantees is that and String 0! &str is a - UTF-8 string ! i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Strings (range operation)
+Rust also provides the following method for both String and &str types:
+15 my Mimi-1w“. . W = i r: Returnstrueifanindexisavalidchalactel
+boundary (start/end) , and false othevwisev
+The check is done in 0(1) as UTFeS relies on the 8"‘ bit from a byte to be used as a
+marker to extend a Unicode value.
+RMSF
+Wm i i
+' * 31¢“an “We 3‘ FuSt" i;
+pr‘iv\t1nii“l5 onset m a valid (m boundary: 1.13iiii'ii'17'jjv.Vi177'3.\4i'i;
+uiutlnwrs offset (a) a valid (m mevdarv: injbymi-men ,iSi i.
+Is offset 44) a valid char boundary: iaise
+ls offsetf ) a VEIId char boundary'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:103**************
+String formatting
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+g; String formatting
+Every language has a way of formatting a string based on a specific
+format representation. In Rust, there are several macros that can do
+this:
+
+- forma\!l”<format representation>”, parameters) —> buiids a String based on the provided
+format
+
+- print! / println!(”<format representation)", parameters) —) prints a formatted string to the
+standard output (optionally followed by a new iine)
+
+- epririt!/eprint|n!(”<format representation>”, parameters) —) prints a formatted string to the
+standard error (optionally followed by a new line)
+
+~ writel/writeln!(&mutaulpll!-type, "<f0rmat representation>", parameters) —> prints a
+formatted string to an output object
+
+As a concept —) string formatting is similar to printffunction from C language,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:105**************
+g; String formatting
+In Rust case, the "<format representation>” is a string where substrings between I
+and I characters have a special meaning and help formatting parameters. One way
+of seeing this type of format is:
+
+"H.(format for param1} (format for paramZ) (format for paramnle'
+Where parameters are provided after the format representation or can be place
+inside the string (similar to how -format from Python language works).
+Keep in mind that this is a descriptive way of looking into this representation, in
+reality things are a little bit more complicated ©
+Since I and I characters , Rust provide some sort of escaping rule (similar t0 the
+- from C language) where if you want to refer to the brackets character you can
+use I and I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+The .format can be represented by:
+
+(index)- Rererstc the parameter with a speciﬁc Index in the parameter list (positional
+parameter]
+
+(indexzspecifter) Reiers tci the pammeter with a speciﬁc index in the parameter list and a specifier on
+how to format the value is also provided [that can include other variables or special
+characters).
+
+(name) Reiers to the pammeter with a speciﬁc name in the parameter list. If there is NO
+such parameter, it refers to a variable withing local scope with the same name,
+
+(name :specifier} similar with (name) but with tarmat specifier
+
+() Empty format —) this could be seen as an interatur that points to the beginning of
+the parameter list, and each time it is being use it advances to the next parameter.
+
+(:specifier) Similarwith () but with format speciﬁer
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:107**************
+. -
+Stnng formattlng
+Let's see some examples using empty and named parameters:
+Rust
+1 : 1; a=1,b=Z
+1 * 2; 5:11;:2
+Dr‘)ntln.‘\‘_"a: , b: ‘,1; a:1,b:l
+printlnw'a: 1 , b: \ ",A; a:1,b:1
+pr‘intlr\.‘\'_"a: , , b: \, -, : b, \, : L1); a:Z,b:4
+pr‘i|'xf1nlk_'"a: , b: , a, ,‘ : w):
+pr"irvtlnl&"a= , b: .- + J, L‘ ‘ "v;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+. . .
+Strlng formattlng
+Let's see some examples using empty and named parameters:
+Rust
+l-
+println.‘ \LU In
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:109**************
+a Strlng formattlng
+Using aliases for different parameters could be tricky as Rust first interprets the
+alias an only after this is searches for a variable in the current scope. Let's analyze
+the following code: even ifvariables “a” and “b” exists, since there are some aliases
+for variable "c" into “a” and “b”, the program will not print the value of variable “a”
+and "b", but the value of variable ”c'l
+Rust
+
+let b : 22
+1» c : 1,-
+pr'intln!i“1jai,rlb;‘ 1 a:c, b:c,\;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+. String formatting
+Using an unknown name will result in a compiling error:
+Rqu
+pr‘intlnll'"ValuE of a is ii: ‘ 1“
+l :i wmmwimm r J 15 ii" 1i;
+Similarly, this type of formatting should not be confused with -f0rmat from
+python as it does not support in-string expressions:
+RIM!
+pr‘inflr\|i'_“Value of a is was"); r i w-mwmm a; a {ail-bl“:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:111**************
+We should also make sure that we provide the right number of arguments:
+Rust
+‘Z 5; 1. “WW v; - 1!
+println.‘\'_"Value of a is , "m; 1 \ WWW m“ n 1 1:. "hl'y'pn,
+, ‘ . . V
+or
+RIM’!
+rminU y Wm WWW Mm- m1
+1 Z 5: '1.- M" W ;~
+prﬁnfln'ﬂ'Value of a is ‘3.1m; 1 \ pnnthﬂﬂvalm J; a 15 UHmm:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+g; Stnng formattlng
+At the same time, keep in mind that using an argument with the I space will
+disable the requirement for that argument to be provided as an argument (in
+particular ifthat argument is a local variable within the scope)‘
+
+—
+printlnli'“ 1 1i‘ 1i 1 1 1 1; 1i primal-W“? = ,7 was).
+
+In this case, since we already used I variable in the format I there is no need to
+add it in the parameter list. As such, the second parameterforthe macro println! ls
+no longer needed and a compiler error will occur.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:113**************
+® Strlng formattlng
+
+Positional parameters can be used as follows:
+
+' The list of parameters starts from index 0. For example, if we are to use the
+following macro: format!(”r..”,a,b,c) then a is parameter with index O, b the
+parameter with index 1 and c the parameter with index 2.
+
+M mm-
++n mm 1
+1:7. a : 5; DlZ5VDZZ5rD3Z5P-4ZZ
+let b : 2; X:Z,y:7,z:5,t:7
+printinWH 1 rem‘; 191,»: l9 ‘rt 11 a, bi:
+pr‘intlr‘r‘£_‘ -7r1;,.7;z,,Jrermgzr“. a, b, a + m;
+
+Index Qarameters are useful when you want to Qrint the same variablelvalue
+
+multigle times and you don't want to duglicate it in the list of Qarameters.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+. - -
+String formatting
+If an empty parameter I is being used, it behaves like an iterator. |t is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only iterates over the parameter lists and does not affect the rest of
+the parameters.
+RuSt
+a : 5; P1:Z,pl:5rr13:5ru4:l
+s : l;
+printin! i_'“p1: 1 ,pz: ,pz: 0 ,p4: a, w;
+pr‘intlr\ll"a: ‘,h: ,c: ,a: 1 ,e: r, it, .- + v»;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:115**************
+- -
+Stnng formattlng
+If an empty parameter I is being used, it behaves like an iterator. |t is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only itera - - - -- -- ---- - ' --- n- not affectthe rest of
+the parameters..
+RUS!
+-) a
+n
+3+1;
+"a: r- c: ,a: 1 ,e: .r, it, .- + r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+- -
+Stnng formattlng
+
+If an empty parameter I is being used, it behaves like an iterator. |t is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only iterates over the parameter lists and does not affect the rest of
+the parameters.
+RUXI
+
+a
+
+-) n
+3+1;
+"a: .- ,h: a: 1 ,e: .r, it, .- + r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:117**************
+. . .
+Stnng formattlng
+If an empty parameter I is being used, it behaves like an iterator. |t is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only iterates over the parameter lists and does not affect the rest of
+the parameters.
+RUX!
+a
+n
+-) b
+"6:; 1b: ,c: ,a:1-', ,, ,. 3+
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+' - -
+Stnng formattlng
+String formatting works with constants as weH (does not need a variable).
+RUE!
+j : s; a:5,b:2,numbcr:lﬂ
+h Z 2; Astring:sometext
+pr‘intlr\|1_"a: ,b: ,numher‘: t, \t, 1m,- bvo\:\rue
+println!\"A string: ","some text"); (‘Bali-54
+pr‘int1n|\_"bool: 3;
+prjntlnH'Tloat: ‘31.5-1'»;
+J
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:119**************
+. String formatting
+Keep in mind that using string formatting implies using an immutable reference to
+the variables that are being used‘ If a mutable reference already exists, the
+compiler will trigger an error due to the ownership rules‘
+
+RuSl‘
+Harm r
+; : IZliiIilillllecl'li
+n+5"; Z X ; ur-rur-[EWWZ] rannwl WW t r1 immune have: it r1 <A>n
+pr'iritlnll"$1 ; J; 5r lav-17m: Emu! V V
+vr‘1ntln-‘\L"S 1 ".:>; 4 l m 51 Z “mt?§5§r§llli7ili,hwm {m WE
+‘ 5 i my; mum-w: r,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+® String formatting
+The width of a formatted text can be specified by a number after character : .lt is
+also possible to provide a named parameter that will serve as a width ofthe
+formatted text by using either a number or a position followed by character $. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+Rim
+m >< : 123; ><=lAe_o123|
+1m. w 9; x:iA»123|
+pr‘)ntlnli_“~:l izai “m; X:lAellil
+pr‘i|itlnl('“- lix:7l ‘i; x:l123l
+pr“i|itlnil“- i106; ‘,x); x:lA>123l
+prlntlnl l_“ -:l i :2l “.Xl; X:lAeWJBI
+printlnii“- lizni ‘mm; x:l‘123l
+pr‘)|itlr‘il\'_“-:l{:w‘5l ‘.xi;
+priritlnll'“- l i :widthiforixii l“,><,\~1iclthiforix:5i;
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:121**************
+®
+String formatting
+
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a width ofthe
+formatted text by using either a number or a position followed by character S. If
+the required width is smalle --- -- - - ’ - - -- - -- ext will NOT be
+truncat8d~ —
+Rust
+
+(' ‘means space)
+
+x = | 1 2 2 l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+®
+String formatting
+
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a width ofthe
+formatted text by using either a number or a position followed by character S. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+Rust
+
+Outputl' ‘means space)
+
+x : l 1 z 3 |
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:123**************
+®
+
+String formatting
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a width ofthe
+formatted text by using either a number or a position followed by character S. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+Rust
+
+Outnutl' ‘means snace)
+x : l 1 2 3 l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+. . .
+Strlng formattlng
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a width ofthe
+formatted text by using either a number or a position followed by character $. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+Rust
+_‘
+_
+X = | 1 2 3 l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:125**************
+® Stnng formattlng
+It is also worth mentioning that different types have different default alignments.
+For example, numerical types are by default aligned to the right, while string, char
+and bool are aligned to the left.
+Rust
+F” mimji l Output(‘>'|neans space)
+1-1 >< : 123; int :ligwglzal
+iv f : 1423; float =|>__H1t23|
+19L b : u Us; bool :ltrueuﬁl
+19; 5 Z “s fry; string =|AB£HHHw|
+1M c : char :lx»____,|
+prjntlnnlm fl {'81 “,x);
+pr‘int1r\li_‘ l1?’ 4pm ‘,fr;
+pfjrilelﬂllneiﬂil ll'Bl “,b);
+[:r‘1ntinl(“"t ww :l:.si “,s»;
+printlnlﬂ“ if lie,‘ “,c');
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:126**************
+® String formatting
+The default alignments can be changed by using the following special chars before
+the width value: < for left alignment, >er right alignment and " for center alignment.
+Rust
+Fn main(l y
+15% x Z 123; Output(‘>'|neans space)
+1w f : 1423; int :|A_W123|
+19L a : if we; int =|123HWJ
+let s Z “A ‘if; ﬂoat :|»1423_’|
+1M c : haul =l,,_j““el
+printlnnlm l{:18l ‘.X); string :IAABC___|
+pr‘intlr\li_" l1?’ :ll- s} ‘,fl; char‘ :IAWHHAXI
+prjntlnu“ i ll ll‘ Bi» ‘,n);
+pr‘)ntln!l“"f n“ :l118l ‘,s»;
+printlnlﬂ“ if l 11 .81 “,c'i;
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:127**************
+® String formatting
+
+Keep in mind that width sgecification does not truncate the data. That is , if the data
+
+that is to be displayed is bigger than the specified width, the width will be adjusted
+
+accordingly.
+
+tn imim'i l
+19L 5 : “i Until!‘ qr“; |Helln,worldl
+pi-mnnii ‘l 15:8; ‘ll; |Hello,wor1di
+pr‘intlr\ll_“l is: 8'; "l; IHelluMuPldl
+printlrili ‘l is: ~si ‘ji; |Hello.worldl
+printlnlt ‘l l5: at ‘l;
+
+l
+
+ln this case, the length of "Hello,World” string is 11 [and it is bigger than the proposed
+
+width of S). As such, Rust will use 11er the width.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+® Strlng formattlng
+When using align speciﬁers, it is also possible to provide a fill character just before
+the align specifiers < > ". In particular for numbers, if you add O in front of the with,
+this will be translated that O is a fill character.
+‘M’ Im-
+m rimnll l V
+1'» 5 ' “H11 lﬁ'mllﬂml
+l-rt x : 123; I lHEllmml
+pr‘intlﬂll_ ‘l 1sz 8: l “'r; l'Heno”l
+prjrvtln! t “l lSJLS'l l “); IBWBBlZZl
+printlnlil ‘l ls: 81M»; laoeeeusl
+prir'itlnl 1 “l ixza 3i l “1r;
+pr‘intlri!l“l{><:681 j»;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:129**************
+®
+String formatting
+When usingalign -- "- ' ' . n n ‘I - | a - n- . ' haracterjust before
+theatign specifie m I in front ofthe with,
+this will be transl . 5
+I
+ml ‘ VH9 | t D 7 V t
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+‘ . .
+String formatting
+When using align speciﬁers, it is also possible to provide a fill character just before
+the align specifiers III. In particular for numbers, if you add O in front of the with,
+this will be translated that O is a fill character.
+“"5’ MM-
+|aeeee1zal
+||00000123l
+.l g8 .l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:131**************
+g; Stnng formattlng
+Notice that to use a fill character you need to specify the alignment (with some
+exceptions like adding padding with 0 (zeros) a number). For example , the next
+example will not compile as we did not specify the alignment.
+
+‘1" i —
+lwlnﬂnllil “l ll;
+\ l
+‘ 3i Prlﬂllnlll'llzb ‘:11le
+In this example we have attem ted to use the characterlfor filling. The correct
+format should have been i - or -. /
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+g; String formatting
+There are however a set of special characters that can be used and have a
+special representation:
+
+- I -) to enforce the plus sign for positive numbers
+- |-) reserved
+- I -) for alternate representation
+~ or —> debug format
+- or m|m|—> hexadecimal format
+- or -) binary format
+~ or —)octal format
+~ 9 pointer
+' or I 9 exponent
+OBS: The difference between #x and x is that #x implies adding 0x prefix.
+Similarly, #b implies adding 0b format in front of a binary function.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:133**************
+' - -
+Stnng formattlng
+Let's see some examples where we enforce a special representation [with character I)
+RMA'!
+_ l 19; ><=\19
+, : QB; FBI?‘
+pr‘intlr\|1_"x:\ - "r,- X:\ +10|
+pr*jntlr\!r"x:\ - \"IH X=\ +19 |
+pr‘int1nh_'"x:\ , s \"r: x:\--+1e---|
+pr‘ir‘rtlr\!("><=\ -, a \"r; XZVZM
+pr‘1ntln!r"‘><:\ > 8 \"7:
+pr‘intlr\|1_"x:\ . \“r;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+®
+
+String formatting
+
+Le‘ -- ‘"- - --- - -- - - -- - eas ecial re resentation with character
+R .1 p p ‘ I’
+
+a a
+
+H
+I
+><=\»-+10»--|
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:135**************
+. - -
+Stnng formattlng
+Let's see some examples where we enforce a special representation [with character I)
+~ : 10; X=\1@|
+pr‘intlr\|1_“x:\ - I"): x:\a| or‘ x:\A|
+println!r"x:\ - \ or x:\ ~ ' I“); x:\e><a| or‘ XIIBXA‘
+pr‘int1r\|r_'“x:\ v - \ or x:\ ~ -, \“r; ><=\ BXAI
+pr‘jntlr\!("x=\ -, s‘ \"r; X:\e><aeaaaA\
+pmntln!r'“><:\ v as \"jr; x:\ ab1ele|
+pr‘intlr\|1_"x:\ - 19h \"3; x:\eb%29101e|
+pr*jrrtlr\!r“x:\ - alert |"\; x:\1012|
+pr‘int1n|\_“x:\ v r \“r; ><=\ 101e| or‘ ><=\eeaa101e|
+pr*jr‘rtlr\!("><=\ -, s- \ or" x=\ , ast- \"jl; x:\--a><A---|
+pr‘intln!r'“><:\ > S I");
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+®
+Stnng formattlng
+Let's see some examples where we enforce a special representation [with character I)
+R l
+“‘
+x= 12
+X:ra| or‘ X:rA|
+Fr - r or X:r t , |" Hexal or Haw
+x: ,1 - or x: a -, ~- r"
+X: t BXBGBBBM
+I
+I I
+"x" 0x
+><=\ 1010| or‘ X=\eaaa101e|
+X:\-»a><A---|
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:137**************
+. . .
+Stnng formattlng
+Let's see some examples where we enforce a special representation [with character I)
+R
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+®
+Strlng formattlng
+Let's see some examples where we enforce a special representation [with character I)
+R
+— 8 I
+i
+EH E B
+| x:\~0xA~'|
+\-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:139**************
+g; String formatting
+For floating number, there is a special format ‘I’ 0r 'I" that resemble the width
+format, where:
+
+- I could be a number (like 1,2, 20) representing the precision
+
+- I could also be name (followed by I sign) and in this case, a parameter with that
+name will be search in the arameter list and its value will be used for precision, One
+such example could be: ior — implying that pre: and profdigits must
+exists in the parameter list.
+
+' Icharacters means next argument from the parameter list‘ It is important to notice
+that for formats like - the order of processing the next argument is from right to
+left [meaning that first we will read a parameter that will reflect precision, and then
+the value/alias/variable that we want to display).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+® Strlng formattlng
+Let's see some examples with floats:
+
+let x : 1&0525; x:\10.1|
+1» y : 19.0; ><=\10‘062|
+pr'jntlnh“ *\~,><:.1j \“v; y:\1e,eaa|
+‘\V‘i77T1ﬂ‘\_'":‘X'.3‘H1; y=\HH18.BBB\
+prjntln! ( “ \‘y. .1‘ \“jl; y:\&&+1e.aao&aa|
+[1!‘lntln!\'“,:\,y28>3l\‘); x:\1e.es|
+printlrﬂﬂ“, \ y:"<1 +1231 ‘3; X=\10-%15\
+prjntln!\“»*\{x..9€1]'\‘,2'1; x:\1e,ee|
+WHHHMWA x'.p|‘ecisioﬂ‘$l \w precision : 4;; “MB-Bell
+pr‘jntlr\!(“» \‘x:. ‘M, 2'»;
+pmmlnn'“ :\,:.‘,;\“, a. x);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:141**************
+. .
+Strlng formattlng
+Let's see some examples with floats:
+Run —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+String formatting
+|_-' -- ...--....- .. ._-
+R —,
+i1-
+! I
+E
+x=|&&+10‘000&&&\
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:143**************
+®
+Strlng formattlng
+Let's see some examples with floats:
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+I I
+Strlng formattlng
+Let's see some examples with floats:
+Rust
+_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:145**************
+®
+String formatting
+Let's see some examples with floats:
+RMSI
+-
+I
+i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+Creating and updating strings
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:147**************
+Creatlng and updatmg stnngs
+There are several methods studied up to this moment to create a String object:
+' Using ‘toistringU method forvar'rous objects 1&str, number, etcl
+- Using String::fr0rn constructor
+~ Using format! macro
+M“ mm-
+rr-r mmm) r,
+1~t 51 : “\Ew‘ .toiktr'ingr"); 51:ABC
+1ft 52 : string::mjrzf-rg); 52:><vz
+rm 53 : 10.twiitr"mg‘l'); 53:10
+12L 5a : fumrrdle ‘r ‘81299); 54=:::99:::
+[:r‘1ntln!r"" $351»;
+printlnyﬂ“ ; ;»“,§2',»;
+pr'jntlnnhg 1;“.53);
+pr‘int1n'r_‘ J ;“,54'r;
+\
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+a Creating and updating strmgs
+However, when it comes to add something to a string, the methods provided are very
+few:
+
+~ Uslng ,pushistr method to add a &str object
+- Using ,push to add a character.
+But what ifwe want to udduformutted text ? One quick solution is to use the format!
+macro to build another string and add that string to the existing one‘
+Rust
+gr >< : 10;
+1m n 7 ow:
+r'ir‘1ntlnii ‘; 1‘ ,sl'i;
+I,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:149**************
+® Creating and updating strings
+However, using format! macro implies creating a new string and thus allocating memory
+for a string that serves only a temporary role‘ A better solution is to use anther macro
+write! that allows formatting directly within an already existing object.
+Rust
++1‘ mainly ‘1
+net "m 51 : “Ll? i‘.co;tmngii;
+1w >< : 12,-
+let b : n L11‘;
+r on’; : wiwusmir 51, ‘ vim‘ nib ‘,i r
+pruntlniﬂ'i‘, 51);
+r
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+®
+Creatlng and updating strings
+However, using - macro implies creating a new string and thus allocating memory
+for a strin that serves onl a tern orar role‘ A better solution is to use anther macro
+- that allows formatting directly within an already existing object.
+RuSl‘
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:151**************
+7
+Traits
+L
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+g; Traits
+All of these displayed properties are possible if certain traits/characteristics are
+implemented an object:
+
+Binary For alternative formative speciﬁc t0 vb
+
+Debug For when ? is being used iii (he format string. This is usually implemented via
+iiiuenveinebugi]
+
+Display riie detaiilt formatting for an object
+
+Lmuerixp For alternative fermative speciﬁc to tie
+
+memex For alternative formative SDeciﬁc t0 WK
+
+Ochl For alternative formative speciﬁc to tic
+
+Pointer For alternative formative speciﬁc t0 9p
+
+Uppeizxp For alternative formative speciﬁc m ii: (upper case s)
+
+UpperHe'n For alternative formative speciﬁc to ﬁx (upper case xi
+
+Write ‘i0 pruvide a WHY to write to a Stream
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:153**************
+/ Tralts
+Let's see a slightly more complex example (that will use two such traits).
+Output
+U59 std::+mt:'( , ); , , _
+obj:My object mth x : 223626311
+5mm t: X ) ubj=Hex view 47,44,5A,66
+impl For <
+Fn ($591‘, +, Emut std-‘huh: <3) V> std"+mt': ( )
+A‘
+impl for‘ (
+m ($52M, 4 &mut mum“ <2) > mum“ H
+)
+Frv (l ‘t
+let obj , ( XI BxS/I/M/U );
+printlrv‘( Lit} , Obj);
+prinmuw ﬂux)“, obj),
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:154**************
+g Tralts
+Let's see a slightly more complex example (that will use two such traits).
+Fn ($591‘, +, Emut std-‘huh: <3) V> std"+mt': ( )
+impl For {
+6n (mug +1 8mm: whim» VJ) V> “lump: (
+wrlte!(ﬂ “vw w‘ M . t ¢< U , Selfx)‘;
+Uk((1)
+)
+)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:155**************
+Let's see a slightly more complex example (that will use two such traits).
+m <&SElF, r: m“: SIGHWHKII 0)) r> 5m; mt‘: g
+
+write‘( a
+“ M ,m (:22x).(;91><) (IBZX)‘(:HZX}J
+selﬁx a m4) (selﬁx >> x) & em, (sum >>1;,)& nw,(§elm >> 1,) g axw
+>2,
+
+‘ W01
+m (Eself, 4 &mut mnmn <2) > mum“ H
+
+***************Ending Page***************
+
+ 

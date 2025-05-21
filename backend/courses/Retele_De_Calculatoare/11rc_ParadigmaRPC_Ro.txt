@@ -1,0 +1,793 @@
+***************Beginning Page***************
+***************page number:1**************
+Lenuta Alboaie (adria@info.uaic.ro)
+Andrei Panu (andrei.panu@info.uaic.ro)
+Reyele de calculatoare — hnps:llwww.inio.uaicJo/"computernetworks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cu prins
+- Remote Procedure Call (RPC)
+— Preliminarii
+— Caracterizare
+—XDR (External Data Representation)
+— Functionare
+— lmplementari
+— Utilizari
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:3**************
+Preliminarii
+' Proiectarea aplicatiilor distribuite
+— Orientata pe protocol — socket-uri
+° Se dezvolta protocolul, apoi aplicatiile care il
+implementeaza efectiv
+— Orientata pe functionalitate — RPC
+' Se creeaza aplicatiile, dupa care se divid in
+componente si se adauga protocolul de
+comunicatie intre componente
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+RPC | Caracterlzare
+' ldee: In Ioc de accesarea serviciilor la distanta prin
+trimiterea si primire de mesaje, clientul apeleaza o
+procedura care va fi executata pe alta masina
+' Efect: RPC "ascunde" existenta retelei de program
+— Mecanismul de message-passing folosit in
+comunicarea in retea este ascuns fata de
+programator
+— Programatorul nu trebuie sa mai deschida o
+conexiune, sa citeasca sau sa scrie date, sa inchida
+conexiunea etc.
+' Este un instrument de programare mai simplu decat
+interfata socket BSD
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:5**************
+RPC | Caracterizare
+
+' 0 aplicatie RPC va consta dintr-un client si un server,
+serverul fiind localizat pe masina pe care se executa
+procedura
+
+' La realizarea unui apel la distanta, parametrii
+procedurii sunt transferati prin retea catre aplicatia
+care execute procedure; dupa terminarea executiei
+procedurii rezultatele sunt transferate prin retea
+aplicatiei client
+
+' Clientul si serverul —> procese pe masini diferite
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+RPC | Caracterlzare
+- RPC realizeaza comunicarea dintre client si server prin socket-
+uri TCP/IP (uzual, UDP), via doua interfete stub (ciot)
+— Obs.: Pachetul RPC (client stub si server stublskeleton)
+ascunde toate detaliile legate de programarea in retea
+' RPC implica urmatorii pasi:
+1. Clientul invoca procedure remote
+' Se apeleaza o procedura locala, numita client stub care
+impacheteaza argumentele intr-un mesaj si i| trimite
+nivelului transport, de unde este transferat la masina
+server remote
+‘ Marshallirlg (serializare) : mecanism ce include
+cudificarea argumentelor intr-un format standard si
+impachetarea lur intr-un mesaj
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:7**************
+RPC | Caracterizare
+' RPC implica urmatorii pasi:
+2‘ Server-ul:
+- nivelul transport trimite mesajul catre server stub, care
+despacheteaza parametrii si apeleaza functia dorita;
+qupa ce functia returneaza, server stub preia valorile
+intoarse, le impacheteaza (marshal/ing) intr-un mesa] si
+Ie trimite Ia client stub
+\ un-marshulling (deseriulizare) = decodifica re
+3‘ Clientstub preia valorile primite si Ie returneaza aplicatiei
+client
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+- ans v '
+‘M 2m s" RPClCaracterlzare
+mling ulld
+m“ "5"“ PM“ ~ lnterfetsﬂe ciot implementeaza
+anﬂl Prncldure Call prOlOCOHJI RPC
+_ _ _ _ _ _ _ _ _ _ _ ~ Diferente fata de apeluﬂ locale:
+mm 5m‘, — Performanta poate fi afectata
+‘,qu an‘, de timpul de transmisie
+W“ “M” - Tratarea erorHor este mai
+vamellls Ila-mm complexa
+um mm‘ — Locatia server-ului trebuie 5a
+air-nan snmsm ﬁe cunoscuta (ldentiﬁcarea si
+mm mat accesarea procedurii la
+"‘W m “MM distanta)
+u
+“a: mm: — Poate ﬁ necesara
+Ruiv mum autentificarea utilizatorilor
+mags was
+‘MHNHMMMP
+mummmm§abmmm n‘
+mm: Proudur: Call i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:9**************
+RPC | Caracterizare
+
+° Procedurile ciot se pot genera automat, dupa care se
+"leaga” de programele client si server
+
+° Ciotul serverului asculta la un port si realizeaza
+invocarea rutinelor printr-o interfata de apel de
+proceduri locale
+
+~ Clientul si serverul vor comunica prin mesaje, printr-o
+reprezentare independenta de retea side sistemul de
+operare:
+External Data Representation (XDR)
+
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:10**************
+RPC | Caracterizare
+' External Data Representation (XDR)
+XDR defineste numeroase tipuri de date si modul lor
+de transmisie in mesajele RPC (RFC 1014)
+— Tipuri uzuale:
+' Preluate din C: int, unsigned int, fluat, double, void”,
+' Suplimentare: string, fixed-length array, variable-length
+array,
+— Functii de conversie (rpc/xdr.h)
+' xdrmemicreateo — asociaza unei zone de memorie un
+flux de date RPC
+- xdr_numet/'p() — realizeaza conversie datelor
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:11**************
+RPC | Caracterlzare
+- External Data Representation (XDR)
+Exemplu
+#include (rpc/xdr.h>
+#define BUFSIZE 400 /* lunqimea zonei de memorie */
+/* conversia unui intreq in format XDR */
+XDR *xdrm; /* zone de memorie XDR */
+char buleUFSIZE] 7
+int intreq;
+xdrmem_create 1xdrm, buf, BUFSIZE, XDR_ENCODE)7
+intreg = 33;
+M's-in‘ 1xdrm, ‘intrew 7 Inlocuit Ia celalalt capat a]
+‘ ‘ ‘ comunicatiei cu XDR_DECODE
+11
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+RPC | Caracterizare
+' External Data Representation (XDR)
+— Poate fi vazut ca nivel suplimentar intre nivelul
+transport si nivelul aplicatie
+— Asigura conversia simetrica a datelor client si
+server
+Procesul A - Procesul B
+XDR Encode/Decode - XDR Encode/Decode
+Transport Transport
+55515;; $51171;
+Regele de calculatuare — hnps:l/www.info.uaic.m/"cumputemetwnrks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:13**************
+RPC | Caracterizare
+External Data Representation (XDR)
+' Activitatea de codificare/decodificare
+Expe- T” “H24 "W m Des“-
+d itor i“: "W 3;?’ natar
+' In prezent, poate fi inlocuit de reprezentari XML—
+RPC sau SOAP sau JSON»RPC (in contextul
+serviciilor Web) Q
+’ vezi cursul de Tehnologii Web!
+u
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+RPC | Functionare
+COﬂlExt:
+' Un serviciu d2 retea este identiﬁcat de perm‘ ‘a care exista un duEmDn
+asteptand cereri
+' Programele server RPC folosesc porturi efemere
+‘ De undé Slie clientu‘ undé 58 trimila cererea?
+Portmapper : serviciu de retea responsabi‘ cu asocierea de servicii la difente
+porturi
+:> Numerele de port pentru un anumit serviciu nu sum fixe
+- Esta dispom'bH \a portw 111 (well-known port)
+_
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+RPC | Functlonare
+Mecanism Client Machine Server Machine
+general Portmappﬂ
+pun c
+pun b
+Client pun a Server
+Program Program
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+RPC | Functionare
+
+Mecanism general:
+
+Pas 1: Se determina adresa Ia care serverul va oferi serviciul
+— La initializare, serverul stabileste si inregistreaza via
+
+portmapper portul Ia care va oferi serviciul (portul a)
+
+Pas 2: Clientul consulta partmupperiul de pe masina
+serverului pentru a identifica portul la care trebuie 5a
+trimita cererea RPC
+
+Pas 3: Clientul si serverul pot comunica pentru a realiza
+executia procedurii la distanta
+— Cererile si raspunsurile sunt (de)codificate prin XDR
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+Cienl Mum-g Sever lhﬂlill: _
+gm m1‘ RPCIFunctlonare
+09m“ m"
+Iisknirlg
+imk ' Atunci cand un server
+m“ furnizeaza mai multe
+, , servicii, este de obicei
+displthsclvm: . .
+wmdule folosna o rutlna
+dispatcher
+""‘M $5312": - Dis archeriul
+waiting p
+identifica cererile
+specifics si apeleaza
+Itqust
+wmpk'ki procedure
+gym“ corespunzatoare,
+dupa care rezultatul
+este trimis inapoi
+clientului pentru a-si
+Wmmuww continua executia
+mmmmmmwr
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+RPC | Functlonare
+~ Transferurile de date RPC pot fi:
+— Sincrone
+— Asincrone
+Chent Wan 1w resuk one": Wan In! acceptance
+CaH remme \\ u Return CaH remwle \ / Return
+procedure \ j from caH momma \\ ,1 From call
+\ / \ /
+\ /
+\ Re uesl \ / Acce tle nest
+Server cinmi'procedwe Tlme + Server Call \ocal procedure Tlme +
+and return re5uk5
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+RPCI Implementare
+' Open Network Computing RPC (ONC RPC) r cea mai raspandita
+irnplernentare in mediile Unix (Sun Microsystems]
+— RFC 1057
+— lnterfata RPC este structurata pa 3 niveluri:
+~ Superior: independent de sistem, hardware sau retea
+— Exemplu: man rcmd r> routinesfnr returning a stream to u
+remote command
+' lntermediar: face apel la functiile deﬁnite de biblioteca RPC:
+- registerrpco - Inregistreaza o procedura spre a putea ﬁ
+executala la distanta
+i callrpc()*ape|eaza o procedura la distanta
+i svcirunO — ruleaza un serviciu RPC
+- Inferior: da posibilitatea de a controla in detaliu mecanismele RPC
+lde ex. alegerea modului de transport al datelor etc.)
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+RPCI Implementare
+- Open Network Computing RPC (ONC RPC)
+
+i Procedurile la distanta se vur include intr'un program la distanta 7
+unitate software care se va executa pe o masina la distanta
+
+i Fiecare program la distanta corespunde unui server: putand
+contine proceduri la distanta + date globale; procedurile pot
+partaja date comune;
+
+— Fiecare program la distanta se identifica printr-un identificator unic
+stocat pe 32 biti; Conform implementarii Sun RPC avem
+urmatoarele valori ale identificatorilor:
+
+' 0x00 00 00 00- OxlF FF FF FF — aplicariHe RPC ale sistemului
+- 0x20 00 00 00- 0x3F FF FF FF — programele utilizator
+
+- 0x40 00 00 00 i OXSF FF FF FF i identificatori temporari
+
+- 0x60 00 00 00 — OxFF FF FF FF — valori rezervate
+
+— Fiecare procedura (din cadrul unui program] este identificata
+irintr-un index 1..n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:21**************
+RPCI lmplementare
+' Open Network Computing RPC (ONC RPC)
+Exemple:
+' 10000 meta-Serverul portmupper
+' 10001 pentru rstatd care ofera informatii despre sistemul
+remote; se pot utiliza procedurile rstat() sau perfmeteﬂ)
+' 10002 pentru rusersd ce furnizeaza informatii despre
+utilizatorii conectati pe masina la distanta
+' 10003 serverul nfs — ce ofera acces Ia sistemul de fisiere in
+retea NFS (Netwark File System)
+11
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+RPCI lmplementare
+' Open Network Computing RPC (ONC RPC)
+Fiecare program Ia distanta are asociat un numar de versiune
+~ Initial versiunea 1
+l' Urmatoarele versiuni se identifica in mod unic prin alte
+r numere de versiune
+\~ Se ofera posibilitatea de a schimba detaliile de
+implementare sau extinderea capabilitatilor
+aplicatiei fara a asigna un alt identificator unui program
+Un program Ia distanta este un 3-uplu de forma:
+<id_Program, versiune, index_procedura>
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:23**************
+- Open Network Computing RPC (ONC RPC)
+Programare @Finwinluué'c Orﬁmv
+I A Freq-D (Modlfled) {5) } Row 18 Col
+de nivel nth-.11“: :rp:.‘rp-:.n>
+ﬂlnl'lqu Catrlnng
+- . mum‘: :rpmwyruwnm,
+lnalt. ﬂlnrluzf: iatdladl:
+1m 'nalnunt Eur, that ¢ inf-W!‘
+1m; nrl'a-zra;
+1f \31‘;2‘:;\1 2
+1f \lnrfsérs=rusérs \3CJ"U] \ \ul: \i l-
+!!Iinl::'\"5unc id 11121112312331 I": 'nialni %S‘-\n"|
+“tail-5, Rpm‘,-
+921th: \ r
+i : 4 — v —
+Com lare cc r0 c Ir cs c o r0
+Executie: ./progfenrir.1nfoiasi.ro
+Regele de calculatuare — h“p5:llwww.info.uaic.m/"cumputemetwurks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+RPCI lmplementare
+' Open Network Computing RPC (ONC RPC)
+Programare Ia nivel intermediar:
+callrpc (char *host, /* numele serverului */
+u_|ong prognum, /* numarul programului server */
+u_|0ng versnum, /" numarul de versiune a serv."/
+Apelata u_long procnum, /* numarul procedurii *l
+‘d8 xdrproc_t inproc, /* fol‘ pentru codificare XDR*/,
+cllentul char *in, /* adresa argumentelor procedurii*/,
+RPC xdrproc_t outproc, /* fol‘ pentru decodificare */,
+char *out, /" adresa de plasare a rezultatelor*/
+);
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+RPCI lmplementare
+' Open Network Computing RPC (ONC RPC)
+Programare Ia nivel intermediar:
+registerrpc(
+u_|ong prognum /* numarul programului server */,
+u_|ong versnum /* numarul de versiune a serv*/,
+Apelata u_|ong procnum /* numarul procedurii */,
+de void *(*procname)*()/* numele functiei remote */,
+Serverul xdrproc_t inproc /* fol. pt, decodificarea param, */,
+RPC xdrproc_t outproc /* fol. pt. codificarea result. */
+);
+15
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+RPCI lmplementare
+' Open Network Computing RPC (ONC RPC)
+Programare Ia nivel intermediar:
+svc_run ()
+Apelata de serverul RPC,
+re rezinta disatcher-ul
+- Se asteapta venirea de cereri RPC, apoi se apeleaza folosindu-
+se svc_getreqﬂ procedura curespunzatuare
+Obs.: Functiile de nivel intermediar utilizeaza doar UDP
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+RPCI lmplementare
+' Open Network Computing RPC (ONC RPC)
+Programare Ia nivel inferior:
+5. Run procedure 1 wilh
+parameter: "DXl8A6BMSFD"
+Cl’ t — S 1. Creme anunbnund socket
+'2“ 4_ P a. Result is: "Ox63CO" emf (assigned p01\=11293)
+J- p 0"’ .
+ls pill/,1. ‘ It‘ , 2. Register: program 0x35430000
+"£13:ng ‘ "a; I verslonl is running on pott11293
+Ov'kxy, 0/1,
+543'011", . 129
+010,11’;
+[mkmmmm
+my m“, W mp]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+RPCI lmplementare
+~ Open Network Computing RPC (ONC RPC)
+Realizarea de aplicatii RPC cu rpcgen
+' Se creeaza un fisier cu specificatii RPC (Q.X)
+— Declaratii de constante utilizate de client si server
+— Declaratii de tipuri de date globale
+— Declaratii de programe la distanta, proceduri, tipuri
+de parametri, tipul rezultatului, identificatorul unic
+de program
+- Programul servervc care contine procedurile
+~ Programul client.c care invoca procedurile
+Pentru server: gcc sen/em Q_svc>c Q_><dr.c —o server
+Pentru client: gcc clientc Qiclnt.c Qixdnc *0 client
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:29**************
+RPCI lmplementare
+
+' Open Network Computing RPC (ONC RPC)
+
+In implementarea unei aplicatii RPC se utilizeaza utilitarul rpcgen
+- Genereaza client (’_—
+
+stub si server stub ' I“ one,“
+» Generaza functiile
+
+de codifica re si QM,“
+
+decodificare XDR
+~ Genereaza rutina m Server
+
+dispatcher
+
+MW WW.»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Climlimﬂ ﬁlm ml tnhﬁmuhl'u.
+On nllpmqnm User manned all, ww-"W-mmi 5'“
+m ‘ (bmdonhellu m]
+h-Llcl.<
+“u: ><
+muem
+m WW Mm“ A»
+m.
+1-..u=,=nm.=
+mu 4b , mum‘ .=
+Tl», nu wnlau: a“
+hm.mm:....=-.°..
+mnu "mm
+plugs)“ - mm "m
+n» "u “mum a" -
+Mm: “Luna
+5mm"
+[\msrprucsss Cummumcamns m LINUX‘ 1.5 Guy]
+in
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:31**************
+RPC | lmplementare
+1n: malnk 2
+(
+QIJIATfL )Z
+1f (pnnlmna L >>
+gxln:f( > F
+pr)n:£( ) F
+Y
+1n: pnnlrmnm >
+(
+recurn pr)nif( H
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+RPC | lmplementare
+prcqram 1315;175:ch c
+I adrla Thar IQqun *C h€llc x
+l adrla T1121‘ 15 7a)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:33**************
+RPC | lmplementare
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+1 A hello server.13 (1:) Row 1 Col 1 10:02 mm H m help
+aim-1m 13ml.»
+aim-1m "11211:.11"
+1m: '
+pnmjmlvyzmm ' 511w, scrum: Twit-3; ' 1-3;,‘ 1
+mm m :k;
+:k Z ptlnana-zFWn: = “311:, “1-1;. nv-M-
+return ‘uh;
+WWW“
+Cuwvvmmcah
+ansmumlx.
+AS Gray]
+Regele de calculaware — h“ps:llwww.info.uaic.m/"cumputemetwurks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+1.11: We 71W.“ e1
+1171111 1-711 w» 1'1;
+111111 z ‘I; 111 enmeee;
+111111 z _=; 111 Fczzwl;::;
+1:11:11 V _=; 555:1 =11:
+111111 V it; 11m 52:11
+=- —
+qcc hellciclleni.c hellciclni.c e: cll€ni
+gcc nellcjervere hencjvce e: server
+Jaerver
+117171 j 1e, I17 1111:1147
+717171 1 .11 '1' 14111:“;
+71:1;1 1 .11 1w; 1 1'11
+71:1;1 1 =71. 1111' 1717111
+1,111; 1 L11 1'11’
+up»; 1 :71 :::;
+1am :"zx hem-V 12' 1 1 1
+em: (417111) 111:2);A.
+- me mnn ewmrwe
+edne :11“ ./server
+server = 11e11=, wcrld.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+RPCI lmplementare
+I Alte implementari:
+
+— DCE/RPC (Distributed Computing Environment/RFC)
+I Alternative la Sun ONC RPC
+I Utilizat side serverele Windows
+
+— ORPC (Object RPC)
+. Mesajele de cerere/raspuns la distanta se incapsuleaza in obiecte
+I Descendanti directi:
+I (D)COIVI (Distributed Component Object Model) & CORBA
+
+(Common Object Request Broker Architecture)
+
+I In Java: RMI (Remote Method Invocation)
+I .Net Remoting , WCF
+
+i SOAP (Simple Object Access Protocoi)
+I XML ca XDR, HTTP ca protocol de transfer
+I Baza de implementare a unei categorii de servicii Web sh
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+RPCI Utilizari
+- Accesul la fisiere la distanta NFS (Network File System)
+— Protocol proiectat a ii independent de magi, Sister" de operare 5i de
+protocm — implementat peste RPCI conv tia XDR)
+- Protocol ce permite partajare de ﬁsiere in retea :> NFS ofera acces
+transparent clientilor la fisiere
+~ Obs; Diferit fate de FTP [vezi curs anterior)
+— lerarhia de directoare NFS fobseste terminologia UMX (arbore, director,
+cale, fisier etc.)
+i NFS este un protocol => client - nfs , server-nfsd comunicand prin RPC
+— Mudelul NFS
+‘ Operatii asupra unuiﬁsier la distanta: operatii l/O,
+create/redenumire/Stergere, Stat, listarea intrarilor
+~ Comanda mount - speciﬁca gazda remote, sistemul de ﬁsiere ce
+trebuie accesat si unde trebuie sa fie localizat in ierarhia locala de
+ﬁsiere
+— RFC 1094
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+RPCI Utlllzarl
+' Accesul la fisiere la distanta NFS (Network File System)
+— Este transparent pentru utilizator
+— Clientul NFS trimite o cerere RPC serverului RPC, folosind
+TCP/IP
+~ Obs.: NFS a fost folcsit predominant cu UDP
+— Serverul NFS primeste cererile la portul 2049 si le trimite la
+modulul de accesare a fisierelor locale
+Obs.: Pentru deservirea rapida a clientilor, serverele NFS sunt in
+general mum-threading sau pentru sisteme UNIX care nu sunt
+multi-threading, se creeaza si raman in kernel instante multiple a
+procesului (nfsd-uri)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:39**************
+RPCI Utlllzarl
+:"""" """""" """""". I"""""""""""""""""".
+I I I
+l NFS - : NFS Local ﬁle -
+E :ggzealsgle client i 5 sewer access i
+i 5 5 Port 2049 :
+5 TCP/UDP 5 5 TCP/UDP i
+5 IF‘ 5 5 lP 5
+i client kernel i 5 sewer kernel i
+L------ ..._............... ...._...| ....... ..._................. .._...|
+Figura: Arhileclura NFS
+39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+RPCI Utilizari
+' Accesul la fisiere Ia distanta NFS (Network File System)
+
+— [0] este pornit partmapper-ul la bootiarea sistemului
+
+— [1) daemonul mountd este pornit pe server; creeaza end-point-uri
+TCP si UDP, le asigneaza porturi efemere si apeleaza la portmupper
+pentru inregistrarea lor
+
+i (2) 5e executa comanda mount si 5e face o cerere la portmupper
+pentru a obtine pcrtul serverului demon de mount
+
+i (3) port/ﬂapper-ul intoarce raspunsul
+
+— [4152 creeaza o cerere RPC pentru montarea unui sistem de ﬁsiere
+
+— [5) serverul returneaza unfi/e handle pentru sistemul de fisiere
+cerut
+
+— [6] Se asociaza acestuiﬂls handle un punct de montare local pe
+client (file handle este stocat in codul clientului NFS si orice cerere
+pentru sistemul de fisiere respectiv va utiliza acestﬁ/e handle)
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:41**************
+RPCI Utlllzarl
+' Accesul Ia fisiere la distanta NFS (Network File System)
+— Procesul de montare (protocolul mount)
+' Pentru ca un client sa poata accesa fisiere dintr-un sistem
+de fisiere, clientul trebuie sa foloseasca protocolul mount
+Proces utilizator
+comanda port mapper —
+mmmoum (1) lnregls! = re daemon
+system > (ZlGet port
+a|!'""""' ' "1 PCreque :"" """"""""""' """" "i
+\ : : :
+NFS ‘ - -
+E rt (RPC Iay) i
+I I I l
+L_____._____._____.._5 ‘"2 ‘“'1'!’_€!§K§_'§€P'?Yl_;.____.._____._____.___=
+Figura: Prolocoml mount utilizal de
+dweclnrdﬂ De server comanda "IOU". 41
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Rezumat
+- Remote Procedure Call (RPC)
+— Preliminarii
+— Caracterizare
+—XDR (External Data Representation)
+— Functionare
+— lmplementari
+— Utilizari
+—
+
+***************Ending Page***************
+
+ 
