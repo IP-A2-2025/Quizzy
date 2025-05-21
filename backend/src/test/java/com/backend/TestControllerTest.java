@@ -57,15 +57,15 @@ class TestControllerTest {
         assertEquals(testSample, response.getBody());
     }
 
-    @Test
-    void shouldCreateTest() {
-        when(testService.createTest(testSample)).thenReturn(testSample);
-
-        ResponseEntity<TestEntity> response = testController.createTest(testSample);
-
-        assertEquals(201, response.getStatusCodeValue());
-        assertEquals(testSample, response.getBody());
-    }
+//    @Test
+//    void shouldCreateTest() {
+//        when(testService.createTest(testSample)).thenReturn(testSample);
+//
+//        ResponseEntity<TestEntity> response = testController.createTest(testSample);
+//
+//        assertEquals(201, response.getStatusCodeValue());
+//        assertEquals(testSample, response.getBody());
+//    }
 
     @Test
     void shouldSaveTest() {

@@ -1,11 +1,13 @@
 package com.backend.service;
 
+import com.backend.dto.TestDTO;
+import com.backend.mapper.TestMapper;
 import com.backend.model.TestEntity;
-import com.backend.model.User;
+import com.backend.repository.CourseRepository;
 import com.backend.repository.TestRepository;
+import com.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,14 +16,19 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
+
 @Service
 public class TestService {
 
     private final TestRepository testRepository;
+    private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TestService(TestRepository testRepository) {
+    public TestService(TestRepository testRepository, CourseRepository courseRepository, UserRepository userRepository) {
         this.testRepository = Objects.requireNonNull(testRepository, "TestRepository must not be null");
+        this.courseRepository = Objects.requireNonNull(courseRepository, "CourseRepository must not be null");
+        this.userRepository = Objects.requireNonNull(userRepository, "UserRepository must not be null");
     }
 
     @Transactional
@@ -32,21 +39,15 @@ public class TestService {
     }
 
     @Transactional
-    public TestEntity createTest(TestEntity test) {
+    public void createTest(TestDTO testDto) {
+        TestMapper testMapper = new TestMapper(courseRepository, userRepository); // Need to inject these dependencies
+        TestEntity test = testMapper.toEntity(testDto);
+
         Objects.requireNonNull(test, "Test entity must not be null");
         if (test.getId() != null) {
             throw new IllegalArgumentException("New test must have no ID");
         }
-        User creator = test.getProfessor();
-        if (creator == null) {
-            throw new IllegalArgumentException("Test must have an associated professor/admin");
-        }
-        String role = creator.getRole();
-        if (!("PROFESOR".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role))) {
-            throw new AccessDeniedException("Only professors or admins can create tests");
-        }
-
-        return saveTest(test);
+        saveTest(test);
     }
 
     @Transactional(readOnly = true)

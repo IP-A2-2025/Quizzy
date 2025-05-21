@@ -1,12 +1,20 @@
 package com.backend.controller;
 
+import com.backend.dto.LoginResponse;
+import com.backend.dto.TestDTO;
 import com.backend.model.TestEntity;
 import com.backend.service.TestService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Date;
 
@@ -15,6 +23,8 @@ import java.util.Date;
 public class TestController {
 
     private final TestService testService;
+    private static final Logger logger = LoggerFactory.getLogger(TestController.class);
+
 
     @Autowired
     public TestController(TestService testService) {
@@ -31,11 +41,29 @@ public class TestController {
         return ResponseEntity.ok(testService.getTestById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<TestEntity> createTest(@RequestBody TestEntity test) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(testService.createTest(test));
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
+                consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TestEntity> createTest(@Valid @RequestBody TestDTO testDto) {
+        logger.info("Attempting to create new test");
+        try {
+            testService.createTest(testDto);
+            logger.info("Test created successfully with ID: {}", testDto.getId());
+            return ResponseEntity.ok(new TestEntity(
+                    null,
+                    null,
+                    "Test added successfully",
+                    null,
+                    null,
+                    null,
+                    null
+            ));
+        } catch (Exception e) {
+            logger.error("Failed to create test: {}", e.getMessage());
+            throw e;
+        }
     }
 
+    //ASTA NU CRED CA ARE CE CAUTA AICEA ;-;
     @PostMapping("/save")
     public ResponseEntity<TestEntity> saveTest(@RequestBody TestEntity test) {
         return ResponseEntity.status(HttpStatus.CREATED).body(testService.saveTest(test));
