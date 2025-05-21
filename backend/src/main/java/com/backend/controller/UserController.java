@@ -274,27 +274,4 @@ public class UserController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    // === STREAK ENDPOINTS ===
-
-    // GET /users/streak?userId=X
-    @GetMapping("/streak")
-    public ResponseEntity<List<Streak>> getUserStreaks(@RequestParam Integer userId) {
-        List<Streak> streaks = streakService.getStreaksByUserId(userId);
-        return ResponseEntity.ok(streaks);
-    }
-
-    // POST /users/streak?userId=X
-    @PostMapping("/streak")
-    public ResponseEntity<String> updateUserStreak(@RequestParam Integer userId) {
-        streakService.updateStreakForUser(userId);
-        return ResponseEntity.ok("Streak actualizat pentru utilizatorul cu ID: " + userId);
-    }
-
-    // GET /users/streak/latest?userId=X
-    @GetMapping("/streak/latest")
-    public ResponseEntity<Streak> getLatestUserStreak(@RequestParam Integer userId) {
-        return streakService.getLatestStreakForUser(userId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
 }
