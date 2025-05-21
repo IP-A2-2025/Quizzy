@@ -1,6 +1,6 @@
 package com.backend.controller;
 
-import com.backend.model.TestEntity;
+import com.backend.dto.TestDTO;
 import com.backend.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,28 +22,28 @@ public class TestController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<TestEntity>> getAllTests() {
+    public ResponseEntity<Collection<TestDTO>> getAllTests() {
         return ResponseEntity.ok(testService.getAllTests());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TestEntity> getTestById(@PathVariable Long id) {
+    public ResponseEntity<TestDTO> getTestById(@PathVariable Long id) {
         return ResponseEntity.ok(testService.getTestById(id));
     }
 
     @PostMapping
-    public ResponseEntity<TestEntity> createTest(@RequestBody TestEntity test) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(testService.createTest(test));
+    public ResponseEntity<TestDTO> createTest(@RequestBody TestDTO testDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testService.createTest(testDTO));
     }
 
     @PostMapping("/save")
-    public ResponseEntity<TestEntity> saveTest(@RequestBody TestEntity test) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(testService.saveTest(test));
+    public ResponseEntity<TestDTO> saveTest(@RequestBody TestDTO testDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testService.saveTest(testDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TestEntity> updateTest(@PathVariable Long id, @RequestBody TestEntity test) {
-        return ResponseEntity.ok(testService.updateTest(id, test));
+    public ResponseEntity<TestDTO> updateTest(@PathVariable Long id, @RequestBody TestDTO testDTO) {
+        return ResponseEntity.ok(testService.updateTest(id, testDTO));
     }
 
     @DeleteMapping("/{id}")
@@ -53,57 +53,57 @@ public class TestController {
     }
 
     @GetMapping("/professor/{professorId}")
-    public ResponseEntity<Collection<TestEntity>> getTestsByProfessorId(@PathVariable Integer professorId) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByProfessorId(@PathVariable Integer professorId) {
         return ResponseEntity.ok(testService.findTestsByProfId(professorId));
     }
 
     @GetMapping("/course/{courseId}")
-    public ResponseEntity<Collection<TestEntity>> getTestsByCourseId(@PathVariable Long courseId) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByCourseId(@PathVariable Long courseId) {
         return ResponseEntity.ok(testService.findTestsByCourseId(courseId));
     }
 
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<Collection<TestEntity>> getTestsByStudentId(@PathVariable Integer studentId) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByStudentId(@PathVariable Integer studentId) {
         return ResponseEntity.ok(testService.findTestsForStudentEnrollments(studentId));
     }
 
     @GetMapping("/upcoming")
-    public ResponseEntity<Collection<TestEntity>> getUpcomingTests() {
+    public ResponseEntity<Collection<TestDTO>> getUpcomingTests() {
         return ResponseEntity.ok(testService.findUpcomingTests());
     }
 
     @GetMapping("/byDate")
-    public ResponseEntity<Collection<TestEntity>> getTestsByDateRange(@RequestParam Date start, @RequestParam Date end) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByDateRange(@RequestParam Date start, @RequestParam Date end) {
         return ResponseEntity.ok(testService.findByDateBetween(start, end));
     }
 
     @GetMapping("/byTitle")
-    public ResponseEntity<Collection<TestEntity>> getTestsByTitle(@RequestParam String title) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByTitle(@RequestParam String title) {
         return ResponseEntity.ok(testService.findByTitle(title));
     }
 
     @GetMapping("/byDescription")
-    public ResponseEntity<Collection<TestEntity>> getTestsByDescription(@RequestParam String description) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByDescription(@RequestParam String description) {
         return ResponseEntity.ok(testService.findByDescription(description));
     }
 
     @GetMapping("/byMonth")
-    public ResponseEntity<Collection<TestEntity>> getTestsByMonth(@RequestParam Integer month) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByMonth(@RequestParam Integer month) {
         return ResponseEntity.ok(testService.findByMonth(month));
     }
 
     @GetMapping("/byYear")
-    public ResponseEntity<Collection<TestEntity>> getTestsByYear(@RequestParam Integer year) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByYear(@RequestParam Integer year) {
         return ResponseEntity.ok(testService.findByYear(year));
     }
 
     @GetMapping("/byExactDate")
-    public ResponseEntity<Collection<TestEntity>> getTestsByExactDate(@RequestParam Date date) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByExactDate(@RequestParam Date date) {
         return ResponseEntity.ok(testService.findTestsByExactDate(date));
     }
 
     @GetMapping("/byMonthYear")
-    public ResponseEntity<Collection<TestEntity>> getTestsByMonthAndYear(@RequestParam Integer month, @RequestParam Integer year) {
+    public ResponseEntity<Collection<TestDTO>> getTestsByMonthAndYear(@RequestParam Integer month, @RequestParam Integer year) {
         return ResponseEntity.ok(testService.findByMonthAndYear(month, year));
     }
 

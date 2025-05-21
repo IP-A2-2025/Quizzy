@@ -1,19 +1,18 @@
 package com.backend.controller;
 
-import com.backend.model.TestEntity;
+import com.backend.dto.TestDTO;
 import com.backend.service.TestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
-import org.springframework.http.ResponseEntity;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.openMocks;
 
 class TestControllerTest {
 
@@ -23,82 +22,95 @@ class TestControllerTest {
     @InjectMocks
     private TestController testController;
 
-    private TestEntity testSample;
+    private TestDTO testSampleDTO;
 
     @BeforeEach
     void setUp() {
-        openMocks(this);
+        MockitoAnnotations.openMocks(this);
 
-        testSample = new TestEntity();
-        testSample.setId(1L);
-        testSample.setTitle("Sample Test");
-        testSample.setDate(new Date());
+        testSampleDTO = new TestDTO();
+        testSampleDTO.setId(1L);
+        testSampleDTO.setTitle("Sample Test");
+        testSampleDTO.setDate(new Date());
+        testSampleDTO.setProfessorId(1);
+        testSampleDTO.setCourseId(1L);
     }
 
     @Test
     void shouldReturnAllTests() {
-        List<TestEntity> tests = List.of(testSample);
+        Collection<TestDTO> tests = new ArrayList<>();
+        tests.add(testSampleDTO);
+
         when(testService.getAllTests()).thenReturn(tests);
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getAllTests();
+        ResponseEntity<Collection<TestDTO>> response = testController.getAllTests();
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(tests, response.getBody());
+        assertEquals(1, response.getBody().size());
+        assertEquals(testSampleDTO, response.getBody().iterator().next());
     }
 
     @Test
     void shouldReturnTestById() {
-        when(testService.getTestById(1L)).thenReturn(testSample);
+        when(testService.getTestById(1L)).thenReturn(testSampleDTO);
 
-        ResponseEntity<TestEntity> response = testController.getTestById(1L);
+        ResponseEntity<TestDTO> response = testController.getTestById(1L);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(testSample, response.getBody());
+        assertEquals(testSampleDTO, response.getBody());
     }
 
     @Test
     void shouldCreateTest() {
-        when(testService.createTest(testSample)).thenReturn(testSample);
+        when(testService.createTest(testSampleDTO)).thenReturn(testSampleDTO);
 
-        ResponseEntity<TestEntity> response = testController.createTest(testSample);
+        ResponseEntity<TestDTO> response = testController.createTest(testSampleDTO);
 
         assertEquals(201, response.getStatusCodeValue());
-        assertEquals(testSample, response.getBody());
+        assertEquals(testSampleDTO, response.getBody());
+
+        verify(testService, times(1)).createTest(testSampleDTO);
     }
 
     @Test
     void shouldSaveTest() {
-        when(testService.saveTest(testSample)).thenReturn(testSample);
+        when(testService.saveTest(testSampleDTO)).thenReturn(testSampleDTO);
 
-        ResponseEntity<TestEntity> response = testController.saveTest(testSample);
+        ResponseEntity<TestDTO> response = testController.saveTest(testSampleDTO);
 
         assertEquals(201, response.getStatusCodeValue());
-        assertEquals(testSample, response.getBody());
+        assertEquals(testSampleDTO, response.getBody());
+
+        verify(testService, times(1)).saveTest(testSampleDTO);
     }
 
     @Test
     void shouldUpdateTest() {
-        when(testService.updateTest(1L, testSample)).thenReturn(testSample);
+        when(testService.updateTest(1L, testSampleDTO)).thenReturn(testSampleDTO);
 
-        ResponseEntity<TestEntity> response = testController.updateTest(1L, testSample);
+        ResponseEntity<TestDTO> response = testController.updateTest(1L, testSampleDTO);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(testSample, response.getBody());
+        assertEquals(testSampleDTO, response.getBody());
+
+        verify(testService, times(1)).updateTest(1L, testSampleDTO);
     }
 
     @Test
     void shouldDeleteTestById() {
+        doNothing().when(testService).deleteTestById(1L);
+
         ResponseEntity<Void> response = testController.deleteTestById(1L);
 
         assertEquals(204, response.getStatusCodeValue());
-        verify(testService).deleteTestById(1L);
+        verify(testService, times(1)).deleteTestById(1L);
     }
 
     @Test
     void shouldReturnTestsByProfessorId() {
-        when(testService.findTestsByProfId(100)).thenReturn(List.of(testSample));
+        when(testService.findTestsByProfId(100)).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByProfessorId(100);
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByProfessorId(100);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
@@ -106,9 +118,9 @@ class TestControllerTest {
 
     @Test
     void shouldReturnTestsByCourseId() {
-        when(testService.findTestsByCourseId(10L)).thenReturn(List.of(testSample));
+        when(testService.findTestsByCourseId(10L)).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByCourseId(10L);
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByCourseId(10L);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
@@ -116,9 +128,9 @@ class TestControllerTest {
 
     @Test
     void shouldReturnTestsByStudentId() {
-        when(testService.findTestsForStudentEnrollments(5)).thenReturn(List.of(testSample));
+        when(testService.findTestsForStudentEnrollments(5)).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByStudentId(5);
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByStudentId(5);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
@@ -126,77 +138,87 @@ class TestControllerTest {
 
     @Test
     void shouldReturnUpcomingTests() {
-        when(testService.findUpcomingTests()).thenReturn(List.of(testSample));
+        when(testService.findUpcomingTests()).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getUpcomingTests();
+        ResponseEntity<Collection<TestDTO>> response = testController.getUpcomingTests();
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
     void shouldReturnTestsByDateRange() {
         Date start = new Date(System.currentTimeMillis() - 1000 * 60 * 60);
         Date end = new Date(System.currentTimeMillis() + 1000 * 60 * 60);
-        when(testService.findByDateBetween(start, end)).thenReturn(List.of(testSample));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByDateRange(start, end);
+        when(testService.findByDateBetween(start, end)).thenReturn(List.of(testSampleDTO));
+
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByDateRange(start, end);
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
     void shouldReturnTestsByTitle() {
-        when(testService.findByTitle("Sample")).thenReturn(List.of(testSample));
+        when(testService.findByTitle("Sample")).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByTitle("Sample");
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByTitle("Sample");
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
     void shouldReturnTestsByDescription() {
-        when(testService.findByDescription("desc")).thenReturn(List.of(testSample));
+        when(testService.findByDescription("desc")).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByDescription("desc");
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByDescription("desc");
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
     void shouldReturnTestsByMonth() {
-        when(testService.findByMonth(4)).thenReturn(List.of(testSample));
+        when(testService.findByMonth(4)).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByMonth(4);
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByMonth(4);
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
     void shouldReturnTestsByYear() {
-        when(testService.findByYear(2025)).thenReturn(List.of(testSample));
+        when(testService.findByYear(2025)).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByYear(2025);
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByYear(2025);
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
     void shouldReturnTestsByExactDate() {
         Date date = new Date();
-        when(testService.findTestsByExactDate(date)).thenReturn(List.of(testSample));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByExactDate(date);
+        when(testService.findTestsByExactDate(date)).thenReturn(List.of(testSampleDTO));
+
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByExactDate(date);
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
     void shouldReturnTestsByMonthAndYear() {
-        when(testService.findByMonthAndYear(4, 2025)).thenReturn(List.of(testSample));
+        when(testService.findByMonthAndYear(4, 2025)).thenReturn(List.of(testSampleDTO));
 
-        ResponseEntity<Collection<TestEntity>> response = testController.getTestsByMonthAndYear(4, 2025);
+        ResponseEntity<Collection<TestDTO>> response = testController.getTestsByMonthAndYear(4, 2025);
 
         assertEquals(200, response.getStatusCodeValue());
+        assertEquals(1, response.getBody().size());
     }
 
     @Test
@@ -253,6 +275,7 @@ class TestControllerTest {
     void shouldCountTestsByDateRange() {
         Date start = new Date();
         Date end = new Date();
+
         when(testService.countTestsByDateBetween(start, end)).thenReturn(6L);
 
         ResponseEntity<Long> response = testController.countTestsByDateRange(start, end);

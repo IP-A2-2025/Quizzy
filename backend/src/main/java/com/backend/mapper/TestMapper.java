@@ -48,14 +48,20 @@ public class TestMapper implements EntityMapper<TestEntity, TestDTO> {
         test.setDate(dto.getDate());
 
         if (dto.getProfessorId() != null) {
-            userRepository.findById(dto.getProfessorId())
-                    .ifPresent(test::setProfessor);
+            test.setProfessor(userRepository.findById(dto.getProfessorId())
+                    .orElseThrow(() -> new IllegalArgumentException("Professor not found with ID: " + dto.getProfessorId())));
+        } else {
+            throw new IllegalArgumentException("Professor ID must not be null");
         }
 
         if (dto.getCourseId() != null) {
-            courseRepository.findById(dto.getCourseId())
-                    .ifPresent(test::setCourse);
+            test.setCourse(courseRepository.findById(dto.getCourseId())
+                    .orElseThrow(() -> new IllegalArgumentException("Course not found with ID: " + dto.getCourseId())));
+        } else {
+            throw new IllegalArgumentException("Course ID must not be null");
         }
+
         return test;
     }
+
 }

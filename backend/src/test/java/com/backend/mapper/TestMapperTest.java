@@ -37,8 +37,10 @@ class TestMapperTest {
 
     @BeforeEach
     void setUp() {
+
         MockitoAnnotations.openMocks(this);
 
+        // Setup common test data
         professor = new User();
         professor.setId(1);
         professor.setFirstName("Professor");
@@ -64,6 +66,8 @@ class TestMapperTest {
         testDTO.setProfessorId(1);
         testDTO.setCourseId(1L);
     }
+
+    // --- Tests for toDTO method ---
 
     @Test
     void toDTO_WithValidTest_ShouldMapAllFields() {
@@ -95,10 +99,9 @@ class TestMapperTest {
         testEntity.setProfessor(null);
         testEntity.setCourse(null);
 
-        // Act
+
         TestDTO result = testMapper.toDTO(testEntity);
 
-        // Assert
         assertNotNull(result);
         assertEquals(testEntity.getId(), result.getId());
         assertEquals(testEntity.getTitle(), result.getTitle());
@@ -108,16 +111,16 @@ class TestMapperTest {
         assertNull(result.getCourseId());
     }
 
+
+
     @Test
     void toEntity_WithValidDTO_ShouldMapAllFields() {
-        // Arrange
+
         when(userRepository.findById(1)).thenReturn(Optional.of(professor));
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
 
-        // Act
         TestEntity result = testMapper.toEntity(testDTO);
 
-        // Assert
         assertNotNull(result);
         assertEquals(testDTO.getId(), result.getId());
         assertEquals(testDTO.getTitle(), result.getTitle());
@@ -126,62 +129,75 @@ class TestMapperTest {
         assertEquals(professor, result.getProfessor());
         assertEquals(course, result.getCourse());
 
-        // Verify repository interactions
         verify(userRepository).findById(1);
         verify(courseRepository).findById(1L);
     }
 
     @Test
     void toEntity_WithNullDTO_ShouldReturnNull() {
-        // Act
+
         TestEntity result = testMapper.toEntity(null);
 
-        // Assert
+
         assertNull(result);
     }
 
     @Test
-    void toEntity_WithNullIds_ShouldMapOtherFields() {
-        // Arrange
+    void toEntity_WithNullProfessorId_ShouldThrowException() {
+
         testDTO.setProfessorId(null);
-        testDTO.setCourseId(null);
 
-        // Act
-        TestEntity result = testMapper.toEntity(testDTO);
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            testMapper.toEntity(testDTO);
+        });
+        assertEquals("Professor ID must not be null", thrown.getMessage());
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(testDTO.getId(), result.getId());
-        assertEquals(testDTO.getTitle(), result.getTitle());
-        assertEquals(testDTO.getDescription(), result.getDescription());
-        assertEquals(testDTO.getDate(), result.getDate());
-        assertNull(result.getProfessor());
-        assertNull(result.getCourse());
+        verifyNoInteractions(userRepository);
+        verifyNoInteractions(courseRepository);
     }
 
     @Test
-    void toEntity_WithNonexistentEntities_ShouldMapOtherFields() {
-        // Arrange
-        testDTO.setProfessorId(999);
-        testDTO.setCourseId(999L);
+    void toEntity_WithNullCourseId_ShouldThrowException() {
 
-        when(userRepository.findById(999)).thenReturn(Optional.empty());
-        when(courseRepository.findById(999L)).thenReturn(Optional.empty());
+        when(userRepository.findById(1)).thenReturn(Optional.of(professor));
+        testDTO.setCourseId(null); // Set course ID to null
 
-        // Act
-        TestEntity result = testMapper.toEntity(testDTO);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(testDTO.getId(), result.getId());
-        assertEquals(testDTO.getTitle(), result.getTitle());
-        assertEquals(testDTO.getDescription(), result.getDescription());
-        assertEquals(testDTO.getDate(), result.getDate());
-        assertNull(result.getProfessor());
-        assertNull(result.getCourse());
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            testMapper.toEntity(testDTO);
+        });
+        assertEquals("Course ID must not be null", thrown.getMessage());
 
-        // Verify repository interactions
-        verify(userRepository).findById(999);
-        verify(courseRepository).findById(999L);
+        verify(userRepository).findById(1);
+        verifyNoMoreInteractions(courseRepository);
+    }
+
+    @Test
+    void toEntity_WhenProfessorNotFound_ShouldThrowException() {
+        when(userRepository.findById(testDTO.getProfessorId())).thenReturn(Optional.empty());
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            testMapper.toEntity(testDTO);
+        });
+        assertEquals("Professor not found with ID: " + testDTO.getProfessorId(), thrown.getMessage());
+
+        verify(userRepository).findById(testDTO.getProfessorId());
+        verifyNoInteractions(courseRepository);
+    }
+
+    @Test
+    void toEntity_WhenCourseNotFound_ShouldThrowException() {
+
+        when(userRepository.findById(testDTO.getProfessorId())).thenReturn(Optional.of(professor));
+
+        when(courseRepository.findById(testDTO.getCourseId())).thenReturn(Optional.empty());
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            testMapper.toEntity(testDTO);
+        });
+        assertEquals("Course not found with ID: " + testDTO.getCourseId(), thrown.getMessage());
+
+        verify(userRepository).findById(testDTO.getProfessorId());
+        verify(courseRepository).findById(testDTO.getCourseId());
     }
 }

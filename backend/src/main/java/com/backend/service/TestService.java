@@ -1,7 +1,13 @@
 package com.backend.service;
 
+import com.backend.dto.TestDTO;
+import com.backend.mapper.TestMapper;
+import com.backend.model.Course;
 import com.backend.model.TestEntity;
+import com.backend.model.User;
+import com.backend.repository.CourseRepository;
 import com.backend.repository.TestRepository;
+import com.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,125 +17,169 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TestService {
 
     private final TestRepository testRepository;
+    private final TestMapper testMapper;
+    private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public TestService(TestRepository testRepository) {
+    public TestService(TestRepository testRepository, TestMapper testMapper,UserRepository userRepository,CourseRepository courseRepository) {
         this.testRepository = Objects.requireNonNull(testRepository, "TestRepository must not be null");
+        this.testMapper = testMapper;
+        this.userRepository = userRepository;
+        this.courseRepository=courseRepository;
     }
 
     @Transactional
-    public TestEntity saveTest(TestEntity test) {
-        return Optional.ofNullable(test)
+    public TestDTO saveTest(TestDTO testDTO) {
+        return Optional.ofNullable(testDTO)
+                .map(testMapper::toEntity)
                 .map(testRepository::save)
-                .orElseThrow(() -> new IllegalArgumentException("Test must not be null"));
+                .map(testMapper::toDTO)
+                .orElseThrow(() -> new IllegalArgumentException("TestDTO must not be null"));
     }
 
     @Transactional
-    public TestEntity createTest(TestEntity test) {
-        return Optional.ofNullable(test)
+    public TestDTO createTest(TestDTO testDTO) {
+        return Optional.ofNullable(testDTO)
                 .filter(t -> t.getId() == null)
                 .map(this::saveTest)
                 .orElseThrow(() -> new IllegalArgumentException("New test must not have an ID"));
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> getAllTests() {
-        return testRepository.findAll();
+    public Collection<TestDTO> getAllTests() {
+        return testRepository.findAll().stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public TestEntity getTestById(Long id) {
+    public TestDTO getTestById(Long id) {
         return Optional.ofNullable(id)
                 .filter(i -> i > 0)
                 .flatMap(testRepository::findById)
+                .map(testMapper::toDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Test not found with id " + id));
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findTestsByProfId(Integer profId) {
+    public Collection<TestDTO> findTestsByProfId(Integer profId) {
         return Optional.ofNullable(profId)
                 .filter(id -> id > 0)
                 .map(testRepository::findByProfessorId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid professor ID"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid professor ID"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findTestsByCourseId(Long courseId) {
+    public Collection<TestDTO> findTestsByCourseId(Long courseId) {
         return Optional.ofNullable(courseId)
                 .filter(id -> id > 0)
                 .map(testRepository::findByCourseId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid course ID"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findUpcomingTests() {
-        return testRepository.findUpcomingTests();
+    public Collection<TestDTO> findUpcomingTests() {
+        return testRepository.findUpcomingTests().stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findTestsForStudentEnrollments(Integer studentId) {
+    public Collection<TestDTO> findTestsForStudentEnrollments(Integer studentId) {
         return Optional.ofNullable(studentId)
                 .filter(id -> id > 0)
                 .map(testRepository::findTestsForStudentEnrollments)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findByDateBetween(Date startDate, Date endDate) {
+    public Collection<TestDTO> findByDateBetween(Date startDate, Date endDate) {
         return Optional.ofNullable(startDate)
                 .map(start -> Optional.ofNullable(endDate)
                         .filter(end -> !end.before(start))
                         .map(end -> testRepository.findByDateBetween(start, end))
                         .orElseThrow(() -> new IllegalArgumentException("End date must not be before start date")))
-                .orElseThrow(() -> new IllegalArgumentException("Dates must not be null"));
+                .orElseThrow(() -> new IllegalArgumentException("Dates must not be null"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findByTitle(String title) {
+    public Collection<TestDTO> findByTitle(String title) {
         return Optional.ofNullable(title)
                 .map(testRepository::findByTitle)
-                .orElseThrow(() -> new IllegalArgumentException("Title must not be null"));
+                .orElseThrow(() -> new IllegalArgumentException("Title must not be null"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findByDescription(String description) {
+    public Collection<TestDTO> findByDescription(String description) {
         return Optional.ofNullable(description)
                 .map(testRepository::findByDescription)
-                .orElseThrow(() -> new IllegalArgumentException("Description must not be null"));
+                .orElseThrow(() -> new IllegalArgumentException("Description must not be null"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findByMonth(Integer month) {
+    public Collection<TestDTO> findByMonth(Integer month) {
         return Optional.ofNullable(month)
                 .map(testRepository::findByMonth)
-                .orElseThrow(() -> new IllegalArgumentException("Month must not be null"));
+                .orElseThrow(() -> new IllegalArgumentException("Month must not be null"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findByYear(Integer year) {
+    public Collection<TestDTO> findByYear(Integer year) {
         return Optional.ofNullable(year)
                 .map(testRepository::findByYear)
-                .orElseThrow(() -> new IllegalArgumentException("Year must not be null"));
+                .orElseThrow(() -> new IllegalArgumentException("Year must not be null"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findTestsByExactDate(Date date) {
+    public Collection<TestDTO> findTestsByExactDate(Date date) {
         return Optional.ofNullable(date)
                 .map(testRepository::findTestsByExactDate)
-                .orElseThrow(() -> new IllegalArgumentException("Date must not be null"));
+                .orElseThrow(() -> new IllegalArgumentException("Date must not be null"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findByMonthAndYear(Integer month, Integer year) {
+    public Collection<TestDTO> findByMonthAndYear(Integer month, Integer year) {
         return Optional.ofNullable(month)
                 .flatMap(m -> Optional.ofNullable(year)
                         .map(y -> testRepository.findByMonthAndYear(m, y)))
-                .orElseThrow(() -> new IllegalArgumentException("Month and year must not be null"));
+                .orElseThrow(() -> new IllegalArgumentException("Month and year must not be null"))
+                .stream()
+                .map(testMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -197,37 +247,49 @@ public class TestService {
     }
 
     @Transactional
-    public TestEntity updateTest(Long id, TestEntity test) {
-        return Optional.ofNullable(id)
-                .filter(i -> i > 0)
-                .map(i -> Optional.ofNullable(test)
-                        .map(t -> {
-                            TestEntity existingTest = testRepository.findById(i)
-                                    .orElseThrow(() -> new EntityNotFoundException("Test not found with id " + i));
-                            return updateTestFields(existingTest, t);
-                        })
-                        .orElseThrow(() -> new IllegalArgumentException("Updated test data must not be null")))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid test ID"));
+    public TestDTO updateTest(Long id, TestDTO testDTO) {
+        // Validate input
+        if (testDTO == null) {
+            throw new IllegalArgumentException("TestDTO must not be null");
+        }
+
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid test ID");
+        }
+
+        // Check if test exists
+        TestEntity existingTest = testRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Test not found with id " + id));
+
+        // Validate required fields
+        if (testDTO.getTitle() == null || testDTO.getDate() == null ||
+                testDTO.getProfessorId() == null || testDTO.getCourseId() == null) {
+            throw new IllegalArgumentException("All required fields must be provided");
+        }
+
+        // Update fields
+        updateTestFields(existingTest, testDTO);
+
+        // Save and return
+        return testMapper.toDTO(testRepository.save(existingTest));
     }
 
-    @Transactional
-    private TestEntity updateTestFields(TestEntity existingTest, TestEntity testToUpdate) {
-        return Optional.ofNullable(testToUpdate)
-                .map(update -> {
-                    Optional.ofNullable(update.getTitle())
-                            .ifPresent(existingTest::setTitle);
-                    Optional.ofNullable(update.getDescription())
-                            .ifPresent(existingTest::setDescription);
-                    Optional.ofNullable(update.getDate())
-                            .ifPresent(existingTest::setDate);
-                    Optional.ofNullable(update.getProfessor())
-                            .ifPresent(existingTest::setProfessor);
-                    Optional.ofNullable(update.getCourse())
-                            .ifPresent(existingTest::setCourse);
-                    Optional.ofNullable(update.getQuestions())
-                            .ifPresent(existingTest::setQuestions);
-                    return testRepository.save(existingTest);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("Test data to update cannot be null"));
+    private void updateTestFields(TestEntity existingTest, TestDTO dto) {
+        existingTest.setTitle(dto.getTitle());
+        existingTest.setDescription(dto.getDescription());
+        existingTest.setDate(dto.getDate());
+
+
+        if (!existingTest.getProfessor().getId().equals(dto.getProfessorId())) {
+            User professor = userRepository.findById(dto.getProfessorId())
+                    .orElseThrow(() -> new EntityNotFoundException("Professor not found"));
+            existingTest.setProfessor(professor);
+        }
+        
+        if (!existingTest.getCourse().getId().equals(dto.getCourseId())) {
+            Course course = courseRepository.findById(dto.getCourseId())
+                    .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+            existingTest.setCourse(course);
+        }
     }
 }
