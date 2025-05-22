@@ -1,6 +1,6 @@
 package com.backend.controller;
 
-import com.backend.model.TestAnswer;
+import com.backend.dto.TestAnswerDTO;
 import com.backend.service.TestAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,23 +21,27 @@ public class TestAnswerController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<TestAnswer>> getAllAnswers() {
+    public ResponseEntity<Collection<TestAnswerDTO>> getAllAnswers() {
         return ResponseEntity.ok(testAnswerService.getAllAnswers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TestAnswer> getAnswerById(@PathVariable Long id) {
+    public ResponseEntity<TestAnswerDTO> getAnswerById(@PathVariable Long id) {
         return ResponseEntity.ok(testAnswerService.getAnswerById(id));
     }
 
     @PostMapping
-    public ResponseEntity<TestAnswer> createAnswer(@RequestBody TestAnswer answer) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(testAnswerService.createAnswer(answer));
+    public ResponseEntity<TestAnswerDTO> createAnswer(@RequestBody TestAnswerDTO answer) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.createAnswer(answer));
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<TestAnswerDTO> saveAnswer(@RequestBody TestAnswerDTO answer) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.saveAnswer(answer));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TestAnswer> updateAnswer(@PathVariable Long id, @RequestBody TestAnswer answer) {
+    public ResponseEntity<TestAnswerDTO> updateAnswer(@PathVariable Long id, @RequestBody TestAnswerDTO answer) {
         return ResponseEntity.ok(testAnswerService.updateAnswer(id, answer));
     }
 
@@ -48,32 +52,32 @@ public class TestAnswerController {
     }
 
     @GetMapping("/question/{questionId}")
-    public ResponseEntity<Collection<TestAnswer>> getAnswersByQuestionId(@PathVariable Long questionId) {
+    public ResponseEntity<Collection<TestAnswerDTO>> getAnswersByQuestionId(@PathVariable Long questionId) {
         return ResponseEntity.ok(testAnswerService.getAnswersByQuestionId(questionId));
     }
 
     @GetMapping("/test/{testId}")
-    public ResponseEntity<Collection<TestAnswer>> getAnswersByTestId(@PathVariable Long testId) {
+    public ResponseEntity<Collection<TestAnswerDTO>> getAnswersByTestId(@PathVariable Long testId) {
         return ResponseEntity.ok(testAnswerService.getAnswersByTestId(testId));
     }
 
     @GetMapping("/correct/question/{questionId}")
-    public ResponseEntity<Collection<TestAnswer>> getCorrectAnswersByQuestionId(@PathVariable Long questionId) {
+    public ResponseEntity<Collection<TestAnswerDTO>> getCorrectAnswersByQuestionId(@PathVariable Long questionId) {
         return ResponseEntity.ok(testAnswerService.getCorrectAnswersByQuestionId(questionId));
     }
 
     @GetMapping("/incorrect/question/{questionId}")
-    public ResponseEntity<Collection<TestAnswer>> getIncorrectAnswersByQuestionId(@PathVariable Long questionId) {
+    public ResponseEntity<Collection<TestAnswerDTO>> getIncorrectAnswersByQuestionId(@PathVariable Long questionId) {
         return ResponseEntity.ok(testAnswerService.getIncorrectAnswersByQuestionId(questionId));
     }
 
     @GetMapping("/correct/test/{testId}")
-    public ResponseEntity<Collection<TestAnswer>> getCorrectAnswersByTestId(@PathVariable Long testId) {
+    public ResponseEntity<Collection<TestAnswerDTO>> getCorrectAnswersByTestId(@PathVariable Long testId) {
         return ResponseEntity.ok(testAnswerService.getCorrectAnswersByTestId(testId));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Collection<TestAnswer>> searchAnswersByOptionText(@RequestParam String keyword) {
+    public ResponseEntity<Collection<TestAnswerDTO>> searchAnswersByOptionText(@RequestParam String keyword) {
         return ResponseEntity.ok(testAnswerService.findByOptionTextContaining(keyword));
     }
 
