@@ -1,6 +1,7 @@
+// TestQuestionController.java
 package com.backend.controller;
 
-import com.backend.model.TestQuestion;
+import com.backend.dto.TestQuestionDTO;
 import com.backend.service.TestQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,22 +23,27 @@ public class TestQuestionController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<TestQuestion>> getAllTestQuestions() {
+    public ResponseEntity<Collection<TestQuestionDTO>> getAllTestQuestions() {
         return ResponseEntity.ok(testQuestionService.getAllQuestions());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TestQuestion> getTestQuestionById(@PathVariable Long id) {
+    public ResponseEntity<TestQuestionDTO> getTestQuestionById(@PathVariable Long id) {
         return ResponseEntity.ok(testQuestionService.getQuestionById(id));
     }
 
     @PostMapping
-    public ResponseEntity<TestQuestion> createTestQuestion(@RequestBody TestQuestion testQuestion) {
+    public ResponseEntity<TestQuestionDTO> createTestQuestion(@RequestBody TestQuestionDTO testQuestion) {
         return ResponseEntity.status(HttpStatus.CREATED).body(testQuestionService.createQuestion(testQuestion));
     }
 
+    @PostMapping("/save")
+    public ResponseEntity<TestQuestionDTO> saveQuestion(@RequestBody TestQuestionDTO testQuestion) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testQuestionService.saveQuestion(testQuestion));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<TestQuestion> updateTestQuestion(@PathVariable Long id, @RequestBody TestQuestion testQuestion) {
+    public ResponseEntity<TestQuestionDTO> updateTestQuestion(@PathVariable Long id, @RequestBody TestQuestionDTO testQuestion) {
         return ResponseEntity.ok(testQuestionService.updateQuestion(id, testQuestion));
     }
 
@@ -48,7 +54,7 @@ public class TestQuestionController {
     }
 
     @GetMapping("/test/{testId}")
-    public ResponseEntity<Collection<TestQuestion>> getTestQuestionsByTestId(@PathVariable Long testId) {
+    public ResponseEntity<Collection<TestQuestionDTO>> getTestQuestionsByTestId(@PathVariable Long testId) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByTestId(testId));
     }
 
@@ -63,27 +69,27 @@ public class TestQuestionController {
     }
 
     @GetMapping("/course/{courseId}")
-    public ResponseEntity<List<TestQuestion>> getQuestionsByCourse(@PathVariable Long courseId) {
+    public ResponseEntity<List<TestQuestionDTO>> getQuestionsByCourse(@PathVariable Long courseId) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByCourse(courseId));
     }
 
     @GetMapping("/professor/{professorId}")
-    public ResponseEntity<List<TestQuestion>> getQuestionsByProfessor(@PathVariable Integer professorId) {
+    public ResponseEntity<List<TestQuestionDTO>> getQuestionsByProfessor(@PathVariable Integer professorId) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByProfessor(professorId));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<TestQuestion>> searchQuestionsByText(@RequestParam String keyword) {
+    public ResponseEntity<List<TestQuestionDTO>> searchQuestionsByText(@RequestParam String keyword) {
         return ResponseEntity.ok(testQuestionService.searchQuestionsByText(keyword));
     }
 
     @GetMapping("/points/{points}")
-    public ResponseEntity<List<TestQuestion>> getQuestionsByPoints(@PathVariable Float points) {
+    public ResponseEntity<List<TestQuestionDTO>> getQuestionsByPoints(@PathVariable Float points) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByPoints(points));
     }
 
     @GetMapping("/min-points/{minPoints}")
-    public ResponseEntity<List<TestQuestion>> getQuestionsByMinPoints(@PathVariable Float minPoints) {
+    public ResponseEntity<List<TestQuestionDTO>> getQuestionsByMinPoints(@PathVariable Float minPoints) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByMinPoints(minPoints));
     }
 
@@ -113,12 +119,12 @@ public class TestQuestionController {
     }
 
     @GetMapping("/sorted/test/{testId}")
-    public ResponseEntity<List<TestQuestion>> getQuestionsByTestIdSortedByPoints(@PathVariable Long testId) {
+    public ResponseEntity<List<TestQuestionDTO>> getQuestionsByTestIdSortedByPoints(@PathVariable Long testId) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByTestIdSortedByPoints(testId));
     }
 
     @GetMapping("/test/{testId}/min-points/{minPoints}")
-    public ResponseEntity<List<TestQuestion>> getQuestionsByTestAndMinPoints(
+    public ResponseEntity<List<TestQuestionDTO>> getQuestionsByTestAndMinPoints(
             @PathVariable Long testId,
             @PathVariable Float minPoints) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByTestAndMinPoints(testId, minPoints));
