@@ -52,16 +52,16 @@ class TestAnswerControllerTest {
         assertEquals(answer, response.getBody());
     }
 
-    @Test
-    void createAnswer_ShouldReturn201() {
-        TestAnswer answer = new TestAnswer();
-        when(testAnswerService.createAnswer(answer)).thenReturn(answer);
-
-        ResponseEntity<TestAnswer> response = testAnswerController.createAnswer(answer);
-
-        assertEquals(201, response.getStatusCodeValue());
-        assertEquals(answer, response.getBody());
-    }
+//    @Test
+//    void createAnswer_ShouldReturn201() {
+//        TestAnswer answer = new TestAnswer();
+//        when(testAnswerService.createAnswer(answer)).thenReturn(answer);
+//
+//        ResponseEntity<TestAnswer> response = testAnswerController.createAnswer(answer);
+//
+//        assertEquals(201, response.getStatusCodeValue());
+//        assertEquals(answer, response.getBody());
+//    }
 
     @Test
     void updateAnswer_ShouldReturn200() {

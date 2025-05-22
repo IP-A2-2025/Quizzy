@@ -1,8 +1,11 @@
 package com.backend.service;
 
+import com.backend.dto.TestAnswerDTO;
+import com.backend.mapper.TestAnswerMapper;
 import com.backend.model.TestAnswer;
 import com.backend.model.TestEntity;
 import com.backend.repository.TestAnswerRepository;
+import com.backend.repository.TestQuestionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,43 @@ import java.util.Optional;
 public class TestAnswerService {
 
     private final TestAnswerRepository testAnswerRepository;
+    private final TestQuestionRepository testQuestionRepository;
 
     @Autowired
-    public TestAnswerService(TestAnswerRepository testAnswerRepository) {
+    public TestAnswerService(TestAnswerRepository testAnswerRepository, TestQuestionRepository testQuestionRepository) {
         this.testAnswerRepository = testAnswerRepository;
+        this.testQuestionRepository = testQuestionRepository;
+    }
+
+    @Transactional
+    public TestAnswer saveAnswer(TestAnswer answer) {
+        return Optional.ofNullable(answer)
+                .map(testAnswerRepository::save)
+                .orElseThrow(() -> new IllegalArgumentException("Answer must not be null"));
+    }
+
+    @Transactional
+    public Long createAnswer(TestAnswerDTO answerDTO) {
+
+        TestAnswerMapper mapper = new TestAnswerMapper(testQuestionRepository);
+        TestAnswer answer = mapper.toEntity(answerDTO);
+
+        Objects.requireNonNull(answer, "Answer must not be null");
+
+        if (answer.getId() != null) {
+            throw new IllegalArgumentException("New answer must have no ID");
+        }
+
+        if(answer.getTestQuestion() == null || answer.getTestQuestion().getId() == null) {
+            throw new IllegalArgumentException("Test answer must have associated a test question");
+        }
+
+        if(answer.getOptionText() == null || answer.getOptionText().isEmpty()) {
+            throw new IllegalArgumentException("Option text must exist");
+        }
+
+        saveAnswer(answer);
+        return answer.getId();
     }
 
     @Transactional(readOnly = true)
@@ -112,40 +148,6 @@ public class TestAnswerService {
                 .filter(id -> id > 0)
                 .map(testAnswerRepository::countAnswersByQuestionId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid question ID"));
-    }
-
-//    @Transactional
-//    public TestAnswer createAnswer(TestAnswer answer) {
-//        return Optional.ofNullable(answer)
-//                .filter(a -> a.getId() == null)
-//                .map(testAnswerRepository::save)
-//                .orElseThrow(() -> new IllegalArgumentException("New answer must not have an ID"));
-//    }
-
-    @Transactional
-    public TestAnswer saveAnswer(TestAnswer answer) {
-        return Optional.ofNullable(answer)
-                .map(testAnswerRepository::save)
-                .orElseThrow(() -> new IllegalArgumentException("Answer must not be null"));
-    }
-
-    @Transactional
-    public TestAnswer createAnswer(TestAnswer answer) {
-        Objects.requireNonNull(answer, "Answer must not be null");
-
-        if (answer.getId() != null) {
-            throw new IllegalArgumentException("New answer must have no ID");
-        }
-
-        if(answer.getTestQuestion() == null || answer.getTestQuestion().getId() == null) {
-            throw new IllegalArgumentException("Test answer must have associated a test question");
-        }
-
-        if(answer.getOptionText() == null || answer.getOptionText().isEmpty()) {
-            throw new IllegalArgumentException("Option text must exist");
-        }
-
-        return saveAnswer(answer);
     }
 
     @Transactional

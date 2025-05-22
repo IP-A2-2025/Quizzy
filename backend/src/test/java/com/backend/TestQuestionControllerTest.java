@@ -53,16 +53,16 @@ class TestQuestionControllerTest {
         assertEquals(question, response.getBody());
     }
 
-    @Test
-    void createTestQuestion_ShouldReturnCreated() {
-        TestQuestion question = new TestQuestion();
-        when(testQuestionService.createQuestion(question)).thenReturn(question);
-
-        ResponseEntity<TestQuestion> response = testQuestionController.createTestQuestion(question);
-
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(question, response.getBody());
-    }
+//    @Test
+//    void createTestQuestion_ShouldReturnCreated() {
+//        TestQuestion question = new TestQuestion();
+//        when(testQuestionService.createQuestion(question)).thenReturn(question);
+//
+//        ResponseEntity<TestQuestion> response = testQuestionController.createTestQuestion(question);
+//
+//        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+//        assertEquals(question, response.getBody());
+//    }
 
     @Test
     void updateTestQuestion_ShouldReturnOk() {

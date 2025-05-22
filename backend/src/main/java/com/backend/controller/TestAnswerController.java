@@ -1,19 +1,30 @@
 package com.backend.controller;
 
+import com.backend.dto.TestAnswerDTO;
+import com.backend.dto.TestDTO;
+import com.backend.dto.TestQuestionDTO;
 import com.backend.model.TestAnswer;
+import com.backend.model.TestEntity;
+import com.backend.model.TestQuestion;
 import com.backend.service.TestAnswerService;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/answers")
 public class TestAnswerController {
 
     private final TestAnswerService testAnswerService;
+    private static final Logger logger = LoggerFactory.getLogger(TestAnswerController.class);
 
     @Autowired
     public TestAnswerController(TestAnswerService testAnswerService) {
@@ -30,10 +41,29 @@ public class TestAnswerController {
         return ResponseEntity.ok(testAnswerService.getAnswerById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<TestAnswer> createAnswer(@RequestBody TestAnswer answer) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(testAnswerService.createAnswer(answer));
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<TestAnswer>> createTests(@Valid @RequestBody Collection<TestAnswerDTO> answerDTOs) {
+        logger.info("Attempting to create {} answers", answerDTOs.size());
+        Collection<TestAnswer> createdAnswers = answerDTOs.stream()
+                .map(dto -> {
+                    Long id = testAnswerService.createAnswer(dto);
+                    logger.info("Answer created successfully with ID: {}", id);
+                    return new TestAnswer(
+                            id,
+                            "Answer added successfully" + dto.getOptionText(),
+                            dto.isCorrect(),
+                            null
+                    );
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(createdAnswers);
+    }
+
+    //ASTA NUSH LA CE AJUTA ;-;
+    @PostMapping("/save")
+    public ResponseEntity<TestAnswer> saveTest(@RequestBody TestAnswer answer) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.saveAnswer(answer));
     }
 
     @PutMapping("/{id}")

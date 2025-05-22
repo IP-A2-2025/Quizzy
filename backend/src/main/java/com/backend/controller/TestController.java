@@ -42,17 +42,17 @@ public class TestController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
-                consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TestEntity> createTest(@Valid @RequestBody TestDTO testDto) {
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TestEntity> createTest(@Valid @RequestBody TestDTO testDTO) {
         logger.info("Attempting to create new test");
         try {
-            testService.createTest(testDto);
-            logger.info("Test created successfully with ID: {}", testDto.getId());
+            Long id = testService.createTest(testDTO);
+            logger.info("Test created successfully with ID: {}", testDTO.getId());
             return ResponseEntity.ok(new TestEntity(
-                    null,
-                    null,
-                    "Test added successfully",
-                    null,
+                    id,
+                    testDTO.getTitle(),
+                    "Test added successfully" + testDTO.getTitle(),
+                    testDTO.getDate(),
                     null,
                     null,
                     null
@@ -63,7 +63,7 @@ public class TestController {
         }
     }
 
-    //ASTA NU CRED CA ARE CE CAUTA AICEA ;-;
+    //ASTA NUSH LA CE AJUTA ;-;
     @PostMapping("/save")
     public ResponseEntity<TestEntity> saveTest(@RequestBody TestEntity test) {
         return ResponseEntity.status(HttpStatus.CREATED).body(testService.saveTest(test));

@@ -1,8 +1,13 @@
 package com.backend.service;
 
+import com.backend.dto.TestQuestionDTO;
+import com.backend.mapper.TestQuestionMapper;
 import com.backend.model.TestEntity;
 import com.backend.model.TestQuestion;
+import com.backend.repository.CourseRepository;
 import com.backend.repository.TestQuestionRepository;
+import com.backend.repository.TestRepository;
+import com.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +22,12 @@ import java.util.Optional;
 public class TestQuestionService {
 
     private final TestQuestionRepository testQuestionRepository;
+    private final TestRepository testRepository;
 
     @Autowired
-    public TestQuestionService(TestQuestionRepository testQuestionRepository) {
-        this.testQuestionRepository = testQuestionRepository;
+    public TestQuestionService(TestQuestionRepository testQuestionRepository, TestRepository testRepository, CourseRepository courseRepository, UserRepository userRepository) {
+        this.testRepository = Objects.requireNonNull(testRepository, "TestRepository must not be null");
+        this.testQuestionRepository = Objects.requireNonNull(testQuestionRepository, "TestQuestionRepository must not be null");
     }
 
     @Transactional
@@ -30,20 +37,13 @@ public class TestQuestionService {
                 .orElseThrow(() -> new IllegalArgumentException("Question must not be null"));
     }
 
-//    @Transactional
-//    public TestQuestion createQuestion(TestQuestion question) {
-//        if(question.getTest().getId() == null) {
-//            throw new IllegalArgumentException("Question must have a test id");
-//        }
-//        return Optional.of(question)
-//                .filter(q -> q.getId() == null)
-//                .map(this::saveQuestion)
-//                .orElseThrow(() -> new IllegalArgumentException("New question must not have an ID"));
-//    }
-
     @Transactional
-    public TestQuestion createQuestion(TestQuestion question) {
+    public Long createQuestion(TestQuestionDTO questionDTO) {
         //spaghetti code x_x
+
+        TestQuestionMapper mapper = new TestQuestionMapper(testRepository);
+        TestQuestion question = mapper.toEntity(questionDTO);
+
         Objects.requireNonNull(question, "Question must not be null");
 
         if (question.getId() != null) {
@@ -76,7 +76,8 @@ public class TestQuestionService {
             throw new IllegalArgumentException("Only professors or admins can create questions");
         }
 
-        return saveQuestion(question);
+        saveQuestion(question);
+        return question.getId();
     }
 
     @Transactional(readOnly = true)

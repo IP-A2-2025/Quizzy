@@ -3,11 +3,13 @@ package com.backend.service;
 import com.backend.dto.TestDTO;
 import com.backend.mapper.TestMapper;
 import com.backend.model.TestEntity;
+import com.backend.model.User;
 import com.backend.repository.CourseRepository;
 import com.backend.repository.TestRepository;
 import com.backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -39,15 +42,26 @@ public class TestService {
     }
 
     @Transactional
-    public void createTest(TestDTO testDto) {
-        TestMapper testMapper = new TestMapper(courseRepository, userRepository); // Need to inject these dependencies
-        TestEntity test = testMapper.toEntity(testDto);
+    public Long createTest(TestDTO testDTO) {
+        TestMapper testMapper = new TestMapper(courseRepository, userRepository);
+        TestEntity test = testMapper.toEntity(testDTO);
 
         Objects.requireNonNull(test, "Test entity must not be null");
         if (test.getId() != null) {
             throw new IllegalArgumentException("New test must have no ID");
         }
+
+        User creator = test.getProfessor();
+        if (creator == null) {
+            throw new IllegalArgumentException("Test must have an associated professor/admin");
+        }
+
+        String role = creator.getRole();
+        if (!("PROFESOR".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role))) {
+            throw new AccessDeniedException("Only professors or admins can create tests");
+        }
         saveTest(test);
+        return test.getId();
     }
 
     @Transactional(readOnly = true)
@@ -224,7 +238,7 @@ public class TestService {
     }
 
     @Transactional
-    private TestEntity updateTestFields(TestEntity existingTest, TestEntity testToUpdate) {
+    public TestEntity updateTestFields(TestEntity existingTest, TestEntity testToUpdate) {
         return Optional.ofNullable(testToUpdate)
                 .map(update -> {
                     Optional.ofNullable(update.getTitle())
