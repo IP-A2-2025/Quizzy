@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -165,7 +166,7 @@ public class TestAnswerService {
     }
 
     @Transactional
-    private TestAnswer updateAnswerFields(TestAnswer existingAnswer, TestAnswer answerToUpdate) {
+    public TestAnswer updateAnswerFields(TestAnswer existingAnswer, TestAnswer answerToUpdate) {
         return Optional.ofNullable(answerToUpdate)
                 .map(update -> {
                     Optional.ofNullable(update.getOptionText())
@@ -192,6 +193,61 @@ public class TestAnswerService {
                             throw new IllegalArgumentException("Invalid answer ID");
                         }
                 );
+    }
+    @Transactional
+    public int deleteMultipleAnswers(Collection<Long> answerIds) {
+        if (answerIds == null || answerIds.isEmpty()) {
+            throw new IllegalArgumentException("Answer IDs collection must not be null or empty");
+        }
+
+        int deletedCount = 0;
+        for (Long answerId : answerIds) {
+            try {
+                deleteAnswerById(answerId);
+                deletedCount++;
+            } catch (EntityNotFoundException e) {
+                // Log the error but continue with other deletions
+                System.err.println("Error deleting answer: " + e.getMessage());
+            }
+        }
+
+        return deletedCount;
+    }
+    @Transactional
+    public int deleteAllAnswersForQuestion(Long questionId) {
+        Optional.ofNullable(questionId)
+                .filter(id -> id > 0)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid question ID"));
+
+        List<TestAnswer> answers = testAnswerRepository.findByQuestionId(questionId);
+
+        if (answers.isEmpty()) {
+            return 0;
+        }
+
+        Collection<Long> answerIds = answers.stream()
+                .map(TestAnswer::getId)
+                .toList();
+
+        return deleteMultipleAnswers(answerIds);
+    }
+    @Transactional
+    public int deleteAllAnswersForTest(Long testId) {
+        Optional.ofNullable(testId)
+                .filter(id -> id > 0)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid test ID"));
+
+        List<TestAnswer> answers = testAnswerRepository.findByTestId(testId);
+
+        if (answers.isEmpty()) {
+            return 0;
+        }
+
+        Collection<Long> answerIds = answers.stream()
+                .map(TestAnswer::getId)
+                .toList();
+
+        return deleteMultipleAnswers(answerIds);
     }
 }
 

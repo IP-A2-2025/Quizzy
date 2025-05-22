@@ -3,6 +3,7 @@ package com.backend.service;
 import com.backend.dto.TestDTO;
 import com.backend.mapper.TestMapper;
 import com.backend.model.TestEntity;
+import com.backend.model.TestQuestion;
 import com.backend.model.User;
 import com.backend.repository.CourseRepository;
 import com.backend.repository.TestRepository;
@@ -33,6 +34,8 @@ public class TestService {
         this.courseRepository = Objects.requireNonNull(courseRepository, "CourseRepository must not be null");
         this.userRepository = Objects.requireNonNull(userRepository, "UserRepository must not be null");
     }
+    @Autowired
+    private TestQuestionService testQuestionService;
 
     @Transactional
     public TestEntity saveTest(TestEntity test) {
@@ -221,6 +224,46 @@ public class TestService {
                             throw new IllegalArgumentException("Invalid test ID");
                         }
                 );
+    }
+    @Transactional
+    public void deleteTestAndRelatedEntities(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid test ID");
+        }
+
+        if (!testRepository.existsById(id)) {
+            throw new EntityNotFoundException("Test not found with id " + id);
+        }
+
+        // Get all questions for this test
+        Collection<TestQuestion> questions = testQuestionService.getQuestionsByTestId(id);
+
+        for (TestQuestion question : questions) {
+            testQuestionService.deleteQuestionAndAnswers(question.getId());
+        }
+
+        // Delete the test itself
+        testRepository.deleteById(id);
+    }
+
+    @Transactional
+    public int deleteMultipleTests(Collection<Long> testIds) {
+        if (testIds == null || testIds.isEmpty()) {
+            throw new IllegalArgumentException("Test IDs collection must not be null or empty");
+        }
+
+        int deletedCount = 0;
+        for (Long testId : testIds) {
+            try {
+                deleteTestAndRelatedEntities(testId);
+                deletedCount++;
+            } catch (EntityNotFoundException e) {
+                // Log the error but continue with other deletions
+                System.err.println("Error deleting test: " + e.getMessage());
+            }
+        }
+
+        return deletedCount;
     }
 
     @Transactional

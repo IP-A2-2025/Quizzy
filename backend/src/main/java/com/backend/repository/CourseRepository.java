@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Collection;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
@@ -25,4 +24,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
   
     @Query("SELECT c FROM Course c")
     Collection<Course> allCourses();
+
+    @Query("SELECT c FROM Course c WHERE c.title = :title")
+    Course findByTitle(@Param("title") String title);
 }

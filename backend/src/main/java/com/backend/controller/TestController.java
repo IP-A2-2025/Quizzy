@@ -74,7 +74,7 @@ public class TestController {
         return ResponseEntity.ok(testService.updateTest(id, test));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/id/{id}")
     public ResponseEntity<Void> deleteTestById(@PathVariable Long id) {
         testService.deleteTestById(id);
         return ResponseEntity.noContent().build();
@@ -163,5 +163,16 @@ public class TestController {
     @GetMapping("/countByDateRange")
     public ResponseEntity<Long> countTestsByDateRange(@RequestParam Date start, @RequestParam Date end) {
         return ResponseEntity.ok(testService.countTestsByDateBetween(start, end));
+    }
+    @DeleteMapping("/complete/{id}")
+    public ResponseEntity<Void> deleteTestAndRelatedEntities(@PathVariable Long id) {
+        testService.deleteTestAndRelatedEntities(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/multiple")
+    public ResponseEntity<Integer> deleteMultipleTests(@RequestBody Collection<Long> testIds) {
+        int deletedCount = testService.deleteMultipleTests(testIds);
+        return ResponseEntity.ok(deletedCount);
     }
 }
