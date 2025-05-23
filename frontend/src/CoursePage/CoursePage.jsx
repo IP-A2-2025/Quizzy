@@ -141,6 +141,15 @@ function CoursePage() {
     })
   }
 
+  const handleAddFlashcard = () => {
+    navigate('/flashcardsProf', {
+      state: {
+        courseId: id,
+        courseTitle: course.title
+      }
+    });
+  };
+
   const handleNavClick = (label) => {
     if (label === "Home") navigate("/dashboard")
     else if (label === "Library") navigate("/library")
@@ -276,7 +285,7 @@ function CoursePage() {
           <div className="flashcards-header">
             <h2 className="graph-section-title">Flashcards</h2>
             <div className="flashcards-buttons">
-              <button className="flashcard-add-button">Add</button>
+              <button className="flashcard-add-button" onClick={handleAddFlashcard}>Add</button>
               <button className="flashcard-remove-button">Remove</button>
             </div>
           </div>
