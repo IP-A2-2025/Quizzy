@@ -1,0 +1,581 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java
+Advanced Programming
+Java Collections
+Framework
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Collections
+
+- A collection is an object that groups multiple
+elements into a single unit.
+
+' Vectors, Lists, Stacks, Sets, Dictionaries, Trees,
+Tables, etc.
+
+- Promotes software reuse
+
+- Reduces programming effort
+
+- Increases program speed and quality
+
+~ Benefits from polymorphic algorithms
+
+- Uses generics
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Collections Framework
+- Interface List
+- Abstract class AbstractList
+I arrathst
+- Concrete implementation Llskedhst
+ector
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+The Core Collection Interfaces
+I Emllauttnn | Map
+El; g Imam | [)9tu | Enﬂuﬂap
+| Eurtadﬁat _ _ _
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+lnterfata Hash Array Tree Linked Hash+Linked
+
+Set HashSet TreeSet LinkedHashSet
+List ArrayList LinkedList
+
+Vector
+Queue LinkedList,
+
+ArrayBlocking ConcurrentLin
+
+Queue kedQueue
+Deque ArrayDeque LinkedDeque
+Map HashMap TreeMap LinkedHashMap
+
+Hashtable
+I I I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+The Collection interface
+- A collection represents a group of obiects (elements)
+- Some collections are indexed, others are not.
+- Some collections allow duplicate elements, others do not.
+- Some are ordered and others unordered.
+- Some are thread-safe, others are not.
+- All collections are iterable: Iterator pattern
+— public interface Collection<E> extends Iterable<E>
+- Dedicated subinterfaces: List, Set, Queue, etc.
+- Many (indirect) implementing classes.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Common operatlons
+public interface Collection<E> extends Iterable<E> {
+int size();
+boolean isEmpty();
+boolean contains(Object o);
+Iterator<E> iterator();
+Object[] toArray();
+<T> T[] toArray(T[] a);
+default <T> T[] toArray(IntFunction<T[]> generator) {
+return toArray(generator.apply(0));
+}
+boolean add(E e);
+boolean remove(Object o);
+boolean containsAll(Collection<?> c); e Inclusion
+boolean addAll(Collection<? extends E> c); e Union
+boolean removeAll(Collection<?> c); e Difference
+boolean retainAll(Collection<?> c); e Intersection
+void clear();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Lists: ArrayList, LmkedLlst
+
+- Alist is an indexed collection (seguence).
+
+- Each element has a position (integer), starting
+
+from O. Just like an array.
+
+- Duplicates are allowed.
+
+- A list can be implemented in various ways
+-—
+-—-
+
+Bad practice:
+
+Using implementations as reference types:
+AfrayList<String> list = new ArrayList<>();
+Using raw generics:
+
+List list = new ArrayList();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Using a List
+List<String> list I new ArrayList<>();
+list.add("a");
+list.add("b");
+System.out.println(list); // [a, b];
+assgrt liSt'Size() I: 2; To enable assertions
+assert list.get(O).equals("a"); US$theJan0pﬁ0n'ea
+assert list.get(l).equals("b"); java-GGIMYAPP
+assert list.index0f("a") I: O;
+indexOf, contains use the
+list . remove ("b") ,- equals method of the elements!
+assert !list.contains("b");
+assert list.contains("a");
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+~ ArrayList<E> implements List<E>
+private static final int DEFAULT_CAPACITY I lO;
+Object[] elementData;
+private int size;
+- LinkedList<E> implements List<E>
+int size I O;
+Node<E> first;
+Node<E> last; private static class Node<E> {
+E item;
+Node<E> neXt;
+Node<E> prev;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+The importance of equals
+- Methods like: contains, indexOf, remove, etc.
+rely on the equals method:
+public boo/ean contains( Object o)
+returns true if this list contains the specified
+element. More formally, returns true if and only if
+this list contains at least one element e such that
+—
+- Source code (in ArrayList, approximative):
+for (int i I O, n I size(); i < n; i++) {
+if (o.-(elementData[i])) {
+return true;
+l
+l
+return false;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Iteratlng Over a Llst
+- As an indexed collections
+for (int iIO, nzlist.size(); i < n; i++ ) {
+System.out.println( list.get(i) );
+}
+- Iterator and Enumeration
+for (Iterator it = list.listIterat0r(); it.hasNext(); ) {
+System.out.println(it.next());
+it.remove();
+}
+- for-each
+List<Student> students = new ArrayList<>();
+£5; (Student student : students) {
+student.setGrade(lO);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+I I I 7
+ArrayLlst or LinkedList.
+public class TestList {
+private final static int N I lOO_OOO;
+public void testAdd(List<Integer> list) {
+long tl I System.currentTimeMillis();
+for (int i I O; i < N; i++) {
+}
+long t2 I System.currentTimeMillis();
+}
+public void testGet(List<Integer> list) {
+long tl I System.currentTimeMillis (); get 3 m8 w mS
+for (int i I O; i < N; i++) {
+list.get(i);
+}
+long t2 I System.currentTimeMillis();
+System.out.println("Get: " + (t2 — tl)); _ _ .
+} Conclusmn: Choosmg a certaln
+public void testRemove (List<Integer> list) { implementation depends on the
+long tl I System.currentTimeMillis(); t fth bl b . I d
+for (int i = 0,- i < N; i++) { na UFEO e pro em elng sove .
+list.remove(0);
+}
+long t2 I System.currentTimeMillis();
+System.out.println("Remove : " + (t2 — tl));
+}
+public void runTests(List<Integer> list) {
+testAdd(list); testGet(list); testRemove(list);
+}
+public static void main(String args[]) {
+TestList app I new TestList();
+app.runTests(new ArrayList<>());
+app.runTests(new LinkedList<>());
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+The Set interface
+- A collection that contains no duplicate elements (models
+the mathematical set abstraction).
+More formally, sets contain no pair of elements e1 and e2
+such that e1.equals(e2), and at most one null element.
+- Sets are not indexed! We use iterators or for-each in order
+to traverse the set.
+- A set can be implemented in various ways
+—
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+~ HashSet<E> implements Set<E>
+HashMap<E,Object> map;
+Uses the hashCode of an Object.
+This class offers constant time performance for the basic operations
+(add, remove, contains and size), assuming the hash function disperses
+the elements properly among the buckets.
+
+- TreeSet<E> implements Set<E>
+private NavigableMap<E,Object> m; //a specialized SortedMap
+The elements are sorted using their natural ordering, or by a Comparator
+provided at set creation time
+This implementation provides guaranteed log(n) time cost for the basic
+operations (add, remove and contains).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Using a Set
+Set<String> set I new HashSet<>();
+set.add("b"); set.add("a"); set.add("a");
+System.out.println(set); // [a, b]
+N0 guarantees about order.
+assert set.size() I: 2;
+WW. . H H ,
+set.remove ("b") ,- indexOf, contains use the
+assert set_contains ("a") ; equals method of the elements.
+for(String s : set) {
+System.out.println(s);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+A ' H h 7
+ITGYLISZ‘ OF 88 Set.
+public class TestSet {
+final static int N = lOO_OOO;
+public void testAdd(Collection<Integer> collection) {
+long tl I System.currentTimeMillis();
+for (int i = O; i < N; i++) {
+COlleCtion.add(i); ---
+}
+long t2 = System.currentTimeMillis();
+}
+public void testIterate(Collection<?> collection) {
+long tl = System.currentTimeMillis(); iterate 51 ms 12 ms
+for (Object obj : collection) {
+obj.toString(); //do something
+}
+System.out.println("Iteratez " + (t2 — tl)); _
+} Memory low hlgh
+public void testContains(Collection<?> collection) {
+long tl I System.currentTimeMillis();
+for (i111; i = O; i < N; i(+)+> { Conclusmn: Choosmg a certaln
+co ection.contains i ; - -
+} Implementatlon depends on the
+long t2 = System.currentTimeMillis <>,- nature of the problem being solved.
+System.out.println("Containsz " + (t2 — tl));
+}
+public void runTests(Collection<Integer> collection) {
+testAdd(collection); testIterate(collection); testContains(collection);
+}
+public static void main(String args[]) {
+TestSet app I new TestSet();
+app.runTests(new ArrayList<>());
+app.runTests(new HashSet<>());
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+The Queue interface
+- A queue is a first-in-first-out (FIFO) linear collection;
+lt has a head and a tail.
+- Provides additional insertion, extraction, and
+inspection operations.
+add, remove, element (throw exceptions)
+offer, poll, peek (return special values)
+~ Example
+Queue<String> q I new LinkedList<>();
+q.offer("a"); // same as q.add
+q offer("b"); // adds elements at the tail
+assert q.peek().equals("a"); //returns the head
+assert q.poll().equals("a"); //returns and removes
+assert q.peek().equals("b");
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+The PriorityQueue class
+
+- A queue based on a priority heap. The elements of the
+priority queue are ordered according to their natural
+ordering, or by a Comparator. The head of the queue
+is the least element with respect to the ordering.
+
+- The implementation provides O(log(n)) time for the
+enqueing and dequeing methods, linear time for the
+remove and contains methods; and constant time for
+the retrieval methods (peek, element, size).
+
+' Example:
+
+PriorityQueue<Integer> pQueue I new PriorityQueue<>();
+pQueue.add(3); pQueue.add(l); pQueue.add(2);
+assert pQueue.peek().equals(l);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Stacks and Deques
+
+- The Stack class represents a last-in-first-out (LIFO)
+stack of objects. Obsolete, just like Vector.
+
+- Deque is a linear collection that supports element
+insertion and removal — ("double ended
+queue“.
+
+- Deques can be used to implement LIFO collections:
+Deque<Integer> stack = new ArrayDeque<>();
+stack.push(1); //same as addFirst
+stack.push(2);
+assert stack.peekFirst().equals(2); //same as peek
+assert stack.peekLast().equals(l);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+The Map interface
+- An object that maps keys to values.
+- lt is similar to describing a dictionary.
+~ public interface Map<K, V> { }
+- A map cannot contain duplicate keys; each key can map to at
+most one value.
+- Example: Map<Country, City>
+@y Value
+Romania —> Bucharest
+France —> Paris
+' Implementations:
+——
+—-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Using a Map
+Map<String, String> map I new HashMap<>();
+map.put("Romania", "Bucharest");
+map.put("France", "Paris");
+System.out.println(map);
+//Romania:Bucharest, FranceIParis}
+assert map.get("France").equals("Paris");
+assert map.containsKey("Romania");
+for(String country : map.keySet()) {
+
+System.out.println(map.get(country));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Under the Hood
+- HashMap can achieve an average time complexity of 0(1) for
+the put and get operations and space complexity of O(n).
+~ Instead of iterating over all its elements, HashMap attempts to
+calculate the position of a value based on its key.
+- HashMap stores elements in so-called buckets and the number
+of buckets is called capacity.
+Node<K,V>[] table;
+Set<Map.Entry<K,V>> entrySet;
+- The index in the table array is computed using the hashCode
+method of the key object.
+' Inside a bucket, values are stored either in a list (for less than 8
+elements) or in a balanced tree. The data structure changes
+dynamically. The performance of iterating: O(log |bucket|).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+HasMap.get
+final Node<K,V> getNode(int hash, Object key) {
+Node<K,V>[1 tab; Node<K,V> first, e; int n; K k;
+if ((tab I table) I: null && (n I tab.length) > O &&
+(first = tab[(n — 1) & hash]) l= null) {
+if (first.hash I: hash && // always check first node
+((k I first.key) I: key
+|| (key != null && key.equals(k))))
+return first;
+if ((e I first.next) !: null) {
+if (first instanceof TreeNode)
+return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+do {
+if (e.hash I: hash &&
+((k I e.key) I: key
+|| (key !: null && key.equals(k))))
+return e;
+} while ((e I e.neXt) !: null);
+}
+}
+return null;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+hash Code and equals
+public class Player {
+private String name;
+// ...
+@Override
+public int hashCode() {
+int hash = 7;
+hash I 67 * hash + Objects.hashCode(this.name); //example
+return hash;
+}
+@Override
+public boolean equals(0bject obj) {
+if (this I: obj) return true;
+if (obj == null) return false;
+if (!(obj instanceof Player)) return false;
+Player other = (Player) obj;
+return Objects.equals(this.name, other.name);
+}
+// . . . When a hashCode() comparison returns false,
+l the equals() method must also return false.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:26**************
+Assume there is another property Integer id;
+public boolean equals(0bject obj) {
+if (this == obj) return true;
+if (obj == null) return false;
+if (!(obj instanceof Player)) return false;
+Player pers = (Player) other;
+return Objects.equals(this.id, other.id);
+}
+Map<Player, String> map = new HashMap<>();
+map.put(new Player("Messi"), "PSG");
+map.put(new Player("Ronaldo"), "Manchester United");
+System.out.println(map);
+{Messi=Manchester United}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:27**************
+Polymorphlc Algorlthms
+java.util.Collections
+' sort
+' shuffle
+' binarySearch
+' reverse
+' fill
+' COPY
+' min
+' max ‘
+' swap Q
+' enumeration
+' unmodifiableCollectionType
+List<String> immutablelist = Collections.unmodifiableList(list);
+immutablelist . add < "Oops. . .? ! ") ,- What DesignPattern?
+' synchronizedCollectionType
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:28**************
+- The explicit type can be replaced by the reserved type name
+var for W.
+String str = "Hello"; é> _
+
+- Explicit vs. Implicit, Verbosity vs. Readability
+
+' Examples
+var stringList = List.of("a", "b", "6");
+var personList = new ArrayList<Person>();
+for(var person : personList) { }
+var companyToEmployees = new HashMap<String, List<String>>();
+for (var entry: companyToEmployees. entrySet()) {
+
+var employees = entry.getValue();
+l
+var itemQueue = new PriorityQueue<>(); // PriorityQueue<Object>
+vaf—x—=—ﬂa%%¢
+
+***************Ending Page***************
+

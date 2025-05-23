@@ -1,0 +1,894 @@
+***************Beginning Page***************
+***************page number:1**************
+Lenuta Alboaie (adria@info.uaic.ro)
+Andrei Panu (andrei.panu@info.uaic.ro)
+Retele de calculatoare — https://www.info.uaic.ro/”computernetworks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+' Domain Name System (DNS)
+' Ca racteriza re
+'Qrganizare
+' Configura re
+'Comenzi, Primitive
+~ IDN
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+DNS
+
+' Adresele IP (de ex. 85.122.23.145,
+2001:Odb8:0001:OOOOzOOOOanb9zCOA8:0102)
+sunt dificil de memorat
+
+' Se utilizeaza un sistem al numelor de domenii
+pentru a translata adresele IP in nume de
+domenii si invers
+
+' Numele de domenii se organizeaza in ierarhii
+
+' RFC 1034, 1035, 1123, 2181 3
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+DNSI organizare
+
+' Initial: /etc/hosts — perechi (nume, IP)
+— Probleme de scalabilitate
+
+' Actual: DNS consta dintr-o schema ierarhica de
+nume de domenii si dintr-un sistem de baze de
+date distribuite ce implementeaza aceasta
+schema de nume
+
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+|""— Generic. —~| |*— '51:,“an —,_
+inf/m nl
+| | /*-.- A /\
+sun gala- acrn mea- an: m use w
+| /\ . f3. I. l I
+ang as eng |a¢h 1m mam new: 1:5
+./“‘~:~ | | l/“a .
+Ell Ilrlﬂa G5 LEI ‘"llE IIUIt
+Willi-"1 pclE4
+Figura. O portiune a spatiului numelor de
+domenii in Internet
+5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+DNSi Tipuri de domenii
+' Primare (Top Level Domains — TLD)
+— pentru lnfrastructura Internet — un singur domeniu .arpa ARPA
+(Address and Routing Parameter Area)
+' "Changes to the .arpa zone must be coordinated manual/y with IANA”
+— State (ccTLD) — coduri de state: .ro, .fr, .jp,
+— IDN ccTLD (lnternotionolized Country Code Top-Level Domains)
+httQ://1§|J¥.§J'1|Jiiﬁ http://example.test
+— Generice: .biz, .com, .info, .name, .net, .org, .pro
+— Sponsorizate: .aero, .edu, .gov, .int, .jobs, .mil, .tel
+— Rezervate: .example, .invalid, .Iocalhost, .test
+— Pseudo-domenii: .bitnet, .Iocal, .root, .uucp etc.
+https://www.iana.org/domains/root/db/ 6
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+DNSl l' ' d d "
+Q a https://Www.iana.org/domains/root/db °°° Q
+Domain Names Root Zone Database
+Overview The Root Zone Database represents the delegation details oftopslevel domains, including gTLDs such as
+Root Zone Management .com, and country-code TLDs such as .uk. As the manager of the DNS root zone, we are responsible for
+Overview coordinating these delegations in accordance with our policies and procedures.
+R t D taba
+'_Jo a se_ Much of this data is also available via the WHOIS protocol at whois.iana.org.
+Hint and Zone Files
+Change Requesni DOMAN TYPE TLD MANAGER
+Instructions & Guides —
+.aaa generic American Automoblle Association, Inc.
+Root Servers
+.INT Registry .aarp generic AARP
+ARPA Registry .abarth generic Fiat Chrysler Automobiles N.V.
+IDN Practices Repository .abb generic ABB Ltd
+Root Ke Si nin Ke DNSSEC
+y g g yt ) .abbott generic Abbott Laboratories, Inc.
+Reserved Domains
+.abbvie generic Abeie Inc.
+.abc generic Disney Enterprises, Inc.
+.able generic Able Inc.
+.abogado generic Minds + Machines Group Limited
+.abudhabi generic Abu Dhabi Systems and Information Centre
+.ac country-code Network Information Center (AC Domain Registry) c/o Cable
+and Wireless {Ascension Island)
+.academy generic Binky Moon, LLC
+.accenture generic Accenture plc
+7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+DNS‘ Tipuri de domenii
+
+' Domeniu de nume
+
+— Subarbore al arborelui de domenii
+
+— Nu trebuie sa respecte topologia retelei fizice
+' Sub-domenii:
+
+— intreaga cale de nume nu depaseste 255 de
+
+caractere
+' Nume de calculatoare (gazde)
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+DNS
+' Exemplu:
+‘.edu .com ‘.org ‘.cn ‘ .ro ‘
+‘uaic utcluj ‘
+info helios
+thor
+fenrir
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+DNSI organizare
+' Reguli de alocare a numelor de domenii:
+
+— Fiecare domeniu controleaza cum sunt alocate
+subdomeniile sale
+
+— Pentru a crea un nou subdomeniu, se cere
+permisiunea domeniului in care va fi inclus (un
+domeniu de Ia un anumit nivel va avea 0 autoritate)
+
+—Atribuirea de nume de domenii respecta granitele
+organizationale, nu pe cele ale retelelor
+
+—Un anumit nivel din ierarhia de niveluri poate fi
+controlat de mai multe servere 10
+
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+DNSI organlzare
+' Servere de nume (name servers)
+— Teoretic, un singur server de nume poate contine
+intreaga baza de date DNS si poate raspunde
+tuturor cererilor
+' Probleme: incarcarea si "single point of failure”
+— Spatiul de nume DNS se divide in zone ne-
+suprapuse
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+DNSI organlzare
+' Servere de nume (name servers)
+Exemplu: O posibila impartire a spatiului de
+nume DNS in zone
+‘IE! mm ‘Ell IE1 ﬁll! @l' ‘El ‘El Eh "l
+sun al? acm+eee an er: we m
+l \ . /\.. .
+Eng) 4:5 Eng Jail-z ll|| ken} foe-l: cs
+‘ A ' ' $3
+3| lrnda, 1:5 ml l|||;5 ﬂull
+ruin-‘t 91-34
+[Computer Networks, 2003
+AndrewS.Tanenbaum] 12
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+DNSI organizare
+' Servere de nume (name servers)
+
+— Exista un server primar (primary/authoritative
+name server) care deserveste un anumit domeniu
+si, eventual, mai multe servere secundare
+continand baze de date replicate
+
+— TCP se utilizeaza pentru replicarea DNS
+
+— UDP pentru interogari (lookups)
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+DNSI organlzare
+' Client DNS
+— Denumit resolver, trimite un pachet UDP serverului
+DNS, care cauta numele si returneaza adresa IP
+Aplicatie Server DNS uaic.ro
+1-»,
+uaic. r0 I‘
+DNS DB l
+Authoritative Replici
+[Retele de calculatoare —
+curs 2007-2008, Sabin Buraga] 14
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+DNSI organizare
+
+' Exemplu de implementari ale serverului de
+nume: BIND (Berkeley Internet Name Domain),
+IVISDNS, PowerDNS etc.
+
+' Ca resolver (client) interactiv, se poate folosi de
+exemplu una dintre comenzile: nslookup, host
+sau dig.
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+DNSI Interogarl
+' lnterogari:
+
+— Recursiva — daca un server DNS nu cunoaste adresa
+pentru numele solicitat, atunci va interoga alt
+server DNS
+
+—lncrementala — daca serverul DNS nu stie sa
+raspunda, returneaza eroare si adresa altui server
+DNS (numit si referral) care ar putea cunoaste
+raspunsul Ia interogare
+
+[http://technet.microsoft.com/en-us/Iibrary/cc775637%28v=ws.10%29.aspx]
+16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+DNSI mterogarl
+' Fiecarui domeniu ii este asociata 0 multime de
+inregistrari de resurse (resource record — RR)
+' IVlecanismuI:
+— Cererea: resolver-ul trimite un nume de domeniu
+— Raspunsul: inregistrarile de resurse asociate acelui
+nume (stocate in bazele de date DNS)
+DNS realizeaza corespondenta dintre numele de
+domenii si inregistrarile de resurse 17
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+DNSI interogarl
+' Forma generala RR este:
+
+Nume_d0meniu Timp_de_viata Tip Clasa Valoare
+Nume_d0meniu (domain name) — precizeaza
+
+domeniul caruia i se aplica aceasta inregistrare
+Timp_de_viata (time-to-Iive) — da 0 indicatie despre
+
+cat de stabila este inregistrarea
+
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+DNSI interogari
+Tip - precizeaza tipul inregistrarii
+
+— SOA (Start OfAuthority) : domeniul curent, adresa e-mail a
+administratorului etc.
+
+— A— adresa IP a gazdei
+
+— MX (mail exchangers) — precizeaza numele domeniului
+pregatit sa accepte posta electronica pentru domeniul
+specificat
+
+— CNAME (Canonical Name) — permite crearea pseudonimelor
+
+— PTR (Pointer) — Pseudonim pentru adresa IP
+
+— HINFO- permit aflarea tipului de masina si de sistem de
+operare carora le corespunde domeniul
+
+— TXT: text neinterpretat (comentarii) 19
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+DNSI Interogarl
+Clasa: pentru Internet valoarea acestuia este IN
+Valoare: acest camp poate fi un numar, un nume de
+domeniu sau un sir ASCII; semantica depinde de
+tipul de inregistrare
+Type _ Heanlng _ ‘I-l'alue
+EDA _ Start 01 Authnrily . Paramelersforlhisznna
+Exemple de A IF address ofahust {IE-Bil integer
+' ' ' MI"; Mailexchan IE! Priorityjumain willin to acne te-r'nail
+lnrengtrarl N5 _ Name Serve? . Name ulasaweriurﬁwis Gama?"
+de [SHAME _ Canunicalnarne _ Domain name
+PTFI Pointer Alias fur an IF address
+I'GSUFSE DNS HINFD _ Hustdescriptiun . cPu andDSinASGII
+TIT Tex! Unintarpretecl ASCII text
+20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+D NS \ f‘
+' Exemplu de f|5|er pentru speCIflcarea unel zone
+DNS |-' EII'IIE filE fE-I‘ a:-:i::-]_::-:;[i::.r::-
+L The full zene file
+éTTL ED
+E IE EﬁA nel.axielegi:.re. ahee.axielegi:.re. [
+EEETE5E1EE : aerial, teiaye aate + teeaye aerial #
+léécc : refreehr eeeenee
+TECC ; retryr aeeenaa
+12EEEEE : expirer eeeenEE
+10 J : minimum, eeeenee
+é H5 nel.axielegi:.re. : Inet Aaereee ef name server
+E HE naE.azi:legi:.re. ; Inet Aaareaa if name server
+E HE 5 mailx.axielegi:.re. : Primary Hail Exehanger
+ieealheat A 12?.E.E.1
+axielegi:.re. A 12.2ee.1c5.152
+www A TE.EeE.1C5.1EE
+mailx CHAHL axielegi:.net.
+mail A 22?.21E.1c1.1ee
+ftp A 12.2ée.1:5.153
+axielegi:.re. IE TAT “v=epfl mx m£:mailx.axielegi:.re. Hall“
+n51 A 22?.21c.1cl.1ee
+n52 A 2C?.21E.1C1.21E E
+T
+Retele de calculatoare — https://www.info.uaic.ro/”computernetworks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+DNSI cl lentl, resolverl, servere
+r__jEE@WTL__1
+l l
+: applicaﬁnn :
+: mde :
+:hmctiglr; I {um-Hun:
+l ‘I: I'E'tLII'I'I l - IIJIE l'll 1'
+I --—H_
+: mill:- I I mp I" server 50111213
+L_____ _____J
+Ca fisier de configurare al
+resolver-ului: /etc/resolv.conf
+[Unix Network Programming, R. Stevens
+B. Fenner, A. Rudoff- 2003
+22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+DNS‘ configurare
+' Exemplu de fisier /etc/reso|v.conf
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+DNSI interogarl Inverse
+' Problema:
+— Data 0 adresa, care va fi numele ei simbolic?
+(reverse DNS resolution sau reverse DNS lookup)
+Exemple:
+2) 20011db822567289ab
+b.a.9.8.7.6.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+DNSl optimizari
+
+Proximitatea spatiala: serverele locale vor fi
+interogate mai cles decat cele la distanta
+
+Proximitatea temporala: daca un set de domenii sunt
+referentiate repetat atunci se apeleaza la caching
+DNS
+
+Fiecare intrare DNS va avea stabilita o valoare TTL
+(time to live)
+
+Se va utiliza si replicarea (servere multiple, servere
+root multiple) — se va interoga cel mai apropiat
+(geografic) server
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+DNS‘ comenzi
+Ca resolver interactiv se pot folosi comenzile:
+—nslookup
+—dig
+—host
+—whois
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Exemple de ut|l|zar|:
+> nslookup www.info.uaic.ro
+- Returneaza RR de tip A folosind serverul DNS local
+~ ﬂﬂliikup www.1nf:.uai:.r:
+Server: 55.122.1€.1
+Aﬁﬁreaa: 55.122.15.1#53
+1-:1-c1-:.:i_11:'::-.1111i::1.1:::- :1111::-11i::1al 11111112 = '-.-'i-:‘.111:.in:'::-.ua:i_::.1:=:-. HOSt LOOkUp
+Kama: viﬁar.inf:.uai:.r:
+Qﬁﬁraaa: 55.122.23.1é5
+> nslookup 85.122.23.1
+- Returneaza RR de tip PTR pentru 85.122.23.1 in ierarhia de domenii in-addr.arpa
+H ﬂﬂlﬁﬁkup EE.122.EE.1
+Earvar: 55.122.16.1
+“11:1111.111.11.11111 RGVGFSG IP
+Lookup
+1.23.122.EE.in-aiir.arpa mama = thir.inf:.uai:.r:.
+[http://wvwv.zytrax.com/books/dns/ch3l]
+Retele de calculatoare — https://www.info.uaic.ro/”computernetworks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+DNS‘ nslookup
+Exemple de utilizari:
+> nslookup www.axiologic.ro
+- Returneaza RR de tip A folosind serverul DNS specificat
+HOStLOOkup
+> man nslookup
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+D N S | d '
+
+d'g ‘t t't'dtlk
+
+~ a1; www.1nfs.uai:.rs A
+
+: {i}? DIG E.E—EE?—EE {i}? www.1nfs.uai:.rs A
+
+Exem lu de :..' :gls-hal ::-1:|t.i::-ns: +::1:n-:i
+
+F) :: Est answsr:
+. . ;; —}}HEADEE{{— spssss: QUERY, status: HQEEEQE, is: 15335
+utlllza re: :.' flags: s'r aa r-s Ira: 'I;;T_TE.E":_': 1, AI-IEJQEE: E, ALTH-IIIIEITT: 23!, ADDITI-IIIII-ZAL: E
+
+l:; QUESTIQH EECTIUH:
+:www.infs.uai:.rs. IE A
+i
++:.' AHEWEE SECTIQH:
+www.1nfs.uai:.rs. BEECC IE CHAHE visar.infs.uai:.rs.
+visar.infs.uai:.rs. BEECC IE A 55.122.23.1EE
+
+. . . ':: AETHUEITT EECTIUH:
+linfs.uai:.rs. BEECC IE HE sniz.uai:.rs.
+infs.uai:.rs. BEECC IE HE ns.iasi.rsssu.nst.
+|:; ADDITIUHAL EECTIUH:
+ns.iasi.rsssu.nst. BEECC IE A 152.1EE.E.1CC
+lns.iasi.rsssu.nst. BEECC IE AAAA ECGl:hEC:1:1CC::1CC
+sniz.uai:.rs. BEECC IE A 55.122.1E.E
+srisn.uai:.rs. BEECC IE A 55.122.1E.1
+:: ﬁusry tims: 1 mss:
+:: 5EE?EE: EE.1EE.1E.1#53[55.122.15.11
+:: WHEH: Hsn Es? 1E 11:5?:2? 2511
+:: HEG SIZE Essa: 215
+
+Retele de calculatoare — https://www.info.uaic.ro/”computernetworks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+DNS \ comenzi
+host
+Exemplu de utilizare:
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Registrant:
+Internaticnal Business Hachines Ocrpcraticn
+New Orchard Rcad
+Armcnk, NY 13534
+Q 1TB
+D N S W I I O l S Dcmain Name: IBHJOOH
+Frcmcte vcur business tc millicns cf viewers fcr cnlv $1 a mcnth
+Learn hcw vcu can get an Enhanced Business Listing here fcr vcur dcmain nan
+Learn mcre at http:ffwww.NetwcrkScluticns.cch
+Administrative Ocntact:
+IBH DNS Admin dnsadeus.ibm.ccm
+IBH Ocrpcraticn
+New Orchard Rcad
+Armcnk, NY 13534
+33
++1.314T65422? fax: +1.314T6543?3
+i1 . .t) Technical Ocntact:
+W I m m IBH IOcrpcraticn ipregﬁus.i'nm.ccm
+o S I ‘co New Orchard Rcad
+Arm.cnI-cI NY 13534
+35
++1.3132544441 fax: +1.314?6543?3
+Reccrd expires cn 23-Har-2313.
+Reccrd created cn 13-Mar-1335.
+Database last updated cn 3-ch-2313 34:12:22 EST.
+Dcmain servers in listed crder:
+INTERNET-SERNER.ZURICH.IBH.OOH 135.1TE.23.234
+N.3.WA'I.3ON.IBI{.OOI{ 123.34.23.33
+N3.ALHADEN.IBH.OOH 133.4.33.35
+N3.A3311N.IBH.OOH 132.33.232.34
+adriaEthcr:~$
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+DNSI primitive
+' Nu trebuie scris un resolver pentru a afla adresa IP a
+unei gazde
+' Functii principale:
+' gethostbyname(); getaddrinfo();
+' gethostbyaddr() ; getnameinfo();
+' La unele sisteme de operare (e.g., Solaris) va trebui la
+compilare sa folosim biblioteca nsl (Name Server
+Library): gcc -|ns|
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+DNSI primitive
+Una din structurile folosite: hostent
+struct hostent {
+char *h_name; /* nume oficial (canonical) */
+char **h_aliases; /* alias-uri */
+int h_addrtype; /* AF_|NET */
+int h_length; /* lungimea adresei: 4 sau 6 */
+char **h_addr_list; /*pointeri Ia adresele IP */
+};
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+DNSI prlmltlve
+Structura hostent:
+
+Numele oficial al hostului
+m (canonical name)
+m —
+m
+
+=
+34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+DNS‘ gethostbynameO
+#include <netdb.h>
+struct hostent *gethostbyname
+(const char *hostname);
+' In termenii DNS, gethostbyname() realizeaza 0
+cerere pentru 0 inregistrare A
+' Obs. gethostbyname() se foloseste in special
+pentru IPv4
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+DNS‘ gethostbynameO
+' Returneaza:
+— In caz de succes returneaza un pointer la hostent, ce
+contine adresa IP a host-ului
+— In caz de eroare NULL, iar variabila h_errno indica
+eroarea aparuta:
+- HOST_NOT_FOUND
+' Constante definite in
+° NO_RECOVERY netdb.h
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+DNSI gethostbynameO
+' Exemplu de utilizare: completarea structurii sockaddr_in avand in
+Ioc de adresa IP un nume simbolic:
+
+struct sockaddr_in server;
+struct hostent *hos;
+if(!( hos = gethostbyname(”fenrir.inf0.uaic.r0") )
+
+{/*Er0are la rezolvarea adresei*/}
+server.sin_family=AF_lNET
+
+/* adresa lP 0 luam din structura hos */
+memcpy(&server.sin_addr.s_addr, hos->h_addr_list[0],
+
+size0f(hos->h_addr_|ist));
+server.sin_port=hton5(4321);
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+DNSI gethostbyaddrO
+#include <netdb.h>
+struct hostent *gethostbyaddr (
+const char *addr,
+socklen_t len,
+int family);
+~ In termenii DNS, gethostbyaddr() realizeaza o cerere Ia serverul
+de nume pentru 0 inregistrare PTR in domeniul in-addr.arpa
+' Returneaza: In caz de succes returneaza un pointer Ia hostent, ce
+contine numele oficial al host-ului ; In caz de eroare NULL, iar
+variabila h_errn0 indica eroarea aparuta
+Obs. gethostbyaddr() se foloseste in special pentru va4
+38
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+DNSI getservbynameO
+#include <netdb.h>
+struct servent *getservbyname (const char *servname, const char
+*protoname);
+' Returneaza: un pointer la struct servent in caz de sucess, NULL in
+caz de eroare
+struct servent {
+char *s_name; /* numele oficial al serviciului*/
+char **s_aliases; /* alias-uri */
+int s-port; /* portul (network-byte order) */
+char *s_proto; /* protocolul */ };
+Exemplu: struct servent *pserv;
+pserv=getservbyname(”ftp”,”tcp”); /*FTP folosind TCP */39
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+DNS‘ getservbyportO
+
+#include <netdb.h>
+
+struct servent *getservbyport (int port, const char *protoname);
+
+' Cauta un serviciu dupa un numar de port si dupa protocol
+(opﬂonaU
+
+' Returneaza: un pointer la struct servent in caz de sucess, NULL in
+caz de eroare
+
+Obs. port este in network byte order
+
+Exemplu:
+struct servent *pserv;
+pserv=getservbyport( htons(53), "udp"); /*DNS folosind UDP */
+pserv=getservbyport( htons(21),”tcp”); /*FTP folosind TCP */ 40
+
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+DNS‘ getaddrinfo()
+#include <netdb.h> j~
+int getaddrinfo (
+const char *hostnaﬁge, )[w
+const char *service,/’/
+const struct addrinfo *hints,-____§~
+struct addrinfo **result );
+' Obs. hostname, service, hints — parametri de intrare
+' Returneaza: O in caz de sucess, !=O in caz de eroare
+' Se recomanda a fi folosita si pentru IPv4 si pentru IPv6
+' Combina functionalitati ale: gethostbynameO, getservbynameO,
+getservbyport() 41
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+DNS‘ getaddrinfoO
+struct addrinfo{
+int ai_flags; /* A|_PASS|VE, Al_CANONNAI\/|E */
+int ai_family; /* AF_|NET, AF_|NET6, AF_UNSPEC */
+int ai_socktype; /* SOCK_STREAI\/| sau SOCK_DGRAI\/| */
+int ai_protocol; /* 0 (auto) sau |PPROTO_TCP, IPPROTO_UDP */
+socklen_t ai_addrlen; /* Iungimea Iui ai_addr */
+char *ai_canonname; /* numele canonic al host-ului */
+struct sockaddr *ai_addr; /* adresa binara a socket-ului */
+struct addrinfo *ai_next; /* pointer Ia urmatoarea structura din
+lista */
+};
+42
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+DNSl getaddrinfo()
+Discutii:
+' Daca functia returneaza cu succes result va pointa la lista de struct
+addrinfo.
+Cazuri cind se pot obtine structuri multiple:
+— Exista mai multe adrese asociate cu numele hostului si cate o
+structura este returnata pentru fiecare adresa
+— Daca serviciul este furnizat pentru tipuri diferite de socket-uri,
+atunci cate o structura este returnata pentru fiecare tip de socket
+' lnformatia returnata de getaddrinfo() in structura struct addrinfo
+**result poate fi utilizata astfel:
+— Pentru socket() : ai_family, ai_socktype, ai_protocol
+— Pentru connect() sau bind(): ai_addr si ai_addrlen
+' freeaddrinfo()
+43
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+#include <netdb.h> _ Adresa socket-ulul trlmlsa ca
+_ _ / argument
+mt getnamemfo (
+const struct sockaddr *sockéddr,
+char *host,=:""""'
+char *serv,==-"""""'
+N|_NOFQDN -> host va contine doar
+socklen_t serVIen' _________... numele host-ului si nu intreg numele
+int ﬂags) ;------""'""- al domeniului
+' lnlocuieste gethostbyaddr() si getservbyportO
+' Returneaza: O in caz de sucess, !=O in caz de eroare
+44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+' Internatlonal Domaln Names (IDN)
+— Extensie care permite folosirea caracterelor Unicode
+in numele de domenii, nu doar a celor ASCII
+https://www.icann.0rg/en/t0pics/idn/
+16 Noiembrie 2009 - lnregistrarea de domenii cchN
+sau IDN ccTLD
+EMU-[11: ICAHH anneunees that Egypt, the Filussian Federatiein, Saudi
+Arabia, and the United Aral] Emirates were the ﬁrst eeuntries ta haire passed
+the Fast Track String Evaluation within the IDN ccTLD den-lain application
+preeess-
+— Pot fi exploatate pentru atacuri de tip phishing
+(... detalii intr-un curs viitor) 45
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:46**************
+DNSi administrare
+' Radacina DNS este oficial administrata
+de Internet Corporation for Assigned
+Names and Numbers (ICANN)
+' Exista si alte organizatii care ofera
+radacini alternative (alt DNS roots),
+precum OpenNIC (Network Information
+Center) sau New.Net
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+Rezumat
+' Domain Name System (DNS)
+' Caracterizare
+' Qrganizare
+' Configurare
+' Comenzi, Primitive
+- IDN
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:48**************
+I!’
+‘
+4s
+
+***************Ending Page***************
+

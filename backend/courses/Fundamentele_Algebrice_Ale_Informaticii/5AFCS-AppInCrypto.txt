@@ -1,0 +1,451 @@
+***************Beginning Page***************
+***************page number:1**************
+ALGEBRAIc FOUNDATIONS
+of COMPUTER SCIENCE
+ieciures by Ferucio Laurentiu Tiplea
+Appllcatlons of Number Theory |n
+Cryptography
+Prof.dr. Ferucio Laurentiu Tiplea
+Spring 2022
+Department of Computer Science
+“Alexandru loan Cuza" University of |a$i
+|a$i 700506, Romania
+e-mail: ferucio.tiplea©uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Introduction to cryptography
+Factorization and Euler's function
+Applications of the CRT
+Applications of the Jacobi symbol
+Reading and exercise guide
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introduction
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Introduction to cryptography
+o Cryptography is the field concerned with techniques for securing
+information, particularly in communications;
+0 Cryptography focuses on the following main paradigms:
+
+0 Privacy/conﬁdentiality — ensuring that no one can read the message
+except the intended receiver;
+
+o Authentication — the process of proving one's identity (the primary
+forms of host-to-host authentication on the Internet today are
+name-based or address-based, both of which are notoriously weak);
+
+o Integrity — assuring the receiver that the received message has not
+been altered in any way from the original.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 2/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Applications of cryptography
+o Computer and information security: cryptography is necessary when
+communicating over any untrusted medium, which includes just
+about any network, particularly the Internet.
+0 e-commerce, e-payment, e-voting, e-auction, e-Iottery, and
+e-gambling schemes, are all based on cryptographic (security)
+protocols.
+Examples of software tools that havily rely on cryptographic techniques:
+lPsec, SSL&TLS, DNSsec, S/IVIIIVIE, SET etc.
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 3/21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Cryptographic primitives
+Crypto primitives:
+1. Encryption schemes (ciphers)
+2. Digital signature schemes
+3. Hash functions
+4. Message authentication code (MAC) schemes
+5. Secret sharing schemes
+6. and more
+Basic elements of a cryptographic primitive:
+1. A message space
+2. A key space
+3. An output space (of ciphertexts, message digests and so on)
+4. Algorithms (for encryption, decryption, hashing, signing and so on)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 4/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Two classes of cryptographlc pr|m|t|ves
+Illustration on ciphers:
+o Symmetric (private-key, single-key) ciphers — encryptions and
+decryptions are performed by the same key
+Encryption Decryption
+Ihavc t ‘r t t lhav:
+leyicwcd rcvicwcd
+‘he new. \hc new.
+Ongrnal Symmetric Scrambled Symmclnc Ongmzl]
+dam kcy dala key dam
+o Asymmetric (public-key) ciphers — encryptions are performed by a
+public-key, While decryptions are performed by a corresponding
+private key
+Encrypnon Decryption
+Iliuyc i ,7 p T lhuyc
+reviewed , rcvicnccl
+rhc ncwv \hc new“
+Original Public Sclulnbled Private Original
+um key data key data
+t + T I A>ynnn=lm k=y
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science- Applications of Number Theory in CryptographySpring 2022 5 / 21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Factorization and Euler's
+function
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+The RSA cipher
+The RSA cipher, proposed in 1977 by Ronald Rivest, Adi Shamir, and
+Leonard Adleman is one of the most prominent public-key ciphers that is
+still secure and in use.
+Key generation: public key: (n, e), where
+n : pq, p and q distinct primes
+*
+e E Z44”)
+private key: (p, q, d), where
+ed E 1 mod ¢(n)
+Encryption of x e Zn: output c : Xe mod n mod n
+Decryption of c e Zn: output X : cd mod n
+Correctness: (Xe)d E X mod n, for all X G Zn Prove it!
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 6/21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+The RSA cipher
+Example 1 (With artificially small parameters)
+Let p : 61 and q : 53. Then:
+o n : pq : 3233 and ¢(n) : 3120;
+0 If we chose e I 17, then d can be computed with the extended
+Euclidean algorithm. We obtain d : e_1 mod 3120 : 2753;
+0 n I 3233 and e I 17 are public parameters; p, q, and d private;
+Let x I 123 be a plaintext. The cryptotext is
+c I 12317 mod 3233 I 855.
+In order to decrypt y we compute
+8552753 mod 3233 z 123.
+Profdr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 7/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Security of the RSA cipher
+Security issues:
+0 If p or q is recovered (e.g., by factoring n in reasonable time), then
+the system is completely broken;
+o If gb(n) can be computed in reasonable time, then the system is
+completely broken;
+o If d can be easily computed from n and e, then the system is
+completely broken.
+In practice:
+0 p and q are 512-bit primes (or even larger);
+o e is small (fast encryption) but chosen such that d > W (otherwise,
+an efficient attack can be mounted).
+For more details visit http://www.rsasecurity.com/.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 8/21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Digital signatures
+Public key cryptography solves another problem crucial to e-commerce
+and Internet cyber relationship: it lets you emulate written signatures.
+This use of the public-key is called digital signature.
+A digital signature must provide:
+
+o authenticity and integrity. That is, it must be "impossible" for
+anyone who does not have access to the secret key to forge (x, s) (x
+is the original data and s is its associated signature);
+
+0 non-repudiation. That is, it must be impossible for the legitimate
+signer to repudiate his own signature.
+
+Signing (encrypting with a private key) is extremely slow, so you usually
+add a time-saving (and space-saving) step before you encrypt messages.
+It is called message digesting or hashing.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 9/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Digital signatures from public-key ciphers
+Public-key ciphers may be used to produce digital signatures:
+o Assume that Ke is A's public key and Kd is A's private key and,
+moreover, eKe(de(x)) : x;
+o Then, the decryption of a message x by Kd is the digital signature
+associated to x. It can be verified by Ke:
+7
+X I eKJC/KAXD-
+Therefore, in such a case, Kd is used to sign messages (it will be
+secret) and Ke is used to verify signatures (it will be public).
+The RSA signature is obtained from the RSA public-key cipher.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 10/21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+The RSA digital signature
+Example 2 (With artificially small parameters)
+Let p I 61 and q I 53. Then:
+0 n I pq I 3233 and $(n) I 3120;
+o If we chose e I 17, then d can be computed with the extended
+Euclidean algorithm. We obtain d I e’1 mod 3120 I 2753;
+o n I 3233 and e I 17 are public parameters to verify signatures; p,
+q, and d are private parameters to sign messages;
+Let x I 123 be a message. The signature is
+s Z 1232753 mod 3233 I 2746.
+So, (123,2746) is the signed message.
+In order to verify the signature for (1237 2746) we compute
+274617 mod 3233 z 123.
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 11 / 21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Applications of the CRT
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Threshold sharing schemes
+The Chinese Remainder Theorem (CRT) has numerous applications in
+various fields of mathematics, computer science, and engineering. We
+illustrate below an application of it to secret sharing.
+A (k, n)-thresho|d sharing scheme, where k g n, consists of n parties
+P1, . . . , Pn sharing a secret S such that the following properties hold:
+1. each P,- has an information l,- (secret share);
+2. knowledge of any k of [1,. . . , In enables one to find 5 easily;
+3. knowledge of less than k of I17 . . . , /n does not enable one to find S
+easily.
+o Party P,- : people, software/hardware computing device Simply
+denote it by i and refer to it as user or participant;
+o Secrets and secret shares are usually viewed as integers.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 12/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Goldreich-Ron-Sudan (GRS) scheme
+1. Parameter setup: integers t and n such that O < t+ 1 g n and
+sequence of pairwise coprime integers m0 < m1 < < mn. All are
+public parameters;
+2. Secret and share spaces: the secret space is Zmo and the share
+space of the ith participant is Zmi, for all 1 g i g n;
+3. Secret sharing: given s G Zmo, share it by s,- : s’ mod mi, for all
+1 g i g n, where s’ is the unique solution modulo m0 Hi=1 m,- of the
+system
+XE r,-modm,-7 Ogigr
+where r0 : s and r,- is randomly chosen from Zm, for all 1 g i g t;
+4. Secret reconstruction: any t + 1 distinct shares 5,-1, . . . 7 s,-t+1 can
+uniquely reconstruct the secret s by computing first the unique
+. r+1
+solution modulo Ill-:1 mi] of the system
+XES/ijC/mij, 1§j§t+1
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 13/21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Goldreich-Ron-Sudan (GRS) scheme
+Example 3 (With artificially small parameters)
+1. Parameter setup: t I 2, n I 5 and
+m0:31<m1:37<m2:41<m3:43<m4:47<m5:53
+2. Secret sharing: We choose s I 13 for sharing, generate r1 I 3 and
+r2 : 5, and solve the system
+X E31 137 X E37 3, X E41 5
+We get s’ : 37151 and then the shares 3, 5, 42, 21, 51
+3. Secret reconstruction: Assume that the last 3 participants want to
+recover the secret s. They solve the system
+X E43 42, X E47 21, X E53 51
+and get 37151. By reducing this modulo 31 they obtain s : 13.
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science —App|ications of Number Theory in CryptographySpring 2022 14/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Security of the GRS scheme
+CRT-based secret sharing schemes can only achieve asymptotic security
+properties:
+o X random variable associated with the secret space Zmo;
+o For I Q {1, . . . , n}, Y, random variable associated to the combined
+share space HIE! Zmi;
+0 Loss of entropy: A(y/) : H(X) — H(X|Y/ : y,),, Where
+y/ € 11-6,me and H is the entropy;
+0 Asymptotic perfection: A(y/) e O as m0 e oo;
+0 Information rate of the participant i: |Zmi|/lZmO|;
+0 Asymptotic idealness: asymptotic perfection and the information
+rate of each participant goes to 1 as m0 —> oo.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 15/21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Security of the GRS scheme
+A sequence m0, m1, . . . , m,, of pairwise co-prime integers is called
+compact if m1 < < mn and there exists (9 G (0,1) such that
+0 0
+m0—m0<m,-<m0+m07
+for all 1 g i g n.
+Theorem 4
+The GRS secret sharing scheme is asymptotically ideal if and only if it is
+based on compact sequences of co-primes.
+For full details see [1, 2].
+For applications of secret sharing in security protocols see [3].
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 16/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Applications of the Jacobi
+symbol
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Cocks’ PKE scheme
+Key generation: pubiiC key: (n, a), where
+n : pq, p and q distinct primes
+azr2 modnwith r<—Z:
+private key: (p, q7 r)
+Encryption of m G {*1,1}: t <~ Z: With (i) I m
+output c I t + Elf-1 mod n
+Decryption of c e Zn: output m : (%2’)
+. c+2r _ F1(r+r)2 _ t _
+Correctness. (i) - i - (i) - m
+I1 I7 n
+For more details see [4]
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 17/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Cocks’ PKE scheme
+Example 5 (With artificially small parameters)
+Let p I 61 and q I 53. Then:
+0 n I pq I 3233 and let r I 17. Then, a I 289;
+0 n I 3233 and a I 289 are public parameters; p, q, and r secrete;
+Let m I —1 be the message to be encrypted. We choose t I 951.
+Remark that (%) I I1 I m. Then
+c I t + atTl mod n I (951 + 289-1625) mod 3233 I 1791
+is the ciphertext.
+In order to decrypt c we have to compute
+1791 + 2 - 17 1835
+i I i I —]_ I m
+3233 3233
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 18 / 21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+Security of Cocks’ PKE scheme
+Security issues:
+o lf a root of a can be efficiently computed, then the system is
+completely broken;
+o lf p or q is recovered (e.g., by factoring n in reasonable time), then
+the system is completely broken;
+o c E t + at_1 mod n is equivalent to t2 — ct + a E O mod n, for
+t 6 Zj. When a is a quadratic residue modulo n and c is a
+ciphertext, the congruence may have one, two, 0r four roots, and all
+have the same Jacoby symbol. Therefore, if one root can be
+efficiently computed, the message can be recovered.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 19/21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:25**************
+Reading and exercise guide
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:26**************
+Reading and exercise guide
+lt is highly recommended that you do all the exercises marked in red from
+the slides.
+lt is recommended that you go through the bibliography materials (which
+can be found freely 0n the Internet) to get the best possible picture of
+the applications of number theory in cryptography.
+Number theory is currently the basis of most public-key cryptography
+techniques.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science-Applications of Number Theory in CryptographySpring 2022 20/21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+References
+
+[1] Ferucio Laurentiu Tiplea and Constantin Catalin Dragan. A necessary and sufficient condition
+for the asymptotic idealness of the GRS threshold secret sharing scheme. Inf. Process. Lett.
+114(6):299?303. jun 2014.
+
+[2] Constantin Catalin Dragan and Ferucio Laurentiu Tiplea. On the asymptotic idealness of the
+Asmuth-Bloom threshold secret sharing scheme. Information Sciences, 463-464:75—85. 2018.
+
+[3] Sorin lftene. Secret Sharing Schemes with Applications in Security Protocols. PhD
+dissertation, “Alexandru loan Cuza" University of lasi, 2007.
+
+[4] Ferucio Laurentiu Tiplea, Sorin lftene, George Teseleanu, and Anca-Maria Nica. On the
+distribution of quadratic residues and non-residues modulo composite integers and applications
+to cryptography. Applied Mathematics and Computation. 372. 2020.
+
+Proﬁdr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science- Applications of Number Theory in CryptographySpring 2022 21 / 21
+
+***************Ending Page***************
+

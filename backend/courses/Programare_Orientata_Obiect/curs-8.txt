@@ -1,0 +1,2351 @@
+***************Beginning Page***************
+***************page number:1**************
+Gavrilut Dragos
+0 O P Course 8
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+b Constant expressions
+> For each (Range-based for loop)
+b Type inference
+sum mary b Structured binding (destructuring)
+> Static Polymorphism (CRTP)
+\ b Plain Old Data (POD)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Constant
+> expressions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Constant expressions
+b Constant expressions are pieces of code that the compiler can optimize by
+replacing them with their value that is computed before compilation phase
+> Constant expression can be easily deducted for variables (especially “const”
+variables). However, in case of functions this is more difficult.
+b Let’s analyze the following code:
+APP-CPD
+void main()
+{
+int x = 10;
+int y = x;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Constant expressions
+b Constant expressions are pieces of code that the compiler can optimize by
+replacing them with their value that is computed before compilation phase
+> Constant expression can be easily deducted for variables (especially “const”
+variables). However, in case of functions this is more difficult.
+b Let’s analyze the following code:
+APP-CPD
+void main()
+{
+int y = x;
+}
+> When creating “y” the compiler copies
+the value from “x”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Constant expressions
+b Constant expressions are pieces of code that the compiler can optimize by
+replacing them with their value that is computed before compilation phase
+> Constant expression can be easily deducted for variables (especially “const”
+variables). However, in case of functions this is more difficult.
+b Let’s analyze the following code:
+APP-CPD
+void main() _
+{ const int x = 10;
+> However, adding a “const” declaration in front of “x” makes the compiler
+change the way if creates “y” (now the compiler will directly assign the ue
+1O (the constant value of “x” to “y”)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Constant expressions
+b Constant expressions are pieces of code that the compiler can optimize by
+replacing them with their value that is computed before compilation phase
+> Constant expression can be easily deducted for variables (especially “const”
+variables). However, in case of functions this is more difficult.
+b Let’s analyze the following code:
+APP-CPD
+void main()
+{ .
+1:2 § :_,1(3+ 2 + 33 intx =1+2+3;
+}
+> The same thing applies for expressions where the result is always a constant
+value. In this case, the compiler computes the value of the expression
+“1+2+3” and assigns that value to “x” directly.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+b Constant expressions are in particular important when declaring arrays:
+APP-CPD
+int GetCount()
+{
+return 5;
+}
+void main()
+{ error C2131: expression did not evaluate to a constant
+int x[GetCount()]; note: failure was caused by call of undefined function or one not declared 'constexpr'
+} note: see usage of 'GetCount l
+b This code will not compile. In reality - GetCount() returns a “const” values, V
+but the compiler does not know if it can replace it with its value (for example
+GetCount() might do something else 9 like modifying some global variables).
+b The compiler will yield an error: “expecting constant expression” when
+defining “x”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Constant expressmns
+b Constant expressions are in particular important when declaring arrays:
+APP-CPD
+_int GetCount()
+return 5;
+}
+void main()
+{ error C2131: expression did not evaluate to a constant
+int x[GetCount()]; note: failure was caused by call o-F unde-Fined function or one not declared 'constexpr'
+} note: see usage of 'GetCount l
+b Even if we add a “const” keyword at the beginning of the function, the result V
+is still the same.
+b The compiler only knows that the result can not be modified (this does not
+imply that the result is a constant value, and that the compiler can replace
+the entire call for that function with its value).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Constant €X|DF€SSlOnS
+b Cx++11 adds a new keyword: “constexpr” that tells the compiler that a
+specific expression should be considered constant.
+APP-CPD
+—int GetCount()
+return 5;
+}
+void main()
+{
+int x[GetCount()];
+}—
+b Now the code will compile.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Constant expressmns
+b Cx++11 adds a new keyword: “constexpr” that tells the compiler that a
+specific expression should be considered constant.
+APP-CPP
+—int GetCount()
+} return 5; pUSh ebp
+void main() mOV ebp,esp
+{ , sub esp, 20
+}—
+b As GetCount() will be replaced with 5, the space needed for “x” will be 5
+integers (sizeof(int) = 4, 4 x 5 = 20 )
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Constant expressions
+
+b Using “constexpr” comes with some limitations:
+
+El A constexpr function should not be void
+
+APP-CPD
+
+constexpr void GetCount()
+
+{ //return 5;
+
+}
+
+void main()
+
+{
+
+int x[GetCount()];
+
+}
+
+> ln this case the compiler will state that it can not create an array from a void
+i value
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Using “constexpr” comes with some limitations:
+A constexpr function should not have any local variables uninitialized
+constexpr int GetCount()
+{ error C3615: constexpr function 'GetCount' cannot result in a constant expression
+note: failure was caused by an uninitialized variable declaration
+X = 'J note: see usage o-F 'x'
+return 5;
+}
+void main()
+{
+int x[GetCount()];
+}
+As a general rule, the compiler tries to evaluate (in the compiling phase) the
+result of a constexpr function. If a local variable is uninitialized, then there
+is a possibility than several execution flows may lead to a different results -)
+thus the entire function can not be replaced with another value.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+b Using “constexpr” comes with some limitations:
+El A constexpr function should not have any local variables uninitialized. You can
+have, however multiple constant variable defined l
+APP-CPP APP-CPD
+constexpr int GetCount() constexpr int GetCount()
+{ {
+COHSt int X = 199; int X = 1993 error: body of constexpr function
+} PEtupn 5+X3 } PEtupn 5+X3 ‘constexpr int GetCount()’ not a
+void main() void main() return-statement -)
+{ {
+int x[GetCount()]; int x[GetCount()];
+} }
+Local variables are allowed in a constexpre function
+starting with C++14. This code will NOT compile if a
+C++11 standard is used l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Constant expressmns
+b Using “constexpr” comes with some limitations:
+
+El If constexpr function has parameters, it should be called with a constant value for
+those parameters. Further more, the result of the evaluation should be a constant
+value.
+
+APP-CPP
+
+constexpr int GetCount(int x)
+
+{ return x+x;
+
+}
+
+void main()
+
+{
+
+}
+
+> ln this case the code will compile correctly (“X” will have 20 elements)
+
+b Some compiler have some workarounds for this rule. In terms of optimiz on,
+if the exact value of a function can not be computed, inline replace nt will
+not be possible.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Constant expressmns
+b Using “constexpr” comes with some limitations:
+El If constexpr function in C++11 must have only one return statement.
+C++14 and above do not have this limitation anymore.
+APP-CPD
+constexpr int GetCount(int x)
+{
+501d main()
+{ int x[GetCount(19)];
+}
+> This code will not compile with Cx++11 standards, but will work for C++14
+standards (g++). The compiler evaluates that GetCount(10) can actually be
+replaced with 6 without changing the logic behind the construction.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+' mov dword ptr [x],eax
+Constant expressions
+mov eax,dword ptr [x]
+push eax
+push offset string "%d"
+call printf
+add esp,8
+b Let’s anal ze the followin code:
+APP-CPD
+constexpr int SomeValue() { return 5; }
+int main()
+{
+int x = SomeValue();
+printf("%d", X);
+}—
+b Code was compiled with VS 2017, with C++17 Standards enabled.
+b While “X” is clearly 5, the compiler still generated a function (SomeValue)
+and calls it to get the value of “X”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+push
+push offset string "%d"
+call printf
+add esp,8
+b Let’s anal ze the followin code:
+APP-CPD
+constexpr int SomeValue() { return 5; }
+int main()
+pr1n 3- , x ;
+}—
+b Code was compiled with VS 2017, with C++17 Standards enabled.
+b However, declaring x as a constexpr will produce a different code (SomeValue
+is replaced automatically by its value ll!)
+> This is not completely identical as declaring “x” as a const ! (if we would
+have used a const specifier SomeValue function would still be called l)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+b Let’s anal ze the followin code:
+Normal variable With constexpr With const
+constexpr int SomeValue() { constexpr int SomeValue() { constexpr int SomeValue() {
+return 5; return 5; return 5;
+} } }
+int main() int main() int main()
+{ { {
+int x = SomeValue(); int x = SomeValu8()3 int X = SomeValue();
+printf("%d", x); printf("%d", x); printf("%d", x);
+} } }
+call SomeValue mov dword ptr [x], call SomeValue
+mov dword ptr [x],eax mov dword ptr [x],eax
+mov eax,dword ptr [X] push push
+push eax push offset string "%d" push offset string "%d"
+push offset string "%d" call printf call printf
+call printf add esp,8 add esp,8
+add esp,8
+b Code was compiled with VS 2017, with C++17 Standards enabled (debug
+mode)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Constant expressions
+b Let’s anal ze the followin code:
+APP-CPD
+constexpr int SomeValue() { return 5; }
+int main()
+{
+constex-r int x = SomeValue();
+prln %d", x);
+}—
+b Code will NOT compile (with VS 2017, with C++17 Standards enabled).
+b “x” being declared as a constexpr it's similar to “x” is a const -) you can not
+modify “x” value.
+b However, keep in mind that constexpr and const are not identical l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Constant expressmns
+b Let’s analyze the following code:
+APP-CPD (1) APP-CPD (2) APP-CPD (3)
+class A class A class A
+{ { {
+public: public: public:
+int x; int x; int x = 10;
+A0 = ><<19> {} Ao = x<1@> {} A0 {}
+}; }; }
+int main()
+I.-
+Peturn 0;
+}
+> For these pieces of code, VS 2017 was used with C++17 Standards enabled.
+> The first code (#1) that uses const)expr will not compile ! (
+> The second one (#2) that uses const will compile l
+> The third one (#3) will compile and will print 1O and 1 to the screen. In th ird
+code if we replace constexpr with const, the result is identical.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Constant expresSions
+
+b As a general consent, consider constexptr as different from const
+
+b constexpr means that the exact value of an expression can be computed at
+the compile time given a set of parameters required by the expression
+(constant values).
+
+b const means that the value returned by an expression can not be modified
+after its value is attributed. That is why, const can be apply to a class
+member, while a constexpr can not.
+
+b constexpr can however be applied to class methods (including constructor,
+operators, etc). This technique is useful when creating another constexpr
+instance of that class.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Constant expressions
+b Let’s anal ze the followin code:
+APP-CPD
+class A
+[{Jublic: A 61(5);
+}. ;?:n:’value): x(value*value) {}
+int maino printf("%d", a.x);
+printf("%d", a.x);
+}
+> Code will compile and will
+generate the following assembly code.
+b Code was compiled with VS 2017, with C++17 Standards enabled.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Constant expressmns
+b Let’s anal ze the followin code:
+Appmpp
+class A
+{
+public:
+int x; . *
+}; Aunt value)' “value alue) U error C2127: 'a': illegal initialization
+int "'6'an of 'constexpr' entity with a non-
+constant expression
+prln 3- , a.X ;
+}—
+b Code will NOT compile. Can not create a value (in this case an instance) from
+a function (in this case the constructor function) that is not constexpr
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Constant expressions
+b Let’s anal ze the followin code:
+APP-CPP
+class A
+{ .
+constexpr A(int value): x(value*value) {} 25
+Lat main() pr'1ntf( Ad , a.x),'
+{
+printf("%d", a.x);
+}
+> Code will compile and will
+generate the following assembly code.
+b The constructor is no longer called, but x is set to its proper value.
+b Code was compiled with VS 2017, with C++17 Standards enabled.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Constant expressions
+b Let’s anal ze the followin code:
+Appmpp
+class A
+{
+public:
+int x; . . * . “ » .
+}; constexpr A(1nt value). x(value value)— error C3615: constexpr function
+int main” 'A::A' cannot result in a
+constexpr A a(5); constant expression
+printf("%d", a.x);
+} /
+b Code will NOT compile. Using constexpr implies that you do not need to call
+the constructor (this can be done if there is no code that needs to be called
+9 pretty much just assign the values to data member.
+b In this case, creating an instance of type A means running a printf(“cto ’
+command that can not be done if A() is constexpr.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+b Let’s anal ze the followin code:
+Appmpp
+class A
+{ I
+pUbliﬁé X_ error C3615: constexpr function 'A::A' cannot result in a constant
+constexpr A(int value) {} expre551on , , . . . . .
+}; note: fallure was caused by constexpr constructor not 1n1t1a1121ng
+int main() member 'A::x'
+{
+constexpr A a(5);
+printf("%d", a.x);
+}—
+b Code will NOT compile.
+b The same logic applies here as well. We can not construct an instance of type
+A if we do not have a value for all data members in class A.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+b Let’s anal ze the followin code:
+Appmpp
+class A
+{ l
+pUbliﬁé X y' error C3615: constexpr function 'A::A' cannot result in a constant
+constexpr A(int value) : x(19) {} expre551on . . , . . . .
+}; note: fallure was caused by constexpr constructor not 1n1t1a1121ng
+int main() member ‘Azzy'
+{
+constexpr A a(5);
+printf("%d", a.x);
+} /
+b Code will NOT compile.
+b The same logic applies here as well. We can not construct an instance of type
+A if we do not have a value for all data members in class A.
+b In this case, A::x is instantiated, but not A::y
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+b Let’s anal ze the followin code:
+APP-CPD
+class A
+{
+public:
+int x;
+A(int value) : x(value*value) { }
+constexpr int GetValue() { return 5; }
+};
+int main()
+{
+A a(5);
+constexpr int x = a.GetValue();
+printf("%d", x);
+}—
+b Code will compile.
+b “x” will have the value 5.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+The compiler can not always compute (during the compile time) the value of
+an expression. Let’s consider the following code:
+class A
+{
+public:
+const int x;
+A(int value) : x(va1ue*va1ue) { } error C2131: expression did not evaluate to a constant
+COHSteXPP int GetValue() { PetUPn X; } note: failure was caused by a read of a variable outside its lifetime
+}$ note: see usage of 'a'
+int main()
+{
+A a(5);
+constexpr int x = a.GetValue();
+printf("%d", x);
+}
+This code will NOT compile. However, x is a constant value, and a.x will
+always be 25 (due to the initialization from the constructor). This means that
+for this particular case, the compiler should have been able to assign value 25
+to local variable “x” from main function.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+> The compiler can not always compute (during the compile time) the value of an
+expression. Let’s consider the following code:
+APP-CPP
+constexpr int cmmdc(int x, int y)
+{
+while (x!=y)
+{
+if (x>y) x-=y; else y-=x;
+}
+return x;
+}
+int main()
+{
+int x = cmmdc(24,18);
+int a[cmmdc(100, 5)];
+printf("x=%d, 1en(a)=%d\n",x, sizeof(a));
+}
+> Code will compile and run correctly.
+b In this case, the simple algorithm from cmmdc function can be computed he
+compile time by the compiler.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Note that cmmdc function is not replaced by its
+value (in this case value 6) !
+IIIIIIIIIIIII
+_ — However the size
+> The compiler can not al of vector a is
+expression. Let’s consid- clearly known (and
+it is not computed
+App.cpp dynamically)
+constexpr int cmmdc(int x, in-
+{
+while (x!=y)
+{
+if (x>y) x—=y; els-
+}
+return x;
+}
+int main()
+{
+int x = cmmdc(24,18);
+int a[cmmdc(100, 5)];
+printf("x=%d, len(a)=%d\n",x, sizeof(a));
+}
+> Code will compile and run correctly.
+> In this case, the simple algorithm from cmmdc function can be computed - the
+compile time by the compiler.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+> The compiler can not always compute (during the compile time) the value of an
+expression. Let’s consider the following code:
+APP-CPP
+constexpr int cmmdc(int x, int y)
+{
+while (x!=y)
+{
+if (x>y) x-=y; else y-=x;
+}
+for (int tr = 0; tr < 100; tr++)
+X += y;
+return x;
+}
+int main()
+{
+int x = cmmdc(24,18);
+int a[cmmdc(196, 5)];
+printf("x=%d, len(a)=%d\n",x, sizeof(a));
+}
+b Code will still compiles and run correctly (even if we made cmmdc functio ore
+complex). We have also used a temporary variable (tr) but with consta values.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+> The compiler can not always compute (during the compile time) the value of an
+expression. Let’s consider the following code:
+APP-CPP
+constexpr int cmmdc(int x, int y)
+{
+while (x!=y)
+{
+if (x>y) x—=y; else y-=x;
+x += '
+return x;
+}
+int main()
+{
+int x = cmmdc(24,18);
+int a[cmmdc(100, 5)];
+printf("x=%d, len(a)=%d\n",x, sizeof(a));
+}
+b Code will still compiles and run correctly (even if we made cmmdc functio ore
+complex). We have also used a temporary variable (tr) but with consta values.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+> The compiler can not always compute (during the compile time) the value of an
+expression. Let’s consider the following code:
+APP-CPP
+constexpr int cmmdc(int x, int y)
+{
+while (x!=y)
+{
+if (x>y) x-=y; else y-=x;
+}
+for (int tr = 0; tr <.; tr++)
+X += y;
+return x;
+}
+int main()
+{
+int x = cmmdc(24,18);
+int a[cmmdc(196, 5)];
+printf("x=%d, len(a)=%d\n",x, sizeof(a));
+}
+b Code will still compiles and run correctly. This time we have changed a co ant
+value with another constant value (y) !!!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+> The compiler can not always compute (during the compile time) the value of an
+expression. Let’s consider the following code:
+APP-CPP
+constexpr int cmmdc(int x, int y)
+{
+while (x!=y)
+{
+if (x>y) x—=y; else y-=x;
+}
+for (int tr = 0; tr <.; tr++)
+X += y;
+return x;
+}
+int main()
+{
+int x = cmmdc(24,18);
+int a[cmmdc(100, 5)];
+printf("x=%d, len(a)=%d\n",x, sizeof(a));
+}
+b Code will NOT compile. In this case, the compiler sees that “x” is also mo ' ied in
+the loop. At some point an integer overflow will be produce and the lo will stop,
+but this can not be in advance pre-computed.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+b For some cases, the compiler can pre-compute the result even for complex
+functions ex: recursive functions
+APP-CPD
+constexpr int fibonacci(int n)
+{
+if (n == 0)
+return 0;
+if (n == 1)
+return 1;
+return fibonacci(n - 1) + fibonacci(n - 2);
+}
+int main()
+{
+constexpr int x = fibonacci(10);
+printf("%d", x);
+}—
+b Code was compiled with VS 2017, with C++17 Standards enabled. The code
+compiles correctly and prints number 55 on the screen.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Constant express10ns
+b For some cases, the compiler can pre-compute the result even for complex
+functions ex: recursive functions
+APP-CPP
+constexpr int fibonacci(int n)
+{
+if (n == 0)
+return 0;
+if (n == 1)
+return 1;
+return fibonacci(n - 1) + fibonacci(n - 2);
+}
+int main()
+{
+constexpr int x = fibonaccl(166)'
+printf("%d", x);
+}—
+b Code was compiled with VS 2017, with C++17 Standards enabled. This code
+will not compile 9 the compiler can precompute some things but to so e
+degree (in this case, 100 step recursion is too much).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Constant expressmns
+b constexpr can be used with literals to precompute values.
+APP-CPD
+constexpr unsigned long long operator"" _Mega(unsigned long long value)
+{ return value * 1024 * 1024;
+}
+int main()
+{
+constexpr int x = 2_Mega;
+b Code was compiled with VS 2017, with C++17 Standards enabled.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+For each
+> (Range-based for loop)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+For each (Range- based for loop)
+b C++11 standards add a new syntax for “for” statement that allows iteration
+within a range (similar to what a “for each” statement could do)
+b The format is as follows:
+b A range_expression in this context means:
+El An array of a fixed size
+El An object that has “begin()” and “end()” functions (pretty much most of the
+containers from STL library)
+El An initialization list
+> For statement is usually used with "auto" keyword (see the next section for
+details).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+For each (Range- based for loop)
+b Examples:
+APP-CPP
+void main()
+{
+int x[3] = { 1, 2, 3 };
+for (int i : x)
+printf("%d", i);
+}—
+b This code will print all three elements of vector x. The following code does
+the exact same thing but it works with a std::vector object.
+APP-CPP
+void main()
+{
+vector<int> x = { 1, 2, 3 };
+For (int i : x)
+printf("%d", i);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+b For can also use initialization lists (but the code needs to include the
+initializer_list tem n late.
+APP-CPD
+#include <initializer_list>
+void main()
+{
+ﬂw Unti :{L 2,3,4,5}) mov dword ptr [ebp-38h],l
+Printt<"%d"’ i); mov dworol ptr [ebp-34h] ,2
+} mov dworol ptr [ebp-30h],3
+mov dword ptr [ebp-ZCh],4
+b To do this, the compiler mov dword ptr [ebp-28h1,5
+creates a std::initialized_list lea eax' [ebp_24h] '
+. . . . push eax
+obJect and iterates in it. lea ecx, [ebp_38h]
+push ecx
+lea ecx,[ebp—lCh]
+call constructor for initializer_list<int>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+For each (Range-based for loop)
+b In case of a normal array (where size is know) the compiler simulates a for
+loo:
+APP-CPD
+void main()
+{
+int x[3] = { 1, 2, 3 };
+for (int i : x)
+printf("%d", i);
+Q
+b The same will not work if the compiler can not deduce the size of an array:
+APP-CPD
+void main() {
+int *x = new int[3] {1,2,3};
+for (int i : x)
+printf("%d", i);
+}—
+b This code will not compile 9 the compiler can not know, in advance ow
+many elements are stored in “x” array.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+b The following code will not compile as x is a matrix and not a vector. The
+comiler can still iterate but each element will be a “int 3 ”
+APP-CPD
+void main()
+{
+intx[][3]={{1, 2, 3}, {4, 5,6}};
+for (int i : x)
+printf("%d", i);
+}—
+b To make it work, “i“ must be change to a pointer:
+Appmpp
+void main()
+{
+intx[1[31={{1,2,3},{4,5,6}};
+For (int* i : x)
+For (int index = 9; index < 3;index++)
+printf("%d", i[index]);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+For each (Range-based for loop)
+b References can also be used. In this case, the content of that loop can be
+modified accordinl .
+APP-CPD
+void main()
+{
+int x[] = { 1, 2, 3 };
+i *= 2;
+for (int i : x)
+printf("%d,", i);
+}—
+> The output will be 2,4,6 (as the elements from x have been modified in the
+first for loop.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+For each (Range-based for loop)
+b References can also be used. In this case, the content of that loop can be
+modified accordinl .
+APP-CPD
+void main()
+{
+lliiiiilint x[] = { 1, 2, 3 };
+for (int &i : x)
+i *= 2;
+for (int i : x)
+printf("%d,", i);
+}—
+> This code will not work because x is a const vector. The compiler can't assign
+a “const int &” to a “int &”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+For each (Range-based for loop)
+b References can also be used. In this case, the content of that loop can be
+modified accordinl .
+APP-CPD
+void main()
+{
+const int x[] = { 1, 2, 3 };
+-For' &i : x)
+for (int i : x)
+printf("%d,", i);
+}—
+> This code will still not work because even if now the compiler can pass the
+constant reference, it can not modify “i“ as it is a constant.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+For each (Range-based for loop)
+b For each can also be applied on an object. However, that object must have a
+bein and an end functions defined.
+APP-CPD
+class MyVector
+{
+int x[10];
+public:
+MyVector() { for (int tr = G; tr < 19; tr++) x[tr] = tr; }
+};
+void main()
+{
+MyVector v;
+for (int i : v)
+printf("%d,",i);
+}—
+b This code will not compile as no “begin()” and “end()” functions are availa e
+for class MyVector.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+b For each can also be applied on an object. However, that object must have a
+bein and an end functions defined.
+APP-CPD
+class MyVector
+{
+int x[10];
+public:
+MyVector() { for (int tr = G; tr < 19; tr++) x[tr] = tr; }
+int* begin() { return &x[0]; }
+int* end() { return &x[10]; }
+};
+void main()
+{
+MyVector v;
+for (int i : v)
+printf("%d,",i);
+}—
+b Now the code works correctly.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+b Be careful when using references. MyVectorzzx is a private field. However, it
+can be access b usin references.
+APP-CPD
+class MyVector
+{
+int x[10];
+public:
+MyVector() { for (int tr = G; tr < 19; tr++) x[tr] = tr; }
+int* begin() { return &x[0]; }
+int* end() { return &x[10]; }
+};
+void main()
+{
+MyVector v'
+-For (-: v)
+i *= 2;
+}—
+b The code works and v::x will be modified.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+b The solution for this problem is to use const for “begin()” and “end()”
+functions.
+APP-CPD
+class MyVector
+{
+int x[10];
+public:
+MyVector() { for (int tr = G; tr < 19; tr++) x[tr] = tr; }
+cons int* begin() { return &x[0]; }
+int* end() { return &x[10]; }
+};
+void main()
+{
+MyVector v;
+for (int& i : v)
+i *= 2;
+}—
+b Now the code will not compile as “v” can iterate through constant v es and
+“i” is not a constant (a value returned by “v” can not be assigne o “i”)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+b There is also the possibility of creating your own iterator that can be returned
+from the bein and end functions:
+APP-CPD
+class MyIterator {
+public:
+int* p;
+};
+class MyVector {
+... MyIterator begin() { MyIterator tmp; tmp.p = &x[9]; return tmp; }
+MyIterator end() {MyIterator tmp; tmp.p = &x[19]; return tmp; }
+};
+void main() {
+MyVector v;
+for (int i : v)
+printf("%d,",i);
+}—
+b This code will not compile. For this to work the iterator must have:
+“operator++”, “operator!=“ and “operator*” implementations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+b There is also the possibility of creating your own iterator that can be returned
+from the bein and end functions:
+APP-CPD
+class MyIterator {
+public:
+int* p;
+MyIterator& operator++(){ p++; return *this; }
+bool operator != (MyIterator &m) { return p != m.p; }
+int operator* () { return *p; }
+};
+class MyVector {
+... MyIterator begin() { MyIterator tmp; tmp.p = &x[9]; return tmp; }
+MyIterator end() {MyIterator tmp; tmp.p = &x[19]; return tmp; }
+};
+void main() {
+MyVector v;
+for (int i : v)
+printf("%d,",i);
+}
+b Now the code works.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+‘\ > Type inference
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+II II
+auto keyword
+b C++11 introduces a new keyword : "auto" that can be use when declaring a
+variable or a function
+> The format is as follows:
+APP-CPD
+auto <variab1e_name> = <va1ue>;
+b The compiler tries to deduce the type of the variable from its value. A similar
+approach exists for function and will be discuss later.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+"auto" keyword
+b Examples:
+
+C++1 1 Translation
+
+void main() void main()
+
+{ {
+auto x = 10; int x = 10;
+auto y = 16.6f; float y = 10.0f;
+auto z = 10.0; double z = 10.0;
+auto b = true; bool b = true;
+auto c = "test"; const char* c = "test";
+auto 1 = 100L; long l = 100L;
+auto 11 = 106LL; long long ll = 100LL;
+auto ui = 160U; unsigned int ui = 100U;
+auto ul = 166UL; unsigned long ul = 100UL;
+auto ull = 166ULL; unsigned long long ull = 100ULL;
+auto ch = ‘x’; char ch = ‘x’;
+auto wch = L‘X’; wchar_t wch = L‘x’;
+auto d = NULL; int d = NULL;
+auto p = nullptr; void* p = nullptr;
+
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+"auto" keyword
+b Examples:
+C++1 1 Translation
+void main() void main()
+{ {
+auto x = 19; int x = 10;
+auto y = 19.9f; float y = 10.0f;
+auto z = 19.9; double z = 10.0;
+auto b = true; bool b = true;
+auto c = "test"; const char* c = "test";
+I
+} ‘I||||||Iiii|llll|l|||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ‘I""’/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+"auto" keyword
+b "auto" can be forced if a casting occurs during initialization.
+C++1 1 Translation
+void main() void main()
+{ {
+auto x = (char*)"test"; char* x= (char*)”test”
+X[0] = 93 X[9] = 9;
+} I
+b However, the code will still crashes as “x” point to a const char* value.
+b Using “new” operator also forces a cast.
+C++11 Translation
+void main() void main()
+{ {
+auto x = new char[10] char* x= new char[19];
+x[0] = 0; x[9] = 9;
+} }
+b In this case the code works properly (x will be a char*)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+"auto" keyword
+b "auto" can be used with user defined classes as well:
+C++1 1 Translation
+class Test class Test
+{ {
+public: public:
+int X’ Y3 int x, y;
+}; };
+void main() void main()
+{ {
+auto x = new Test(); Test* X = new Test();
+} }
+b "auto" can be used with “const” keyword
+C++11 Translation
+void main() void main()
+{ {
+const auto x = 5; const int x = 5;
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+"auto" keyword
+b "auto" can be used with another variable / expression.
+C++1 1 Translation
+void main() void main()
+{ {
+auto x = 5; int x = 5;
+auto y = x; int y = x;
+auto &z = x; int &z = x;
+auto *ptr = &x; int *ptr = &x;
+} }
+b In this case because “x” is evaluated by the compiler as an “int” variable, the
+rest of the "auto" assignments will be considered of type “int” as well.
+b In case of expressions, the resulted type of an expression is used:
+C++11 Translation
+void main() void main()
+{ {
+auto x = 5; int x = 5;
+auto y = x * 1.5; double y = x * 1.5;
+auto z = x > 190; bool z = x > 100;
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+"auto" keyword
+b "auto" can also be used to create pointer to a function:
+C++11 Translation
+int sum(int x, int y, int z) int sum(int x, int y, int z)
+{ {
+return x + y + z; return x + y + z;
+} }
+void main() void main()
+{ {
+auto f = sum; int (*f)(int,int,int) = sum;
+auto result = f(1, 2, 3); int result = f(1, 2, 3);
+} }
+b ln this case because “f” becomes a pointer to function “sum”, and “result”
+will be of type “int” because “sum” returns an “int”
+> ln the end, “result” will have the value 6.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+"auto" ke wor
+y d
+b "auto" is also useful when dealing with templates:
+using namespace std; using namespace std;
+#include <vector> #include <vector~>
+void main() void main()
+{ vector<int> v- { vector~<int> v-
+}
+\ b In this case, it is much easier to declare something as "auto" than to write the
+entire declaration as a template.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+"auto" keyword
+b "auto" is also useful when dealing with templates:
+Cpp code
+using namespace std;
+#include <map>
+void main()
+{
+multimap<const char*, int> Grades;
+Grades.insert(pair<const char*, int>("Ionescu", 10));
+Grades.insert(pair<const char*, int>("Ionescu", 8));
+Grades.insert(pair<const char*, int>("Ionescu", 7));
+multimap<const char*, int>::iterator it;
+pair <multimap<const char*, int>::iterator, multimap<const char*, int>::iterator> range;
+range = Grades.equal_range(Grades.find("Ionescu")—>first);
+for (it = range.first; it != range.second; it++)
+printf("%s -> %d \n", it->first, it->second);
+}
+> In this example we two variables defined (“it” and “range”). ;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+"auto" keyword
+b "auto" is also useful when dealing with templates:
+Cpp code
+using namespace std;
+#include <map>
+void main()
+{
+multimap<const char*, int> Grades;
+Grades.insert(pair<const char*, int>("Ionescu", 19));
+Grades.insert(pair<const char*, int>("Ionescu", 8));
+Grades.insert(pair<const char*, int>("Ionescu", 7));
+.range = Grades.equa1_r‘ange(Gr‘ades.-Find("Ionescu")—>-First);
+-For‘ (‘it = rangesFirst; it != range.second; it++ )
+prln f("%s —> %d \n", it—>first, it—>second);
+}
+> Much easier ! :
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+The same can option can be achieved using typedef or type alias.
+A type alias is functionally similar to a type def, and implies the following
+syntax:
+using <alias_type> = <the actual type>.
+<map> <map>
+main() { main() {
+= stdzz < *, >3 stdzz < *, > ;
+m = { {"Popescu",10},{"Ionescu", 9} }3 m = { {"Popescu",10},{"Ionescu", 9} };
+} }
+<map> <map>
+= Stdii < *, >3 stdzz < *, > ;
+main() { main() {
+m = { {"POPESCU",19}J{"Ionescu", 9} }3 m = { {"Popescu",10},{"Ionescu", 9} };
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+"auto" keyword
+b "auto" is usually used with for statement:
+Cpp code
+#include <vector>
+void main()
+{
+stdzzvector<int> a = { 1, 2, 3, 4, 5 };
+for (auto elem : a)
+printf("%d,", elem);
+}—
+b Or as a reference:
+Cpp code
+#include <vector>
+void main()
+{
+std::vector<std::pair<int, char>> a = { { 1, 'A' }, { 2, 'B' }, { 3, 'D' } };
+for (auto& elem : a)
+printf("Pair: %d—>%c \n", elem.first,elem.second);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+" decltype " keyword
+b Besides “auto” C++11 also provides a new keyword “decltype” that returns
+the type of an object. It is mainly used to declare a variable as of the same
+type of another one.
+Cpp code
+using namespace std;
+#include <vector>
+#include <map>
+void main()
+{
+vector<pair<vector<int>, map<int,const char*>>> a;
+int x;
+float y;
+decltype(x) xx;
+decltyp6(y) yy;
+decltype(a) aa;
+}
+b ln this example “xx” has the same type as “x”, “yy” has the same type s “y”
+and “aa” has the same type as “a”.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+II II
+decltype keyword
+b decltype can be used with constants as well:
+Cpp code
+void main()
+{ decltype(10) x;
+decltype(10.2f) y;
+decltype(nullptr) z;
+decltype(true) b;
+}
+b In this example:
+El “x” will be of type int (because 10 is an int)
+El “y” will be of type float (because 10.2f is a float)
+El “z” will be of type void* (because nullptr is a void*)
+El “b” will be a bool (because “true” is a bool)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+II II
+decltype keyword
+b decltype can be used with arrays:
+Cpp code
+void main()
+{
+int v[10];
+int w[10][20];
+decltype(v) x;
+decltype(w) y;
+}—
+b In this example:
+El “x” will be of type int[10] 9 just like “v” is
+El “y” will be of type int[10] [20] 9 just like “w” is
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+II II
+decltype keyword
+b decltype can be used with elements from an array - but the result will be a
+reference of that type.
+Cpp code
+void main()
+{
+int v[10];
+}—
+b This code will compile because “x” is of type “int &” and it is not
+initialized. For this a reference must be added to the initialization of x.
+Cpp code
+void main()
+{
+int v[1@];
+} decltype(v[@]) x = v[0];
+b Now the code compiles and “x” is a reference to the first element from_/“v”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+II II
+decltype keyword
+
+b Using references to constant strings / vectors has some limitations. The
+followin exam le will not work:
+
+void main() {
+} decltype(&"Te") x;
+
+b “x” will be of type “const char (*)[3]” because sizeof(“Te”) is 3 (2 characters
+and ‘\0’ at the end. Bein a reference it needs to be initialized.
+
+\
+void main() { /
+} decltype(&"Te") x = &”C++”;
+
+b This code will also fail because &”C++” means “const char (*)[4]” that is not
+compatible with “const char (*)[3]”. To make it work, one must use the exact
+same number of characters as in the declaration.
+
+Cpp code (correct code)
+void main() {
+} decltype(&"Te") x = &”CC”;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+a II
+decltype keyword
+b The same logic applies when using a string directly as a constant in a decltype
+statement.
+Cpp code
+void main()
+{ decltype("Te") x = *(&“CC");
+}
+I > In this case, “x” will be of type “const char[3] &”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Structured binding
+> (destructuring)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Starting with C++17, a new concept has been added to C++ language: structured
+binding
+This concept implies that a structure and/or array can be split down into its basic
+elements, and each of its elements can be assign to a variable.
+The concept is related to what other languages (like Python) have 9 the
+possibility of returning a tuple with values (instead of one value).
+
+def GetCarSpecifics():
+
+return ("Toyota",180,22.5)
+
+def main :
+In C++17, structured binding is done using auto keyword in the following way:
+
+auto [V1, v2, vn] = expression
+
+auto& [V1, v2, vn] = expression
+where v1,v2 ...vn are variables that are going to be binded.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Structured binding
+int a[2] ={1,2};
+auto [x, y] = a;
+> Let’s analyze the following code:
+APP-(IPP
+main()
+{
+a[Z] = { 1,2 };
+[>9 y] = a; )
+x = 10;
+e;
+}
+b In reality, what the compiler does is to
+copy the value of a[O] to “x” and the X = 19,
+value of a[1] to “y” similar to the code ’
+bellow:
+APP-CPP
+main() {
+a[21 = { 1,2 1»;
+x = a[0];
+y = a[1];
+x = 10;
+e;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Structured binding
+b Let’s analyze the following code:
+APP-CPD
+int main()
+{
+int a[2] = { 1,2 };
+auto[x, y] = a;
+x = 10;
+printf("a=[%d,%d] and x=%d", a[O], a[1], x);
+return 0;
+}—
+b This code will compile and will print upon execution the following:
+a=[1,2] and x=16
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Structured binding
+b Let’s analyze the following code:
+APP-CPP
+main()
+{
+35] =]{_1;? h auto& X = a[G];
+x =10; y _ , aUtO& y = a[113
+printf("a=[%d,%d] and x=%d", a[0], a[1], x);
+0;
+}—
+b Structure binding can also be used with references “auto&”. ln this case a
+reference to an object is created.
+> This code will compile and will print upon execution the following:
+a=[19,2] and x=10
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+b One of the most common usage of this technique is to bind the result of a
+function/ method that returns a structure to its basic components:
+APP-CPD
+struct Student
+{
+const char * Name;
+int Grade;
+};
+Student GetInfo()
+{
+return Student{ "Popescu",10 };
+}
+int main()
+{
+auto[name, grade] = GetInfo();
+printf("Student: %s, Grade:%d ", name, grade);
+return 0;
+}—
+b This code will compile and will print upon execution the following:
+Student: Popescu, Grade:19
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+b Structured bindings takes into account the access specifier.
+APP-CPD
+class A
+{
+public:
+int x, y, z;
+A(int value) : x(va1ue), y(value * 2), z(value * 4) {}
+};
+int main()
+{
+A a(1);
+auto[x, y, z] = a;
+printf("x=%d, y=%d, z=%d", x, y, z);
+return 0;
+}—
+b In this case, “x”, “y” and “z” are public and the binding is possible.
+b This code will compile and will print upon execution the following:
+x=1, y=2, z=4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+b Structured bindings takes into account the access specifier.
+APP-CPD
+class A
+{
+int x, y, z; error C3647: 'A': cannot decompose type with non-public members
+public: note: see declaration of 'A::x'
+A(int value) I X(Value), y(va1ue * 2), Z(Value * 4) {}; error C2248: 'A::x': cannot access private member declared in
+l3 _ class 'A'
+1nt ma1n() note: see declaration of 'A::x'
+{ _ note: see declaration of 'A'
+:uigii’ y z] = a' error C2248: 'A::y': cannot access private member declared in
+printi:("x=%d, y=%d, z=%d", X, y, z); Class 'A' _ . .
+return 9; note: see declaration of A::y
+} note: see declaration of 'A'
+error C2248: 'A::z': cannot access private member declared in
+class 'A'
+b In this case, “x”, “y” and “z” are private Mm See declaration 0+ 'A==Z'
+. . . . note: see declaration of 'A'
+and the binding is NOT possible.
+b This code will not compile !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+Structured binding
+b You ca not bind only some data members - you have to bind all of them.
+
+Appmpp
+
+class A
+
+{
+
+public:
+int x, y, z;
+
+}. A(int value) : x(va1ue), y(va1ue * 2), z(va1ue * 4) {};
+
+iht main()
+
+{ A 8(1); error C3448: the number of identifiers must match
+aUF°l><qu10= a; o .. the number of array elements or members in a
+pr1ntf( x=Ad, y=Ad , x, y); _ _ _
+return o; structured binding declaration
+
+}
+
+b In this case, “x”, “y” and “z” are public and the binding is possible, but as
+“auto[x,y]” only tries to bind two parameters (and class A has 3), the code
+will not compile.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+b Structured bindings copies vectors/ arrays as well.
+APP-CPD
+class A
+{
+public:
+int X[2], y;
+A(int value) : x{ value,va1ue*2 }, y(va1ue * 3) {};
+};
+int main()
+{
+A a(1);
+auto[x,y] = a;
+a.x[0] = 10;
+pnintf("x=%d,%d, y=%d, a={x=[%d,%d], y=%d}", x[0],x[1], y,a.x[9],a.x[1],a.y);
+return 0;
+}—
+b In this case local variable “x” is an array with two elements that copied the
+content from A: :x.
+b This code will compile and will print upon execution the following:
+X=1:2: y=3: a={x=[19,2], y=3}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+Structured binding
+b Structured bindings are often used with for-each loops and STL, especially for
+maps where access to both components (key and value) can be obtains
+simultaneously.
+APP-CPD
+#include <map>
+std;
+main()
+{ map< *, > Grades = { {"Popescu",10},{"Ionescu",9} };
+( [name, grade] : Grades)
+printf("Name:%s, Grade:%d\n", name, grade);
+e;
+}—
+> This code will compile and will print upon execution the following:
+NamezPopescu, Grade:10
+NamezIonescu, Grade:9
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Structured bi ndi ng
+b STL also has two functions: std::make_tuple and std::tie that can be used to
+create a similar functionality (for C++ compilers prior to C++17 standard).
+APP~CPP
+Student
+{
+* Name;
+Grade‘
+GetParams() {
+}
+};
+main()
+{
+Student s = { "Popescu",10 };
+* name;
+pr1n ‘amezbs, ra-ezbu n , name, gra'e ;
+a;
+}—
+b This code will compile and will print upon execution the following:
+NamezPopescu, Grade:19
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+Static Polymorphism
+> (CRTP)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+Static Polymorphism
+b Static polymorphism (also called Quriously Becurring Iemplate Battern or CRTP)
+is a technique that takes advantage that a template is not instantiated
+(constructed) when it is written - but when it’s instance is actually created. This
+allows one to use some functions in a template that are not available at the time
+the template was written.
+template <typename T>
+class Base { };
+class Derived: public Base<Derived> { ...};
+b ln this case - we can create a class (Derived) that has as a base class a template
+that can further be used with the exact class that we are creating (the Deriv
+class).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+b Let’s see an example:
+App.cpp This code compiles and upon
+template <typename T> execution will print on the
+struct Car { . °
+void PrintNameO { screen. Toyota and then Dacia
+printf("%s\n", (static_cast<T*>(this))->GetName());
+}
+};
+struct Toyota : public Car<Toyota> {
+const char * GetName() { return "Toyota"; }
+};
+struct Dacia : public Car<Dacia> {
+const char * GetName() { return "Dacia"; }
+};
+int main() {
+Toyota t;
+Dacia d;
+t.PrintName();
+d.PrintName();
+return 1;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+b Let’s see an example:
+APP-CPD
+< T>
+Car {
+PrintName() {
+printf("%s\n", ( <T*>( ))—>GetName());
+}
+};
+Toyota : Car<T0y0ta> {
+* GetName() { "Toyota"; }
+};
+Dacia : Car<Dacia> {
+* GetName() { "Dacia"; }
+};
+main() {
+Toyota t;
+Dacia d;
+t.PrintName();
+d.PrintName();
+1;
+}—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+b Let’s see an example:
+APP-CPD
+< T>
+Car {
+PrintName() {
+printf("%s\n", ( <T*>( ))—>GetName());
+}
+};
+* GetName "Toyota";
+};
+Dacia : Car<Dacia> {
+* GetName() { "Dacia"; }
+};
+main() {
+Toyota t;
+Dacia d;
+t.PrintName();
+d.PrintName();
+1;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+b The same logic can be used for data members.
+APP-CPP
+template <typename T>
+struct Car {
+void PrintName() {
+printf("%s\n", (static_cast<T*>(this))—>Name);
+}
+};
+struct Toyota : public Car<Toyota> { const char * Name = "Toyota"; };
+struct Dacia : public Car<Dacia> { const char * Name = "Dacia"; };
+int main() {
+Toyota t;
+Dacia d;
+t.PrintName();
+d.PrintName();
+return 1;
+}
+b In this case, it is expected that class associated with type T have a data ember
+of type const char * named Name.
+> The code compiles correctly and upon execution will print Toyo and then D
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+b lt works in a similar way for static data members (however in this case casting
+this pointer is not required (we can use T:: to refer to static members of type T)
+APP-CPD
+template <typename T>
+struct Car {
+static void PrintName() {
+printf("%s\n", T::Name);
+}
+};
+struct Toyota : public Car<Toyota> { static const char * Name; };
+struct Dacia : public Car<Dacia> { static const char * Name; };
+const char * ToyotazzName = "Toyota";
+const char * DaciazzName = "Dacia";
+int main() {
+Toyota::PrintName();
+Dacia::PrintName();
+return 1;
+}
+> The code compiles correctly and upon execution will print Toyo; and then D
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Static Polymorphism
+Polymorphic chaining
+b Another interesting thing that can be achieved in this way is called polymorphic
+chaining.
+> It implies that the base class returns a value that is a self reference to the
+template type l
+template <typename T>
+class Base
+{
+T& SomeMethod() {
+return static_cast<T&>(*this);
+}
+};
+class Derived: public Base<Derived> { ...};
+b In this case, we make sure that the method SomeMethod returns a ref ence to
+the type T (template type)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+b Let’s analyze this example:
+APP-CPP
+#include <iostream>
+< T>
+Number {
+T& Inc() { <T*>( )->Va1ue += 13 <T&>(* )3 }
+T& Dec() { <T*>( )->Va1ue -= 13 <T&>(* )3 }
+T& Print() { stdzzcout << <T*>( )->Va1ue << " "3 <T&>(* )3 }
+};
+Integer : Number<Integer> { Value; }3
+Float : Number<Float> { Value; }3
+main() {
+Integer i3 i.Value = 193
+i.Inc().Print().Dec().Inc().Inc().Print()3
+Float f3 f.Value = 1.53
+f.Inc().Print().Dec().Inc().Inc().Print()3
+}
+> The code will print “11 12 2.5 3.5”. What happens is the i.Inc() will no eturn a
+reference to type Number<>, but to type Integer, thus allowing the aining to
+continue.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+Barton-Nackman trick implies using CRTP and an inner friend function definition
+to move the friend function from the base class to de derived one.
+This is in particular useful to automatically overload relationship operators.
+< >
+{
+== ( & , & ) { .CompareWith( ) == 0; }
+< ( & , & ) { .CompareWith( ) < 0; }
+};
+: < > {
+Value;
+Integer( ): Value( ) {}
+CompareWith( & ) {
+(Value < .Value) -1;
+(Value > .Value) 1;
+e;
+}
+}; _
+ma1n() ‘_[ In this case, Integer class has both
+11(19); d d f. d
+12(29); an e ine and as
+(il 12) print-F("il is smaller‘ than 12"); such a syntax like( )will compile.
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+Static Polymorphism
+b Static polymorphism has the following advantages:
+
+O We no longer need virtual table, dynamic types, etc to perform polymorphism.
+
+O Since the linkage is static and not real-time, the performance is much better than with
+the usage of virtual function (no vpftr call)
+
+> Static polymorphism has the following pitfalls:
+
+O In reality, there is not a common root like in case of inheritance ( if class A is derived
+from Base<A> and class B is derived from Base<B> we CAN NOT say that they are both
+derived out of Base ll!
+
+O This means that casting to the base class is not possible -) so we can create a pointer
+of type Base that has multiple elements (one that points to an object A, another on
+that points to an object B)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+b Differences between static polymorphism and dynamic polymorphism.
+Static polymorphism Dynamic polymorphism
+template <typename T> struct Base { }; StPUCt Base { };
+class A : public Base<A> { }; C1355 A! pUbliC Base { }3
+class B : public Base<B> { }; C1355 B! pUbliC Base { }3
+int main() { int main() {
+A a; A a;
+B b; B b;
+Base * base[Z]; Base * base[Z];
+base[0] = &a; base[G] = &a;
+base[1] = &b; base[1] = &b;
+return 0; return 9;
+} } i
+Code will compile and run
+as expected.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Plain Old Data
+> (POD)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+POD
+b Plain old data (POD) means a type that has a C-like memory layout.
+> In many cases a class / struct in C/C++ has other fields such as virtual
+functions or indexes for members from a virtually derived class
+b This means that a compiler has some problems when copying such objects.
+b To ease this process, a type of data can be:
+El Trivial
+El Standard layout
+> POD data is important for initialization lists.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+PO D
+b Trivial types means that:
+O Has a default constructor (that is not provided by the programmer)
+O Has a default destructor (that is not provided by the programmer)
+O Has a default copy - constructor (that is not provided by the programmer)
+O Has a assignment operator (=) (that is not provided by the programmer)
+O It has no virtual functions
+O It has no base class that has a user provided (specific) constructor / destructor /
+copy-constructor or assignment operator
+o It has no members that have a user provided (specific) constructor / destructor /
+copy-constructor or assignment operator
+O It has not data member that is a reference value
+Trivial types can be copied using memcpy from an object to a memory buffer r
+an array. The compiler can change the order of data members
+Trivial types can have different access modifier for their members.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+b STL provides a function to check if a type is trivial or not : std::is_trivial
+APP-CPP
+#include <type_traits>
+#include <iostream>
+class TypeA {
+int x, y;
+};
+class TypeB {
+int x, y;
+public:
+TypeB(int value) { x = y = value; }
+};
+void main()
+{
+stdzzcout << stdzzboolalpha << std::is_trivia1<TypeA>::value << stdzzendl;
+stdzzcout << stdzzboolalpha << std::is_trivia1<TypeB>::value << stdzzendl;
+}
+> This code will print “true” for TypeA and “false” for TypeB (becaus t has a
+user defined constructor)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+b STL provides a function to check if a type is trivial or not : std::is_trivial
+APP-CPP
+#include <type_traits>
+#include <iostream>
+class TypeC
+{
+int x, y;
+public:
+int z;
+const char* ptr;
+void Set(int _x, int _y, int _z) { x = _x; y = _y; z = _z; }
+};
+void main()
+{
+cout << stdzzboolalpha << std::is_trivial<TypeC>::value << endl;
+}
+b This code will print “true” for TypeC
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+b STL provides a function to check if a type is trivial or not : std::is_trivial
+APP-CPP
+#include <type_traits>
+#include <iostream>
+class TypeD
+{
+int x, y;
+public:
+cons c ar ptr;
+void Set(int _x, int _y, int _z) { x = _x; y = _y; z = _z; }
+};
+void main()
+{
+cout << stdzzboolalpha << std::is_trivial<TypeD>::value << endl;
+}
+b This code will print “false” for TypeD (because it is using a initialization
+function 9 it will be discuss in the Initialization list chapter)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+b Standard layout types means that:
+O A type that has no virtual functions or virtual inheritance
+O It has not data member that is a reference value
+O All data members (except static ones) have the same access control
+O All data members have a standard layout
+O The diamond problems is not applied for the type (it has no two sub-classes that
+are derived from the same class).
+O The first member (non-static) of the class, is not of the same type as one of the
+base classes (this is a condition related to empty base optimization problem)
+b STL also provides a function that can be used to see if a type has a standard layout
+or not: std::is_standard_layout
+b A class or a struct that is trivial and has a standard layout is a POD (p 'n old
+data). Scalar types (int,char, etc) are also considered to be POD.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+Empty base optimization
+b Let’s consider the following code:
+APP-CPI)
+class Base {};
+class Derived : Base {
+int x;
+};
+zoid main()
+printf("Size0f(Base) = %d\n", sizeof(Base));
+printf("Size0f(Derived) = %d\n", sizeof(Derived));
+}
+> The code compiles and the result is 1 byte for Base class and 4 bytes for
+Derived class.
+b Base class has 1 byte because it is empty (it has no fields).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+Empty base optimization
+b Let’s consider the following code:
+APP-CPP
+class Base {};
+class Derived : Base {
+1nt x;
+};
+zoid main()
+printf("Size0f(Base) = %d\n", sizeof(Base));
+printf("Size0f(Derived) = %d\n", sizeof(Derived));
+}
+> The code compiles but now the size of Derived class is 8. Normally as Base
+class is empty, the result should have been 4, but because the first member of
+the class is of type Base it forces an alignment.
+b This form of layout is considered to be non-standard.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+b Examples:
+APP-CPP
+using namespace std;
+#include <type_traits>
+#include <iostream>
+class MyType
+{
+int x, y;
+public:
+int z;
+const char* ptr;
+void Set(int _x, int _y, int _z) { x = _x; y = _y; z = _z; }
+};
+void main()
+{
+cout << boolalpha << is_trivia1<MyType>::value << "," << is_standard_1ayout<MyType>::value;
+}
+> This code will print “true,false” for MyType. It is not a standard la t
+because if has both public and private members.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+b Examples:
+APP-CPP
+using namespace std;
+#include <type_traits>
+#include <iostream>
+class MyType
+int x, y;
+int z;
+const char* ptr;
+void Set(int _x, int _y, int _z) { x = _x; y = _y; z = _z; }
+};
+void main()
+{
+cout << boolalpha << is_trivia1<MyType>::value << "," << is_standard_1ayout<MyType>::value;
+}—
+> This code will print “true,true” for MyType.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+b Examples:
+APP-CPP
+using namespace std;
+#include <type_traits>
+#include <iostream>
+class MyType
+{
+public:
+int x, ;
+cons c ar* ptr;
+void Set(int _x, int _y, int _z) { x = _x; y = _y; z = _z; }
+};
+void main()
+{
+cout << boolalpha << is_trivia1<MyType>::value << "," << is_standard_1ayout<MyType>::value;
+}
+> This code will print “false,false” for MyType. lt is not trivial nor st ard
+layout because it has a field that is of a reference value.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+b Examples:
+APP-CPP
+using namespace std;
+#include <type_traits>
+#include <iostream>
+class Base
+{
+int xx;
+};
+class MyType:
+{
+public:
+int x, y;
+} MyType<> = X(@), y(1) {}
+void main() {
+cout << boolalpha << is_trivial<MyType>::value << "," << is_standard_layout<MyType>::value;
+}
+> This code will print “false,false” for MyType. lt is not a standard layout
+because MyType has a private member “Basezzxx” . It is not trivial b ause
+the constructor from class MyType is defined.
+
+***************Ending Page***************
+
+
+ 
+
+
+

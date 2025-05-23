@@ -1,0 +1,667 @@
+***************Beginning Page***************
+***************page number:1**************
+PROGRAMARE DE SISTEM iN C PENTRU PLATFORMA LINUX (Ill)
+Gestiunea fi§ierelor, partea a Ill-a:
+Fi§iere mapate in memorie — primitiva mmap ()
+Cristian Vidra$cu
+vidrascu©info uaic ro
+Aprilie, 2021
+1/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+0 O
+Sumar
+'“tmduwe lntroducere
+Primitivele din familia mmag
+Demwmgramecummag Primitivele din familia mmap
+Referinte bibliografice Primitiva mmap
+Z Primitiva munmap
+Caracteristici ale mapérilor create cu mmap
+Primitiva msync
+Demo: programe cu mmap
+Exemplul #1: O mapare “privaté”, cu permisiuni read-only
+Exemplul #2: O mapare “partajaté”, cu permisiuni read&write
+Exemplul #3: O mapare “partajaté”, cu scrieri “Tnafara” mapérii
+Exemplul #4: O alté mapare “partajaté”, pentru crearea unui fi$ier
+Alte exemple de programe cu mapéri
+Referinte bibliografice
+Meniu de navigare Gestiunea fi$iere|or, partea a Ill-a: Fi$iere mapate Tn memorie — primitiva mmap() 2/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+~ Q
+lntroducere
+timid f . Fisier mapat in memorie — un mecanism prin care (0 parte din)
+rimitivee in amiia mmag ’
+D eeeeeeeeeeeeee conjunutul unw fisier este “mapat” in memorie, in spajuul Virtual de
+Referinte bibliografice - v A . . .
+adrese a| procesulw ce apeleaza, in acest scop, primitiva mmap.
+Prin aceasta “mapare” se realizeaza practic o corelaiie directa “octet-Ia-cctet” intre 0
+poriiune din spaiiul virtual de adrese a| procesului si o portiune a unui fisier de pe disc:
+Process virtual CU alte CUVinte, paginilor Virtuale Ge fOrmeaZé
+“mm”? respectiva poriiune din spatiul virtual de adrese
+Ei - al procesului, |i se asociaza drept backing store
+Q :l - - - - - - - - - - - - - " (i.e., “spatiul” pe disc rezervat pentru evacuarea
+E g Iiiiiiiiiwri lor din memorie), de catre nucleul sistemului
+mil-11w H " i de operare, zona de pe disc ce stocheaza
+l'i': Linn-{l —I- — — — — — — — ' . . . . . A
+iee-Z,ee,emj,_,f, - f acea portiune a fisierulw de pe disc, in loc de a
+it if“ iii: ..-_. H h! Ie rezerva spaiiu in fisieru/ de swap al sistemului
+L I mag“; de operare. Observatie: veii afla mai multe
+detalii despre administrarea memoriei virtuale
+“PE” ﬁ'e iii” prin paginare la cerere in cursul teoretic #10.
+Meniu de navigare Gestiunea fisierelor, partea a III-a: Fisiere mapate in memorie — primitiva mmap() 3/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+O O
+lntroducere (cont)
+'“tmducere Atentie: termenul fisier mapat in memorie (in engleza, memory-mapped file) se refera Ia acea portiune
+WK din spatiul virtual de adrese a| procesului pentru care s-a stabilit, printr-un apel mmap, o corelatie
+W directa “octet-la-octet” cu o portiune a unui fisier de pe disc. Deci nu confundati semnificatia acestui
+——9—Refe""teb'b"° raf'ce i termen cu fisierul propnu-zrs de pe disc (sau cu portiunea acestura de pe disc).
+* ~k ~k
+Printr-o mapare, putem face accese de citire si scriere direct in memorie asupra fisierului, ca si cum am
+citi sau scrie diverse variabile din program, fara sa mai utilizam apelurile de sistem read/write (sau
+functiile de I/O din biblioteca standard de C).
+Efectul scrierilor in memorie va fi “propagat” pe disc cu intarziere, atunci cand nucleul decide sa salveze
+paginile dirty pe disc (e.g., atunci cand Ie selecteaza drept victime pentru evacuare din memorie).
+~k ~k ~k
+Un alt avantaj al acestui mecanism: un anumit fisier pcate fi “mapat” simultan in spatiile virtuale de
+adrese a doua (sau mai multor) procese si astfel acestea pot coopera schimband informatii prin
+modelul de comunicatie cu shared memory.
+Un exemplu simplu de procese cocperante prin modelul de comunicatie cu memorie partajata: revedeti
+sablonul producator-ccnsumator, discutat in cursul tecretic #6.
+Alte exemple de procese cocperante prin modelul de ccmunicatie cu memorie partajata: revedeti toate
+problemele de sincronizare discutate in cursurile tecretice #5 si #6.
+Meniu de navigare Gestiunea fisierelor, partea a Ill-a: Fisiere mapate in memorie — primitiva mmap() 4/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+O O
+Agenda
+'“tmdme lntroducere
+Primitivele din familia mmag
+ZSEZIZZZZZZLP Primitivele din familia mmap
+Caracteristici ale ma érilor ' ' '
+ceaetcummap p I Prlmltlva mmap
+Pr'm't'vamsync Primitiva munmap
+Demo: grograme cu mmaE
+Referimebibuograﬁce Caracteristici ale mapérilor create cu mmap
+Primitiva msync
+Demo: programe cu mmap
+Exemplul #1: O mapare “privaté”, cu permisiuni read-only
+Exemplul #2: O mapare “partajaté”, cu permisiuni read&write
+Exemplul #3: O mapare “partajaté”, cu scrieri “Tnafara” mapérii
+Exemplul #4: O alté mapare “partajaté”, pentru crearea unui fieier
+Alte exemple de programe cu mapéri
+Referinte bibliografice
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fi$iere mapate Tn memorie — primitiva mmap() 5/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+O O
+Primitiva mmap
+'“tmducere I “Maparea” unui fisier Tn memoria virtua/a' a unui proces : se realizeaza cu primitiva mmap.
+—F’—::2:::'fns:pfami'iamma Intertata tunctiei mmap ([4]) :
+Sigiiitveiizltiifilripmapéruor void *mmap (void *add'r‘, size_t length, int prot, int flags, int fd, off_t offset)
+create cu mmap ' U nde:
+Eiffaislicumma — Valoarea returnaté: adresa de start a maparii create cu succes (i. e., Tnceputu/ regiunii mapate
+Referintebibuo raﬁce Tn spatiu/ virtual a/ procesului ape/ant), sau MAP_FAILED (= (void *) - 1) Tn caz de eroare.
+— add'r" = adresa de start pentru noua mapare ce se va crea Tn spatiul virtual al procesului
+apelant. Daca add'r =NULL, nucleul va alege Tn mod convenabil o adresa page-aligned (i.e.,
+multiplu de dimensiunea paginii) Ia care va crea noua mapare. Altfel, valoarea add?" este
+tolosita de nucleu doar cu rol de hint (cu o exceptie: Tn cazul tolosirii flag-ului MAP_FIXED).
+— Length = lungimea noii mapari ce se creeaza (Iungimea trebuie sa tie un Tntreg strict pozitiv).
+— fd = identifica fisierul (sau un alt obiect, e.g. un device) asociat maparii ce se creeaza.
+Nota': desoriptorul fd poate ti Tnchis imediat dupa apelul mmap, tara invalidarea maparii create.
+— offset = trebuie sa fie un Tntreg pozitiv multiplu de dimensiunea paginii (t).
+Nota': maparea nou creata este initializaté prin copierea de pe disc a continutului portiunii din
+tisierul asociat ce Tncepe de Ia pozitia offset si de lungime Length (cu o exceptie: Tn cazul
+tolosirii flag-ului MAP_UNINITIALIZED). lar ca “destinatie pe disc” pentru acele modificari
+efectuate Tn memorie ce trebuie “propagate” pe disc este folosita aceeasi portiune din fisier.
+Meniu de navigare Gestiunea fisierelor, partea a Ill-a: Fisiere mapate Tn memorie — primitiva mmap() 6/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+~ Q
+Primitiva mmap (cont)
+'“tmducere I “Maparea” unui fi$ier Tn memoria virtua/a' a unui proces — intertata functiei mmap (cont) :
+Primitivele din familia mmag . . V . . . I . v
+Primitivammap — prot = specrfrca tipul de protectre al tuturor pagrnrlor cle memorie ce formeaza noua mapare
+Eggiiitvejigﬁipmapéruor ($i trebuie sa nu fie Tn conflict cu modul de deschidere a| fieierului). Poate avea ca valoare fie
+createwmmap * ccnstanta simbolica PROT_NONE — paginile maparii nou create NU vor putea fi accesate, fie 0
+Primitivams nc , . , . . . . V . . . . .
+D y combrnatle (/.e., drsiunctle loglca pe bltl) a unela sau a mar multora dlntre constantele:
+emo: grograme CU mmap
+
+Referimebibliograﬁce A PROT_READ — paginile maparii nou create vcr putea fi accesate pentru citire;
+
+A PROT_WRITE — paginile maparii nou create vcr putea ti accesate pentru scriere;
+
+A PROT_EXEC — paginile maparii nou create vcr putea fi accesate pentru executie.
+
+— flags = 0 serie de flag-uri tolosite pentru a determina claca modificarile (scrierile) efectuate
+de proces Tn paginile maparii vor fi “vizibile” sau nu ei Tn celelalte procese ce mapeaza ace|a$i
+fieier, precum $i daca aceste modificari efectuate Tn memorie vor fi “propagate” (i.e., flush-uite
+pe disc) Tn fieierul propriu-zis stocat pe disc. Poate fi tolosita exact una singura dintre valorile:
+A MAP_PRIVATE — se creeaza 0 mapare “privata” (de tipul copy-on-write) ;
+
+A MAP_SHARED — se creeaza 0 mapare “partajata”.
+Aceasta poate fi Tnsotita, eventual, cle 0 combinatie (i.e., disjunctie logica pe biti) a altor valori,
+precum ar fi: MAP_FIXED, MAP_LOCKED, MAP_ANONYMOUS, MAP_UNINITIALIZED, $.a.
+Pentru a afla semnificatia acestor valori, consultati documentatia functiei mmap ([4]).
+
+Meniu de navigare Gestiunea fieierelor, partea a III-a: Fi$iere mapate Tn memorie — primitiva mmap() 7/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+o o
+Prlmltlva munmap
+'“tmducere I “Stergerea” unei mapéri din memoria virtua/a' a unui proces : se realizeaza cu primitiva munmap.
+—ePrimitve'edinfam"ia lnterfata functiei munmap ([4]) ;
+Prlmltlva mmap ’ ’
+CPprimitiv.al-m1-_11:1map v _ int munmap (V0 1d * addT‘, SiZ€_t Length)
+aracterlstlcl ale mapanlor
+create cu mmap ' _ . . _
+Primitivamsync — add'r" = adresa cle start pentru maparea din spatlul Vlrtual al procesulul apelant ce se va
+Demo: grograme cu mmap eterge. Adresa specificata trebuie sa fie multiplu de dimensiunea paginii.
+mm — tength = lungimea maparii ce se va eterge.
+— Valoarea returnata: O, in caz de succes, $i respectiv -1, in caz de eroare.
+
+Observatii:
+
+1) Parametrul length nu trebuie sa fie neaparat multiplu de dimensiunea paginii, clar se va lua in considerare cel mai mic
+multiplu cle dimensiunea paginii, mai mare sau egal cu Length (deoarece unitatea cle alocare/dealocare in spatiul
+virtual de adrese al unui proces este pagina).
+
+2) Apelul munmap “eterge” intervalul de adrese specificat prin parametri (rotunjit la un numar intreg de pagini) din spatiul
+virtual de adrese al procesului apelant. Aceasta are ca efect faptul ca orice acces ulterior la vreo adresa din acel
+interval va genera o eroare de tip “referinta invalida” (i.e., se genereaza semnalul SIGSEGV, ceea ce cauzeaza
+terminarea anormala a procesului, cu un mesaj cle eroare “Segmentation fault”).
+
+3) Nu este eroare claca maparea ce se eterge nu reprezinta un interval de adrese corespunzatoare unor pagini mapate in
+spatiul virtual de adrese al procesului apelant, la momentul apelului munmap respectiv.
+
+4) Maparile create prin apeluri mmap sunt “eterse” automat la terminarea executiei procesului. Pe cle alta parte, inchiderea
+descriptorului cle fieier utilizat intr-un apel mmap anterior nu provoaca “etergerea” maparii respective.
+
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fieiere mapate in memorie — primitiva mmap() 8/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+O O
+Caracteristici ale maparilor create cu mmap
+
+'“iroducere 1) Important: modul portabil de a crea o mapare este de a specifica add'r ca O (NULL) si de a omite
+
+W MAP_FIXED din flags. ln acest caz, nucleul alege adresa pentru mapare; adresa va ti aleasa
+
+Primitivamunmap Tntr-o maniera adecvata pentru a nu intra Tn conflict cu nicio mapare existenta si nu va fi O.
+
+Caracteristici ale maparilor
+
+grrﬁtiivyjyifc * 2) Semnificatia celor doua tipuri de mapari (MAP_PRIVATE vs. MAP_SHARED) :
+
+Demo: Erogramecummalg — Pentru o mapare “privata” (de tipul oopy-on-write), scrierile etectuate de procesul ce a creat-o
+
+Referimebibuograﬁce NU vor fi “vizibile” Tn celelalte procese ce mapeaza aceeasi portiune de tisier si nici NU vor ti
+“propagate” Tn fisierul propriu-zis de pe disc (ci doar, eventual, Tn fisieru/ de swap al sistemului).
+
+— Pentru o mapare “partajata”, scrierile efectuate de proces vor fi “vizibile” Tn celelalte procese ce
+
+mapeaza aceeasi portiune de tisier si vor ti “propagate” Tn fisierul propriu-zis de pe disc.
+Important: momentul “propagarii” pe disc a scrierilor Tn memorie este, implicit, controlat de
+catre nucleu, prin algoritmul de gestiune a paginilor dirty. insa, putem forta explicit
+“propagarea” pe disc a scrierilor Tn memorie folosind primitiva msync.
+
+3) Lungimea electiva (i.e., dimensiunea Tn octeti) a maparii nou create va fi cel mai mic multiplu de
+dimensiunea paginii, mai mare SEIU egal cu length (deoarece unitatea de alocare/dealocare Tn spatiul
+virtual de adrese al unui proces este pagina).
+
+Asttel, daca parametrul length nu este multiplu de dimensiunea paginii, atunci la crearea maparii
+restul adreselor din ultima pagina a maparii vor ti initializate cu zero, iar scrierile ulterioare la aceste
+adrese nu vor da eroare, dar nici NU vor fi “propagate” Tn fisierul de pe disc.
+
+Meniu de navigare Gestiunea fisierelor, partea a Ill-a: Fisiere mapate Tn memorie — primitiva mmap() 9/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+O O
+Caracteristici ale maparilor create cu mmap (cont)
+'“fmélucere- __ 4) in urma unui apel fork, procesul fiu “mosteneete” memoria mapata cu primitiva mmap de catre
+W parinte, anterior crearii fiului. Maparea respectiva va avea in procesul fiu aceleaei atribute $i
+Primitivamunmlap | aceeaei portiune de fi$ier asociata ca in procesul parinte (mai multe detalii despre aceste aspecte
+Caracteristici a e ma ari or
+create cu map p * vorn vedea in lectia practica urmatoare, dedicata apelului fork).
+Primitiva msync
+Demo; Erogramecummag 5) Pe anumite arhitecturi hardware (e.g., arhitectura x86/ x64) modelul ole protectie a acceselor Ia
+Referintebibliografice memorie permite dear valorile read-only $i read & write, dar nu $i write-only.
+Cu alte cuvinte, permisiunea PRDT_WRITE implica automat $i permisiunea PROT_READ, chiar daca
+aceasta din urma nu este specificata explicit in apelul mmap.
+6) Pe anumite arhitecturi hardware permisiunea PROT_READ implica automat $i permisiunea
+PRDT_EXEC (e.g., CPU-uri x86 mai vechi, fara suport pentru bitul NX, $.a.), iar pe alte arhitecturi nu
+implica acest lucru (e.g., arhitectura x64, CPU-uri x86 cu suport pentru bitul NX, $.a.).
+Pentru portabilitatea programelor, este recomandat sa se specifice explicit permisiunea
+PROT_EXEC in apelul mmap ce va crea 0 mapare din care se intentioneaza sa se execute cod.
+7) Pentru a modifica protectia paginilor dintr-o mapare, se poate utiliza primitiva mprotect ([4]).
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fi$iere mapate in memorie — primitiva mmap() 10/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+O O
+Caracteristici ale maparilor create cu mmap (cont)
+'“tmducere 8) Paginile fizice (din RAM) ce stocheaza paginile virtuale din care este format spatiul virtual de
+—p—::2::::'fnz:pfami'iamma adrese al unui proces sunt gestionate de nucleu conform schemei de administrare a memoriei
+Primitivamunmap virtuale la cerere (a se vedea cursurile teoretice #9 $i #10).
+giggtiﬁsigie mapérilor i |\/|ai exact, pe Tntreaga durata de viata a unui proces, fiecare pagina virtuala a sa trece prin
+Primitivamsync perioade cand este rezidenta in memorie (i.e., se afla intr-o pagina fizica din RAIVI) $i perioade
+—P—q—P—Dem°1 i° ramecumma cand nu este rezidenta in memorie (i.e., continutul sau este doar pe disc, Tntr-un fisier mapat in
+——9—Refe““te bib“° raﬁce memorie sau in fie/eru/ de swap al sistemului).
+Pentru a afla care pagini virtuale sunt rezidente $i care nu sunt rezidente Ia un moment dat, se
+poate utiliza primitiva mincore ([4]).
+
+9) De asemenea, nucleul permite “incuierea” unor pagini virtuale in memorie — astfel, ele vor ramane
+rezidente in permanenta (pana la terminarea procesului sau pana la “descuierea” lor), nemaifiind
+alese drept victima de algoritmul de page-swapping.
+
+Pentru a “incuia” anumite pagini virtuale ale procesului, sau pe toate, se pot utiliza primitivele
+mlook $i, respectiv, mlockall ([4]).
+Iar pentru a Ie “descuia” se pot utiliza primitivele munlock $i, respectiv, munlockall ([4]).
+
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fi$iere mapate in memorie — primitiva mmap() 11 /20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+O O
+Prlmltlva msync
+'“tmducere I “Sincronizarea” unui fisier cu maparea sa din memoria virtua/a' a unui proces : se realizeaza cu
+WK primitiva msync. Interfata functiei msync ([4]) :
+Primitiva mmap ’ ’
+Primitiva munmap ' ' ' '
+Caracteristicialemaparilor 1nt msync (vold *add'r‘, s12e_t length, 1nt flags )
+create cu mmap ' _ . . _
+Primitivamsync — add'r" = adresa de start pentru maparea (din spatlul Vlrtual al procesulul apelant) pentru care
+Demo: grograme cu mmag vrem sa “propagam” pe disc (in portiunea de fisier asociata maparii) scrierile deja efectuate in
+Referintebibliografice memorie si inca “nepropagate” (i.e., paginile dirty ale maparii respective).
+— length = lungimea maparii, si a portiunii de fisier de pe disc asociate ei, ce se vor sincroniza.
+— flags = apelul initiaza, in mod blocant sau neblocant, un flushing pe disc a paginilor dirty din
+acea mapare, prin specificarea exact a uneia dintre valorile:
+A MS_SYNC — se cere un flushing in mod blocant (i.e., se asteapta finalizarea scrierii efective
+pe disc a paginilor dirty din acea mapare) ;
+A MS_ASYNC — se cere un flushing in mod neblocant (i.e., fara a se astepta finalizarea scrierii
+efective pe disc a paginilor dirty din acea mapare).
+Oricare dintre cele doua valori poate fi, eventual, combinata (i.e., disjunctie logica pe biti) cu
+valoarea MS_INVALIDATE, prin care se cere invalidarea celorlalte mapari posibil existente ale
+aceluiasi fisier (prin invalidare, acestea se vor actualiza cu modificarile survenite pe disc).
+— Valoarea returnaté: O, in caz de succes, si respectiv -1, in caz de eroare.
+Meniu de navigare 12/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+O O
+Pr|m|t|va msync (cont)
+
+'“tmducere I “Sincronizarea” unui fisier cu maparea sa din memoria virtua/a' a unui proces (cont.)
+
+Primitivele din familia mmap
+
+Primitiva mmap Observat/i_
+
+Primitiva munmap
+
+Caracteristici ale maparilor V _
+
+create Cu map * 1) Parametrul add'r" este valoarea returnata de apelul mmap ce a creat acea mapare (decl
+
+Primitivamsym obligatoriu este multiplu de dimensiunea paginii).
+
+I v I\ - -- . . v .
+
+—p—9—p—Dem° r° ramewmma 2) Parametrul Length este valoarea declarata in apelul mmap respectlv, nefund obligatorlu sa fie
+
+R f ' b'bl' f' . . . . .. . .
+
+——g—ee"“te ' '° ralce multlplu de dimensiunea paglnu (a se vedea cele explicate anterlor).
+
+3) Reformulez o afirmatie anterioara — caracteristica 3) descrisa Ia apelul mmap:
+daca parametrul Length nu este multiplu de dimensiunea paginii, atunci scrierile in maparea
+din memorie a acelei portiuni de fisier, la adrese situate in ultima pagina alocata maparii,
+“dincolo” de adresa data de restul impartirii intregi a valorii Length la dimensiunea paginii, vor
+reusi fara a da eroare, dar efectele acestor scrieri nu vor fi “propagate” si in fisierul de pe disc.
+4) Important: apelul munmap nu efectueaza si un apel msync implicit (i.e., nu face si flushing
+pentru paginile dirty din acel moment).
+Cu alte cuvinte, cand stergeti explicit o mapare fara sa o sincronizati mai intai pe disc, este
+posibil sa “pierdeti” ultimele modificari efectuate in memoria acelei mapari (i.e., acestea nu se
+vor salva in fisierul de pe disc).
+Meniu de navigare Gestiunea fisierelor, partea a Ill-a: Fisiere mapate in memorie — primitiva mmap() 13/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+0 0
+Agenda
+
+'“tmdmere lntroducere
+
+Primitivele din familia mmag
+
+Demwmgramecummag Primitivele din familia mmap
+
+Exemp|u|#1: Omapare . . .
+
+“privaté”, cu permisiuni Pr'm't'va mmap
+
+read-only I
+
+Exem |u|#2: Oma are ' ' ' '
+
+“parta?até”, cu permﬁsiuni Prlmltlva mun-map
+
+read&write . . . u .
+
+pril'lﬁﬁiuilﬁiﬁiafara” Caracterlstlcn ale maparllor create cu mmap
+
+Ejeprigiul #4: Oalté mapare Primitiva msync
+
+“par-tejeté”, pentru crearea
+
+:rllleléélemple de programe cu Demo: programe cu mma'p
+
+:afpa: W f Exemplul #1: O mapare “privaté”, cu permisiuni read-only
+
+eerlne l IOQFalCG
+Exemplul #2: O mapare “partajaté”, cu permisiuni read&write
+Exemplul #3: O mapare “partajaté”, cu scrieri “Tnafara” mapérii
+Exemplul #4: O alté mapare “partajaté”, pentru crearea unui fieier
+Alte exemple de programe cu mapéri
+
+Referinte bibliografice
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fi$iere mapate Tn memorie — primitiva mmap() 14/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+O O
+Exemplul #1 : O mapare “privaté”, cu permisiuni read-only
+
+‘“"mere Un exemplu oe ilustreaza folosirea apelului mmap pentru realizarea unei mapari de tip
+
+Primitivele din familia mmap . v” . . . . . . _ . _ . _
+
+Demo: r0 ramecumma “privata , cu permismni de acces read-only, a unei portiuni specmcate dintr-un fieier.
+
+Exemplul #1: O mapare
+
+“piifié”;wpetmisiuni i A se vedea variantele de program mmap_exla. c: SI mmap_exlb . c: ([1]).
+
+rea -ony ,
+
+Exemplui#2: O mapare .
+
+£23213; CU perm'S'um Observatie: pentru explicatii mai detaliate ale acestor programe $i descrierea comportamentului Ior Ia
+
+prairtlﬁtlgi'uigiimaiara” executie, consultati exemplul [FirstDemo — mmap_ex1{a,b}] din suportul online de laborator ([2]).
+
+maparii
+
+prgg$;$gtj;eﬁtjjti$er39 Ambele variante de program demonstreaza citirea direct din memorie a informatiei mapate din fi$ier, in
+
+12:21? pie de program Cu looul utilizarii interfetei clasioe de aooes I/O la disc (adioa fara a folosi apelurile de sistem read $i
+
+mapéri write, sau functii de I/O din biblioteci de genul stdio .h).
+
+Referinte bibliografice _ . V . V A _ A _ _
+Diferenta dintre oele doua variante de program oonsta in modul de tratare a cazulw in care utilizatorul
+programului introduce date de intrare “invalide” (i.e., pentru aoest program, aceasta inseamna
+introducerea unui offset “ne-aliniat”):
+
+i) prima varianta abordeaza modul clasic de tratare, folosit pana acum: afiearea unui mesaj de eroare
+$i terminarea executiei programului ;
+ii) a doua varianta ilustreaza un nou mod de tratare: “ooreotarea” prin program a datelor de intrare
+“invalide” introduse de utilizator $i continuarea executiei programului cu aceste date “ooreotate”.
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fi$iere mapate in memorie — primitiva mmap() 15/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+O O
+
+Exemplul #2: O mapare “partajata”, cu permisiuni read&write
+
+'"tmdmere Aioi se ilustreaza folosirea apelului mmap pentru realizarea unei mapari “partajate”, cu
+
+Primitivele din familia mmap . . . . . . . . . . . _
+
+Demo: r0 ramecumma permISIuni de aooes read & write, a unei porjuuni speoifioate dintr-un fieier.
+
+Exemplul #1: O mapare
+
+£2311]? perm'swi" i A se vedea programul mmap_eX2f . c ([1]).
+
+Exemplui#2: O mapare .
+
+£23213; CU perm'S'um Observaiie: pentru explioaiii mai detaliate ale aoestui program $i desorierea oomportamentului sau Ia
+
+prairilﬁlilgi'uigiﬁr;aiara” exeouiie, oonsultaii exemplul [Second Demo — mmap_ex21] din suportul online de laborator ([2]).
+
+maparii
+
+prgg$;$'érfj;eﬁt33333;? Aoest program demonstreaza citiri 5i scrieri direct in memorie a informaiiei mapate din fieier, in Iooul
+
+Zﬂiiifizple deprogramecu utilizarii interfeiei olasioe de aooes I/O la disc (adioa fara a folosi apelurile de sistem read $i write,
+
+mapéri sau funotii de I/O din biblioteoi de genul stdio .h), fiind obfrinut prin adaugarea ei a unor operatii de
+
+mm “soriere” la programul din exemplul precedent, plus toate modifioarile neoesare in aoest soop.
+Important: in aoest exemplu am ilustrat aotivitatea iterativa de modifioare a unui program (mai preois, a
+variantei cu “ooreotarea” datelor de intrare “invalide” a programului din primul exemplu demonstrativ),
+pentru a obiine functionalitatea dorita in aoest exemplu. Cu alte ouvinte, am prezentat un ciclu iterativ
+de modificare a variantei curente a programului, pentru eliminarea bug-urilor introduse pe paroursul
+adaugarii functionalitatii suplimentare dorite pentru aoest al doiiea program demonstrativ.
+va reoomand sa studiafri cu ateniie oele 6 versiuni suooesive ale programului $i modul de dezvoltare a
+Ior in maniera iterativa!
+
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fieiere mapate in memorie — primitiva mmap() 16/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+O O
+
+Exemplul #3: O mapare “partajata”, cu scrieri “inafara” maparii
+
+'“tmdmere Un exemplu ce ilustreaza folosirea apelului mmap pentru realizarea unei mapari de tip
+
+Primitivele din familia mmap . v” . . . . . . . _ . _
+
+Demo: r0 ramecumma “partajata , cu perm|s|un| de acces read & write, a unel portlunl specificate dmtr-un
+
+$322513 £2251? i fisier, si care in plus ilustreaza ce se intampla cand scriem Ia adrese situate “inafara”
+
+read-only v .. . . . . v V
+
+prertnplltllfziimaeérs maparu respective (/.e., Ia adrese de memorie situate dupa cea corespunzatoare
+
+ar ajaa,cu ermlSlUi'll
+
+giaedrfgfjfiszomapare starsitului portiunii de fisier mapate in memorie).
+
+“partajata”, cu scrieri “inafara”
+
+Efepriglulpzomtémpare A se vedea variantele de program mmap_eX3a. c si mmap_eX3b . c ([1]).
+
+“partajata”, pentru crearea
+
+unuifisier
+
+Altee>femp|edepr09ramecu Observatie: pentru explicatii mai detaliate ale acestor programe si descrierea comportamentului Ior Ia
+
+maparl _ , . - -
+
+R f _ t W f executle, consultatl exemplul [ThirdDemo — mmap_ex3{a,b}] din suportul onlme de laborator ([2]).
+
+eerme l logralce
+Acest program demonstreaza cazul scrierilor “inafara” maparii respective, precum si efectul Ior asupra
+fisierului de pe disc (i.e., “Are loc actualizarea modificarilor in fisierul de pe disc sau nu?”), fiind obtinut
+prin adaugarea, la programul din exemplul precedent, de noi operatii de “scriere” la adrese de memorie
+situate dupa cea corespunzatoare starsitului portiunii de fisier mapate in memorie.
+Cele doua variante de program trateaza doua cazuri diferite: scrieri Ia adrese situate “inafara” maparii
+respective, dar totusi in interiorul ultimei pagini alocate maparii, versus scrieri Ia adrese situate “dincolo
+de” ultima pagina alocata maparii.
+
+Meniu de navigare Gestiunea fisierelor, partea a Ill-a: Fisiere mapate in memorie — primitiva mmap() 17/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+O O
+
+Exemplul #4: O alta mapare “partajata”, pentru crearea unui fi$ier
+
+'“tmdmere Un exemplu oe ilustreaza folosirea apelului mmap pentru realizarea unei mapari ole tip
+
+Primitivele din familia mmap I "as I I I I I I I I I I
+
+Demo: r0 ramecumma “partajata , cu permlsrunl de aooes read & write, a unel porjuunl speolfloate ollntr-un
+
+$322513 £2251??? i fi$ier, $i Tn oare faoem doar sorieri Tn fi$ier, oi nu aotualizari de tipul oitire + soriere.
+
+read-only
+
+FDXZZZETQKLCZQZTZLGm A se vedea programul mmap_eX4c . c ([1]).
+
+3163556733: O mapare
+
+222;???“scriermnafara” Observarie: pentru explicatii mai oletaliate ale acestui program $i desorierea comportamentului sau la
+
+EXGTPI$1f4=OIalrémapare executie, oonsultati exemplul [FourthDemo — mmap_ex4o] din suportul online de laborator ([2]).
+
+par aja a , pen ru crearea
+
+unuifisier v .. I v V I . I v I A .
+
+AlteaxIempledeprogrameou Aoest program demonstreaza oloar operaful ole sorlere (fara oltlre prealablla), ollreot |n memorle, a
+
+mapar' oonjrinutului nou pentru acel fi$ier, urmata ole observarea salvarii Tn fi$ieru| ole pe disc a informatiilor
+
+Referinte bibliografice _ A _ . v _ V V , _ _ _ , v
+sorlse |n memorle. Praotlc, urmarlm sa cream f|$|erul, cu un anumlt oonfunut (nou) ; nu ne Intereseaza
+oonjrinutul veohi, Tn oaz ca aoel fi$ier exista olinainte.
+Important: $i Tn aoest exemplu am ilustrat aotivitatea iterativa ole modificare a unui program, pentru a
+obfrine versiunea de program ou functionalitatea dorita Tn aoest exemplu. Cu alte cuvinte, am prezentat
+iarasi un cic/u iterativ de modificare a variantei curente a programului, pentru eliminarea bug-urilor
+introoluse pe parcursul adaugarii functionalitajrii olorite pentru acest al 4-Iea program demonstrativ.
+va reoomanol sa stuoliajri cu atenfrie oele 3 versiuni suooesive ale programului $i moolul ole dezvoltare a
+Ior Tn maniera iterativa!
+
+Meniu de navigare Gestiunea fi$iere|or, partea a Ill-a: Fisiere mapate Tn memorie — primitiva mmap() 18/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+o o
+
+Alte exemple de programe cu maparl
+
+'"troducere Demo: exercitiul rezolvat [txt2bin_write-mapped-fi|e], prezentat Tn suportul online de laborator ([2]), ilustreaza un exemplu
+
+Primitivele din familia mmap ole program care cite$te de Ia tastatura o secventa de numere Tntregi, introduse prin reprezentarea lor textuala, ei Ie scrie Tn
+
+Demo: grograme Cu mag memorie (deci Tn format binar), Tn maparea corespunzatoare fieierului de ieeire specificat.
+
+‘Ex/225' :11 p 322518;? (Nota: practic, acest program este o reimplementare, utilizand o mapare Tn Iocul functiilor clasice de l/O, a programului
+
+madam} demonstrativ [txt2bin_write-fi|e], prezentat Tn suportul online al laboratorului #7.)
+
+Exemplul #2: O mapare
+
+“partajata”, cu permisiuni * * *
+
+read&write
+
+‘prairtlniltlgfiiuiggﬁagzafara” Demo: exercitiul rezolvat [bin2txt_read-mapped-fi|e], prezentat Tn suportul online ole laborator ([2]), ilustreaza un exemplu
+
+mapérii ’ ole program care afieeaza pe ecran reprezentarea textuala a numerelor citite prin initializarea maparii Tn memorie a unui
+
+$5525thftgegtﬁtirrgjrréire fieier de date specificat ole pe disc, fieier ce contine o secventa numere stocate Tn format binar.
+
+unuifieier, (Nota: practic, acest program este o reimplementare, utilizand o mapare Tn locul functiilor clasice de l/O, a programului
+
+ﬂgigrxiemp'e de programe CU demonstrativ [bin2txt_read-fi|e], prezentat Tn suportul online al laboratorului #7.)
+
+Reterinte bibliografice * * *
+Demo: exercitiul rezolvat [Demo ’data race’_shmem #1 : . . . ], prezentat Tn suportul online de laborator ([2]), ilustreaza
+$ab|onu| de cooperare Producator-Consumator ce a fost prezentat Tn cursul teoretic #6, particularizat pe un exemplu concret
+ole informatie ce este produsa de un proces ei consumata ole celalalt proces. Se utilizeaza un fieier mapat Tn memoria
+ambelor programe pentru a obtine o zona ole memorie partajata prin intermediul careia se transmite informatia de la
+procesul producator Ia cel consumator ei, Tn plus, nu se foloseete niciun mecanism de sincronizare a citirilor $i scrierilor Tn
+regiunea ole memorie partajata, ceea ce are ca posibil efect citiri ole informatii “incorecte”.
+Astfel, acest exemplu mai ilustreaza ei tenomenul ole data race ce a fost prezentat la Tnceputul cursului teoretic #5, avanol
+rolul de a va atrage atentia asupra nevoii ole folosire a unor tehnici specifice pentru sincronizarea executiei programelor, Tn
+scopul “repararii” programelor ca sa nu (mai) “sufere” ole acest fenomen nedorit.
+
+Meniu de navigare Gestiunea fieierelor, partea a Ill-a: Fieiere mapate Tn memorie — primitiva mmap() 19/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+O O
+Bibliografie obligatorie
+'“imducere [1] Programele demonstrative amintite pe parcursul acestei prezentari pot fi descarcate ole Ia adresa:
+rimiivee in amiiammag _ _ ~ _ _
+E t I d f I 0 https://profs.1nfo.ua1c.ro/ Vldrascu/SO/cursurl/C—programs/mmap/
+emo: QFOQFHmG CU mmaE
+——9—Referintebib"° raﬁce a [2] Suportul online de laborator asociat acestei prezentari:
+o https : //profs . info . uaic . ro/"vidrascu/SO/1abs/suport_1ab9 . html
+Bibliografie suplimentara:
+[3] Cap. 49 din cartea “The Linux Programming Interface : A Linux and UNIX System Programming
+Handbook”, autor M. Kerrisk, editura N0 Starch Press, 2010.
+0 https : //profs . info . uaic . ro/Nvidrascu/SO/books/TLPI 1 .pdf
+[4] POSIX API: man 2 mmap, man 2 munmap, man 2 msync, man 2 mprotect,
+man 2 mincore , man 2 mlock / mlockall , man 2 munlock / munlockall .
+Meniu de navigare Gestiunea fisierelor, partea a Ill-a: Fisiere mapate in memorie — primitiva mmap() 20 / 20
+
+***************Ending Page***************
+

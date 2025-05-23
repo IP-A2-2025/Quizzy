@@ -1,0 +1,1348 @@
+***************Beginning Page***************
+***************page number:1**************
+Algorithm Design: Backtracking and Branch & Bound I
+Stefan Ciobaca’, Dorel Lucanu, Paul Diac
+Faculty of Computer Science
+Alexandru loan Cuza University of Ia$i, Romania
+d1ucanu©info.uaic .ro
+stefan.ciobaca@info.uaic.ro
+paul.diac@info.uaic.ro
+AD 2022
+
+El i5‘ i E :5 Q Q0
+Backtracking and Branch & Bound AD 2022 1/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+a Backtracking
+o Motivation
+o Exhaustive Search
+o Generic Implementation
+o 8-Queens
+0 Satisﬁability
+e Branch & Bound
+o Knapsack Problem
+o Traveling Sales Person
+El r51 i E :5 ‘)QQ
+Backtracking and Branch & Bound AD 2022 2/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Plan
+0 Backtracking
+Motivation
+Exhaustive Search
+Generic Implementation
+8-Queens
+Satisfiability
+Branch & Bound
+Knapsack Problem
+Traveling Sales Person
+C1 ﬁ - '= :5 oqo
+Backtracking and Branch 84 Bound AD 2022 3/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Motivation
+In previous lectures, we solved problems with paradigms such as greedy or
+dynamic programming that had polynomial execution time.
+However, as we know from AND-completeness lecture, there are problems
+for which no one knows polynomial solutions, such as NP-comp/ete
+problems or NP-Hard optimization problems.
+Many of these have direct practical applications, so even inefficient
+solutions are needed.
+
+Backtracking and Branch & Bound AD 2022 4/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Exhaustive Search
+
+For most of the problems the solution can be represented by a sequence,
+
+array, set, or some sort of layered decisions. Usually, for a given problem
+
+instance, there is a set of possible solutions.
+
+Often, testing the validity of candidate solutions can be implemented
+
+efficiently. For this, we have to design an algorithm that checks the formal
+
+definition of the candidate output given based on the and input values and
+
+the problem specifications.
+
+A more difficult case is to test optimality I finding the minimum cost or
+
+maximum profit solution. We cannot test if some valid solution is optimal
+
+if we don't know what the optimum is. But in the following, it is enough
+
+to compare two valid solutions and decide which is better.
+
+Exhaustive search is a fundamental and primitive approach to solve
+
+problems. lt enumerates or generates all possible solutions, filters those
+
+that are valid by using a validity test and eventually saves the optimum.
+Backtracking and Branch & Bound AD 2022 5/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Exhaustive Search
+Exhaustive search can also be used in counting problems, or in problems
+that require all the possible solutions.
+Thanks to computational power, a space of solutions that cannot be
+feasibly iterated by a human, can be done so by a computer in seconds.
+Clearly, this is not always enough but almost always possible.
+Often the number of candidate solutions grows very quickly as the size of
+the problem increases because of combinatorial explosion. For n "layers":
+
+o binary assignments and subsets —> 2”
+
+o permutations, orderings: —> n!
+
+0 m-value assignments: e m”
+
+. . . C”
+o parenthe5|zat|ons or operations order: —> ("jib
+Backtracking and Branch & Bound AD 2022 6/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+(Very) Generic Implementation
+Exhaustive search can be implemented both recursively or iteratively.
+A generic iterative implementation is summarized below.
+1 // Input : inst — the problem instance
+2 // Output: depending on the problem
+3
+4 candidate = first(inst) // lexicographically first
+5 while (candidate != null) do {
+6 if (validSolution(inst,candidate)) {
+7 process(inst, candidate);
+8 } // save for optimization problems or count
+9 candidate = next(inst, candidate);
+10 }
+a ﬁ i E a oqo
+Backtracking and Branch & Bound AD 2022 7/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Generic Implementation - Decision Levels
+Often the solution is built incrementally on a given number of layers.
+Examples: n variable assignments or permutations of n elements.
+A more efficient implementation of exhaustive search assigns each layer all
+possible values and jumps to the next level with a recursive call. When
+some under-construction candidate is instantiated on all levels, thus
+becoming a complete candidate, it is checked for validity and processed.
+This can also be implemented iteratively using a stack.
+ln some problems, the number of levels may not be known in advance, and
+the stopping condition can be changed: for example, something similar to
+a capacity is already full.
+
+Backtracking and Branch & Bound AD 2022 8/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Generic Recursive lm plementation
+1 // Input : inst — problem instance on n — levels
+2 // Output: process all sequences of decisions 1...n
+3
+4 candidate = [firstChoice | x from [1...n]]
+5 exhaustiveSearch(level) uses n modifies c {
+6 if (level == n+1) { // already decided last level
+7 if (validSolution(inst, candidate)) {
+8 process(inst, candidate));
+9 }
+10 } else {
+11 foreach choice from possibleChoices {
+12 // try all possibilities on current level
+l3 candidateElevel] = choice;
+14 exhaustiveSearch(level+1); // and on next
+15 } } }
+16 exhaustiveSearch(1); // start from first level
+a a e E s age
+Backtracking and Branch & Bound AD 2022 9/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Backtracking
+Backtracking improves the exhaustive search described.
+What backtracking does better is that it checks the validity of a partial
+solution: an instance that is under construction. The branches of the
+execution tree are pruned, that is, dropped from execution. ln many
+problems, we can detect invalidity early, and save a lot of running time.
+The saved running time is often exponential in relation to input size and
+the run time of the validity test is polynomial.
+Backtracking can also prepare for testing validity on further levels: for
+example, it can keep track of used values and free them when exiting the
+recursive call.
+
+Backtracking and Branch & Bound AD 2022 10/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Backtracking - Generic Recursive Implementation
+1 // Input: inst — problem instance on n — levels
+2 // Output: process all sequences of decisions 1...n
+3 c = [firstChoice | X from [1...n]]
+4 backtracking(1evel) uses n modifies c {
+5 if (level == n+1) { // already decided last level
+6 process(inst, c)); // validity is already tested
+7 } else {
+8 foreach choice from possibleChoices {
+9 // try all possibilities on the current level
+10 c[level] = choice;
+11 if (validPartialSolution(inst, c, leve1)) {
+12 // if solution is valid upto level
+13 // optional precompute choice: add choice
+14 backtracking(level+1);
+15 // optional undo precompute: remove choice
+16 } } } }
+17 backtracking(1); // start on first level
+u a e E a oqo
+Backtracking and Branch 84 Bound AD 2022 11/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+n Queens Problem
+Place n queens on an n >< n chess table such that no two queens are in
+attack positions. Output one such configuration.
+Two queens are attacking each other if any of the following is true:
+o they are on the same line.
+o they are on the same column. “Ill
+a they are on the same diagonal, considering: =I=
+o diagonals parallel with the main diagonal r ll
+o diagonals parallel with the second diagonal A i
+Alternatively, the problem can ask for the number of different peaceful
+queens positions; or to print all of them.
+Backtracking and Branch & Bound AD 2022 12/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Queens Example - Solution for 8x8 Table
+1 2 3 4 5 6 7 8
+lllglllll
+ZIIIII@II
+3IIIQIIII
+4IQIIIIII
+Blllllllg
+GIIII@III
+7IIIIIIQI
+SQIIIIIII
+Backtracking and Branch&Bound AD 2022 13/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Queens Problem - Formal Definition
+Input: n G N, n Z 4 table size : the number of lines/columns/queens.
+OutPUti (X1,)/1),(X2,Y2) - - - (menli With thl' € U andi
+V(i,j) e {1...n}2 with iyéj:
+
+Xi 75 Xj and y,- 75 yj and
+
+lXi — le ¢ lyf — Ykl
+In this version, one valid conﬁguration is required. The problem has a
+solution for any n Z 4, has no solution for n : 2 and n : 3.
+For n : 8, there are 92 distinct configurations.
+The asymptotic growth rate of the number of solutions is (0.143n)”.
+
+Backtracking and Branch & Bound AD 2022 14/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Queens - Solution
+Place queens on the board one row at a time, starting with the first row.
+To place a queen on row I level, methodically try all n possible columns
+for the current row from left to right with a simple for loop.
+If a particular square is attacked by a queen from higher rows, ignore that
+square; otherwise, tentatively place the queen on that column and
+recursively continue to search for solutions on the next level + 1, level + 2
+until eventually, we reach level I n + 1.
+Data representation: it is useless to keep (line, column) pairs (x;,y,-) in
+memory. If we sort x,- values, we get the identity permutation.
+So we can keep only columns in some array Q[..] in which we save at
+position Q[i] : column of the queen on line i 6 1, n.
+
+Backtracking and Branch & Bound AD 2022 15/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Queens Recursion Tree for 4x4 Table
+IIII IIII IIII IIII
+IIII IIII IIII IIII
+IIII IIII IIII IIII
+IIII IIII IIII IIII
+IIII IIII IIII IIII IIII IIII
+IIII IIII IIII IIII IIII IIII
+==== IIII IIII IIII IIII ====
+IIII IIII IIII IIII IIII IIII
+IIII IIII IIII IIII
+IIII IIII IIII IIII
+IIII IIII IIII IIII
+==== IIII IIII ====
+IEQII IIII
+IIII IIII
+IIII IIII
+IIII IIII i ,
+Backtracking and Branch&Bound AD 2022 g 1276:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Queens - Check Early :> Fail Early :> Faster Code
+1 // Input: n table size; Output: all solutions
+2 underAttack(i, Q) {
+3 for (j = 1; j < i; ++j)
+4 if (Q[i]==Q[j] || Q[i]-Q[j]==i-j || Q[i]-Q[j]==j-i)
+5 return true;
+6 }
+7 return false;
+8 }
+9 backtracking(1evel) modifies Q, n {
+10 if (level == n + 1) print(Q); // solution
+11 else {
+12 for (col = 1; col <= n; col++) {
+13 Q[1evel] = col; // take any option
+14 if (!underAttack(level, Q)) {
+15 backtracking(level+1); // if valid
+16 }}}}
+17 backtracking(1);
+m a , E 2 oqe
+Backtracking and Branch & Bound AD 2022 17/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Queens - Keep an usedCo/[. ] Array
+
+1 underAttack(i, Q) {
+
+2 for (j = 1; j < i; ++j)
+
+3 if (Q[i]-Q[j] == i-j || Q[i]-Q[j] == j-i) {
+
+4 return true;
+
+5 }
+
+6 return false;
+
+7 1
+
+8 backtracking(level) modifies Q, usedCol, n {
+
+9 if (level == n + 1) {
+
+10 print(Q);
+
+11 } else { // check column earlier
+
+12 for (col = 1; col <= n; c01++) if (usedCol[col] == 0) {
+
+13 Q[level] = col;
+
+14 usedCol[col] = 1; // mark column as used
+
+15 if (!underAttack(level, Q)) {
+
+l6 backtracking(level+1);
+
+17 1
+
+l8 usedCol[col] = 0; // free the previously used column
+
+19 }}}
+
+2O backtracking(1); // it is possible to do the same for diagonals
+
+cl 51 , E i5 e q e
+
+Backtracking and Branch & Bound AD 2022 18/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Queens - Implementatlon Varlant - C++ Code!
+
+1 #include <iostream>
+
+2 #include <algorithm>
+
+3 #include <vector>
+
+4 using namespace std; // exhaustive search — easy implementation
+
+5 // using next_permutation from algorithm.h
+
+6 vector<int> Q; // not possible to control validation so
+
+7 int n = 8, cnt = 0; // it can’t be improved with backtracking
+
+8
+
+9 void printPacefulQueens(vector<int> Q) {
+
+lO for (int i = O; i < n; i++) {
+
+11 for (int j = O; j < i; j++) { // check diagonals
+
+12 if (Q[i]-Q[j] == i-j || Q[i]—Q[j] == j-i) return;
+
+13 }} // solution is valid
+
+l4 for (int q : Q) cout << q+1; cout << "\n";
+
+l5 }
+
+16 int main() { // first lexicographically
+
+l7 for (int i = 0; i < n; i++) Q.push_back(i);
+
+18 do {
+
+19 printPacefulQueens(Q); // print valid solutions
+
+20 } while (next_permutation(Q.begin(), Q.end())); // simple loop
+
+21 // iterates all permutations, returns false on last
+
+22 return O;
+
+23 } cl 51 t E i5 oqo
+Backtracking and Branch 84 Bound AD 2022 19/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Queens - Conclusion
+lt is possible and even more efficient to add usedDiagonal [2] [1 arrays.
+In general, the computation done in preparations for further levels once the
+choice is set for the current level can add significant speedup. When the
+recursive call returns, it is important to undo the choice as well.
+If only the first solution is necessary, in a recursive implementation,
+returning from the backtracking(n+1) call would not stop the search.
+There are n! possibilities to place queens considering only rows and
+columns restrictions, which are basically permutations.
+
+Backtracking and Branch & Bound AD 2022 20/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+SAT - Boolean Satisfiability Problem
+SAT problem has been studied in the NP-comp/eteness lecture, as the
+first problem to be proven to belong to the NP-comp/ete class.
+We will continue to study the problem in the CNF form which is a
+standard and canonical form for SAT formulas.
+A Clausal Normal Form - CNF formula is a conjunction (AND = /\) of one
+or more clauses. Each clause is a disjunction (UR = \/) of literals. Each
+literal is a variable like x or its negation —\x.
+SAT problem requires finding a {true, false} assignment to each variable in
+the formula such that the formula evaluates to true.
+For example, for the formula: (x1 V x2) /\ (—\x2 \/ X3) is satisfiable by
+assigning: x1 : true, X2 : X3 : false.
+
+Backtracking and Branch & Bound AD 2022 21/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+SAT - Formula Representation
+
+The exhaustive search and backtracking methods are independent of the
+
+representation itself, but the following representation is commonly used.
+
+A formula .7: over variables {x1,x2, . . .xn} with m clauses: each clause has
+
+c,- literals. Literals are represented in an array or file by the numbers of the
+
+indices of the variables, with negative sign for negated variables: for
+
+example, X3 is 3 and _\X2 is -2.
+
+We can represent the formula:
+
+J: : (x1 \/ x2) /\ (ﬁx2 \/ X3), by:
+
+n : 3, m I 2, c1 I c2 : 2, first clause is [1,2] and the second [-2,3].
+Backtracking and Branch 82 Bound AD 2022 22/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+SAT - Problem Definition
+Input: formula .7: given by: n, m € N - number of variables and clauses
+c,- € N - number of literals of each clause i 6 1, m.
+Fij G {:l:1, . . .,:l:(n-1),:l:n} ‘v’ i G 1, m;j G 1, c,- - literals.
+Output: yes, if .7: is satisfiable and assignment val[1 . . . n] G {true, false}”
+such that: Vi€ 1,m: Ele 1,c,-
+(Fij > O /\ va/[Fij] I true) \/ (Fij < O /\ va/[-F,-j] : false)
+no, otherwise - if the formula is not satisfiable
+cl 51 f E :2 vary
+Backtracking and Branch & Bound AD 2022 23/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+SAT - Exhaustive Search
+Generate all 2” possible assignments and test if any of them makes the
+formula evaluate to true. Considering the problem definition, the search
+can eventually stop at the first satisfying assignment - if there is one.
+For J: : (x1 \/ x2) A (—\x2 \/ X3) there are 8 : 23 possible assignments:
+X1 X2 X3 (X1 \/ X2) (_lX2 \/ X3) Jr
+
+false false false false true false
+
+false false true false true false
+
+false true false true false false
+
+false true true true true true
+
+true false false true true true
+
+true false true true true true
+
+true true false true false false
+
+true true true true true true
+
+Backtracking and Branch & Bound AD 2022 24/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+SAT - Assignment Validation
+1 /* Input: n,m number of variables and clauses
+2 c[] clauses sizes, and F[][] formula
+3 va1[1..n] with {false/true} assignments */
+4 satisfying(val) uses n, m, c, F {
+5 for (i = O; i < m; i++) {
+6 clauseSAT = false;
+7 for (j = O; j < c[i] && !clauseSAT; j++) {
+8 if ((F[i][j] > 0 m val[ F[i][j]]) ||
+9 (F[i][j] < 0 8m !val[-F[i][j]])) {
+10 clauseSAT = true;
+11 }
+12 }
+13 if (!clauseSAT) {
+14 return false;
+15 }
+16 }
+17 return true;
+18 } C. a] , E :5 QM»
+Backtracking and Branch & Bound AD 2022 25/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+SAT - Exha ustive Search
+1 /* Input : n,m number of variables and clauses
+2 c[] clauses sizes, and F[][] formula
+3 Output: "yes" and all solutions or "No" */
+4 solutions = [1;
+5 exhaustiveSearch(level) modifies val, n, solutions {
+6 if (level == n + 1) {
+7 if (satisfying(val)) { // variables start from 1
+8 solutions.pushBack([val[i] | i from [1..n]]);
+9 }} else {
+10 foreach value from [false, true] {
+11 val[1evel] = value; // Xi = value
+12 exhaustiveSearch(leve1+1);
+13 } } }
+14 exhaustiveSearch(1); // start with X1
+15 if (solutions.size() > O) print(<"Yes", solutions>);
+16 else print("No");
+u a a E a oqo
+Backtracking and Branch & Bound AD 2022 26/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+SAT - Exhaustive Search: DFS Tree
+.7: : V /\ .
+(X1 X2) exhaustlveSearch(1)
+(—\X2 \/ X3)
+X1 : false X1 : true
+exh.Sear.(2) exh.Sear.(2)
+X2 : false X2 : true X2 : false X2 : true
+e.S.(3) e.S.(3) e.S.(3) e.S.(3)
+X3: X3: X3: X3: X3: X3: X3: X3:
+false true false true false true false true
+El 5' i E :5 ‘JQCV
+Backtracking and Branch 84 Bound AD 2022 27/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+SAT - Backtracking
+
+Backtracking can improve the exhaustive search by pruning (eliminating)
+
+some branches of the tree.
+
+For some partial assignments, some clauses may not be satisfied regardless
+
+of yet-unassigned variables. These are clauses with literals containing only
+
+assigned variables, and assigned to the opposite value.
+
+In the DFS Tree, these correspond to internal nodes whose all descendants
+
+leaves are red, like the leftmost exhaustiveSearch(3) with partial
+
+assignment
+
+x1 : false and x2 : false.
+
+There is no further decision to satisfy the first clause, and no use to try
+
+values for X3, so we can stop here.
+
+Backtracking is exhaustive search with this improvement. Now the
+
+satisfying(val) method must be adapted for partial assignments.
+Backtracking and Branch & Bound AD 2022 28/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+SAT - Exhaustive Search and Backtracking
+_7-" = \/ /\ .
+(X1 X2) exhaustlveSearch(1)
+(—\X2 \/ X3)
+X1 : false X1 : true
+exh.Sear.(2) exh.Sear.(2)
+X2 : false X2 : true X2 : false X2 : true
+e.S.(3) e.S.(3) e.S.(3)
+X3: X3: X3: X3: X3: X3: X3: X3:
+false true false true false true false true
+El 5' i E :5 0Q‘?
+Backtracking and Branch 84 Bound AD 2022 29/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+SAT - Backtracking: Pruning Hopeless Branches
+= V /\
+F (X1 X2) bkt(l)
+(—\X2 \/ X3)
+x1 : false x1 : true
+bkt(2) bkt(2)
+x2: false x2:true x2:false x2:true
+bkt(3) bkt(3) bkt(3)
+X3: X3: X3: X3: X3: X3:
+false true false true false true
+cl 51 t E :2 Q q e
+Backtracking and Branch 84 Bound AD 2022 30/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+SAT - Backtracking: Pruning All Hopeless Branches
+= V /\
+F (X1 X2) bkt(l)
+(*Xz V X3)
+x1 : false x1 : true
+bkt(2) bkt(2)
+x2: false x2:true x2:false x2:true
+bkt(3) bkt(3) bkt(3)
+false true false true false true
+El 5' i E :5 ‘D (KG
+Backtracking and Branch 84 Bound AD 2022 31/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+SAT - Partial Assignment Validation
+1 /* Input: n,m number of variables and clauses
+2 c[] clauses sizes, and F[][] formula
+3 val[1..n] with {false/true OR ?}
+4 Output: if it is possible */
+5 possiblySatisfying(val) uses n, m, c, F {
+6 for (i = O; i < m; i++) {
+7 unSATLit = 0; // number of unsatisfied literals
+8 for (j = O; j < c[i]; j++) {
+9 if ((F[i][j] > 0 && val[ F[i][j]] == false) ||
+10 (F[i][j] < O && val[-F[i][j]] == true)) {
+11 unSATLit++;
+12 }}
+13 if (unSATLit == C[i]) { // if all are assigned
+14 return false; // and unsatisfied
+15 }}
+16 return true;
+17 }
+m a e E a eqe
+Backtracking and Branch & Bound AD 2022 32/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+SAT - Backtracking
+1 /* Input : n,m number of variables and clauses
+2 c[] clauses sizes, and F[][] formula
+3 Output: "yes" and all solutions or "No" */
+4 solutions = [];
+5 bkt(level) modifies val, n, solutions {
+6 if (level == n + l) {
+7 solutions.pushBack([val[i] l i from [1..n]]);
+8 // no need to validate again
+9 } else {
+10 foreach value from [false, true] {
+11 val[1eve1] = value; // Xi = value
+12 if (possiblySatisfying(val)) { bkt(level+1); }
+13 val[level] = ?; // undo choice!
+14 } } }
+15 bkt(1); // start with X1
+16 if (solutions.size() > O) print(<"Yes", solutions>);
+17 else print("NO"); // as in problem definition
+a a i E a oqs
+Backtracking and Branch 84 Bound AD 2022 33/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+SAT - Backtracking - Partial Validity Improvement ldeas
+Similar to the queens problem, the partial assignment validity test can be
+implemented more efficiently.
+For example, for each variable, keep a list of all clauses that contain the
+variable or its negation. When a value is set to some variable, delete
+clauses that contain it with the same polarity: positive if set to true and
+negated if set to false. Remove corresponding literal in clauses containing
+opposite polarity literal. Then, the empty clause is unsatisfiable, empty
+formula is satisfied already.
+Other backtracking strategies: adaptive variable assignment ordering,
+detection of one-literal clauses, propagation, etc.
+
+Backtracking and Branch & Bound AD 2022 34/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+SAT - Implementation Variant
+As in other binary layered decisions problems, we can take advantage of
+bitwise operations to implement exhaustive search for SAT. This mainly
+reduces only the code length and implementation time.
+1 /* Input : n natural
+2 Output: val[1...n] all {false,true}“n values
+3 (1 << n) = 2"n = 2 at n*/
+4 for (i = 0; i < (1 << n); i++) {
+5 val = [?]; // preserve l-indexing
+6 for (j = n-1; j >= 0; j--) { // preserve ordering
+7 // extract j-th bit value: O is false, 1 is true
+8 va1.pushBack((i & (1 << j)) != O);
+9 }
+10 print(val);
+11 }
+a a e E a oqe
+Backtracking and Branch & Bound AD 2022 35/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Backtracking - Generalities and Conclusion
+Exhaustive Search can be used to solve almost any problem. At least, any
+problem with a finite set of solutions that we can iterate over.
+Frequently a solution is a sequence of decisions organized in layers: for
+each level, consider all possible choices in combination with the next layer.
+Backtracking simply stops execution by determining if for the partially
+generated solution is impossible to continue to a complete valid solution.
+Asymptotic big-(9 notation is not suitable to differentiate exhaustive search
+from backtracking; many times the saved execution time is exponential
+but varies on the problem instance. ln practice, it is a huge improvement.
+ln the following, this idea is adapted particularly for optimization problems.
+Backtracking and Branch & Bound AD 2022 36/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Plan
+Backtracking
+Motivation
+Exhaustive Search
+Generic Implementation
+8-Queens
+Satisfiability
+e Branch & Bound
+Knapsack Problem
+Traveling Sales Person
+C1 ﬁ - '= :5 oqo
+Backtracking and Branch 84 Bound AD 2022 37/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Branch & Bound
+In optimization problems, we search for the optimum solution, out of a set
+of valid solutions that are are associated with either a costs or a profit.
+Given a partial solution, we can analyze its chances to produce the best
+result, if it would be completed in an optimistic scenario.
+If we determine the partial solution has no chance to reach the optimum,
+then we can stop with it.
+To do this effectively, we must estimate the optimistic scenario efficiently
+(faster than generating all possibilities).
+This is an extra check done by the branch and bound paradigm; to
+continue with a partial solution, on top of the validity test.
+
+Backtracking and Branch & Bound AD 2022 38/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Branch & Bound
+
+As the optimum solution is not known at the beginning, we can compare
+
+with the best solution found yet.
+
+For example, suppose that in solving a maximization problem we already
+
+found a solution of proﬁt bestSoFar. The current partial solution has
+
+profit partialProf/t, and we know that in completing it we get an extra
+
+profit of at most maxRest.
+
+If (partialProﬁt+maxRest g bestSoFar) then prune this partial solution.
+
+maxRest is an upper bound on the profit of the part of the solution to be
+
+completed: the actual profit will be at most maxRest.
+
+bestSoFar can start from —oo or from a value determined heuristically, for
+
+example with a greedy strategy not guaranteed to find the optimum.
+Backtracking and Branch & Bound AD 2022 39/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Discrete Knapsack - Recap
+Given a knapsack of known capacity, and a set of objects, add objects in
+the knapsack such that the selected objects are of the maximum total
+value. Each object is described by its value and weight. Each object can
+be taken as a Whole or not at all (O — 1 knapsack).
+Input: n, v[O...n-1], W[O...n-1], W, all natural numbers
+Output: p[O...n-1], p[i] €{0, 1}C N, Vi € O, n—1 such that:
+nil
+o Z p[i] >< W[i] g W total weight tits
+i:0
+n—1
+o Z p[i] >< v[i] is maximum profit possible
+i=0
+Backtracking and Branch & Bound AD 2022 40/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Knapsack with Branch & Bound
+
+Knapsack Problem cannot be practically solved by dynamic programming
+
+if the weights and proﬁts exceed the memory capacities.
+
+In the following, a branch and bound solution is presented.
+
+A partial solution is a set of possible decisions taken for the ﬁrst
+
+1 g level g n objects in the problem. use[i] : 1 if in this partial solution
+
+we decided to add object 1 g i g level in the knapsack, and useli] : O, if
+
+we decided to drop it.
+
+The ﬁrst value of bestSoFar can be —oo, as any solution would be better.
+
+An new complete solution of partialProfit > bestSoFar updates bestSoFar.
+Backtracking and Branch & Bound AD 2022 41/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Knapsack - Upper Bound on the Rest
+n
+maxRest for position level + 1 can be simply Z (v[i]).
+i:level+l
+This is optimistic, assuming the capacity restriction will have no effect.
+Also, it is easy to (pre-)compute with partial sums:
+vi maxResti 1 ifi<n
+maxRest[/evel] I [ 1 + [ + 1 . .
+v[n] If I : n
+El r51 i E :5 ‘JQCV
+Backtracking and Branch & Bound AD 2022 42/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Knapsack - B&B Example and Representation
+Consider the example below, with knapsack capacity W I 5.
+i l 2 3
+w[i] 3 4 2
+v[i] 5 8 2
+The node on the right represents a partial
+solution in which the first object is dropped, the second use=0,l,?
+is added to the knapsack, and the third is to be decided. parti?lweig_l‘t:4
+partlalProflt:8
+0 partial solution weight is 4, proﬁt is 8 maxRestI2
+. . . . bestSoFar:2
+o remainlng ObJECtS can add at most 2 to the proﬁt
+o the best solution found so far has total proﬁt 2
+Backtracking and Branch 82 Bound AD 2022 43/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+n : 3 W = 5 use=?,?,?
+i 1 2 3 partialWeight:0
+w[i] 3 4 2 partialProﬁt=O
+v[i] 5 8 2 maxRest:15
+maxRest[i] 15 10 2 bestSoFar:-oo
+/ \
+use=0,?,? use=1,?,?
+partialWeight=O partialWeight=3
+partialProfit:O partialProﬁtI5
+maxRest:10 maxRest:10
+bestSoFarz-oo bestSoFar=8
+use=0,0,? use=0,1,?
+partialWeight:0 partialWeight:4
+partialProﬁt:0 partialProﬁt:8
+maxRest:2 maxRest:2
+bestSoFarI-oo bestSoFar:2
+use=0,0,0 use=0,0,1
+partiaJrWeightIO parﬁalWeightIZ
+partiaJrProfit:0 paFHaJrProﬁt:2
+bestSoFar <— 0 bestSoFar <- 2
+m 51 * E :5 0(1va
+Backtracking and Branch 84 Bound AD 2022 44/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Knapsack - Implementation 8&8 Initialization
+
+1 /* Input : n, W, W[1..n], v[1..n] : number of
+
+2 objects, total capacity, weights & values
+
+3 Output: maximum profit of objects that fit */
+
+4
+
+5 partialWeight = O;
+
+6 partialProfit = O;
+
+7 bestSoFar = —INF;
+
+8 maxRest = [O | i from [1..(n+2)]]; // one more
+
+9
+
+10 for (i = n; i >= 1; i——) {
+
+11 maXRest [i] = maXRest [1+1] + v[i];
+
+12 } // precompute maximum profit from objects i...n
+
+cl a] i E :5 oqo
+
+Backtracking and Branch & Bound AD 2022 45/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Knapsack - Implementation |\/|ain 5&5 Method
+14 branchAndBound(leve1) modifies n, w, v, W,
+15 partialWeight, partialProfit, bestSoFar, maxRest {
+16 if (level == n + 1) {
+17 if (bestSoFar < partialProfit) {
+18 bestSoFar = partialProfit;
+19 }} else {
+2O foreach value from [0, 1] {
+21 partialWeight += value * w[level]; // if value=1
+22 partialProfit += value * v[level];
+23 if (partialWeight <= W && // bkt & bb check
+24 partialProfit+maxRest[level+1] > bestSoFar) {
+25 branchAndBound(1evel + 1);
+26 }
+27 partialWeight —= value * w[level]; // undo
+28 partialProfit —= value * v[1evel]; // if valuezl
+29 }}}
+3O branchAndBound(1); // start with object 1
+31 print(bestSoFar);
+Backtracking and Branch & Bound AD 2022 46/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Knapsack - B&B Possible Improvements
+There several ways to improve the branch and bound implementation.
+
+0 compute maxRest by running the greedy strategy for the continuous
+version of the knapsack, for the remaining objects and capacity
+(sorting decreasingly by v[i]/W[i] values).
+
+9 initialize bestSoFar with the greedy strategy for discrete knapsack.
+one way to implement 9 is to sort the objects decreasingly by
+v[i]/W[i] and do foreach value from [1, 0] - the reversed order.
+first solution found with branch and bound is the greedy solution.
+chances are many others Wlll be pruned, on example all are pruned.
+
+9 combine 9 and 9
+
+Backtracking and Branch & Bound AD 2022 47/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Kwsack Pmb'em
+= 3 W = 5
+in 1 2 3 use=?,?,?
+WU] 4 3 2 partialWeight:0
+V[i] 8 5 2 partialProfit:0
+v[i]/w[i] \ 2 1.(6) 1 bmagREStiﬁ
+maxRest[i] 15 7 2 est o ZIP-00
+use=1,?,?
+partialWeight:4
+partialProﬁt:8
+maxRest=7
+bestSoFarz-oo
+use=1,0,?
+partialWeight=4
+partialProfit:8
+maxRest:2
+bestSoFar:-oo
+using only 9
+m 51 * E :5 Q Q G
+Backtracking and Branch 84 Bound AD 2022 48/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Hamiltonian Cycle
+In an undirected graph, a Hamiltonian Cycle is a closed loop in which
+every node is visited exactly once, and every two consecutive nodes on the
+cycle are connected by an edge.
+Let G I (V, E) be a graph with n I lVI nodes, then
+h : (s:v0, v1, . . . v,,_1, vn:s> is a Hamiltonian Cycle of G if:
+a V i€ 0,!7-12 (V;,V,'+1)€ E
+_ _ and
+9 VI¢J€O,n-1:(v,-7évj)
+cl 51 H E i5 one
+Backtracking and Branch & Bound AD 2022 49/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Hamiltonian Cycle - Example
+Some Hamiltonian Cycles:
+h1 : (A, B, E, C, D,A)
+h3=<A,D,C,E,B,A>E/11 e
+We can set ® as first & last. 4'
+i:| 5| i E :5 6Q‘?
+Backtracking and Branch & Bound AD 2022 50/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+TSP - Traveling Salesperson Problem
+Minimum Cost Hamiltonian Cycle
+If G : (V, E) is a graph, and c : E —> 1R+ a positive cost function on its
+edges, then hmin I (SIVO, v17 . . . v,,_17 vn:s> is a Hamiltonian Cycle of
+minimum cost if:
+0 hmin is a Hamiltonian Cycle and
+9 V h - a Hamiltonian Cycle of G: c(hmin) g c(h).
+Where c(h : (s:v0, v17 . . . vn_1, vn:s>) is the cost of h:
+n—1
+Z c((v;7 v,-+1)) - the sum of the cost of edges used in h.
+i:0
+c((x,y)) - cost of edge (x,y) : (y,x).
+Backtracking and Branch & Bound AD 2022 51/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+TS P - Exa m ple
+Minimum cost 4
+Hamiltonian Cycle?
+El 5' 2 E :5 v’) Q (‘v
+Backtracking and Branch & Bound AD 2022 52/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+TSP - Example Solution
+a 3 e
+C((A, B, c, E, D,A>) I 2
+C((A, B))+ G
+C((B, C))+ 1
+C((C, E))+
+C((E, D))+
+cum/4» I Q 3
+3+2+3+1+2:11_
+8 G
+cl 51 i E :2 va
+Backtracking and Branch & Bound AD 2022 53/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+TSP - Exhaustive Search
+The search space consists of all the n! permutations of the nodes, but we
+can ﬁx the first node to some constant node. The edge between the last
+node of the permutation and the ﬁrst closes the cycle.
+The problem is NP-Hard so there is no little hope to avoid iterating an
+exponential number of cycles.
+But many cycles are invalid: use of inexistent edges, or clearly suboptimal.
+If inexistent edges are infinite-cost edges then invalid becomes suboptimal.
+Further, consider we have a partially generated solution:
+
+0 a path starting in ® : h[O] reaching h[level] of partia/Cost
+
+9 some estimation on the minRest: cannot finish with less than this
+
+Q also save the bestSoFar solution, initialized with oo
+
+Backtracking and Branch & Bound AD 2022 54/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+TSP - Branch & Bound - Partial Solution Evaluation
+0 3 o
+First generated: 4
+c(<A, B7 C, E, D,A>) : 11
+Some later partlal solutlon. e
+(A, B, E, . . .>
+with 3 nodes, level: O, l, 2
+partia/Cost I 3 + 4 I 7
+Q 3
+How to compute minRest?
+A lower bound on the cost 8 G
+Backtracking and Branch & Bound AD 2022 55/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+TSP - Branch & Bound - Cheapest Edges, +2
+0 3 o
+First generated:
+C(<A, B, c, E, D,A>) I 11 4
+Some later partial solution: 2
+<A, B, E, . . .> G
+on level I 2
+partia/Cost : 3 + 4 I 7
+G) 3
+For the rest n-level-l nodes:
+Min. cost of any n-level-2 edges 8
++ min edge ® — to — rest G
++ min edge rest i to i®
+Backtracking and Branch 82 Bound AD 2022 56/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+TSP - Branch & Bound - Cheapest Edges, +2 from h[..]
+0 3 o
+First generated:
+C(<A, B, c, E, D,A>) I 11 4
+Some later partial solution: 2
+<A, B, E, . . .> G
+with level : 3 nodes
+partia/Cost I 3 + 4 I 7
+G) 3
+For the rest of n-level-l nodes:
+Min. cost of any n-level-2 edges 8
++ min edge h[/evel] — to — rest G
++ min edge rest — to — h[0]
+Backtracking and Branch 82 Bound AD 2022 57/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+TSP - Branch & Bound - Lower Bound Value
+o 3 o
+First generated:
+C((A, B, c, E, D,A)) I 11 4
+Some later partial solution: 2
+(A, B, E, . . .> e
+with level I 3 nodes
+partialCost I 3 + 4 : 7
+Q 3
+7+3+8+2:20211
+:> stop with this solution \' 8 i
+cl 51 i E :2 You?
+Backtracking and Branch & Bound AD 2022 58/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+TSP - Branch & Bound - Another Partial Solution
+o 3 o
+First generated:
+C((A, B, c, E, D,A)) I 11 4
+Apply same lower bound for: 2
+<A, D, . . .> G
+partia/Cost I 2
+I‘
+2+1+2+3+3:11211 Q 3
+:> stop with this solution too
+8 G
+cl 51 i E :2 Wwv
+Backtracking and Branch 82 Bound AD 2022 59/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+TSP - Branch & Bound - Lower Bound Analysis
+Let rest : V \ {h[0], h[1], . . . , h[/eve/-l]} - the remaining nodes.
+Let restEdges be the set of edges in E with endpoints in rest.
+The minimum cost lrest|-l : n-level-2 edges in restEdges do not always
+complete the cycle!
+But any set of edges that completes the cycle contains a set of lrestl-l
+edges from rest and two edges connecting to the first and last nodes in the
+partial solution. Therefore, it cannot cost less than the cheapest lrestI-l
+restEdges plus the two minimum-cost connecting edges.
+:> if the partialCost plus our lower bound minRest is not smaller than
+bestSoFar, then there is no sense to continue. We will never complete a
+better solution in this case.
+
+Backtracking and Branch & Bound AD 2022 60/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Bibliography
+Bibliography (links)
+Jeff Erickson. Algorithms. 2nd Chapter - Backtracking.
+[r0] Backtracking Lecture papers document.
+[r0] Branch&Bound Lecture papers document.
+Bibliography (books)
+S. Dasgupta, C. Papadimitriou, U. Vazirani.
+Algorithms, Chapter 9.1.
+Acknowledgment
+Lecture professors of previous years, prof. D. Lucanu, conf. S. Ciobaca
+Contributors to the online resources available several of which are used in
+photos, examples, illustrations.
+Backtracking and Branch & Bound AD 2022 61/61
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:62**************
+E1 ﬁ ' _= IE l) ‘k O
+D. Lucanu, S. Ciobécé, P. Diac (FlliUAlC) Backtracking and Branch 84 Bound AD 2022
+
+***************Ending Page***************
+
+
+

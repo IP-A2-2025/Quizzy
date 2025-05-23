@@ -36,9 +36,18 @@ public class EnrollmentService {
         return enrollmentRepository.findByUserId(id);
     }
 
+    public long getEnrollmentCountForUser(Integer userId) {
+        return enrollmentRepository.countEnrollmentsByUserId(userId);
+    }
+
     @Transactional
-    public void addEnrollment(Integer userId, Long courseId) {
+    public boolean addEnrollment(Integer userId, Long courseId) {
+        long currentEnrollments = getEnrollmentCountForUser(userId);
+        if (currentEnrollments >= 4) {
+            return false;
+        }
         enrollmentRepository.insertEnrollment(userId, courseId);
+        return true;
     }
 
     public boolean updateEnrollment(Integer userId, Long courseId, Long newCourseId) {

@@ -1,0 +1,2569 @@
+***************Beginning Page***************
+***************page number:1**************
+Gavrilut Dragos
+0 O P Course 9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+b Lambda expressions
+b Modeling lambda expression behavior
+b Implicit conversion to a pointer to a function
+b Lambdas and STL
+sum mary b Using lambda with templates (Generic lambdas)
+> Mutable capture
+> lnitialized lambda capture
+b New feature in C++17 and beyond
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Lambda
+> expressions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+b Lets assume that we have the following structure:
+APP-CPD
+struct Student
+{
+const char * Name;
+int Grade;
+int Group;
+int Age;
+};
+Student students[] = {
+{ "Popescu", 10, 5, 19 },
+{ "Ionescu", 8, 3, 20 },
+{ "Georgescu", 9, 4, 21 },
+};
+b ‘students’ is a global list of students.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+b Now let’s assume that we want to sort the entire student list in different
+ways (alphabetically, after the ’Age’ field, based on the ‘Grade’ field, etc).
+b The easiest way would be to create a sort algorithm that uses a pointer to a
+function used to compare to Student structures.
+APP-CPD
+void Sort(Student *list, int count, bool(*Biggeanc)(Student &sl, Student &sZ) ) {
+bool sorted;
+do {
+sorted = true;
+for (int tr = 0; tr < count - 1; tr++)
+{
+if (Biggeanc(1ist[tr], list[tr + 1]))
+{
+Student aux = list[tr];
+list[tr] = list[tr + 1];
+list[tr + 1] = aux;
+sorted = false;
+}
+}
+} while (!sorted);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+L bd '
+b The main function will look as follows:
+APP-CPD
+struct Student { m }
+Student students[3] = { m }
+void Sort(Student *list, int count, bool(*Biggeanc)(Student &sl, Student &52) ) { m }
+bool ByGrade (Student &sl, Student &52)
+{
+return sl.Grade > 52.Grade3
+}
+bool ByAge (Student &sl, Student &52)
+{
+return sl.Age > 52.Age3
+}
+bool ByName (Student &sl, Student &52)
+{
+return strcmp(sl.Name, 52.Name) > 03
+}
+int main() {
+Sort(students, 3, ByGrade )3
+Sort(students, 3, ByAge )3
+Sort(students, 3, ByName )3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+b Instead of creating functions for each comparation, wouldn’t it be easier if
+we could just write the comparation whenever we call the Sort function.
+APP-CPD
+struct Student { m }
+Student students[3] = { m }
+void Sort(Student *1ist, int count, bool(*Biggeanc)(Student &sl, Student &52) ) { m }
+int main() {
+Sort(students, 3, [](Student &sl, Student &sZ) { return sl.GPade > 52.Gnade; );
+}
+b The code compiles and works as expected, the list of students being sorted
+based on the ‘Grade’ field.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Lambda exp resswns
+b A lambda expression also has the ability to capture a state (variables) via
+copy or reference and use it in a function. This behavior is also called a
+closure.
+> Let's analyze the following python code (chosen for simplicity):
+Appry
+def Multiply(factor):
+return lambda x: x * factor
+def main():
+f1 = Multiply(S)
+f2 = Multiply(7)
+print f1(3),f2(3)
+main()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Lambda expressions
+b A lambda expression also has the ability to capture a state (variables) via
+copy or reference and use it in a function. This behavior is also called a
+closure.
+> Let's analyze the following python code (chosen for simplicity):
+APP-Py
+return lambda x: x * factor
+def main():
+f1 = Multiply(S)
+f2 = Multiply(7)
+print f1(3),f2(3)
+main()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Lambda expressions
+b A lambda expression also has the ability to capture a state (variables) via
+copy or reference and use it in a function. This behavior is also called a
+closure.
+> Let's analyze the following python code (chosen for simplicity):
+APP-Py
+def Multiply(factor):
+return lambda x: x * factor
+def m-'| '
+print :1(;;,¥2(3)
+maino returns
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Lambda expressions
+b A lambda expression also has the ability to capture a state (variables) via
+copy or reference and use it in a function. This behavior is also called a
+closure.
+> Let's analyze the following python code (chosen for simplicity):
+APP-Py
+def Multiply(factor):
+return lambda x: x * factor
+def main(): _
+pr1n ,
+maino returns
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Lambda expressions
+b A lambda expression also has the ability to capture a state (variables) via
+copy or reference and use it in a function. This behavior is also called a
+closure.
+> Let's analyze the following python code (chosen for simplicity):
+APP-Py
+def Multiply(factor):
+return lambda x: x * factor
+def main():
+f1 = Multiply(5)
+m:
+main()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Lambda expressions
+b A lambda expression is defined in the following ways:
+[captures] (parameters) -> return type { body }
+[captures] (parameters) { body }
+[captures] { body }
+b Examples:
+[X,y] (int a, tloat b) -> boo1 { return (a*b)<(x+y); }
+[x] (int *xx) { return *XX+X} } // tne return type is deduced to be int from tne body
+[a,b] { Peturn a+b; }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Lam bda exp resSions
+> The capture component from the lambda expression can be:
+[] Captures nothing
+[a, b] Captures variables “a” and “b” by making a copy of them
+[&a,&b] Captures variables “a” and “b” using their reference
+[this] Captures current object
+[&] Captures all variables used in the body of the lambda by using their reference. If
+“this” is available it as also captured (by reference)
+[=] Captures all variables used in the body of the lambda by making a copy of them.
+If “this” is available it as also captured (by reference).
+[=, &a] Captures all variables used in the body of the lambda by making a copy of them,
+except for “a” that is captured by reference.
+[&, a] Captures all variables used in the body of the lambda by using their reference,
+except for “a” that is capture by making a copy.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Lambda expressmns
+b Example:
+APP-CPD
+int main()
+auto f = [](int x, int y) { return x + y; };
+int x = f(10, 20);
+printf("X = %d", x);
+return 0;
+}—
+I b This example compiles and prints value 3O on the screen.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+b Example :
+APP-CPD
+int main()
+{
+int value = 100;
+auto f = [value] (int x, int y) { return x + y + value; };
+printf("%d\n", f(10, 20));
+value = 200;
+printf("%d\n", f(10, 20));
+return 0;
+}—
+b This example compiles and prints value 130 twice on the screen.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Lambda expressmns
+b Example :
+APP-CPD
+int main()
+{
+int valu- — =='
+auto -F =n int x, int y { return x + y + value; };
+printf("%c n , 10, 20));
+value = 200;
+printf("%d\n", f(10, 20));
+return 0;
+}—
+b This example compiles and prints value 130 twice on the screen.
+> Local variable ‘value’ is capture by making a copy of its value. This means
+that event if we change its value the result from the lambda function will be
+the same.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+b Example :
+APP-CPD
+int main()
+{
+int valu- — =='
+auto -F =H(int x, int y { return x + y + value; };
+printf("%c n , 0, 20));
+value = 200;
+printf("%d\n", f(10, 20));
+return 0;
+}—
+b Now the code runs and prints 130 and them 230 on the screen.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Lambda expressmns
+b Example :
+APP-CPD -
+int main()
+{
+int value = 100;
+auto -F = [&value] (int x, int y)-{ return x + y + value; };
+printf("%d\n", f(10, 20));
+value = 200;
+printf("%d\n", f(10, 20));
+return 0;
+}—
+b In this case we set up the type of the lambda expression. If not set it is
+deduced from the return type of the lambda expression.
+> The result will be -126 and -30 (char representation for int values 130 and
+230)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+b Example :
+APP-CPD
+void MyFunction(int aa)
+{
+int a, b, c;
+a = b = c = 10;
+auto f = [=] (int x, int y) { return x + y + a + b + c + aa; };
+printf("%d\n", f(10, 20));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+> The code compiles and prints the value 1060.
+b All local variables and parameters from the function “MyFunction” are
+captured.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Lambda expressmns
+b Example :
+APP-CPD
+void MyFunction(in
+{ int a, b, c;
+a = b = = 0;
+autof=F’ x,inty){returnx+y+a+b+c+aa;};
+printf("$c n , f(10, 20));
+int main()
+{ MyFunction(lGGG);
+return 0;
+}—
+> The code compiles and prints the value 1060.
+b All local variables and parameters from the function “MyFunction” are
+captured.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+b Example :
+APP-CPD
+void MyFunction(int aa)
+{
+int a, b, c;
+a = b = c = 10;
+auto f = [&] (int x, int y) { return x + y + a + b + c + aa; };
+printf("%d\n", f(19, 29));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", f(19, 29));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+b The code compiles and prints the value 1060 and then 2330
+> All local variables and parameters from the function “MyFunction” e
+captured.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+b Example :
+APP-CPD
+void MyFunction(in
+{
+int a, b, c;
+a = b = = 0;
+autof=F’ x,inty){returnx+y+a+b+c+aa;};
+printf("hc n , f(19, 29));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", f(19, 29));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+b The code compiles and prints the value 1060 and then 2330
+> All local variables and parameters from the function “MyFunction” e
+captured (by reference).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+b Example :
+APP-CPD
+void MyFunction(int aa)
+{
+int a, b, c;
+a = b = c = 10;
+auto f = [&, a] (int x, int y) { return x + y + a + b + c + aa; };
+printf("%d\n", f(19, 29));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", f(19, 29));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+b The code compiles and prints the value 1060 and then 2240. All variables
+capture by reference except for local variable “a” that is capture by aking a
+copy of itself.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+b Example :
+APP-CPD
+void MyFunction(int aa)
+{
+int a, b, c;
+a = b = c = 5'
+auto -F = [&,h(int x, int y) {return x + y + a + b + c + aa; };
+printf("%d\n , (19, 29));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", f(19, 29));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+b Depending on the compiler this code might work. “Cl.exe” does not com ' e,
+GCC compiles with an warning.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Lambda expreSSions
+> Example I warning: explicit by-reference capture of ‘a’
+App.cpp redundant with by-reference capture default
+void MyFunction(int aa error C3488: '&a' cannot be explicitly captured
+{ int a, b’ c; when the default capture mode is by reference (&)
+a = b = c = 5' ---—--'
+auto-F=[&,h(' ,1nty) {returnx+y+a+b+c+aa;};
+pnintf("%d\n , (19, 29));
+a = b = c = 100;
+Siintf%:%d\n", {(19, 29));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+b Depending on the compiler this code might work. “Cl.exe” does not com ' e,
+GCC compiles with an warning.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+b Example :
+APP-CPD
+void MyFunction(int aa)
+{
+int a, b, c;
+a = b = c = 10;
+auto f = [=, &a] (int x, int y) { return x + y + a + b + c + aa; };
+printf("%d\n", f(19, 29));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", f(19, 29));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+b The code compiles and prints the value 1060 and then 1150. All variables
+capture by making a copy of themselves except for local variable “a” at is
+capture by reference.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+b Example :
+APP-CPD
+void MyFunction(int aa)
+{
+int a, b, c;
+a = b = c = '
+auto f = [=,tf11(int x, int y) { return x + y + a + b + c + aa; };
+printf("%d\n , (10, 20));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", f(10, 20));
+}
+int main()
+{
+MyFunction(1000);
+return 0;
+}—
+b Depending on the compiler this code might work. “Cl.exe” does not com ' e,
+GCC compiles with an warning.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+b Example :
+APP-CPD
+\{loid MyFunctionunt aa) error C3483: 'a' is already part of the lambda capture list
+int a, b, c;
+a = b = = %' a
+auto f =m (int x, int y) {return x + y + a; };
+printf("%e n , (10, 29));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", {(10, 29));
+}
+int main()
+{
+MyFunction(1900);
+return 9;
+}—
+b This code will not compile as local variable ‘a’ can not be capture twice.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+b Example :
+APP-CPD
+\{loid MyFunctionunt aa) error C3483: 'a' is already part of the lambda capture list
+int a, b, c;
+a = b = = %' a
+auto f =I-I (int x, int y) {return x + y + a; };
+printf("%e n , (10, 29));
+a = b = c = 100;
+aa *= 2;
+printf("%d\n", {(10, 29));
+}
+int main()
+{
+MyFunction(1900);
+return 9;
+}—
+b This code will not compile as local variable ‘a’ can not be capture twice.
+this case we tried to capture ‘a’ making a copy of itself and also by
+reference.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+b Example :
+APP-CPD
+int Add (int x, int y)
+{
+return x + y;
+}
+void MyFunction(int aa)
+{
+int a, b, c;
+a = b = c = 10;
+auto ptr_f = Add;
+auto f = [ptr_f](int x, int y) { return ptr_f(x, y); };
+printf("%d\n", f(19, 29));
+}
+int main()
+{ MyFunction(1000);
+return 0;
+}—
+b This code compiles and prints “30” on the screen. In this case the captur
+variable is a pointer to a function (Add).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Modeling lambda
+> expression behavior
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Lambda expressmns
+b Example:
+APP-CPD
+int main()
+auto f = [](int x, int y) { return x + y; };
+int x = f(10, 20);
+printf("X = %d", x);
+return 0;
+}—
+I b This example compiles and prints value 3O on the screen.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+La bd '
+b Example:
+
+Assembly code
+
+push ebp
+
+mov ebp,esp
+sub esp,4Ch
+
+auto f = [](int x, int y) { return x + y; };
+int x = f(10, 20);
+
+push 14h
+
+. push OAh
+
+lea ecx,[f]
+call <lambda_1b12082d1acdf839b51735232aba4b6a>::operator()
+mov dword ptr [x],eax
+
+printf("X = %d", x);
+
+mov eax,dword ptr [x]
+
+push eax
+
+push 3A935Ch // address of “X = %d” string
+call printf
+add esp,8
+
+return 0;
+xor eax,eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Example:
+Assembly code
+push
+mov
+sub
+push _
+. push OAh
+mov dword ptr [x],eax
+mov eax,dword ptr [X]
+push eax
+push 3A935Ch // address of “X = %d” string
+call printf
+add esp,8
+xor eax,eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Ex m :
+a ple mov eax,dword ptr [x]
+Assembly code add eax,dword ptr [y]
+push ebp
+mov ebp,esp
+sub esp,4Ch
+push 14h
+. push OAh
+mov dword ptr [x],eax
+mov eax,dword ptr [x]
+push eax
+push 3A935Ch // address of “X = %d” string
+call printf
+add esp,8
+xor eax,eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+b This means that this code is actually translated by the compiler as follows:
+APP-CPD
+int main()
+{
+auto f = [](int x, int y) { return x + y; };
+int X = {(19, 20);
+printf("X = %d", X);
+return 0;
+}—
+Translated code
+class lambda_1b12082d1acdf839b51735232aba4b6a {
+public:
+int operator() (int x,int y) const { return x+y; }
+lambda_1b12082d1acdf839b51735232aba4b6a () = delete;
+};
+int main()
+{
+lambda_1b12082dlacdf839b51735232aba4b6a F;
+int x = {(10, 20);
+printf("X = %d", x);
+return 0;
+}
+____________________________________________________________________---7-----
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+b This means that this code is actually translated by the compiler as follows:
+APP-CPD
+int main()
+{
+auto f = [](int x, int y) { return x + y; };
+int X = {(19, 20);
+printf("X = %d", X);
+return 0;
+}
+Translated code
+class lambda_1b12082d1acdf839b51735232aba4b6a
+public:
+int operator() (int x,int y) const { return x+y; }
+lambda_1b12082d1acdf839b51735232abalhﬁa (F = delete!
+}
+int main()
+{
+lambda_1b12082dlacdf839b51735232aba4b6a F;
+int x = {(10, 20);
+printf("X = %d", x);
+return 0;
+}
+__________________________________________________________________________7__________
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+b This means that this code is actually translated by the compiler as follows:
+APP-CPD
+int main()
+{
+auto f = [](int x, int y) { return x + y; };
+int x = f(1u, 40);
+printf("X = %d", x 3
+return 0;
+}
+Translated code
+class lambda_1b12082dlacd 839b51735232aba4b6a {
+public:
+int operator() (int x,int y) const { return x+y; }
+lambda_1b12082d1::dF939551733232aba4b6a () = delete;
+}
+int main()
+{
+lambda_1b12082dlacdf839b51735232aba4b6a F;
+int x = {(10, 20);
+printf("X = %d", x);
+return 0;
+}
+____________________________________________________________________---7-----
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+b This means that this code is actually translated by the compiler as follows:
+APP-CPD
+int main()
+{
+auto f = [](int x, int y) { return x + y; };
+int X = {(19, 20);
+printf(“SizeOf(f) = %d", sizeof(f));
+return 0;
+}—
+b The results will be 1 (consistent with the fact that “f” is indeed an object of
+type lambda_lb12082d1acdf839b51735232aba4b6a
+Translated code
+class lambda_lb12082d1acdf839b51735232aba4b6a {
+public:
+int operator() (int x,int y) const { return x+y; }
+lambda_lb12082d1acdf839b51735232aba4b6a () = delete;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Lambda expressions
+b The compiler generate lambda_xxxxxxxxxxxxxx classes for each encountered
+lambda structure.
+APP-CPP
+int main()
+auto f1 = [](int x, int y) { return x + y; };
+auto f2 = [](int x, int y) { return x + y; };
+int X1 = f1(19, 29);
+int X2 = f2(19, 29);
+return 0;
+}—
+b ln the previous case, even if according to definition, both f1 and f2 are
+identical, two separate classes with two separate (but identical
+implementation) functions that overwrite operator() will be created.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+b The compiler generate lambda_xxxxxxxxxxxxxx classes for each encountered
+lambda structure.
+Assembly code
+push ebp
+mov ebp,esp
+sub esp,50h
+auto f1 = [](int x, int y) { return x + y; };
+auto f2 = [](int x, int y) { return x + y; };
+int x1 = f1(10, 20);
+push 14h
+‘ push OAh
+lea ecx,[fl]
+call <lambda_lb12082dlacdf839b51735232aba4b6a>::operator() (O923160h)
+mov dword ptr [x1],eax
+int x2 = f2(10, 20);
+push 14h
+push OAh
+lea ecx,[f2]
+call <lambda_e213977a927692e36f5320f87e493de8>::operator() (O923280h)
+mov dword ptr [x2],eax
+return 0;
+xor eax,eax
+___________________________________________________________________7_____________
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+The compiler generate classes for each encountered
+lambda structure.
+Assembly code
+push ebp
+mov ebp,esp
+sub esp,50h
+push 14h
+‘ push OAh
+lea ecx,[fl]
+call <0923l60h)
+mov dword ptr [x1],eax
+push 14h
+push OAh
+lea ecx [f2]
+call (092328011)
+mov dword ptr [x2],eax
+xor eax,eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+The compiler generate classes for each encountered
+lambda structure.
+Assembly code
+push ebp
+mov ebp,esp
+sub esp,50h
+push 14h
+‘ push OAh
+lea ecx,[fl]
+call <lambda_lb12082dlacdf839b51735232aba4b6a>: :operator ()
+mov dword ptr [x1],eax
+push 14h
+push OAh
+lea ecx,[f2]
+call <lambda_e213977a927692e36f5320f87e493de8>: :operator ()
+mov dword ptr [x2],eax
+xor eax,eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Lambda exp ressmns
+b The compiler generate lambda_xxxxxxxxxxxxxx classes for each encountered
+lambda structure.
+> This means that:
+> For every lambda construction that the programmer uses, a class will be created
+(it is therefor recommended that la lambda construction to be small so that they
+do not increase the size of the compiled program unnecessary).
+> The type of the class that uses lambda expressions is generated at the compile
+time 9 this means that whenever a lambda is used “auto” should be used as well.
+> The same lambda expression can be used multiple times if “decltype” is used (this
+is valid for some compilers - not all of them allow this behavior ll!)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Lambda expresSIons
+b In the following case the usage of decltype allows us to reutilize the same
+construct multiple times
+App.cpp (default constructor) App.cpp (copy constructor)
+int main() int main()
+auto f1 = [](int x, int y) { return x + y; }; auto f1 = [](int x, int y) { return x + y; };
+decltype(f1) f2; decltype(f1) f2 = f1;
+int x1 = {1(10, 20); int x1 = f1(10, 20);
+int x2 = {2(10, 20); int x2 = f2(10, 20);
+return 0; return 0;
+}— }—
+b Now both “f1” and “f2” are of the same class/ type.
+> Default constructor does not work for every compiler (gcc does not support it,
+cl.exe (18.0.x.x supports it), cl.exe (19.16.27030.1 does not). The differenc
+in this case is that the deleted constructor was not added in cl.exe (18.0 .x)
+b Copy constructor is supported by both cl (19.16.27030.1) and gcc.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+In the following case the usage of decltype allows us to reutilize the same
+construct multiple times
+Assembly code
+push ebp
+mov ebp,esp
+sub esp,50h
+push 14h
+‘ push OAh
+lea ecx,[fl]
+call (0923mm
+mov dword ptr [x1],eax
+push 14h
+push OAh
+lea ecx [f2]
+call (092316011)
+mov dword ptr [x2],eax
+xor eax,eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Lambda exp resswns
+b Let’s analyze the following case:
+APP-CPD
+int main()
+{
+int a, b'
+auto -F imﬁnt x, int y) { r'etur'n x + y + a +b; };
+int x = i, 0);
+printf("sizeof(f) = %d", sizeof(f));
+return 0;
+}—
+b The code compiles correctly and upon execution prints to the screen value 8.
+> The size changed from 1 to 8 because of the 2 variables that were captured.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+b Let’s analyze the following case:
+Assembly code
+push ebp
+mov ebp,esp
+sub esp,54h
+int a, b;
+auto f = [a,b](int x, int y) { return x + y + a +b; };
+lea eax,[b]
+push eax
+lea ecx,[a]
+‘ push ecx
+lea ecx,[f]
+call <lambda_3c006326 >::<lambda_3cOO6326 > (OD928EOh)
+int x = f(10, 20);
+push 14h
+push OAh
+lea ecx,[f]
+call <lambda_3c006326 >::operator() (OD92730h)
+mov dword ptr [x],eax
+printf("sizeof(f) = %d", sizeof(f));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Let’s analyze the following case:
+Assembly code
+‘ push ebp
+mov ebp,esp
+sub esp,54h
+lea eax/ [b1 constructor
+push eax
+lea eCXlla]
+‘ push ecx
+lea ecx f
+push 14h
+push OAh
+lea eCXllf]
+call <lambda_3c006326m>::operator() (OD92730h)
+mov dword ptr [x],eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+’ I O
+Let s analyze the followmg case. mov ecx,dword ptr [param_l]
+Assembly code mov edx,dword ptr [ecx]
+‘ push ebp mov dword ptr [eax] ,edx
+mov ebp,esp mov eax,dword ptr [this]
+SUb eSP'54h mov ecx,dword ptr [param_2]
+mov edx,dword ptr [ecx]
+lea eax, [b] mov dword ptr [eax+4] ,edx
+push eax
+lea eCXlla]
+‘ push ecx
+lea ecx f
+lcall <lambda 3cOO6326 >::<lambda 30006326 > \
+push 14h
+push OAh
+lea ecxllf]
+call <lambda_3c006326m>::operator() (OD92730h)
+mov dword ptr [x],eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+b This means that the same code can be translated as follows:
+APP-CPP
+int main() {
+int a, b;
+auto f = [a,b] (int x, int y) { return x + y + a +b; };
+return 0;
+}
+Translated code
+class lambda_3c006326 {
+int a,b;
+public'
+lambdai3c006326(int &refia, int &refib): b(refib), a(refia) { }
+int operator() (int x,int y) const { return x + y + a + b; }
+lambda_3c006326() = delete;
+}
+int main() {
+int a, b;
+lambda_3c006326 f (a,b);
+return 0;
+e
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+b Usin the references chanes the code as follows:
+APP-CPP
+int main() {
+int a, b;
+auto f = [a &b (int x, int y) { return x + y + a +b; };
+return 0;
+}
+Translated code
+class lamb'-_3c006326 {
+int =:
+int &b;
+public:
+lambda_3c006326(int &ref_a, int &ref_b): b(ref_b), a(ref_a) { }
+int operator() (int x,int y) const { return x + y + a + b; }
+lambda_3c006326() = delete;
+}
+int main() {
+int a, b;
+lambda_3c006326 f (a,b);
+return 0;
+}—_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Lambda expressmns
+b Using decltype can be used for lambdas with no capture (that have a default
+constructor). In case of lambdas with capture decltype does not work.
+APP-CPD
+int main() {
+int a = 10 , b = 29;
+auto f1 = [a,b] (int x, int y) { return x + y + a +b; };
+f.
+
+_ ' -_ “f1” lambda class has a constructor with two
+pr1ntf("%d", {2(1, 2)); , _
+return o,- - integer parameters. However, the code Will
+
+} not compile (as it is not allowed to initialize
+a lambda in this way).
+error C3497: you cannot construct an instance of a lambda
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Lambda expresswns
+b Using decltype can be used for lambdas with no capture (that have a default
+constructor). In case of lambdas with capture decltype does not work.
+APP-CPP
+int main() {
+int a = 19 , b = 29;
+auto f1 = [a,b] (int x, int y) { return x + y + a +b; };
+printf("%d", f2(1, 2));
+return 0;
+}—
+b This code will compile - a copy constructor between “f1” and “f2” is called.
+> The code works and prints 33 into the screen.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Lambda expressmns
+b Using decltype can be used for lambdas with no capture (that have a default
+constructor). In case of lambdas with capture decltype does not work.
+APP-CPP
+int main() {
+int a = 19 , b = 29;
+auto f1 = [a,b] (int x, int y) { return x + y + a +b; };
+printf("%d", {2(1, 2));
+return 0;
+}—
+b This code works on cl.exe (19.16.27030.1) for Windows but does not work on
+gcc
+> Because of the initializer list “f2” in instantiated with two different values f
+internal (captured) “a” and “b”. On cl.exe for Windows the code works
+prints 6.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Lambda expressions
+b Copy constructor is used whenever the capture is done based on the value.
+APP-CPD
+class MyNumber {
+public:
+int a, b;
+M Number int x int : a x b
+};
+int main() {
+MyNumber m(2, 3);
+auto f = [m](int x, int y) { return x * m.a + y * m.b; };
+printf("%d\n", {(10, 20));
+return 0;
+}—
+> ln this case, when object “f” is created , the copy constructor for MyNumber
+is called and the actual object that is created within the lambda object has
+fields “a” and “b” reversed.
+b The result of this code will be: x (10) * m.a (3) + y (20) * m.b (2) = 70
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+b However, if using references the copy constructor is not called and the result
+will be different.
+APP-CPD
+class MyNumber {
+public:
+int a, b;
+MyNumber(int x,int y): a(x), b(y) { }
+MyNumber(const MyNumber &m) { a = m.b; b = m.a; }
+};
+int main() {
+MyNumber m 2 3);
+auto -F =i(int x, int y) { return x * m.a + y * m.b; };
+printf("%d\n", f(10, 20));
+return 0;
+}—
+> The result of this code will be: x (10) * m.a (2) + y (20) * m.b (3) = 80
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+b Using “=“ and/or “&” means that only values used in the body of the lambda
+are actually used (copied/ referenced) in la lambda class.
+APP-CPD
+int main(){
+int a1, a2. a3, a4, a5, a6;
+auto f = [=1 (int x, int y) { return x + y + a1 + a3; };
+printf("%d\n", sizeof(f));
+return 0;
+}—
+b The result is 8 (only a1 and a3 are copied).
+APP-CPD
+int main(){
+int a1, a2, a3, a4, a5, a6;
+auto f = [=] (int x, int y) { return x + y + a1 + a3 + a5; };
+printf("%d\n", sizeof(f));
+return 0;
+}
+> Now the result is 12 (a1, a3 and a5 are used) :
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+b Lambdas can be used with classes and can capture this pointer
+APP-CPP
+class Student{
+public:
+const char *Name;
+int Grade;
+public:
+Student(const char *n, int g) { Name = n; Grade = g; }
+void IncrementGrade()
+{
+auto la =- () { this->Grade++; };
+la();
+}
+};
+int main(){
+Student s("Popescu", 8);
+s.IncrementGrade();
+}
+b After the call of s.IncrementGrade the value of s.Grade will be 9
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+b Lambdas can be used with classes and can capture this pointer
+APP-CPP
+, ‘dent{
+
+const char *Name;
+int Grade;
+
+public:
+Student(const char *n, int g) { Name = n; Grade = g; }
+void IncrementGrade()
+{
+
+auto la = [this]() { this->Gnade++; };
+la();
+
+}
+
+};
+
+int main(){
+Student s("Popescu", 8);
+s.Incnementhade();
+
+}
+
+b Keep in mind that lambdas work similar to a friend function. Event if dat
+members are private they can still be accessed. This code will run an he
+value of field Grade will be incremented.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+b Lambdas can be used with classes and can capture this pointer
+APP-CPP
+class Student{
+private:
+const char *Name;
+int Grade;
+public:
+Student(const char *n, int g) { Name = n; Grade = g; }
+void IncrementGrade()
+{
+auto la =-() { this->Grade++; };
+la();
+}
+};
+int main(){
+Student s("Popescu", 8);
+s.IncrementGrade();
+}
+b The same happens if we capture this by using ‘=‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+b Lambdas can be used with classes and can capture this pointer
+APP-CPP
+class Student{
+private:
+const char *Name;
+int Grade;
+public:
+Student(const char *n, int g) { Name = n; Grade = g; }
+void IncrementGrade()
+{
+auto la =-() { Grade++; };
+la();
+}
+};
+int main(){
+Student s("Popescu", 8);
+s.IncrementGrade();
+}
+b The same happens if we capture this by using ‘&‘. Also the use of “this->”
+pointer in lambda function is not required.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+b Lambdas can be used with classes and can capture this pointer
+APP-CPP
+class Student{
+private:
+const char *Name;
+int Grade;
+public:
+Student(const char *n, int g) { Name = n; Grade = g; }
+void IncrementGrade()
+{
+auto la =.() { this->Grade++; };
+la();
+}
+};
+int main(){
+Student s("Popescu", 8);
+s.IncrementGrade();
+}
+b However, this code will not work as this pointer is not captured.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Implicit conversion
+to a pointer to a
+> function
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+b All lambdas with no capture have an implicit conversion to a function pointer.
+This is normal as having no capture means that “this” pointer for the lambda
+structure is unnecessary.
+
+> The following code works because “f” has no capture.
+
+App-cm)
+void Sort(int *number, int count, bool(*Compare)(int n1, int n2)) { m }
+int main()
+{
+int numbers[] = { 1, 4, 2, 6, 1, 3 };
+auto f = [](int n1, int n2) { return n1 > n2; };
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+return 0;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+b All lambdas with no capture have an implicit conversion to a function pointer.
+This is normal as having no capture means that “this” pointer for the lambda
+structure is unnecessary.
+
+> The following code will not work as “f” captures local variable “a”
+
+APP-CPP
+void Sort(int *number, int count, bool(*Compare)(int n1, int n2)) { m }
+int main()
+{
+int a = 100;
+int numbers = { 1, 4, 2, 6, 1, 3 };
+auto -F =i(int n1, int n2) { return n1 > n2; };
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+return 0;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Lambda expressmns
+b All lambdas with no capture have an implicit conversion to a function pointer.
+This is normal as having no capture means that “this” pointer for the lambda
+structure is unnecessary.
+> The following code will work. “f” captures all used local variables /
+parameters by making a copy of them, but as the body of the lambda does
+not use any of them, the lambda is actually without capture.
+APP-CPD
+void Sort(int *number, int count, bool(*Compare)(int n1, int n2)) { m }
+int main()
+{
+int a = 100;
+int numbers = { 1, 4, 2, 6, 1, 3 };
+auto F =[::fi(int n1, int n2) { return n1 > n2; };
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+return 0;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+b All lambdas with no capture have an implicit conversion to a function pointer.
+This is normal as having no capture means that “this” pointer for the lambda
+structure is unnecessary.
+
+> The following code will NOT work because “f” captures all local
+variables/ parameters by value (making a copy of them) and the body actually
+uses one of them (“a”).
+
+APP-CPD
+void Sort(int *number, int count, bool(*Compare)(int n1, int n2)) { m }
+int main()
+{
+int a = 100;
+int numbers = { 1, 4, 2, 6, 1, 3 };
+auto F =[::fi(int n1, int n2) { return n1 > (n2 +[:]); };
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+return 0;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+b How does the compiler models this behavior
+APP-CPD
+void Sort(int *number, int count, bool(*Compare)(int n1, int n2)) { m }
+int main()
+{
+int numbers[] = { 1, 4, 2, 6, 1, 3 };
+auto F = [=] (int n1, int n2) { return n1 > n2 g };
+bool res = {(1, 2);
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+return 0;
+I }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+b How does the compiler models this behavior
+Assembly code
+bool res = f(1, 2);
+push 2
+push l
+lea ecx,[f]
+call <lambda_d87098bc2 >::operator() (02929E0h)
+mov byte ptr [res],al
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+lea ecx,[f]
+i call <lambda_d87098bc2m>::operator bool (__cdecl*)(int,int) (0293270h)
+push eax
+push 6
+lea eax,[numbers]
+push eax
+call Sort (02912F3h)
+add esp,OCh
+return 0;
+xor eax,eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+How does the compiler models this behavior
+Assembly code
+
+push 2
+
+push l
+
+mov byte ptr [res],al
+
+lea ecx f
+
+—
+
+push eax
+
+push 6
+
+lea eax,[numbers]
+
+push eax
+
+call Sort (02912F3h)
+
+add esp,OCh
+
+xor eax,eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Lambda expressions
+> How doe
+Assemb
+b°° mov eax , 2 92320h
+push
+push
+lea
+call
+mov
+Sort(
+lea ecx L
+r
+push eax
+push 6
+lea eax,[numbers]
+push eax
+call Sort (02912F3h)
+add esp,OCh
+return 0;
+xor eax,eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+How doe:
+Assemb
+mov eax 292B20h
+push
+push
+mov
+lea ecx: _
+push eax
+push 6
+lea eax,[numbers]
+push eax
+call Sort (02912F3h)
+add esp,OCh
+xor eax,eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+b This means that this code translates as follows:
+App.cpp Translated code
+int main() bool lambda_d87c98bc2_function(int n1,int n2) {
+{ return n1>n2;
+int numbers[] = { 1, 4, 2, 6, 1, 3 }; }
+auto F = [=] (int n1, int n2) { return n1>n2; };
+bool res = {(1, 2); class lambda_d87c98bc2 {
+Sort(numbers, sizeof(numbers) / sizeof(int), f); public:
+return 0; bool operator() (int n1,int n2) {
+} return n1>n2;
+}
+operator bool (*)(int,int) {
+return lambda_d87c98bc2_function3
+}
+}
+int main()
+{
+int numbers[] = { 1, 4, 2, 6, 1, 3 };
+lambda_d87c98bc2 ‘F;
+bool res = f(1, 2);
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+return 0;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+b This means that this code translates as follows:
+App.cpp Translated code
+int main() bool lambda_d87c98bc2_function (int n1,int n2) {
+{ return n1>n2;
+int numbers[] = { 1, 4, 2, 6, 1, 3 }; }
+auto F = [=] (int n1, int n2) { return n1>n2; };
+bool res = {(1, 2); class lambda_d87c98bc2 {
+Sort(numbers, sizeof(numbers) / sizeof(int), f); public:
+return 0; bool operator() (int n1,int n2) {
+} return n1>n2;
+operator bool (*)(int,int) {
+return lambda_d87c98bc2_function3
+}
+_ V }
+int main()
+{
+int numbers[] = { 1, 4, 2, 6, 1, 3 };
+ambda_d87c98bc2 f;
+boo r- - 1 2 '
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+re urn =3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+b This means that this code translates as follows:
+App.cpp Translated code
+int main() bool lambda_d87c98bc2_function (int n1,int n2) {
+{ , return n1>n2;
+int numbers[] = { 1, 4, 2, 6, 1, 3 }; }
+auto F = [=] (int n1, int n2) { return n , };
+bool res = {(1, 2); class lambda_d87c98bc2 {
+Sort(numbers, sizeof(numbers) / ' -of(int), f); public:
+return 0; bool operator() (int n1,int n2) {
+} return n1>n2;
+. }
+V operator bool (*)(int,int) {
+return lambda_d87c98bc2_function3
+‘ }
+}
+—
+int main()
+{
+int numbers[] = { 1, 4, 2, 6, 1, 3 };
+ambda_d87c98bc2 f;
+boo r- - 1 2 '
+Sort(numbers, sizeof(numbers) / sizeof(int), f);
+re urn =3
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+‘\ > Lambdas and STL
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+b A lambda expression can be used with STL (algorithm templates). The
+following code prints all elements from the vector “v”
+APP-CPD
+#include <vector>
+#include <algorithm>
+int main(){
+vector<int> v = { 1, 2, 3, 5, 6, 7 };
+std::for_each (v.begin(), v.end(), [](int value){ printf("%d,", value); });
+}
+b The following code doubles the value of all values from vector “v”
+APP-CPD
+#include <vector>
+#include <a1gorithm>
+int main()
+{
+vector<int> v = { 1, 2, 3, 5, 6, 7 };
+std::for_each (v.begin(), v.end(), [](int &va1ue){ value *= 2; });
+std::for_each (v.begin(), v.end(), [](int value){ printf("%d,", value); });
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+b A lambda expression can be used with STL (algorithm templates). The
+following code prints all elements from the vector “v”
+APP-CPP
+#include <vector>
+#include <a1gorithm>
+int main(){
+vector<int> v = { 1, 2, 3, 5, 6, 7 };
+std::for_each (v.begin(), v.end(), [](int value){ printf("%d,", value); });
+}
+b The following code doubles the value of all values from vector “v”
+APP-CPD
+#include <vector>
+#include <algorithm>
+int main()
+{
+vector<int> v = { 1, 2, 3, 5, 6, 7 };
+std::for_each (v.begin(), v.end(), [](int &value){ value *= 2; });
+std::for_each (v.begin(), v.end(), [](int value){ printf("%d,", value); });
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+b Compute the number of odd numbers from a list:
+APP-CPD
+#include <vector>
+#include <algorithm>
+int main(){
+vector<int> v = { 1, 2, 3, 5, 6, 7 }5
+int odd_numbers = std::count_if (v.begin(), v.end(), [](int value) { return value % 2 == 0; });
+printf("%d\n", odd_numbers);
+}
+b The following code removes all odd numbers from a list:
+APP-CPD
+#include <vector>
+#include <algorithm>
+int main(){
+vector<int> v = { 1, 2, 3, 5, 6, 7 };
+v.erase(
+std::remove_if (v.begin(), v.end(), [](int value) { return value % 2 == 0; }),
+v.end()
+);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+b A lambda expression can be used with STL (std::function) component to
+describe a function
+APP-CPD
+#include <functiona1>
+int main(){
+std::function<int(int, int)> fnc = [](int a, int b)—>int { return a + b; };
+printf("%d\n", fnc(19, 20));
+}
+b Usually this type of code is meant to replace a pointer to a function:
+APP-CPD
+#include <Functiona1>
+typedef int (TypeIntegerSum) (int ,int );
+int main()
+{
+std::function<TypeIntegerSum> fnc = [](int a, int b)—>int { return a + b; };
+printf("%d\n", fnc(10, 20));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+b Instead of using pointers to a function, one can replace them with:
+Appﬁpp
+#include <functional>
+typedef int (TypeCompare) (int ,int );
+void Sort(int *numbers, int count, std::function<TypeCompare> &compareFunction)
+{
+}
+int main(){
+int n[] = { 1: 2: 3: 4 };
+std::function<TypeCompare> cmpFunction;
+cmpFunction = [](int a, int b)->int { return a > b P 1 : (a < b?(-1):0); };
+Sort(n, 4, cmpFunction);
+}
+b ln this case we replace the standard int (*)(int,int) function with
+stdzzfunction
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+b Instead of using pointers to a function, one can replace them with:
+APP-CPD
+#include <functional>
+typedef int (TypeCompare) (int ,int );
+void Sort(int *numbers, int count, std::function<TypeCompare> &compareFunction) { m }
+int main(){
+int x = -1;
+int y = 1;
+int n[] = { 1: 2: 3: 4 };
+stdzzfunction<T -eCompare> cmpFunction;
+cmpFunction =#(int a, int b)->int { return a > b P x : (a < b P yz0); };
+Sort(n, 4, cmp unc 10n);
+}
+> The main advantage in this case is that you can pass lambdas that have a
+caption (while in case of a cast to a function pointer you can not).
+b The disadvantage is that using std::function is slower than using the point
+to a function directly.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+b A lambda function and std::function can also be used with classes:
+APP-CPD
+#include <functiona1>
+class Student {
+private:
+const char *Name;
+int Grade;
+public:
+0-H on h-r *n in : N-m- = n' r.-- = g; }
+std::function<void()> GetIncrementFunction()
+{
+auto 1a = [&]() { Grade++; };
+std::function<void()> fnc = la;
+return fnc;
+};
+int main() {
+Student s("Popescu", 8);
+auto fnc = s.GetIncrementFunction();
+fnc();
+return 0;
+}
+b After the execution of this code, s.Grade will be 9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+b Be careful when using std::function with lambdas that capture local variables
+by reference l
+APP-CPD
+#include <functiona1>
+std::function<void(int)> GetFunction()
+{
+int a = 199;
+printf("Address of a = %p\n");
+std::function<void(int)> fnc = [&a](int value) {
+printf("Address of a (from lambda) = %p\n“, &a);
+a += value;
+};
+return fnc;
+}
+int main(){
+auto f = GetFunction();
+{(19);
+return 9;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+b Be careful when using std::function with lambdas that capture local variables
+by reference l
+APP-CPD
+#include <functiona1>
+std::function<void(int)> GetFunction()
+{
+int a = 100;
+printf("Address of a = %p\n");
+std::function<void(int)> fnc = [&a](int value) {
+printf("Address of a (from lambda) = %p\n“, &a);
+a += value;
+};
+return fnc;
+int main Address of a =
+auto f = GetFunction(); Address of a (from lambda) =
+{(19);
+re urn 6;
+}—
+b In this case a value on the stack (from the GetFunction stack) is m0 ' ed
+outside GetFunction !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Be careful when using std::function with lambdas that capture local variables
+by reference l
+#include <functional>
+std::Functi0n<void(int)> GetFunction(){
+int a = 100; /permissive- /GS- lanalyze- /W3 /Zc:wchar_t /Z| /Gm- /Od /sdl
+std::function<void(int)> fnc = [&a](int value) { a += value; }; /HTDebugnm14Lpdb"/Zcﬁnhne/fp4redse/D"VﬂN32"/D"_DEBUG"
+return 1cm; /D "_CONSOLE" /D "_UN|CODE" /D "UNICODE" /errorReport:prompt
+} /WX- /Zc:forScope /RTCu /arch:|A32 /Gd /Oy- /MDd /FC /Fa"Debug\"
+void Test(std::function<void(int)> &fnc){ /nobgo/FdDebug"/FpDebugTeﬂCpppch'/magmxﬁc$da$k:
+int b = 10;
+std::function<void(int)> temp_fnc = [&b](int value) { };
+fnc(5);
+printf("b = %d", b);
+}
+int main(){
+auto f = GetFunction();
+Test(f);
+return 6;
+}—
+What will be printed on the screen upon the execution of this code ?
+Tested with cl.exe (19.16.27030.1), VS 2017
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+> Be careful when using std::function with lambdas that capture local variables by
+reference l
+Apncpp
+#include <functional>
+std::function<void(int)> GetFunction(){
+int a = 100;
+std::function<void(int)> fnc = [&a](int value) { a += value; };
+return fnc;
+}
+void Test(std::function<void(int)> &fnc){
+int b = 10;
+std::function<void(int)> temp_fnc = [&b](int value) { };
+fnc(5);
+printf("b = %d", b);
+}
+int main(){
+auto f = GetFunction();
+Test(f);
+return 0;
+}—
+b The code compiles and prints 15 on the screen (even if b is 10). Similar re ts are
+highly dependent on the stack alignment.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+b Be careful when using std::function with lambdas that capture local variables by
+reference l
+APP-CPD
+#include <functional>
+Stdtt I H 00 'n - n u
+std::function<void(int)> fnc = [&a](int value) { a += value; };
+return nc;
+} -
+VOid - I" I on 0| 'n i1
+stdzzfunction<void int > temn fnc = &b int value ;
+nc 5 3
+printf("b = %d", b);
+}
+int main(){
+auto f = GetFunction();
+Test(f);
+return 9;
+}—
+> The code compiles and prints 15 on the screen (even if b is 10). Similar re ts are
+highly dependent on the stack alignment.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+b Be careful when using std::function with lambdas that capture local variables by
+reference l
+Apncpp
+#include <functiona1>
+std::function<void(int)> GetFunction(){
+int a = 100;
+std::function<void(int)> fnc = [&a](int value)
+return fnc;
+}
+void Test(std::function<void(int)> &fnc){
+int b = 10'
+fnc(5);
+printf("b = %d", b);
+}
+int main(){
+auto f = GetFunction();
+Test(f);
+return 0;
+}—
+> The code compiles and prints 15 on the screen (even if b is 10). Similar re ts are
+highly dependent on the stack alignment.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+> Be careful when u iables by
+reference l b Test _
+a GetFunction
+APP-CPD
+#include <functiona1> f
+std: :function<void(int nC
+int a = 199;
+stdzzfunction<vo
+return fnc;
+}
+void Test(std::function< ~ nc){
+int b = 19;
+std::funct" ‘ u(int)> temp_fnc = [&b](int value) { };
+pr1n b = %d", b);
+}
+int main(){
+auto f = GetFunction();
+Test(f);
+return 9;
+}—
+> The code compiles and prints 15 on the screen (even if b is 10). Similar re ts are
+highly dependent on the stack alignment.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Using lambda with
+templates
+> (Generic: lambdas)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Lambda expressions
+b Starting from C++14, lambda expressions can be used with auto parameters
+creating a template lambda.
+APP-CPD
+int main()
+auto F = [](auto x, auto y) { return x + y; };
+printf("%d\n",f(10, 20));
+printf("%1f\n",f(10.5, 20.7));
+return 0;
+}—
+b The code compiles and prints: 30 and 31.2 into the screen. lt only works for
+the standard C++14 and above.
+b ln this case the auto parameters work as a template (this is not however a
+template l)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+Lambda expresswns
+
+b Starting from C++20, lambda expressions can be used with a template
+parameter.
+
+APP-CPD
+int main()
+{ auto f = []<typename T> (T v1, T v2) { return v1 + v2; };
+printf ("%d %1f\n", {(10, 20), r<1.2,4.3));
+return 0;
+}—
+
+b The code is no different than using auto, the main difference being that we
+can force a specific type , or a template of a specific type to the lambda
+expression.
+
+b This code works with g++, but will not compile for cl.exe (VS 2017)
+
+> The code will print 30 and 5.5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+Lambda exp reSSions
+b Starting from C++20, lambda expressions can be used with a template
+parameter.
+APP-CPD
+int main()
+{ auto f = []<typename T> (T v1, T v2) { return v1 + v2; };
+printf ("%d \n", f(10, 20.5));
+return 0;
+}—
+b The code will not compile. The compiler fails to deduce type T (it can either
+be int or double) for the call f(10, 20.5)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+Lambda expressions
+b Starting from C++20, lambda expressions can be used with a template
+parameter.
+APP-CPD
+int main()
+auto F = []<typename T> (T v1, T v2) {
+T temp;
+temp = v1 + v2;
+return (int)temp;
+giintf< %d\n", {(1.5, 2.2));
+return 0;
+}—
+> ln this case, we can force the lambda expression to return an int value
+(regardless of the type T).
+b The result will be 3 (3.7 converted to int).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Lambda expresSions
+b Starting from C++20, lambda expressions can be used with a template
+parameter.
+APP-CPD
+int main()
+{ r = []< T, R> (T v1, T v2)-{
+T temp;
+temp = v1 + v2;
+. ( )temp;
+gnintf("%d\n", {(1.5, 2.2));
+a;
+}—
+> In this case, the code will not compile, as type R can not be deduced. The
+problem is located in the fact that we specify that the result type is R but th
+compiler can not deduce it l
+b Currently, using an explicit template forf (ex: f<double,int>) is no
+supported l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+‘\ > Mutable capture
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+Lambda expresswns
+b Let’s assume the following code:
+APP-CPD
+int main()
+{
+int a = 0;
+auto f = [&a](int x, int y) { a = x + y; };
+{(10, 20);
+printf("a = %d\n", a);
+return 0;
+}—
+b The code compiles and prints “a = 30” on the screen.
+> The capture “a” is done via a reference and it can be modified.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+Lambda expressmns
+b Let’s assume the following code:
+APP-CPD
+int main()
+{
+int a = 9;
+H19, 29),-
+printf("a = %d\n", a);
+return 9;
+}—
+
+b The code however, will NOT work.
+
+b But, as “a” is copied in the capture of the lambda expression, it should work
+like a class member and therefor we should be able to modify it (even if this
+will NOT affect the local variable “a” from the main function).
+
+b What happens ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+b Let’s look at the translated code:
+APP-CPD
+int main() {
+int a = 9;
+auto f = [a](int x, int y) { a = x + y; };
+H19, 29),-
+printf("a = %d\n", a);
+}—
+Translated code
+class lambda_3c006326 {
+int a;
+public:
+lambda_3c006326(int &ref_a): a(ref_a) { }
+void operator() (int x,int y) const { a = x + y; }
+};
+int main() {
+int a, b;
+lambda_3c006326 'F (a);
+{(19, 29),-
+printf("a = %d\n", a);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+b Let’s look at the translated code:
+APP-CPD
+int main() {
+int a = 0;
+auto f = [a](int x, int y) { a = x + y; };
+{(10, 20); “ n
+pr'int-F("a = %d\n", a); Because of the const operator from the
+1’ end of the definition, operator() can not
+Translated code modify any of its data members.
+class lambda_3c006326 {
+int a;
+public:
+lambda_3c006326(int &ref_a): a ref }
+void operator() (int x,int y) a = x + y; }
+}
+int main() {
+int a, b;
+lambda_3c006326 f (a);
+f(10, 20);
+printf("a = %d\n", a);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+b The solution is to use “mutable” keyword when defining the lambda:
+APP-CPD
+int main() {
+int a = 0;
+auto -F = [a](int x, int y) -{ a = x + y; };
+{(10, 20);
+printf("a = %d\n", a);
+}
+Translated code
+class ‘u..- 30006326 {
+public:
+lambda_3c006326(int &ref_a): a(ref_a) { }
+void operator() (int x,int y) const { a = x + y; }
+}
+int main() {
+int a, b;
+lambda_3c006326 f (a);
+f(10, 20);
+printf("a = %d\n", a);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+Lambda expresswns
+b The solution is to use “mutable” keyword when defining the lambda:
+APP-CPD
+int main() {
+int a = 0;
+auto f = [a](int x, int y) mutable { a = x + y; };
+{(10, 20);
+pnintf("a = %d\n", a);
+return 0;
+}—
+b The cod compiles and prints “a = 0” into the screen.
+b Even if the “mutable” keyword is used, as “a” was captured by making a copy
+of it and only the copy is modified when calling f(10,20)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+Lambda express10ns
+b The solution is to use “mutable” keyword when defining the lambda:
+APP-CPD
+int main()
+{
+int index = 0;
+auto counter = [index] () mutable { return index++; };
+for (int tr = 0; tr < 10; tr++)
+{ printf("%d,", counter());
+ieturn 1;
+}—
+> The code compiles and prints 0,1 ,2,3,4,5,6,7,8,9 into the screen.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+Lambda express10ns
+b The solution is to use “mutable” keyword when defining the lambda:
+APP-CPD
+int main()
+{
+int index = 0;
+auto counter‘ = [index] ()—{ return index++3 };
+for (int tr = 0; tr < 10; r++
+{ printf("%d,", counter());
+ieturn 1;
+}—
+> If we want to describe the type of la lambda, then the mutable keyword
+should be added before the type (after the lambdas parameters)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+lnitialized lambda
+> capture
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Lambda expreSSions
+b C++14 standards allows to initialize the lambda capture
+APP-CPD
+int main()
+{
+int a = 10, b = 20;
+auto -F1 —(int x, int y) { return x + y + var1 + var2; };
+printf("%d\n", f1(1, 2));
+return 0;
+}—
+b ln this case lambda “f1” has two variable captured (var1 and var2). “var1 ”
+equals 10+20 = 30, and “var2” equals 10-20 = -10;
+> The code compiles under C++14 standards and prints 1+2+30-10 = 23
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+Lambda expresswns
+b C++14 standards allows to initialize the lambda capture
+APP-CPD
+int main()
+auto f1 = [counter = 9] () mutable { return counter++; };
+for (int tr=9;tr<19;tr++)
+{ printf("%d\n",f1());
+ieturn 9;
+}—
+b This type of initialization can be used to create lambdas with their own
+parameters. ln this example, “f1” has one member (counter) that is
+initialized with O and incremented each time f1 () is called.
+b The code prints the numbers from O to 9
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+Lambda expresswns
+b C++14 standards allows to initialize the lambda capture
+APP-CPD
+int main()
+{
+or 1nt tr=03tr<103tr++
+{ printf("%d\n",f1());
+ieturn 0;
+}—
+b In this case the type of counter is deduced to be int.
+> The code compiles and prints 2,4,8,16,32,64,128,256,512,1024
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+Lambda expreSSions
+b C++14 standards allows to initialize the lambda capture
+APP-CPD
+int main()
+auto -F1 =F () mutable { counter*=2; return counter; };
+for (int tr=43 r< 5; r++
+{ printf("%d\n",f1());
+ieturn 0;
+}—
+b This code will not work 9 it is not allowed to set the type of capture. Type of
+capture is deduced from the assignment.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+Lambda expreSSions
+b C++14 standards allows to initialize the lambda capture
+APP-CPD
+int main()
+auto -F1 = [counter =—1]() mutable { counter*=2; return counter; };
+for (int tr=03tr<103tr++
+{ printf("%d\n",f1());
+ieturn 0;
+}—
+b However, you can force the type of such assignments by forcing the type of
+the evaluated value (usually using a cast).
+> The code will compile and will print: 2,4,8,16,32,64,128,0,0,0
+b The last 3 zeros are because counter is of type unsigned char and once it
+reaches value 256 it overflows and becomes O.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+b C++14 standards allows to initialize the lambda capture
+APP-CPD
+int main()
+{
+auto random = [seed = 1U] (unsigned int maxNumber) mutable {
+seed = 22695477U * seed + 1;
+return seed % maxNumber;
+}s
+for (int tr=03tr<103tr++)
+printf("Pseudo random number between 0 and 99: %d \n", random(199));
+return 0;
+}—
+> This example generates a pseudo random function based on the
+Linear congruential generator algorithm.
+b The function uses the seed internal variable to generate the next random
+number.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+New feature in
+> C++17 and beyond
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+b C++17 standards allows to capture (*this) 9 by using its copy constructor
+APP-CPD
+struct MyClass
+{
+int a;
+MyClass(int value) { a = value; }
+MyClass(const MyClass & obj) { stdzzcout << "Copy ctor" << std::end1; a = obj.a; }
+auto GetLambda() { return [this]() { stdzzcout << a << std::end1; }; }
+}s
+int main()
+{
+MyClass c = 10;
+auto f = c.GetLambda();
+t0;
+c.a += 10;
+t0;
+return 0;
+}—
+b This code creates a lambda functions that captures this (as a pointer). T
+execution will print 1O and 20 on the screen (as lambda captures a re rence
+to object c ).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+b C++17 standards allows to capture (*this) 9 by using its copy constructor
+APP-CPD
+struct MyClass
+{
+int a;
+MyClass(int value) { a = value; }
+MyClass(const MyClass & obj stdzzcout << "Copy ctor" << std::end1; a = obj.a; }
+auto GetLambda() { return h“) { stdzzcout << a << std::end1; }; }
+}s
+int main()
+{
+MyClass c = 10;
+auto f = c.GetLambda();
+t0;
+c.a += 10;
+t0;
+return 0;
+}—
+b This code only works on C++17 standard. ln this case, lambda captures a py
+of c object, and the results printed on the screen will be: “Copy ctor”, then
+“10” and then “10” again (only the local c object is modified, no ts copy).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+b C++17 standards also allows creating a constexpr lambda expression
+APP-CPD
+int main()
+{
+int a = 10;
+constexpr auto f = [](int v1, int v2) constexpr { return v1 + v2; };
+print+("%d\n", {(1, 2));
+return 9;
+}—
+b This code only works on C++17 standard. However, the generated cod does not show
+that the constexpr optimization is indeed applied. Code was tested with cl.exe,
+version 19.16.27025.1 and 19.16.27030.1 for x86 architecture
+Generated assembly code for “printf(“%d\n”, f( 1,2)”
+push 2
+push 1
+lea ecx,[f]
+call <1ambda_f97ecf9fb43f36dc94c4d496e5fe74ab>::operator()
+push eax
+push offset string "%d\n"
+call printf
+add esp,8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+Lambda expressions
+b C++17 standards also allows creating a constexpr lambda expression
+APP-CPD
+main() {
+a = 10;
+f = []( v1, v2) { v1 + v2; };
+aa[f(1, 2)];
+aa[0] = 0;
+a;
+}—
+b lt however works for the previous case, and “aa” local variable is instantiated.
+b lt also works with static_assert like in the next example.
+APP-CPP
+main()
+{
+f = []( v1, v2) { v1 + v2; };
+(ﬂu 2) 3);
+e;
+}%—
+
+***************Ending Page***************
+
+ 

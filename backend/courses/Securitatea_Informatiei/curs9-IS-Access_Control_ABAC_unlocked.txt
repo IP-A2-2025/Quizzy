@@ -1,0 +1,382 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+leciures by Ferucio Laurentiu Tiplea
+Access Control
+Attribute-based Access Control
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of lasi
+lasi 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Introduction to ABAC
+Attributes and policies
+ABAC architectures
+XACIVIL
+NGAC
+Conclusions
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introduction to ABAC
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Criticisms of RBAC
+
+o Deﬁning a role can be quite a challenge: all the necessary
+permissions for a user who will take that role must be known a
+priori, as well as the role's position in the hierarchy;
+
+0 RBAC is static: RBAC assumes that, in most applications,
+permissions needed for an organization's roles change slowly over
+time, but users may enter, leave, and change roles rapidly. Using
+contextual information, such as time, location etc., is very difficult
+or even impossible;
+
+0 Deal with distributed applications: proper operation of RBAC
+requires that roles fall under a single administrative domain or have
+a consistent definition across multiple domains. So, distributed
+applications might be challenging;
+
+o Role explosion: setting the role system for large organizations can be
+a complex process that can lead to “role explosion".
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIABAC Fall 2022 2/ 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Criticisms of RBAC
+0 Temporary permissions: assigning individual permissions for short
+periods requires the creation of new roles;
+o Permissions assigned only to roles: permissions can be assigned only
+to roles, not to objects and operations;
+o Restrict access to data: RBAC can restrict access to certain actions
+of system but not to certain data.
+RBAC is suitable for small or medium-sized organizations, with a
+well-understood role diagram, with clear assignments for each role. As
+the organization grows numerically and structurally, RBAC becomes
+inefficient.
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 3/ 17
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+What is ABAC
+ABAC is a technology that has been used more or less sporadically by
+various researchers, mostly parallelizing RBAC (Kuhn et al. (2010); Karp
+et al. (2010)). There is currently no single accepted definition of ABAC!
+A high-level description of ABAC by National Institute of Standards and
+Technology (Hu et al. (2019)):
+Attribute Based Access Control: An access control method where
+subject requests to perform operations on objects are granted
+or denied based on assigned attributes of the subject, assigned
+attributes of the object, (optionally) environmental conditions,
+and a set of policies that are specified in terms of those attributes
+and conditions.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 4/ 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Attributes and policies
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Attributes
+Attributes — characteristics of system entities.
+0 Subject attributes: identity, age, role, affiliation, security clearance
+etc.;
+0 Object attributes: characterize data and other resources, security
+classiﬁcation;
+0 Environment attributes:
+o Are not properties of the subject or resources;
+o Are measurable characteristics that pertain to the operational or
+situational context in which access requests occur;
+o Are subject and object independent.
+Examples: current time, day of the week, threat level etc.
+Subject and object attributes are common to all ABAC models!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 5 / 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Policies
+According to Biswas et al. (2016), there are two main techniques for
+specifying authorization policies in ABAC:
+0 Logical formulas involving attribute values, such as in ABACa,
+HGABAC, XACIVIL. Example:
+cansaccess(s, a, o) —> ro/e(s) : doctor
+AND ward(s) : ward(o)
+AND (a : read OR a : write)
+0 Enumeration, such as in Policy Machine (PM) and 2-sorted RBAC.
+The enumeration technique may be more efficient when it comes to
+policy review!
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIABAC Fall 2022 6/ 17
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+ABAC architectures
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+ABAC architectures
+ABAC implementations usually follow two general architectures to define
+a policy language and a processing model describing how to evaluate
+access requests (Ferraiolo et al. (2016)):
+o eXtensible Access Control Markup Language (XACIVIL);
+0 Next Generation Access Control (NGAC).
+Both architectures encompass four layers of functional decomposition:
+0 enforcement;
+o decision;
+0 access control data;
+0 administration.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 7/ 17
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+eXtensible Access Control Markup Language
+eXtensible Access Control Markup Language (XACML)
+o ls a an ABAC policy language designed to —
+o The standard was published by OASIS and is now at version 3.0.
+XACML can be used for:
+0 web services;
+o digital rights management;
+o enterprise security applications.
+XACML does not handle user access, approval, or password management!
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 8/ 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+XACML architecture
+t t _
+ment Pol“ Pomt
+Po\'\cy EniOYce Resource AcceSS
+7% request -
+H Eu
+V
+Alice ll j é Database
+2 2
+|— 2
+*******************; c ﬁiiiiiiiiiifiiiiiiiiiiiiiii
+m . - Point
+.p i Decmo“ -
+Retrieve m PQ\\CY
+additional Evaluate
+attributes policies —
+Policy Information Point m m Policy Retrieval Point
+Attribute Administration Point Policy Administration Point
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 9 / 17
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+XACML examples
+<Rule Effect="Permit“ Ru|e|d="ru|e1">
+<Condition>
+<App|y Functionld:"urn:oasis:names:tc:xacml:170:function:string—equa|">
+<App|y Functionld="urn:0asis:names:tc:xacm|:1.0:function:string-one-and-on|y">
+<AttributeDesignator
+Attributeld="urn:0asis:names:tc:xacm|:1.0:subject:subject-id“
+Category:"urn:oasis:names:tc:xacm[:1'0:subject—category:access—subject"
+DataType:"httg:[[www.w3.org[2001[XMLSchema#string"
+MustBePresent:"true“/>
+</App|y>
+<AttributeVa|ue DataType="http:[[www.w3.org[2001[XMLSchema#string">
+Pamoda
+</AttributeVa|ue>
+</App|y>
+</Condition>
+</Ru|e>
+Prof.dr. F.L. Tiplea, UAIC, R0 Lectures on Information Security Access ControlABAC Fall 2022 10 / 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+XACML implementations
+1. Sun XACML: partial XACML 2.0 implementation;
+2. Heras AF: XACML 2.0 implementation;
+3. Balana: partial XACML 3.0 implementation;
+4. —: fully XACML 3.0 compliant (all mandatory features);
+5. Axiomatics Policy Server: XACML 2.0 and 3.0 implementation;
+6. Oracle XACML: XACML 2.0 implementation;
+7. IBM DataPower: XACML 2.0 implementation.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 11/17
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Next Generation Access Control
+
+Next Generation Access Control (NGAC) uses directed acyclic graphs
+
+(dags) to represent the resources to protect, the different actors in the
+
+system, and how both worlds are tied together with permissions (INCITS
+
+(2020)).
+
+User dag operations Object dag
+i i ______l/VLit§_____ / i
+O Policy nodes
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 12/ 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+NGAC features
+o Can be configured to allow 0r disallow access based not only on
+object attributes, but also on environmental conditions such as time,
+location, and so on;
+o Ability to set policies consistently to meet compliance requirements
+and the ability to set ephemeral policies;
+0 Can evaluate and combine multiple policies in a single access
+decision, while keeping its linear time complexity.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 13 / 17
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+NGAC archltecture
+m Pom‘ in:
+Po\\C\/ Enlomeme Resouvce Access P0
+7% request -
+' 4>--<—><—> II
+V
+Alice /l ) Database
+8 ES
+‘1:: 5
+eeeeeeccccceee access c geesecccceeeeeeccccceeeeeec
+m Policy Decision Point
+Event Processing Point --<—> Policy Information Point
+Policy Administration Point
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 14 / 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Conclusions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+ABAC, RBAC, DAC, and MAC
+ABAC can be configured to do RBAC: a role is just another attribute
+(details can be found in Jin et al. (2012)).
+. DAC MAC
+leed , . .
+owner s dlscretlon one-way IF
+5 RBAC
+0-? policy-independent
+Flexible ABAC
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 15 / 17
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Concluding remarks
+
+o From the multitude of access control technologies developed from
+the 19705 to the present, the technologies with significant practical
+relevance are: DAC, MAC, RBAC, ABAC;
+
+0 ABAC represents the latest milestone in the evolution of access
+control technologies;
+
+0 ln practical applications, choosing the technology that covers the
+requirements minimally is recommended (if DAC or MAC is
+sufficient, it does not make sense to use RBAC or ABAC);
+
+o The techniques presented so far should not be confused with
+decryption key distribution techniques to access the original data
+obtained by decryption.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlABAC Fall 2022 16/ 17
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:22**************
+References
+
+Biswas, P., Sandhu, R., and Krishnan, R. (2016). Label-based access control: An abac model with
+enumerated authorization policy. In Proceedings of the 2016 ACll/l International Workshop on
+Attribute Based Access Control, ABAC '16, page 1-12, New York, NY, USA. Association for
+Computing Machinery.
+
+Ferraiolo, D., Chandramouli, R., Kuhn, R., and Hu, V. (2016). Extensible access control markup
+language (XACML) and next generation access control (NGAC). In Proceedings of the 2016
+ACM International Workshop on Attribute Based Access Control, ABAC '16, page 13-24, New
+York, NY, USA. Association for Computing Machinery.
+
+Hu, V., Ferraiolo, D., Kuhn, D., Schnitzer, A., Sandlin, K., Miller, R., and Scarfone, K. (2019).
+Guide to attribute based access control (ABAC) definition and considerations. Technical report,
+National Institute of Standards and Technology Special Publication.
+
+INCITS (2020). Next Generation Aaccess Control (NGAC). Technical Report 565-2020, American
+National Standards Institute.
+
+Jin, X., Krishnan, R., and Sandhu, R. (2012). A unified attribute-based access control model
+covering DAC, MAC and RBAC. In Cuppens-Boulahia, N., Cuppens, F., and Garcia-Alfaro, J.,
+editors, Data and Applications Security and Privacy XXVI, pages 41-55, Berlin, Heidelberg.
+Springer Berlin Heidelberg.
+
+Karp, A., Haury, H., and Davis, M. (2010). From ABAC to ZBAC: The evolution of access control
+models. Journal of Information Warfare, 9(2):38—46.
+
+Kuhn, D. R., Coyne, E. J., and Weil, T. R. (2010). Adding attributes to role-based access control.
+Computer, 43(6):?9-81.
+
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIABAC Fall 2022 17 / 17
+
+***************Ending Page***************
+
+
+

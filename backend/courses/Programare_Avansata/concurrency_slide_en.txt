@@ -1,0 +1,817 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Concurrency
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Concurrent Programming
+
+- Until now, a program was a sequence of operations,
+executing one after another.
+
+- In a concurrent program, several sequences of
+operations may execute “in the same time”,
+interleaving one with another.
+
++ l +
+I?‘ I_ln fir tie l?‘ Duuafire F
+|¥| executle I?‘ Bxgjmie l_'—|_l
+E E E
+
+- Advantages: background calculations, non-blocking
+IO, exploiting multi-core processors, etc.
+
+—> High responsiveness, Scalability
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Threads
+
+' The JVM runs as a single process. A process has a
+self-contained execution environment.
+
+' The JVM allows an application to have multiple
+threads of execution running concurrently.
+
+- Threads exist within a process - every process has
+at least one. Threads share the process's resources,
+including memory and open files.
+
+- Creating a new thread (lightweight process) requires
+fewer resources than creating a new process.
+
+- When a JVM starts up, there is usually a single thread,
+called main. When all threads have died, the JVIVI
+process stops.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Support for Concurrency
+- Keywords
+— synchronized, volatile
+- Core APls
+— Thread, Runnable
+— Objectwait, notify, notifyAll
+- java.util.concurrent package
+— Utility classes commonly useful in concurrent
+programming (lots of them)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Thread and Runnable
+
+- Each executing thread is an instance of
+java/ang. Thread class or a subclass of it.
+
+- Athread must “know” what code it is supposed
+to execute, so it will receive a runnable object.
+
+Thread t = new Thread(Runnab/e target);
+
+- The java./ang.Runnab/e interface should be
+implemented by any class whose instances are
+intended to be executed by a thread.
+
+public void run() {
+// This is where we write the code executed by a thread
+}
+- Thread class already implements Runnable.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+// This thread writes important data to a file
+public class HelloThread extends Thread {
+@Override
+public void run() {
+int count = 100_000_000;
+try (BufferedWriter out =
+new BufferedWriter(new FileWriter("hello.tXt"))){
+for (int i = O; i < count; i++) {
+out.write("Hello World!\n");
+}
+} catch (IOException e) {
+System.err.println("Oops..." + e);
+}
+}
+public static void main(String args[]) {
+// Start the thread 1:,
+new HelloThread().start(); O
+System.out.println("OK...");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+The Thread.start Method
+new HelloThread().start();
+
+' Causes the thread to begin execution.
+
+The JVM calls the run method of this thread.
+
+- The result is that two threads are running
+concurrently: the current thread (which returns
+from the call to the start method) and the other
+thread (which executes its run method).
+
+- lt is never legal to start a thread more than
+once. In particular, a thread may not be
+restarted once it has completed execution.
+
+—> IllegalThreadStateExcept/on
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+The Runnable Interface
+@Functionallnterface
+
+The Runnable interface should be implemented by any class
+Whose instances are intended to be executed bi a thread.
+This interface is designed to provide a common protocol for
+objects that wish to execute code while they are active. For
+example, Runnable is implemented by class Thread. Being
+active simply means that a thread has been started and has
+not yet been stopped.
+In most cases, the Runnable interface should be used if you
+are only planning to override the runl) method and no other
+Thread methods. This is important because classes should
+not be subclassed unless the programmer intends on
+modifying or enhancing the fundamental behavior of the
+class.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+public class HelloRunnable implements Runnable {
+private final String filename;
+private final String message;
+private final int count;
+public HelloRunnable<String filename, String message, int count) {
+this.filename = filename;
+this.message = message;
+this.count = count;
+l
+@Override
+public void run() {
+// The same code as in the previous example . . .
+}
+public static void main(String args[]) {
+Runnable runnable = new HelloRunnable("hello.txt", "Ciaol", lO);
+new Thread(runnable).start();
+}
+} Implementing Runnable is more general and flexible than extending Thread,
+because the Runnable object can subclass a class other than Thread.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Runnable is a functional interface (it has only one method)
+public class TestRunnable {
+public static void main(String args[]) {
+TestRunnable app = new TestRunnable();
+app.testThreads();
+}
+private void testThreads() {
+Define the runnable ob ect usin a lambda-ex ression
+Runnable runnable = () -> {
+System.out.println("Hello from thread l");
+} ;
+new Thread(runnable).start();
+Define the runnable ob ect usin a method reference
+new Thread(this::doSomething).start();
+}
+private void doSomething() {
+System.out.println("Hello from thread 2");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Resource Contentlon
+- Threads may run into conflicts over access to a shared
+resource such as memory, files, etc.
+Runnable rl I new HelloRunnable("hello.txt", "Hello World", 1000);
+Runnable r2 = new HelloRunnable("hello.txt", "Ciao Mondo", 1000);
+new Thread(rl).start();
+new Thread(r2).start();
+- What could happen when running the two threads?
+Hello World Ciao Mondo
+Hello World Ciao Mondo
+Hello World m
+Hello World Ciao MonHello World
+m Hello World
+Ciao Mondo Hello World
+Ciao Mondo m
+Ciao Mondo HGllO Wodo
+Ciao Mondo Ciao Mondo
+Ciao Mondo Ciao Mondo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Thread Interference
+
+- Threads communicate by reading/writing data
+from/to a shared memory.
+— Thread t1 <—> 3 H
+— Thread t2 <—> g (— eap
+
+- Operations on shared data might be interrupted
+mid-stream (non-atomic)
+
+- lnterleaving: two operations consist of multiple
+steps, and the sequences of steps overlap.
+
+- Memory consistency errors occur when
+different threads have inconsistent views of
+what should be the same data
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+The Producer-Consumer Example
+- Two threads, the producer and the consumer, share a
+common buffer and must synchronize their operations.
+- The Buffer holds a number (or a string, array, etc.)
+public class Buffer {
+private long number I —l;
+public long getNumber() { Operations onalong
+return number; value are non-atomic
+}
+public void setNumber(long number) {
+this.number I number;
+}
+}
+- The main program starts the two threads:
+Buffer buffer = new Buffer();
+new Producer(buffer).start();
+new Consumer(buffer).start();
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+The Producer
+//The producer generates numbers and puts them into the buffer
+public class Producer extends Thread {
+private final Buffer buffer;
+public Producer(Buffer buffer) {
+this.buffer = buffer;
+}
+@Override
+public void run() {
+for (int i I O; i < lO; i++) {
+buffer.setNumber(i);
+System.out.println("Number producedz" + i);
+try {
+sleep((int) (Math.random() * 100));
+} catch (InterruptedException e) {
+System.err.println(e);
+}
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+//The consumer reads the numbers from the buffer
+
+public class Consumer extends Thread { Number producedzO
+Number consumed: O
+private final Buffer buffer; Number<xxmumedz O
+Number consumed: O
+public Consumer(Buffer buffer) { Number COnsum€d= O
+this.buffer = buffer; Number consumed= O
+} Number consumed: O
+Number consumed: O
+. Number consumed: O
+@Override' Number consumed: O
+PUbllC1‘”Jld run() { Number consumed: O
+
+for (int i I O; j_<< 10; i++) { Number producedzl
+
+long value = buffer.getNumber(); Number producedz2
+
+Number producedz3
+
+System.out.println( Number prOduced:4
+"Number consumed: " + value); Number prOdUC€dz5
+
+} Number producedz6
+
+1 Number producedz7
+
+} - The threads “trample” on the shared data 53$; gigjﬁgijfg
+
+- ...Not what we want
+- The threads do not coordlnate each other
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Synchronization
+
+- Critical Section —A method or a block of code
+managing a shared resource.
+— BuffensetNumber, BuffeitgetNumber
+
+- Synchronization - Mutual Exclusion (Mutex)
+Enforcing limitations on accessing a critical section.
+
+- Synchronization is built around an internal entity
+known as the intrinsic lock or monitor lock.
+
+' Every obiect has a monitor lock associated with it.
+— Athread may acquire, own, release a lock
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Preventing thread interference and memory consistency errors
+- Synchronized Methods
+public synchronized void setNumber(long number) {
+/* The producer acquires the monitor of the buffer object
+Throughout the execution of this method,
+the producer owns the buffer's monitor
+If the consumer invokes getNumber it will block
+(suspend execution) until the producer releases the lock */
+this.number = number;
+} //The producer releases the monitor VVanﬂng
+public synchronized long getNumber() {.H } ThﬂﬁijeamOCk
+' Synchronlzed Statements
+public void setNumber(long number) {
+//Thread safe code — not accessing the buffer
+synchronized (this) { <— speCIfy whose lock are we using
+this.number = number;
+}
+//Thread safe code — not accessing the buffer
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Some threads have to coordinate their actions
+public class Buffer {
+private long number = —l; —
+private boolean available = false;
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+public synchronized long getNumber() {
+while (lavailable) {
+try { <— Guarded Block
+wait();
+} catch (InterruptedEXception e) { e.printStackTrace(); }
+}
+available I false; notifyAll();
+return number;
+public synchronized void setNumber(long number) {
+try {
+wait();
+} catch (InterruptedException e) { e.printStackTrace(); }
+}
+this.number I number; available I true; notifyAll();
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Walt — Notlfy
+
+' Object.wait - Causes the current thread to wait until another
+thread invokes the notify() method or the notifyA/l() method for
+this object. The current thread must own this object's monitor.
+The thread releases ownership of this monitor and waits until
+another thread notifies threads waiting on this object's monitor
+to wake up either through a call to the notify method or the
+notifyAll method. The thread then waits until it can re-obtain
+ownership of the monitor and resumes execution.
+
+- Object.notifyAII - Wakes up all threads that are waiting on
+this object's monitor. The awakened threads will not be able
+to proceed until the current thread relinquishes the lock on this
+object. The awakened threads will compete in the usual manner
+with any other threads that might be actively competing to
+synchronize on this object; for example, the awakened threads
+enjoy no reliable privilege or disadvantage in being the next
+thread to lock this object.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Atomic Access
+
+- An atomic action cannot stop in the middle: it either
+happens completely, or it doesn't happen at all. No side effects
+of an atomic action are visible until the action is complete.
+
+- Reads and writes are atomic for reference variables and for
+most primitive variables (all types except long and double).
+
+- Reads and writes are atomic for all variables declared volatile
+(including long and double variables).
+
+- Each thread has its own stack, and so its own copy of
+variables it can access. When the thread is created, it copies
+the value of all accessible variables in its own memory.
+
+- The Java volatile keyword is used to mark a variable as "being
+stored in main memory" —> every read of a volatile variable will
+be read from the computer's main memory, and not from the
+CPU cache, and every write to a volatile variable will be written
+to main memory, and notjust to the CPU cache.
+
+private volatile long number I —1;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Thread Scheduling
+- Scheduling Models
+— Co-operative — time / Pre-emptive —resources
+- The JVM is responsible with sharing the available CPUs
+between all the runnable threads. The JVM scheduler is
+usually dependent on the operating system.
+- Priority-based round-robin
+— A thread of higher priority will preempt a thread of lower priority;
+— Only when that thread stops, yields, or becomes Not Runnable will
+a lower-priority thread start executing.
+— Threads of equal priority will essentially take turns at getting an
+allocated slice of CPU;
+— Thread priorities are integers ranging between MIN_PRIORITY
+and MAX_PR|OR|TY
+- Starvation and Fairness —> Watch out for selfish threads!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+The Th read Lifecycle
+in execute
+lnstantiere ill eltl _
+i start y lit sleep, wait
+Terminarea metadei run
+- sleep - Causes the currently executing thread to temporarily cease
+execution.The thread does not lose ownership of any monitors.
+- yield - A hint to the scheduler that the current thread is willing to yield its
+current use of a processor.
+- join - Allows one thread to wait for the completion of another.
+- interrupt - An interrupt is an indication to a thread that it should stop what it is
+doing and do something else —> lnterruptedException
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Stopping a Thread
+
+- Athread dies naturally whenever its run method
+finishes its execution.
+
+' :lllleGﬂdTS-t-Gp — The thread is forced to stop whatever it is doing
+abnormally and to throw a newly created ThreadDeath object as an
+exception. Deprecated —> This method is inherently unsafe...
+
+' Killing it softly — Use a control variable to indicate that the
+target thread should stop running.
+public class MyThread extends Thread {
+
+public boolean running = true;
+public VOid run() { MyThread t I new MyThread();
+while (running) { _"
+--- // Time to die.
+} t.setRunning(false);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Interrupting a Thread
+It is not the same thing as stopping the thread
+- Blocking method - takes a long time to run
+— involves invocation of sleep(), wait(), join()
+— should be canoe/able
+- Every thread —> interrupted status property.
+Thread t I new Thread() {
+public void run() {
+try t
+while(true) {
+//Perform some operation, wait lO seconds
+Thread.sleep(1000O);
+t
+} catch (InterruptedException e) {System.err.println(ex);}
+//Continue execution ...
+t
+};
+t.start();
+t:interrupt(); // you should do something else
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Synchronized Collections
+- Most of the “traditional” classes describing collections
+—!
+— For example, if we look in ArrayList source:
+public boolean add(E e) { m }
+— Adding data in the list from two concurrent threads
+may result in: ConcurrentModiﬁcationException
+' “Old” collections, like Vector, Stack are thread-safe:
+public synchronized boolean add(E e) { m }
+- Collections.synchronizedList (or Set, Map, etc) returns
+a thread-safe list backed by the specified list (a proxy).
+List<String> sync I Collections.synchronizedList(list));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+java.ut|l.concurrent Collections
+
+- A synchronized collections becomes thread-safe by
+locking the entire collections, using synchronized
+methods. (or blocks)
+
+- Exemples of concurrent collections:
+
+— CopyOnWriteArrayList, CopyOnWriteArraySet,
+BlockingQueue, ConcurrentHashMap, etc.
+
+- Thread-safety is implemented in a more refined manner.
+For example, in CopyOnWriteArrayList all mutative
+operations (add, set, etc) are implemented by making a
+new copy of the underlying array. Read is concurrent.
+
+- Another optimisation: dividing the data into segments.
+Different threads can acquire locks on each segment, so
+multiple threads can access the collection at the same
+time (concurrent access).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+- A lock is a tool for controlling access to a shared resource by
+multiple threads. Commonly, a lock provides exclusive access
+to a shared resource: only one thread at a time can acquire the
+lock and all access to the shared resource requires that the lock
+be acquired first. However, some locks may allow concurrent
+access to a shared resource, such as the read lock of a
+ReadWriteLock.
+
+class X {
+private final Lock lock = new ReentrantLock();
+//
+public void m() l
+lock.lock(); // block until condition holds
+try {
+//... access the resource protected by this lock
+} finally {
+lock.unlock()
+}
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Synchronizers
+- More sophisticated instruments dedicated for
+threads that must collaborate with each other.
+' A replacement for synchronized, wait-notify, join
+in various standard situations.
+
+— Semaphore: maintains a set of permits; often used
+to restrict the number of threads than can access
+some (physical or logical) resource
+
+— CyclicBarrier: allows a set of threads to all wait for
+each other to reach a common barrier point.
+
+— etc.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Thread Pool Executors
+Improving performance when executing large numbers of asynchronous tasks
+
+- Allocating and deallocating many thread objects creates a
+significant memory management overhead.
+
+- Instead of starting a new thread for every task to execute
+concurrently, the task can be passed to a thread pool.
+ThreadPoolExecutor executor I
+
+(ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+for (int i I O; i <2 5; i++) {
+Runnable task I new Runnable() {
+public void run() {
+System.out.println("Doing a task..."); {tﬂééﬁﬁdﬁﬁ
+execu or.execu e as ,‘
+executor . shutdown (); ‘é w;
+corePoo/Size, maximumPoo/Size, keepA/iveTime —> mi
+BlockingQueue<Runnable> woerueue
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Fork/Join
+Taking advantage of multiple processors
+- Designed for work that can be broken into smaller
+pieces recursively and distributed to worker threads
+if (my portion of the work is small enough)
+do the work directly
+else
+split my work into two pieces
+invoke the two pieces and wait for the results
+- Uses a work-stealing algorithm.
+All threads in the pool attempt to find and execute
+tasks submitted to the pool and/or created by other
+active tasks (eventually blocking waiting for work if
+none exist). This enables efficient processing when
+most tasks spawn other subtasks, as well as when
+many small tasks are submitted to the pool from
+external clients.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Usmg ForkJomPool
+public class ForkFind extends RecursiveAction {
+private final int[] numbers;
+private final int start, length, target;
+public ForkFind(int[] numbers, int start, int length, int target) {
+}
+protected void computeDirectly() {
+for (int i = start; i < start + length; i++) {
+if (numbers[i] == target)
+System.out.println("Found it at position: " + i);
+}
+}
+@Override
+protected void compute() {
+if (length < lOOO) { computeDirectly(); return; }
+int split = length / 2;
+invokeAll(
+new ForkFind(numbers, start, split, target),
+new ForkFind(numbers, start + split, length — split, target));
+}
+} int numbers[] = new int[l_OOO_OOO]; int target = l;
+numbers[500_OOO] = target;
+ForkFind ffind = new ForkFind(numbers, O, numbers.length, target);
+ForkJoinPool pool = new ForkJoinPool();
+pool.invoke(ffind);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:32**************
+Thread Local
+- ThreadLocal variables that can only be read and
+written by the same thread. Even if two threads are
+executing the same code, the two threads cannot see
+each other's ThreadLocal variables.
+public static class MyRunnable implements Runnable {
+private ThreadLocal threadLocal = new ThreadLocal();
+@Override
+public void run() {
+threadLocal.set( (int) (Math.random() * lOO) );
+System.out.println(threadLocal.get());
+}
+public static void main(String args[]) {
+MyRunnable shared = new MyRunnable();
+Thread threadl I new Thread(shared);
+Thread thread2 I new Thread(shared);
+threadl.start();
+thread2.start();
+} Each thread has its own, independently initialized copy of the
+variable.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+class Producer extends Thread {
+private DataOutputStream out;
+public void run() {
+Producer 9
+out _ writeInt (i) ; wr1te() Pip1=.d0u’cputStream""'as
+} ':
+class Consumer extends Thread { i
+private DatalnputStream in; Consumer ‘ X’,
+public void run () { read() 4___ PipedInputStream ‘.v'
+value = in.readInt();
+}
+}
+//A piped output stream can be connected to a piped input stream
+PipedOutputStream pipeOut = new PipedOutputStream();
+PipedInputStream pipeIn I new PipedInputStream(pipeOut);
+DataOutputStream out I new DataOutputStream(pipeOut);
+DataInputStream in I new DataInputStream(pipeIn);
+new Producer(out).start();
+'nnvsr nnn011mnvl-in\ 01-31/“I-l\ o
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+Concurrency |n Swmg
+
+- JVM initially starts up with a single non-daemon thread,
+which typically calls the main method of some class.Once
+an application creates and displays a Component a new
+thread is created —> The Event Dispatch Thread
+Thread[] threads I new Thread[Thread.activeCount()];
+Thread.enumerate(threads);
+System.out.println(Arrays.toString(threads));
+
+// s [Thread[main,5,main], Thread[AWT-EventQueue-O,6,main]]
+
+- Swing event handling and most code that invokes Swing
+methods run on this thread, including the invocations to
+paint or update.
+
+- When creating animations or complex drawings, time-
+consuming operations should be done in a separate thread
+and not in the EDT —> Don't block the GUI
+
+- Swing components should be accessed on the EDT only.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+I
+Don t Block The GUI
+- When creating animations or drawing complex figures,
+time-consuming operations should be done in a
+separate thread.
+- Wrong
+public void paint(Graphics g) {
+// Complex calculations
+}} Drawing //In another thread
+} public void run() {
+o Correct // Complex calculations
+public void paint(Graphics g) { component.repaint();
+// Drawing }
+}
+' Swing offers support for performing lengthy GUI-
+interaction tasks in a background thread
+SwingWorker, SwingUtilities.invokeLater,
+
+***************Ending Page***************
+

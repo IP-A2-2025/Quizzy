@@ -1,0 +1,677 @@
+***************Beginning Page***************
+***************page number:1**************
+1.
+Introduction to Support Vector Machines
+Starting from slides drawn by Ming-Hsuan Yang and
+Antoine Cornuéjols
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+SVM Bibliography 2-
+
+B. Boser, I. Guyon, V. Vapnik, “A training algorithm for
+optimal margin classifier”, 1992
+
+C. Cortes, V. Vapnik, “Support vector networks”. Journal of
+Machine Learning, 20, 1995.
+
+V. Vapnik. “The nature of statistical learning theory”.
+Springer Verlag, 1995.
+
+C. Burges, “A tutorial on support vector machines for pat-
+tern recognition” . Data Mining and Knowledge Descovery,
+2(2):955-974, 1998.
+
+N. Cristianini, J. Shawe-Taylor, “Support Vector Machines
+and other kernel-based learning methods”. Cambridge
+University Press, 2000. Andrew Ng, “Support Vector Ma-
+chines”, Stanford University, CS229 Lecture Notes, Part
+V.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+3.
+SVM — The Main Idea
+Given a set of data points which belong to either of two classes,
+ﬁnd an optimal separating hyperplane
+- maximizing the distance (from closest points) of either
+class to the separating hyperplane, and
+- minimizing the risk of misclassifying the training samples
+and the unseen test samples.
+Approach: Formulate a constraint-based optimisation prob-
+lem, then solve it using quadratic programming (QP).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+4.
+Optlmal Separatlon Hyperplane
+\
+\
+~imfmal \ ' .
+margin \
+O M‘ \ \ \ xxx‘
+X ‘Iiiﬁliiiammg
+valid separating
+hyperplane
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+5.
+Plan
+1. Linear SVMs
+The primal form and the dual form 0f linear SVMs
+Linear SVlVls with soft margin
+2. Non-Linear SVMs
+Kernel functions for SVlVIs
+An example 0f non-linear SVM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+6.
+1. Linear SVMs: Formalisation
+
+Let S be a set of points :L'Z- 6 Rd with i I 1, . . .,m. Each point
+51:2- belongs to either of two classes, with label yz- E {—1,+1}.
+
+The set S is linear separable if there are w € Rd and 1110 € R
+such that
+
+y¢(w-:1:Z-+w0)21 i:1,...,m
+
+The pair (10,100) deﬁnes the hyperplane of equation w-zv+w0 I O,
+named the separating hyperplane.
+
+The signed distance d2- of a point :52- to the separating hyper-
+plane (w,w0) is given by dz’ : W.
+
+It follows that yidz' Z m, therefore m is the lower bound on
+the distance between points 5132- and the separating hyper-
+plane (211,100).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+Optimal Separating Hyperplane
+Given a linearly separable set S, the optimal separat-
+ing hyperplane is the separating hyperplane for which
+the distance to the closest (either positive or negative)
+points in S is maximum, therefore it maximizes m.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+geometric
+margm
+m) = 0 .\ . M)”
+>m“m\ DU‘: ) o 0
+© vectors
+maximal .
+margm ‘
+o o
+o ~~ w
+o o o \\D(x) = 1
+D06) : —1 011;}; esrgﬁlttlzgging
+D(x) I w - a? + wO
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+9.
+Linear SVlVIs: The Primal Form
+minimize aha‘?
+subject to y/L-(w-xZ-wLwO) Z 1 for i : 1,...,m
+
+This is a constrained quadratic problem (QP) with d + 1 pa-
+rameters (w 6 Rd and wo € R). It can be solved by quadratic
+optimisation methods if d is not very big (103).
+
+For large values of d (105): due to the Kuhn-Tucker theorem,
+since the above objective function and the associated con-
+straints are convex, we can use the method of Lagrange
+multipliers (cui Z O,i : 1, . . .,m) to put the above problem
+under an equivalent “dual” form.
+
+NOtei In the dual form, the variables (041-) will be subject to much simpler
+constraints than the variables (10,100) in the primal form.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Q Q 1 .
+L1near SVMs: Gettlng the Dual Form 0
+The Lagrangean function associated to the primal form of the
+given QP is
+1 m
+LP<w,w0,@> z 3M — Zeta-(w - + we — 1)
+1:1
+with 042- 2 0,2' : 17 . . . , m. Finding the minimum of LP implies
+dLP m
+— I — 1' 2‘ I 0
+6L m m
+—P I w — Zyz'oqilh I 0 :> w I 2%011'972'
+8w 1:1 1:1
+h @Lp (de @LP)
+w ere — : — —
+@w @101 ’ 7 dwd
+By substituting these constraints into LP we get its dual form
+m 1 m m
+[10(04): 2041; — 5 22 aiajyiyj $1; ' $9‘
+2'21 izljzl
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+11.
+Linear SVlVIs: The Dual Form
+maximize ZZZ-ll cvz- — %Z§ll 2;”:1 ozZ-ozij-yj 510,; - :13]-
+subject to 21-11 yiozz- I O
+The link between the primal and the dual form:
+The optimal solution (mm) of the primal QP problem
+is given by m
+w I Z @zyﬂz
+2:1
+@Z-(yZ-(w-xz- +WO) — 1) I O for any i:1,...,m
+where @Z- are the optimal solutions of the above (dual
+form) optimisation problem.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12.
+Support Vectors
+
+The only @- (solutions of the dual form of our QP problem)
+that can be nonzero are those for which the constraints
+y¢(w - :62- + wO) Z 1 for 21 I 1, . . .,m in the primal form of the
+QP are satisﬁed with the equality sign.
+
+Because most @2- are null, the vector w is a linear combination
+of a relative small percentage of the points xi.
+
+These points are called support vectors because they are the
+closest points to the optimal separating hyperplane (OSH)
+and the only points of S needed to determine the OSH.
+
+The problem of classifying a new data point a: is now simply
+solved by looking at sigmw - 90 + E0).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+13.
+
+Linear SVlVls with Soft Margin
+
+If the set S is not linearly separable — or one simply ignores
+
+whether or not S is linearly separable —, the previous
+
+analysis can be generalised by introducing m non-negative
+(“slack”) variables 51;, for 2' I 1, . . . , m such that
+yi(w-a;i+w0)21—§i, fori:1,...,m
+
+Purpose: to allow for a small number of missclassiﬁed points,
+
+for better generalisation or computational efficiency.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+l4.
+Generalised OSH
+The generalised ()SH is then viewed as the solution to the problem:
+minimize éHwHQ —|— 021-1151‘
+subject to yﬂw-zvz- +1110) Z 1 —§LL- for i I 1,...,m
+5L- 20 fori:1,...,m
+The associated dual form:
+subject t0 21-11 yZ-oq I O
+As before:
+w I 221 @yiili'i
+mil/W ' $1‘ + @0) — 1 +50 I 0
+(C _ 5i) 51' I 0
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+15.
+The role of C:
+it acts as a regularizing parameter:
+o large C :> minimize the number 0f misclassiﬁed
+points
+0 small C :> maximize the minimum distance m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+16.
+2. Nonlinear Support Vector Machines
+
+0 Note that the only way the data points appear in (the dual form of)
+the training problem is in the form of dot products x2- . 5133-.
+
+0 In a higher dimensional space, it is very likely that a linear separator
+can be constructed.
+
+0 We map the data points from the input space Rd into some space of
+higher dimension R" (n > d) using a function (I) : Rd —> R"
+
+0 Then the training algorithm would depend only on dot products of
+the form @(xz) - @(xj).
+
+o Constructing (via (1)) a separating hyperplane with maximum margin
+in the higher-dimensional space yields a nonlinear decision boundary
+in the input space.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+17.
+General Schema for Nonlinear SVMs
+n
+|:|
+n
+o n
+o n
+x O (I) I y
+Input Output
+space space
+O
+|:|
+n
+Internal
+redescription
+space
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+18.
+Introducing Kernel Functions
+
+o But the dot product is computationally expensive...
+
+o If there were a “kernel function” K such that K (337;,atj) I
+@(xz) -<l>(:rj), we would only use K in the training algorithm.
+
+o All the previous derivations in the model of linear SVM
+hold (substituting the dot product with the kernel func-
+tion), since we are still doing a linear separation, but in a
+different space.
+
+o Important remark: By the use of the kernel function, it
+is possible to compute the separating hyperplane without
+explicitly carrying out the map into the higher space.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+19.
+Some Classes of Kernel Functions for SVlVls
+o Polynomial: K($, x’) I (a: - x’ + c)q
+o RBF (radial basis function): K(x, at’) I {HZ-52"
+o Sigmoide: K(:13, at’) I tanhﬁm - 5L" — b)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+. 20.
+An Illustration
+E]
+El [1 El El E1 [1E] [1
+E] U [1 [1 [15 [IUD [1 [1
+El [1 [1 E] E] [1
+[1D DUUDDE] E] E] I I I I. [In
+El E] . . I El
+I I. El DE] U I o o o El [1
+I I DUDE] E] o 00 o . In
+o..o'o ‘Elmo Elm-'0 oO 0-D
+o o 0000 I [1 I OO o 0
+000000 . I DE] O OO Q IE]
+O o O Oo O o E] I o . . I
+OOOOO . I El El El I El El
+o O o 0° . I El El El. I I I U [1
+000000. IE] UUUUUUUUUU
+0. o no o c1 U
+(a) (b)
+Decision surface
+(a) by a polynomial classiﬁer, and
+(b)byaRBF.
+Support vectors are indicated in dark ﬁll.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+21.
+Important Remark
+The kernel functions require calculations in :1:(€ Rd), therefore
+they are not difficult to compute.
+It remains to determine which kernel function K can be as-
+sociated with a given (redescription space) function (l).
+In practice, one proceeds vice versa:
+we test kernel functions about which we know that they
+correspond to the dot product in a certain space (which
+will work as redescription space, never made explicit).
+Therefore, the user operates by “trial and error”...
+Advantage: the only parameters when training an SVlVI are
+the kernel function K, and the “tradeoff” parameter C.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+Mercer’s Theorem (1909):
+A Characterisation of Kernel Functions for SVMs
+Theorem: Let K : Rd >< Rd e R be a symmetrical function.
+K represents a dot product,
+i.e. there is a function (I) : Rd —> R” such that
+if and only if
+/ K(:1:, at’) m) f(:1:’)d:1: d$l 2 0
+for any function f such that f f2(x)dx is ﬁnite.
+Remark: The theorem doesn’t say how to construct (I).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+23.
+Some simple rules for building (Mercer) kernels
+If K1 and K2 are kernels over X >< X, with X Q R",
+then
+0 K(a:,y) I aK1(:z:,y), with a € R+
+are also kernels.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+24.
+Illustrating the General Architecture of SVlVls
+for the problem of hand-written character recognition
+Output: siganl- oriyiKQci, x) + 100)
+” I \“\
+O‘1 ‘\f14
+Comparison: K(xZ-,x)
+Support vectors: 51:1, 3:2, x3, . . .
+Input: a:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+25.
+An Exercise: xor
+x2
+
+O 1 I
+
+-1 1 x1
+
+I -1 O
+Note: use K($,x’) : (a: ~ x’ + 1)2.
+It can be easily shown that @(w) I (xi 513%, @931902, @901, @352, 1) € R6 for
+a: I (51:1,x2) E R2.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+1 (1,1) _1 (1, 1,\/§, (ﬁn/i, 1)
+3 (-1, 1) 1 (1, 1, _\/§, -\/§,\/§, 1)
+4 (—1,—1) —1 (1, 1,\/§, —\/§, —\/§, 1)
+LBW) I 221:1 04,- — $22121 23:1 @104lein @(5132') ' @(931')
+I 041+042+043+044—
+—%( 904% — 2041042 — 2041043 + 2a1a4+
+904% + 2042043 — 2a2a4+
+904% — 2a3a4+
+9043)
+subject to:
+—Od1+052+043—054:0
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+M3%a(104):0<i>9041—042—043+044:1
+%:0@a1—9042—043+044:—1
+m8%.éa):0<:>0z1—042—9043+044:—1
+815%.:106):0<:>061—CE2—063+9064:1
+541:542z543I544zé
+m I %(_@(5131) + @($2) + @(1133) _ M5134» I i0), 0, —4\/§, O, O, 0)
+The optimal separation hyperplane: 2D - @(x) + 150 : 0 <:> —a:1$2 I O
+Test: sign (—x1552)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+28.
+The xor Exermse: Result
+Input space Feature space
+D(x1’ x2) = -x1 x2 D(X1, X2) =-W2 X1X2
+x2 \/§x1x2
+2 ‘I: x“ 2
+I-I- D(X1,XQ)=-1
+1 ,Q i~~ 1 maximum
+D(X1,X2):+1 (X1 )9)=‘5~____ D(X1,X2)=-1 marginn/E
+0 ’ D(X1,x2)=0 0 A D(X1,)@)=0
+D(X1’X2)='1l-"‘~_~ ,"""' D(X1,X2):+1
+-1 ~~I O" —1
+\x ," v D(X1, X2):+1
+-2 -2
+-2 -1 o 1 2 x1 -2 —1 0 1 2 VEX1
+Q
+3?
+i
+Q
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+29.
+Concluding Remarks: SVM — Pros and Cons
+Pros:
+o Find the optimal separation hyperplane.
+o Can deal with very high dimentional data.
+o Some kernels have inﬁnite Vapnik-Chervonenkis dimension (see
+Computational learning theory, ch. 7 in Tom Mitchell’s book), which
+means that they can learn very elaborate concepts.
+o Usually work very well.
+Cons:
+o Require both positive and negative examples.
+o Need to select a good kernel function.
+o Require lots of memory and CPU time.
+o There are some numerical stability problems in solving the con-
+strained QP.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+30.
+Multi-class Classiﬁcation with SVlVI
+
+SVlVls can only do binary classiﬁcation.
+
+For M classes, one can use the one-against-the-rest approach:
+construct a hyperplane between class k and the M —1 other
+classes. :> M SVMs.
+
+To predict the output of a new instance, just predict with each
+of these M SVlVIs, and then ﬁnd out which one puts the
+prediction furthest into the positive region of the instance
+space.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+31.
+SVM Implementations
+. SVMlight
+o LIBSVM
+0 mySVM
+0 Matlab
+0 Huller
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+The SMO (Sequential Minimal Optimization) algorithm 32'
+John Pratt, 1998
+Optimization problem:
+moax Wm) I 2 az- — 5 Z ZyZ-yjozZ-ozjxi -xj . _1
+1:1 1:1 3:1 .. r
+s.t. OgoziﬁC,z':1,...,m
+m _.
+Z 041%‘ I 0-
+1:1 '2 '
+Algorithm: '2 .1 ‘I I 2 h
+Andrew Ng, Stanford, 2012 fall,
+
+Repeat till convergence { ML course, Lecture notes 3.
+
+1. Select some pair 042- and aj to update next (using a heuristic that tries to
+pick the two that will allow us to make the biggest progress towards the
+global maximum).
+
+2. Reoptimize W(a) with respect to oz,- and aj, while holding all the other aﬁs
+(k 75 i,j) ﬁxed.
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+33.
+Update equations:
+a
+Oglew, unclzpped I 043' _ yj(Ei7-Ej)
+H if 0437-1810’ unclzpped > H
+new clz' ed ' '
+043- 7 PP I 0651610, unclzpped if L g Odjnew, unclzpped S H
+L if 043.1611), unclzpped < L
+o where
+Ekzw'33k+w0_yk
+n:—u%—ww
+L I maX(O, 043- — 04¢) §i H : min(C, C —|— 043- — aj) if yz- 75 y]-
+L I maX(O, cvj —|— 042- — C) §i H I min(C, aj + 049-) if yd I yj
+0
+we") I a?” + MW?” - @961”)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+Assume that 042,042 are the free dual variables, and let the i and j indices be
+used to index other variables.
+a, : C a, : C
+a, : {1 a, : {1
+)11i}13=‘=r£11—£11:? _1-‘]:}-‘3;‘*[11+E11:]/
+
+Credit: John Pratt, Fast training of S VMs using Sequential Minimal Optimization, 2000
+The two Lagrange multipliers must fulﬁll all the constraints of the full prob-
+lem.The inequality constraints cause the Lagrange multipliers to lie in the
+box. The liniar equality constraint causes them to lie on a diagonal line.
+Thefore, one step of SMO must ﬁnd an optimum of the objective function on
+a diagonal line segment. In this ﬁgure, 'y I alold + sagald, is a constant that
+depends on the previous values of 041 and 042, and s I glyg.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+Proof
+[following N. Cristianini and J. Shawe-Taylor,
+An introduction to SVM, 2000, pag. 138-140]
+The objective function:
+W011, 042, - - - 7 04m) I 2211 04¢ — é 2:11 23-11 yiyjolioljxi ‘1'21
+not. m 2 -
+v1- : (21:3 yjajajj) 'I'Ji : 18%) — 21:1 yjoljxj ‘931' for Z I 1> 2
+:> W(a1, 042) I a1 + 042 — éoﬁx? — @393; — ylygalagxl -:v2 — yloqvl — ylagvg + const
+From
+221 yioq I 0 i alold —|— 0420M I 041161” —|— age/w I 7 (another constant)
+i a?” I a?” + mm?” - @5161")
+not.
+8 I yly2
+i W(a2) I 'y — $042 + 042 — éw — 5042)2:13% — éozgxg
+—Zy1y2$1 ‘5132(7 — 5042)Oﬁ2 — 9101(7 — 5042) — y2v2042 + 6011815
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+36.
+(9ng? I —s+1+%x%25('y—5042) — %x%2042
+—?J1y2($1'5132)7 + 2y1y2($1 -$2)5012 + {91015 — U202
+I —s + 1 —|— 33%(57 — 042) — 3133042 — s'yxi — s'y (x1 - £132) + lelS — ygvg
+Finding the stationary point:
+8%? I O I> age'w, unclzppedhjg + 313% — 2x1 ‘$132) I 1 — 3 —|— 75513? — 75(w1-x2)+ ygvl — ygvg
+1 — 8 + 19$? — W$(1111'$2)+ y2v1 — y2v2 I 92(y2 — yl + W1C”? — 1'31'5132)+ "01 — ‘02)
+111 — 112 I f(5v1) — ylozloldati — yQOéZOld331'5U2
+—f($2) + yloliﬂdxl ‘$2 + y20420ld$g
+I f($1) — ylW — SOQOldﬁE? — wagldflil ‘$2
+—f($2) + ylW — mgldﬂl $2 + magldﬂig
+1 _ 2 _ _ _ I _ old 2 _ old _
+5 + V5931 v5 ($1 $2) + yzvl Q2112 y2(y2 y1 + f($1) + @18042 $1 92042 $1 $2
+—f($2) — ylsagldxl ‘IE2 + 920120ld933)
+I y2(f(:v1) — yl — f($2) + @2)
+_ I 1/2021 — E2) + @gld<x% + mg _ 2561 .352)
+:> age'w, unclzppedw? + $3 _ 2x1 m2) I y2(E1 _ E2) + 0420ld(x% + mg _ 2x1 -x2)
+:> age'w, unclz'pped : agld _ y2(E17—E2)
+
+***************Ending Page***************
+

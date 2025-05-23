@@ -1,0 +1,449 @@
+***************Beginning Page***************
+***************page number:1**************
+O.
+Reinforcement Learning
+Based on “Machine Learning”, T. Mitchell, McGRAW Hill, 1997, ch. 13
+Acknowledgement:
+The present slides are an adaptation of slides drawn by T. Mitchell
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+1.
+Reinforcement Learning — Overview
+
+o Task: Control learning
+make an autonomous agent (robot) to perform actions, ob-
+serve consequences and learn a control strategy
+
+o The Q learning algorithm — main focus of the chapter
+acquire optimal control strategies from delayed rewards,
+even when the agent has no prior knowledge of the effect
+of its actions on the environment
+
+o Reinforcement Learning is related to dynamic program-
+ming, used to solve optimization problems.
+While DP assumes that the agent / program knows the ef-
+fect (and rewards) of all its actions, in RL the agent has
+to experiment in the real world.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Reinforcement Learning Problem 2'
+m Target function: 7T : S —> A
+State
+/ Reward Goal:
+Action . .
+, maX1mlze
+a0 a1 a2 where O g y < l
+Example: play Backgammon (TD-Gammon [Tesauro, 1995])
+Immediate reward: +100 if win, -100 if lose, O otherwise
+Other examples: robot control, flight/taxy scheduling, opti-
+mizing factory output
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+3.
+Control learning characteristics
+o training examples are not provided (as < s, 7T(S) >);
+the trainer provides a (possibly delayed) reward (<5, a}, r}
+o learner faces the problem of temporal credit assignment:
+which actions are to be credited for the actual reward
+o especially in case of continuous spaces there is an opportu-
+nity for the learner to actively perform space exploration
+o the current state may be only partially observable;
+the learner must consider previous observations to improve
+the current observability
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+4.
+Learning Sequential Control Strategies
+Using Markov Decision Processes
+0 assume a ﬁnite set of states S and the set of actions A
+o at each discrete time t the agent observes the state st € S
+and chooses an action at € A
+o then it receives an immediate reward rt
+and the state changes to 5t+1
+o the Markov assumption: 5t+1 : 5(st, at) and rt : ﬁst, at)
+i.e., rt and 5t+1 depend only on the current state and action
+0 the functions 5 and r may be non-deterministic;
+they may not necessarily be known to the agent
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+5.
+Agent’s Learning Task
+Execute actions in environment, observe results, and
+learn action policy 7T : S e A that maximizes
+Eh“, —|— yrtlrl + *yzrtlrg —|— . . .]
+from any starting state in S;
+y € [0,1) is the discount factor for future rewards.
+
+Note: In the sequel, we will consider that the actions are
+taken in a deterministic way, and show how the prob-
+lem can be solved. Then we will generalize to the non-
+deterministic case.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+The Value Function V 6-
+For each possible policy 7T that the agent might adopt,
+we can deﬁne an evaluation function over states
+V”(s) E rt + yrt+1 + y2rt+2 + E Z wimp;
+1:0
+with rt, n+1, . . . generated acording to the applied policy 7T start-
+ing at state s. Therefore, the learner’s task is to learn the
+optimal policy 7T*
+7T* E argmax V”(s), (Vs)
+Note: V”(s) as above is the discounted cumulative reward.
+Other possible deﬁnitions for the total reward are:
+o the ﬁnal horizon reward: 2?:0 n+2-
+0 the average reward: limhnoﬁ ZZZ-1:0 13H
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Illustrating the basic concepts of Q-learning: 7‘
+A simple deterministic world
+0
+100
+(Q G
+0
+0
+100
+0
+r(s,a) (immed. reward) values an optimal policy
+Legend: state E location, —>E action, G E goal state
+G is an “absorbing” state
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+8.
+Illustrating the basic concepts 0f Q-learning
+(Continued)
+O
+9o 100
+81
+72 81
+81 9o 100
+81 9O
+81 100
+72 81
+V*(s) values 62(5, a) values
+How t0 learn them?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+9.
+The VH Function:
+the “value” of being in the state s
+What to learn?
+o We might try to make the agent learn the evaluation func-
+tion ka (which we write as V*)
+o It could then do a lookahead search to choose the best
+action from any state s because
+7T*(s) I argmax[r(s, a) + yV*(5(s, am
+Problem:
+This works ifthe agent knows 5 : S><A e S, and r : S><A e ER
+But when it doesn’t, it can’t choose actions this way
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+10.
+The Q Function [Watkins, 1989]
+Let’s deﬁne a new function, very similar to V*
+62(8701)E N8, a) + VV*(5(57 60)
+
+Note: If the agent can learn Q, then it will be able choose the
+
+optimal action even without knowing 6:
+
+7T*(s) I argmax[r(s,a) +WV*(5(s,a))]
+: argmaXQ(s, a)
+
+Next: We will show the algorithm that the agent can use to
+
+learn the evaluation function Q
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+11.
+Training Rule to Learn Q
+
+Note that Q and V* are closely related: V*(s) I maxa/ Q(s, a’).
+That allows us to write Q recursively as
+
+Q<5t7 at) I 7151:, at) + VV*(5(5@ at»)
+
+I ﬁst, at) + yrnaaXQ(st+1, a’)
+Let Q denote the learner’s current approximation to Q.
+Consider the training rule
+Q(s, a) e 1" + ymaxQQs’, a’)
+CL
+
+Where s’ is the state resulting from applying the action a in
+the state s.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+_ _ 12.
+The Q Learnlng Algorlthm
+The Deterministic Case
+Let us use a table S >< A to store the Q values.
+
+o For each s, a initialize the table entry Q(s, a) <— 0
+o Observe the current state s
+o Do forever:
+
+— Select an action a and execute it
+
+— Receive immediate reward r
+
+— Observe the new state s’
+
+— Update the table entry for Q(s, a) as follows:
+
+Q(S, a) s 7" + vmaXQ(5’, a’)
+— s e 5’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Iteratively Updating Q 13'
+Training as a series of episodes
+72 100 100
+R R
+63 63
+81 81
+—>
+Initial state: S1 Next state: S2
+Q<51, @m'ght) P 7“ + v maaXQ(52, a’)
+<— O + 0.9 1tnaX{63,817 100}
+e 90
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+14.
+Convergence of Q Learning
+The Theorem
+
+Assuming that
+
+1. the system is deterministic
+
+2. r(s,a) is bound, i.e dc such that |r(s,a)\ g c, for all s,a
+
+3. actions are taken such that every pair < s, a > is visited
+
+inﬁnitely often
+
+then Qn converges to Q.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Convergence of Q Learning 15'
+The Proof
+
+Deﬁne a full interval to be an interval during which each (s,a> is visited.
+We will show that during each full interval the largest error in Q table is
+reduced by the factor y.
+Let the maximum error in Qn be denoted as An I maxw IQan, a) — Q(s, a)’.
+For any table entry Qn(s,a) updated on iteration n + 1, the error in the
+revised estimate Qn+1(s, a) is
+|Qn+1<ea> — Q<ee>| z w +imanQn<ecw>> — (T +imae><Q<scw>>|
+
+: 7| max Qn(s’, a’) — maXQ(s', a’)|
+
+S "imaaX |Qn(8’, a’) — 62(8’, a’)| S ﬁg? IQAS”, a’) — 62(8”, 41>)
+(We used the general fact that | maxa f1(a) —Il’l&Xa f2(a)| g maXa |f1(a) —f2(a)].)
+Therefore |Qn+1(s, a) _ Q(s, a)| g VA”, which implies AM g yAn.
+It follows that {A}n€N is convergent (to O) and so limnhooQWs, a) I Q(s, a).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Experimentation Strategies 16-
+Let us introduce K > 0 and deﬁne
+P(a2'ls) : —A
+2]‘ KQQSM)
+If the agent choose actions according to probabilities P(a7lls),
+then
+for large values of K the agent can exploit What it has
+learned and seek actions it believes will maximize its re-
+ward;
+for small values of K the agent will explore actions that do
+not currently have high Q values.
+Note: K may be varied with the number of iterations.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+17.
+Updating Sequence — Improve Training Efﬁciency
+
+1. Change the way Q values are computed so that during
+one episode as many as possible values (Q(s, a)) along the
+traversal paths get updated.
+
+2. Store past state-action transitions along with the received
+reward and retrain on them periodically;
+if a Q predecessor state has a large update, then it is very
+possible that the current state get updated too.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+18.
+The Q Algorithm — The Nondeterministic Case
+When the reward and the next state are generated in a non-
+deterrninistic way,
+the training rule Q e r —|— ymaxa/ Q(s’, a’) would not converge.
+We redeﬁne V and Q by taking the expected values:
+V”(s) E EM + vrt+1 —|— 7213” + . . .] E E[Z virtﬂ]
+2:0
+62(8, a) E EWs, a) + VV*(5(5> a))] E EMS’ CO] + WEN/“Ms, am
+E EWSUQH +WZP(8'!8,@)V*(S')
+E van +"YZP(8’!S,@)H1§XQ(5C@’)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+19.
+Q Learning — Nondeterministic Case (Cont’d)
+
+The training rule:
+
+Qn(s, a) H (1 — an)Qn_1(s, a) + 0M7” + 'ymaax Qn_1(5’7 a/)]
+Where an can be chosen as an I m
+with visitsn(s,a) being the number of times the pair < s,a >
+has been visited up to and including the n-th iteration.
+Note: if an e 1 we get the deterministic form of updating 2Q).
+Key idea: revisions to Q are made now more gradually than
+in the deterministic case.
+Theorem [Watkins and Dayan, 1992]: Q converges to Q.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Temporal Difference Learning 20'
+Q Learning reduces discrepancy between Q successive esti-
+mates:
+
+Q(1)(st, at) E 71+ ymcax Q(st+1, a)
+
+Why not two, ..., or n steps?
+In some settings, this is more convenient:
+
+Q(2)(st, at) E ‘rt + vrt+1 + V2 mCaXQ(st+2, a)
+
+Q(n)(5t> at) E Tt + VTt+1 + ' ' ' + V(n_1)7“t+n—1 + V” mgXQ(8t+n, a)
+
+Temporal Difference Learning (TD) blends all of these:
+QA(51:,@1:) E (1 — A) lQ(1)(5t> at) + AQQNSm at) + AZQQNSI?» at) + ' ' l
+Note that Q0(St, at) I Q(1)(St, at);
+as A increases, more emphasis is put on more distant steps.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+21.
+Temporal Difference Learning (Cont’d)
+
+oyst, at) E (1 _ A) [Q<1>(St,at) + AQ(2)(st, at) + A2Q(3)(st, at) + . - .]
+
+Equivalent expression:
+QVSY» at) E lat + "7K1 _ A) H15“ 620% at) + A QA(515+1, at+1>l
+
+The TD()\) algorithm
+
+o uses the above training rule
+
+o sometimes converges faster than Q learning
+
+o converges for learning V* for any 0 g A g 1 (Dayan, 1992)
+Tesauro’s TD-Gammon uses TD()\) to learn Backgammon
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+22.
+Further Developments
+
+o One can replace the Q table e.g. with a neural net to learn
+Q values for an unseen pair <s,a> pair based on Q values
+already seen.
+TD-Garnrnon uses does so, but in general the convergence
+is not ensured once a generalizer for learning the Q func-
+tion is introduced.
+
+o Handle the case Where state only partially observable
+
+o Design optimal exploration strategies
+
+o Extend to continuous action, state
+
+oLearn and usengXAeS
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+23.
+Relationship to Dynamic Programming
+When the 5 and r functions are known, dynamic pro-
+gramming algorithms can be used to solve optimisation
+problems more efficiently than Q learning, and in gen-
+eral reinforcement learning.
+See [Kaelbling, 1996] for a survey of such algorithms.
+
+***************Ending Page***************
+
+

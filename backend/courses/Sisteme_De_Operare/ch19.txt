@@ -1,0 +1,1030 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 19:
+Network and Distributed
+Systems
+— —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+“ZZ Chapter 19: D|str| buted Systems
+I Advantages of Distributed Systems
+I Network Structure
+I Communication Structure
+I Network and Distributed Operating Systems
+I Design Issues of Distributed Systems
+I Distributed File Systems
+| Operating System Concepts — 10th Edition 19.2 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+“$5? Chapter Ob jectlves
+I Explain the advantages of networked and distributed systems
+I Provide a high-level overview of the networks that interconnect
+distributed systems
+I Define the roles and types of distributed systems in use today
+I Discuss issues concerning the design of distributed file systems
+| Operating System Concepts — 10th Edition 19.3 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+‘a’? OverVIew
+I A distributed system is a collection of loosely coupled nodes
+interconnected by a communications network
+I Nodes variously called processors, computers, machines,
+hosts
+' Site is location of the machine, node refers to specific system
+' Generally a server has a resource a client node at a different
+site wants to use
+site A site C
+D D
+w Il’GSOUl'CE}SI
+communication
+site B
+I‘ \
+Operating System Concepts — 10th Edition 19.4 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+vol -
+“9" M OverVIew (co nt.)
+I Nodes may exist in a client-server, peer-to-peer, or hybrid
+configuration.
+' In client-server configuration, server has a resource that a
+client would like to use
+' In peer-to-peer configuration, each node shares equal
+responsibilities and can act as both clients and servers
+I Communication over a network occurs through message passing
+' All higher-level functions of a standalone system can be
+expanded to encompass a distributed system
+Operating System Concepts — 10th Edition 19.5 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+8%” Reasons for Distributed Systems
+I Resource sharing
+' Sharing files or printing at remote sites
+' Processing information in a distributed database
+' Using remote specialized hardware devices such as
+graphics processing units (GPUs)
+I Computation speedup
+' Distribute subcomputations among various sites to run
+concurrently
+. Load balancing — moving jobs to more lightly-loaded sites
+I Reliability
+I ' Detect and recover from site failure, function transfer,
+reintegrate failed site
+A
+Operating System Concepts _10m Edition 195 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+we?
+*2» Network Structure
+I Local-Area Network (LAN) — designed to cover small geographical
+area
+' Consists of multiple computers (workstations, laptops, mobile
+devices), peripherals (printers, storage arrays), and routers
+providing access to other networks
+' Ethernet and/or Wireless (WiFi) most common way to construct
+LANs
+> Ethernet defined by standard lEEE 802.3 with speeds typically
+varying from 10Mbps to over 1OGbps
+> WiFi defined by standard lEEE 802.11 with speeds typically
+varying from 11Mbps to over 400Mbps.
+> Both standards constantly evolving
+Operating System Concepts — 10th Edition 19.7 Silberschatz, Galvin and Gaylek @262
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+q»; "if ‘- S
+Local-Area Network (LAN)
+II 1L». ‘ % ‘ v >
+X’ Wireless Access __..
+F! xx Poilnt _ "Q- r
+Operating SYStem Concepts —10th Edition 19.8 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+*2» Network Structure (Cont.)
+I Wide-Area Network (WAN) — links geographically separated sites
+. Point-to-point connections via links
+> Telephone lines, leased (dedicated data) lines, optical cable, microwave
+links, radio waves, and satellite channels
+. Implemented via routers to direct traffic from one network to another
+' Internet (World Wide Web) WAN enables hosts world wide to communicate
+' Speeds vary
+> Many backbone providers have speeds at 40-1OOGbps
+> Local Internet Service Providers (lSPs) may be slower
+> WAN links constantly being upgraded
+' WANs and LANs interconnect, similar to cell phone network:
+> Cell phones use radio waves to cell towers
+> Towers connect to other towers and hubs
+Operating System Concepts -10th Edition 19.9 Silberschatz, Galvin and Gage: @232
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Q‘??? Wlde-Area Network (WAN)
+user processes
+. . Q network host
+communication
+subsystem
+(network)
+II
+u network host
+III II I!‘
+‘.-
+II
+router
+Operating System Concepts — 10th Edition 19.10 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+M Namlng and Name Resolutlon
+I Each computer system in the network has a unique name
+I Each process in a given system has a unique name (process-id)
+I Identify processes on remote systems by
+<host-name, identifier> pair
+I Domain name system (DNS) — specifies the naming structure
+of the hosts, as well as name to address resolution (Internet)
+/**
+* Usage: java DNSLookUp <IP name>
+* i.e. java DNSLookUp www.wi1ey.com
+pzélic class DNSLookUp {
+public static void main(String[] args) {
+InetAddress hostAddress;
+try {
+hostAddress = InetAddress . getByName (args [O] ) ;
+System. out .print1n(hostAddress . getHostAddress ()) ;
+latch (UnknownHostException uhe) {
+System.err.println("Unknown host: " + args [0]);
+}
+}
+}
+Figure 19.4 Java program illustrating a DNS lookup. %
+Operating System Concepts — 10th Edition 19.11 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+“W Communlcatlon Protocol
+The communication network is partitioned into the following
+multiple layers:
+
+I Layer 1: Physical layer — handles the mechanical and
+electrical details of the physical transmission of a bit
+stream
+
+I Layer 2: Data-link layer — handles the frames, or fixed-
+length parts of packets, including any error detection and
+recovery that occurred in the physical layer
+
+I Layer 3: Network layer — provides connections and
+routes packets in the communication network, including
+handling the address of outgoing packets, decoding the
+address of incoming packets, and maintaining routing
+information for proper response to changing load levels
+
+Operating System Concepts — 10th Edition 19.12 Silberschatz, Galvin and GayleA @262
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+“W Communlcatlon Protocol (Cont.)
+
+I Layer 4: Transport layer — responsible for low-level network
+access and for message transfer between clients, including
+partitioning messages into packets, maintaining packet order,
+controlling flow, and generating physical addresses
+
+I Layer 5: Session layer — implements sessions, or process-to-
+process communications protocols
+
+I Layer 6: Presentation layer — resolves the differences in
+formats among the various sites in the network, including
+character conversions, and half duplex/full duplex (echoing)
+
+I Layer 7: Application layer — interacts directly with the users,
+deals with file transfer, remote-login protocols and electronic
+mail, as well as schemas for distributed databases
+
+Operating System Concepts — 10‘h Edition 19.13 Silberschatz, Galvin and GagrleA @262
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+“$5; ;; OSI Network Model
+Logical communication between two computers, with the three lowest-
+Ievel layers implemented in hardware
+computer A computer B
+———
+——=
+———
+———
+I 5 i I
+data-network
+network environment
+OSI environment
+real systems environment
+Operating System Concepts _ 10th Edition 19_14 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+' i’
+,~ OSI Protocol Stack
+end-user application process
+distributed information
+services
+file transfer, access, and management;
+document and message interchange; application layer
+job transfer and manipulation
+syntax-independent message
+interchange service
+transfer-syntax negotiation -
+data-representation transformations presentation layer
+dialog and synchronization .
+control for application entities sessmn layer
+network-independent
+message-interchange service
+end-to-end message transfer
+(connection management, error control, transport layer
+fragmentation, flow control)
+network routing, addressing, network layer
+call set-up and clearing
+data-link control .
+(framing, data transparency, error control) lmk layer
+mechanical and electrical .
+network-interface connections phySIcal layer
+physical connection to
+network termination equipment
+data-communication network I,
+Operating System Concepts -1oth Edition 19.15 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Wt OSI Network Message
+data-link-layer header
+network-layer header
+transport-layer header
+session-layer header
+presentation layer
+application layer
+message
+data-link-layer trailer
+Operating System Concepts — 10th Edition 19.16 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+“29' The OSI model
+
+I The OSI model formalizes some of the earlier work done in
+network protocols but was developed in the late 1970s and is
+currently not in widespread use
+
+I The most widely adopted protocol stack is the TCP/IP model,
+which has been adopted by virtually all Internet sites
+
+I The TCP/IP protocol stack has fewer layers than the OSI
+model. Theoretically, because it combines several functions in
+each layer, it is more difficult to implement but more efficient
+than OSI networking
+
+I The relationship between the OSI and TCP/IP models is
+shown in the next slide
+
+Operating System Concepts — 10th Edition 19.17 Silberschatz, Galvin and Gaylek @262
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+4% é The OSI and TCPIIP Protocol Stacks
+OSI TCP/IP
+
+not defined
+
+not defined
+
+»
+
+not defined
+
+physical not defined
+
+Operating System Concepts — 10th Edition 19.18 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+“W TCP/lP Example
+I Every host has a name and an associated lP address (host-id)
+' Hierarchical and segmented
+I Sending system checks routing tables and locates a router to send
+packet
+I Router uses segmented network part of host-id to determine where to
+transfer packet
+' This may repeat among multiple routers
+I Destination system receives the packet
+' Packet may be complete message, or it may need to be
+reassembled into larger message spanning multiple packets
+|
+Operating System Concepts -10th Edition 19.19 Silberschatz, Galvin and Gage: ©2622:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+em}
+“95* TCPIIP Example (Cont.)
+I Within a network, how does a packet move from sender (host or
+router) to receiver?
+' Every Ethernet/WiFi device has a medium access control
+(MAC) address
+' Two devices on same LAN communicate via MAC address
+. If a system needs to send data to another system, it needs to
+discover the IP to MAC address mapping
+> Uses address resolution protocol (ARP)
+' A broadcast uses a special network address to signal that all
+hosts should receive and process the packet
+> Not fon/varded by routers to different networks
+Operating System Concepts — 10th Edition 19.20 Silberschatz, Galvin and Gagne ©2022;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+‘t6? ;-; Ethernet Packet
+bytes
+7 preamble—start of packet each byte pattern 10101010
+1 start of frame delimiter pattern 10101011
+2 or 6 destination address Ethernet address or broadcast
+2 length of data section length in bytes
+0—1500 - message data
+0—46 pad (optional) message must be > 63 bytes long
+Operating System Concepts — 10th Edition 19.21 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+“W Transport Protocols U DP and TCP
+I Once a host with a specific IP address receives a packet, it must
+somehow pass it to the correct waiting process
+I Transport protocols TCP and UDP identify receiving and sending
+processes through the use of a port number
+P Allows host with single lP address to have multiple server/client
+processes sending/receiving packets
+P Well-known port numbers are used for many services
+> FTP — port 21
+> ssh — port 22
+> SMTP — port 25
+> HTTP — port 8O
+I Transport protocol can be simple or can add reliability to network
+packet stream
+Operating System Concepts — 10th Edition 19.22 Silberschatz, Galvin and Gagne @202‘;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+“>6 User Datag ram Protocol
+I UDP is unreliable — bare-bones extension to IP with addition of
+port number
+' Since there are no guarantees of delivery in the lower network
+(IP) layer, packets may become lost
+' Packets may also be received out-out-order
+I UDP is also connectionless — no connection setup at the
+beginning of the transmission to set up state
+' Also no connection tear-down at the end of transmission
+I UDP packets are also called datagrams
+| Operating System Concepts — 10th Edition 19.23 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+I Q??? U DP Dropped Packet Exam ple
+inital request
+for data
+server starts sending
+data to client
+t|me dropped packet!
+client server
+Operating System Concepts — 10th Edition 19.24 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+“W Transmlsslon Control Protocol
+I TCP is both reliable and connection-oriented
+I In addition to port number, TCP provides abstraction to allow in-
+order, uninterrupted byte-stream across an unreliable network
+' Whenever host sends packet, the receiver must send an
+acknowledgement packet (ACK). If ACK not received before
+a timer expires, sender will resend.
+' Sequence numbers in TCP header allow receiver to put
+packets in order and notice missing packets
+' Connections are initiated with series of control packets called a
+three-way handshake
+> Connections also closed with series of control packets
+Operating System Concepts — 10th Edition 19.25 Silberschatz, Galvin and Gagn; @202‘;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+‘E? j TCP Data Transfer Scenarlo
+linitgil request
+or ata Dat
+A .
+_ A660‘ 990,6 server starts sending
+time Damse' l data to client
+, \17
+‘SeQ’
+Dam X timeout waiting
+for ACK
+27 retransmit
+ails
+timeout waiting
+ACK for ACK
+for 128 retransmit
+X . ;'\18
+DaxaISe
+A
+CKfO’ 128
+client server A
+Operating System Concepts _ 10th Edition 1926 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+‘a’? TransmlsSIon Control Protocol (Cont.)
+I Receiver can send a cumulative ACK to acknowledge series of
+packets
+' Server can also send multiple packets before waiting for ACKs
+' Takes advantage of network throughput
+I Flow of packets regulated through flow control and congestion
+control
+' Flow control — prevents sender from overrunning capacity of
+receiver
+' Congestion control — approximates congestion of the
+network to slow down or speed up packet sending rate
+Operating System Concepts — 10th Edition 19.27 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+‘$3? Network-orlented Operatlng Systems
+I Two main types
+I Network Operating Systems
+' Users are aware of multiplicity of machines
+I Distributed Operating Systems
+' Users not aware of multiplicity of machines
+| Operating System Concepts — 10th Edition 19.28 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+“a?” Network Operating Systems
+I Users are aware of multiplicity of machines
+I Access to resources of various machines is done explicitly by:
+' Remote logging into the appropriate remote machine (ssh)
+> ssh kristen . cs . yale . edu
+' Transferring data from remote machines to local machines,
+via the File Transfer Protocol (FTP) mechanism
+' Upload, download, access, or share files through cloud
+storage
+I Users must change paradigms — establish a session, give
+network-based commands, use a web browser
+I . More difficult for users
+Operating System Concepts -10th Edition 19.29 Silberschatz, Galvin and Gagn/e ©201l8
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+@Z D|str|buted Operatlng Systems
+I Users not aware of multiplicity of machines
+' Access to remote resources similar to access to local
+resources
+I Data Migration — transfer data by transferring entire file, or
+transferring only those portions of the file necessary for the
+immediate task
+I Computation Migration — transfer the computation, rather than
+the data, across the system
+' Via remote procedure calls (RPCs)
+' Via messaging system
+Operating System Concepts — 10th Edition 19.30 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+VQ‘WX I I I
+“y?D|str|buted-Operat|ng Systems (Cont.)
+I Process Migration — execute an entire process, or parts of it, at
+different sites
+' Load balancing — distribute processes across network to even
+the workload
+' Computation speedup — subprocesses can run concurrently
+on different sites
+' Hardware preference — process execution may require
+specialized processor
+' Software preference — required software may be available at
+only a particular site
+' Data access — run process remotely, rather than transfer all
+data locally
+I Consider the World Wide Web
+Operating System Concepts — 10th Edition 19.31 Silberschatz, Galvin and Gagne ©2022;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+My, Deslgn Issues of Dlstrlbuted Systems
+I We investigate three design questions:
+' Robustness — Can the distributed system withstand failures?
+' Transparency — Can the distributed system be transparent to
+the user both in terms of where files are stored and user
+mobility?
+' Scalability — Can the distributed system be scalable to allow
+addition of more computation power, storage, or users?
+Operating System Concepts — 10th Edition 19.32 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+a»?
+‘3?’ Robustness
+I Hardware failures can include failure of a link, failure of a site, and
+loss of a message.
+I A fault-tolerant system can tolerate a certain level of failure
+' Degree of fault tolerance depends on design of system and
+the specific fault
+' The more fault tolerance, the better!
+I Involves failure detection, reconfiguration, and recovery
+A
+I Operating System Concepts-10th Edition 19.33 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+“W Fallure Detectlon
+I Detecting hardware failure is difficult
+I To detect a link failure, a heartbeat protocol can be used
+I Assume Site A and Site B have established a link
+' At fixed intervals, each site will exchange an l-am-up
+message indicating that they are up and running
+I If Site A does not receive a message within the fixed interval, it
+assumes either (a) the other site is not up or (b) the message was
+lost
+I Site A can now send an Are-you-up? message to Site B
+I If Site A does not receive a reply, it can repeat the message or try
+an alternate route to Site B
+Operating System Concepts — 10th Edition 19.34 Silberschatz, Galvin and Gaylek @251:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+@Z Fallure Detectlon (Cont.)
+I lf Site A does not ultimately receive a reply from Site B, it
+concludes some type of failure has occurred
+I Types of failures:
+- Site B is down
+- The direct link between A and B is down
+- The alternate link from A to B is down
+- The message has been lost
+I However, Site A cannot determine exactly why the failure has
+occurred
+| Operating System Concepts — 10th Edition 19.35 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+5' Reconflguratlon and Recovery
+I When Site A determines a failure has occurred, it must
+reconfigure the system:
+' lf the link from A to B has failed, this must be broadcast to
+every site in the system
+' lf a site has failed, every other site must also be notified
+indicating that the services offered by the failed site are no
+longer available
+I When the link or the site becomes available again, this information
+must again be broadcast to all other sites
+Operating System Concepts — 10th Edition 19.36 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+“*Z Transparency
+I The distributed system should appear as a conventional,
+centralized system to the user
+' User interface should not distinguish between local and
+remote resources
+> Example: NFS
+' User mobility allows users to log into any machine in the
+environment and see his/her environment
+> Example: LDAP plus desktop virtualization
+Operating System Concepts — 10th Edition 19.37 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+‘a’ X Scalablllty
+lam
+I As demands increase, the system should easily accept the addition
+of new resources to accommodate the increased demand
+' Reacts gracefully to increased load
+' Adding more resources may generate additional indirect load
+on other resources if not careful
+' Data compression or deduplication can cut down on storage
+and network resources used
+A
+Operating System Concepts — 10th Edition 19.38 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+@Z D|str| buted F| le System
+I Distributed file system (DFS) — a file system whose clients,
+servers, and storage devices are dispersed among the machines
+of a distributed system
+' Should appear to its clients as a conventional, centralized file
+system
+I Key distinguishing feature is management of dispersed storage
+devices
+| Operating System Concepts — 10th Edition 19.39 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+“*»> Distributed F|le System (Cont.)
+
+I Service — software entity running on one or more machines and
+providing a particular type of function to a priori unknown clients
+
+I Server — service software running on a single machine
+
+I Client — process that can invoke a service using a set of
+operations that forms its client interface
+
+I A client interface for a file service is formed by a set of primitive file
+operations (create, delete, read, write)
+
+I Client interface of a DFS should be transparent; i.e., not
+distinguish between local and remote files
+
+I Sometimes lower level inter-machine interface need for cross-
+machine interaction
+
+Operating System Concepts — 10th Edition 19.40 Silberschatz, Galvin and Gagne @202‘;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+‘5% ‘t? é Dlstrlbuted F|le System (Cont.)
+I Two widely-used architectural models include client-server
+model and cluster-based model
+I Challenges include:
+' Naming and transparency
+' Remote file access
+' Caching and cache consistency
+| Operating System Concepts-10th Edition 19.41 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+“*2” Client-Server DFS Model
+I Server(s) store both files and metadata on attached storage
+' Clients contact the server to request files
+' Sever responsible for authentication, checking file
+permissions, and delivering the file
+' Changes client makes to file must be propagated back to
+the server
+I Popular examples include NFS and OpenAFS
+I Design suffers from single point of failure if server crashes
+I Server presents a bottleneck for all requests of data and
+metadata
+' Could pose problems with scalability and bandwidth
+Operating System Concepts -10th Edition 19.42 Silberschatz, Galvin and Gage: ©20f2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+t Cllent-Server DFS Model (Cont.)
+client
+client server
+client
+| Operating System Concepts — 10th Edition 19.43 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+‘$3’ Cluster-based DFS Model
+I Built to be more fault-tolerant and scalable than client-server DFS
+I Examples include the Google File System (GFS) and Hadoop
+Distributed File System (HDFS)
+' Clients connected to master metadata server and several
+data servers that hold “chunks” (portions) of files
+' Metadata server keeps mapping of which data servers hold
+chunks of which files
+> As well as hierarchical mapping of directories and files
+' File chunks replicated n times
+| Operating System Concepts-10th Edition 19.44 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+I $1; 1?! Cluster-based DFS Model (Cont)
+client ' ﬁle chunk
+data server \
+client =. . ﬁle chunk _
+|:| H
+-- data server ﬁle
+U
+, _ data server
+metadata
+server
+Operating System Concepts _ 10th Edition 19_45 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+“W Cluster-based DFS Model (Cont.)
+I GFS design was influenced by following observations:
+' Hardware component failures are the norm rather than the
+exception and should be routinely expected.
+' Files stored on such a system are very large.
+. Most files are changed by appending new data to the end
+rather than oven/vriting existing data.
+' Redesigning the applications and file system API increases
+system flexibility
+> Requires applications to be programmed specially with
+new API
+I Modularized software layer MapReduce can sit on top of GFS to
+carry out large-scale parallel computations while utilizing benefits
+of GFS
+' Hadoop framework also stackable and modularized
+Operating System Concepts — 10th Edition 19.46 Silberschatz, Galvin and Gagne @251:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+‘a’? Namlng and Transparency
+I Naming — mapping between logical and physical objects
+I Multilevel mapping — abstraction of a file that hides the details of
+how and where on the disk the file is actually stored
+I A transparent DFS hides the location where in the network the
+file is stored
+I For a file being replicated in several sites, the mapping returns a
+set of the locations of this file’s replicas; both the existence of
+multiple copies and their location are hidden
+| Operating System Concepts-10th Edition 19.47 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+we? -
+*2» Namlng Structures
+I Location transparency — file name does not reveal the file’s
+physical storage location
+I Location independence — file name does not need to be
+changed when the file’s physical storage location changes
+I In practice most DFSs use static, location-transparent mapping for
+user-level names
+. Some support file migration (e.g. OpenAFS)
+' Hadoop supports file migration but without following POSIX
+standards; hides information from clients
+' Amazon 83 provides blocks of storage on demand via APls,
+placing storage dynamically and moving data as necessary
+Operating System Concepts — 10th Edition 19.48 Silberschatz, Galvin and Gagne @202‘;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+pr} -
+“Q” LL; Namlng Schemes
+I Three approaches:
+
+' Files named by combination of their host name and local
+name; guarantees a unique system-Wide name. This
+naming scheme is neither location transparent nor location
+independent
+
+' Attach remote directories to local directories, giving the
+appearance of a coherent directory tree; only previously
+mounted remote directories can be accessed transparently
+
+. Single global name structures spans all files in the system.
+If a server is unavailable, some arbitrary set of directories
+on different machines also becomes unavailable
+
+Operating System Concepts — 10th Edition 19.49 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+‘4%’ Remote F|le Access
+I Consider a user who requests access to a remote file. The server
+storing the file has been located by the naming scheme, and now
+the actual data transfer must take place.
+I Remote-service mechanism is one transfer approach.
+
+' A requests for accesses are delivered t0 the server, the
+server machine performs the accesses, and their results are
+fon/varded back to the user.
+
+' One of the most common ways of implementing remote
+service is the RPC paradigm
+
+| Operating System Concepts —10th Edition 19.50 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+we”? -
+f» Remote F|le Access (Cont.)
+
+I Reduce network traffic by retaining recently accessed disk blocks
+in a cache, so that repeated accesses to the same information
+can be handled locally
+
+' lf needed data not already cached, a copy of data is brought
+from the server to the user
+
+' Accesses are performed on the cached copy
+
+. Files identified with one master copy residing at the server
+machine, but copies of (parts of) the file are scattered in
+different caches
+
+I Cache-consistency problem — keeping the cached copies
+consistent with the master file
+
+' Could be called network virtual memory
+Operating System Concepts — 10th Edition 19.51 Silberschatz, Galvin and Gagne ©2022;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+we}
+u?» Cache Locatlon - Dlsk vs. Mam Memory
+I Advantages of disk caches
+' More reliable
+' Cached data kept on disk are still there during recovery and
+don’t need to be fetched again
+I Advantages of main-memory caches:
+' Permit workstations to be diskless
+' Data can be accessed more quickly
+' Performance speedup in bigger memories
+' Server caches (used to speed up disk l/O) are in main
+memory regardless of where user caches are located; using
+main-memory caches on the user machine permits a single
+caching mechanism for servers and users
+Operating System Concepts — 10th Edition 19.52 Silberschatz, Galvin and Gagn; @202‘;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+earl -
+*2» Cache Update Pollcy
+I Write-through — write data through to disk as soon as they are placed
+on any cache
+' Reliable, but poor performance
+I Delayed-write (write-back) — modifications are written to the cache and
+then written through to the server later
+' Write accesses complete quickly; some data may be overwritten
+before they are written back, and so need never be written at all
+. Poor reliability; unwritten data will be lost whenever a user machine
+crashes
+' Variation — scan cache at regular intervals and flush blocks that have
+been modified since the last scan
+' Variation — write-on-close, writes data back to the server when the
+file is closed
+> Best for files that are open for long periods and frequently
+modified
+Operating System Concepts — 10th Edition 19.53 Silberschatz, Galvin and Gagne ©2015
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:54**************
+484%» Consistency
+I ls locally cached copy of the data consistent with the master
+copy?
+I Client-initiated approach
+' Client initiates a validity check
+' Server checks whether the local data are consistent with the
+master copy
+I Server-initiated approach
+' Server records, for each client, the (parts of) files it caches
+. When server detects a potential inconsistency, it must react
+m
+| Operating System Concepts _ 10th Edition 19,54 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+‘@Z Conslstency (Cont.)
+I In cluster-based DFS, cache-consistency issue more complicated
+due to presence of metadata server and replicated file data chunks
+' HDFS allows append-only write operations (no random writes)
+and a single file writer
+' GFS allows random writes with concurrent writers
+I Complicates write consistency guarantees for GFS while
+simplifying it for HDFS
+Operating System Concepts — 10th Edition 19.55 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:56**************
+Operating System Concepts - 10th Edition Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+

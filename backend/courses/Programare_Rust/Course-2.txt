@@ -1,0 +1,2143 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 2
+Gavrilut Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Agenda for today
+1. Prerequisite: String type
+2. Ownership management
+3. Borrowing & References
+4. Optimizations
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Prerequisite: String type
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Prerequisite: String type
+' For the purpose of this course, we need to quickly understand some
+thing about strings in Rust
+
+' So....
+' Rust type: String
+' Format: Dynamic (can increase its size)
+' Encoding: UTF-8
+' Operations: addition, substring, find,
+We will cover strings in more details on another course, for the moment we will
+learn a couple of things about object String that will be useful for the next
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Prereqwslte. Strlng type
+' Let's see some examples:
+1. How to create a string (keep in mind that there are several ways to
+create a string that we will cover in a different course.
+Rust
+fn main() {
+let mut szStPing = String::fr*om("a string"); M
+}
+2. How to get the length of a string (via method .len())
+Rust
+fn main() {
+let mut ngtPing = String::fnom("a string"); M
+mam-1a = a", Elena);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Prereqwslte. Strlng type
+' Let's see some examples:
+3. Concatenate strings (via operator += or method .push_str(...) )
+Rust
+fn main() {
+let mut szStning = String::fr‘om("123"); m
+§.Qush stn("789");
+pnintln!("{s}");
+}
+4. How to obtain a substring (a slice) of a string via range op [..] )
+Rust
+fn main() {
+let szStPing = String::from("ABCDEFG"); m
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+' Finally, keep in mind that strings in Rust are far more complex and
+require a more in-depth analysis.
+' However, for the current being, this explanation should be enough.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Ownership management
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+' In Rust, every memory zone has ONE and ONLY ONE owner at a time.
+' Every owner has a lifetime (it exists within a scope).
+' When an owner goes out of scope (its lifetime is over) the memory
+zone is freed ("freed” in this context has a different meaning — based
+on where that memory zone lies on : stack , heap or global). _
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+',® Ownersh | p
+
+' As a rule, every variable (local / global) or a parameter can be
+
+considered the owner for the memory zone it represent.
+
+' Let's analyze the following case:
+
+main() { Offset Content (4 bytes alignment)
+
+} 100.000 ? ? ? ?
+99.996 ? ? ? ?
+99.992 ? ? ? ?
+99-988 ? ? P P |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+,’ O W n € FS h l p
+
+' As a general consent, every variable (local / global) or a parameter
+
+can be considered the owner for the memory zone they represent.
+
+' Let's analyze the following case:
+
+() { Offset Content (4 bytes alignment)
+
+} sum: = 185 100.000 ? ? ? ?
+99.992 ? ? ? ?
+99.988 ? ? ? ? I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+,’l O W ll € FS h l p
+' As a general consent, every variable (local / global) or a parameter
+can be considered the owner for the memory zone they represent.
+' Let's analyze the following case:
+() { Offset Content (4 bytes alignment)
+sum: = 185 100.000 ? ? ? ?
+99.992 ? ? ? ?
+99.988 ? ? ? ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+' Let's analyze another case:
+m—
+() {
+sz: = 9;
+{
+s = :: ("abc");
+s. ("456 " ) ;
+sz += s. () 3
+println!(" s ")3
+}
+println!(" sz ")3 .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+,’I O W n € I'S h | p
+' Let's analyze another case:
+m—
+O { sz Stack (4 bytes)
+sz: = 9;
+{
+s = :: ("abc");
+s. ("456" );
+sz += s. () 3
+println!(" s ")3
+}
+println! (" sz ")3 .
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+' Let's analyze another case:
+Rust M Memory Type
+ma1n O { 6 sz Stack (4 bytes)
+sz: = '
+{ J s Stack (12 or 24 bytes) and Heap (3 bytes)
+s = ::Fnom("abc");
+s.push_sth("456");
+sz += s.len() ;
+println! (" s " ),' chars Ptr to heap where the the UTF-8 text lies
+} Ien usize (4 or 8 bytes)
+println!(" sz ")3 _ _
+} capaclty u5|ze (4 or 8 bytes)
+Heap
+* String internal structure is subject to change (this is an academic representation t0
+better explain how ownership works).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+' Let's analyze another case:
+Rust M Memory Type
+ma1n O { 6 sz Stack (4 bytes)
+sz: = 3
+{ s Stack (12 or 24 bytes) and Heap (6 bytes)
+s = ::Fnom("abc");
+s.push_sth("456");
+sz += s.len() ;
+phintln! (" s " ),' chars Ptr to heap where the the UTF-8 text lies
+} len usize (4 or 8 bytes)
+println!(" sz ")3 _ _
+} capacity u5|ze (4 or 8 bytes)
+' A new space of 6 characters is allocated on the heap m
+' The original text ("abc") is copied in the new location ? ? ?
+' The new string ("456") is added after "abc" a b c 4 5 6
+' The old (3 bytes) space from the heap is freed
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+I .
+' Let s analyze another case.
+Rust M Memory Type
+ma1n O { 6 sz Stack (4 bytes)
+sz: = 3
+{ s Stack (12 or 24 bytes) and Heap (6 bytes)
+s = ::from("abc");
+s.push_sth("456");
+sz += s.len() ;
+:cn ppintln! (" 5 "); chars Ptr to heap where the the UTF-8 text lies
+H5 1’ Ien usize (4 or 8 bytes)
+SE) println!(" sz ")3 _ _
+.4: } capaclty u5|ze (4 or 8 bytes)
+Cl)
+:5
+? ? ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+I .
+' Let s analyze another case.
+Rust M Memory Type
+ma1n O { 6 sz Stack (4 bytes)
+sz: = 3
+{ s Stack (12 or 24 bytes) and Heap (O bytes)
+s = ::From("abc");
+s.push_str("456");
+sz += s.len() ;
+println! (" 5 "); chars Null-pointer (data is deallocated)
+1’ len usize (4 or 8 bytes)
+println!(" sz ")3 _ _
+} capaclty u5|ze (4 or 8 bytes)
+- u n _
+-Freemg S means m
+' Free all heap memory associated if it ? ? ?
+' Clear stack memory where I, - and - pointer ? ? ? ? ? ?
+were stored.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+1} Own e rs h I |o
+' Let's analyze another case:
+Rust m—
+ma1n() { sz Stack (4 bytes)
+sz: = 6;
+{ s SHE$+§Ze+24byH5+and+kmp+9byH5l
+s = ::fPom("abc");
+s.push_str("456");
+sz += s.len() ;
+println!(" s ")3
+}
+println!(" sz ")3
+}
+' At this point I is no longer valid. This means that the memory it owns is no
+longer available, nor is the access of variable I. In fact, any usage of. variable
+in this point will be considered a compiler error.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Va Ovvnersh | p
+' Let's analyze another case:
+m—
+<> { 5* Steelewwtea
+sz: = 9;
+§ { s StaeleMbytesl-mad-Heap-(G-latées-l
+=17‘ s = :: ("abc");
+“'5 s. ("456");
+95) sz += s. () 3
+F3 println! (" s ")3
+‘I }
+pnintln! (" sz "i; .
+' At this point, the scope of "sz" has ended and as such it is freed (all stack space is
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+-
+Ownersh | p
+' Let's analyze another case:
+Rust C representation
+sz: = 6; g = 9;
+{ {
+s = ::1cr‘om("abc"); g = new [4] {"abc"} )3
+s . push_str‘( "456" );
+sz += s.len() ; []§;
+} }
+println! (" sz ")3
+} }
+' A similar "C" code implies freeing the heap manually. If this action would have
+not been performed, the memory allocated by "s" remains allocated (a bug often
+called ).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Ovvnershlp
+' Let's analyze another case:
+Rust C++ representation (from C++11 )
+fn main() {
+let mut sz: u32 = 9; void main() {
+{ unsigned int s; = 9;
+let mut s = Stringzzfnom("abc"); {
+s.push_str("456"); unique_ptr<char[]> s (new
+sz += s.1en() as u32; chaP[4] {"abc"});
+println!("{s}"); }
+} m
+println!("{sz}"); }
+}
+' Modern C++ has a type of allocation similar to What Rust has (called unique_ptr)
+that behaves in a similar manner.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+,’I O W n € FS h i p
+' What is the problem with the following C/C++ code ?
+main() {
+* 51 = new [4]{ };
+* 52 = sl;
+delete [151; 51 = nullptr;
+phintf( %s ,52);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+"® Ownership
+' What is the problem with the following C/C++ code ?
+m EH-
+main() {
+* sl = new [4]{ }3
+* 52 = sl;
+delete [151; sl = nullptr;
+phintf( %s ,sZ);
+}
+' Let's run this code step by step I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+'5 Ovv n e rs h | p
+' What is the problem with the following C/C++ code ?
+m M
+main" {
+* 51 = new [4]{ }; 96
+* 52 = 51;
+delete [151; 51 = nullptr; 92
+phintf( %s ,52); 88
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+'5 Ovv n e rs h i |o
+' What is the problem with the following C/C++ code ?
+. m M
+ma1:() {_ . 100 sl(pohneﬂ
+* Z; ; 2i”! [4“ i’
+delete [151; sl = nullptr; 92
+phintf( %s ,sZ); 88
+}
+' What is the problem at this point ? I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+V? Ovvn e rs h | p
+' What is the problem with the following C/C++ code ?
+m M
+main() { 100 sl(pohneﬂ
+* 51 = [4]{ }; .
+[]sl; sl = nullptr; 92
+printf( %s\n ,52); 88
+}
+' What is the problem at this point ?
+Both "sl" and "52" point to the same memory location. Or in other
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+'5 O vv n e rs h i |o
+' What is the problem with the following C/C++ code ?
+. m M
+ma1:() {_ . 100 sl(nuH)
+* Z; l 2?: [4H }’ 96 52 (pointer)
+delete [151; sl = nullptr; 92
+pnintf( %s ,sZ); 88
+}
+' "sl" pointer is deleted 9 and this translates that the memory zone
+that was allocated in the Heap to store the content for "sl" is freed as
+we“. l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+"® OW n e rs h i p
+' What is the problem with the following C/C++ code ?
+_ m M
+ma1:() {_ . 100 sl(nuH)
+* Z; ; 2i‘: [4H }’ 96 52 (pointer)
+delete [151; sl = nullptr; 92
+pnintf( %s ,sZ); 88
+}
+' At this point, -will try to access the content of "52” that now
+points to a memory zone that was already freed from the previous
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Own e rsh i |o
+' What is the problem with the following C/C++ code ?
+main() {
+* sl = new [4]{ }3
+* 52 = sl;
+delete [151; sl = nullptr;
+phintf( %s ,sZ);
+}
+' The main issue from this code is that the assignment _"
+creates two owners (both I and I point to the same memory
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+,’ O W n e rs h I p
+' So what can we do to make this code safe ?
+main() {
+* 51 = new [4]{ };
+* 52 = sl;
+delete [151; 51 = nullptn;
+printf( %s ,52);
+}
+' The main issue is how we understand the assignment (_"). The worst
+thing we can do is to duplicate the pointer (make two owners). _
+' Rust has a concept (called trait) that for the moment can be considered as a
+property list for each type that explain how certain operations can be performed.
+' For this particular example , the traits that are important are - and -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+,’ O W n € r5 h | p
+Disclaimer:
+' - trait does not exist in Rust (it is considered by default as something to be
+used if the trait - is not present).
+' However, for the purpose of the next slides, we will consider that this trait (l\/|ove)
+exists (this will allow us to easily explain how some decisions in Rust are being
+made by the compiler).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Let's consider that we have a type (called Student) and we write a statement like in the following way:
+() {
+_ _ _ MathGrade 9 type u8
+sl. - ...,
+521 3 EnglishGrade 9 type u8
+52 = sl;
+} Name 9 heap buffer
+
+What happens when s2 is assigned with the value s1 ?
+It depends on some traits that the object of type Student has. A trait (at this point) can be considered a
+property defined as a function with a specific purpose (in reality a trait is more similar to an interface).
+If type Student has the trait then Rust will compile the statement in a specific way, while if
+the Student has the trait , Rust will compile things differently.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+"® W h at d 0 e s C 0 py o p e rat | o n m e a n s
+Let's see what - trait implies for :
+MathGrade = ? MathGrade = 9
+EnglishGrade = ? EnglishGrade = 10
+Name 9 <none> or <nu||> Name 9 a pointer to address 100.000
+\
+100.000 J o h n
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+What does Copy operat|on means
+
+Let's see what - trait implies for :
+—
+MathGrade E <—u— MathGrade = 9
+
+EnglishGrade = ? EnglishGrade = 10
+
+Name 9 <n0ne> or <nu||> Name 9 a pointer to address 100.000
+
+i
+100.000 J 0 h n
+
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade ||
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+What oloes Copy operation means
+
+Let's see what - trait implies for :
+—
+MathGrade = 9 MathGrade = 9
+
+EnglishGrade =. <—e— EnglishGrade = 10
+
+Name 9 <n0ne> or <nu||> Name 9 a pointer to address 100.000
+
+t
+100.000 J o h n
+
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade ||
+2. Bitwise copy the value of sl.EninshGrade into sZ.EninshGrade
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Let's see what - trait implies for :
+—
+MathGrade = 9 MathGrade = 9
+
+EnglishGrade = 10 EnglishGrade = 10
+
+Name 9 a pointer to address 200.000 <—e— Name 9 a pointer to address 100.000
+l-II-I
+
+200.000 ? ? ? ? 100.000 J O h n
+
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade
+2. Bitwise copy the value of sl.EninshGrade into sZ.EninshGrade
+3. Allocated 4 bytes to a new location on the heap and assign sZ.Name pointer to that location
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Let's see what - trait implies for :
+—
+MathGrade = 9 MathGrade = 9
+
+EnglishGrade = 10 EnglishGrade = 10
+
+Name 9 a pointer to address 200.000 Name 9 a pointer to address 100.000
+
+l-II-I l-II-I
+
+200.000 <—e— 100.000 J O h n
+
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade
+2. Bitwise copy the value of sl.EninshGrade into sZ.EninshGrade
+3. Allocated 4 bytes to a new location on the heap and assign sZ.Name pointer to that location
+4. Bitwise copy 4 bytes from address 100.000 ($1.Name) to address 200.000 (sZ.Name)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+',® What does Move operatlon means
+Let's see what - trait implies for :
+MathGrade = ? MathGrade = 9
+EnglishGrade = ? EnglishGrade = 10
+Name 9 <none> or <nu||> Name 9 a pointer to address 100.000
+t
+100.000 J o h n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+What does Move operatloh means
+
+Let's see what - trait implies for :
+— $1
+MathGrade E <—u— MathGrade
+
+EnglishGrade = ? EnglishGrade = 10
+
+Name 9 <n0ne> or <nu||> Name 9 a pointer to address 100.000
+
+i
+100.000 J 0 h n
+
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade, and clear the value of $1.MathGrade ||
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+What oloes Move operation means
+
+Let's see what - trait implies for :
+—
+MathGrade = 9 MathGrade = ?
+
+EnglishGrade =. <—a— EnglishGrade
+
+Name 9 <none> or <null> Name 9 a pointer to address 100.000
+
+l
+100.000 J o h n
+
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade, and clear the value of $1.MathGrade ||
+2. Bitwise copy the value of sl.EninshGrade into sZ.EninshGrade , and clear the value of $1.EnglishGrade
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Let's see what - trait implies for :
+—
+MathGrade = 9 MathGrade = ?
+EnglishGrade = 10 EnglishGrade = ?
+Name 9 a pointer to address 100.000 <—e— Name 9 a pointer to address 100.000
+100.000 J o h n
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade, and clear the value of $1.MathGrade
+2. Bitwise copy the value of sl.EninshGrade into $2.EnglishGrade , and clear the value of $1.EnglishGrade
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Let's see what - trait implies for :
+—
+
+MathGrade = 9 MathGrade = ?
+
+EnglishGrade = 10 EnglishGrade = ?
+
+Name 9 a pointer to address 100.000 +> Name 9 None / null
+
+l
+100.000 J o h n
+
+Steps:
+1. Bitwise copy the value of $1.MathGrade into $2.MathGrade, and clear the value of $1.MathGrade
+2. Bitwise copy the value of sl.EninshGrade into $2.EnglishGrade , and clear the value of $1.EnglishGrade
+4. Clear the value of pointer $1.Name so that only one object points to the offset 100.000
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+é?‘
+Ovvnersh | p
+' So what can we do to make this code safe ?
+C (undefined behabior)
+main() {
+
+* sl = new [4]{"abc"};
+delete [151; sl = nullptn;
+printf("%s\n",52);
+
+}
+c (MOVE) C (COPY)
+main() { main() {
+
+* 51 = new [4]{"abc"}; * 51 = new 4 {"abc"};
+delete []sl; 51 = nullptn; delete []sl; 51 = nullptn;
+printf("%s\n",52); printf("%s\n",52);
+
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+' By default, Rust uses operation for all of its object (except for
+the case where trait is set up for on object)
+' Basic types (u8..u128, i8..i128, bool, isize, usize, char) have the -
+trait.
+Advantages:
+1. N0 dangling pointers _
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+"® Ownership
+When ownership rules applies:
+1. Whenever there is an assignment
+2. Whenever a Earameter is passed to a function
+3. Whenever a value is returned from a function
+y = my_function(x)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+é?‘
+.
+Ownershlp
+Let's see some examples:
+Rust Rust
+main() { main() {
+s: = ::1c|"om("AAA"); s: = ::Fr‘om("AAA");
+52 = s; 52 = s;
+println!(" 52 ")3 println!(" s ")3
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+I .
+Let s see some examples.
+Rust Rust
+main() { main() {
+s: = ::1crom("AAA"); s: = ::From("AAA");
+52 = s; 52 = s;
+println!(" 52 ")3 println!(" s ")3
+error[E9382]: borrow of moved value: ‘s‘
+--> src\main.rs:5:16
+l
+3 | let szString = String::from("AAA");
+| — move occurs because ‘s‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+4 | let $2 = s;
+| - value moved here
+5 | println!("{s}");
+| A value borrowed here after move
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+I I
+Let s see some examples.
+Rust
+pr1ntln!(" s ")3
+} main
+main() {
+s: = ::-From("AAA"); %
+print_s(s);
+println!(" s ")3
+}
+error[E9382]: borrow of moved value: ‘s‘
+--> src\main.rs:9:16
+l
+7 | let szString = String::from("AAA");
+| — move occurs because ‘s‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+8 | print_s(s);
+| - value moved here
+9 | println!("{s}");
+| A value borrowed here after move
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+t?‘
+Ovvnersh | p
+Let's see some examples:
+Rust
+print_s(s: ) -> {
+return s;
+} AAA
+s: = ::fpom("AAA");
+s = print_s(s);
+println!(" s ")3
+}
+' One solution to the above problem is to return the value of
+parameter "s" from function print_s and assigned it back to the
+variable “s” from function main (its original owner).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Borrowing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+,’ I B O r r0 W | n g
+' Even if ownership rules are clear, there are cases where coding under
+this rules is difficult. Let's look at the following case:
+computeLen(s: ) —> {
+return s.1en();
+}
+main() {
+s = ::from( )3
+1 = computeLen(s);
+( S 1 );
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+i?“
+BorroWI n g
+' Even if ownership rules are clear, there are cases where coding under
+this rules is difficult. Let's look at the following case:
+Rust
+computeLen(s: ) —> {
+return s.len();
+}
+main() { The answer |s NO !
+s = ::from "123");
+("T
+} error[E9382]: borrow of moved value: ‘s‘
+--> src\main.rs:8:31
+6 i let s = String::from("123");
+| — move occurs because ‘s‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+7 | let l = computeLen(s);
+| - value moved here
+8 | println!("The length of ‘{s}‘ is {1}");
+| A value borrowed here after move
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Borrowing
+
+' So how can we solve this kind of cases ?
+
+' |\/lost programming languages have a concept (call reference) that
+represent a valid pointer to an object of a specific type.
+
+' In Rust, we call this form borrowing (the reason is that the reference
+does not imply change of ownership 9 thus we can consider that an
+object has been borrowed and it will be returned to its owner).
+
+' Just like in C or C++, a reference in Rust is denoted by the symbol .
+Similarly, a dereference process can be perform with the symbol . I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+i?‘
+Bo rrovvl n g
+' Let's see how the previous code changes if we are to use references:
+Rust Rust
+computeLen(s: ) -> { computeLen(s: ) -> {
+return s.1en(); return s.1en();
+} }
+main() { main() {
+s = ::from("123"); s = ::from("123");
+1 = computeLen(s); 1 = computeLenIEF);
+("The length of ‘ s ‘ is 1 "); ("The length of ‘ s ‘ is 1 ")3
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+l%@n_,z.i
+*- Borrovvlng
+' By default, a reference in Rust is immutable (meaning you can read its
+value, but you can not modify it).
+Rust C++
+#include <stning>
+tn computeLen(s: &Stning) —> usize { size_t computeLen(const std::stning& s) {
+return s.1en(); return s.1ength();
+} }
+Fn main() { VOid main() {
+let 5 = String::from("123"); const stdzzstring s = "abc";
+let 1 = computeLen(&s); auto 1 = computeLen(s);
+pnintln!("The length of ‘{s}‘ is {1}"); pnintf("The length 0F ‘%S‘ i5 %d",
+} s.c_stn(),(int)1);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Borrowing
+' A reference in Rust can be:
+' Immutable 9 denoted b the usae of & default
+computeLen(s: ) —> {m}
+' Mutable 9 denoted b the usae of &mut
+computeLen(s: ) —> {m}
+However, the question that comes into everyone's mind is:
+What is the purpose of ownership if we have references ? l'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Borrovvlng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+Fn isEmpty(s: &Str‘ing) —> bool { push r‘bp
+netunn s.is_empty(); i2: pﬁgﬁigaem
+} let szStning = Stning::1cnorn("123");
+Fn main() { mov qwor~d ptr‘ [Pbp+58h],QFFFFFFFFFFFFFFFEh
+let s:Str‘ing = String::from("123"); iea "dXJ 1
+let r*ef_to_s:&Str‘ing = &S; q m2?!‘ (alighzgsgtn [temp ptr‘ to s],r‘cx
+if isEmpty(r‘ef_to_s) { mov r8d,3 _ _ _
+pnintln!("Empty string"); call Stringiifmm
+} else { let Pe-F to rﬁgiStning = 22)::qword ptr‘ [temp_pt'"_t°_sl
+pnintln!("‘{s}‘ iS HOt empty"); _ _mov qword ptr‘ [ref_to_s],ncx
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+t?‘
+Borrovvl ng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+isEmpty(s: 81 ) -> { push Pbp
+return s.is_empty(); i2: ngjﬁggugeh]
+} let s:Str‘ing = Stringzzfnorn("123");
+ma: mov word ntr‘ Pb+58h @FFFFFFFFFFFFFFFEh
+—
+_ _' "‘_‘-"_-"“ _ “J, q mov qwohd ptn [ ],r‘cx
+1f 15Empty(r\ef_to_s) { mov r8d,3
+("Empty string");
+} else { let r*ef_to_s:&Str‘ing = &s,',q d Pt [ 1
+(m S ‘ iS HOt empty"); mov qword ptr‘ [ ],rcx
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+t?‘
+Borrovvl ng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+isEmpty(s: 81 ) -> { push Pbp
+return s.is_empty(); i2: ngjﬁggugeh]
+} let s:Str‘ing = Stringzzfnorn("123");
+main() { mov qwond ptr‘ [Pbp+58h],QFFFFFFFFFFFFFFFEh
+—
+mov qwond ptn [ ],r‘cx
+if isEmpty(r\eF_to_s) { mov r8d,3
+("Empty string"); mov PCX WOP P
+} else { let r*ef_to_s:&Str‘ing = &s,',q d Pt [ 1
+(m S ‘ iS HOt empty"); mov qword ptr‘ [ ],rcx
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+l.‘ Bo rrovvl n g
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+isEmpty(s: 81 ) -> { push r‘bp
+return s.1s_empty(); i2: iﬁgjlﬁilmh]
+} let s:Str‘ing = String::Fr*om("123");
+main” f mov qword ptr‘ [Pbp+58h],QFFFFFFFFFFFFFFFEh
+lea rdx,[ l
+lea rcx
+. -
+1' mov r~,:u
+} else { let r*ef_to_r2(?l;Str‘ing = gifmvwrd Ptr‘ [ 1
+(m S ‘ iS HOt empty"); mov qword ptr‘ [ ],r*cx
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+a?
+Borrovvl ng
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+isEmpty(s: & ) —> {
+return s.is_empty();
+} let szString = String::From("123");
+rnaj11() { mov qword ptr [rbp+58h],QFFFFFFFFFFFFFFFEh
+s: = ::from("123"); iea '“X’[ 1
+ref to s:&. = &s; ,fa :€T’El l
+("Empty string");
+} else { let ref_to_s:&String = &s,',q d Pt [ 1
+('P S ‘ iS HOt empty"); mov qword ptr [ ],rcx
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+l.‘ Bo rrovvl n g
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+isEmpty(s: 81 ) -> { push Pbp
+return s.is_empty(); i2: $5’?me
+} let s:Str‘ing = Stringzzfnorn("123");
+main() { mov qwor~d ptr‘ [Pbp+58h],QFFFFFFFFFFFFFFFEh
+s: = ::fr~om("123"); iea "dXJ 1
+_ PEF t0 5:8‘ = &S; mg?‘ 2:35 gtr‘ [ ],r‘cx
+} - J.Ct. r*ef_to_r2(?\8l15tr‘ing = 23AM,“ P r‘
+(m S ‘ iS HOt empty"); mov qword ptr‘ [ ],r*cx
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+l.‘ Bo rrovvl n g
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+isEmpty(s: 81 ) -> { push Pbp
+return s.is_empty(); i2: $5’?me
+} let s:Str‘ing = Stringzzfnorn("123");
+main() { mov qwor~d ptr‘ [Pbp+58h],QFFFFFFFFFFFFFFFEh
+s: = ::fr~om("123"); iea "dXJ 1
+_ .P€F_tO_SI& = &S; q mg?‘ 2:35 gtr‘ [ ],r‘cx
+1-F 1can-l-u/nn-F 'l-n c\ I mOV pgd’3
+\ _, .L_, .Nc “up” ,, mov qword ptr‘ [ ],r*cx
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+l.‘ Bo rrovvl n g
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+Rust Rust
+isEmpty(s: 81 ) -> { push r‘bp
+return s.is_empty(); i2: iﬁgjiﬁillmh]
+} let s:Str‘ing = String::Fr*om("123");
+main() { mov qword ptr‘ [Pbp+58h],QFFFFFFFFFFFFFFFEh
+s: = ::fr~om("123"); iea "dXJ 1
+P€F_tO_SI& = 86; q mg?‘ 2:35 gtr‘ [ ],r‘cx
+if isEmpty(r\eF_to_s) { mov r8d,3
+} a {to Zilsmn = QZX-Am p“ l 1
+}
+}
+' Let's analyze the assembly listing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+"® B O r rOWI n g
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+return s.is_empty(); ?
+} 100 .
+maino { 92 s.chars ?
+s: = : :Fnom( );
+nef_to_s:& = &s; q 84 s.|en ?
+if isEmpty(r‘eF_to_s) { 76 s.capacity '_.>
+( )s
+} else { 68 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+," B O F TO W I n g
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+return s.is_empty 3 -
+} 100 ? 1 2 3
+mainO { 92 s.chars Ptr to heap:
+s: = : :Fnom( )3
+nef_to_s:& = &s; q 84 s.|en 3
+it iSEmPtY(PeF_tO_S) { 76 s.capacity 3
+( )s
+} else { 68 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+'5 B 0 r rovvl n g
+' Let's discuss a couple of scenarios to better understand the
+relationship between references and ownership:
+return s.is_empty 3
+mainO { s.chars Ptrto heap:
+s: = : :Fnom( )3
+nef_to_s:& = &s; 84 s.|en 3
+it iSEmPtY(PeF_tO_S) { 76 s.capacity 3
+( )s
+} else { 68 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+,’ B O r r0 W | n g
+
+' In Rust, a reference (a borrow value) is a pointer to the original object
+
+(similar to how C/C++ treat references)
+
+' This means that as long as the original object is valid, a reference will be
+
+valid as well
+
+Because of this Rust has several rules related to references:
+
+1. At one given moment of time, there can be only — reference
+to an object
+
+2. At any given moment of time, there can be —
+references to an object
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+g$w]_:}x
+Bo rrovvl n g
+Let's see some cases that reflect how these references work.
+1. Multiple immutable references & immutable object
+Rust
+main() {
+s: = ::from("123");
+Pef_to_s_1:& = &s;
+ref_to_s_2:& = &s;
+ref_to_s_3:& = &s;
+(" s , ref_to_s_1 , ref_to_s_2 , ref_to_s_3 ")3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+i?‘
+Borrovvl n g
+Let's see some cases that reflect how these references work.
+2. One mutable reference & immutable object
+Rust
+main() {
+s: = ::from("123");
+mut ref to s:& = & s;
+(" s , mut_ref_to_s ")3
+}
+error[E@596]: cannot borrow ‘s‘ as mutable, as it is not declared as mutable
+--> src\main.rs:4:36
+3 i let s:String = String::from("123");
+| - help: consider changing this to be mutable: ‘mut s‘
+4 | let mut_ref_to_s:&mut String = &mut s;
+| AAAAAA cannot borrow as mutable
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+t?‘
+Borrovvl n g
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+Rust
+main() {
+s: = ::from("123");
+mut ref to s:& = & s;
+(" s , mut_ref_to_s ")3
+}
+error[E9592]: cannot borrow ‘s‘ as immutable because it is also borrowed as mutable
+--> src\main.rs:5:16
+4 i let mut_ref_to_s:&mut String = &mut s;
+| ------ mutable borrow occurs here
+5 | println!("{s},{mut_ref_to_s}");
+| A ------------ mutable borrow later used here
+i immutable borrow occurs here
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+‘.‘ Bo rrovvl n g
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+Rust
+
+main() {
+s: = ::from("123");
+mut ref to s:& = & s;
+(" s , mut_ref_to_s ")3 ,,,
+}
+error[E9592]: cannot borrow ‘s‘ as immutable because it is als
+--> src\main.rs:5:16 M
+4 i let mut_re-F_to_s:&mut String = &mut s;
+| —-—--- mutable borrow o
+5 | println!("{s},{mut_re-F_to_s}");
+| A ------------ mutable borrow later used here
+i immutable borrow occurs here
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+.
+Borrovvl n g
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+Rust
+main() {
+g: = ::from("123");
+mut ref to s:& = & s;
+(" mut_nef_to_s ")3
+(" S ")s
+}
+eeee 123
+123
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+"® Borrovvlng
+
+Let's see some cases that reflect how these references work.
+
+3. One mutable reference & mutable object
+
+1 main() {
+
+2 s: = ::fhom( )3
+
+3 mut ref to s:& = & s; Lﬁeﬂnneof
+
+4 ( mut_hef_to_s );
+
+5 ( S );
+
+6 }
+
+Let's analyze this example:
+' Variable ”—" is created at line 3 and after line 4 it is no longer needed (used). As such it is
+destroy after line 4. We can say that its lifetime consists in 2 lines (3 and 4).
+' When line 4 gets executed, there is only one mutable reference to object "s" — thus the rules are not
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+Rust
+1 main() {
+2 s: = ::fr*om("123");
+3 mut ref to s :& = & s; Lifetime of Lifetime of
+4 (" mUt_Pef_tO_S " ); mut_ref_to_s s
+5 (" S ");
+6 }
+Let's analyze this example:
+' Variable ”—" is created at line 3 and after line 4 it is no longer needed (used). As such it is
+destroy after line 4. We can say that its lifetime consists in 2 lines (3 and 4).
+' When line 4 gets executed, there is only one mutable reference to object "s" — thus the rules are not
+broken, and no error is thrown
+° Variable "s" has a lifetime that starts on line 2 and ends on line 5. However, when line 5 gets
+executed, and a new immutable reference is created, variable ”mut_ref_to_s" has already been
+discarded and as such we would only have one reference and program compiles.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+‘.‘ Borrovvl n g
+Let's see some cases that reflect how these references work.
+3. One mutable reference & mutable object
+Rust
+
+main() {
+g: = ::from("123");
+mut re1c to s:& = & s;
+(" S ")s
+< (" mut_ref_to_s "),'>
+}
+error[E9592]: cannot borrow ‘s‘ as immutable because it is also borrowed as mutable
+--> src\main.rs:5:16
+4 i let mut_ref_to_s:&mut String = &mut s;
+| ------ mutable borrow occurs here
+5 | println!("{s}");
+| A immutable borrow occurs here
+6 | println!("{mut_ref_to_s}");
+| --—--------- mutable borrow later used here
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+g$w]_:}x
+Bo rrOW | n g
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+Rust
+fn main() {
+let mut ngtring = String::from("123");
+let ref_to_s_1:&String = &§;
+let ref_to_s_2:&String = &§;
+let ref_to_s_3:&String = &§;
+println!("{s},{ref_to_s_1},{ref_to_s_2},{ref_to_s_3}");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+§$w__:}x
+Bo rrOW | n g
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+Rust
+fn main() {
+let mut ngtring = String::from("123");
+let ref_to_s_1:&StPing = &§;
+let ref_to_s_2:&StPing = &§;
+let ref_to_s_3:&StPing = &§;
+println!("{s},{ref_to_s_1},{ref_to_s_2},{Pef_to_s_3}");
+s += "A larger string";
+println!("{s}");
+}
+Compilesok m
+123,123,123,123
+123Alargerstﬂng
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+,_. Borrovvlng
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+
+Rust
+fn main() {
+let mut szStPing = String::from("123");
+let nef_to_s_1:&StPing = &§;
+let nef_to_s_2:&StPing = &§;
+let nef_to_s_3:&StPing = &§;
+println!("{s},{ref_to_s_1},{nef_to_s_2},{nef_t0_s_3}");
+s += "A larger string";
+println!("{s},{ref_to_s_1},{nef_to_s_2},{nef_t0_s_3}");
+}
+What will happen in this case ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+i?
+I
+Let s see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+Rust
+main() {
+s: = ::from("123");
+ref_to_s_1:& = &§;
+ref_to_s_2:& = &§;
+ref_to_s_3:& = &§;
+(" s , ref_to_s_1 , ref to s 2 ref to s 3 " '
+s += "A larger string";
+(‘I S ’ PE{i-tcl-S_J' J l" error[E9592]: cannot borrow ‘s‘ as mutable because it is also borrowed as immutable
+} --> src\main.rs:8:5
+|
+4 | let ref_t0_s_1:&String = &s;
+| -- immutable borrow occurs here
+é.l s += "A larger string";
+| AAAAAAAAAAAAAAAAAAAAAA mutable borrow occurs here
+9 | println!("{s},{ref_to_s_1},{ref_to_s_2},{ref_to_s_3}")3
+| -————-——-— immutable borrow later used here
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+t?‘
+Borrovvl n g
+Let's see some cases that reflect how these references work.
+4. Multiple immutable reference & mutable object
+Rust
+main() {
+1 g: = ::from("123");
+2 Pef_to_s_1:& = &§;
+3 Pef_to_s_2:& = &§;
+4 Pef_to_s_3:& = &§;
+5 (" s , hef_to_s_1 , hef_to_s_2 , hef_to_s_3 ");
+6 g += "A larger string";
+7 (" s , hef_to_s_1 , hef_to_s_2 , hef_to_s_3 ");
+}
+When reaching line 6, a mutable reference is needed to perform that
+assignment (that changes the content of object ”s”). Since at line 6
+there already are 3 immutable references, the compiler will fail.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+,’ I B O r r0 W | n g
+When analyzing the previous examples, there are some questions that
+need to be answered:
+1. Why the previous assignment implies _
+?
+2. Immutable references can not chan e the value of an ob'ect. If the
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+Borrovvlng
+1. Why s += "A larger string"; implies creating a mutable
+reference ?
+To answer this question, let's look on how ”+=” operator is defined !
+Rust (source Strin'.rs)
+/// Implements the ‘+=‘ operator For appending to a ‘String‘.
+/// This has the same behavior as the [‘push_str‘][String::push_str] method.
+#[cfg(not(no_global_oom_handling))]
+#[stable(Feature = "stringaddassign", since = "1.12.6")]
+impl AddAssign<&str> for String {
+#[inline]
+fn add assign(&mut self, other: &str) {
+self.push str(other);
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+‘.‘ Borrovvlng
+1- vvh 2 += "A larger string"; implies-
+?
+To answer this question, let's look on how “I” operator is defined !
+Rust (source Strino.rs *)
+#[cfg(not(no_global_oom_handling))]
+#[stable(Featune = "stringaddassign", since = "1.12.6")]
+<& > {
+# inline
+add assign(& , other: & ) { E
+.QUSh str(other);
+
+}
+}
+* Implementation of operator +: for String class may vary in time (from version to version)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+‘.‘ Borrovvl n g
+1- vvh 2 += "A larger string"; implies-
+?
+To answer this question, let's look on how “I” operator is defined !
+Rust (source Strino.rs *)
+#[cfg(not(no_global_oom_handling))]
+#[stable(Feature = "stringaddassj
+<& > {
+#[inline] _
+add a! th's
+.QUSh str ot er 3 _
+} EB
+}
+* Implementation of operator +: for String class may vary in time (from version to version)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+"® Borrowing
+1- p implies —
+?
+This means that the following line:
+is equivalent to the next one:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Bo rroWi n g
+1- vvh implies —
+?
+Consider that any class non-static method implies creating a reference
+- A mutable reference if that method changes something in the class
+- An immutable reference if that method only reads information from
+the class
+These references will respect references rules (either only one mutable
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+"® Borrovvl n g
+1. vvh implies-
+?
+Let's consider the followin_ exam ole:
+main() {
+é; = ::from( )3
+Pef_to_s_1:& = &§;
+Pef_to_s_2:& = &§;
+1 = §.1en();
+( s PeF_to_s_1 PeF_to_s_2 1 );
+} ..
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+," B O F FO W I n g
+1- Wh implies —
+?
+Let's consider the followin 3 exam o le:
+main() {
+é; = ::from( )3
+nef_to_s_1:& = &§;
+ref to s 2:& = aq-
+1 = §.1en(); What happens when we call s.|en() ?
+( s PEF_tL_,_* .-._-v_-__ _ ,,
+} ..
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+.
+Borrovvl n g
+1. Wh g += "A larger‘ string"; implies-
+?
+Let's consider the following example:
+Rust
+main() {
+g: = ::from("123");
+Pef_to_s_1:& = 8g; Rust (Strino.rs)
+ref to s 2:& = RN? _> {
+S , Pe _tc_~_* , .-._-v_,__ , i ,, }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+ll ° II . - -
+1- vvh s += A larger stung ,Imphes—
+?
+I u I .
+Let s con5|der the followmg example.
+Rust
+main() {
+é: = ::'From("123"); already exists a mutable reference
+mut ref to s:& = & s;
+1 =-
+s , mut_ref_to_s , 1 ")3
+}
+error[E0502]: cannot borrow ‘s‘ as immutable because it is also borrowed as mutable
+--> src\main.rs:5:13
+
+I
+4 | let mut_reF_to_s:&mut String = &mut s;
+
+| —-—--— mutable borrow occurs here
+5 | let l = s.len();
+
+| AAAAAAA immutable borrow occurs here
+6 | println!("{s},{mut_ref_to_s},{1}");
+
+| —--—-—------ mutable borrow later used here
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+i?‘
+Borrovvl n g
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+?
+Rust
+main() {
+s: = ::from("123");
+nef_to_s_1:& = &§;
+nef_to_s_2:& = &§;
+nef_to_s_3:& = &§;
+(" s , nef_to_s_1 , nef_to_s_2 , hef_to_s_3 ")3
+s-"A larger‘ string";
+(" s , hef_to_s_1 , hef_to_s_2 , Pef_to_s_3 ")3
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+?
+Ru“ . Stack (8 bytes alignament)
+“"3an { Offset Variable Value
+s: = ::from("123");
+nef_to_s_1:& = &§; 100 ?
+nef_to_s_2:& = &§; 92 ?
+nef_to_s_3:& = &§;
+(" s , nef_to_s_1 , nef_to_s_2 84 ?
+g += "A larger string"; 76 p
+(" s , hef_to_s_1 , hef_to_s_2 '
+} 68 ?
+Let's analyze the stack of the program, if 60 ?
+compilation would have been successful. 52 ?
+44 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+‘ Bo rrovvl n g
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+
+?
+Heap
+Ru“ . Stack (8 bytes alignament)
+ma1n() { Offset Variable Value
+s: = ::fr‘om("123");
+r'ef_to_s_1:& = 8Q; 100 s.chars Ptr to heap:
+r'ef_to_s_2:& = &§; 92 s.len 3
+r'ef_to_s_3:& = &§;
+(" s , nef_to_s_1 , r*ef_to_s_2 84 s.capacity 3
+g += "A larger‘ string"; 76 ‘p
+(" s , hef_to_s_1 , hef_to_s_2 '
+} 68 ?
+Let's analyze the stack of the program, if 60 ?
+compilation would have been successful. 52 ?
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+‘ Bo rrovvl ng
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+
+?
+Heap
+Ru“ . Stack (8 bytes alignament)
+“"3an { Offset Variable Value
+s: = ::fr‘om("123");
+pe-F_to_s_1:& = &§3 S.CharS Ptr t0 heap:
+r~e+_to_s_2:& = &§; 92 s.len 3
+r'ef_to_s_3:& = &§;
+(" s , nef_to_s_1 , r*ef_to_s_2 84 s.capacity 3
+(" s , hef_to_s_1 , hef_to_s_2 _ _ _
+} 68 ?
+Let's analyze the stack of the program, if 60 ?
+compilation would have been successful. 52 ?
+44 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+‘ Borrovvl ng
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+
+?
+Heap
+Ru“ _ Stack (8 bytes alignament)
+ma1n() { Offset Variable Value
+s: = ::fr‘om("123");
+Pe-F to S 1;& = &S; -s.chars Ptr to heap:
+r'ef_to_s_2:& = &§; 92 s.len 3
+r'ef_to_s_3:& = &§;
+(" s , nef_to_s_1 , r*ef_to_s_2 84 s.capacity 3
+é += "A larger String"; 76 ref to s 1 100
+(" s , hef_to_s_1 , hef_to_s_2 _ __
+}
+Let's analyze the stack of the program, if 60 ?
+compilation would have been successful. 52 ?
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+‘ Borrovvl ng
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+
+?
+Heap
+Ru“ . Stack (8 bytes alignament)
+“"3an { Offset Variable Value
+s: = ::fr‘om("123");
+pe-F_to_s_1:& = &§3 S.CharS Ptr t0 heap:
+P91: t0 S 2181 = 815; 92 s.len 3
+r'ef_to_s_3:& = &§;
+(" s , nef_to_s_1 , r*ef_to_s_2 84 S.capacity 3
+i += "A larger String"; 76 ref to s 1 100
+(" s , hef_to_s_1 , hef_to_s_2 _ __
+} 68 ref_to_s_2 100
+Let's analyze the stack of the program, if
+compilation would have been successful. 52 ?
+44 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+‘ Borrovvl ng
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+?
+Ru“ _ Stack (8 bytes alignament) a ? ?
+ma1n() { Offset Variable Value ' ' '
+s: = ::fr‘om("123"); 1 2 3 A | a r
+pe-F_to_5_1;& = &§3 100 S.Char5 Ptr t0 heap: .
+r'ef_to_s_2:& = &§; 92 s.len 18 8 E r 5 t r l
+ref_to_s_3:& = &§; n G
+(" 5 , Pe-F to 5 1 , pe-F to 5 2 84 s.capacity 18* (estimated)
+é += "A larger String"; 76 ref to s 1 100
+(" s , r‘e1C_to_s_1 , r‘e1C_to_s_2 _ __
+} 68 ref_to_s_2 100
+Let's analyze the stack of the program, if 60 ref_to_s_3 100
+compilation would have been successful. 52 ?
+44 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+. Borrovvl ng
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+?
+Rust m
+main() { ? ? ?
+s: = ::from "123" 3
+ref_to_s_1:& = 8Q; ( ) 100 s.chars Ptr to heap: 1 2 3 A I a r
+r'ef_to_s_2:& = &§; 92 s.len 18 g E r 5 t r '
+r'ef_to_s_3:& = &§; n G
+(" < - PPF m q 1 - PPF m q 7 84 s.capacity 18* (estimated)
+76 ref_to_s_1 100
+] 68 ref_to_s_2 100
+L ~ 6O ref_to_s_3 100
+C 52 p
+44 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+—?
+Rust
+main() {
+g: = ::fr‘om("123");
+nef_to_s_1:& = &§; _ _ _
+r'el:_to_s_2:& = &§; So If thls code |s
+nef_to_s_3:& = &§;
+<-- S , Pails; , Pails; safe, why does not
+g += "A larger‘ string"; ' 7
+(" s , nef_to_s_1 , nef_to_s_2 RUSt allow It °
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+"® B 0 r rovvi n g
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+—?
+
+To answer the last question, we need to look into another feature of
+Rust, called slices !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+.
+Bo rroWI n g
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+—?
+Let's analyze the following code:
+Rust
+main() {
+s: = ::From("AABBBCC");
+slice_of_s = &s[2..5];
+(" s , slice_of_s ");
+}
+Slices are very similar to std::string_view / std::u8string_view from C++
+(in the sense that they hold a pointer and a size).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+"® Borrovvl n g
+Let's see how the stack looks like in this case:
+s: = : :from( ) 3
+slice_01c_s = &s[2. .5]; 100 ? m
+( s slice_of_s ); 92 ?
+} 84 ?
+76 ?
+68 ?
+60 ? __
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+Bo rrovvl ng
+Let's see how the stack looks like in this case:
+s: = : :fhom( )3
+slice_of_s = &SL2--5JS 100 s.chars Ptr to heap: m
+( s slice_of_S )3 92 s.len 7
+} 84 s.capacity 7
+76 ?
+68 ?
+60 ? __
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+Bo rrovvi n g
+Let's see how the stack looks like in this case:
+slice_01c_s = &S[2__5]; 100 s.chars Ptrto heap: m
+( s sliCE_O1c_S )3 92 s.|en 7
+} 84 s.capacity 7 LA A C C
+76 slice_of_s.ptr Ptr to heap
+
+This part is in particular important:
+Notice that ”slice_of_s” maintains 60 ?
+a pointer within a memory that "s" 52 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+V? Bo rroWI ng
+So what will happen if we change the previous code in the following
+way (let's assume that this code will compile under Rust and evaluate
+what execution will do to the stack):
+
+Offset Variable Value m
+main() { 100 ?
+é: = : :Fnom( )5 92 p
+slice_ol:_s = &§[2. .5]; '
+§.push str‘( ); 84 ?
+( s slice_of_s )3 76 3,
+} .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+"® BorroWI n g
+So what will happen if we change the previous code in the following
+way (let's assume that this code will compile under Rust and evaluate
+what execution will do to the stack):
+Offset Variable Value m
+maincl { 100 s.chars Ptr:
+é: = ::1cr‘om( )5 92 s.len 7
+slice_of_s = &§[2..5];
+spush str‘( ); 84 s.capacity 7
+( s slice_of_s ); 76 9
+} .
+68 ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Bo rroWI n g
+So what will happen if we change the previous code in the following
+way (let's assume that this code will compile under Rust and evaluate
+what execution will do to the stack): —
+Offset Variable Value m
+main() { 100 s.chars Ptr: —> A A- C
+sliciiolls = ;§[2. . 51;:1cmm h 92 s.|en 7
+spush str‘( ); 84 s.capacity 7
+68 slice_of_s.size 3
+60 ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+,’iii B O F FO W l n g
+So what will happen if we change the previous code in the following
+way (let's assume that this code will compile under Rust and evaluate
+what execution will do to the stack): —
+Offset Variable Value m
+main() { 100 s.chars Ptr: ? ? ? ? ? ? ?
+slicizof s = gle. .5lz1cmm( )5 92 s.|en 12
+spush str‘( ); 84 s.capacity 12
+} ( S Slice-OKs )3 76 slice_of_s.ptr Ptr J ‘ ' ‘
+68 slice_of_s.size 3
+When the execution reaches this line, a new 60 ?
+that points t0 the original memory allotated from "S" that i5 currently lhvahd
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+i?‘
+In reality, Rust will not compile the next code and will throw the
+following error:
+Rust
+main() {
+s: = ::from("AABBBCC");
+slice_of_s = &§[2..5];
+§.Qush str("DDDDD");
+(" s , slice_of_s ")3
+}
+error[E9592]: cannot borrow ‘s‘ as mutable because it is also borrowed as immutable
+-—> src\main.rs:6:5
+l
+5 | let slice_of_s = &s[2..5];
+| - immutable borrow occurs here
+6 | s.push_str("DDDDD");
+| AAAAAAAAAAAAAAAAAAA mutable borrow occurs here
+7 | println!("{s},{slice_of_s}");
+| -——-—-——-— immutable borrow later used here
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+Borrowing
+2. Now let's tackle the second question: Immutable references can not
+chan e the value of an ob'ect. If the value of the object changes, -
+—?
+So returning to the original question, we can not have immutable
+references and a mutable one at the same time, because there are
+scenarios (like using a slice) that could lead to a dangling pointer !
+OBS: Slices are considered references as well ! ‘i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+Optimizations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+Va OptlrnlzatIons
+
+Rust has several optimizations for mutable references since at one
+
+moment of time there could be only one mutable reference.
+
+Let's consider the following C/C++ code and its Rust equivalent:
+
+void ( unsigned int * input, unsigned int * output) { (input: & , output: & ) {
+*output += *input; *output += *input;
+*output += *input; *output += *input;
+
+} }
+
+mov eax, dwond ptr [PSi]
+
+add eax, dwond ptr [Pdi] mov eax, dword ptp [ndi] i
+
+mov dWOPd ptP [P51], eax 4IIIIIIIIIIIIIIIIIIIIIIIIIIIII) add 98X, eax Hﬁﬁ
+
+add eax, dwond ptr [Pdi] add dwond ptp [P51], eax uﬁEﬁE
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+Why do we have this difference ?
+
+* ( += * Notice that we have used the += operator. This means that the compiler first
+
+* += needs to read the value from the pointer output, then add to that value the value
+} from pointer input, and finally write the new value into the output pointer.
+mov eax, dword ptr [PSi]
+add eax, dword ptr [rdi] mov eax, dword ptP [rdi] i
+mov dword ptr [P51], eax add eax, eax ﬁﬁﬁ
+a‘: eax, cworu p r v.1 add dword ptr [P51], eax _£ﬁ@ﬁ%
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:116**************
+Why do we have this difference ?
+However, there is no guarantee that the output pointer can't be access from a
+* i: * dlfferent thread. As such, the compller has to wrlte the new value to output
+pointer so that if another thread is trying to read it, it will read a correct value.
+—
+
+mov eax, dword ptr [PSi]
+add eax, dword ptr [rdi] mov eax, dword ptP [rdi] i
+mov dword ptr [P51], eax add eax, eax ﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:117**************
+On the other hand, Rust knows that since output is a mutable reference, there is
+only one such reference and no other thread can access it. Because of this, it
+does not have to write the value after the first call to += operator. Further more, i &
+since there variable (as there is
+already an immutable one), it can reuse its value for the second operation.
+
+mov eax, dwond ptn [P51]
+add eax, dwond ptn [ndi] mov eax, dword ptn [rdi] i
+mov dWOPd ptr‘ [P51], eaX — add 93X, eaX
+add eax, dWOPd PtP [Pdi] add dwond ptr [PSi], eax _éﬁﬁﬁﬁ
+mov dwond ptn [P51] , eaX
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:118**************
+- @@
+
+***************Ending Page***************
+

@@ -501,29 +501,29 @@ ALTER TABLE ONLY public.users ALTER COLUMN userid SET DEFAULT nextval('public.us
 --
 
 INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (21, 'Algoritmica_Grafurilor', 'Curs despre algoritmi pe grafuri.', 66, '3');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (22, 'Arhitectura_Calculatoarelor și Sisteme de Operare', 'Structura și funcționarea sistemelor de operare.', 7, '1');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (23, 'Baze_de_Date', 'Modelarea și interogarea bazelor de date.', 63, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (22, 'Arhitectura_Calculatoarelor_Si_Sisteme_De_Operare', 'Structura și funcționarea sistemelor de operare.', 7, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (23, 'Baze_De_Date', 'Modelarea și interogarea bazelor de date.', 63, '3');
 INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (24, 'Calcul_Numeric', 'Metode numerice pentru rezolvarea problemelor matematice.', 2, '1');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (25, 'Fundamentele_Algebrice ale Informaticii', 'Bazele algebrice ale logicii și informaticii.', 5, '2');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (26, 'Grafică_pe_Calculator', 'Tehnici de afișare și procesare a graficii.', 7, '6');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (27, 'Ingineria_Programării', 'Metodologii de dezvoltare software.', 63, '4');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (28, 'Inteligența_Artificială', 'Introducere în AI, agenți inteligenți.', 71, '5');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (29, 'Învățare_Automată', 'Algoritmi de machine learning.', 7, '5');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (30, 'Limbaje_Formale_Automate_și_Compilatoare', 'Teoria limbajelor și automatizări.', 69, '3');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (31, 'Logică_pentru_Informatică', 'Logică propozițională și predicate.', 72, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (25, 'Fundamentele_Algebrice_Ale_Informaticii', 'Bazele algebrice ale logicii și informaticii.', 5, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (26, 'Grafica_Pe_Calculator_Si_Geometrie_Computationala', 'Tehnici de afișare și procesare a graficii.', 7, '6');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (27, 'Ingineria_Programarii', 'Metodologii de dezvoltare software.', 63, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (28, 'Inteligenta_Artificiala', 'Introducere în AI, agenți inteligenți.', 71, '5');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (29, 'Invatare_Automata', 'Algoritmi de machine learning.', 7, '5');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (30, 'Limbaje_Formale_Automate_Si_Compilatoare', 'Teoria limbajelor și automatizări.', 69, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (31, 'Logica_Pentru_Informatica', 'Logică propozițională și predicate.', 72, '1');
 INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (41, 'Matematica_Calcul_Diferential_Si_Integral', 'math', 72, '1');
 INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (42, 'Practica_Sisteme_De_Gestiune_Pentru_Baze_De_Date', 'bd', 72, '4');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (32, 'Probabilități_și_Statistică', 'Bazele probabilităților și statisticii.', 66, '2');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (33, 'Programare-Avansată', 'Programare procedurală și funcțională avansată.', 65, '4');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (34, 'Programare_Orientată-Obiect', 'Paradigma OOP în Java și C++.', 5, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (32, 'Probabilitati_Si_Statistica', 'Bazele probabilităților și statisticii.', 66, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (33, 'Programare_Avansata', 'Programare procedurală și funcțională avansată.', 65, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (34, 'Programare_Orientata_Obiect', 'Paradigma OOP în Java și C++.', 5, '2');
 INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (43, 'Programare_Python', 'serpi', 5, '5');
 INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (44, 'Programare_Rust', 'rugina', 5, '3');
 INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (35, 'Proiectarea_Algoritmilor', 'Strategii eficiente de proiectare algoritmică.', 64, '2');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (36, 'Rețele_de_Calculatoare', 'Protocoale, modele OSI și TCP/IP/UDP.', 70, '3');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (37, 'Securitatea_Informației', 'Principii și tehnici de securitate.', 72, '4');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (38, 'Sisteme_de_Operare', 'Gestionarea proceselor și resurselor.', 2, '2');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (39, 'Structuri_de_Date', 'Liste, arbori, grafuri și complexitate.', 64, '1');
-INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (40, 'Tehnologii_Web', 'HTML, CSS, JavaScript și backend.', 72, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (36, 'Retele_De_Calculatoare', 'Protocoale, modele OSI și TCP/IP/UDP.', 70, '3');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (37, 'Securitatea_Informatiei', 'Principii și tehnici de securitate.', 72, '4');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (38, 'Sisteme_De_Operare', 'Gestionarea proceselor și resurselor.', 2, '2');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (39, 'Structuri_De_Date', 'Liste, arbori, grafuri și complexitate.', 64, '1');
+INSERT INTO public.course (courseid, title, description, userid, semestru) VALUES (40, 'Tehnologii_WEB', 'HTML, CSS, JavaScript și backend.', 72, '4');
 
 --
 -- Data for Name: enrollment; Type: TABLE DATA; Schema: public; Owner: -

@@ -1,0 +1,479 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Interfaces
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+What IS an interface?
+Webster: “a place at which independent and often
+unrelated systems meet and communicate with
+each other“, respecting a set of rules .
+51"]??qu ‘its. _‘ .
+r1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Contract, Protocol
+- An interface describes a model, a contract.
+- A class may implement that model, adhering to the
+contract and strictly respecting its specifications.
+lnterfata .~ ’ Clasa
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+[public] interface InterfaceName
+[extends SuperInterfacel, SuperInterfaceZ...] {
+/* Constant declarations
+Abstract methods
+Default methods
+Static methods */
+}
+Example:
+public interface Student {
+double MAX_GRADE = 5; //public static final
+VOid sayHello (); //public abstract . . .
+double getExamGrade(Exam exam);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+class ClassName implements Interfacel, Interface2, m {
+/* A concrete class that implements an interface
+must specify code for all abstract methods
+declared by the interface */
+}
+Example:
+public class ComputerScienceStudent implements Student {
+private String name;
+public boolean isProgrammer() { return true; }
+public void sayHello() {
+System.out.println("Hello, my name is " + name);
+}
+public double qetExamGrade(Exam exam) {
+return MAX_GRADE;
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Common Denominator
+
+- Suppose we already have olass hierarchies
+
+— Person extends Entity
+
+— Parrot extends Animal
+
+— A|exa extends RQbOt public interface Talkative {
+- All of them can “talk” } void talk‘);
+
+— Person extends Entity implements Talkative
+
+— Parrot extends Animal implements Talkative
+
+— Alexa extends Robot implements Talkative
+- Talkative[] noisy = {johnny, oooo, alexa}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Interface — Reference Type
+We may say that an obiect is of type X, where X is
+an interface, if that object is an instance of a class
+implementing the interface X.
+Student student I new ComputerScienceStudent();
+student.sayHellO(); stﬁdentTisteqfammef+++
+Stadent—stadent—=—new—§tadent+++
+Talkative johnny = new Person(); johnny.talk();
+Talkative coco = new Parrot(); coco.talk();
+AutoCloseable reader I new FileReader("fis.tXt"); reader.close();
+AutoCloseable con I DriverManager.getConnection(); con.close();
+Aate6%eseaeie—feadef—=—new—Aate€%easeae%e+++
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Multlple Implementatlons
+public interface Matrix {
+void set(int row, int col, double value);
+double get(int row, int col);
+Matrix add(Matrix m);
+Matrix mul(Matrix m);
+}
+public class DefaultMatrixImpl implements Matrix {
+private double[][] data;
+public DefaultMatrixImpl(int rows, int cols) { m }
+}
+public class SparseMatrixImpl implements Matrix {
+private int[] row;
+private int[] col;
+private double[] data;
+public SparseMatrixImpl<int rows, int cols) { m }
+}
+public static void main ( String args []){
+Matrix a = new DefaultMatrixImpl(lO, 10); a.set(0,0, 123); m
+Matrix b = new SparseMatrixlmpl (lO, lO); b.set(9,9, 456); m
+Matrix c = a.add(b);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Interfaces and Abstract Classes
+- Extending an abstract class imposes a strong
+relationship among two classes.
+~ Implementing an interface is much lighter: it only
+specifies that a class is respecting a certain contract,
+making sure it conforms to some specifications.
+- Interfaces and abstract classes do not exclude each
+other, they are used together in many situations:
+‘ List a the contract
+’ AbstractList e the common behaviour
+. LinkedList,
+ArrayList e specific behaviour
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Evolving lnterfaces
+- Add another abstract method to an interface —>
+all classes that implement it will break.
+public interface Matrix {
+éoid reset(); //we add a new abstract method to the interface
+}
+- Anticipate all uses for your interface and specify
+it completely from the beginning!
+' Create a new interface, extending the old one
+— Old classes will use the old interface or upgrade to
+the new interface.
+' Use default methods.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Default Methods
+- Default methods allow extending interfaces
+without breaking existing implementations.
+public interface Matrix {
+default void reset() {
+for (int i = O; i < rowCount(); i++) {
+for (int j = O; j < columnCount(); j++) {
+set(i, j, O);
+}
+}
+}
+- Classes may override default methods
+public class DefaultMatrixImpl implements Matrix {
+ébverride
+public void reset() {
+for (int[] row: matrix)
+Arrays.fill(row, O);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Static Methods
+- Static methods allow defining specific interface
+methods and are identical with the ones defined
+in classes.
+- They belong to the interface/class only.
+interface IA {
+static void foo() { System.out.println("IA"); }
+static void bar() { }
+interface IB extends IA {
+static void foo() { System.out.println("IB"); }
+glass B implements IB {
+static void foo() { System.out.println("B"); }
+}
+public static void main(String args[]) {
+IA.foo(); IB.foo(); B.foo(); iBeeaf+++ B7§ﬁf++f
+IA IB B
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Callback Methods
+A callback is something that you pass to a method
+as an argument (some piece of code).
+Example: When a graph exp/oration algorithm
+reaches a node, we want to execute some kind of
+processing for that speciﬁc node.
+a e
+/ r/
+a‘ ogoqo ‘oogcgo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+lmplementmg Callback Methods
+public interface NodeProcessing {
+public void execute(Node u);
+}
+public class Graph {
+public void explore(NodeProcessing f) {
+if (exploration reached the node v) {
+f.execute(v);
+}
+}
+}
+//Implement various processing types g.explore(new PrintEn());
+class PrintRo implements NodeProcessing {
+public void execute(Node v) {
+System.out.println("Nodul curent este: " + v);
+}
+}
+class PrintEn implements NodeProcessing {
+public void execute(Node v) {
+System.out.println("The current node is: " + v);
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+//Listing the files from a folder
+import java.io.*;
+public class ListFiles {
+public static void main ( String [l args ) {
+File folder = new File(".");
+String[] list = folder.list(new MyFilter("mp3"));
+for (int i = O; i < list.length ; i ++) {
+System.out.println(list[i]);
+}
+}
+}
+class MyFilter implements FilenameFilter {
+String extension;
+public MyFilter (String extension) {
+this.extension = extension;
+}
+public boolean accept(File dir, String name) {
+return name.endsWith("." + extension);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Anonymous Classes
+Anonymous Class = Inner class used to create an object
+of a specific type.
+method(new SomeInterface() {
+
+// Implement interface methods
+Example: '
+WE ARE
+folder. list (new FilenameFilter() { ANUNYMUUS
+// Anonymous class
+public boolean accept (File dir, String name) {
+return ( name.endsWith(".txt") );
+l
+}) ;
+COlTlplle. OuterClass$l.class, OuterClass$2.class, . . .
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Comparlng Objects
+class Person {
+private int code;
+private String name;
+public Person (int code, String name ) {
+this.code = code;
+this.name = name ;
+}
+public String toString () {
+return code + " \t " + name;
+}
+}
+class Sorting {
+public static void main ( String args [1) {
+Person persons[] = new Person[4];
+persons[O] = new Person (3, " Ionescu ");
+persons[l] = new Person (l, " Vasilescu ");
+persons[2] = new Person (2, " Georgescu ");
+persons[3] = new Person (4, " Popescu ");
+java . util .Arrays . sort (persons) ; ’
+System.out.println ("The persons were sorted...");
+for (int i = O; i < persons. length ; i++)
+System.out.println (persons[i]);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+lmposes a total ordering on the objects of a class (natural)
+public interface Comparable {
+int compareTo(Object o);
+}
+class Person implements Comparable {
+public int compareTo (Object other) {
+//returns: 0 if this==other, <0 if this<other, >0 if this>other
+if (other I: null ) throw new NullPointerException();
+if (!( other instanceof Persoana ))
+throw new ClassCastException ("Uncomparable objects!");
+Person pers = (Person) other;
+return (this.code — pers.code);
+}
+} class Person implements Comparable<Person> {
+@Override
+public int compareTo(Person o) {
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+The Comparator lnte rface
+A comparison function, which imposes a total ordering on some collection of
+objects
+import java.util.*;
+class Sorting {
+public static void main ( String args [1) {
+Person persons[] I new Person [4];
+persons[0] I new Person (3, " Ionescu ");
+persons[1] I new Person (1, " Vasilescu ");
+persons[2] = new Person (2, " Georgescu ");
+persons[3] = new Person (4, " Popescu ");
+Arrays.sort (persons, new Comparator<Person> () {
+public int compare (Person p1, Person p2) {
+return p1.getName().compareTo(p2.getName());
+}
+}) ;
+System.out.println("Orderd by namez");
+System.out.println(Arrays.toString(persons));
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Functional Interfaces
+
+- Afunctional interface is any interface that
+contains only one abstract method.
+
+- Instead of using an anonymous class, you use
+a lambda expression, omitting the name of the
+interface and the name of the method.
+
+Arrays.sort(persons, (Person p1, Person p2) —> {
+return pl.getName().compareTo(p2.getName());
+});
+@FunctionalInterface
+public interface Comparator { ...}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Method References
+- Sometimes a lambda expression does nothing
+but oall an existing method.
+class Person {
+ooolic static int compareByAge(Person a, Person b) {
+return a.birthday.compareTo(b.birthday);
+}
+} Arrays.sort(persons,(a, b) —> Person.compareByAge(a,b));
+- In those oases, it's often olearer to refer to the
+existing method by name:
+Arrays.sort(persons, PersonzzcompareByAge);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+Marker lnte rfaces
+- Interfaces that do not define any method.
+interface Serializable {}
+interface Cloneable {}
+- Their role is to associate some metadata to a
+class, that will be useful at runtime.
+class Person
+implements Serializable, Cloneable { m }
+- A modern alternative: annotations
+@Entity(table:"persons")
+class Person { m }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Conclusions
+
+- An interface defines a set of specifications
+
+- They are essential in separating the model from
+the implementation.
+
+- An interface is a common denominator between
+unrelated classes.
+
+' Can be used as Reference Data Types
+
+- Can be used to implement Callbacks
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+Interface Naming
+- Main indea: Interfaces describe app data types:
+— Interfaces get the “best” name:
+Service, List
+— Classes get “implementation” names:
+Service/mp! implements Service
+ArrayList implements List
+- Other idea:
+— Interfaces get “I” names: lService, lList
+— Classes get the “best” names:
+Service implements lService,
+ArrayList implements lList
+- If describing abilities, they should be named using “able”
+convention: Comparable, lterable, Runnable, etc.
+
+***************Ending Page***************
+
+

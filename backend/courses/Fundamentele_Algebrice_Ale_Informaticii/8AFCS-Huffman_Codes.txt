@@ -1,0 +1,1467 @@
+***************Beginning Page***************
+***************page number:1**************
+ALGEBRAlc FOUNDATIONS
+of COMPUTER SCIENCE
+ieclures by Feruoio Laurentiu Tiplea
+
+Semlgroups and Mon0|ds
+
+Huffman Codes: Examples
+
+Prof.dr. Ferucio Laurentiu Tiplea
+
+Spring 2022
+
+Department of Computer Science
+
+“Alexandru loan Cuza" University of lagi
+
+|a$i 700506, Romania
+
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+
+Introduction
+
+Examples of static Huffman encoding and decoding
+Computing the Huffman code with a priority queue
+Computing the Huffman code with two queues
+Static Huffman decoding
+
+Examples of dynamic Huffman encoding and decoding
+Dynamic Huffman encoding
+Faller-Gallager-Knuth's algorithm
+Vitter's algorithm
+
+Reading
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introduction
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+About this slide package
+This slide package aims to help you, by a few examples, in understanding
+Huffman codes. Use them together with the course lesson on Huffman
+codes!
+Reducing the information sources in the lesson from the course was done
+by a tree-like diagram horizontally written. However, we prefer to write it
+vertically on the slides in this package (see the next slide as an example).
+
+Profedre F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 2/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Equivalent tree representations of Huffman codes
+a 4 °—> 4 °—> 4 °—> 4 1 6
+10 10 10
+b 2 4> 2 4> 2 4 ﬁg, 4
+1101 111 10
+c 1 2 —> 2 m 2
+1100 110
+110
+C 1 1111 1
+f 1 1“ 10
+°/\
+4(a) 6
+0A
+2(b) 4
+W
+2 2
+1(d) 1(6) 1(f) 1(6)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 3 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Examples of static Huffman
+encoding and decoding
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Static Huffman codes: encoding
+Encoding procedure:
+1. Parse the text;
+2. Collect symbols’ frequencies;
+3. Reduce the information source in successive steps;
+4. Compute the Hecode;
+5. Encode the text and submit
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo should give sufficient information so that the decoder
+can recover the Hecode and decode the encoded text. Usually, this
+information may be:
+o Symbols’ frequencies (this is easy because the frequencies are
+integers — it will add just a few hundred bytes to the encoded text);
+o The Hecode itself (this can be inconvenient because the code words
+have variable lengths);
+o The Hetree (this can be an acceptable solution with a compact
+representation of the tree).
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science - Semigroups and Monoids Spring 2022 4 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Static Huffman codes: encoding
+Remarks on reordering the source:
+1. Each source reduction step requires ordering it! In practice, two
+main techniques are employed:
+o using a priority queue — complexity (9(n log n);
+o using two queues — complexity (9(n) if the initial source is ordered.
+ln both cases, n is the number of symbols in the text;
+2. The order of symbols in the text is irrelevant to computing the
+Hecode!
+Two examples of computing the Huffman code are in order, one based on
+a priority queue and the other based on two queues. The notation is
+self-explanatory. For example, 9(a) means 9 occurrences of the symbol a.
+Proﬁdr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 5/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+source
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+source
+9(b) 4(6) 4(a) 3(6) 2(d)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+source
+9(b) 4(6) 4(a) 3(6) 2(d)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+source
+9(b) 4(6) 4(a) 3(6) 2(d)
+9(b) 5(da e) 4(C) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+source
+9(b) 4(6) 4(a) 3(6) 2(d)
+9(b) 5(da e) 4(C) 4(8)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+SOUFCG
+9(b) 4(6) 4(a) 3(8) 2(d)
+9(b) 5(d7 e) 4(6) 4(a)
+9(b) 8(c,a) 5(d, e)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+SOUFCG
+9(b) 4(6) 4(a) 3(8) 2(d)
+9(b) 5(d7 e) 4(6) 4(a)
+9(b) 8(c,a) 5(d, e)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+source
+9(b) 4(6) 4(8) 3(6) 2(d)
+9(b) 5(d, e) 4(C) 4(a)
+9(b) 8(c,a) 5(d, e)
+13((d, 6), (678)) 9(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+source
+9(b) 4(6) 4(8) 3(6) 2(d)
+9(b) 5(d, e) 4(C) 4(a)
+9(b) 8(c,a) 5(d, e)
+13((d, e),(C7a)) 9(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using a priority queue to reduce the
+SOUFCG
+9(b) 4(6) 4(a) 3(8) 2(d)
+9(b) 5(d7 e) 4(6) 4(a)
+9(b) 8(c,a) 5(d, e)
+13((d, e), (c,a)) 9(b)
+22w, (w, e» (c, 3))
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(6), 2(d)
+Using a priority queue to reduce the
+source
+9(b) 4(6) 4(a) 3(6) 2(d)
+9(b) 5(d7 e) 4(6) 4(a)
+9(b) 8(c,a) 5(d, e)
+13((d, e), (c,a)) 9(b)
+211140176» (6,8))
+(L9, ((i, 2), (2, a)»
+O O l O 1
+0 1
+1
+root
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Computing the Huffman code with a priority queue
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(6), 2(d)
+Using a priority queue to reduce the 22
+source 0/\
+9(b) 4(c) 4(a) 3(e) 2(d) 9(b) 13
+9(b) 5w, e) 4(c) 4(a) A
+9(b) 8(c,a) 5(d, e) 5 8
+13((d, e), (c,a)) 9(b) W W
+(15)’ ((%’%)’ (%’%))) To encode the text, parse it and
+% replace each symbol by its code
+T as shown in the tree!
+Prof.dr. F.L.Tip|ea,UAlC,RO Algebraic Foundations ofComputer Science-Semigroups and Monoids Spring 2022 6/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using two queues to reduce the source
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using two queues to reduce the source
+L1: 2(d) 3(6) 4(c) 4(a) 9(b)
+L2: (Z)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using two queues to reduce the source
+|—11ZP*}3(4(C)4(8)9(b)
+L2: 5(d, e)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using two queues to reduce the source
+L1: WWW)
+L2: 5(d7 e) 8(c, a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using two queues to reduce the source
+L1: WWW)
+L21 W13((d,8)1(678))
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(e), 2(d)
+Using two queues to reduce the source
+L1: WWW
+L21 WW
+22(11,((d,E)7(Cv='11)))
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Computing the Huffman code with two queues
+Any text with the symbols’ frequencies: 9(b), 4(c), 4(a), 3(6), 2(d)
+Using two queues to reduce the source 22
+0 1
+L1: WWW /\
+L2: WW 9”’) 13
+0 1
+22w, (rd, e), (678») A
+5 8
+W W
+2(0/) 3(6) 4(6) 4(a)
+To encode the text, parse it and
+replace each symbol by its code
+as shown in the tree!
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Static Huffman decoding
+Decoding procedure:
+1. recover the Hacode (Hatree) from Hacodeainfo;
+2. decode — this is a straightforward process. Start from the tree's root
+and move down according to the bit read from the code sequence
+until a leaf is met. Decode then the bit sequence by the leaf. Start
+the process again at the root with the next bit.
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 8/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Statlc Huffman decodmg
+< Hecodeeinfo # encoded etext >
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(1)) 13 text:
+W
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(1)) 13 text:
+W
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(1)) 13 text:
+W
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(1)) 13 text: d
+W
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(1)) 13 text: d
+W
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(1)) 13 text: d
+W
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(b) 13 text: da
+W
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Static Huffman decoding
+< Hecodeeinfo # encodedetext >
+Hecodeeinfo code sequence
+22 100111110-~
+°/\
+9(b) 13 text: da
+A and so on!
+5 8
+W W
+2(d) 3(e) 4(6) 4(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Examples of dynamic Huffman
+encoding and decoding
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Dynamic Huffman codes: encoding and decoding
+Encoding procedure:
+1. choose an initial Huffman code (tree), denoted ho, such as:
+o a Huffman code of the entire alphabet (each occurrence of each
+symbol will be encoded);
+o a Huffman code with just one “empty node" (the first occurrence of
+each symbol will be unencoded);
+2. parse the text and for each symbol, do the following:
+0 if the current symbol is the (i + 1)st symbol in the text, where i Z O,
+encode it by h;;
+o update h,- with the new symbol. The result is hi+1.
+Decoding procedure: the decoder simply mirrors the encoder steps.
+The fundamental issue is how to update the Huffman tree!
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 10/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Faller-Gallager-Knuth’s algorithm
+
+1. Main idea: Faller, 1973 [2];
+
+2. Sibling property: Gallager, 1978 [3];
+
+3. Other improvements: Knuth, 1985 [4].
+
+The final algorithm is known as the FGK algorithm.
+The initial Huffman tree:
+
+1. Consists of only one node whose weight will always be 0. The code
+of this node (which is initially the empty code) is called the escape
+code.
+
+2. This node is used to insert a new symbol (which is not yet in the
+tree). The ﬁrst occurrence of this symbol is encoded by the escape
+code followed by the unencoded symbol.
+
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 11 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+The sibling transformation
+The sibling transformation applied to symbol a and tree h,- consists of:
+1. compare a to its successors in the tree (from left to right and from
+bottom to top). If the immediate successor has frequency k + 1 or
+greater, where k is the frequency of a in h,-, then the nodes are still
+in sorted order and there is no need to change anything. Otherwise,
+a should be swapped with the last successor which has frequency k
+or smaller (except that a should not be swapped with its parent);
+2. increment the frequency of a (from k to k + 1);
+3. if a is the root, the loop halts; otherwise, the loop repeats with the
+parent of a.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 12/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+The FGK algorithm: encoding
+Text t0 be encoded Huffman code
+Text: abccd
+Encoded text:
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+The FGK algorithm: encoding
+Read the first character Current Huffman code
+Text: abccd 0
+Encoded text:
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+The FGK algorithm: encoding
+Encode the ﬁrst character Current Huffman code
+Text: abccd 0
+Encoded text: a
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+The FGK algorithm: encoding
+First character encoded Update Huffman code
+Text: abccd O
+0A1
+Encoded text: a
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+The FGK algorithm: encoding
+First character encoded Updated Huffman code
+Text: abccd 1
+‘W
+Encoded text: a
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+The FGK algorithm: encoding
+Read the second character Current Huffman code
+Text: abccd 1
+0A1
+Encoded text: a
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+The FGK algorithm: encoding
+Encode the second character Current Huffman code
+Text: abccd 1
+0A1
+Encoded text: aOb
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+The FGK algorithm: encoding
+Second character encoded Update Huffman code
+Text: abccd 1
+W
+Encoded text: aOb
+0 1 (a)
+W
+0 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+The FGK algorithm: encoding
+Second character encoded Updated Huffman code
+Text: abccd 2
+W
+Encoded text: aOb
+1 1 (a)
+W
+0 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+The FGK algorithm: encoding
+Read the third character Current Huffman code
+Text: abccd 2
+0/\1
+Encoded text: aOb
+1 1 (a)
+W
+0 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+The FGK algorithm: encoding
+Encode the third character Current Huffman code
+Text: abccd 2
+0/\1
+Encoded text: aObOOc
+1 1 (a)
+W
+0 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+The FGK algorithm: encoding
+Third character encoded Update Huffman code
+Text: abccd 2
+W
+Encoded text: aObOOc
+1 1(a)
+W
+0 1(b)
+“A1
+0 1(c)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+The FGK algorithm: encoding
+Third character encoded Update Huffman code
+Text: abccd 3
+W
+Encoded text: aObOOc
+2 1(a)
+W
+1 1(b)
+W
+0 1(c)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+The FGK algorithm: encoding
+Third character encoded Update Huffman code
+Text: abccd 3
+W
+Encoded text: aObOOc
+2 1(a)
+W
+1 1(b)
+“A1
+0 1(c)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+The FGK algorithm: encoding
+Third character encoded Update Huffman code
+Text: abccd 3
+m
+Encoded text: aObOOc
+1(a) 2
+W
+1 1(b)
+W
+0 1(c)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+The FGK algorithm: encoding
+Third character encoded Updated Huffman code
+Text: abccd 3
+O 1
+Encoded text: aObOOc /\
+1(a) 2
+W
+1 1(b)
+W
+0 1(c)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+The FGK algorithm: encoding
+Read the fourth character Current Huffman code
+Text: abccd 3
+m
+Encoded text: aObOOc
+1(a) 2
+W
+1 1(b)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+The FGK algorithm: encoding
+Encode the fourth character Current Huffman code
+Text: abccd 3
+m
+Encoded text: aObOOc 101
+1(a) 2
+W
+1 1(b)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+The FGK algorithm: encoding
+Fourth character encoded Update Huffman code
+Text: abccd 3
+O 1
+Encoded text: aObOOclOl /\
+1(a) 2
+W
+1 1(b)
+W
+0 1(c)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+The FGK algorithm: encoding
+Fourth character encoded Update Huffman code
+Text: abccd 4
+°/\
+Encoded text: aObOOc 101
+1(a) 2
+W
+1 1(b)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+The FGK algorithm: encoding
+Fourth character encoded Updated Huffman code
+Text: abccd 4
+O 1
+Encoded text: aObOOclOl /\
+2(a) 2
+W
+1 1(b)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+The FGK algorithm: encoding
+Read the fifth character Current Huffman code
+Text: abccd 4
+W
+Encoded text: aObOOc
+2(c) 2
+W
+1 1(b)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+The FGK algorithm: encoding
+Encode the fifth character Current Huffman code
+Text: abccd 4
+°/\
+Encoded text: aObOOc 101 100d 2(a) 2
+W
+1 1(b)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+The FGK algorithm: encoding
+Fifth character encoded Update Huffman code
+Text: abccd 4
+°/\
+Encoded text: aObOOc 101 100d
+2(a) 2
+W
+1 1(b)
+W
+O 1(a)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+The FGK algorithm: encoding
+Fifth character encoded Update Huffman code
+Text: abccd 5
+°/\
+Encoded text: aObOOc 101 100d
+2(a) 3
+W
+2 1(b)
+W
+1 1(a)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+The FGK algorithm: encoding
+Fifth character encoded Update Huffman code
+Text: abccd 5
+°/\
+Encoded text: aObOOc 101 100d
+2(a) 3
+W
+2 1(b)
+W
+1 1(a)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+The FGK algorithm: encoding
+Fifth character encoded Update Huffman code
+Text: abccd 5
+0 1
+Encoded text: aObOOclOl 100d /\
+2(a) 3
+A
+1(b) 2
+W
+1 1(a)
+W
+0 1(d)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+The FGK algorithm: encoding
+Fifth character encoded Updated Huffman code
+Text: abccd 5
+0 1
+Encoded text: aObOOclOl 100d /\
+2(a) 3
+A
+1(b) 2
+W
+1 1(a)
+W
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+Vitter’s algorithm
+
+1. Jeffrey Scott Vitter, 1987 [5];
+
+2. Designed to minimize the average codeword length 289‘ |h(a)l7r(a),
+the total codeword length 236A |h(a)|, and the maximum codeword
+length maxa€A|h(a)|.
+
+Key elements to be described:
+
+1. Implicit numbering;
+
+2. Invariant;
+
+3. Block (of leaves and internal nodes);
+
+4. Updating procedures.
+
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 14/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Vitter’s algorithm: implicit numbering
+An implicit numbering is just a numbering scheme that numbers the tree
+nodes in increasing order on levels from left to right and bottom to top.
+The implicit numbering does not change except for the insertion of new
+nodes that should have smaller numbers than those in the old tree!
+256. 1 256. 2
+W A
+254. 0 255. 1(a) 254. 1 255. 1(a)
+A
+252. O 253. 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 15/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Vitter’s algorithm: invariant
+
+Invariant: For each weight W, all leaves of weight w precede (in the
+
+implicit numbering) all internal nodes of weight w.
+
+256. 2 256. 2
+254. 1 255. 1(a) 254. 1(a) 255. 1
+A A
+
+252. 0 253. 1(b) 252. O 253. 1(b)
+
+Does not satisfy the invariant! Satisfies the invariant!
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 16/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Vitter’s algorithm: block
+A block is a maximal sequence of nodes, in the implicit order, of the
+same weight and type. The element with the highest number is the block
+leader. There are two types of blocks: blocks of leaves and blocks of
+internal nodes.
+256. 2 256. 2
+254. 1 255. 1(a) 254. 1(a) 255. 1
+A A
+252. 0 253. 1(b) 252. 0 253. 1(b)
+Two blocks of leaves, (253> and One block of leaves, (253,254), and
+(255), and one block of internal one block of internal nodes, (255),
+nodes, <254>, all of weight 1. all of weight 1.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 17/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Vitter’s algorithm: tree updating
+The tree updating procedure is based on the following concepts:
+1. Currentunode (CN): a node to be processed. lt may be any node,
+including the O-node;
+2. Leafutouincrement (Ltl): a leaf to be incremented;
+3. Slideu&ulncrement: slide a node over a block. There are two
+procedures:
+3.1 slide a leaf over a block of internal nodes;
+3.2 slide an internal node over a block of leaves;
+4. New or existing symbol insertion.
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 18/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Vitter’s algorithm: Slide_&_lncrement
+Sliding a leaf Sliding an internal node
+<— <—
+(D (D (D
+CN CN I
+CN CN
+(D (D @
+Leaf's weight is incremented, and Internal node's weight is
+CN is changed! incremented, and CN is changed!
+Prof_dr. F.L.Tiplea,UAlC,RO Algebraic Foundations ofComputer Science-Semigroups and Monoids Spring 2022 19/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Vitter’s algorithm: inserting a new symbol
+The procedure to add a new symbol a is the following:
+1. CN is the O-node;
+2. Add two children to CN: a O-node as the left children and a leaf for
+a as the right children;
+3. Ltl becomes the right children of CN;
+4. While CN is not the root do Slidec&clncrement(CN);
+5. Slidec&clncrement(Ltl).
+The procedure to add an existing symbol a is the following:
+1. CN is the existing node of a;
+2. Interchange CN with the leader of its block;
+3. If the new node if the sibling of the O-node then it becomes Ltl and
+its parent is the new CN;
+4. While CN is not the root do Slidec&clncrement(CN);
+5. Slidec&clncrement(Ltl).
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 20/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+Vitter’s algorithm: encoding
+Text t0 be encoded Huffman code
+Text: abcc
+Encoded text:
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Vitter’s algorithm: encoding
+Read the first character Current Huffman code
+Text: abcc 0
+Encoded text:
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+Vitter’s algorithm: encoding
+Encode the ﬁrst character Current Huffman code
+Text: abcc 0
+Encoded text: a
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+Vitter’s algorithm: encoding
+First character encoded Update Huffman code
+Text: abcc O
+0A1
+Encoded text: a
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+Vitter’s algorithm: encoding
+First character encoded Updated Huffman code
+Text: abcc 1
+0A1
+Encoded text: a
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+Vitter’s algorithm: encoding
+Read the second character Current Huffman code
+Text: abcc 1
+0A1
+Encoded text: a
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Vitter’s algorithm: encoding
+Encode the second character Current Huffman code
+Text: abcc 1
+0A1
+Encoded text: aOb
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+Vitter’s algorithm: encoding
+Second character encoded Update Huffman code
+Text: abcc 1
+W
+Encoded text: aOb
+O 1(a)
+0 A1
+0 (b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+Vitter’s algorithm: encoding
+Second character encoded Updated Huffman code
+Text: abcc 2
+W
+Encoded text: aOb
+1(a) 1
+0A1
+0 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Vitter’s algorithm: encoding
+Read the third character Current Huffman code
+Text: abcc 2
+W
+Encoded text: aOb
+1(a) 1
+0A1
+0 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+Vitter’s algorithm: encoding
+Encode the third character Current Huffman code
+Text: abcc 2
+W
+Encoded text: aOblOc
+1(a) 1
+0A1
+0 1(b)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+Vitter’s algorithm: encoding
+Third character encoded Update Huffman code
+Text: abcc 2
+0A
+Encoded text: aOblOc
+1(a) 1
+W
+0 1(b)
+0 A1
+0 (C)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+Vitter’s algorithm: encoding
+Third character encoded Updated Huffman code
+Text: abcc 3
+W
+Encoded text: aOblOc
+1 2
+0 1(c) 1(b) 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+Vitter’s algorithm: encoding
+Read the fourth character Current Huffman code
+Text: abcc 3
+m
+Encoded text: aOblOc 1 2
+0 1(a) 1(b) 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Vitter’s algorithm: encoding
+Encode the fourth character Current Huffman code
+Text: abcc 3
+m
+Encoded text: a0b10c01 1 2
+0 1(c) 1(b) 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Vitter’s algorithm: encoding
+Fourth character encoded Update Huffman code
+Text: abcc 3
+W
+Encoded text: a0b10c01
+1 2
+W W
+0 1(c) 1(b) 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+Vitter’s algorithm: encoding
+Fourth character encoded Update Huffman code
+Text: abcc 3
+W
+Encoded text: a0b10c01
+1 2
+0A1 W
+0 1(a) 1(b) 1(c)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:96**************
+Vitter’s algorithm: encoding
+Fourth character encoded Updated Huffman code
+Text: abcc 4
+W
+Encoded text: a0b10c01
+2(a) 2
+W
+1(b) 1
+0 A1
+0 1(a)
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:97**************
+Reading
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:98**************
+References
+
+[1] Ferucio Laurentiu Tiplea. Algebraic Foundations of Computer Science. “Alexandru loan Cuza"
+University Publishing House, lasi, Romania, second edition, 2021.
+
+[2] Newton Faller. An adaptive system for data compression. In 7th Asi/omar Conference on
+Circuits, Systems and Computers, pages 593-597. IEEE, 1973.
+
+[3] Robert Gallager. Variations on a theme by Huffman. IEEE Transactions on Information
+Theory, 24(6):668—674, 1978.
+
+[4] Donald E Knuth. Dynamic Huffman coding. Journal ofA/gorithms, 6(2):163—180, 1985.
+
+[5] Jeffrey Scott Vitter. Design and analysis of dynamic huffman codes. J. ACM, 34(4):825—845,
+Oct 1987.
+
+Proﬁdr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 22 / 22
+
+***************Ending Page***************
+

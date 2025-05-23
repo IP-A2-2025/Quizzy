@@ -3,6 +3,7 @@ package com.backend.controller;
 import com.backend.dto.LoginRequest;
 import com.backend.dto.LoginResponse;
 import com.backend.dto.RegisterRequest;
+import com.backend.dto.UpdateUserRequest;
 import com.backend.model.Streak;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
@@ -46,6 +47,36 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         return userService.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getUserByEmailPath(@PathVariable String email) {
+        logger.info("Getting user by email path: {}", email);
+        try {
+            // Decode the email since it may be URL encoded
+            String decodedEmail = java.net.URLDecoder.decode(email, "UTF-8");
+            logger.info("Decoded email: {}", decodedEmail);
+            return userService.findByEmail(decodedEmail)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> {
+                        logger.warn("User not found for email: {}", decodedEmail);
+                        return ResponseEntity.notFound().build();
+                    });
+        } catch (java.io.UnsupportedEncodingException e) {
+            logger.error("Error decoding email parameter: {}", email, e);
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+        logger.info("Getting user profile by email: {}", email);
+        return userService.findByEmail(email)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    logger.warn("User not found for email: {}", email);
+                    return ResponseEntity.notFound().build();
+                });
     }
 
     @GetMapping("/login")
@@ -156,6 +187,100 @@ public class UserController {
                     ));
         }
     }
+
+    @PostMapping("/update/firstname")
+    public ResponseEntity<String> updateFirstName(@RequestBody UpdateUserRequest request) {
+        try {
+            logger.info("Updating firstName for user with id: {}", request.getId());
+            if (!userService.checkUserById(request.getId())) {
+                logger.warn("User with id {} not found", request.getId());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            boolean updated = userService.updateFirstName(request.getId(), request.getValue());
+            if (updated) {
+                logger.info("FirstName updated successfully for user with id: {}", request.getId());
+                return ResponseEntity.ok("First name updated successfully");
+            } else {
+                logger.warn("Failed to update firstName for user with id: {}", request.getId());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update first name");
+            }
+        } catch (Exception e) {
+            logger.error("Error updating firstName", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating first name");
+        }
+    }
+
+    @PostMapping("/update/lastname")
+    public ResponseEntity<String> updateLastName(@RequestBody UpdateUserRequest request) {
+        try {
+            logger.info("Updating lastName for user with id: {}", request.getId());
+            if (!userService.checkUserById(request.getId())) {
+                logger.warn("User with id {} not found", request.getId());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            boolean updated = userService.updateLastName(request.getId(), request.getValue());
+            if (updated) {
+                logger.info("LastName updated successfully for user with id: {}", request.getId());
+                return ResponseEntity.ok("Last name updated successfully");
+            } else {
+                logger.warn("Failed to update lastName for user with id: {}", request.getId());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update last name");
+            }
+        } catch (Exception e) {
+            logger.error("Error updating lastName", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating last name");
+        }
+    }
+
+    @PostMapping("/update/email")
+    public ResponseEntity<String> updateEmail(@RequestBody UpdateUserRequest request) {
+        try {
+            logger.info("Updating email for user with id: {}", request.getId());
+            if (!userService.checkUserById(request.getId())) {
+                logger.warn("User with id {} not found", request.getId());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            boolean updated = userService.updateEmail(request.getId(), request.getValue());
+            if (updated) {
+                logger.info("Email updated successfully for user with id: {}", request.getId());
+                return ResponseEntity.ok("Email updated successfully");
+            } else {
+                logger.warn("Failed to update email for user with id: {}", request.getId());
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists or update failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error updating email", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating email");
+        }
+    }
+
+    @PostMapping("/update/password")
+    public ResponseEntity<String> updatePassword(@RequestBody UpdateUserRequest request) {
+        try {
+            logger.info("Updating password for user with id: {}", request.getId());
+            if (!userService.checkUserById(request.getId())) {
+                logger.warn("User with id {} not found", request.getId());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            boolean updated = userService.updatePassword(request.getId(), request.getValue());
+            if (updated) {
+                logger.info("Password updated successfully for user with id: {}", request.getId());
+                return ResponseEntity.ok("Password updated successfully");
+            } else {
+                logger.warn("Failed to update password for user with id: {}", request.getId());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update password");
+            }
+        } catch (Exception e) {
+            logger.error("Error updating password", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating password");
+        }
+    }
+
+
     // === STREAK ENDPOINTS ===
 
     // GET /users/streak?userId=X

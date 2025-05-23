@@ -1,0 +1,690 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+\eciures by Ferucio Laurentiu Tiplea
+Securlty Extensmns for DNS
+DNSsec
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of lagi
+|a$i 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+
+Short introduction t0 DNS
+Domain name system (DNS)
+DNS domain name space
+Resource records
+Resolvers
+
+What is DNSsec?
+
+DNSsec specific elements
+
+Zone signing
+
+Resolving and authenticated DNS response
+
+Zone enumeration
+
+Concluding remarks
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Short introduction to DNS
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Domain Name System
+1. Internet domain
+o ls a collection of data-l- describing a self-contained administrative
+and technical unit on the Internet;
+o Can comprise computer addresses, services (such as e-mail or FTP),
+resource (such as hypertext documents), and more;
+2. Domain name : identification string for an Internet domain;
+3. Domain Name System (DNS) I hierarchical and decentralized
+naming system for Internet domains.
+DNS is the “phone-book" of the Internet!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 2 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Domain Name System
+1. DNS was proposed in the early 1980s by Paul V. Mockapetris;
+2. DNS original speciﬁcations were published in 1983 in RFC 882 and
+RFC 883;
+3. DNS became an Internet Standard in 1986 (RFC 1034 and RFC
+1035).
+The DNS has three major components:
+1. The domain name space and resource records I set of information
+tree-like structured;
+2. Name servers : server programs which hold information about the
+domain tree's structure and set information;
+3. Resolvers I programs that extract information from name servers.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on lnformatlon Security DNSsecDNSsec Fall 2022 3/34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+DNS domam name space
+Root
+
+Top Leve| / ll \
+
+Domains ~ A ~ com edu org - - -
+
+(TLD) l
+
+2"” Level .
+
+_ mlt ~ - '
+Domalns / \
+Subdomains admin CS '~~
+5W hw net > - -
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 4 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Zones of authority and name servers
+1. The DNS name space is comprised logically of domain names but
+physically of zones;
+2. Zones are obtained by making cuts between adjacent nodes of the
+DNS name tree to create groups of contiguous nodes in the tree;
+3. Each group is called a zone of authority;
+4. Each zone is usually identified by the domain name of the highest
+level node in the zone;
+5. The zones are non-overlapping;
+6. Every zone is managed by one or more pairs (primary/master,
+secondary/slave) of authoritative name servers;
+7. A name server may be authoritative for more than one zone.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 5/34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Zones of authorlty and name servers
+Root name servers can be found here
+, ~ -- _> https://WWW.iana.org/domains/root/servers
+, Root
+, 60m if , edu if , org if
+mit
+_' _ .. , _ Zone of authority
+" -, _' managed by a name
+: . ' v _ ' server
+' admin _v cs ._
+-" dele ation between
+- . ~ / l \ 1 —> g .
+v 3 authority zones
+> sw hw net
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 6 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Resource Records (RR)
+1. Each node in the DNS name tree has associated a number of
+records, usually called resource records (RR), depending on the node
+type;
+2. The RRs are added, changed, or deleted when DNS information
+changes (this is done by administrators);
+3. The set of all RRs gives rise to a distributed database that is
+structured in a hierarchy comparable to the hierarchy of authorities.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 7/34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+RR format
+0 16 32
+RData
+0 Name I domain name where o TTL : time to live (time to
+the RR is found (RR's owner) cache an RR) in seconds
+. Type I type of RR (primarily used by resolvers)
+o Class : identifies a protocol ' RData length : length Of
+family or instance of a protocol RData ﬁeld
+(mostly, IN for Internet) 0 RData : resource data
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 8/34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Some DNS RR types
+SOA I Start Of Authority
+o Every zone has exactly one SOA RR, at the beginning of the zone;
+o lt holds information about the zone, such as:
+o Default TTL for everything in the zone;
+o Primary name server;
+o The e-mail address of the person responsible for administering the
+domain's zone file.
+Example 1
+google.com. 900 IN SOA nsl.google.com
+dns-admin.google.com
+494510988 900 900 1800 60
+TTL I 900
+NS I nsl.google.c0m
+e-mail : dns-admin©g00gle.com
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 9 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Some DNS RR types
+NS I Name Server
+o Specifies the name of the authoritative DNS name server for the
+zone;
+o Each zone must have at least one NS RR that points to its primary
+name server, and that name must also have a valid A RR.
+A : Address
+0 Contains a 32-bit lP address (it is the lP address of the node, stored
+for the resolution process).
+MX : Mail eXchanger
+0 Specifies the location (device name) that is responsible for handling
+e-mail sent to the domain, and that location must have a valid A RR.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 10/34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+DNS resolution
+1. Most typical types of resolution:
+1.1 (Standard) name resolution : determine the IP address of a domain
+name;
+1.2 Reverse name resolution : determine the domain name associated
+with an IP address;
+1.3 e-mail resolution I determine where to send the e-mail messages
+based on the e-mail address used in a message;
+2. DNS name resolution techniques:
+2.1 Iterative resolution;
+2.2 Recursive resolution (not all name servers support recursion,
+especially servers near the top of the hierarchy).
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 11 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+n I
+Iteratlve resolutlon
+N S Root 1
+Cf“
+9*‘ 65w .1 -’" '- .
+5K0‘
+$ - d“ edu ‘
+) (0‘ , v
+> mit
+, sw.cs,mitvedu. ‘v .
+NS for csmitedu. _ Q .-- " ' '
+admin . - " CS v
+SW'CS'W'Z-edu‘ . . . . . . l . I
+IP f0
+'5W'C5'miﬁedu‘ N S '
+- sw hw net Y
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 12 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Recursive resolution
+N S Root
+v 63°- ‘ - - ., > ' I
+$093“ 6736wa- I l‘ _,H l __ _ _
+544 .- 1
+\\, w‘ N S edu 1
+' X I mit I‘
+'- SW hw net .'
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 13 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Resolvers and DNS transport
+Types of resolvers:
+1. Full resolver;
+2. Stub resolver.
+DNS transport:
+1. By UDP for conventional queries;
+2. By TCP for zone transfer.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 14 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+What is DNSsec?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+DNS vulnerabilities
+S. Bellovin: Using the Domain Name System for System Break-ins,
+Proceedings of the Fifth USENIX UNIX Security Symposium Salt
+Lake City, Utah, June 1995
+Author's note: this paper has been withheld by the author
+for over four years because it described a serious vulnerability
+for which there was no feasible fix. The only choice would have
+been to give up entirely on name based authentication, a choice
+the industry was not able to make in 1990. ”
+0 DNS snooping
+0 DNS ID hacking
+0 DNS cache poisoning
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 15 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+What is DNSsec?
+1. After Bellovin's paper, securing DNS became a fundamental issue;
+2. Proposed DNSsec standards: RFC 4033, 4034, 4035 (in 2005).
+DNSsec is an extension of DNS that adds:
+
+o Data origin authentication — allows a resolver to cryptographically
+verify that the data it has received actually came from the zone
+where it believes the data originated;
+
+0 Data integrity protection — allows the resolver to know that the data
+has not been modified in transit since it was originally signed by the
+zone owner with the zone's private key.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 16/34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+DNSsec specific elements
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+New RR types
+DNSsec uses four new types of RRs:
+0 RRSIG (RR SlGnature) — stores a digital signature over an RRset;
+o DNSKEY (DNS public KEY) — stores a public key for digital
+signature verification;
+o NSEC/NSEC3 (Next SECure) — used to prove that something really
+does not exist;
+0 DS (Delegation Signer)— stores a hash value of a verification public
+key.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 17 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+DNSsec signature algorithms (RFC 8624)
+1 RSAIVID5 must not must not
+3 DSA must not must not
+5 RSASHAl not recommended must
+6 DSA-NSEC3-SHA1 must not must not
+7 RSASHAl-NSEC3-SHA1 not recommended must
+8 RSASHA256 must must
+10 RSASHA512 not recommended must
+12 ECC-GOST must not may
+13 ECDSAP256SHA256 must must
+14 ECDSAP384SHA384 may recommended
+15 ED25519 recommended recommended
+16 ED448 may recommended
+A combination like “not recommended — must" means that validators
+must implement it in order to validate/invalidate existing RRSle, but it
+is not recommended to use it to sign new RRsets.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 18/34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+DNSsec digest algorithms (RFC 8624)
+1 SHA-l must not must
+2 SHA-256 must must
+3 GOST R 34.11-94 must not may
+4 SHA-384 may recommended
+Remarks:
+1. SHA-256 is widely used and considered strong;
+2. GOST R 34.11-94 has been superseded by GOST R 34.11-2012 in
+RFC 6986. GOST R 34.11-2012 has not been standardized for use in
+DNSsec.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 19 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Canonical ordering of DNS names (RFC 4034)
+For the purposes of DNSsec:
+1. Owner names are ordered by treating individual labels as unsigned
+left-justified octet strings;
+2. The absence of a octet sorts before a zero value octet;
+3. Uppercase US-ASCII letters are treated as lowercase;
+4. Start by sorting the names according to their rightmost labels;
+5. For names in which the most significant label is identical, continue
+sorting according to their next most significant label, and so forth.
+example
+le z.example
+a.exam
+_ __ p \OOl.z.example
+leleJk.a.example *
+.z.example
+Z.a.example \200 l
+.z.exam e
+zABCaEXAMPLE p
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 20/34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Canonical RR ordering in an RRset (RFC 4034)
+For the purposes of DNSsec:
+
+1. RRs with the same owner name, class, and type are sorted by
+treating the RDATA portion of the canonical form of each RR as a
+left-justified unsigned octet sequence in which the absence of an
+octet sorts before a zero octet;
+
+2. If a DNSsec implementation detects duplicate RRs when putting the
+RRset in canonical form, it must treat this as a protocol error or
+remove all but one of the duplicate RR(s) for the purposes of
+calculating the canonical form of the RRset.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 21 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+RData for DNSKEY
+0 16 24 32
+o Flags : used to differentiate o Algorithm : identifies the
+between classes of pairs of keys public key's cryptographic
+(see next slide) algorithm (e.g., 5 stands for
+o Protocol : must have value 3; RSA/SHA‘1)
+otherwise, is treated as invalid 0 Public key I holds the public
+key material
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 22/34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+ZSK vs. KSK
+Public keys in DNSsec have two fundamental uses: to sign a zone, called
+in this case zone signing keys (ZSK), and to validate a ZSK, called in this
+case key signing keys (KSK).
+The "flags" field differentiates between the two classes of keys:
+1. If flag 7 is 1, the key is used for signing the zone;
+2. If flag 15 is 1, the key is used to validate a ZSK.
+Example 2
+When the flags field value is 256 (meaning that only flag 7 is 1), the
+key is for zone signing, and when it is 257 (both flags 7 and 15 are 1),
+the key is both for zone and key signing.
+KSKs are used to validate ZSKs and create a chain of trust starting from
+the root to the desired node.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 23 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+RData for RRSIG
+0 16 24 32
+_—
+Signer's name
+o Original TTL : the TTL of the o Key tag : the key tag value of
+covered RRset the DNSKEY RR that validates
+. Signer's name I must contain this signature (see RFC 4034 for
+the name of the zone of the calculation Of Key Tag values)
+covered RRset
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 24 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+RData for NSEC
+0 32
+o Next domain name I the next 0 Type bit maps I identiﬁes the
+owner name (in the canonical RRset types that exist at the
+ordering of the zone) that has NSEC RR's owner name
+authoritative data or contains a
+delegation point NS RRset
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 25 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+RData for DS
+0 16 24 32
+o Key tag : the key tag of some o Digest type : identifies the
+DNSKEY RR (corresponding to algorithm used t0 construct the
+some KSK) digest
+o Algorithm : the algorithm o Digest : includes a digest of
+number of some DNSKEY RR that DNSKEY RR
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 26 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Zone signing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Zone signing
+To sign a zone means to include DNSKEY RRs, RRSIG RRs, NSEC RRs,
+and optionally DS RRs in that zone, according to the following rules:
+
+o To sign a zone, zone's admin generates one or more (public,private)
+keys and uses the private keys to sign authoritative RRsets. For each
+private key used to create RRSIG RRs, a corresponding DNSKEY
+RR should be included in the zone;
+
+0 Suppose the signed zone must be linked to the parent zone. ln that
+case, the zone validation keys (DNSKEY RRs) must be signed by a
+KSK, its veriﬁcation key (of DNSKEY RRs) must be present in the
+zone, and a DS RR of it must be in the parent zone at the
+delegation point (separation entry point);
+
+0 Each owner name in the zone that has authoritative data 0r a
+delegation point NS RRset, must have an NSEC resource record.
+
+More on zone signing can be found in RFC 4035.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Informatlon Security DNSsecDNSsec Fall 2022 27/34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Zo e s' '
+DNSKEV
+1|‘:!_|&ln!26 y,
+104mm
+DNSKEV DNSKEY
+m m=1ww AW "Hm"
+104mm; 104mm
+
+‘ -
+upxmamm In “Hum” pp
+204mb mm
+DNSKEV DNSKEV
+m-x \d—4450 11H \d-W-ti:
+
+um.“ / 11m.“ \
+-- -- i-/ --
+com/50A cum/SOA w w nsI/SOA “evson neI/SOA nsI/SOA nevISOA neI/SOA w
+ml
+mm 1| uzlnuulu
+A A
+mlcrosoft.com edgekeymet akadnsnet akamaIedgenet
+Proﬁdr‘ F.L. Tiplea, UAIC. RO Lectures on Information Security DNSsecDNSsec Fall 2022 28 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Resolving and authenticated
+DNS response
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Resolving and authenticated DNS response
+In class by means of examples:
+o DNSsecsExamplelpdf — for zone signing
+0 DNSsecsExampleZpdf — for resolving and responses
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 29 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Zone enumeration
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Zone enumeration
+The NSEC RR introduces a side-effect in that the contents of a zone can
+be enumerated:
+0 An NSEC record lists two names that are ordered canonically, in
+order to show that nothing exists between the two names;
+0 The complete set of NSEC records lists all the names in a zone;
+o To enumerate the content of a zone, query for names that do not
+exist!
+The enumeration of a zone can be used:
+0 As a source of probable e-mail addresses for spam, or
+o As a key for multiple WHOIS queries to reveal registrant data that
+many registries may have legal obligations to protect.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 30/34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Delegation to unsigned zones
+The cost of a secure delegation (with DS) to unsigned areas can be high
+in some instances, such as:
+0 Large delegation-centric zones;
+o Zones where insecure delegations are updated rapidly.
+In cases cases, the costs of maintaining an NSEC RR chain may be
+extremely high.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 31 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+RData for NSEC3
+NSEC3 was introduced in RFC 5155 to address the two previously
+mentioned problems (zone enumeration and the cost of delegation to
+unsigned zones).
+0 8 16 32
+The last bit of the Flags field is called the Opt-Out flag. lt tells whether
+the NSEC3 RR is for all delegations or only for secure delegations (see
+RFC 5155 for details).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 32 / 34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+-
+NSEC3 delegatlon
+DNSKEY
+| =3, d=30909
+.D
+DNSKEY
+“IFS “#53829
+1130 hm
+l—-
+com/80A com/30A NSECH
+com
+[2022-12-111445:13UTC>
+www.gcogle.ccmfA www.gccg|e.comlA www.gocg|a.com/AAAA www.gccg|e.comfAAAA
+googloxom
+[2022-12-11 1n 0512 UTC:
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 33 / 34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Concluding remarks
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:42**************
+Concluding remarks
+o DNSsec is a critical service on the Internet;
+o ICANN has been supporting DNSsec deployment for many years
+through various initiatives and capacity-building programs;
+o According to APNIC, only 30% of the world has achieved DNSsec
+validation;
+o Countries with exceptionally high validation rates: Saudi Arabia
+(98%), Finland (94%), Iceland (88%), Norway (86%), and Sweden
+(86%);
+o Despite the slow adoption, DNSSEC remains the only real option for
+preventing cache poisoning attacks.
+The slow deployment of DNSsec is due to the lack of knowledge about
+the security problems generated by DNS and the lack of requirements for
+implementing this technology.
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security DNSsecDNSsec Fall 2022 34/34
+
+***************Ending Page***************
+
+
+

@@ -3,7 +3,7 @@ package com.backend.service;
 import com.backend.dto.RegisterRequest;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
-import com.backend.config.JwtUtil; // Asigură-te că importul este corect
+import com.backend.config.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +60,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> findByEmail(String email) {
+        logger.info("Finding user by email: {}", email);
+        return userRepository.findByEmail(email);
+    }
 
     public String generateJwtForUser(String email)
     {
@@ -92,4 +96,81 @@ public class UserService {
             throw e;
         }
     }
+
+    public boolean updateFirstName(Integer id, String firstName) {
+        try {
+            logger.info("Updating firstName for user with id: {}", id);
+            int rowsUpdated = userRepository.updateFirstName(id, firstName);
+            boolean success = rowsUpdated > 0;
+            if (success) {
+                logger.info("FirstName updated successfully for user with id: {}", id);
+            } else {
+                logger.warn("Failed to update firstName for user with id: {}", id);
+            }
+            return success;
+        } catch (Exception e) {
+            logger.error("Error updating firstName for user with id: {}", id, e);
+            throw e;
+        }
+    }
+
+    public boolean updateLastName(Integer id, String lastName) {
+        try {
+            logger.info("Updating lastName for user with id: {}", id);
+            int rowsUpdated = userRepository.updateLastName(id, lastName);
+            boolean success = rowsUpdated > 0;
+            if (success) {
+                logger.info("LastName updated successfully for user with id: {}", id);
+            } else {
+                logger.warn("Failed to update lastName for user with id: {}", id);
+            }
+            return success;
+        } catch (Exception e) {
+            logger.error("Error updating lastName for user with id: {}", id, e);
+            throw e;
+        }
+    }
+
+    public boolean updateEmail(Integer id, String email) {
+        try {
+            // First check if the email is already used by another user
+            Optional<User> existingUser = userRepository.findByEmail(email);
+            if (existingUser.isPresent() && !existingUser.get().getId().equals(id)) {
+                logger.warn("Email {} is already in use by another user", email);
+                return false;
+            }
+
+            logger.info("Updating email for user with id: {}", id);
+            int rowsUpdated = userRepository.updateEmail(id, email);
+            boolean success = rowsUpdated > 0;
+            if (success) {
+                logger.info("Email updated successfully for user with id: {}", id);
+            } else {
+                logger.warn("Failed to update email for user with id: {}", id);
+            }
+            return success;
+        } catch (Exception e) {
+            logger.error("Error updating email for user with id: {}", id, e);
+            throw e;
+        }
+    }
+
+    public boolean updatePassword(Integer id, String rawPassword) {
+        try {
+            logger.info("Updating password for user with id: {}", id);
+            String encodedPassword = passwordEncoder.encode(rawPassword);
+            int rowsUpdated = userRepository.updatePassword(id, encodedPassword);
+            boolean success = rowsUpdated > 0;
+            if (success) {
+                logger.info("Password updated successfully for user with id: {}", id);
+            } else {
+                logger.warn("Failed to update password for user with id: {}", id);
+            }
+            return success;
+        } catch (Exception e) {
+            logger.error("Error updating password for user with id: {}", id, e);
+            throw e;
+        }
+    }
+
 }

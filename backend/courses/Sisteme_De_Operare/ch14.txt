@@ -1,0 +1,766 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 14: File System
+Implementation
+— —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+‘ﬁﬁChapter 14: File System Implementation
+I File-System Structure
+I File-System Operations
+I Directory Implementation
+I Allocation Methods
+I Free-Space Management
+I Efficiency and Performance
+I Recovery
+I Example: WAFL File System
+I Operating System Concepts-10"‘ Edition 142 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+if
+
+few Ob jectlves
+
+I Describe the details of implementing local file systems and
+
+directory structures
+
+I Discuss block allocation and free-block algorithms and trade-offs
+
+I Explore file system efficiency and performance issues
+
+I Look at recovery from file system failures
+
+I Describe the WAFL file system as a concrete example
+
+A
+
+Operating System Concepts — 10th Edition 14.3 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+“*93’ File-System Structure
+I File structure
+' Logical storage unit
+. Collection of related information
+I File system resides on secondary storage (disks)
+. Provided user interface to storage, mapping logical to physical
+. Provides efficient and convenient access to disk by allowing data
+to be stored, located retrieved easily
+I Disk provides in-place rewrite and random access
+' l/O transfers performed in blocks of sectors (usually 512 bytes)
+I File control block (FCB) — storage structure consisting of information
+about a file
+I Device driver controls the physical device
+I File system organized into layers
+Operating System Concepts -10th Edition 14.4 Silberschatz, Galvin and Gash: ©2022:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Layered File System
+application programs
+i
+logical file system
+i
+file-organization module
+i
+basic file system
+i
+l/O control
+i
+devices
+A
+Operating System Concepts -1oth Edition 14.5 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+hwy)’ F|le System Layers
+I Device drivers manage l/O devices at the l/O control layer
+' Given commands like “read drive1, cylinder 72, track 2, sector
+10, into memory location 1060” outputs low-level hardware
+specific commands to hardware controller
+I Basic file system given command like “retrieve block 123”
+translates to device driver
+I Also manages memory buffers and caches (allocation, freeing,
+replacement)
+. Buffers hold data in transit
+' Caches hold frequently used data
+I File organization module understands files, logical address, and
+physical blocks
+I Translates logical block # to physical block #
+I Manages free space, disk allocation
+Operating System Concepts — 10th Edition 14.6 Silberschatz, Galvin and Gaylek @262
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Ky)’ F|le System Layers (Cont.)
+I Logical file system manages metadata information
+. Translates file name into file number, file handle, location by
+maintaining file control blocks (inodes in UNIX)
+. Directory management
+' Protection
+I Layering useful for reducing complexity and redundancy, but
+adds overhead and can decrease performanceTranslates file
+name into file number, file handle, location by maintaining file
+control blocks (inodes in UNIX)
+. Logical layers can be implemented by any coding method
+according to OS designer
+Operating System Concepts — 10th Edition 14.7 Silberschatz, Galvin and Gagn; ©2022;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+‘may’ F|le System Layers (Cont.)
+I Many file systems, sometimes many within an operating
+system
+. Each with its own format (CD-ROM is ISO 9660; Unix has
+UFS, FFS; Windows has FAT, FAT32, NTFS as well as
+floppy, CD, DVD Blu-ray, Linux has more than 130 types,
+with extended file system ext3 and ext4 leading; plus
+distributed file systems, etc.)
+' New ones still arriving — ZFS, GoogleFS, Oracle ASM,
+FUSE
+| Operating System Concepts-10th Edition 14.8 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+My)’ F|le-System Operatlons
+I We have system calls at the API level, but how do we implement
+their functions?
+. On-disk and in-memory structures
+I Boot control block contains info needed by system to boot OS
+from that volume
+' Needed if volume contains OS, usually first block of volume
+I Volume control block (superblock, master file table) contains
+volume details
+' Total # of blocks, # of free blocks, block size, free block
+pointers or array
+I Directory structure organizes the files
+' Names and inode numbers, master file table
+Operating System Concepts — 10th Edition 14.9 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+W“? F|le-System Implementatlon (Cont.)
+I Per-file File Control Block (FCB) contains many details about
+the file
+. typically inode number, permissions, size, dates
+' NFTS stores into in master file table using relational DB
+structures
+file dates (create, access, write)
+ﬁle owner, group, ACL
+file data blocks or pointers to ﬁle data blocks
+Operating System Concepts —10th Edition 14.10 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+My)’ ln-Memory F|le System Structures
+I Mount table storing file system mounts, mount points, file system
+types
+I system-wide open-file table contains a copy of the FCB of each
+file and other info
+I per-process open-file table contains pointers to appropriate
+entries in system-wide open-file table as well as other info
+I The following figure illustrates the necessary file system structures
+provided by the operating systems
+I Figure 12-3(a) refers to opening a file
+I Figure 12-3(b) refers to reading a file
+I Plus buffers hold data blocks from secondary storage
+I Open returns a file handle for subsequent use
+I Data from read eventually copied to specified user process
+memory address
+Operating System Concepts —10th Edition 14.11 Silberschatz, Galvin and Gagne ©2012
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+M ln-Memory F|le System Structures
+iie'm ”
+I I B
+— U U
+directory structure
+open (file name) -
+directory structure file-control block
+user space kernel memory secondary storage
+(a)
+_ I - a
+- " data blocks
+—
+read (index) - -
+per-process system-wide file-control block
+open-file table open-file table
+user space kernel memory secondary storage
+Operating System Concepts — 10th Edition 14.12 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+5' Dlrectory Implementatlon
+I Linear list of file names with pointer to the data blocks
+' Simple to program
+' Time-consuming to execute
+> Linear search time
+> Could keep ordered alphabetically via linked list or use
+B+ tree
+I Hash Table — linear list with hash data structure
+' Decreases directory search time
+' Collisions — situations where two file names hash to the
+same location
+' Only good if entries are fixed size, or use chained-overﬂow
+method
+in
+Operating System Concepts — 10th Edition 14.13 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+is»??? Allocatlon Methods - Contlguous
+I An allocation method refers to how disk blocks are allocated for
+files:
+I Contiguous allocation — each file occupies set of contiguous
+blocks
+' Best performance in most cases
+' Simple — only starting location (block #) and length (number
+of blocks) are required
+' Problems include finding space for file, knowing file size,
+external fragmentation, need for compaction off-line
+(downtime) or on-line
+| Operating System Concepts-10th Edition 14.14 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+‘633$ Contlguous Allocatlon
+I Mapping from logical to physical
+- directory
+Q count file start length
+/ 0|:| 1|:| 2U 3U count 0 2
+f tr 14 3
+LA/512 \ 4U 5|:l 6|:| 7D mail 19 6
+list 28 4
+R 8U 9|:l10Ut1r1U f 6 2
+12U13El14|115l1
+Block to be accessed = Q + starting 16D17U18U1QU
+address mail
+Displacement into block = R 20U21U22U23D
+24U25U26U27U
+list
+28U29U30El31l1
+Operating System Concepts — 10th Edition 14.15 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+‘@ﬁj‘ Extent-Based Systems
+I Many newer file systems (i.e., Veritas File System) use a
+modified contiguous allocation scheme
+I Extent-based file systems allocate disk blocks in extents
+I An extent is a contiguous block of disks
+' Extents are allocated for file allocation
+. A file consists of one or more extents
+| Operating System Concepts — 10th Edition 14.16 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+we“? Allocation Methods - Linked
+I Linked allocation — each file a linked list of blocks
+' File ends at nil pointer
+' No external fragmentation
+. Each block contains pointer to next block
+. No compaction, external fragmentation
+' Free space management system called when new block
+needed
+' Improve efficiency by clustering blocks into groups but
+increases internal fragmentation
+' Reliability can be a problem
+I ' Locating a block can take many l/Os and disk seeks
+4t
+Operating System Concepts _10m Edition 1447 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+%Z L|nked Allocatlon
+I Each file is a linked list of disk blocks: blocks may be scattered
+anywhere 0n the disk
+blOCk =
+I Mapping
+LA/511/Q
+\
+R
+Block to be accessed is the ch block in the linked chain of blocks
+representing the file.
+Displacement into block = R + 1 ‘A
+Operating System Concepts — 10th Edition 14.19 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+W5‘ Linked Allocation
+- directory
+jeep 9 25
+0D 1 2U 3|:l
+4U 6U 7|:l
+8E! II1011|I|
+12 13|114I15III
+16 17U18U19U
+20D21I 2523B
+24525I26|1|27U
+28 529530 |I|31 D
+Operating System Concepts -10th Edition 14.20 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+F|le-Allocat|on Table
+directory entry
+———
+name start block 0
+217
+339 _ﬂ
+618
+number of disk blocks —1 —
+FAT
+Operating System Concepts — 10th Edition 14.21 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+‘6?? Allocatlon Methods - Indexed
+ma “
+I Indexed allocation
+' Each file has its own index block(s) of pointers to its data blocks
+I Logical view
+étl
+U
+U
+U
+U
+index table
+Operating System Concepts — 10th Edition 14.22 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+‘13?? Example of Indexed Allocation
+- directory
+0U £165 3U jeep 19
+4U 5D 7|:l
+8U 9I1:%1U 9
+12U13U14‘1\I i 1:3
+16I .1856) 19 g2
+20U21U22723U :1
+24D25I26|I|27|I| 4
+28U29U30U31U
+Operating System Concepts -10th Edition 14.23 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+g? Comblned Scheme: UNIX UFS
+4K bytes per block, 32-bit addresses
+ﬁle
+EK
+H:-
+blocks
+E:-
+blocks 5:: 5::
+E:-
+a: E:
+m:-
+More index blocks than can be addressed with 32-bit file pointer
+Operating System Concepts — 10th Edition 14.28 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+My? Performance
+I Best method depends on file access type
+. Contiguous great for sequential and random
+I Linked good for sequential, not random
+I Declare access type at creation -> select either contiguous or linked
+I Indexed more complex
+. Single block access could require 2 index block reads then data
+block read
+' Clustering can help improve throughput, reduce CPU overhead
+I For NVM, no disk head so different algorithms and optimizations
+needed
+. Using old algorithm uses many CPU cycles trying to avoid non-
+existent head movement
+‘ With NVM goal is to reduce CPU cycles and overall path needed
+for l/O
+Operating System Concepts -10th Edition 14.29 Silberschatz, Galvin and Gage: ©2512;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+‘6?? Free-Space Management
+I Fie (sassréntgrijqir1::1:k:|'fie-:i:1apc:;iltils)t to track available blocks/clusters
+I Bit vector or bit map (n blocks)
+O 1 2 n-1
+1 :> block[l] free
+bitm :5
+“E O :> block[i] occupied
+Block number calculation
+(number of bits per word) *
+(number of 0-value words) +
+offset of first 1 bit
+CPUs have instructions to return offset within word of first “1” mam
+Operating System Concepts — 10th Edition 14.31 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+4??‘ Free-Space Management (Cont.)
+I Bit map requires extra space
+' Example:
+block size = 4KB = 212 bytes
+disk size = 24O bytes (1 terabyte)
+n = 240/212 = 228 bits (or 32MB)
+if clusters of 4 blocks -> 8MB of memory
+I Easy to get contiguous files
+| Operating System Concepts-10th Edition 14.32 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+I a??? Linked Free Space List on Disk
+I Linked list (free list)
+' Cannot get contiguous -
+space 68$in free-space list head
+' N0 waste ofspace 0'1 1U 2- 3-
+' N0 need to traverse the 4- I 6|:l 75
+entire list (if#free blocks 8- 9-.101 I
+recorded)
+12II1314|115C|
+16|:|17II1819|:|
+20|:|21D2 '23Cl
+24|:|25II2627I-
+I 28|129D30|131 Cl
+Operating System Concepts _ 10th Edition 14_33 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+‘ﬁr’ Free-Space Management (Cont.)
+I Grouping
+' Modify linked list to store address of next n-1 free blocks in first
+free block, plus a pointer to next block that contains free-block-
+pointers (like this one)
+I Counting
+. Because space is frequently contiguously used and freed, with
+contiguous-allocation allocation, extents, or clustering
+> Keep address of first free block and count of following free
+blocks
+> Free space list then has entries containing addresses and
+counts
+Operating System Concepts — 10th Edition 14.34 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+in??? Free-Space Management (Cont.)
+I Space Maps
+' Used in ZFS
+. Consider meta-data l/O on very large file systems
+> Full data structures like bit maps couldn’t fit in memory ->
+thousands of l/Os
+. Divides device space into metaslab units and manages metaslabs
+> Given volume can contain hundreds of metaslabs
+' Each metaslab has associated space map
+> Uses counting algorithm
+' But records to log file rather than file system
+> Log of all block activity, in time order, in counting format
+. Metaslab activity -> load space map into memory in balanced-tree
+structure, indexed by offset
+> Replay log into that structure
+> Combine contiguous free blocks into single entry y
+Operating System Concepts -10th Edition 14.35 Silberschatz, Galvin and Gage: ©2022;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+k“??? TRlMlng Unused Blocks
+I HDDS overwrite in place so need only free list
+I Blocks not treated specially when freed
+. Keeps its data but without any file pointers to it, until oven/vritten
+I Storage devices not allowing overwrite (like NVM) suffer badly with same
+algorithm
+. Must be erased before written, erases made in large chunks (blocks,
+composed of pages) and are slow
+' TRIM is a newer mechanism for the file system to inform the NVM
+storage device that a page is free
+> Can be garbage collected or if block is free, now block can be
+erased
+Operating System Concepts — 10th Edition 14.36 Silberschatz, Galvin and Gaylek @251:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+“*3 pl‘ Eff|c|ency and Performance
+I Efficiency dependent on:
+' Disk allocation and directory algorithms
+' Types of data kept in file’s directory entry
+' Pre-allocation or as-needed allocation of metadata
+structures
+' Fixed-size or varying-size data structures
+| Operating System Concepts _10th Edition 1437 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+teﬁ‘ Efficiency and Performance (Cont.)
+I Performance
+' Keeping data and metadata close together
+' Buffer cache — separate section of main memory for frequently used
+blocks
+' Synchronous writes sometimes requested by apps or needed by OS
+> No buffering / caching — writes must hit disk before
+acknowledgement
+> Asynchronous writes more common, buffer-able, faster
+' Free-behind and read-ahead — techniques to optimize sequential
+access
+' Reads frequently slower than writes
+I Operating System Concepts -10th Edition 14.38 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+wt‘ Page Cache
+
+I A page cache caches pages rather than disk blocks using virtual
+
+memory techniques and addresses
+
+I Memory-mapped l/O uses a page cache
+
+I Routine l/O through the file system uses the buffer (disk) cache
+
+I This leads to the following figure
+
+A
+
+I Operating System Concepts-10"1 Edition 14.39 Silberschatz, Galvin and cagnn @2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+‘5%’? llO Without a Unified Buffer Cache
+I
+A
+Operating System Concepts - 10th Edition 14_40 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+‘t3 $3? Unlfled Buffer Cache
+I A unified buffer cache uses the same page cache to cache
+both memory-mapped pages and ordinary file system l/O to
+avoid double caching
+I But which caches get priority, and What replacement algorithms
+to use?
+| Operating System Concepts — 10th Edition 14.41 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+I ‘W? $4‘ |/o Using a Unified Buffer Cache
+l/O using
+read( ) and write( )
+Operating System Concepts — 10th Edition 14.42 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+‘5429" Recovery
+I Consistency checking — compares data in directory structure
+with data blocks on disk, and tries to fix inconsistencies
+' Can be slow and sometimes fails
+I Use system programs to back up data from disk to another
+storage device (magnetic tape, other magnetic disk, optical)
+I Recover lost file or disk by restoring data from backup
+Operating System Concepts — 10th Edition 14.43 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+gay’ Log Structured F|le Systems
+I Log structured (orjournaling) file systems record each metadata
+update to the file system as a transaction
+I All transactions are written to a log
+' A transaction is considered committed once it is written to the
+log (sequentially)
+' Sometimes to a separate device or section of disk
+. However, the file system may not yet be updated
+I The transactions in the log are asynchronously written to the file
+system structures
+. When the file system structures are modified, the transaction is
+removed from the log
+I If the file system crashes, all remaining transactions in the log must
+still be performed
+I Faster recovery from crash, removes chance of inconsistency of
+metadata J ‘V
+Operating System Concepts — 10th Edition 14.44 Silberschatz, Galvin and Gaylek @251:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+tag Example: WAFL File System
+I Used on Network Appliance “Filers” — distributed file system
+appHances
+I “Write-anwvhere file layout”
+I Serves up NFS, CIFS, http, ftp
+I Random |/O optimized, write optimized
+' NVRAM for write caching
+I Similar to Berkeley Fast File System, with extensive
+modifications
+I Operating System Concepts-10"‘ Edition 14_45 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+W Th WAFL F'le La out
+free block map free inode map ﬁle in the file system... 0" -
+I Operating System Concepts -10th Edition 14.46 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+_ /
+Snapshots in WAFL
+‘to
+eeuaua
+(a) Before a snapshot.
+O i ‘u
+meaaua
+(b) After a snapshot, before any blocks change.
+v‘l“\
+Q
+5.0».
+El u u
+(c) After block D has changed to D’. A
+Operating System Concepts -1oth Edition 14.47 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:42**************
+“3? The Apple F|le System
+In 2017, Apple, Inc., released a new file system to replace its 30-year-old HFS+
+file system. HFS+ had been stretched to add many new features, but as usual,
+this process added complexity, along with lines of code, and made adding
+more features more difficult. Starting from scratch on a blank page allows a
+design to start with current technologies and methodologies and provide the
+exact set of features needed.
+
+Apple File System (APFS) is a good example of such a design. Its goal
+is to run on all current Apple devices, from the Apple Watch through the
+iPhone to the Mac computers. Creating a ﬁle system that works in watchOS,
+I / Os, tvOS, and macOS is certainly a challenge. APPS is feature-rich, including
+64-bit pointers, clones for files and directories, snapshots, space sharing, fast
+directory sizing, atomic safe-save primitives, copy-on-write design, encryp-
+tion (single- and multi-key), and I/O coalescing. It understands NVM as well
+as HDD storage.
+
+Most of these features we've discussed, but there are a few new concepts
+worth exploring. Sp ace sharing is a ZFS-like feature in which storage is avail-
+able as one or more large free spaces (containers) from which file systems
+can draw allocations (allowing APPS-formatted volumes to grow and shrink).
+Fast directory sizing provides quick used-space calculation and updating.
+Atomic safe-save is a primitive (available via API, not via file-system com-
+mands) that performs renames of files, bundles of files, and directories as
+single atomic operations. I/O coalescing is an optimization for NVM devices
+in which several small writes are gathered together into a large write to
+optimize write performance.
+
+Apple chose not to implement RAID as part of the new APFS, instead
+depending on the existing Apple RAID volume mechanism for software RAID.
+APFS is also compatible with I-IFS+, allowing easy conversion for existing
+deployments. ‘m
+
+Operating System Concepts — 10th Edition 14.48 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:43**************
+Operating System Concepts - 10th Edition Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+

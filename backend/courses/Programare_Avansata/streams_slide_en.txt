@@ -1,0 +1,484 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Stream API
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+The Context
+
+- We have data stored in various collections.
+
+- We must perform various operations on that
+data: sorting, ﬁltering, grouping, mapping, etc.
+
+' Using only iterators, we may repeat the same
+constructions over and over again.
+
+- We need a mechanism that is: terser (concise,
+declarative), functional, less mutable, loose-
+coup/ed, more performant(?) when working with
+coHecﬁons.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Example
+int sum = O;
+for(Item e : items) {
+if (e.getWeight() <= 10) {
+continue;
+}
+if (le.isAvailable()) {
+centinue;
+}
+sum += e.getPrice();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+What IS a stream?
+- A stream is a sequence of elements supporting
+sequential and parallel aggregate operations.
+' Elements can be objects or primitive values (int,
+long, double). See java.util.stream package.
+- Example
+int sum = items.stream()
+.filter(e —> e.getWeight() > lO)
+.filter(e —> e.isAvailable())
+.mapToInt(e —> e.getPrice())
+.sum();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Stream Pipelines
+
+' To perform a computation, stream operations are composed
+into a stream pipeline (query).
+
+' A stream pipeline consists of a source (which might be an
+array, a collection, a generator function, an l/O channel, etc),
+zero or more intermediate operations (which transform a
+stream into another stream, such as ﬁlter(Predical‘e)), and a
+terminal operation (which produces a result or side-effect,
+such as count() or forEach(Consumer)).
+
+- Streams are lazy; computation on the source data is only
+performed when the terminal operation is initiated, and source
+elements are consumed only as needed.
+
+- Collections are concerned with the efficient management of
+and their elements, streams are concerned with declaratively
+describing their source and the computational operations which
+will be performed.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Functional Interfaces
+
+- Afunctional interface is any interface that
+contains only one abstract method.
+
+- Instead of using an anonymous class, you use
+a lambda expression, omitting the name of the
+interface and the name of the method.
+
+Arrays.sort(p, (Person p1, Person p2) —> {
+return pl.getName().compareTo(p2.getName());
+
+});
+
+@FunctionalInterface
+
+public interface Comparator { ...}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+java.util. function packages
+
+Functional interfaces, having various methods:
+- Funcﬁon
+
+— apply: accepts one argument and produces a result
+- Predicate
+
+— test: boolean-valued function of one argument
+- Consumer
+
+— accept: a single input argument and returns no result
+' SuppHer
+
+— get: does not take any argument and produces a value
+
+Instances of these types will be usually created
+
+using lambda-expressions and method references.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+int sum I Arrays.asList(l, 2, 3, 4, 5).stream()
+.filter(x —> X >= 3)
+.mapToInt(Integer::intValue)
+.sum();
+- ﬁlter
+Stream<T> filter(Predicate<? super T> predicate);
+' mapTo/nt
+IntStream mapToInt(ToIntFunction<? super T> mapper);
+' SUIT)
+int sum();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+EprICIt Use of Functlonal Interfaces
+
+- Predicate
+Predicate<1nteger> predl = X —> (X > 2);
+Predicate<1nteger> predZ I X —> (X < 5);
+System.out.println(pred1.and(pred2).negate().test(1));
+
+- Function
+Function<String, Integer> funl = str —> str.length();
+Function<Integer, Integer> funZ = X —> X*X;
+System.out.println(funl.andThen(fun2).apply("Hello"));
+
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Stream Creation
+
+- Streamempty
+- Collection.stream
+
+Stream<String> s I collection.stream();
+' Streamof
+
+Stream<String> s = Stream.of("a", "b", "c");
+- Arrays.stream
+
+int[] arr = {1,2,3};
+
+IntStream s = Arrays.stream(arr);
+- range, rangeC/osed
+
+LongStream longStream = LongStream.range(O, 10);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Intermediate Operations
+filter, map, reduce, distinct, sorted, skip, etc.
+- Intermediate operations are applied on a source stream.
+- Intermediate operations return a new modified stream.
+Stream<String> s I Stream.of("a", "b").skip(l);
+- Operations can be chained
+stream.sorted().distinct().skip(l);
+- Intermediate operations are ended by a single terminal
+operation:
+long X = Stream.of("a", "a").distinct().count();
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Termlnal Operatlons
+sum, count, min, max, average, forEach, collect, etc.
+- Are applied on a (intermediate) stream.
+- Terminal operations return a value (not a stream).
+Stream.of("a", "b").count();
+Stream.of("Hello", "World").forEach(System.out::println);
+persons.stream()
+.filter(p —> p.getAge() >= 18)
+.mapToInt(Person::getAge)
+.average()
+.getAsDouble();
+- Terminal operations cannot be chained
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Iteratlng, Filtering ancl Matching
+stream —> filter —> findFirst, findAny, allMatch, anyMatch, noneMatch, etc.
+- Substitute for: for-each and while loops.
+- “Classical” iteration
+for (Person p : persons) {
+if (p.getAge() >2 18 && p.getName().endsWith("escu)) {
+return p;
+}
+}
+return null;
+' “Fancy” stream-based iteration
+persons.stream()
+.filter(p —> p.getAge() >= 18)
+.filter(p —> p.getName().endsWith("escu"))
+.findFirst() \> O t_ 1
+.OrElse(null); p lona <Person>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Optional
+Tired of Null Pointer Exceptions?
+
+- A container (wrapper) object which may or may not contain
+a non-null value. If a value is present, isPresent() will
+return true and get() will return the value.
+
+- What problem is it trying to solve?
+
+String countryName =
+person.getAddress().getCountry().getName();
+
+~ Important for stream intermediate operations.
+
+- Groovy has a safe navigation operator:
+person?.getAddress()?.getCountry()?.getName();
+
+- Kotlin has a type system that distinguishes between
+references that can hold null and those that can not.
+var a: String I "abc" var b: String? I "abc"
+a = null //compilation error b = null // ok
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+- Exp||0|t|y
+String name = "John"; //may also be null
+Optional<String> opt I Optional.ofNullable(name);
+assert opt.isPresent(); assert !opt.isEmpty();
+assert opt.get().equals(name);
+opt.ifPresent(System.out::println);
+int len I opt.orElse("").length();
+' Cascadlng operatlons
+String countryName I person.map(Person::getAddress)
+.map(Address::getCountry)
+.map(Country::getName)
+.orElse("UNKNOWN");
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Reduclng
+- Reducing a sequence of elements to some value
+according to a specified function.
+- The method reduce takes two parameters: a start value,
+and an accumulator function.
+List<Integer> numbers = Arrays.asList(l, 2, 3);
+Integer reduced = numbers
+.stream()
+.reduce(0, (a, b) —> a + b);
+//same as
+Integer reduced I numbers.stream()
+.reduce(O, Integerzzsum);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Mapping
+- Converting elements of a Stream, by applying a special
+function to them, and collecting the new elements into
+another Stream.
+items.stream()
+.map(item —> item.getProduct())
+.mapToDouble(product —> product.getPrice())
+.average().getAsDouble());
+- The flatMap returns a stream consisting of the results of
+replacing each element of this stream with the contents of
+a mapped stream produced by applying the provided
+mapping function to each element.
+orders.flatMap(order —> order.get1tems().stream())
+.forEach(System.out::println);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Collecting
+- Converting a stream to a Collection or a Map .
+- The utility class Collectors provides a solution for almost
+all typical collecting operations.
+' Collecting to a List, Set, etc.
+List<String> names = persons.stream()
+.map(p —> p.getName())
+.collect(Collectors.toList());
+' Collecting to a String
+String listToString persons.stream()
+.map(Person::getName)
+.collect(Collectors.joining(", ", "[", "]"));
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Sorting
+’ Using the natural order
+List<String> sortedList = list.stream()
+.sorted().collect(Collectors.toList());
+' Using a Comparator
+List<Person> sortedList = persons.stream()
+.sorted(Comparator.comparingInt(User::getAge))
+.collect(Collectors.toList());
+' Reversed
+List<String> reversedList = list.stream()
+.sorted().reversed().collect(Collectors.toList());
+. I.-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+G rou pl n g
+Team barca = new Team("FC Barcelona");
+Team real = new Team("Real Madrid");
+Player[] players = {
+new Player("Lionel Messi", barca),
+new Player("Louis Suarez", barca),
+new Player("Antoine Griezman", barca),
+new Player("Karim Benzema", real),
+new Player("Eden Hazard", real) .. _ _
+} ; a claSSIfler function mapplng
+input elements to keys
+Map<Team, List<Player>> teamPlayers I l
+Arrays.stream(players)
+.collect(Collectors.groupingBy(Player::getTeam));
+System.out.println(teamPlayers);
+// {Real Madrid:[Karim Benzema, Eden Hazard],
+// FC Barcelona:[Lionel Messi, Louis Suarez, Antoine Griezman]}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+- Countlng
+Map<String, Long> counting = items.stream()
+
+. collect (Collectors . group1ngBy( a classifier function mapping
+Item: :getName, 4/ input elements to keys
+Collectors.counting()));
+
+. \ a collector implementing the
+' SU m m | Hg downstream reduction
+Map<String, Integer> sum = items.stream()
+.collect(Collectors.groupingBy(
+ItemzzgetName,
+Collectors.summingInt(Item::getQty)));
+. I I I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+Parallel Streams
+
+- Stream pipelines may execute either sequentially
+(default) or in parallel.
+
+- stream.parallel () creates a parallel stream.
+
+- Advantage: it uses a multi-threaded approach in
+order to execute the functions inside the pipeline,
+making better use of multi-core processors.
+
+' Disadvantage: it has a much higher overhead
+compared to a sequential one. lt pays off only if there
+is a large number of independent tasks.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Using a parallelStream
+//Sequential
+IntStream streaml I IntStream.rangeClosed(l, lO);
+stream1.f0rEach(System.out::println);
+// l 2 3 4 5 6 7 8 9 10
+//Parallel
+IntStream streamZ = IntStream.rangeClosed(l, 10);
+stream2.parallel().forEach(System.out::println);
+// 7 6 3 2 5 9 l 10 4 8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+lmprovmg Perfomance
+private boolean isPrime(long number) {
+long d = 2;
+while (d * d <= number) {
+if (number % (d++) == 0) return false;
+}
+return true;
+}
+private void test() {
+int n = 100_000_000; //Looking for a prime number in a large array
+long arr[] = new long[n];
+for (int i = 0; i < n — l; i++) {
+arr[i] = 100003 * 100003;
+}
+arr[n — l] = 2;
+long nrl = Arrays.stream(arr) 74355
+.filter(this::isPrime).findAny()-getAsLong();
+long nr2 = Arrays.stream(arr).parallel()
+. filter (this: :isPrime) . findAny () . getAsLong (); 2-677 S
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Recap
+- Stream - sequence of elements supporting
+sequential and parallel aggregate operations.
+- Pipeline - a sequence of aggregate operations.
+persons.stream()
+.filter(p —> p.getAge() >= 18)
+.filter(p —> p.getName().endsWith("escu"))
+.forEach(s —> System.out.println(s.getName()));
+- Mapping and Terminal ops.
+double averageAge = persons.stream()
+.filter(p —> p.getAge() >= 18)
+.mapToInt(Person::getAge)
+.average()
+.getAsDouble();
+
+***************Ending Page***************
+

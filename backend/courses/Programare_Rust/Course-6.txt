@@ -1,0 +1,3798 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 6
+Gavrilut Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Agenda for today
+1. OOP concepts in Rust
+2. Traits
+3. Super traits / inheritance
+4. Special traits
+5. Operators
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+ooP
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Rust structures have both a role of a structure and C++ class. However, there are
+several differences between how a class in C++ and its equivalent in Rust are
+dngned.
+Maybe one of the most important one, is that methods for every object are
+implemented separately (and not as part of that object definition). This techniques
+allows rust to define traits (characteristics) that can be define for every object
+(including the one that are already part of the standard library and basic types).
+To add a method to a class, use the impl keyword, } {
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Methods are defined with the - construct with the following format:
+
+' [visibility] I method_name ([params]) -> <return_type> {...}
+
+' [visibility] I method_name (self, [params]) -> <return_type> {...}
+
+' [visibility] I method_name (&self, [params]) -> <return_type> {...}
+
+- [visibility] I method_name (&mut self, [params]) -> <return_type> {...}
+Where:
+- [params] 9 is a list of parameters (similar to the one that can be added to a
+
+regular Rust function)
+
+- [visibility] 9 a set of keywords that explain the visibility of that method
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Let's see a very simple example:
+Rust
+value: 132
+}
+impl MyClass {
+fn inc(&mut self) { self.value += 1; }
+fn get(&self) —> 132 { self.value; }
+}
+fn main() {
+let mut obj = MyClass{value:9};
+obj.inc();
+println!("{}",obj.get());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+a Methods
+Let's see a very simple example:
+Rust
+{ -
+}
+inc(& ) { .value += 1; }
+get(& ) —> { return .value; }
+}—
+00].1nc§);
+println!(" ",obj.get());
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Let's see a very simple example:
+Rust
+{ m
+}
+{
+
+inc & .value += 1'
+
+get(& ) —> { return .value; }
+}—
+
+pPlntlnlk" ",00].get§));
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+emﬁ
+Let's see a very simple example:
+Rust C++
+StPUCt MyClass { class MyClass {
+value: 132 .
+} publlc:
+int value‘
+impl MyClass { . . ’ _ _
+fn inc(&mut self) { self.va1ue += 1; } ZZid 22%;)cingil?e+—1, } value' }
+fn get(&self) —> 132 { selF.value; } }_ g ’
+f“ main<> { VOldM§212ig ibj'
+let mut ob] = MyClass{value:9}; m obj.va1ue = 5;
+ob].va1ue = 5; ob‘ inc()'
+Obj'incO5 I Pghtﬂ'W/ém" ob‘ et())'
+println!("{}",obj.get()); } p ° ’ J'g ’
+}
+OBJ: Notice that methods in Rust that receive a &self are translated as const
+methods in C++ (see method get)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+*- -- Statlc Methods
+If the &self/ &mut self or self are omitted when defining an object method, that
+method is considered to be static. In this example, method print_name is static and
+can only be access via the class/struct name specifier.
+
+Rust C++
+struct MyClass {
+} value: 132 Claszu:{§2?55 {
+_ int value;
+implflr/‘lyCii: flameo { W static void print_name() {
+lOpr'intln! ("MyClass"); } printf("MyClass");
+}
+};
+
+} . void main() {
+fn m;;2§;si"print name()' MyClass::pnint_name();
+
+.. _ , }
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+i?‘
+If you want to call a static method from a regular method you can use either "Self"
+(with capital "5”) as a type, or the name of the type you are implementing a
+method for.
+Ru“ M
+{
+{
+pnint_name() {
+pnint!("MyClass");
+}
+pnint_me(& ) {
+::pnint_name();
+println!(" —> value: ", .value);
+}
+}
+main() {
+x = {value 19};
+x.pnint_me();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+.
+Static Methods
+If you want to call a static method from a regular method you can use either "Self"
+(with capital "5”) as a type, or the name of the type you are implementing a
+method for.
+Ru“ M
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+iﬁ@e_,2.l
+There are also no static data members in Rust. However, we can use global variable
+to achieve a similar result as a static data member in C++. When we are going to
+talk about visibility, we will show how this global variables can be hidden.
+Rust C++
+struct MyClass {
+value: 132 class MyClass {
+} ’ public:
+static mut my_c1ass_x: i32 = 19; m 1nt value; .
+impl MyClass { Stattc 1n’? Xi .
+fn inc() { unsafe { my_c1ass_x += 1; } } static Yeld inc() { X++’ }
+fn get()->i32 { static 1nt get() { x; }
+unsafe { my_c1ass_x; } }3
+} 1nt MyClass: x = 19;
+} void main() {
+fn main() { MyClass::inc();
+MyClaSS==inC(); printf("%d\n",Myc1ass;;get());
+pnintln!("{}",MyC1ass::get()); }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+.
+Static data members
+There are also no static data members in Rust. However, we can use global variable
+to achieve a similar result as a static data member in C++. When we are going to
+talk about visibility, we will show how this global variables can be hidden.
+Rust C++
+-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+‘
+As a general rule, it is not recommended to create a global (mutable) variable to be
+used as a static field for an object. However, since some designed patters (such as
+Singleton) might require such an approach this is allowed but must be done in such
+a way that access to that variable is limited (so that we reduce the chance of an
+undefined behavior).
+If such a construct is used without the - keyword, the code will not compile.
+Rust
+error[E9133]: use of mutable static is unsafe and requires
+{ unsafe function or block
+value: , -l> src\main.rs:6:17
+} 6 | fn inc() { my_c1ass_x += 1; }
+my_c1ass_x: = 19; | MMMMMMM" use of mutable static
+_ { l note: mutable statics can be mutated by multiple threads:
+lnC() { my_c1ass_x += 1; } aliasing violations or data races will cause undefined
+get()—> { return my_c1ass_x; } behaViOP
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+',® Calling methods
+Another interesting thing is that (semantically) Rust has "self" (in different forms)
+as the first parameter for methods that are associated/implemented for a struct.
+This implies that a method is a little bit different than what we know from C++. In
+C++ a method can only be called by the actual object, in Rust a method can be
+called in two different ways:
+' object.method(Param1, Param1,.. Paramn), where object is of type —
+or
+' ObjectTypezzmethod ([reference]object, Paraml, Param1,.. Paramn)
+Where [reference refers to the fa ct that the first parameter should reflect its
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+t?‘
+Calllng methods
+Let's see an example:
+Rust
+{ value: }
+{ M
+print_a(& ) { value = 10
+println!("va1ue = ", .value); value: 20
+}
+}
+main() {
+a1 = {valuezlG};
+a2 = {value:29};
+a1.pPint_a();
+::pPint_a(&a2);
+}
+Notice that we have called print_a method in two different ways !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+V¥§g$§£'1
+
+Also, there is no difference between a regular function that is designed to take the
+first parameter a reference or an object of type "A", or a similar method
+implemented for type "A". In this example, we showcase this behavior. IVIethod call
+receives a pointer to a function that has a first parameter of type &mut A and the
+second parameter of type u32. Both "g" and ”A::f” qualify for this type of functions.
+Rust
+struct A {}
+impl A {
+
+fn f(&mut self, x: u32) { pnintln!("{}", x); }
+}
+fn g(_: &mut A, x: u32) { println!("{}", x + 19); }
+fn ca11(fun: fn(&mut A, u32)) {
+
+let mut x = A {};
+
+fun(&mut X, 5);
+}
+fn main() {
+
+ca11(A::f);
+
+ca11(g);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+f. -- Constructors
+Rust does not have a constructor-like method similar to what C++ has. This is
+because any struct has a clear initialization way where each field MUST BE
+lNlTlALlZED. However, constructors can be simulated via static methods:
+
+Rust C++
+struct MyClass { class Myclass {
+
+value: 132 pUD11C:
+} int value;
+impl MyClass { MyClass(int v): value(v) {}
+
+fn create(val: 132)—> MyClass { }3_ .
+
+MyClass { value: val }; VOld ma1n() {
+
+} MyClass m(19);
+} pnintf("%d\n",m.value);
+fn main() { }
+
+let m = MyClass::create(16);
+
+Print!("{}",m-v81UE); M
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+a Constructors
+Rust does not have a constructor-like method similar to what C++ has. This is
+because any struct has a clear initialization way where each field MUST BE
+lNlTlALlZED. However, constructors can be simulated via static methods:
+
+Rust C++
+create(val: )-> {
+}
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+i?‘
+Constructors
+Rust does not have a constructor-like method similar to what C++ has. This is
+because any struct has a clear initialization way where each field MUST BE
+lNlTlALlZED. However, constructors can be simulated via static methods:
+Rust C++
+push nax
+create(val: )'> { mov eCX,19 mov dword ptn [nsp],ecx
+'“ewm { value: val }3 call MyClass: :create i mov eaX,dWOPd ptr‘ [P5P]
+} mov dword ptP [m] ,eax pop PCX
+Pet
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+a Constructors
+Rust does not have a constructor-like method similar to what C++ has. This is
+because any struct has a clear initialization way where each field MUST BE
+lNlTlALlZED. However, constructors can be simulated via static methods:
+
+Rust C++
+create(val: )—> {
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+a?‘
+Constructors
+Rust also have a special type call Self that refers to the current type (not object). It
+is often useful when returning an object of that type.
+Rust Rust
+{ {
+value: , value: ,
+}
+{ {
+create(val: ) —> -{ create(val: ) —> _{
+return { value: val }; return { value: val };
+} }
+} }
+main() { main() {
+m = ::create(19); m = ::create(19);
+print!(" ", m.value); print!(" ", m.value);
+} M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Let's try a more complex case (Where the class has multiple members).
+Rust
+struct MyClass {
+value: 132,
+data: [u8339]
+}
+impl MyClass {
+fn new(val: 132, d: u8)—> MyClass {
+MyClass { value: val, data: [d;39] };
+}
+}
+fn main() {
+let m = MyClass::new(1,2);
+print!("{}",m.value);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+a?‘
+Constructors
+Let's try a more complex case (Where the class has multiple members).
+Rust
+lea rcx,[m]
+mov edx,1
+m2
+call MyClasszznew
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+é?‘
+Let's try a more complex case (Where the class has multlple members).
+IQUSt mov byte ptr [rsp+ZBh],P8b
+mov eax,edx // eax = 1
+mov d1,byte ptr [PSp+ZBh] // edx = 2
+mov dword ptr [rsp+2Ch],eax
+mov qword ptr [rsp+39h],rcx
+mov qword ptr [rsp+38h],rcx
+mov dword ptr [rsp+69h],eax
+mov byte ptr [rsp+67h],d1
+lea rcx,[rsp+42h]
+mov r8d,39
+new(va1. , d. )—> { call memset
+return { value: val, data: [d;39] }; mov edx,dw0r\d ptr‘ [P5p+2Ch]
+} mov rcx,qword ptr [rsp+39h]
+mov rax,qword ptr [rsp+38h]
+mov dword ptr [ch],edx // m.va1ue = 1
+mov rdx,qword ptr [rsp+42h]
+mov qword ptr [ch+4],rdx
+mov rdx,qword ptr [rsp+4Ah]
+mov qword ptr [ch+9Ch],rdx
+mov rdx,qword ptr [rsp+52h]
+mov qword ptr [ch+14h],rdx
+mov edx,dword ptr [rsp+5Ah]
+mov dword ptr [ch+1Ch],edx
+mov dx,word ptr [PSp+5Eh]
+mov word ptP [rcx+29h],dx
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Let's try a more complex case (Where the class has multiple members).
+
+struct { class
+value: , {
+data: [ 339] public:
+
+} int value;
+
+- data[39];
+1mp1 { . . .
+. . stat1c v01d ( * output, 1nt val, d)
+fn (val. , d. )—> { {
+return { value: val, ;
+data: [d339] .value = val;
+}; ( .data,d,39);
+
+} (output,& ,sizeof( ));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+',® Constructors
+In reality, there is no real difference on how Rust constructs an object (as opposite
+on how C++ does it). Both of them receive the address where the actual object is
+located and construct it there.
+Usually, Rust uses names like:
+' new(...)
+~ from(...)
+' with_...(...)
+to describe a constructor. However, any name can be used.
+OBS: from is part of a trait and while it is used to construct an object it is usual/y
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Keep in mind that defining a function similar to a constructor does not imply than an
+object can not be created in different ways. In the next example, we create an object
+of type IVIyClass using two different methods (::create(...) and structure initialization).
+Rust (via create method) Rust (via structure initialization).
+struct MyClass { struct MyClass {
+value: 132 value: 132,
+} }
+impl MyClass { impl MyClass {
+fn create(val: 132)—> MyClass { fn create(val: 132) —> MyClass {
+MyClass { value: val }; MyClass { value: val };
+} }
+} }
+fn ma1n() { fn ma1n() {
+let m = MyClass::create(16); I let m = MyClass{value:10};
+print!("{}",m.value); pnint!("{}", m.value);
+} m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+"E Co nstructo rs
+One advantage of construction an object like this, is that we can return an error when
+trying to construct an object, while using the constructor concept in C++ makes this
+task more complicated.
+Let's assume that we have an object (of type Student). For each student we have a
+name and a grade 9 but the grade should be between 1 and 10.
+Using a constructor (like in C++) you can not return an error (so in theory every object
+is valid). In Rust, we can return an Option<> or a Resu|t<> and only if the result is valid
+(- for Option or I for Result) we obtain an instance of a specific type.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Let's see an example:
+< ) I Out ut I
+struct { p
+grade: , sl=None
+} name' 52=Some(Student { grade: 10, name: "Dragos" })
+impl {
+Fn (stud_name: & , stud_grade: ) -> < > {
+if (stud_name. ()>6) && (stud_grade>=1) && (stud_grade<=19) {
+return Some( {grade: stud_grade, name: :: (stud_name)});
+}
+return None;
+PPintln ! (" S1={ I ?}" , $1) ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+," CO n St r U CtO I'S
+Keep in mind that static functions are possible in C++ as well. This means that the
+same technique can be used there (create an object via a static function). The only
+difference is if we need to allocate a class in the heap or if we need to create an array.
+Since C++ builds a class directly in the allocated memory, there is a need of a
+constructor method that can be called automatically when an object is created.
+Rust works by creating a temporary object first and then assigned it to the actual
+object (transfer the ownership). Because of this, any kind of static function will work
+as we will need to provide that temporary object first , and then the assignment is
+performed by Rust. l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+emﬁ
+Obviously, there is no implicit default constructor in Rust. However, it is a common
+practice to name it new, while other constructors that imply creating from a specific
+type prefer the prefix from (as a derivation from the trait From).
+Rust
+struct MyClass {
+value: 132, m1=|\/|yClass{value: O}
+} m2=|\/|yClass{value: 10}
+impl MyClass {
+fn new() -> MyClass { MyClass{value:0} }
+fn From_i32(val: 132) —> MyClass { MyClass{value:val} }
+}
+fn main() {
+let m1 = MyClass::new();
+let m2 = MyClass::fPom_132(19);
+println!("m1={:?}",m1);
+pnintln!("m2={:?}",m2);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+.
+Functlonal update syntax
+The usage of. operator is also called functional update syntax. It implies that you
+can use this to call another initialization method (that will be called first) followed
+by you own changes. Let's see some example:
+Rust
+{
+name: é ,
+} .
+Wig = {
+x: 1,
+.. { x: 5, y: 3, name: "abc" } i
+};
+phintln!("obj= ", Obj);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+The usage of. operator is also called functional update syntax. It implies that you
+can use this to call another initialization method (that will be called first) followed
+by you own changes. Let's see some example:
+Rust
+derive( )
+{ M
+name: & ,
+}
+new() -> { { x: 9, y: 9, name: } } i
+}
+maino {
+obj = {
+x: 1,
+name: "xyz",
+.. ::new()
+};
+phintln!("obj= ", obj);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+The usage of. operator is also called functional update syntax. It implies that you
+can use this to call another initialization method (that will be called first) followed
+by you own changes. Let's see some example:
+Rust
+derive( )
+{
+x: ,
+y: ,
+name: & ,
+1~ { M
+}
+main() {
+°b1 f .. ..{
+name. xyz ,
+.. ::new(5)
+};
+phintln!("obj= ", obj);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+é?‘
+The I operator has to be the last from the declaration.
+Rust
+denive( )
+GPPOPZ cannot USE a Comma a-Fter the base StPUCt
+{ --> src\main.rs:13:9
+x: , |
+y: , 13 | ..Test::new(5),
+nanna: & , i AAAAAAAAAAAAAA— help: remove this comma
+} { = note: the base struct must always be the last field
+new(val: ) -> { { x: val, y: val, name: "" } }
+}
+main() {
+obj = {
+name: "xyz",
+.. ::new(5),
+};
+println!("obj= ", obj);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+jé§é$i;g_
+When using functional update syntax, you can also use another object (of the same
+type) as your base:
+Rust
+denive( )
+struct Test {
+X: i32,
+y: i32,
+name: &'static stn,
+}
+impl Test {
+fn new(va1: 132) -> Test { Test { X: val, y: val, name: "" } }
+}
+{n maino { m
+iii :gsjejTliitimeMS); obj=Test { x: 5, y: 5, name: "xyz" },
+narjne: "xyz", base=Test { x: 5, y: 5, name: "" }
+..base
+};
+println!("obj={:?}, base={:?}", obj,base);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+However, there are a couple of pitfalls that we need to take into consideration:
+I Output l
+struct ( { ) obj=Test { x: 123, y: 5, name: "abc" },
+x: , base=Test { x: 123, y: 5, name: "123" }
+yI ,
+} name: ’ Notice tha this
+impl { snipped works as
+fn (val: ) —> { { x: val, y: val, name: :: ("123") } } expected!
+}
+tn () {
+let mut base = :: (5);
+base.x = 123; “:15
+name : : I ( " abc " ) ,
+pr'intln! ("obj={ = P}, base={ : ?}" , obj, base);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+However, there are a couple of pitfalls that we need to take into consideration:
+( ) error[E0382]: borrow of partially moved value: ‘base‘
+StrWJCt { --> src\main.rs:17:41
+x: , |
+_ 13 | let obj = Test {
+Y- J | ________________
+name: , 14| | x:10,
+} 15 | | ..base
+impl { 16 i i };
+_ - value partially moved here
+{n (va]" ) _> { { 17 | println!("obj={:?}, base={:?}", obj,base);
+} | “AAA value borrowed here after partial move
+tn () { |
+let rnut: basea = .. (5). = note: partial move occurs because ‘base.name‘ has type ‘String‘, which does not
+" ’ implement the ‘Copy‘ trait
+base.x = 123; “:15
+println!("obj={:?}, base={:?}", obj,base);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+'5 F u n ct | o n a l u pd ate syntax
+Let's analyze a little bit better what the next piece of code implies:
+. .base X1 J
+}; y‘ ’
+name: ,
+}
+Steps:
+1. Initialize obj with all fields that are provided (in our case 9 ”I”)
+2. Copy/lVlove all elements from base that are not needed by the current
+initialization (in our case, since we alread initialized "I", we will assign "I" and
+”-”). For ” ” everything is ok, but "h" will be moved as it does not
+3. As such, tr in to print base after this step is invalid (as it has a partially moved
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Now the code works, but notice that we don't - rint base.name that was moved !!!
+I Output \
+struct ( { ) obj=Test { x: 10, y: 5, name: "123" }, base.x=123, base.y=5
+x: ,
+y? ,
+name: ,
+}
+impl {
+fn (val: ) —> { { x: val, y: val, name: :: ("123") } }
+}
+tn () {
+let mut base = :: (5);
+base.x = 123; _¢
+. . base
+pnintln!("obj={:?}, base.x={}, base.y={}", obj,base.x, base.y); ﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+,’I M et h O d ove rl O a d l n g
+Rust does not support — (in the sense that there can not be two
+methods with the same name as part of the same implementation of one class). We
+emphasize the word: "same implementation of one class" as methods with the same
+name are allowed with traits (we will discuss about this later) or with
+generics/templates.
+One major advantage here is - (if you have multiple functions with the same
+name, its is not always clear how parameters must be converted to match one of the
+functions). lf you only have one function with a specific name, this issue will NOT be
+encountered anymore. l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Let's see an example:
+struct {
+value: ,
+}
+impl {
+fn (&mut self, v1: ) { —
+self.value+= V1; er'r'or'[E9291]: duplicate definitions with name ‘add‘:
+} --> src\main.rs:8:5
+|
+fn (&mut self, v1: , v2: ) { 5 |/ fnamﬂ&mtsdf,vt BZ){
+self.value+= v1+v2; g i i } 56*“mhm+=vh
+} | | - previous definition of ‘add‘ here
+} 8 | / fn add(&mut self, v1: i32, v2: i32) { ,5;
+fn () { 9 | | self.value+= v1+v2;
+19 | | } 25555555555555???
+let m = {valuezQ}; | |_A duplicate definition
+println!("{}",m.value); ﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+® Method overloadlng
+The solution in this case is to change the name of those two methods:
+struct {
+value: ,
+}
+impl { I o t t I
+fn (&mut self, v1: ) { u pu
+self.va1ue+= v1; 4O
+1r
+fn (&mut self, v1: , v2: ) {
+self.va1ue+= v1+v2;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+," D est r U CtO rs
+Rust does not have a destructor method (in the sense of a specific method with the
+same name as the class) as C++ does. However, there is a special trait called - that
+can be used to define a function with a similar scope.
+Furthermore, the lifetime of one object or its transformation can be controlled via
+methods that receive self as an argument (notice that it is self and not &self or &mut
+self).
+This technique transfers the ownership and as a result one can convert that object into
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+iiiiiiii
+Destructo rs
+Let's see an example:
+Rust
+{ m
+value: ,
+} Destruct object !
+{ End program
+destruct_me( ) {
+println!("DestPuct object l");
+}
+}
+main() {
+m = {valuezG};
+m.destruct_me();
+println!("End program");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+I I
+Let s see an example.
+Rust
+value: ,
+destruct_me( ) {
+ppintln! ("Destruct object l"); ePPOP[E9382]I bOPPOW O'F moved value: ‘ITI‘
+} --> src\main.rs:12:29
+l
+} 10 | let m = MyClass{value:0},'
+. () { | - move occurs because ‘m‘ has type ‘MyClass‘, which does not
+maln | implement the ‘Copy‘ trait
+m = {valuezG}; 11 | m.destruct_me(),'
+, | ------------- ‘m‘ moved due to this method call
+m.ciestruct_me(), H 12 | println!("m.value = {}",m.value),'
+pr1nt1n!( m.va1ue = ,m.va1ue); | “MAMA value borrowed here after move
+l
+} note: this function takes ownership of the receiver ‘self‘, which moves ‘m‘
+--> src\main.rs:5:29
+l
+5 | fn destruct_me(self) {
+I AAAA
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+JéﬁgiiQQI
+Let's see an example where we convert one object into another (by converting we
+refer to a transfer of ownership between object fields). This is often known as
+consuming one object and producing another one !
+Rust
+denive( )
+struct Student { math: i32, english: 132, name: String } M
+derive< ) _ _ Student = Student { math: 10, english: 8, name: "John" }
+
+struct StudentAvenage { grade: 132, name: Str‘1ng } Average=StudentAverage{grade:9 name:"John"}
+impl Student { '
+
+fn convePt_to_student_average(self)->StudentAvenage {
+
+StudentAvenage{gPade: (self.math+se1f.english)/2, name: self.name}
+
+}
+}
+fn main() {
+
+let s = Student{math:19, englishz8, name: String::from("]ohn")};
+
+println!("Student = {:?}",s);
+
+let sa = s.convert_to_student_avePage();
+
+println!("Avenage = {:?}",sa);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+é?‘
+Let's see an example where we convert one object into another (by converting we
+refer to a transfer of ownership between object fields). This is often known as
+consuming one object and producing another one !
+RUSt error[E9382]: borrow of moved value: ‘s‘
+——> src\main.rs:22:31
+derive( ) I - - " "
+derive( ) implement the ‘Copy‘ trait ,
+{ grade: , name: 19 | println!("Student = {:?}",s);
+{ 29 | let sa = s.convert_to_student_average()5 \ .
+convert_to_student_average( )_> 21 i ppintln!(--A\_,;;,é;;_£zgiligggguuuu s moved due to thls method call
+} 22 | println!("Student = {:?}",s);
+main() { | " value borrowed here after move
+s = {mathz19, englishz8, name: ::from("]ohn")};
+println!("Student = ",s);
+sa = s.convert_to_student_average()5
+nrintln! "Avera;e = ",sa 3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+§$w__:}x
+Consuming an oloJect
+
+There are several conventions that are usually used in Rust when writing a method
+
+that consumes/converts an object:
+
+1. use into_<type> if you want to consume current type and obtained a new object
+by transferring ownership. This type of method receives a - as a first argument.
+
+struct ClassA { }
+struct ClassB { }
+impl ClassA { fn into_classB(se1f, ) —> ClassB {...} }
+
+2. use to_<type> if you want to create a new object and keep the original object
+(usually this means making a copy/clone of some of the data members of the
+original object). This type of method receives a - as a first argument.
+
+struct ClassA { }
+struct ClassB { }
+impl ClassA { Fn to_classB(&self, ) —> ClassB {...} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+,’ CO n S U m I n g a n O b] € Ct
+There are several conventions that are usually used in Rust when writing a method
+that consumes/converts an object:
+
+3. use — if you want to convert an immutable reference of t e “A” to an
+immutable reference of type "B". This type of method receives a a as a first
+argument. Usually this means that type "A" has a data member of type "B".
+
+{ }
+{ }
+{ (& , ) -> & {- - -} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Let's see how these conversion will look like for our Student structure
+struct {
+math: ,
+english: ,
+name: ,
+}
+struct {
+grade: ,
+name: ,
+}
+impl {
+fn (self) -> {
+grade: (selémath + self_english) / 2, Ownership of "Studentzzname" is transferred
+name: self.name, _
+fn (&se11c) - > {
+{ u n - ,éﬁﬁﬁﬁﬁﬁﬁ
+grade: (self.math + self.english) / 2, A COPY/Clone Of StUdent::name IS made
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+E n u m s
+Implementing methods (static and non-static) is not limited to structures, it works
+similar for enums. To access the enum value, use the sel ke word
+enum {
+Int( ), I OUtPUt I
+Float( ) xisinttrue
+impl { yisintsfaBe
+Fn (&se1f)-> {
+match self {
+::Int(_) => { return true; }
+_ => { return falseg}
+}
+let X = IIInt(19)3
+let y = ::Float(1.5); ﬁﬁﬁﬁ
+println!("x is int: {}",x. ()); ﬁﬁﬁﬁ
+println!("y is int: {}",y. ()); ﬁgﬁ§
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+The same logic could have been obtained via an ”-” statement, ”-”
+statement or "matches!" macro, instead of usin a match.
+fn (&self)-> {
+return if let ::Int(_):self { true } else { false }
+Fn (&selF)-> { }
+match self {
+::Int(_) => { return true; }
+_ => { return falseg}
+}
+tn <&se1t>-> t a???
+x is int: true }
+yisintfame return False;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+E n U m S
+Static methods can also be implemented for an enum (they are in particular useful
+when creatin enum ob'ects .
+< >
+enum { I Output I
+Int< >,
+Float( ) lnt(10),Fl0at(1.5)
+}
+impl {
+Fn (value: )-> {
+return ::Int(value);
+}
+Fn (value: )-> {
+return ::Float(va1ue); ,ﬁ
+println!("{x:?},{y:?}"); ﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Traits
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+,’ Tra ltS
+
+In Rust a trait is a set of characteristics that an object has. Formally, a trait is very
+
+similar to an interface. However, from a semantic point of view, it is closer to a C++
+
+abstract class.
+
+From the semantic point of view, a trait is a list of methods that can be
+
+implemented for an existing type (IMPORTANT: not necessarily a newly created
+
+type, but also types that are already defined).
+To implement a trait for an existing } {
+structure/enum, use the impl keyword.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+® Tra Its
+Let's see a simple example:
+struct {
+} X: I Output I
+trait { 5
+fn (&mut self);
+fn (&mut self);
+}
+impl for {
+fn (&mut self) { self.x+=1; }
+fn (&mut self) { self.x-=1; }
+}
+let mut m = {xz3}; ﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Let's see a simple example:
+Rust C++
+struct MyClass { clasguggizementAndDecrement {
+} X: 132 virtual void inc() = 9;
+trait IncrementAndDecrement { }_ v1rtual VOld dec() = 9;
+fn 1nc(&mut SE1F); class MyClass: public IncrementAndDecrement {
+fn dec(&mut self); . _
+} public.
+. int x;
+impl IncrementAndDecrement for MyClass { virtual void inc() override { x++' }_
+fn 1nc(&mut SE1F) { SE1F'X+=1; } virtual void dec() override { x——; };
+fn dec(&mut self) { self.x-=1; } }.
+} ’. .
+. v01d main
+fn ma1n() { MyClass é‘
+m.inc 3m.inc ;m.inc ; '. _ ’ . .
+. ’ u u m. ec ;
+pr1ntln!( X = {} ,m.x); printf("X I %d" m X),
+} J ' J
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Let's see a simple example:
+Rust
+mov dword ptr [m],3
+lea rcx,[m]
+call First: :impl$0: :inc
+lea rcx,[m]
+= . . call First: :impl$0: :inc
+. ‘m . _ .{X‘3]_” lea rcx,[m] m §
+m.1nc(),m.1nc(),m.1nc(), call First::impl$0::inc
+m-dec ' lea rcx,[m]
+call First: :impl$6: :dec
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+jé§é$i;g_
+When implementing a trait, we can use the type Self to refer to the type Where we
+implement the trait. This allows to define a trait and be more generic (not needing to
+specify the type of some parameters).
+Rust
+struct MyClass {
+} - _
+fn is_biggen(&self, object: &Self) —> bool;
+}
+impl IsBiggeP for MyClass {
+fn is_biggen(&self, object: &Self) -> bool {
+self.x>object.x { true } { false };
+}
+}
+fn main() {
+let m1 = MyClass{x:3};
+let m2 = MyClass{x:2};
+pnintln!("is m1 > m2 => {}",m1.is_bigger(&m2));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Tra ltS
+However, a virtual method (in C++) is interestin from the polymorphic point of view.
+This behavior can be modeled Rust usin the ke word:
+I Output I
+struct { }
+struct { } ClassA
+trait { Fn (&self) -> & 3 } (JaSSB
+impl For {
+fn (&self) -> & { "ClassA" }
+}
+impl For {
+fn (&self) -> & { "ClassB" }
+}
+fn (obj: &dyn ) {
+println!("{}",obj. ()); ﬁg
+let obj_a = {}; ﬁﬁﬁﬁ
+let obj_b = {}; ﬁﬁﬁﬁ
+(&Obj_a> s
+(&Obj-b>5 ﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+However, a virtual method (in C++) is interestin from the polymorphic point of view.
+This behavior can be modeled Rust usin the ke word:
+I Output I
+struct { }
+struct { } ClassA
+trait { Fn (&selF) -> & 3 } (33555
+impl For {
+fn (&selF) -> & { "ClassA" }
+}
+impl For {
+r & 1r - & " 1 "
+} n ( 5e ) > { C aSSB } Notice the usage of as the type of obj. This
+fn (obj: &dyn ) { translates that obj is a reference to a type that
+} Println! ("{}" ,Obj- ())5 implements the trait Name.
+let 0bj_a = {}; ﬁﬁﬁﬁ
+let obj_b = {}; ﬁﬁﬁﬁ
+(&°bj—a>i @ﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+However, a virtual method (in C++) is interestin from the polymorphic point of view.
+This behavior can be modeled Rust using the i kevword:
+ClassA
+ClassB
+pointer to the object
+pointer to a vfptr
+lea rcx, [obj_a]
+lea rdx, [impl$<first: :ClassA, first: :Name>: :vtable$ (07FF69768D498h)]
+call first: :print_name
+. . _ lea rdx, [1mpl$<f1rst: :ClassB, f1rst::Name>::vtable$ (07FF69768D488h)]
+pr1nt_name(&obj_b), call first: :print_name
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+However, a virtual method (in C++) is interestin from the polymorphic point of view.
+This behavior can be modeled Rust using the i keyword:
+ClassA
+ClassB
+sub PSp,98h
+print_name(0bj: & ) { mov qword ptr‘ [self],r‘cx
+pPintln!(" ",obj.get name()); mov qword ptr‘ [V'FptP],l"dX
+} _ mov r*ax,qwor‘d ptr‘ [vfptr+18h]
+call Pax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+J§g$@@>_
+This means that the size of an object that implements some traits does not change in
+Rust. “ClassA” in both Rust and C++ has one member ("x") that has 4 bytes. However,
+in C++ due to the virtual method get_name, an instance of ClassA also contains a
+pointer to a vfptr (and as such a size of 8 (for 32 bytes) or 12/16 for 64 bytes).
+Ru“ W C++ W
+struct ClassA { class Name { I
+x: i32, public:
+} virtual const char * get_name() = 9;
+trait Name { }3
+Fn get_name(&self) -> &str; class ClassA: public Name {
+} int x;
+impl Name for ClassA { public:
+Fn get_name(&self) -> &str { virtual const char * get_name() override {
+"ClassA" "ClassA";
+} }
+} };
+Fn main() { void main() {
+println!("{}", stdzzmem::size_of::<ClassA>()) printf("%d",sizeoF(ClassA));
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+jé§é$i;g_
+Furthermore, the same logic applies for arrays (or for any kind of structure/enum that
+uses a structure that implements a trait that define a virtual method.
+Rust
+struct ClassA {
+}
+trait Name { u
+Fn get_name(&se1f) -> &str;
+}
+impl Name for ClassA {
+Fn get_name(&self) -> &str {
+"ClassA"
+}
+}
+Fn main() {
+pnintln!("{}", stdzzmem::size_oF::<[C1assA;10]>());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+So let's anal ze and see how the classm 0| morhlsm examle works |n Rust.
+struct {
+virtual const char * () = 9;
+};
+struct : public { lOutput l
+virtual const char * () override { return "Circle";}
+}; Circle
+struct : public { Rectangle
+virtual const char * () override { return "Rectangle";} T.
+}; rlangle
+struct : public {
+virtual const char * () override { return "Triangle";}
+};
+void () {
+[9] = new () ; .-;:55§§§§§§§§§§§
+[1] = new ()3
+For (auto = Q; <2; ++) {
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+,’iii Tra ltS
+Let's recreate the same example for polymorphism in Rust.
+We will do this in 3 steps:
+1. Write the - trait and implement it for -, - and -
+2. Write initialization methods for -, - and -
+3. Discuss how - function should be written in order to illustrate the
+polymorphism.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Step 1: Write the Figure trait and implement it for Circle, Rectangle and Triangle
+Rust
+trait Figure {
+Fn get_name(&self) -> &str;
+}
+struct Circle { X: i32, y i32, r: 132 }
+struct Rectangle { x: i32, y i32, w i32, h:i32 }
+struct Triangle { x: [i3233], y:[i32;3] }
+impl Figure For Circle {
+Fn get_name(&selF) -> &str { "Circle" }
+}
+impl Figure For Rectangle {
+Fn get_name(&selF) -> &str { "Rectangle" }
+}
+impl Figure For Triangle {
+Fn get_name(&selF) -> &str { "Triangle" }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+p§#§$%*4>
+Step 2: Write initialization methods for Circle, Rectangle and Triangle
+Rust
+impl Circle {
+Fn new()->Circ1e {
+Circle{x:6,y:9,r:1}
+}
+}
+impl Rectangle {
+Fn new()->Rectang1e {
+Rectangle{x:9,y:9,w:199,h:29}
+}
+}
+impl Triangle {
+Fn new()->Triangle {
+Triang1e{x:[9,1,2],y:[6,1,9]}
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+é?‘
+Step 3: Discuss how main function should be written in order to illustrate the
+polymorphism.
+main() { 38 i Box::new(Rectangle::new()),
+‘FigUPi = [ | MMMMMMMM expected struct ‘Circle,
+: :new( : :new()), | Found struct ‘Rectangle
+: Inew( : :new())’ error[E0308]: mismatched types
+:Inew( ::new()) --> src\main.rs:39:18
+1; |
+for‘ fig in figupi.iter‘() { 39 l B°X=mewqjijgfjigfﬁp x _ x
+println! (" ",Fig.get_name()); i :iiﬁgieijﬁg:;§e‘Clmle ’ Found
+}
+}
+The fact is that we can not create an array with traits similar to how we do it in C++
+(Rust assumes that the first item is the type of array and as such for this example, the
+code will not compile).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+i?‘
+Tra Its
+Step 3: Discuss how main function should be written in order to illustrate the
+polymorphism.
+Rust
+main() {
+figuni: [ ::< >33] =[ m
+::new€ ::new())2)) Cude
+ZIHEW IIFIEW ,
+::new( ::new()) Rectangle
+1; Triangle
+for fig in Figuni.iten() {
+pnintln!(" ",Fig.get_name());
+}
+}
+Now the code works and output a similar result as the code from C++;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Traits
+Step 3: Discuss how - function should be written in order to illustrate the
+polymorphism.
+[0] ptr to a - object
+figuPi: [ ::< >;3] = [
+:: ( :: ()), ptr to vtable of trait Figure for Circle object
+g (8)’ [1] ptrtoa-object
+15 ptr to vtable of trait Figure for Rectangle object
+[2] ptr to a - object
+ptr to vtable of trait Figure for Triangle object
+Let's see how "figure" is organized in memory. Notice that each element in the array
+consists out of two pointers (one towards the data (a Circle struct, a Rectangle struc
+or a Triangle stru ct) and the second one towards the vtable for trait Figure that ws
+implemented fer Cire'e, Reeeeeele end Triene'e- A‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+i?‘
+Step 3: Discuss how main function should be written in order to illustrate the
+polymorphism.
+Rust
+main() {
+figuri: [ 33] = [
+::new(), error[E6277]: the size for values of type ‘dyn Figure‘ cannot be known at compilation time
+IIneWO, --> src\main.rs:36:17
+::new() | _ _ _
+. 36 | let figuri: [dyn F1gure;3] = [
+1’ _ . _ _ 0 | MAMMAAMM" doesn't have a size known at compile-time
+for fig 1n F1gur1.1ter() { |
+println! (" ",-Fig_get_name()); = help: the trait ‘Sized‘ is not implemented for ‘dyn Figure‘
+} = note: slice and array elements must have ‘Sized‘ type
+}
+Keep in mind that we can not use a "dyn Figure type" outside of a box as we can not
+know at compile time the size of an object that implements Figure trait.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+JéﬁgiiQQI
+Step 3: Discuss how main function should be written in order to illustrate the
+polymorphism.
+Rust
+fn main() {
+let mut figuni = Vec::<Box<dyn Figune>>zznew(); w
+figuri.push(Box::new(Circ1e::new())); CWde
+figuri.push(Box::new(Rectang1e::new())); |
+figuni.push(Box::new(Tniang1e::new())); Rectangea
+fig figuni.iter‘() { Tr'ang'e
+pnintln!("{}",fig.get_name());
+}
+}
+The same can be done with a vector (instead of an array) with similar results.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+jé§é$i;g_
+The previous code can be adjusted so that we can returned a boxed trait from a
+function. Let's see how get_a_figure looks like in assembly:
+Rust
+fn get_a_figune(id: i32) -> Box<dyn Figure> {
+id == 9 { Box::new(Cir‘c1e::new()); } m
+id == 1 { Box::new(Rectang1e::new()); } CWde
+Box::new(Triang1e::new())
+} Rectangle
+{n main() { Triangle
+let mut figuri = Vec::<Box<dyn Figune>>zznew();
+i o..3 {
+figuri.push(get_a_¥igure(i));
+}
+fig Figuri.iter() {
+pnintln!("{}", fig.get_name());
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+lea rcx, [temp_stack_circ1e]
+call first::Cir*c1e::new
+The preVIous code can be adjusted so that w mov @3sz // 5126 of a cmle
+mov e x
+- I I u j
+functlon. Let s see how get_a figure looks || t call 3110c;=a110c==exchange_ma110¢
+mov qword ptr [ptr_to_circ1e],rax
+Rust jmp RETURN_FIGURE_FROM_CIRCLE
+get_a_figure(id: ) -> < > {
+id == 9 { I;|’1€W( ::new())' } RETURN_FIGURE_FROM_CIRCLE:
+id __ 1 { , 'new( _ ‘new2))' } mov rcx,qwor‘d ptr [ptr_to_circle]
+__ ' ' ' ' ’ mov rax,r‘cx
+::new( t :nEWO) mov rdx,qwor‘d ptr [temp_stack_cir‘c1e]
+} mov qword ptr [ch],rdx
+main() { mov edx,dword ptr [temp_stack_circle.r]
+{igUpi = ;;< < >>::new(); mov dword ptr [ptr_to_circ1e.r],edx
+i 9' _3 { mov qword ptr' [Pes.data_pointer*],r‘ax
+. . . . _ lea r'ax,[impl<Cir'cle, Figure>: :vtable]
+flgurl.push(get_a_1c1gur‘e(1)), mov qword ptr' [Pes.vtable],r‘ax
+} f- 1F _ 0 () { jmp RETURN_FROM_FUNCTION
+1g 1gur1.1ter H_
+println!(" ", Fig.get_name());
+} RETURN_FROM_FUNCTION:
+} mov Pax,qwor‘d ptr‘ [res.data_pointer]
+mov rdx,qwor‘d ptr [res.vtab1e]
+add PSp,9A@h
+pop rbp
+Pet
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+é?’
+The previous code can be adjusted so that we can returned a boxed trait from a
+function. Let's see how get_a_figure looks like in assembly:
+Rust C++ (approximation)
+struct {
+return ::new( ::new()); votd* ptr_to_data;
+v01d* ptr_to_vtab1e;
+};
+get_a_figure(int idx) {
+1r (idx == a) {
+= =1 ();
+* = ()3
+memcpy< ,
+( ));
+.ptr_to_data =, $
+.ptr_to_vtab1e = @xFF1122....;
+return ;
+}
+} m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+t?‘
+Keep in mind that returning a boxed (dynamic) type is different than returning an
+implementation of a trait . The next code will not compile as Rust will assume that all
+return branches must return the same thing (a circle) just like the first return branch
+does
+Rust
+get_a_figure(id: ) -> {
+if id == a {
+return ::new();
+}
+if id === 1 { error[E0308]: mismatched types
+PetLu“n ; 1new(); _l> src\main.rs:75:16
+} 70 | fn get_a_figure(id: 132) -> impl Figure {
+'AEtLJPn I Inevu()$ | ----------- expected ‘_‘ because of return type
+} éé.| return Rectangle::new();
+| “AAAAAAAAAAAAAAA expected struct ‘Circ1e‘, found struct ‘Rectang1e‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+JéﬁgiiQQI
+*- -- Tra Its
+If we return the exact same type from all branches of the get_a_figure function, the
+code compiles.
+Rust
+tn get_a_figune(id: 132) —> impl Figure {
+Cincle::new(); .
+}
+Cincle::new();
+
+}
+fn main() {
+
+let a = get_a_Figune(9);
+
+pnintln!("{}",a.get_name());
+}
+Let's see what happens when we create the "a" variable.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+If we return the exact same type from all branches of the get_a_figure function, the
+code compiles.
+Rust
+, lea rcx,[a]
+call 'Finst: :get_a_figur‘e
+Let's see what happens when we create the "a" variable.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+If we return the exact same type from all branches of the — function, the
+code compiles. sub Pspash
+mov qwond ptP [address_of_a],rcx
+cmp edx,6
+(id: ) -> { jne IDX_IS_NOT_ZERO
+id == 9 { mov ch,qwond ptr [address_of_a]
+.. (). call Circle::new
+} ' ' ’ jmp RETURN_FROM_FUNCTION
+1 1 O 3 IDX_IS_NOT_ZERO:
+} mov ch,qwond ptr [address_of_a]
+call Circle::new
+RETURN_FROM_FUNCTION:
+mov Pax,qwond ptr [address_of_a]
+add PSp,38h :5
+Let's see what happens when we create the "a" variable.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+If we return the exact same type from all branches of the — function, the
+code compiles.
+Rust C++ (approximation)
+get_a_figure(id: ) -> { void get_a_figure(void* result, int idx) {
+if id == a { 1r (idx I: o) {
+return ::new(); = 31 ()3
+} memcpy(result, , ( ));
+return ::new(); return;
+} }
+main() { = ;: ()5
+a = get_a_-Fj_gur\e(@); memcpy(result, , ( )),
+println!(" ",a.get_name()); return;
+} }
+void main() {
+[ ( )1;
+get_a_Figure( ,9);
+* = < *>( );
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+JéﬁgiiQQI
+*- -- Tra Its
+If we return the exact same type from all branches of the get_a_figure function, the
+code compiles.
+Rust Rust
+fn get_a_figune(id: 132) -> impl Figure { fn get_a_figune(id: 132) —> Circle {
+id == Q { id == o {
+Cincle::new(); Cincle::new();
+} }
+Cincle::new(); Cincle::new();
+} }
+fn main() { fn main() {
+let a = get_a_figune(9); let a = get_a_figune(9);
+pnintln!("{}",a.get_name()); pnintln!("{}",a.get_name());
+} }
+As such 9 these two pieces of code are similar (in terms on how the compiler
+generates code). The assembly code (for x64) is actually identical for both cases (even
+if from the semantic point of view, "a" has a different type).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+t?‘
+Tra Its
+Methods from a trait can have a default implementation (much like a virtual method
+from C++). This means that if that method is not overridden, the default implementation
+will be used. To imolement a trait without override its method, use:
+<tr'ait_name> <type> { } <>
+Keep in mind that this is possible only if all method from the trait have a default
+implementation !
+Rust
+{}
+{}
+{ get_name(& ) —> & { "Default name“ } }
+{} ~
+{ get_name(& ) —> & { "ClassB" } }
+main() {
+a = {};
+b = {};
+
+println!("a = ",a.get_name());
+
+println!("b = ",b.get_name());
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+. Tra Its
+A trait can have both default (implemented methods) and unimplemented method and
+they can use one each other.
+
+Rust
+{}
+{
+get_name(& ) —> & {
+"Default name"
+} .
+pr1nt_message(& )3
+}
+{
+print_message(& ) {
+println!("Hello From ' '", .get_name());'
+}
+}
+main() { .
+a = {};
+a.print_message();
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+i;§ﬁilq_
+What's different in Rust in terms of how a trait work, is that a trait can be implemented
+for other types as well (even if they are not defined in that program 9 e.g. for example a
+system type). Rust m
+trait BitCount {
+
+fn compute_bit_count(&self) -> u32;
+ln this case, we create a new trait, called impl BitCount for m {
+BitCount that can be Implemented for f" Computabitcount(Melt) -> UBZ {
+
+let mut value = *self;
+type U32 let mut count = 9u32;
+value>6 {
+_ count = count + (value % 2);
+As a result, every variable or constant of value = value / 2;
+type u32 will have a function called 1‘ count_
+compute_bit_count that counts how } ’
+many bits with value 1 a value has. 1]; .
+n ma1n() {
+let X = 24u32;
+pnintln!("Bits in x = {}",x.compute_bit_count());
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+Notice that you have to implement this trait for every type in order to work. The
+following code will not compile as i32 does not implement the trait.
+trait { error[E0599]: no method named ‘compute_bit_count‘ found for type ‘i32‘ in the current
+fn (&self) -> 3 scam
+} --> src\main.rs:17:41
+impl for { |
+fn (&self) —> { \
+let mut value = *selF; |
+let mut count = @u32; = help: items from traits can only be used if the trait is implemented and in scope
+while value>9 { note: ‘BitCount‘ defines an item ‘compute_bit_count‘, perhaps you need to implement it
+--> src\main.rs:1:1
+count = count + (value % 2); |
+value = value / 2; 1 | trait BitCount {
+return count; Egg
+println!("Bits in 24u32 = {}",24u32. ()); @ﬁﬁ
+println!("Bits in 24i32 = {}",24132. ()); @ﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+jé§é$i;g_
+Another interesting example is the following. There is no method in class String that
+can be used to set/change the existing string with a different one. You can obviously
+run a .clear() followed by a .push_str(...) to do this, but you can also do it using traits ©
+Rust
+trait StningSetter {
+fn set(&mut self, text: &stn); W
+1mpl SthlngSetter for Sthlng { _
+fn set(&mut self, text: &stn) { S_'123456
+self.c1eah();
+self.push_str(text);
+}
+}
+fn main() {
+let mut s = Stning::fnom("abc");
+pnintln!("S = {}",s);
+s.set("123456");
+pnintln!("S = {}",s);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+jé§é$i;c_
+rmﬁ
+A trait can also have constants defined as part of the trait. That constant should be
+seen as a static variable (it does not affect in any way the size of the structure that
+implements that trait).
+Rust
+amount: 132
+} rn==0
+trait Currency { n1=100
+const DEFAULTzi32 = 169,‘ Size of RON =4
+fn set(&mut self, value: i32);
+}
+impl Currency for RON { fn set(&mut self, value: i32) { self.amount = value; } }
+fn main() {
+let mut m = RON{amount:9};
+println!("m = {}",m.amount);
+m.set(RON::DEFAULT);
+println!("m = {}",m.amount);
+println!("size of RON = {}",std::mem::size_of::<RON>());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+A constant value defined in a trait does not necessarily need to be instantiated as part
+of the trait definition. However, that constant needs to be initialized in implementation.
+error[E0046]: not all trait items implemented, missing: ‘DEFAULT‘
+--> src\main.rs:8:1
+|
+5 | const DEFAULTzi32;
+| ------------------ ‘DEFAULT‘ from trait
+const DEFAULT: 3 ...
+8 | impl Currency for RON {
+| AAAAAAAAAAAAAAAAAAAAA missing ‘DEFAULT‘ in implementation
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Tra ltS
+A constant value defined in a trait does not necessarily need to be instantiated as part
+of the trait definition. However, that constant needs to be initialize in implementation.
+W
+rn = O
+const DEFAULT: ; m = 1234
+size of RON = 4
+const DEFAULT: = 1234,‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+"§ Tra Its
+Similar to constant values, a trait can have types defined within the trait. And just like
+constant values, the actual type of a defined type within a trait can be set up at the
+trait or implementation level.
+Let's analyze the following problem:
+' We need to convert from both Celsius and Fahrenheit to Kelvin
+' Let's also consider that Celsius is represented as an i32, while Fahrenheit is stored in
+an f32 value.
+' To do this, we will define two types (Celsius and Fahrenheit) and a trait (that describe
+' We will also define a third type (Kelvin) that just returns its value. We will use it ra
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+jé§é$i;g_
+Step 1: Define structures for Celsius, Fahrenheit and Kelvin as well as the conversion
+trait.
+Rust
+stnuct Celsius {
+value: i32,
+}
+stnuct Fahrenheit {
+value: {32,
+}
+stnuct Kelvin {
+value: {32
+}
+trait TemperatureConverter {
+type ConvensionOutput;
+fn to_kelvin(&self) -> Self::ConvePsionOutput;
+}
+Notice that trait TemperatureConverter has an inner type (ConversionOutput) that i
+notyetdeﬁned!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+jé§é$i;g_
+Step 2: Implement TemperatureConverter for both Celsius, Fahrenheit and Kelvin types.
+Rust
+impl TemperatureConvePteP for Celsius {
+type ConversionOutput = i32;
+fn to_ke1vin(&self) -> Self::ConvePsionOutput { self.value + 273; }
+}
+impl TemperatureConvePteP for Fahrenheit {
+type ConversionOutput = f32;
+fn to_ke1vin(&self) -> SelfzzConvePsionOutput { ((self.value — 32.9) / 1.8) + 273.15; }
+}
+impl TemperatureConverteP for Kelvin {
+type ConversionOutput = f32;
+fn to_ke1vin(&self) -> SelfzzConvePsionOutput { self.value }
+}
+Notice that we have different formulas for those three types, and that we define
+ConversionOutput for all implementations (i32 for Celsius and f32 for Fahrenheit and
+Kelvin).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Step 3: Write a main function that showcase how the trait works.
+Rust
+tn main() {
+pnintln!("Celsius({}) = Kelvin({})", c.value, c.to_kelvin()); _ _
+let 1c = Fahrenheit { value: 190.5 }; CEIS'US(24):KEIVm(297)_
+pnintln! ("Fahrenheit({}) = Kelvin({})", 1c.value, f.to_kelvin()),' Fahrenhe|t(100.5) = Kelvm(311.20557)
+let k = Kelvin { value: 59.2 },' Kelvin(50.2)=Kelvin(50.2)
+pnintln!("Kelvin({}) = Kelvin({})", k.value, k.to_kelvin());
+}
+OBS: This technique is similar to the usage of templates / generics. We will however
+discuss about templates/generics and their usage with structs/enums and traits in
+another course.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+i?‘
+Keep in mind that using this technique (an inner type that is defined in the
+implementation of the trait) will not allow any kind of polymorphism as there is no
+similar definition for the trait methods.
+Rust
+main() {
+a:[ < >;2] = [
+::new( { value: 24 }),
+::new( { value: 199.5 })
+l;
+for i in a.iten() {
+phintln!(" ",i.to_kelvin());
+} EPPOP[E9191]Z the value of the associated type ‘ConversionOutput‘ (from trait
+‘TemperatuPeConverter‘) must be specified
+} --> src\main.rs:24:20
+|
+|ii|||||||Iiiii|iiiiiiiiiiiIiiIiI||||||||||||||||||||||||||||||||||||||||||||||
+| ---------------------- ‘ConversionOutput‘ defined here
+li'I let a:[Box<dyn TemperatureConverter>;2] = [
+| AAAAAAAAAAAAAAAAAAAA help: specify the associated type:
+| ‘TemperatuPeConverteP<ConvePsionOutput = Type>‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+a
+Keep in mind that even if we modify the way we define the Box (by adding an explicit
+request for the ConversionOutput type, all elements from the list MUST have the same
+ConversionOutputType !
+Rust
+main() {
+a: < < = >>; 3] = [
+::new( { value: 24 }),
+.. ~w v- u-. a. ,
+::new( { value: 169.5 }),
+l;
+for i in a.iten() { pnintln!(" ", i.to_kelvin()) }
+}
+error[E9271]: type mismatch resolving ‘<Celsius as TemperatureConverter>::ConversionOutput == F32‘
+--> src\main.rs:35:9
+|
+35 | Box::new(Celsius { value: 24 }),
+| A“AA“AA“AAAAAAAAAAAAAAAAAAAAAAA type mismatch resolving ‘<Celsius as
+| TemperatureConverter>z:ConversionOutput == f32‘
+note: expected this to be ‘f32‘
+--> src\main.rs:16:29
+‘1!"""ll!l‘llll!lllllllllll"‘l1l"""""""""""""""‘“““““““““““‘\
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+i;§ﬁilq_
+jTi‘ f
+*- Tra Its
+Now it works. Keep in mind that both Kelvin and Fahrenheit type have the same type
+for the ConversionOutput (f32).
+Rust
+let a: [Box<dyn TemperatuneConventeP<Convension0utput = 1:32»; 2] = [
+B x:: w(K 1vi { 1 : 150.2 }),
+ng::2:w(F:hne2hei:a{u:aluez 100.5 }), 311"20557
+1;
+i a.iten() {
+pnintln!("{}", i.to_kelvin());
+}
+}
+OBS: While this technique is working, it is not usually used for polymorphism (as it
+implies to make sure that types that have a super-trait have the same internal type —
+thus making the concept of internal type less relevant as it can be hardcoded).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+JéﬁgiiQQI
+*- -- Tra Its
+
+A trait can also contain static methods, that can have a default behavior or not, and
+in the last case, those methods should be implemented for types that implement
+the trait. Obviously, since a static method in a trait is not linked to an instance of the
+type that implements that trait, things like polymorphism can not be achieved with
+these methods.
+Rust
+tttit iiiititi i m
+
+tn compute(v11132, v21132) —> 132;
+}
+stnuct ClassA { }
+impl Addition for ClassA {
+
+tn compute(v11132, v21132) —> 132 {
+
+v1+v2
+
+}
+}
+fn main() {
+
+pnintln!("{}",ClassA::compute(16, 29));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+A structure/enum can Implement multlple tralts. What happens If there are two tralts
+thet eehhe e rhethee thth the eehhe hethee —
+error[E9934]: multiple applicable items in scope
+——> src\main.rs:23:21
+. |
+tra1t { fn (&self, value: ) -> ; } 23 | println!("{}",X,C0mpute(5));
+trait { fn (&self, value: ) -> ; } i MAMA“ multiple ‘compute found
+struct value:
+, { } note: candidate #1 is defined in an impl of the trait ‘TraitA‘
+Janl -for‘ { for the type ‘ClassA‘
+fn (&self, value: ) -> { ——> src\main.rs:11:5
+return self.value * value; |
+} 11 | fn compute(&self, valuezi32) —> i32 {
+I /\/\/\A/\/\/\/\AA/\AAA/\AAAAAAAAAAAAAAAAAAAA
+} note: candidate #2 is defined in an impl of the trait ‘TraitB‘
+ianl -for‘ { for the type ‘ClassA‘
+{n (&self, value: ) _> { —I>srdmaumrsﬂ5:5 ,
+} PEturn SELF-‘value / value; 16 | fn compute(&self, valueziBZ) —> i32 {
+I AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA éﬁﬁﬁ
+} help: disambiguate the associated function for candidate #1 @ﬁﬁﬁ
+23 rintln! " ",TraitA::com ute &x, 5 ; BEE;
+ijJTtln! ("{}J',X. (5)); help: disambiguate the associated function for candidate #2 @ﬁﬁﬁ
+} 23 | println!("{}",TraitB::compute(&x, 5)); @ﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+jé§é$i;g_
+rmﬁ
+The solution is to specifically explain Rust that, it needs to call a function defined from
+a specific trait. The format for this call is:
+< as trait-name>::method(&obj, Paraml, Paramz, Paramn)
+Where is on object of type — that implements trait-name
+Rust
+trait TnaitA { fn compute(&self, valuezi32) —> 132; } m
+trait TraitB { fn compute(&self, valuezi32) -> 132; } 5O
+stnuct ClassA { value: i32 } 2
+impl ThaitA for ClassA {m}
+impl ThaitB for ClassA {m}
+fn main() {
+let x = ClassA{va1ue:19};
+println!("{}",<ClassA as TnaitA>::compute(&x,5));
+pnintln!("{}",<ClassA as TnaitB>zzcompute(&x,5));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+é?‘
+Tra Its
+The solution is to specifically explain Rust that, it needs to call a function defined from
+a specific trait. The format for this call is:
+<type-name trait-name>:: (&obj, Paraml, Param2, Paramn)
+Where is on object of type that implements
+Rust
+x = {valuezlG};
+pnintln!(" ", ::compute(&x,5));
+pnintln!(" ", ::compute(&x,5));
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+Super traits
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+"§ Su pe r tra Its
+Rust does not have an inheritance model, similar to what other languages have
+where a type can be derived from another type and as such inherits all of its parent
+properties, data members and methods.
+However, Rust allows a certain type of inheritance by providing the concept of a
+super trait. If "A" is a super trait for “B” , then any structure or enum that
+implements “B” must also implement "A"
+The format is similar to the way inheritance is
+done in C++ (name of the trait, followed by ’:' and {
+the name of the super trait).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+s t ‘t
+I Q
+Let s see an example.
+Rust
+{
+
+} get-name(& ) _> 8‘ 3 error[E0277]: the trait bound ‘Dacia: Vehicle‘ is not satis-Fied
+
+--> src\main.rs:8:6
+: { |
+_ _ 8 | impl Car for Dacia {
+
+} get-maX—SPEEd(& ) > ’ | AM the trait ‘Vehicle‘ is not implemented 'For ‘Dacia‘
+
+|
+{ } note: required by a bound in ‘Car‘
+{ --> src\main.rs:4:12
+|
+get-maX—SpEEd(& ) _> { 4 | trait Car: Vehicle {
+return 1495 | MAMA" required by this bound in ‘Car‘
+}
+}
+main() {
+d = {}; -
+println! ("max_speed = ",d.get_max_speed()); _vehICIe
+} Vehlcle
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Let's see an example:
+trait {
+fn (&sel1c) —> & 3 I Output I
+1}:rait : { max_speed = 140
+fn (&se11c) -> 3 name: Dacia
+}
+struct {}
+impl for {
+fn (&self) -> { return 140; }
+}
+impl for {
+Fn (&se1f) -> & { return "Dacia"; } 5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+jé§é$i;g_
+Any trait derived from another trait has access to all of the methods defined in the
+super trait. Similar, via Self type, it can access any constant defined in the super trait
+and instantiated in the struct or current trait.
+Rm m
+trait Vehicle {
+fn get_name(&self) -> &stn;
+}
+trait Can: Vehicle {
+fn pnint_speed(&self) { pnintln!("Max speed for {} is {}", self.get_name(),5elf::MAX_SPEED); }
+}
+struct Dacia {}
+impl Can for Dacia { }
+impl Vehicle for Dacia {
+const MAX_SPEED: u32 = 149;
+fn get_name(&self) -> &stn { "Dacia"; }
+}
+fn main() {
+let d = Dacia {};
+d.pnint_speed();
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+IVIultlple Inherltance IS also p055|ble as a tralt can be a super tralt for multlple tralts.
+trait {
+Fn (&se1F) —> & ,-
+tra it : { .
+fn (&self) -> ,- Name = Dacla
+} Speed = 140
+trait I { Color = Blue
+Fn (&se11c) —> & ;
+}
+struct {}
+impl For‘ { fn (&se1f) —> { 146 } }
+impl {OP { Fn (&se1f) -> & { "Blue" } }
+impl For { fn (&self) —> & { "Dacia "} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+.
+Super traits
+Multiple inheritance is also possible as a trait can be a super trait for multiple traits.
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+A similar code in C++ would look like this.
+. class {
+tralin {(&self) _> & _ virtual const char * () = 9;
+’ };
+trait _ { class : public {
+fn ' (&self) _> _ virtual unsigned int () = 9;
+’ };
+} .
+. . class : public {
+traiin ' (&self§ _> & . virtual const char * () = 9;
+’ };
+} . .
+class : public ,public {
+iEPTCt For {} { } virtual const char * () override {...}
+impl For E } virtual unsigned int () override {...} _
+imgl For E } virtual const char * () override {...} “ﬁﬁ
+} pr1ntln!( Color = {} ,d. ()); ("Color I {}": . ()); 2;;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+At the same time, multiple traits can be super trait for another trait. Semantically
+this is explained in the following way:
+trait <name>z SuperTrat'tl + SuperTrat'tZ + SuperTrat'tn {...}
+
+This is in particular useful when using templates/generics as it can be used to explain certain type of
+limitations (e.g. the type used in a generic must implement Trait1 , Traitz, ).
+This format is often referred as trait combos.
+
+Rust
+
+trait MyTPait : MySupehTPait + MySecondahySupePThait + MyThiPdSupepThait {
+
+}
+
+impl MyTPait for MyClass {
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+The same exam Ie 9 but WIth tralt combos.
+trait {
+fn (&se1F) —> & ,-
+} I Output I
+trait { .
+fn (&self) -> & ,- Name = Dacla
+} Speed = 140
+trait : + { Color = Blue
+fn (&se1f) —> ;
+}
+struct {}
+impl For { fn (&se1f) —> { 146 } }
+impl for { Fn (&se1f) —> & { "Blue" } } ,1:
+impl For { fn (&self) —> & { "Dacia "} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+Su per traits
+I The same exam Ie 9 but with trait combos.
+l C;r I
+I Dada
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+Special Traits
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+,’ S p eC | a I Tra ltS
+Rust has some special traits that can be used to improve certain operations or how
+some types behave:
+- Traits that reflect certain properties (Copy, Clone, Debug, etc)
+- Traits that reflects operators (addition, substraction, etc)
+- Traits that reflects comparations between types
+- Traits that reflect casts and/or conversions between types
+These traits can be overridden. ln some cases, Rust can automatically implement
+some special traits via — attribute. ||
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+VP‘ Special Traits
+
+To automatically tell Rust that it needs to implement a trait for a specific class, use
+
+— attribute. The general format is:
+#[derive(Trait1, Traitz, Traitn)]
+
+List of these traits (that are also called derivable traits):
+Copy Support for Copy Semantics
+Clone Add support to clone an object
+Debug Debug information for an object
+Hash Provide a way to compute a hash for a reference (Compiler controlled)
+Default Default value for an object 5:555???
+Eq Com pa ration support ( equal )
+PartialEq Com pa ration support ( equal and not equal )
+0rd Set an object to be comparable (can be ordered)
+PartialOrd Set an object to be partial comparable (can be ordered)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+Copy trait indicates "Copy semantics” for a specify trait. Clone is a super trait for
+Copy trait (so any implementation of Copy trait implies Clone traits as well).
+: {
+
+} (& , source: & ) {...}
+
+1»
+Notice that Copy trait has no defined method. This is because this trait implies
+byte-wise copy for any object upon assignment. Clone imply Sized (a trait that
+indicates that the size of the object that has this trait, must be known at compile
+time). This is to be expected if Copy implies a byte-wise copy (a memcpy). |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+. .
+SPEClal Tralts (Copy & Clone)
+Clone trait, however, can be implemented
+Rust
+{
+} -
+H
+clone(& ) -> { {
+value? .value + 1,
+}
+}
+}
+main() {
+x = { value: 1 }; |
+y = x.clone();
+z = x;
+pnintln!(" , , ", x.value, y.value, z.value);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+JéﬁgiiQQI
+Clone trait, however, can be implemented
+Rust
+derive( , )
+value: 132,
+}
+tn main() {
+let x = MyNumbeP { value: 1 };
+let y = x.clone();
+let z = X;
+println!("{},{},{}", x.value, y.value, z.value);
+}
+OBS: Notice that the default implementation (obtained via #[derive(Copy, Clone)] uses byte wise copy
+for both clone and assignment.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+é?‘
+A newly create struct can implement Copy trait only if all of its fields implement
+Copy trait.
+Rust
+denive( , )
+{ ennon[E02941: the trait ‘Copy‘ may not be implemented for this type
+value: , —l> sr‘c\ma1n.r‘s:1:19
+name: 1 | #[dehive(Copy,Clone)]
+} l
+main() { 4| namezString
+X = { value: 1: name: "123".t0_5tl"il’lg() }3 | ----------- this field does not implement ‘Copy‘
+} |
+In this case, one of the fields (name) does not implement Copy trait and as such the entire structure
+can not implemented it.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+Special Traits (Display & Debug)
+
+Rust has two traits (Display and Debug) that should be used to display an object.
+
+Both Debug and Display traits have the same methods, however there are some
+
+differences between them:
+
+' - trait can be used with #[derive(...)], - can't
+
+~ - is designed for user-facing, while - is merely a developer way of
+
+validating information about an object.
+
+' Debug requires a special format I
+
+l
+<& , r; & < >> -> ; (& , t: & < >> -> ;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+i;§ﬁilq_
+*- Special Traits (Display & Debug)
+Let's see some examples:
+Rust
+denive( )
+value: 132,
+}
+fn main() {
+let x = MyNumben { value: 1 };
+}
+Notice that it is fairly easy to print any kind of object if we implement (via
+#[derive(Debug)] ) the Debug trait for it. Rust will create a default implementation
+for this trait that will print each field from that structure.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+jé§é$i;g_
+Let's SEQ some examples:
+Rust
+use std::fmt::Display;
+struct MyNumber {
+value: 132, MyNumber => with value = 1
+}
+impl Display For MyNumbeP {
+
+{n fmt(&selF, F: &mut fmt::Formatter<'_>) -> stdzzfmtzzResult {
+¥.write_str("MyNumbeP => with value = ")P;
+f.write_fmt(format_args!("{}",self.value))?;
+0k(())
+
+}
+
+}
+{n main() {
+
+let x = MyNumbeP { value: 1 };
+
+println!("{}",x);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+Let's see some examples:
+Rust
+IVIyNumber => with value = 1
+fmt(& , F: & fmtzz < >) —> stdzzfmtzz {
+¥.write_str("MyNumber => with value = ")P;
+F.write_fmt(format_args!(" ", .value))?;
+Rust
+Fmt(& , f: & fmtzz < >) —> stdzzfmtzz {
+write!(f, "MyNumbeP => with value = ", .value)?;
+0k(())
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+,’iii 5Pe¢|a| Traits (Defa U It)
+- trait is used to describe a default initialization value for an object. It works
+like a static (constructor method that creates an object. All basic types implement
+that trait. Furthermore, trait can be defined via #[derive(...)].
+{
+() -> s
+}
+Besides basic types, more than 150 types in Rust implement default.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:129**************
+Jéﬁéﬁélty
+Let's see some examples:
+Rust
+struct MyNumbeP {
+value: 132, m
+}
+impl Default for MyNumbeP { 100
+fn default() —> Self { O
+Self { value: 160 } H
+}
+}
+fn main() {
+let x = MyNumber::default();
+let y = 132::default();
+let z = String::default();
+println!("{}",x.value);
+pPintln!("{}",y);
+pPintln!("[{}l",Z);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+i;§ﬁilq_
+Default trait can be automatically implemented via #[derive(...)] attribute. All of the
+structure members MUST implement Default trait as well.
+derive< ’ ) IVIyNumber { value: O, float: 0.0, flag: false}
+struct MyNumber {
+value: 132’ IVIyNumber { value: O, float: 0.0, flag: false}
+float: f32,
+flag: bool
+}
+fn main() {
+let x = MyNumber::default();
+let y: MyNumber = Default::default();
+println!("{:?}",x);
+println!("{:?}",y);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:131**************
+é?“
+Default trait can be automatically implemented via #[derive(...)] attribute. All of the
+structure members MUST implement Default trait as well.
+Rust
+{ error[E@277]: the trait bound ‘MyStructWithoutDeFault: DeFault‘ is not satisFied
+va]JJe: ——> src\main.rs:1@:5
+|
+} 5 | #[derive(DeFau1t,bebug?] - -
+derﬁive( , ) ...| ——————— 1n this derive macro expan51on
+{ 19 | extra: MyStructWithoutDeFault
+va111e: ’ | AAAAAAAAAAAAAAAAAAAAAAAAAAAAA the trait ‘Defau1t‘ is not implemented for
+F1138t2 ’ | ‘MyStructwithoutDefau1t‘
+flag: ,
+extra:
+}
+main() {
+x = ::defau1t();
+println!(" ",x);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+VJé€ﬁig>l
+_ ,... Special Tralts (Default)
+When #[derive(...)] attribute is used to automatically implement the Default trait
+for an enum, you MUST also specify the default variant (to do this add #[default]
+before the e default variant in the enum).
+Rust
+use std: :default; m
+denive( , )
+enum Colon {
+Red,
+default
+Green,
+Blue,
+White
+}
+fn main() {
+let x = Colon::default();
+pnintln!("{:?}",x);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:133**************
+You can also overwrite some default value and keep the rest of them by using the
+following syntax when constructing an object (this is in fact
+another usage of functional update syntax in Rust):
+< , > ,—‘
+struct { OUtPUt
+X ’ x = |\/lyStruct { x: O, y: false, z: 0.0, name: ""}
+32/ , ’ y = IVIyStruct { x: 10, y: false, z: 0.0, name: ""}
+name: z = IVIyStruct { x: O, y: true, z: 0.0, name: "10"}
+}
+rn 0 {
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+I and - traits are used to describe if how to check the equality or
+difference between two object. PartialEq is the super trait of Eq.
+< z P = > {
+(& , other: & ) -> g }
+! . (other)
+}
+}
+
+Notice that "I" (not-equal) method has a default implementation. This mean that
+normally, a type that implements this trait only needs to overwrite the I method.
+The “I” is useful for types (e.g. floating values) that have special cases (such as
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:135**************
+jé§é$i;g_
+Let's see a simple example on how to use PartialEq:
+Rust
+struct MyStruct {
+value: i32
+1‘ M
+impl PartialEq For MyStPuct {
+‘Fn eq(&self, other: &se1¥) -> bool {
+self.value == other.value
+}
+}
+fn main() {
+let x = MyStPuct{value: 19};
+let y = MyStPuct{value: 19};
+X == y {
+println!("x an y are equals !");
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+JéﬁgiiQQI
+*- Speclal Tralts (Eq and PartlaIEq)
+PartialEq and Eq traits can be automatically implemented via #[derive(...)] attribute.
+Keep in mind that PartialEq is a super trait of Eq and as such if you derive from Eq
+you must derive from PartialEq as well. All of the members from that structure
+IVIUST implement PartialEq and/or Eq.
+denive( )
+value: 132
+}
+fn main() {
+let x = MyStnuct{value: 19};
+let y = MyStnuct{value: 19};
+X == y {
+pnintln!("x an y are equals !");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:137**************
+i?“
+- and I traits can be automatically implemented via #[derive(...)] attribute.
+Keep in mind that PartialEq is a super trait of Eq and as such if you derive from Eq
+you must derive from PartialEq as well. All of the members from that structure
+IVIUST implement PartialEq and/Oor Eq.
+Rust
+{ error[E93691: binary operation ‘==‘ cannot be applied to type ‘MyNonComparableStruct‘
+field: -l> src\ma1n.rs:7:5
+} 4 | #[derive(PartialEq)]
+derive( , ) | --------- in this derive macro expansion
+{ 7| extra: MyNonComparableStruct
+value: , | AAAAAAA/\AAAAAAAAAAAAAAAAAAAA
+extra: |
+} note: an implementation of ‘PartialEq<_>‘ might be missing for ‘MyNonComparableStruct‘
+main() {
+x = {value: 19, extra: { Field: 10 }};
+y = {value: 19, extra: { Field: 10 }};
+if x == y {
+println!("x an y are equals !");
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+- and traits describe a way to compare two ob'ects. - is a
+super trait of , and PartiaIEq is a super trait of
+Rust (Portia/0rd trait definition) Rust (Ordering)
+< : P = >: < > {
+{ Less = —1,
+partia1_cmp(& , other: & ) -> < >3 Equal = 9,
+Greater = 1,
+lt(& , other: & ) -> { }
+matches!( .partial_cmp(other), Some(Less))
+}
+le(& , other: & ) -> {
+!matches!( .partia1_cmp(other), None | Some(Greater))
+}
+gt(& , other: & ) -> {
+matches!( .partial_cmp(other), Some(Greater)) | t
+} I
+ge(& , other: & ) -> { | E
+matches!( .partial_cmp(other), Some(Greater | Equa1)) g i
+1' E
+} g
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:139**************
+As PartialEq is a super trait of -, "eq" and "ne" methods are inherited from
+PartialEq. 0rd trait also implements method like min, max and clamp.
+pub trait : + <Self> {
+fn (&self, other: &Self) -> ;
+fn (self, other: Self) -> Self where Self: ,
+{
+(self, other, :: )
+}
+fn (self, other: Self) -> Self where Self: ,
+{
+(self, other, :: )
+}
+fn (self, min: Self, max: Self) -> Self where Self: , _£ﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+t?‘
+
+Let's see an example to understand how max, min and clamp methods work.
+
+Rust M
+main() { _
+pnintln! ("5.max(1@) = ",5.max(1@)); 5.max(10) _ 10
+pnintln! ("5.max(2) = ",5.max(2)); 5.max(2) = 5
+pnintln! ("5.min(1@) = ",5.min(1@)); 5.min(10) = 5
+pnintln!("5.min(2) = ",5.min(2)); - _
+pnintln!("5.c1amp(2,8) = ",5.clamp(2,8)); 5.m|n(Z) _ 2
+pnintln!("5.c1amp(7,9) = ",5.clamp(7,9)); 5.c|amp(2,8) =5
+pnintln! ("5.c1amp(1,4) = ",5.clamp(1,4)); 5.c|amp(7,9) = 7
+
+} 5.c|amp(1,4) = 4
+
+.clamp(...) method keeps a value within an interval. If it is lower than its lower
+
+bound, the value returned will the lower bound of the interval. If it is greater than
+
+the upper bound, the value return will be the upper bound of the interval.
+
+Otherwise, the value will remained unchanged.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:141**************
+® SPEClal Tralts (0rd and Part|a|0rd)
+Let's see a slmple example that Illustrates how to manually Implement PartlalOrd.
+use std::cmp:: ;
+struct { value: } I OUtPUt I
+impl for { . .
+fn (&self, other: &Self) —> { self.value == other.value } VISnggerthar1X
+}
+impl for {
+fn (&self, other: &Se1f) —> < > {
+if self.va1ue>other.value { return Some( ::Greater); }
+it self.value<other.value { return Some( ::Less); }
+return Some( ::Equa1);
+}
+} .5?
+t“ <> { :aﬁﬁ
+let X = {value=1@};
+let y = {value=2@}; aeﬁtaaﬁt
+println!<"y is bigger than x"); ﬁtﬁﬁﬁtﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+jé§é$i;g_
+When #[derive(...)] attribute is used to automatically implement the PartialOrd,
+keep in mind that the automatic logic is to compare each variable in the order they
+were added in the structure.
+Rust
+derive( , )
+v1: i32, _
+V2: 132, C|\/|P(x,y) - Some(Less)
+V3; 132 C|\/|P(x,z) = Some(Less)
+} _ C|\/|P(x,t) = Some(Greater)
+{n ma1n() { C|\/|P(x,x) = Some(Equal)
+let x = MyStPuct { v1: 19, v2:29, v3:19 };
+let y = MyStPuct { v1: 29, v2:19, v3:199 };
+let z = MyStPuct { v1: 19, v2:29, v3:199 };
+let t = MyStPuct { v1: 19, v2:19, v3:199 };
+println!("CMP(x,y) = {z?}",X.partial_cmp(&y));
+println!("CMP(x,z) = {z?}",X.partial_cmp(&z));
+println!("CMP(x,t) = {z?}",X.partial_cmp(&t));
+println!("CMP(x,x) = {z?}",X.pantial_cmp(&x));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:143**************
+V? Special Traits (Drop)
+Rust does not have a destructor (in a traditional, descriptive, manually defined C++
+way). However, there is a trait called - that serves a similar purpose (it contains
+a method that is being called when the scope of an object ends).
+(& );
+}
+While in most cases, you don't really need to implement this trait (as Rust will
+automatically destroy object), there are some scenarios (e.g. when managing an
+external resource, a socket, etc) when this trait might be required.
+Drop can not be automatically implemented via #[derive(...)] attribute.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+é?‘
+Let's see an example:
+Rust
+{ M
+VI
+} { Inner block scope will end right now !
+drop(& ) { Dropping (v=20)
+pnintln! ("Dropping (v= )", -\/)3 IVIain block scope will end right now!
+} } Dropping (v=10)
+main() {
+{
+y = {v 29};
+pnintln!("Inner* block scope will end r'ight now l"); -
+} ‘
+println!("Main block scope will end right now l");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:145**************
+i?‘
+As previously stated, explicit destructor calls (via -) method are not allowed.
+Rust
+{
+VI
+} ePPoP[E9949]: explicit use of destructor method
+{ ——> snc\main.ns:13:7
+dnop(& ) { I .
+phintln!("DPopping (v= )", .v); 13: T;%XE§?
+} } i i bxplicit destructor calls not allowed
+maj11() { | help: consider using ‘drop‘ function: ‘drop(x)‘
+x = {vzlG};
+x.dPop();
+}
+OBS: If allowed, these calls could lead to the wrong behavior of some objects (e.g. if
+the destructor closes some handles) if the object is being used after the call to
+.drop().
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+jé§é$i;g_
+The order .drop() method is called is also different how C++ is doing. First it is called
+for the main object, then for every field from that object in the order of the
+declaration.
+Rust
+struct ClassB { v: i32 }
+struct MyStruct { a: ClassA, b: ClassB } Dropping MyStruct
+impl Drop for MyStruct { -
+fn drop(&mut self) { println!("Dropping MyStruct"); } DrOpplng CIaSSA
+} Dropping ClassB
+impl Drop for ClassA {
+fn drop(&mut self) { println!("Dropping ClassA"); }
+}
+impl Drop for ClassB {
+fn drop(&mut self) { println!("Dropping ClassB"); }
+}
+fn main() {
+let x = MyStruct { a: ClassA { v: 9 }, b: ClassB { v: 9 } };
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:147**************
+i?“
+Another observation is that - trait can not be implemented for object that have
+Copy semantics. This is because object that implement - trait are normally
+copied (via a memcpy method) and as such memory deallocation can be handled
+automatically.
+Rust
+dertive( ’ ) error[E0184]: the trait ‘Copy‘ may not be implemented for this type; the type has a destructor
+{ -l> src\main.rs:1:10
+V: : 1 | #[derive(Copy,Clone)]
+} | AAA“ Copy not allowed on types with destructors
+{
+dnop(& ) {
+println!("DPopping MyStPuct");
+}
+}
+main() {
+x = { v: 9 };
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+a?‘
+' 7;’: l Q
+Speclal Traits (Drop)
+Another observation is that implementing Drop trait for a struct will disable the
+partial move ability. Let's analyze the following example:
+Rm m
+name:
+1»
+main() {
+t = {x:1, name: ::fhom("ABC") };
+_s = t.name;
+println!("x= ",t.x);
+}
+Notice that moves the value of field name from structure Test.
+But this is a partial move as the structure Test (through its member ”x") is still
+available (we can actually print t.x).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:149**************
+i?
+Now let's implement Drop trait for the same structure. We will notice that the
+same example does not work anymore (meaning that you can not move individual
+fields from a structure anymore — as the new Drop implementation implies the
+entire structure is being moved).
+IQLLSt error[E9599]: cannot move out of type ‘Test‘, which implements the ‘Drop‘ trait
+——> src\main.rs:19:14
+{ |
+XI , 10 | let _s = t.name;
+name: | AAAAAA
+} |
+| cannot move out of here
+{ | move occurs because ‘t.name‘ has type ‘String‘, which does
+dpop(& ) { } | not implement the ‘Copy‘ trait
+}
+main() {
+t = {X 1, name: ::from("ABC") };
+_s = t.name;
+println!("x= ",t.x);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+Speclal Tralts (Slzed)
+- trait is a special trait that indicates that current type has a know size at
+compile time.
+{
+}
+This purpose is controlled by the compiler. You cand not implicitly implement it but
+it is very useful for bounds (in generics) where this trait might be re uired. It is also
+possible to relax the bounds that request a Sized object by adding i in front of it
+(-). This removes the bound for an object to be Sized. |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:151**************
+la
+SPEClal Tralts (Slzed)
+Explicit implementation of- trait is not allowed:
+Rust
+{
+
+v: ,
+
+} error[E0322]: explicit impls for the ‘Sized‘ trait are not permitted
+{ -I> src\main.rs:4:1
+iE‘iiEEE1ig1!EEiEE1ii1gEiig!‘iiiiiiiiiiiiiiiiii‘iiiiiiiiiiiiiiiiiiiiiii
+
+} | AAAAAAAAAAAAAAAAAAAAAAA impl of ‘Sized’ not allowed
+
+main() {
+
+X = { V: 9 }3
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+a
+Notice that even if Sized can be a super trait for another trait, that trait can not be
+used to instantiate a dynamic object.
+Rust
+error[E9938]: the trait ‘A‘ cannot be made into an object
+1 { —i> src\main.rs:5:12
+} 5 | let y: Box<dyn A> = Box::new(S {});
+{ | AAAAAAAAAA ‘A‘ cannot be made into an object
+|
+} note: for a trait to be "object safe" it needs to allow building a vtable to allow the
+} { call to be resolvable dynamically;
+——> src main.rs:1:19
+main() { | . .
+} y: < > = ::|1ew( {}); 1 i tralt 6: iiiig €%.because it requires ‘Self: Sized‘
+| |
+| this trait cannot be made into an object...
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:153**************
+V? Special Tralts (Deref and DerefMut)
+
+- and — traits are used to explicit dereferencing o erations an equivalent
+to operator*/operator-> from C++). This mechanism is called .
+
+{ r {
+
+: P 3 (& ) -> & : : ;
+
+(& ) -> & z: 3
+} }
+If a type I implements Deref (with Target type set to type I) then:
+' I can be coerced to I
+' I implicitly implements all methods from I
+OBS: Deref and DerefMut simulate the concept of inheritance (in the sense that
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:154**************
+SpeCIal Tra Its (De ref a nd De ref M ut)
+Let's see an example:
+I Output I
+
+use std::ops::{ , };
+
+struct { X: , y: } FrontB:x=10,y=1,Fron1A:a=O
+
+struct { b: , a: }
+
+impl { fn () -> { { b: { x: 9, y: 9 }, a: 9 } } }
+
+impl for {
+type = s
+fn (&self) -> &Se1f:: { &selF.b }
+
+}
+
+impl for {
+fn (&mut self) -> &mut Selfzz { &mut self.b }
+a.x = 16; eﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+PPintln! ("FPom Bi X={}, y={}, FPom AI a={}", a-X, a-y, a-a);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:155**************
+S pec | a l Tra Its (De ref a n d De ref M ut)
+Let's see an example:
+I Output I
+From B: x=10, y=1, From A: a=0
+impl for {
+type = 3
+fn (&self) -> &Se1f:: { &self.b }
+}
+"A" type does not have any or
+fields. However, due to the Deref
+implementation, you can automatically
+access fields and from field of
+type A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:156**************
+® SpEClal Tralts (Deref and DerefIVIut)
+Let's see an example:
+I Output I
+From B: x=10, y=1, From A: a=0
+impl for {
+fn (&mut self) -> &mut Selfzz { &mut self.b }
+} Due to the DeretMut implementation,
+you can automatically obtain a mutable
+reference to field field of type A
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:157**************
+® Speclal Tralts (Deref and DerefIVIut)
+Let's see an example:
+I Output I
+From B: x=10, y=1, From A: a=0
+tn (b1 &mut ) { b-y += 1; } Notice that increment_y expects a mutable reference
+to an object of type B. However, it can be called with
+a mutable reference of type A that can be coerced
+(81mch a); due to to a mutable reference of type B.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:158**************
+',® Special Traits (From and Into)
+- and - traits are used to perform value-to-value conversion.
+(_: ) —> ,' ( ) -> 3
+} }
+lt is recommended to avoid implemented Into but rather implement From. Implementing
+From will trigger the creation of Into as well due to the blanket implementation in the
+standard library.
+< , > < >
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:159**************
+Jé§é$i;g_
+Let's see an example:
+Rust W
+t
+“mil? iiz, a'value = 10
+} b.va|ue = 11
+impl From<132> For Test {
+Fn from(v: 132) —> Test {
+Test { value: v }
+}
+}
+Fn main() {
+let a = Test::From(19);
+println!("a.value = {}", a.value);
+let b: Test = 11.into();
+println!("b.value = {}", b.value);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:160**************
+. SPEClal Tralts (From and Into)
+Let's see an example:
+Rust
+{ value: } m
+< > { 10
+from(t: ) -> { 20
+t.value
+}
+}
+<& > {
+from(t: & ) -> {
+t.value
+}
+}
+main() {
+a = { value: 10 };
+x: = (&a).into();
+b = { value: 29 };
+y: = b.into();
+println!(" x , y ")3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:161**************
+- and - traits also have a try version (TryFrom and Trylnto).
+. < >; { ; < >: {
+’(va1ue: ) -> < , :: >3 _> < :: >.
+} } < > , ,
+The difference from the From and Into forms is that these traits return a Result (allowing
+someone to validate if something can be converted into another object or not).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:162**************
+jé§é$i;t_
+AsRef and AslVlut traits are used to perform cheap reference-to-reference conversion.
+Keep in mind that similar result can be obtained if using From or Into traits (but
+implemented over/for a reference or mutable reference).
+Rust (AsRef trait definition) RUST (AS/Vii" trait definition)
+pub trait AsRef<Tz PSized> { pub trait A5MUt<T1 PSized>
+Fn as_pef(&self) _> &T; fn as_mut(&mut self) -> &mut T;
+} }
+Rust also has two very similar traits (Borrow and Borrolelut) that resembles in terms of
+definition with AsRef and AslVlut.
+Rust (Borrow trait definition) RUSt (BOI'I'OWMUt trait definition)
+pub tpait BOPPQW<BOPPOWQd: PSized> { pub trait BorrowMut<Borrowedz ?Sized>: Borrow<Borrowed> {
+fn borrow(&self) —> &Borrowed; fn borrow_mut(&mut self) —> &mut Borrowed;
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:163**************
+S pec | a I Tra Its (As Ref a n d As M ut)
+Let's see an example:
+[output—\
+struct ( { >)<: } TESt { X: 20 },20
+impl < > For {
+fn (&self) —> & {
+return &self.x;
+}
+}
+impl < > For {
+fn (&mut self) —> &mut {
+return &mut selF.x;
+}
+} .5?
+F“ <> { seﬁﬁ
+let mut a = {X 1e}; Assess
+*a_mut = 29;
+let a—Pe-F: & = a. ()’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:164**************
+S peela I Tra |ts (As Ref a n d As M ut)
+Let's see an example (this time using b0rr0w/b0rr0w_mut):
+I Output I
+use std::borrow::{ , }3
+Test { x: 20 },20
+( )
+
+struct {
+x:
+
+}
+
+impl < > for {
+fn (&self) —> & { return &self.x; }
+
+}
+
+impl < > For {
+fn (&mut self) —> &mut { return &mut self.x; }
+
+fn () { gﬁﬁﬁ
+let mut a = {leQ}; éﬁﬁﬁﬁﬁ
+let a_mut: &mut = a_ ()3
+*a_mut = 29;
+let a_re1c: & = a. ();
+println!("{:?},{}",a,a_ref);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:165**************
+"g Special Traits (As Ref a nd As M ut)
+The main difference between — and — is that - and
+— have several blanket implementations that allows one to used them directly
+in a generic (e.g. in a where clause) without the need to actually implement them for a
+specific type.
+Let's consider the following problem 9 we want to write a generic function that
+consumes an object but before it consumes it, it uses its reference to print it.
+Let's see how we can implement such a function using both Borrow/Borrolelut and
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:166**************
+® SPEClal Tralts (AsRef and AsMut)
+Solution (using borrow/b0rr0w_mut):
+I Output I
+use core::fmt; _ _ _
+use std: :{borrowz , Fmt:: }; Ob] = POlnt Oblect => (X=1O, V=20)
+struct { x: , y: } Obj= 10
+impl For {
+fn (&self, f: &mut Fmtzz <'_>) —> Fmtzz {
+write!(¥, "Point object => (x={}, y={})", selF.x, self.y)
+}
+}
+fn < >(0bject: )
+where
+: < > + ,
+{ ii
+println!("obj = {}", x); iﬁﬁEﬁE
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:167**************
+® SpeCIal Traits (AsRef and AsMut)
+Solution (using borrow/borrow_mut):
+
+I Output I
+obj = Point object => (x=10, y=20)
+obj = 10
+
+Notice that we require Borrow to be implemented for
+
+= < > T but we haven't actually implemented it (this is
+because blanket implementation does it for us).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:168**************
+Let's try the same code with AsRef:
+Notice that without the blanket implementation, we
+can not use in a generic !
+‘Fn < >(0bjeCtI ) error[E0277]: the trait bound ‘Point: AsRef<Point>‘ is not satisfied
+where --> src\main.rs:22:17
+. |
+' < > + 22 | print_va1ue(p);
+{ | ----------- A the trait ‘AsRef<Point>‘ is not implemented for ‘Point‘ ,éﬁ
+let X = object- ()s I I ,aﬁﬁ
+println! ("Obj = {}"’ X); | required by a bound introduced by this call
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:169**************
+Operators
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:170**************
+',® Operators
+When creating different types, it is often required to overwrite how some
+mathematical operations work for them. In C++ this is accomplished by using the
+keyword “operator” and being able to write specific methods that describe how
+certain operation should behave.
+ln Rust, there are a set of traits that if implemented will result in a similar behavior.
+Keep in mind that there has to be a resemblance on how an operator should
+behave. Some operators like (I and I) use lazy evaluation and require bool
+parameters and as such can not be overwritten. _
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:171**************
+|\/|ost of the arithmetic (binary) operators have two possible forms:
+A) Expr G9 Expr (binary operation)
+< = > {
+openationname( , hhs: ) —> :: 3
+}
+Notice that the method receives a sel . This means that With OperationName (sentence case) being
+ownershie will be transferred if trait is not the name assigned fer the Operation @ and
+implemented ! operationname (lowercased) the name of the
+method that needs to be implemented to
+_ _ overwrite that operation.
+B) Variable EB: Expr (aSSIgnment)
+< = > {
+openationname_assign(& , nhs: )3
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:172**************
+"® Qperators
+The next table contains a list of all binary operations that follow the previous
+described template:
+-—m -—M
++ std::ops::Add add += std::ops::AddAssign add_assign
+- std::ops::Sub sub -= std::ops::SubAssign sub_assign
+* std::ops::Mul mul *= std::ops::MulAssign mul_assign
+/ std::ops::Div div /= std::ops::DivAssign div_assign
+% std::ops::Rem rem %= std::ops::RemAssign rem_assign
+& std::ops::BitAnd bitand &= std::ops::BitAndAssign bitand_assign
+| std : :ops: :BitOr bitor |= std : :ops::BitOrAssign bitor_assign
+A std : :o ps: : Bithr bitxo r "= std : :o ps: : Bith rAssign bitxo r_assign
+<< std : :o ps: :Shl sh | <<= std : :ops: :ShlAssign sh l_assign
+>> std::ops::Shr shr >>= std::ops::ShrAssign shr_assign
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:173**************
+Let's see a very Slmple example:
+use std::ops:: 3
+I Output I
+struct {
+value: , 20
+}
+impl < > for {
+type = s
+fn (self, PhSZ ) -> Selfzz {
+self.value + PhS
+}
+let a = { value: 19 }; :gﬁﬁﬁ
+println!<"{x}">; ﬁeﬁﬁﬁ
+} ﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:174**************
+é?
+Notice that. method receives a - (meaning that the ownership of the object
+is transferred and as such, will no longer be available after the addition.
+Rust
+stdzzopsz: 3
+{ value: }
+< > {
+add( ,—rhs:’ ) —> :: {
+.value + rhs
+} error[E0382]: borrow of moved value: ‘a‘
+} ——> src\main.rs:17:19
+main() { 14 i 1 t — T t 1 ' 10 '
+a = -[ vaJJJe: 19 I}; | e ? movzsociuxz Ezcause}fa‘ has type ‘Test‘, which
+X == a i‘ 19} | does not implement the ‘Copy‘ trait
+println!(" x ")3 15 | 1€tX =a-+193 .
+println! (n ",a.value); | . -;---; ‘a‘ moved due to usage 1n operator
+16 | pr1ntln!( {x} );
+} 17 | println!("{}",a.value);
+| AAAAAAA value borrowed here after move
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:175**************
+jé§é$i;g_
+You can, however, implement Add for a reference (in this case for &Test) and avoid
+transferring ownership.
+use std::0ps::Add;
+struct Test { 20
+value: i32, 10
+}
+impl Add<132> for &Test {
+type Output = i323
+fn add(self, PhSI 132) —> SelfzzOutput {
+self.value + rhs
+}
+}
+fn main() {
+let a = Test { value: 16 };
+let x = (&a) + 19;
+pnintln!("{x}");
+pnintln!("{}", a.value);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:176**************
+Operators
+You can, however, implement Add for a reference (in this case for -) and avoid
+transferring ownership.
+20
+10
+< > & {
+_
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:177**************
+é?
+Notice that if Add is not implemented for self, adding an object with a number (for
+our case) will fail.
+Rust
+erron[E9369]: cannot add ‘{integer}‘ to ‘Test‘
+< > & { —i> src\main.ns:13:14
+13 | let x = a+103
+i iA-- {integer}
+| Test
+l
+note: an implementation of ‘Add<_>‘ might be missing For ‘Test‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:178**************
+I 0 p e ratO rS
+You can however call the method - directly (this is different than the
+aerator + as it will try to match the parameters and since Add trait is implemented
+for , the code will compile !
+
+I Output I
+20
+10
+impl < > for & {
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:179**************
+You can implement multiple Add operations:
+
+struct { value: }
+
+impl < > For‘ { I Output I
+type I S
+fn (self, PhSI ) -> Selfzz { selﬁvalue + PhS } 20150
+
+}
+
+lmpltyp; > {SP _ { In this case we have two forms of Add:
+fn (self, PhSI ) -> Selfzz { 1) TESt + i32 => i32
+
+{ value: self.value + Phs.value } 2) TESt+TeSt => TQS'C
+
+}
+
+}
+
+1c" () {
+let a = { value: 16 }; .iﬁﬁ
+let b = { value: 29 }3
+let C = { value: 39 }3
+println!("{},{}", X, d.va1ue); ﬁEﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:180**************
+jé§é$i;g_
+Let's see an example that uses an assignment.
+Rust
+use std: :ops: :SubAssign; m
+derive( )
+struct Test {
+value: i32
+}
+impl SubAssign<i32> for Test {
+Fn sub_assign(&mut self, rhs: 132) {
+self.value -= rhs;
+}
+}
+Fn main() {
+let mut a = Test { value: 16 };
+a —= 5;
+println!("{:?}",a);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:181**************
+vs O pe rato rs
+Rust also allows overwriting two unary operators (- and -) that corresponds to
+the operator- (minus) and operator ! (exclamation mark) in front of an expression.
+( ) —> :: 3 ( ) —> :: 3
+} 1»
+OBS: Keep in mind that this operator receives I (implying a transfer of ownership).
+This means that if you implement this for a type that does not have the Copy trait,
+that object will not be available after calling Neg or M operators.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:182**************
+Let's see an example that uses unary operators:
+use std :ops::{ , };
+( ) I Output I
+struct {
+value: -10,9O
+}
+impl For {
+type = 3
+Fn (self)—>Se1F:: { -self.va1ue }
+}
+impl for {
+type = 3
+Fn (self)—>Se1F:: { 199-self.va1ue } _
+let b = { value: 18 }s
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:183**************
+',® O pe rato rs
+- and - traits are design to allow index operator overwriting in Rust, with
+Index being a super-trait for lndelelut.
+
+{ < ; P > < : P >: < >
+
+: ? 3 { '
+(& , index: )->& :: 3 <8‘ ’ 1ndex: )_>& ;; 3
+
+} }
+
+Keep in mind the indexing operation in Rust return a reference or a mutable reference.
+This is a limitation as you can not create and return an object (except for the case
+where that object is part of the type).
+OBS: As a rule, in cases where index is out of range, you should panic !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:184**************
+Let's see an example that uses Index operators:
+use std :ops: { , }; tn (){
+let mut ip = {valuesz [9u834]};
+( ) Println!("IP = {}-{}-{}-{}",ip[9],ip[1],ip[2],ip[3])3
+1p[9] = 192;
+struct { ip[1] = 168,-
+values: [ g4] ip[2]= 9;
+} ipm = 1:
+impl < > For { println!("IP = {}-{}-{}-{}",ip[9],ip[1],ip[2],ip[3])3
+type = ; }
+Fn (&self, index: ) -> &Self:: {
+if index<4 { return &(self.values[index]); } |()utput I
+panic!("Out of bounds l");
+1, lP = 0.0.0.0
+impl < > For { ﬁﬁﬁﬁﬁ
+Fn (&mut self, index: ) -> &mut Self:: { ﬁﬁﬁﬁﬁ
+if index<4 { return &mut (self.values[index]); } ﬁﬁﬁEﬁ
+panic!("Out of bounds l"); ﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:185**************
+You can also add multiple indexes:
+use stdzzopszz ;
+struct {
+values: [ 34] fn O {
+impl < > -For { let ip = {valuesz [192u8,168,1,123]},'
+type = . pPintln!("IP = {}-{}-{}-{}",ip[9],iP[1],ip[2],ip[3]);
+-Fn (&se1-F, index: ) -> &Sel-F:: { println!(::{}::,ip["first"l]l);
+if index<4 { return &(se1-F.va1ues[index]); } PrlntlnH {} lel: second 1);
+panic!("Out of bounds !"); }
+}
+}
+impl <& > for { l Output l
+type = s
+-Fn (&sel-F, index: & ) -> &Se1-F:: { |P = 192_168_1_123 .-::
+match index { £5;
+"first" => { return &(se1f.va1ues[@]); } 192
+"second" => { return &(se1-F.va1ues[1]); } 168
+"third" => { return &(se1-F.va1ues[2]); }
+"forth" => { return &(sel-F.va1ues[3]); }
+_ => { panic!("Invalid index"); }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:186**************
+,’ 0 pe rato rs
+Finally, keep in mind that assignment (‘I’) can not be overwritten.
+This is because assignment is used for ownership transfer or Copy semantics
+(pending on what trait is present).
+As such, this operator has to be handled by the compiler itself (as it is part of the
+move/copy semantics logic that Rust uses internally).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:187**************
+- @@
+
+***************Ending Page***************
+

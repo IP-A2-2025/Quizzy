@@ -1,0 +1,666 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+ieciures by Ferucio Laurentiu Tiplea
+Web Securlty
+Secure Socket Layer and Transport Layer Security
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of |a5i
+la§i 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+
+Secure Socket Layer (SSL)
+Introduction
+Overview of SSL
+
+Transport Layer Security (TLS)
+Overview of TLS
+The handshake protocol
+The record protocol
+Alert messages
+
+Applications
+
+Security of TLS
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Secure Socket Layer (SSL)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Secure Sockets Layer (SSL)
+SSL, developed by Netscape Communications, is a protocol whose
+primary purpose is to establish a private communication channel between
+two applications to ensure:
+I Privacy of data;
+I Authentication of the parties;
+I Integrity.
+A bit of history:
+I SSL 1.0 was never released because of serious security flaws;
+I SSL 2.0, released in Feb 1995, was shortly discovered to contain
+security and usability flaws;
+I Version 3.0 released in Nov 1996 is a complete reconstruction of the
+SSL protocol, being the basis for further developments.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 2 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+SSL 3.0
+Version 3.0 of SSL was produced by Paul Kocher, working with Netscape
+engineers, when Taher ElGamal was Chief Scientist at Netscape
+Communications:
+“Taher had a clear vision for SSL 3.0, but had many other things
+on his platter as well, so he made arrangements for me and Phil
+Karlton to do the main work of designing the protocol.”
+Paul Kocher
+SSL is a significant contribution to the practice of cryptography:
+“The entire Internet population benefits from the work of Kocher
+and ElGamal every day.”
+Dr. Vinton Cerf, Chair of the Marconi Society
+Guglielmo Marconi (1874-1937), the inventor of radio, shared the 1909
+Nobel Prize in Physiscs with Karl Braun.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 3 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+The 2019 Marconi prize
+l T
+|l | 1. | |
+| | " ' ' -
+' l-
+1 | | . | | .
+. : | I |
+| | . _ | " |
+| | I. _
+|| - " I
+. I ' -' |
+h. .-
+|
+‘I I --' ‘I. I'-
+Figure 1: Paul Kocher (left) and Taher ElGamal (right) awarded the 2019
+Marconi prize for their contributions to the security of communications.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 4 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+SSL in a nutshell
+Even though SSL 3.0 has been implemented and used since 1996, the
+first complete document published appeared only in Aug 2011 (Freier
+et al. (2011)). Some points of reference on it:
+
+1. Primary goal: to provide a private channel between communicating
+applications to ensure:
+
+I Privacy of data;
+I Authentication of the parties;
+I Integrity;
+
+2. SSL does not provide non-repudiation;
+
+3. SSL is socket-oriented: all or none of the data that is sent or
+received from a socket are protected in the same way, i.e., there is
+no way to sign individual pieces of data;
+
+4. SSL is application independent.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 5/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+SSL in the TCP/IP protocol stack
+I I I Applications
+2nd layer (4 perQCOIS)
+64
+m 15‘ layer (1 Promml)
+Transport
+SSL provides security services to any TC P-based application protocol
+(e.g., HTTP, FTP etc.).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 6 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Usage scenario
+Alice Bob's web page
+l/l/ i?‘ \‘ —v | ‘l r1:
+I \ I
+-
+HT_TP HTTP
+/ \ \ / l \ \
+ll T \l 1/ l \l
+‘ SSL 1 ‘ SSL 1
+\ i‘ / \ \ i /
+TCP TCP
+T lPsec i
+IP IP
+ETHERNET ‘,EHHHHHHHH ETHERNET
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 7 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Transport Layer Security (TLS)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Transport Layer Security (TLS)
+
+I 1996: The IETF Transport Layer Security (TLS) working group was
+created to unify and standardize the SSL 3.0 protocol and similar
+variants such as PCT/STLP. The final result would be called TLS;
+
+I TLS Standards:
+
+- TLS 1.0 - 1999 (RFC 2246);
+
+- TLS 1.1 — 2006 (RFC 4346);
+
+- TLS 1.2 - 2008 (RFC 5246);
+
+- TLS 1.3 _ 2018 (RFC 8446);
+
+I TLS has a similar structure to SSL but added signiﬁcant changes
+from standard to standard:
+
+I Removed broken features (e.g., compression);
+
+I Improved the crypto architecture of the protocol: HIVIAC; AEAD,
+
+HKDF; etc.;
+
+I Improved latency (e.g., handshake in 1-RTT or even O-RTT);
+
+I Improved security and privacy (e.g., forward secrecy). secrete determen lung
+cheile de sesiune se slabilesc pe gzcgagrgtcgﬁbubggrttamfggt:
+baza cheilor de termen lung securitatea
+
+Prof.dr. F.L. Tiplea; UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 8 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+TLS 1.3
+I TLS 1.3 — work started on April 2014 (draft-00) and completed on
+Aug 10, 2018 (draft-29);
+I Already in Firefox, Chrome, Safari, Opera, Cloudflare, Google,
+Facebook, OpenSSL,etc.;
+I Vibrant research topic: more than 40 papers have been dedicated to
+the understanding, analysis, and implementation of this standard:
+
+I HKDF : HlVlAC-based key derivation functions;
+
+I SIGMA : SlGn and MAC;
+
+I AEAD : Authenticated Encryption with Associated Data: allow the
+message to contain “associated data" (AD) which is not made
+confidential, but its integrity is protected. A typical example: the
+header of a network packet that contains the destination address;
+
+I Symbolic verification in Tamarin;
+
+I Computational analysis and verification.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 9/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+TLS m the TCP/IP protocol stack
+Major components of TLS 1.3:
+~ i ~ Apphcations
+scnimbu' de Cheie ->
+u:
+_|
+|_
+impachetarea ->
+Transport
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 10 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Sessions and connections
+I Session
+I Association between two communicating peers;
+I Defines a set of cryptographic parameters which can be shared
+among multiple connections;
+I Created by the handshake protocol;
+I Primarily used to avoid expensive negotiation of new security
+parameters for each connection;
+I Connection
+I Transport (in the OSI layering model definition) that provides a
+suitable type of service;
+I Each connection is associated with one session.
+Multiple simultaneous sessions between a pair of parties may coexist.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 11 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+TLS handshake protocol
+The handshake protocol is the most complex protocol of TLS. It allows
+parties to:
+I Agree on a protocol version;
+I Negotiate cryptographic algorithms;
+I Establish shared secret keying material;
+I Authenticate each other.
+Once the handshake is complete, the peers use keying material to derive
+the application data traffic keys.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 12/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+TLS handshake protocol
+TLS supports two basic key exchange modes, one of which has two
+variants:
+cand se aplica meloda asla. secretul se slabileste atunci.
+_ _ nu foloseste secrete prestabilite
+1. (EC)DHE mode. Thls IS the standard handshake mode that does
+not use pre-shared secrets;
+2. Pre-shared key (PSK) based mode. This is based on pre-shared keys.
+It may come in two variants:
+2.1 PSK-only, which does not provide forward secrecy;
+2.2 PSK with (EC)DHE, which provides forward secrecy.
+When clients and servers share a PSK (either obtained externally or via a
+previous handshake). TLS 1.3 allows clients to send data on the first
+flight (early data). The client uses the PSK to authenticate the server
+and to encrypt the early data.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 13 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+' oertiﬁcat = cheia de veriﬁaare a semnalurii
+BaSIC fu ll handSha ke S_f|n hash pe mate mesajele pane in punctul ala " = Optional
+fara pre-shared keys
+C : Client S : Server
+H
+w Q CeHello + CeKeyShare
+an +v unprotected
+5 m wiiiiiiiiiiiwtimi
+L)
+><
+m s,cho + sexcysmm
+i
+K
+Compute HS traffic keys tKCHS and tKSHS
+j: 3 g {EncExts}, {CertReq}* N {}
+i V1 m g. AEAD-protected
+"3 with tK keys
+2 {S_Cert}, {S_CertVrfy}, {S_Fin} E HS
+I
+5 Compute app traffic keys thrlpp mid tKSapp
+‘5
+.2
+u
+Q [App data]* [1
+r AEADeprotcctcd
+n
+% {c.cwﬁ, {c.cﬂtviny‘, {c_Fin}
+a
+m w [I] auhenﬁﬁmnaa diemului,denielpoabe primidaiefara dinainhe
+ﬁ um
+Z ‘6 :
+é a g: [App data]
+Q: E ><
+< [11
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 14 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Establishing a PSK in a previous connection
+C : Client S I Server
+Initial HS
+g {c.cwﬁ, {C_CertVrfy}*, {C_Fin}
+U)
+‘-5
+- [NewSessionTicket] l.
+I [App data] I
+Once a HS has completed, S can send to C a NewSessionTicket message
+t0 create a unique association between the ticket value and a secret PSK
+derived from the Resumption Master Secret (RIVIS).
+The client may use this PSK for future HS. A server may send multiple
+tickets on a single connection!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 15/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+PSK-based handshake
+Subsequent HS
+C = Client S = Server
+C_Hello+C_KeyShare* +C_PSK_Mode+C_PSK
+S_Hello + S_KeyShare* + S_PSK
+
+Compute HS traffic keys tKCHS and tKSHS
+
+Compute app traffic keys tKCapp and tKSapp
+Prow- F-L- Tim we. R0 | Lem on Information Security —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+.
+PS K-based handshake WIth early data: O-RTT
+c = Client s = Server
+0-118110 + C_ED + C_KeyShate* + C_PSK
+Compute early app tramc key tKEaPp
+AEAD_Procected with
+iKeapp derived from PSK
+5-115110 + S_KeyShare* + S_PSK
+Compute HS nan-‘1c keys tKCHS and tKSHS
+Compute app trafﬂc keys tKCapp and tKSapp
+Prof.dr. F.L. Tiplea, UAIC, R0 | Lectures on Information Security —Fal| 2023 11 / 21
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+HMAC-based key derivation
+TLS 1.3 uses a HMAC-based key derivation function (HKDF) (RFC
+5869) that, starting with an initial keying material (lKlVl) generates an
+output keying material (OKM) following the two steps
+extract-and-expand paradigm:
+1. In the first stage, it takes IKM and “extracts” from it a fixed-length
+pseudorandom key K. Formally,
+K <— HKDF.Ext(sa/t7 IKM)
+(salt : practice jargon for “random non-secret quantity”);
+2. In the second stage, based on some optional context and
+application-specific information, “expands” the key K into OKM of
+some length L
+OKM e HKDF.EXp(K, info, L)
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 18/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+. .
+Key derlvatlon flow
+0
+PSK H HKDF.Ext
+BK ES : Early Secret
+l /4 BK I Binder Key
+ES H ETS H tKeapp ETS = Early Traffic Secret
+\ tKeapp = Early App Traffc Key
+l EEMS EEMS = Early Exporter Master Secret
+dES dES = Derived Early Secret
+(EC)DHE ﬁ> HKDF.Ext
+HS I Handshake Secret
+l CHTS H thhs CHTS : Client Handshake Traffic Secret
+HS /4 tKCM : Client Handehake Traffie Key
+\< sHTS H thhS SHTS : Server Handshake Traffic Secret
+l txshs = Server Handshake Traffic Key
+dHS dHS : Derived Handshake Secret
+0 ﬁ> HKDF'EXt CATS H thapp MS : Master Secret
+l / CATS : Client App Traffic Secret
+/4 SATS H thapp tKCﬂrPP : Client, App Traffic Key
+MS \< SATS : Server App Traffic Seeret
+\(EMS thpp : Server App Traffic Key
+EMS : Exporter Master Secret
+R'MS RMS : Resiirnptien Master Secret
+Note: The red “arrows” ineans applicatien ef the HKDEEXp
+fiinctirin. For instanee, ETS:HKDF.Exp(ES,X,Y), fer serne
+x and Y
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 19 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Handshake properties (1)
+
+1. Establishing the same session keys on both sides of the handshake,
+provided that it completes successfully on each endpoint;
+
+2. Secrecy of the session keys: The shared session keys should be
+known only to the communicating parties and not to the attacker;
+
+3. Peer authentication: Server side of the channel is always
+authenticated; the client side is optionally authenticated;
+
+4. Uniqueness of the session keys: Any two distinct handshakes should
+produce distinct, unrelated session keys. Individual session keys
+produced by a handshake should also be distinct and independent;
+
+5. Downgrade protection: The cryptographic parameters should be the
+same on both sides and should be the same as if the peers had been
+communicating in the absence of an attack;
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 20 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Handshake properties (2)
+
+6. Forward secret with respect to long-term keys: protect the secrecy of
+past sessions so that a session stays secret going forward;
+
+7. Key compromise impersonation resistance: In a mutually
+authenticated connection with certificates, compromising the
+long-term secret of one actor should not break that actor's
+authentication of their peer in the given connection. For example, if
+a client's signature key is compromised, it should not be possible to
+impersonate arbitrary servers to that client in subsequent
+handshakes;
+
+8. Protection of endpoint identities: The server's identity (certificate)
+should be protected against passive attackers. The client's identity
+should be protected against both passive and active attackers.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 21 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+The record protocol '"caPSU'a'ea
+Application data
+datele sunt impartite in fragmente r r
+\ \
+‘ Fragment ‘
+pas2: se adauga un header Len H SqN H . ,. —
+\ \ \ \ \
+\ e \ \
+\ \ e \ MAC \\
+‘ ‘ e _ \ \ pas4:padare
+‘ AEAD
+\ \
+r Encrypt r
+\ \
+NH”/H,l/N”l/H”l/N”,/N”l/H/H/H/H/H/H/H
+daca cineva modiﬁca info din header, ele se regasesc si in
+partea criptata => se poate detects daca s-a alterat headerul
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 22 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Alert messages
+I Alert messages convey closure information and errors;
+I Alert messages are encrypted in accordance with the current
+connection state;
+I In contrast to the previous versions, the severity of the alert in TLS
+1.3 is implicit in the type of alert being sent;
+I There are two types of alerts:
+I Closure alerts:
+I close_n0tify: notiﬁes the recipient that the sender will not send any
+more messages on this connection;
+I user_cance|ed: notiﬁes the recipient that the sender is canceling the
+handshake for some reason unrelated to a protocol failure;
+I Error alerts indicate abortive closure of the connection. Examples:
+unexpected_message, bad_record_mac, handshake_failure, etc.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 23 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Applications
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Applications
+
+I HTTPS (HTTP + SSL/TLS + TCP);
+
+I FTPS (FTP + TLS);
+
+I Software update programs: in more recent versions of Windows,
+Windows Update is a custom app secured by TLS. Many other
+online software update programs, such as the getPlus program used
+by Adobe, use TLS connections for security;
+
+I Client security with TLS: client side certiﬁcates can be used with
+TLS to prove the identity of the client to the server, and vice-versa.
+This is called “two-way TLS" and requires the client and server both
+provide certificates to each other;
+
+I Server-to-Server security With TLS: many server-to-server
+connections offer TLS as an option;
+
+I TLS based VPN.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 24 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Security of TLS
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Security of TLS
+1. The study of TLS 1.3 protocol security is a hot research topic with
+paramount practical importance;
+2. Many research articles and doctoral theses have been written in this
+direction;
+3. Special sessions at conferences and workshops focused on
+cryptography and information security have been dedicated to TLS
+1.3;
+4. The two primary directions are the study of TLS 1.3 security in the:
+4.1 Symbolic model: Horvat (2015); Cremers et al. (2017); Hoyland
+(2018); van der lVlerwe (2018); Scott (2018);
+4.2 Computational model: Jager et al. (2012); Giesen et al. (2013);
+Kohlar et al. (2013); Dowling et al. (2021); Aviram et al. (2021);
+Bhargavan et al. (2022); Davis et al. (2022).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 25/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+References
+
+Aviram, N., Gellert, K., and Jager, T. (2021). Session resumption protocols and efficient forward
+security for TLS 1.3 O—RTT. Journal of Cryptology, 34.
+
+Bhargavan, K., Cheval, V., and Wood, C. (2022). Handshake privacy for TLS 1.3. Research
+report, lnria Paris; Cloudflare.
+
+Cremers, C., Horvat, M., Hoyland, J., Scott, S., and van cler Merwe, T. (2017). A comprehensive
+symbolic analysis of TLS 1.3. In Proceedings of the 2017 ACM SIGSAC Conference on
+Computer and Communications Security, pages 1773-1788.
+
+Davis, H., Diemert, D., Giinther, F., and Jager, T. (2022). On the concrete security of TLS 1.3
+PSK mode. In Dunkelman, O. and Dziembowski, S., editors, Advances in Cryptology —
+EUROCRYPT 2022, pages 876-906, Cham. Springer International Publishing.
+
+Dowling, B., Fischlin, M., Giinther, F., and Stebila, D. (2021). A cryptographic analysis of the
+TLS 1.3 handshake protocol. Journal of Cryptology, 34.
+
+Freier, A. O., Karlton, P., and Kocher, P. C. (2011). The Secure Sockets Layer (SSL) Protocol
+Version 3.0. RFC 6101.
+
+Giesen, F., Kohlar, F., and Stebila, D. (2013). On the security of tls renegotiation. In Proceedings
+of the 2013 ACII/l SIGSAC Conference on Computer and Communications Security, CCS'13,
+page 387-398, New York, NY, USA. Association for Computing Machinery.
+
+Horvat, M. (2015). Formal analysis of modern security protocols in current standards, ph.d. thesis.
+
+Hoyland, J. (2018). An analysis of TLS 1.3 and its use in composite protocols, ph.d. thesis.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 26 / 27
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:32**************
+Jager, T., Kohlar, F., Schéige, S., and Schwenk, J. (2012). On the security of TLS-DHE in the
+standard model. In Safavi-Naini, R. and Canetti, R., editors, Advances in Cryptology —
+CRYPTO 2012, pages 273-293, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+Kohlar, F., Sch'age, S., and Schwenk, J. (2013). On the security of TLS-DH and TLS-RSA in the
+standard model. IACR Cryptol. ePrint Arch., 2013:367.
+
+Scott, S. (2018). The design and analysis of real-world cryptographic protocols, ph.d. thesis.
+
+van der Merwe, T. (2018). An analysis of the Transport Layer Security protocol, ph.d. thesis.
+
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Web SecuritySSL and TLS Fall 2023 27 / 27
+
+***************Ending Page***************
+
+
+

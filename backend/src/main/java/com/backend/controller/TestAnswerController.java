@@ -52,6 +52,11 @@ public class TestAnswerController {
                 logger.info("Test created successfully with ID: {}", a.getId());
             }
         }
+
+
+    @PostMapping("/save")
+    public ResponseEntity<TestAnswerDTO> saveAnswer(@RequestBody TestAnswerDTO answer) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.saveAnswer(answer));
     }
 
     @PutMapping("/{id}")
@@ -145,5 +150,15 @@ public class TestAnswerController {
     public ResponseEntity<Integer> deleteAllAnswersForTest(@PathVariable Long testId) {
         int deletedCount = testAnswerService.deleteAllAnswersForTest(testId);
         return ResponseEntity.ok(deletedCount);
+    }
+}
+    @PostMapping("/bulk")
+    public ResponseEntity<Collection<TestAnswerDTO>> createAnswers(@RequestBody Collection<TestAnswerDTO> answers) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.createAnswers(answers));
+    }
+
+    @PostMapping("/bulk/save")
+    public ResponseEntity<Collection<TestAnswerDTO>> saveAnswers(@RequestBody Collection<TestAnswerDTO> answers) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.saveAnswers(answers));
     }
 }

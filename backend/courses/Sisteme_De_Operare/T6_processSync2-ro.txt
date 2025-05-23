@@ -1,0 +1,988 @@
+***************Beginning Page***************
+***************page number:1**************
+Sist6m€ d6 Op6rar6
+Sincronizarea procersevlor
+part€a a II-a
+Cristian Vidragcu
+https://pr0fs.inf0.uaic.r0/~vidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+
+Am discutat despre:
+> Introducem
+> Problema secgiunii critice
+> Interblocajul §i infometarea
+Continuém cu:
+> Probleme clasice de sincronizam
+
+— Problema Producétor-Consumator
+
+— Problema Cititori gi Scriitori
+
+— Problema Cina Filozoﬁlor
+
+— Problema Bérbierului Adormit
+> MOnlthIB (gi alta abordéri ale: problenmi SC)
+
+2/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Probleme olasioe de sinoronizare
+
+— Problema Produeétor-Consumator
+
+(Producer-Consumer or Sender-Receiver problem)
+— Problema Cititori §i Seriitori
+
+(Readers and Writers problem)
+— Problema Cina Filozoﬁlor
+
+(Dining-Philosophers problem)
+— Problema Béirbierului Adormit
+
+(Sleeping Barber problem)
+
+3/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Probletmez clasiw de: sincronizare (1)
+' Problezma Producéitor-Consumator
+— Enungatéi de Dijkstra in '65
+— Est6 0 pmblamé reprazentativé pentru ilustrama
+conwptului de procese cooperante:
+Un procers, cu r01 de producdtor, produca
+informagii c6 sunt consumate d6 un alt proces,
+cu r01 d6 consumator.
+4/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Produeator-Consumator
+' Enuntul problemei:
+
+— Un proees produce ni§te date (eg. informatii, mesaje, ...)
+§i 1e depune intr-o zona tampon (buﬂer), de unde 1e ia
+un a1 doilea prooes §i 1e consuma.
+
+— Aeoesul la zona tampon se face in mod exelusiv.
+
+— Zona tampon are oapaoitate nelimitata.
+
+— Consumatorul trebuie sa agtepte cand bufferul este gol.
+
+— Alta varianta a aoestei probleme este cu zona tampon de
+oapaeitate ﬁnita. In aeest oaz §i produoatorul trebuie sa a§tepte
+gi, anume, atunei cand zona tampon este plina.
+
+— Notd: problema aeeasta se poate formula gi cu mai multi
+produeatori gi eonsumatori (ee utilizeaza un singur buffer).
+
+5/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Producator-Consumatcr
+' Solugia problemei (varianta cu buffar nalimitat):
+— un semafor binar mutax — care va ccntmla sacgiunea
+critica (i.e., accasul exclusiv la zona tampcn)
+— un semafor (binar) delay — care va bloca
+consumatorul daca zona tampon asta goala
+— 0 variabila intraaga n — cam va numara alementela
+din zona tampon
+— Inigializari: n I O, mutex I 1, dalay I O
+6/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Pmducéitor-Consumator
+Procesul Producétor:
+repeat
+producere_element();
+wait(mutex);
+adaugare_element_in_buffer();
+n:=n+l;
+if n=l then signal(delay);
+signal(mutex);
+forever
+7/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Producéitor-Consumator
+Procesul Consumator:
+wait(delay);
+repeat
+wait(mutex);
+extragere_element_din_buffer();
+n:=n—l; nlocal:=n;
+signal(mutex);
+consumare_element();
+if nlocal=0 then wait(delay);
+forever
+8/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+v
+Pro duo ator- C onsumator
+Producétor: Consumator:
+wait<delay);
+repeat repeat
+producere_element(); wait (mutex) ;
+wai t (mthX) ; extra gere_el emen t_din_buffer () ;
+adaugare_el emen t_in_buffer (); r1 : :n— l; nlocal : In;
+n:=n+1; signal(mutex);
+if nzl then signal<delay); conswmmmielementﬂ;
+signal(mutex); if nlocal=0 then wait(delay);
+forever forever
+' Instrucgiunea if din producétor poate ﬁ scoasé in afara SC (i. e. aseménétor
+ca in consumator, folosind 0 variabilé nlocal), in schimb if-ul din
+consumator nu poate f1 pus in SC (i.e. aseménétor ca in producétor)
+deoarece ar putea apare interblocaj .
+Scenariu d6 interblocaj: dupé céteva cicluri de producgie/consum, ajungem cu delayIO, apoi incepe consumatorul un nou ciclu, face muteXIO in
+wait(mutex) §i se blocheazﬁ 1a wait(delay), féré s51 mai ajungﬁ 1a signal(mutex). Astfel, nici producétorul nu va mai putea incepe un nou ciclu de
+producgie, rémﬁnﬁnd blocat la wait(rnutex). $i astfel avern situagie dc interblocaj. 9/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Producéitor-Consumatcr
+' Solugia problemei (varianta cu buffﬁr limitat):
+
+— S6 ante adapta solugia d6 la versiunea cu buffar
+nelimitat, adéugénd un semafor binar derlayPro —
+care va bloca producétorul dacé zona tampon esta
+plinﬁ
+(Observagie: in ac6st caz §i if-ul din producétor trebuie scos in afara
+SC, aseménétor ca in consumator, folosind 0 variabilé nlocal, pentru
+ca altfel poate s51 aparé interblocaj.)
+
+Tamé: incercagi $51 scrielzi solugia pe baza acestei idei.
+
+10/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Producéitor-Consumatnr
+' Altéi solutin pentru varianta cu buffpr limitat:
+— un semafor binar muterx — care va cnntmla sactiunea
+criticé (i.e., accersul exclusiv la zona tampnn)
+— un semafor ganeral empty — cam va numﬁra locatiila
+g0a16 din zona tampon
+— un sﬁmafor g6n6ral full — cam va numéra locatiile
+plina din zona tampon
+— Initializéri: muteX I 1, full I O, empty I n
+Bibliograﬁﬁ: §7.1.1 din [OSCIO] & https://en.wikipedia.org/Wiki/Producer%E2%80%93consumer_problem
+11/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Pmducéitor-Consumator
+Procesul Producétor:
+repeat
+producere_element();
+wait(empty);
+wait(mutex);
+adaugare_element_in_buffer();
+signal(mut€x);
+signal(full);
+forever
+12/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Producéitor-Consumamr
+Procesul Consumator:
+repeat
+wait(full);
+wait(mut€x);
+extragere_element_din_buffer();
+Signal(mut€x);
+signal(empty);
+consumare_element();
+forever
+13/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Producator-Consumator
+Producétor: Consumator:
+repeat repeat
+producere_element(); wait (full);
+wait<empty); wait(mutex);
+wait (mutex) ; extragere_element_din_buffer() ;
+adaugare_element_in_buffer(); Signal (mutex) ;
+signal(mutex); signal(empty);
+signal (full); consumare_element();
+forever forever
+' Ordinea celor doué apeluri wait(), atét in producétor, cét §i in consumator,
+este assngialé; prin schimbaraa ordinii ar putaa apare interblocaj.
+Justiﬁcare: a se vedea slide-ul urmﬁtor.
+14/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+P d Vt C t
+i) Dacé schimbém ordinea celor 2 wait-uri doar in Producétor: ii) Dacé schirnbém ordinea celor 2 wait-uri doar in Consumator:
+Scenariu de execujie posibil: suntem la un moment dat cu Scenariu de execuﬁe posibil: suntem la un moment dat cu
+bufferul plin, i.e. full=n §i empty=0, iar muteX=1, §i incep bufferul gol, i.e. full=0 gi empty=n, iar mutele, §i incep
+doué noi cicluri de producere §i consum, executate in douﬁ noi cicluri de producere §i consum, executate in
+ordinea urmétoare: ordinea urmﬁtoare:
+(1) P: wait(mutex) —> muteXIO §i C: wait(fu11) —> fullzn-l (1) P: wait(empty) —> emptyIn-l §i C: wait(mutex) —> muteXIO
+(2) P: wait(empty) —> blocaj §i C: wait(mutex) —> blocaj (2) P: wait(rnutex) —> blocaj §i C: wait(full) —> blocaj
+Noté: cele 2 wait-uri de 1a (1) se pot executa in orice ordine, dar Notd: cele 2 wait-uri de la (1) se pot executa in orice ordine, dar
+obligatoriu inaintea celor 2 wait-uri de la (2), care pot f1 1a réndul lor obligatoriu inaintea 0610r 2 wait-uri d6 la (2), care pot ﬁ la réndul lor
+executate in orice ordine. In toate aceste 2x2=4 ordini posibile de executate in orice ordinﬁr. In toate aceste 2X2=4 ordini posibile de
+executie, am ajuns la interblocaj! executie, am ajuns la interblocaj!
+Producétor; Producétor:
+repeat repeat
+producere element(); producere_element();
+wait(mute;); wait<empty);
+wait(empty); wait<mutex);
+adaugare element in buffer(); adaugareielementiinibuffer();
+signal<m5tex); — — signal(mutex);
+signal<full); signal(full);
+forever forever
+Consumator: Consumator:
+repeat repeat
+wait(full); wait(mutex);
+wait (mutex) ,- iii) Iar dacé schimbém ordinea celor wait (fun) [.1 t d, b ff (>
+' . __, . . A 6X ra ere e emen 1n ll er ,‘
+egtragereielemen tidlnibuﬁcer U ' doua walt-un 1n ambele procese, - f i . i i
+Slgnal(mutex); _ H _ Sigma (mutex),
+signal (empty) ; atunc_1 ambele ‘seceanl de execupe, signal (empty) ,-
+consumareielement(); d€SCHS€181)§llaID,VOT COHdUCﬁla consumare_element();
+f°rever interblocaje in acest caz! f°rever
+1 5/ 48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Probleme elasiee de sineronizare (2)
+' Problema Cititori §i Seriitori (CREW)
+
+— Enuntata de Courtois, Heymans §i Parnas in '71
+
+— Este 0 problema reprezentativa pentru aeeesul la 0
+baza de date
+(e. g. un sistem de rezervare a biletelor de avion, cu multe procese
+competitoare dorind sa eiteasca §i sa serie in baza de date)
+
+— CREW: este aeeeptabil sa avem mai multe procese
+eare sa eiteasea baza de date in aee1a§i timp, dar,
+daea un proees aetualizeaza (i.e. serie) baza de date,
+niei un alt proees nu trebuie sa aiba aeees la ea, niei
+maear in eitire.
+
+16/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Cititori §i Scriitori
+' Enun§u1 problemeri:
+
+— Un 0bi6ct (Le. 0 msursé, e.g. un ﬁgier, o zoné de
+memorie, etc.) tr6bui6 sé ﬁ6 partaj at d6 mai multﬁ
+pmcese wncurernté
+
+— Unele: dintrﬁ: aceste: procese ar putea dori doar s21
+citﬁascé conginutul obiectului partaj at : Cititorii
+
+— Alta procese ar putﬁa dori insé $51 actualizeza (citira
+gi scri6r6) conginutul obiﬁctului partaj at : Scriitorii
+
+— Se care ca scriitorii s5 aibéi acws exclusiv 1a obiectul
+partaj at, in schimb cititorii s51 i1 poaté accﬁsa in mod
+concumnt (non-6xclusiv)
+
+17/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Cititon $1 S crnton
+— Vers1unea #1 : nlel un eititor nu va ﬁ tinut in agteptare
+deceit dacé un scriitor a obtinut de] a pernns1unea de
+acees la obiectul partaj at
+' Cu alte cuvinte, niei un cititor nu trebuie sé a§tepte alti
+eititori $51 termine de eitit, d0 ar din cauzé 05 un scriitor
+agteapté dej a pennisiunea de acees
+' La acces simultan, cititorii sunt mai prioritari deceit scriitorii
+' N 0 rd: unele procese (scriitorii, in acest caz) pot deveni infometate.
+Scenariu de infometare: avem deja un cititor activ §i vine un scriitor care cere permisiunea de acces, e1 va ﬁ aménat péné cénd se va termina citirea
+curenté. Sé presupunem insé cé, inainte de a se termina citirea curenté, vine un alt cititor §i cere permisiunea, 5i o va primi pe loc (citirile se pot face
+simultan). Astfel, scriitorul va ﬁ aménat péné cénd se va termina §i aceastﬁ a doua operatie de citire. $.a.m.d., dacé avem un ﬂux continuu de cereri de
+citire, care ajung unele dupé altele, dar inainte de a se termina citirea precedenté, scriitorul va ﬁ aménat la nesférgit!
+Aceasté strategie este adecvaté pentru acele baze de date, sau alte tipuri de sisteine informatice, in
+care frecventa operatiilor de citire este seniniﬁcativ mai mare deceit cea a operatiilor de scriere.
+E.g. baza de date cu numerele de telefoane ale abonatilor telefonici ai Romtelecom dintr-un judet. 18/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+C1t1t0r1 $1 S cr11tcr1
+— Versrunea #2: 0 data ce un scr11t0r este gata de scrlere,
+e1 va executa acea scr1ere cat mal curand pcsrbrl
+' Cu alte cuvinte, daca un scriitcr a§teapta dej a permisiunea
+de acces, nici un nOu CititOr (i.e. care cere permisiunea de acces
+dupa scriitor) nu trebuie sa primeasca permisiunea de acces
+' La acces simultan, scriitcrii sunt mai pricritari decat cititcrii
+' N 0 id: unele procese (cititorii, in acest CEtZ) pct deveni infometate.
+' De asemenea, aceasta solutie permite un grad de ccncurenta mai
+scazut gi, deci, 0 performanta mai slaba decat versiunea #1 .
+Scenariu de infometare: avem deja un scriitor activ §i Vine un cititor care cere perrnisiunea de acces, e1 va ﬁ amanat pana cand se va terrnina scrierea
+curenta. Si presupunern insa ca, inainte de a se termina scrierea curenta, vine un alt scriitor §i cere permisiunea, §i 0 va primi, dar abia dupa ce se
+termina prima scriere. Astfel, cititorul va f1 amanat pana cand se va terrnina 5i aceasta a doua operatic de scriere. $.a.rn.d., daca avem un ﬂux continuu
+de cereri de scriere, care ajung unele dupa altele, dar inainte de a se termina scrierea precedenta, cititorul va ﬁ amanat la nesfar§itl
+Aceasta strategic este adecvata pentru acele baze de date, sau alte tipuri de sisterne informatice, in care
+frecventa cperatiilor de scriere este semniﬁcativ mai mare decat cea a operatiilcr de citire.
+E. g. serviciul de jurnalizare pentru eXt4fs, care logheaza intr-un ﬁgier log toate operatiile cu acel volum de ﬁgiere. Fi§ierul 10g va ﬁ citit mult mai rar, doar
+atunci cand apare nevoia unei operatii de recovery a integritatii acelui volum de ﬁgiere, dupa 0 cadere a curentului electric (sau alte cauze de crash). 19 /48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Cltlton $1 Scnlton
+— Vﬁrsiunea #3: cﬁmrile d6 citire §i scri6re sunt s01u§i0nat6
+in 0rdin6a sosirii, cu péstrarea proprietégii CREW (i.6.,
+putem aV6a citiri simultane, dar scrierilﬁ tmbuiﬁ sé ﬁe
+€XClllSiV€)
+' Cu alte cuvinte, prioritatﬁa este daté de ordinaa vevnirii, si nu
+de tipul cererilor (i.6., cititori vs. scriitori)
+' Nate)’: nu mai avem situayii de infomestare in acest caz, nici
+p6ntru cititori, nici pentru scriitori.
+Aceasté strategic este adecvaté pentru acele baze de date, sau alte tipuri de sisteme informatics,
+in care frecvenga opera'giilor de citire este, aproximativ, aceea§i cu cea a operayiilor de scriere.
+Bibliograﬁe: §7.1.2 din [oscm] , §2.5.2 din [M084] &
+https://en.wikipedia.org/Wiki/Readers%E2%80%93writers _pr0b1em
+20/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Cititori §i Scriitori
+— Solugia perntru varsiunw #1:
+Variabile partaj ate:
+
+' Procesda cititori partaj 621251 douéi semafoare binara
+mutex §i wrt, precum §i 0 variabiléi intmagé readcount ;
+semaforul wrt esté: partaj at §i d6 cétre procesele scriitori.
+
+' Inigializéri: mutex I wrt I 1 , readcount I O .
+
+' readcount gine evidenga numérului de prowse cititori ce
+sunt in cursul citirii obiectului partaj at
+
+' mutax este folosit pentru a asigura exclud6rea mutualé
+cénd este actualizaté variabila readcount
+
+' wrt 6ste utilizat pentru a asigura exclud6rea mutualé
+pentru scriitori 1a accesul 0bi6ctu1ui partaj at
+
+21/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Cititori §i Scriitori
+— Structura pr006selor scriitori:
+repeat
+wait(wrt);
+scriere_obiect();
+signal(wrt);
+forever
+— Dacé un scriitor 6ste in SC gi n cititori a§t6apt€1,
+atunci un cititor 6st6 in a§t6ptar6 1a wrt, iar cﬁilalgi
+n-l cititori a§teapt€i 1a mutex.
+22/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+. . . Cititori si Scriitori
+— Structura proceselor 01t1t0r1: ’
+repeat
+wait(mutex);
+readcountz=readcount+l;
+if readcountzl then wait(wrt);
+signal(mutex);
+citire_obiect();
+wait(mutex);
+readcountz=readcount—l;
+if readcount:O then signal(wrt);
+signal(mutex);
+forever 23/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+C1t1t0r1 $1 Scrnton
+' SOhan v6rs1un11 #1
+Proces cititor:
+repeat
+nguzstnuon wait(mutex);
+P readcountzzreadcount+l;
+": if readcount=l then wait(wrt);
+scriere_obiect(); srgea mu ex '
+... wait(mutex);
+forever readcountz=readcount—l;
+if readcountIO then signal(wrt);
+signal(mutex);
+forever
+Temé: proiectagi 0 solugie pentru versiunea #2 (Atenﬁe: nu este simetricé!)
+24/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Cltltorl $1 Scnlton
+— Solugia pantru Vﬁrsiuneta #2
+Remarcd: intéi incercagi s5 razolvagi singuri aceasté problemé!
+Variabile partaj ate:
+' Variabila intreagé readcount (inigializaté cu 0) va reprezenta
+1111111511111 d6 CititOVi aCtivi (i.e., care citesc in acela§i timp obiectul partajat)
+' Variabila intreagéi writecount (inigializaté cu O) va reprezenta
+1111111511111 d6 SCViiZOVi aCZiVi (i.e., care au cerut deja permisiunea de scriere:
+unul deja scrie, iar ceilalgi agteapté s21 primeascﬁ, pe 15nd, permisiunea s51 scrie)
+' Doué sgmafoare binare muteX-rdc $1mutex-wrc (inigializate cu 1)
+v01 ﬁ folosite pentru a proteja accesul 1a variabilde partaj ate
+readcount §i respectiv writecount
+' Sﬁmaforul binar wrt (inigializat cu 1), folosit la fel ca in solugia
+versiunii #1
+' incé doué samafoare: binare mut6X_RW $1 rd (inigializate cu 1)
+folosite astfel incét cititorii s51 a§tepte scriitorii activi 25/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Procesele cititori: CltltOfl $1 SCflltOfl k
+repeat 1
+wait(muteX—RW);
+wait(rd);
+wait(mutex—rdc);
+readcount := readcount + l;
+if readcount I 1 then wait(wrt);
+signal(mutex—rdc);
+signal(rd);
+signal(muteX—RW);
+citeste_resursa();
+wait(mutex—rdc);
+readcount := readcount — 1;
+if readcount = O then signal(wrt);
+signal(mutex—rdc);
+forever
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Procesele scriitori: CltltOfl $1 SCflltOI'I
+repeat i
+wait(muteX—RW);
+wait(mutex—wrc);
+writecount := writecount + l;
+if writecount = 1 then wait(rd);
+signal(mutex—wrc);
+signal(muteX—RW);
+wait(wrt);
+scrie_resursa();
+signal(wrt);
+wait(mutex—wrc);
+writecount := writecount — l;
+if writecount I O then signal(rd);
+signal(mutex—wrc);
+forever
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Probleme: clasice: de sincronizare (3)
+' Pr0b16ma Cina Filozoﬁlor Chinﬁzi
+
+— Enungaté d6 Dijkstra in '65
+
+— Estﬁ 0 pmblemé mprezentativé perntru nevoia d6 a
+aloca un numér limitat de rasurse (nepartaj abile)
+1a mai multe procﬁse, ce concurwzé pentru acces
+6xclusiv la a06st6 rﬁsursez, alocam cam s51 s6 facé
+féré séi aparé f6n0menul de int6rb100aj sau cel d6
+infometam.
+
+28/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Cina Filozoﬁlor
+' Enuniul problnmei:
+— 5 ﬁlozoﬁ chinezi i§i petrec viegile géndind §i méncénd...
+— Ei partajeazéi 0 maséi circularé comunéi, inconjuraté de 5
+scaune, ﬁacare aparginénd unuia dintre ei.
+— in centrul mnsei nste un platou cu (foam: mult!) orez §i mai
+existéi pe maséi 5 farfurii §i (doar!) 5 begigoare pentru niéncat.
+— Cénd un ﬁlozof géndegta, el nu intaracgioneazé cu colagii lui.
+— Din cénd in cénd, unui ﬁlozof i se face foame §i vraa sé
+niénénce, incercénd s51 ridice cele 2 betigoare din dreptul lui.
+— Fiecare ﬁlozof poate ridica un singur be§i§0r 0 daté.
+— Dupé ce terminé de mancat, pune be§i§0areln inapoi p6 masé
+gi incepe $51 ﬁlozofeze din nou.
+29/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Cina Filozofilor
+PhilOSOphel‘ 3 form PhilOSOphﬁl‘ 2 Philosopher life:
+Q X Q repeat
+{
+fork 4 fork 2 '
+p1ck up the forks;
+t 7 eat awhile;
+put down the forks;
+Q G think awhile;
+Philosopher 4 Philosopher l ‘r
+C) forever
+fork O fork l
+Philosopher O
+Bibliografie: §7.1.2 din [05cm] , §2.5.2 din [M084] &
+https://en.Wikipedia.org/Wiki/Readers%E2%80%93writers_problem
+30/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Cina Filozoﬁlor
+' O posibilé s01u§i6 a problenmi:
+— Fiecare: b611i§0r (L6. rersursé nepartaj abilé) este
+mpmzantat printr-un sezmafor binar
+— Un ﬁlozof incﬁarcé sé ridica be§i§0ru1 ex6cut€1nd
+operagia wait() p6 acel semafor, respectiv lasé
+b6§i§0rul jos p6 masé ex6cut€1nd operagia signa1()
+— Datel6 partajam de prowsele ﬁlozoﬁ sunt:
+ch0pstick[()..4] 0f semaphom;
+— Inigializéri: chopstickﬁ] I 1, iIO,...,4
+31/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Clna Fllozoﬁlor
+— Structura procesului ﬁlozof a1 i-lea (iIO, . . . ,4):
+repeat
+wait<chopstick[i]);
+wait<chopstick[(i+l) mod 5]);
+mananca();
+signal(chopstick[i]);
+signal(chopstick[(i+l) mod 5]);
+gandeste();
+forever
+Notd: pe acei ﬁlozoﬁ care respecté codul de mai sus ii vom numi stdngaci, deoarece ei ridicé intéi be§i§0rul din
+sténga, §i apoi §i pe cel din dreapta. Iar pe cai care “executé” un cod precum cel de mai sus, dar in care ordinea
+celor doué apeluri wait este inversaté, ii vom numi dreptaci.
+32/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+> Comentarn
+— Solupa este 1ne0mpleta ! Motivul:
+' Este p0s1b11 sa se ereeze un interbloeaJ
+' Unn ﬁlozoﬁ pot deveni infometap
+Scenariu de interblocaj: cele cinei procese incep simultan o noua iteragie pentru a “manca”, executand cele 2X5 apeluri wait in
+ordinea urmatoare: inai intai se executa toate eele 5 apeluri wait de pe prima linie din codul buclelor repeat, §i abia apoi toate eele
+5 apeluri wait de pe a doua linie din codul buclelor repeat. Semniﬁcaﬂa: daca togi ﬁlozoﬁi sunt stangaci §i 1i se face foame
+simultan, reu§ind sa ridiee togi betisorul din stanga ﬁecaruia, atunei suntem in impas (i.e., stare de interblocaj), deoarece niciunul
+dintre ei nu mai poate continua (intrucat nu este liber beyisorul din dreapta sa).
+Alt scenariu de interblocaj: daca to'gi ﬁlozoﬁi sunt dreptaci §i 1i se face foame simultan, reueind sa ridice toii betisorul din dreapta
+ﬁecaruia, atunci suntem in impas (i.e., stare de interblocaj), deoarece niciunul dintre ei nu mai poate continua (intrucat nu este
+liber begisorul din stanga sa).
+Notd: daea insa avern un mix de stangaei §i dreptaei, atunci nu exista scenarii de interblocaj! incercayi sa demonstra'gi aeest fapt.
+> Tema:
+— Pr01eeta§1 0 alta S01u§1€ pentru problema einei ﬁlozoﬁlor,
+care sa nu permita apar1§1a 1nterbloeaJ ulu1 sau a 1nf0metar11
+33/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Probleme: clasice: de sincronizare (4)
+' Probl6ma Bérbi6rului Adormit
+— Enungaté d6 Dijkstra in '65
+— Est6 0 pr0b16m'21 mprezentativé perntru situagii
+divezrse d6 a§teptare 1a coadé
+(6. g. un secratariat cu un sist6m computerizat de preluare
+a apelurilor telefonice gi punﬁre in a§t6ptare, cu 0
+capacitate limitaté de péstrare: a apelurilor in a§t6ptar6)
+Bibliograﬁﬁ: https://en.wikipedia.org/Wiki/Sleeping_barber_problem
+34/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Béirbierul Adormit
+' Enuntul problemei:
+
+— O frizerie cu un b'erbier, un seaun de lueru §i n seaune
+pentru elientii ee a§teaptéi séi 1e Vinéi réndul 1a tuns.
+
+— Daeé nu are elienti, bérbierul stéi in seaunul de lucru §i
+doanne (i.e., se 0dihne§te).
+
+— Cénd vine un prim client, e1 trebuie sé-l trezeaseé pe bérbier.
+
+— Dacé Inai vin gi alti clienti cﬁt timp bérbierul tunde un client,
+aeegtia ﬁe iau loe pe seaunele de aeteptare (daeé Inai sunt
+locuri libere), ﬁe pleaeé netungi (in eaz eontrar).
+
+— Problema eonsté in a programa bérbierul §i clientii de aga
+manieré incét séi nu aparé bloeaje datorité fenomenelor de tip
+“race conditions”.
+
+— Notd: problema are §i 0 varianté eu mai multi bérbieri.
+
+35/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Bérbiezrul Adormit
+v
+i
+l
+Iii J"
+a‘; ‘it
+ﬁgaﬁ
+" 36/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Barbierul Adormit
+' Solutia problemei:
+
+— Procesele barbier si clienti partajeaza trei semafoare: mutex,
+customers si barber, si o variabila intreaga: freeseatscount
+
+— mutex este folosit pentru a asigura excluderea mutuala cand
+este accesata variabila freeseatscount
+
+— freeseatscount tine evidenta numarului de scaune libere (i.e.
+neocupate de clienti ce stau in asteptare)
+
+— semaforul general customers tine evidenta numarului de
+clienti in asteptare pe scaune (exclusiv cel ce este tuns)
+
+— semaforul binar barber este utilizat pentru a indica daca
+barbierul este ocupat (1) sau liber (O)
+
+—Initia1izari: customers I barber I O , freeseatscount I n ,
+mutex I 1
+
+37/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Béirbim'ul Adormit
+— Structura procesului bérbiﬁr:
+
+repeat
+
+wait(customers);
+
+wait<mutex);
+
+freeseatscount++;
+
+signal(barber);
+
+signal(mut€x);
+
+tunde_client();
+forever
+
+38/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Béirbi6ru1 Adormit
+— Structura proceselor cliengi:
+wait<mutex);
+if(freeseatscount > O)
+{
+freeseatscount——;
+signal(customers);
+signal(mut€x);
+wait(barber);
+este_tun3_de_barbier();
+}
+else
+Signal(mutex); EM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+B érbierul Adormit
+Procesele cliengi:
+Procesul bﬁrbier: wait (mthX) ,-
+repeat if(freeseatscount > O)
+wait(customers); {
+wait(mutex); freeseatscount——;
+freeseatscount++; signal(customers);
+s1gnal(mutex); wait(barber);
+tundg_cllent(); este_tun3_de_barbier();
+forever }
+else
+signal(mutex);
+Notd: cele doué apeluri cu albastru, ce descriu aceeagi aetivitate, de tundere, dar din perspective diferite, vor
+ﬁ executate simultan! Execugia lor simultané este obginuté prin modul de utilizare a semafoarelor descris in
+cele doué coduri de mai sus.
+Bibliograﬁe opyionalé:
+' Problema ABA : https://en.wikipedia.org/Wiki/ABA _pr0b1em
+' Problema fumétorilor de eigarete (Suhas Patil ’7l): https://en.Wikipedia.org/Wiki/Cigarette_sm0kers _pr0b1em
+40/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Monltoare (gi alte abordéri)
+' Construcgii de sincronizam in limbaja de nivﬁl inalt
+La folosirea semafoarelor pot apare: erori de sincronizare
+datoritéi unei ordini incomcte a apelurilor wait §i signal;
+este suﬁcient ca un singur proces séi nu cooperaze corect (ﬁe
+datorité unei arori de programare, ﬁe in mod intengionat),
+pentru a “strica” sincronizama tuturor procesalor cooparante.
+De aceea, s-au introdus 0 serie de construcgii d6 sincronizam
+in unele limbaje de programam de nivél inalt, care sé
+“ascundé” programatorului detaliile legate de apelurile wait
+§i Signal (tratarea corectéi a acestora cade: in sarcina compilatorului).
+41/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Monltoare (gi alte abordari)
+° Monitorul
+— Concept dezvoltat de B.Hansen '73 & C.A.R.H0are '74
+— Este 0 construegie de sineronizare de nivelinalt(i.e.imp1ementatain
+unele limbaj e de programare, cum ar ﬁ Concurrent Pascal, C#, Java, §.a.),
+introdusa pentru a u§ura sareina programatorilor: se elimina
+erorile de programare ee pot apare, 1a folosirea semafoarelor,
+datorita unei ordini ineoreete a apelurilor wait §i signal
+' Regiunea CritiCﬁ COndiﬂOnalﬁ — 0 alta construegie de aeest gen,
+implementata in COI/lcurrent PaSCal (limbaj proieetat de B.Hansen)2
+var var-shared : shared type ;
+region var-Shared When condiﬂe do cod ;
+42/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Momtoaro (gi alte abordari)
+' Monitorul este un tip do data abstract care:
+— inoapsuloaza date partaj ato impreuna cu oporatii asupra
+lor oe so efeotueaza cu aooosul mutual exolusiv la obieot
+(practic, un monitor I o “clasa” cu un entryqueue ‘ ‘ '
+Zdvor asooiat) ‘
+“
+— Variabilelo inteme sunt acoosibile
+numai prin oporatiile monitorului
+— in orice moment, eel mult un U U U
+singur prooes/thread poate ﬁ
+activ in “interiorul monitorului” —Y—Operations
+(i.e., poate executa vroo oporatie)
+code
+43/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Monito aro ($1 alto abordan)
+' Monitorul poate avea asociate variabile condijii:
+— Doar exoluderea mutualé nu oste suﬁcionté uneori:
+in timp oe un prooes executﬁ o operagie in monitor, ar putea avea nevoie s5
+agtopto péné cﬁnd o anumité condigie c (depinzénd de variabilele monitorului)
+devine true. O solugie do genul:
+while not (c) do nothing; // a§teptaro ocupaté
+nu funcgioneazé in acest caz, pentru o5 procesul mengine monitorul ocupat
+— O variabilé condi§i€ X este o solugio 8W“ ‘ ‘E
+bazaté pe sinoronizare blocanté _ _ “‘
+. . V .. queuesaESOiZﬁﬁZi 513$
+Practic, X are asooiate doar doua operani: ’y
+' X.Wait() : procesul co o invocé va ﬁ suspendat
+' X.signal() : oénd un proces P o invocé, se va U U U
+relua activitatea unui procos Q din coada de
+agteptare a celor suspendate prin X.Wait() §i %_—/
+doar unul dintre cele doué, P sau Q, va ﬁ aotiv Operat'ons
+in monitor (Care? Sunt mai multe opgiuni in aoest
+sens: signal-and-wait vs. signal-and-continue) 44/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Monltoare: (si alte abordéri)
+' in limbajul C++ : noi extensii introduse in standardul C++11:
+— suport pentru programarea multithreaded
+— ﬁre d6 executie: clasa std: :thread cu operatii speciﬁce acestora
+(a se vedea detalii g)
+—1acéte mutex: clasa std: :mutex §i alte varianta
+— variabile conditii: clasa std: :condition_variable §i alte variante
+— operatii atomice: clasa std: :atomic_flag cu metodele
+test_and_set () §i clear ()
+' in limbajul Java:
+— metode syncronized intr-o clas'Zl (a se vedea detalii g)
+— intrinsic lock (sau monitor lock) asociat ﬁﬁcérui obiect
+— Obi6Ct€ immutable (Le. dupé create, sunt read-only)
+— high-level APIs in the java . util . concurrent packages 45/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:46**************
+Momtoara (gi alte abordéri)
+
+' Memorie tranzacgionalé:
+
+— 0 tranzacﬁa cu mamoria aste 0 secvengéi de citiri/scriari in memorie,
+
+exacutaté in manieré atomicé
+
+— STM: implementaté la nival software, in compilator
+
+— HTM: implemantaté la nivel hardwara, in cache-urila CPU-ului
+' Extonsia OponMP (pentru limbajele C/C++, Fortran, $21.):
+
+— un set de dimctive de compilare §i un API pentru programare paralelé
+
+— paralolism multithreaded: #pragma omp parallel { cod; }
+
+— S6C§illn6 CfitiCéI #pragma omp critical { cod; }
+' Limbaje de programare funcgionale:
+
+— variabilale Sllnt immutable (0 data create §i inigializate, nu mai pot ﬁ modiﬁcate)
+
+— ca urmare, nu pot apare situagii do race conditions sau deadlocks
+
+— ex. de limbaje funcgionale: populate: Erlang, Scala, $.21.
+
+46/48
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:47**************
+Bibliograﬁe
+' Bibliografie obligatorie
+
+capitolele despre sineronizarea proceselor din
+— Silberschatz : “Operating System Concepts”
+
+(cap.6&7 din [OSC10])
+SElU.
+— Tanenbaum : “Modern Operating Systems”
+
+(a treia si a cincea parte a cap.2 din [MGS4])
+
+47/48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:48**************
+Sumar
+> Probleme clasi06 d6 sincronizare:
+— Problema Producétor-Consumator
+— Problema Cititori §i Scriitori
+— Problema Cina Filozoﬁlor
+— Problema Bérbierului Adormit
+> MOIllthfﬁ (gi alte abordéri ale: problemﬁi SC)
+intrebéri ‘.7 48/48
+
+***************Ending Page***************
+

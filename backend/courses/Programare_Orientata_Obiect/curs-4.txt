@@ -1,0 +1,2771 @@
+***************Beginning Page***************
+***************page number:1**************
+Gavrilut Dragos
+0 O P Course 4
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+> Destructor
+b C/C++ operators
+S u m m a ry b Operators for classes
+\ b Operations with Objects
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+“> Destructor
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Destructor
+> A destructor function is called whenever we want to free the memory that an
+object occupies.
+b A destructor (if exists) is only one and has no parameters.
+> A destructor can not be static
+> A destructor can have different access modifiers (public/ private/ protected).
+APP-CPD
+class Date
+{
+private:
+int x;
+public:
+Date '
+Date::Date() : x(196) { ... }
+Date::~Date() { ... }
+void main()
+{
+Date d;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+> The most common usage of the destructor is to deallocate the memory that
+has been allocated within the constructor or other functions.
+APP-CPD
+class String
+{
+char * text;
+public:
+String(const char * s)
+{
+text = new char[str1en(s) + 1];
+memcpy(text, s, strlen(s) + 1);
+}
+~String()
+{
+delete text;
+text = nullptr;
+}
+};
+void main()
+{
+String * s = new String("C++");
+// some operations
+delete s;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+b This code will not compile. The destructor of class Date is private.
+Apncpp
+class Date
+{
+private:
+int x;
+public:
+Date();
+~Date();
+};
+Date::Date() : x(196) { ... }
+Date::~Date() { ... }
+void main() error C2248: ‘Date::~Date': cannot access private member
+{ Date d_ declared in class ‘Date’
+} ’ note: compiler has generated ‘Date::~Date' here
+note: see declaration of 'Date"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+> This code will compile - because the destructor will (even if private) is not be
+called (the object is created in the heap memory and it is never deallocated).
+APP-CPD
+class Date
+{
+private:
+int x;
+public:
+Date();
+~Date();
+};
+Date::Date() : x(100) { ... }
+Date::~Date() { ... }
+void main()
+{
+Date *d = new Date();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+b This code will not compile because “delete d” call will attempt to use a
+private destructor.
+Apncpp
+class Date
+{
+private:
+int x;
+public:
+Date();
+~Date();
+};
+Date::Date() : x(196) { ... }
+Date::~Date() { ... }
+void main()
+{ D t error C2248: ‘Date::~Date': cannot access private member
+I. - *0 = ' . | |
+“new a eO’ declared in class Date
+} note: compiler has generated ‘Date::~Date' here
+note: see declaration of 'Date"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+> This code will compile. The destructor is private , but it can be access by a
+method from its class (In this case DestroyData).
+
+APP-CPD
+class Date
+{
+private:
+
+int x;
+public:
+
+Date();
+
+static void DestroyData(Date *d);
+private:
+
+~Date();
+};
+Date::Date() : X(100) { ... }
+Date::~Date() { ... }
+void Date::DestroyData(Date *d)
+{
+
+delete d;
+}
+void main()
+{
+
+Date *d = new Date();
+
+Date::DestPoyData(d);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Destructor App_cpp
+I _ _ class Date {
+Lets conSIder the followmg class: public:
+~Date() { printf("dtor was called \n"); }
+};
+The destructor is called when:
+A. When program ends, for every global variable
+Date d;
+B. When a function/method ends for eve local variable
+int main() {
+Date d;
+return 0;
+}
+c. When the execution exists a scoe for variable defined within a specific scope)
+int main() {
+for (int tr=0;tr<10;tr++) {
+Date d;
+}
+return 0;
+}
+D. When the delete operator is called over a heap allocated instance
+int main() {
+Date *d = new Date();
+delete d;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Objects are destroyed in the reverse order of their creation (similar to the
+way a stack works 9 first created is the last destroyed).
+
+Out uts:
+class Tree { dtOr: Date
+public: .
+
+~Tr‘ee() { print-F("dtor‘: Tree\n"); } dtOl'I Animal
+}; '
+class Car { dtor. Car
+public: dtor: Tree
+~Can() { pnintf("dton: Can\n"); }
+};
+class Animal {
+public:
+~Animal() { pnintf("dton: Animal\n"); }
+};
+class Date
+{
+Tree t;
+lliillillllliill
+Animal a;
+pu- 1c:
+~Date() { printf("dtor: Date\n"); }
+};
+void main()
+{
+Date d;
+}—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Objects are destroyed in the reverse order of their creation (similar to the
+way a stack works 9 first created is the last destroyed).
+
+Outguts:
+dz? Tree { dtor: Date
+pu 1c: L ,
+
+~Tree() { printf("dtor: Tree\n"); } A ._,. Ala-“Aid
+}; mov dword ptr' [this],ecx
+612i? Car{ push offset string "dtor: Date\n"
+pu 1c: -
+~Can() { pnintf("dton: Can\n"); } calj' __pP]Jth
+}; add esp,4
+class Animal {
+Pwlic‘ mov ecx,dword ptr' [this]
+}. ~Animal() { pnintf("dton: Animal\n"); } adci 6C)(,Z
+ciassEmte Call Anima1::~Animal
+{
+lpee ‘f3 mov ecx,dwor‘d ptr‘ [this]
+Aﬁgéia; add ECX,1
+pu - call Car‘: :~Car*
+~Date() { printf("dtor: Date\n"); }
+iéid main() mov ecx,dwor‘d ptP [this]
+{ call Tree: :~Tree
+Date d;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+If the destructor is missing, but the class has data members that have their
+own destructors, one will be created by default !
+class Tree { OUt Utsf
+public: dtor: Ammal
+~T ' tf "dt : T \ " ;
+}; Pee() { pr‘1n ( or‘ Pee n ) } dtor: Car
+class Can { dtor: Tree
+public:
+~Car() { printf("dtor: Car\n"); }
+};
+class Animal {
+public:
+~Animal() { printf("dtor: Animal\n"); }
+};
+class Date
+{
+Tree t;
+lliillillllliill
+Animal a;
+pu. 1c:
+};
+void main()
+{
+Date d;
+}—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+b Let’s analyze the following code. Each object created has its unique ID. Upon
+execution the following code will output:
+Apncpp
+int global_id = G;
+class Date OUtEUtS:
+{ o
+int id; CtOI' 1d! 1
+public: . _
+Date() { globa1_id++; id = globa1_id; printf("ctor* id:%d\n", id); } dtor 1d’ 1
+~Date() { printf("dtor id:%d\n", id); }
+};
+void main()
+{
+Date *d = new Date();
+delete d;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Let's analyze the following code. Each object created has its unique ID. Upon
+execution the following code will output:
+int global_id = 0;
+class Date OUtEUtS:
+{ o
+int id; ctor id: 1
+public: ' .
+Date() { global_id++; id = global_id; pr'intf("ctor' id:%d\n", id); } Ctor1d° 2
+~Date() { printf("dtor‘ id:%d\n", id); } ctor ‘id’ 3
+}; .
+void main() Ctor 1d: 4
+Date *d = new- An array of 5 instances of ctor 1d, 5
+delete d; type Data is created. dtor id: 1
+}
+This program will crash as only the first object in the “d” array is destroyed.
+And it is not in the right order anyway.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Let's analyze the following code. Each object created has its unique ID. Upon
+execution the following code will output:
+glass Date Outguts:
+int id; ctor id: 1
+ublic: - .
+P Date() { global_id++; id = global_id; pr'intf("ctor' id:%d\n", id); } Ctor 1d‘ 2
+. ~Date() { printf("dtor‘ id:%d\n", id); } Cth ‘id’ 3
+35m main() ctor id: 4
+{ Date * = new Date[5]; Ctor ‘I'd: 5
+deleteid; dtor id: 5
+} dtor id: 4
+dtor id: 3
+Now the program runs correctly. dtor id' 2
+Whenever an array of instances is created into the heap, use dtor id! 1
+delete[] operator to destroy it and not delete operator.
+delete[] operator will call the destructor function (if any) for every object in
+the array in the reverse order (starting from the last and moving forward to
+the first).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+‘\ > C/C++ Operators
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Operators
+> Depending on that operator's necessary number of parameters there are:
+‘z. Unary
+‘z. Binary
+‘z. Ternary
+.;. Multi parameter
+> Depending on the operation type, there are:
+‘z. Arithmetic
+‘z. Relational
+‘z. Logical
+‘z. Bitwise operators
+‘z. Assignment
+‘a Others
+> Depending on the overloading possibility
+‘z. Those that can be overloaded
+‘z. Those that can NOT be overloaded
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Arithmetic operators
+
++ Binary Yes A + B Value/ reference
+- Binary Yes A - B Value/ reference
+* Binary Yes A * B Value/ reference
+/ Binary Yes A / B Value/ reference
+% Binary Yes A % B Value/ reference
+++ (post/pre-fix) Unary Yes A++ or ++A Value/ reference
+-- (post/pre-fix) Unary Yes A-- or --A Value/ reference
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Relational operators
+
+== Binary Yes A == B bool or Value/ reference
+
+> Binary Yes A > B bool or Value/ reference
+
+< Binary Yes A < B bool or Value/ reference
+
+<= Binary Yes A <= B bool or Value/reference
+
+>= Binary Yes A >= B bool or Value/ reference
+\ != Binary Yes A != B bool or Value/ reference
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Loglcal operators
+
+&& Binary Yes A && B bool or Value/ reference
+| | Binary Yes A | | B bool or Value/reference
+! Unary Yes ! bool or Value/ reference
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Bi twi se operators
+
+& Binary Yes A & B Value/ reference
+
+| Binary Yes A | B Value/ reference
+
+A Binary Yes A A B Value/ reference
+
+<< Binary Yes A << B Value/ reference
+
+>> Binary Yes A >> B Value/ reference
+\ ~ Unary Yes ~A Value/ reference
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Assign ment operators
+= Binary Yes A = B Value/ reference
++= Binary Yes A += B Value/ reference
+-= Binary Yes A -= B Value/ reference
+*= Binary Yes A *= B Value/ reference
+/= Binary Yes A /= B Value/ reference
+%= Binary Yes A %= B Value/ reference
+>>= Binary Yes A >>= B Value/ reference
+<<= Binary Yes A <<= B Value/ reference
+&= Binary Yes A &= B Value/reference
+A= Binary Yes A A= B Value/ reference
+|= Binary Yes A |= B Value/ reference
+/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Operators (others)
+sizeof Unary No sizeof(A) Value
+new Unary Yes new A pointer (A*)
+delete Unary Yes delete A <None>
+Condition (?) Ternary No C ?A:B A or B depending on the
+evaluation of C
+:: (scope) No A::B
+Cast (type) Binary Yes (A)B or A(B) B casted to A
+-> (pointer) Binary Yes A->B B from A
+. (member) Binary Yes A.B B from A
+[] (index) Binary Yes A[B] Value/ reference
+() (function) Multi Yes A(B,C,...) Value/ reference
+, (list) Binary Yes (A,B) Val/ ref for (A follow by B)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Operators (evaluation order)
+1. :: (scope) 13. ||
+
+2. ()[]->.++-- 14.?:
+
+3. + - ! ~ ++ - - (type)* & sizeof 15. = += -= *= /= %=>>= <<= &= A= |=
+4. * / % 16.,
+
+5. +-
+
+6_ << >>
+
+7_ < <= > >=
+
+8. == !=
+
+9. &
+
+10. A
+
+11. |
+
+12. &&
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Qperators for
+> classes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Operators for classes
+
+b A class can define a series of special functions that behave exactly as an
+operator - that is to allow the program to explain how the compiler should
+understand certain operations between classes
+
+> Use keyword: “operator”
+
+b These functions can have various access operators (and they comply to rules
+imposed by the operators - if an operator is declared private then it can only
+be accessed within the class)
+
+b Operators can be implemented outside the classes - in this case, if it is
+needed, they can be declared as “friend” functions in order to be accessed
+by private members from a class
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+b In this case the operator+ is overloaded allowing addition operation between
+an Integer and another Integer
+APP-CPD
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+int operator+ (const Integer &i);
+int Integer::operator+(const Integer &i)
+{
+return value + i.value;
+}
+{
+Integer n1(100);
+Integer n2(200);
+int x = n1 + n2;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+b In this case the operator+ is overloaded allowing addition operation between
+an Integer and another Integer
+> The addition operation is applied for the left parameter, the right parameter
+being the argument. ln other words: “n1+n2” ¢> “n1.operator+(n2)”
+APP-CPP
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+int operator+ (const Integer &i);
+};
+int Integer::operator+(const Integer &i)
+{
+void main() *
+{
+Integer n1(100);
+Integer n2(200);
+int x = n1 + n2;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+b Parameters don’t have to be a const or a reference. Using the operator is
+similar to using a function (all of the promotion rules apply).
+> It is however recommended to use const references when the result of an
+operator does not modify the arguments
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+int operator+ (Integer &i);
+};
+int Integer::operator+(Integer &i)
+{
+return value + i.value;
+}
+void main()
+{
+Integer n1(100);
+Integer n2(200);
+int x = n1 + n2;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+b Similarly, the return value does not have a predefine type (e.g. while the
+usual understanding is that adding, multiplying, etc of two values of the same
+type will produce a result of the same type, this is not mandatory).
+
+APP-CPP
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+Integer operator+ (Integer i);
+};
+Integer Integer::operator+(Integer i)
+{
+Integer res(va1ue+i.va1ue);
+return res;
+}
+void main()
+{
+Integer n1(199);
+Integer n2(299);
+Integer n3(9);
+n3 = n1 + n2;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+b Operators work as a function. They also can be overloaded.
+> In this case the Integer class supports an addition operation between two
+Integer objects, or between an Integer object and a float variable
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+int operator+ (const Integer &i) { ... };
+int operator+(float nr);
+int Integer::0perator+(float nr)
+{
+}
+V010 ma1n
+{
+Integer n1(100);
+Integer n2(200);
+int x = n1 + n2;
+int y = n1 + 1.2f;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+b Operators work as a function. They also can be overloaded.
+> In this case the code does not compile because there already is an
+“operator+” function with a “float” parameter
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+int operator+ (const Integer &i) { ... };
+};
+int Integer::0perator+(float nr)
+{
+return value + (int)nr;
+}
+void main()
+{
+Integer n1(100);
+Integer n2(200);
+int x = n1 + n2;
+int y = n1 + 1.2f;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Pay attention at operators‘ usage order and don’t assume bijection. In this
+case the code does NOT compile. The Integer class handles the addition
+between an Integer and a float, but not the other way around (between a
+float and an Integer). This is not possible with a function from the class.
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(va1) {}
+int operator+ (const Integer &i) { ... };
+int operator+(float nr);
+};
+int Integer::operator+(float nr)
+{
+return value + (int)nr;
+}
+void main()
+{
+Integer n1(199);
+ﬁeiei a??? error C2677: binary '+': no global operator
+} found which takes type ‘Integer’ (or there is no
+acceptable conversion)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+b The code compiles - friend functions solve both cases (Integer+float and
+loat+lnteer
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer int val : value val
+friend int o-erator+ float val const Inte;er &i '
+};
+int operator+(const Integer &i, float val)
+{
+return i.value + (int)val;
+}
+int operator+(float val, const Integer &i)
+{
+return i.value + (int)val;
+}
+void main()
+{
+Integer n1(100);
+Integer n2(200);
+int y = (1.2f+n1)+(n2+1.5f);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+b The code compiles - friend functions solve both cases (Integer+float and
+loat+lnteer
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+friend int operator+ (const Integer &i, float val);
+friend int operator+ (float val, const Integer &i);
+};
+int operator+(const Integer &i, float val)
+{
+return i.value + (int)va ;
+}
+int operator+(float val, const Integer &i)
+{
+return i.val e + (int)va ;
+}
+void main()
+{
+Integer n1(1v0);
+Integer n '5 '
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+b This code will NOT compile. There are two operators defined (one as part of
+the class, and the other one as a friend function), both of them referring to
+the same operation (Integer + Integer).
+
+APP-CPD
+
+class Integer
+
+{
+int value;
+
+public:
+
+Inte:er int val : value val
+int operator+ (Integer i);
+friend int operator+ (Integer n1, Integer n2);
+
+};
+
+int Integer::operator+(Integer i)
+
+{
+return this->value + i.value;
+
+}
+
+int operator+ (Integer n1, Integer n2)
+
+{
+return n1.va1ue + n2.value;
+
+}
+
+void main()
+
+{ error C2593: ‘operator +' is ambiguous
+Integer n1(100); note: could be ‘int Integerzzoperator +(Integer)'
+Ineget'“ r122(0o); note: or ‘int operator +(Integer,Integer)'
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+b Relational operators are defined exactly as the arithmetic ones. From the
+compiler point of view, there is no real difference between those two.
+APP-CPD
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+bool operator > (const Integer & i);
+bool Integerzzoperator > (const Integer & i)
+{
+if (value > i.value)
+return true;
+return false;
+}
+v01- ma1n
+{
+Integer n1(100);
+Integer n2(200);
+if (n2 > n1)
+printf("n2 mai mare ca n1");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+b Relational operators do not need to return a bool even though this is what is
+expected from them. Keep in mind that the compiler does not differentiate betwe
+arithmetic or logical operator. ln this case, the operator> returns an object.
+
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {l
+Integer operator > (const Integer & i);
+void PrintValue();
+};
+void Integer::PrintValue()
+{
+printf("Value is %d", value);
+}
+Integer Integer::operator > (const Integer & i)
+{
+Integer res(this—>value + i.value);
+return res;
+}
+void main()
+{
+Integer n1(100);
+Integer n2(260\:
+(n1 > n2).PrintValue();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+b The same logic applies for logical operators as well (from the compiler point
+of view they are not different from the arithmetic or relational operators).
+APP-CPD
+class Integer
+{
+int value;
+public:
+Intezer int val : value val
+v01- PrintVa ue ;
+};
+void Integer::PrintValue()
+{
+printf("Value is %d", value);
+}
+Integer Integerzzoperator && (const Integer & i)
+{
+Integer res(this—>value + i.value);
+return res;
+}
+void main()
+{
+Integer n1(100);
+Int--- n2(200);
+(nliiZ) . PrintValue( );
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+b An unary operator does not have a parameter (if it is defined within the class)
+or one parameter if it is defined as a “friend” function.
+> Similar to the binary operators, there is no restriction for what these methods
+return. In the case below x will have the value 80.
+APP-CPD
+class Integer
+{
+int value;
+public:
+Inte1er int val : value(val) {}
+};
+int Integerzzoperator ! ()
+{
+return 100 - this->value;
+}
+void main()
+{
+Inte1er n1 20);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Operators for classes
+
+b The presented methods can be applied in the same way for the following operators:
+-------—ﬂ
+
+> For these cases, it is recommended to use friend functions and not to create method
+within the class
+
+b lt is indicated, as much as possible, to add such functions with parameter combination
+(class with int, int with class, class with double, double with class, etc)
+
+> The operators can also return objects and/ or references to an object. In these cases
+that object is then further used in the evaluation of the expression of which it is a part '
+of.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+b In case of assignment, it is recommended to return a reference to the object
+that gets a value assign to. This will allow that reference to be further used in
+other expression.
+
+> There is a special assignment operator called move assignment that can be
+used with a parameter that is a temporary reference (“&&”)
+
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+Integer& operator = (int val);
+};
+Integer& Integerzzoperator = (int val)
+{
+value = val;
+return (*this);
+}
+void main()
+{
+Integer n1(26);
+n1 = 20;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+b However, it is NOT mandatory to return a reference. The code below returns
+a bool value.
+> After the execution of the code, n1.value will be 30, and res will be true
+APP-CPD
+class Integer
+{
+int value;
+public:
+Inte1er int val : value val }
+};
+bool Integerzzoperator = (int val)
+{
+value = val;
+return (val % 2) == 0;
+}
+void main()
+{
+Inte1er n1 20 '
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+P Some operators (operator=, operator[], operator(), operator->) can HOt be a
+static function (be used outside the class through friend specifier).
+b This case will not compile.
+APP-CPD
+class Integer
+{
+int value;
+public:
+friend bool operator; (Integer &i, int val) { i.value = val; return false; };
+};
+void main()
+{ error C2891: ‘operator =' must be a non-static
+Integer n1(20); member
+bool res = (n1 = 30);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+b However, the rest of assignment operators (+=, -=, *=, etc) can be
+implemented in this way.
+> In this case the code compiles, res will have the value true and n1.value will
+be 30
+APP-CPD
+class Integer
+{
+int value;
+public:
+};
+bool operator += (Integer &i, int val)
+{
+i.va1ue = val;
+return true;
+}
+void main()
+{
+Integer n1(20);
+bool res = (n1 += 30);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+b Be careful when using references and when a value. In this case the
+“operator+” is called, but with a copy of the class Integer. As a result, the
+value of n1.value will NOT change (will remain 20).
+
+APP-CPD
+class Integer
+{
+int value;
+public:
+};
+bool operator += (Integer i, int val)
+{
+i.va1ue = val;
+return true;
+}
+void main()
+{
+Integer n1(20);
+bool res = (n1 += 30);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+b Since friend functions are allowed, the order of the parameters can be
+changed. ln this case, the code compiles even if “30 &= ...“ does not make
+any sense.
+
+APP-CPD
+class Integer
+{
+int value;
+public:
+};
+bool operator &= (int val, Integer i)
+{
+i.va1ue = val;
+return true;
+}
+void main()
+{
+Integer n1(20);
+bool res = (30 &= n1);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+b A different case refers to postfix/prefix operators (++ and --)
+APP-CPD
+class Integer
+{
+int value;
+public:
+n --- ‘I . - . .- . {}
+bool operator++ ();
+};
+bool Integerzzoperator++ ()
+{
+value++;
+return true;
+}
+bool Integerzzoperator++ (int val)
+{
+value += 2;
+return false;
+}
+void main()
+{
+Integer n1(20);
+bool res = (n1++);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+b In this case, the postfix form is being executed (n1.value = 22, res = false)
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+bool operator++ ();
+bool operator++ (int value);
+};
+bool Integerzzoperator++ ()
+{
+value++;
+return true;
+}
+bool Integer: :operator++
+{
+value += 2;
+return false;
+}
+void main()
+{
+Integer n1 i
+bool res =
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+b In this case the prefix form is being executed (n1.value = 21, res = true)
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+bool operator++ ();
+bool operator++ (int value);
+};
+bool Integerzzoperator++ ()
+{
+value++;
+return true;
+}
+bool Integerzzoperat|r++ (int val)
+{
+value += 2;
+return false;
+}
+void main()
+{
+Integer n1 i
+bool res =
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+b Prefix/postfix operators can be “friend” functions. Normally the first
+parameter of the friend function has to be a reference type. After execution
+n1 .value = 22, res = false
+APP-CPP
+class Integer
+{
+
+int value;
+public:
+friend bool ooerator;+ (Integer &i);
+friend bool operator++ (Integer &i,int value);
+};
+bool operator++ (Integer &i)
+{
+i.value++;
+return true;
+}
+bool operator++ (Integer &i,int val)
+{
+i.value += 2;
+return false;
+}
+void main()
+{
+Integer n1(20);
+bool res = (n1++);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Operators for classes
+b Postfix/ prefix operators have a special meaning
+> PostFix - the value is returned first and then the operation is executed
+> Prefix - the operation is executed first and then the value is returned
+APP-CPD , .
+void maino > ln the first case y takes xs value and then the
+{ .nt _ 3_ increment operation for x is being done. Meaning
+int -_ ’ that y will be equal with 3 and x with 4.
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Operators for classes
+b Postfix/ prefix operators have a special meaning
+> PostFix - the value is returned first and then the operation is executed
+> Prefix - the operation is executed first and then the value is returned
+APP-CPD , .
+void maino > ln the first case y takes xs value and then the
+{ int X = 3_ increment operation for x is being done. Meaning
+int y; ’ that y will be equal with 3 and x with 4.
+y = x++;
+b In the second case, first the increment operation for
+x is done and then the assignation towards z,
+} \ meaning that z will be equal with 5 and x also with
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+b Prefix/postfix operators can be modified to have the desired behavior
+(postfix, prefix) in the following way:
+Apncpp
+class Integer
+{
+
+int value;
+public:
+Integer& operator++ é); i
+Integer operator++ (int value);
+};
+Integer& Integerzzoperator++ ()
+{
+value += 1;
+return (*this);
+}
+Integer Integerzzoperator++ (int)
+{
+Integer tempObject(value);
+value += 1;
+return (tempObject);
+}
+void main()
+{
+Integer n1(20);
+n1++;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+b Prefix/postfix operators can be modified to have the desired behavior
+(postfix, prefix) in the following way:
+Apncpp
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+Integer& operator++ ();
+Integer operator++ (int value);
+};
+Integer& Integerzzoperator++ ()
+{
+value += 1;
+return (*this);
+}
+Integer Integerzzoperator++ (int)
+{
+In eger tempObject(value);
+va ue += 1;
+re urn (tempObject);
+}
+void mai ()
+{
+In eger n1(20);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+b Prefix/postfix operators can be modified to have the desired behavior
+(postfix, prefix) in the following way:
+Apncpp
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+Integer& operator++ ();
+Integer operator++ (int value);
+};
+Integer& Integerzzoperator++ ()
+{
+va ue += 1;
+re urn (*this);
+}
+Integer ntegerzzoperator++ (int)
+{
+In eger tempObject(value);
+va ue += 1;
+re urn (tempObject);
+}
+void mai ()
+{
+In eger n1(20);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Operators for classes
+
+b A special operator is new. new has a special format (it has to return void*
+and has a size_t first parameter).
+
+b The new operator cannot be used as a friend function.
+
+b The size_t parameter represents the size of the object to be allocated.
+
+b The new operator does not call the constructor, it is expected to allocate
+memory for the current object. In this case, after execution GlobalValue =
+100. The constructor (if any) will be called automatically by the compiler
+after the memory has been allocated.
+
+APP-CPP
+int GlobalValue = 6;
+class Integer {
+int value;
+public:
+Integer(int val) : value(va1) {}
+void* operator new(size_t t);
+$51a* Integerzzoperator new (size_t t) {
+return &Globa1Va1ue;
+}
+void main() {
+Integer *n1 = new Integer(166);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+b If new operator is declared with multiple parameters, they can be
+called/ used in the following way:
+Appmpp
+int GlobalValue = 0;
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val
+void* operator new(size_t _
+};
+void* Integerzzoperator new (size_t ',int value)
+{
+return &GlobalVa1ue;
+}
+void main()
+{
+Integer *n1 = _Integer(123);
+}
+
+b The functions/ methods that overload new with multiple parameters are so
+
+called placement new
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+b The new [] operator has a similar behavior. lt is used for allocating multiple
+objects. It has a similar format: it must return a void* and the first
+parameter is also a size_t (that represent the amount of memory needed for
+all of the elements in the vector).
+
+> For the following example to work, a default constructor is required. After
+the execution, all elements from GlobalValue have their value equal to 1.
+
+APP-CPP
+int GlobalValue[166];
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+Integer() : value(1) {}
+void* operator new [](size_t t);
+};
+void* Integer::operator new[] (size_t t) { return &GlobalValue[0]; }
+void main()
+{
+Integer *n1 = new Integer[199];
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+b new[] operator can also have several parameters. The following example
+shows an example on how such construct can be used.
+APP-CPD
+int GlobalValue[169];
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+Integer() : value(1) {}
+void* operator new[] (size_t t
+}s
+void* Integerzzoperator new[] (size_t nt value)
+{
+return &GlobalValue;
+}
+void main()
+{
+Integer *n1 = Integer[100];
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Operators for classes
+> Generally speaking, the normal behavior for operators that assure the
+allocation is the following:
+void* operator new (size_t size)
+void* operator new[] (size_t size)
+void operator delete (void* object)
+void operator delete[] (void* objects)
+b lt is recommended for the new and delete operators to throw exceptions
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Operators for classes
+b Another special operator is the cast operator
+> This operator allows the transformation of an object from one type to another
+b Being a casting operator, we do not have to provide the return type (it is
+considered the type we are casting to) 9 in the next example: float
+APP-CPD
+class Integer
+{
+int value;
+public:
+"a1“e‘"a“ U
+integerzzoperator float()
+{ return float(value * 2);
+}
+void main()
+{
+Integer n1(2);
+float f = (float)n1;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+b Cast operators are also use when such a conversion is explicitly required.
+> As in the previous case, the value for f will be 4.0
+b Cast operators cannot be used with friend specifier
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(va1) {}
+operator float();
+};
+Integerzzoperator float()
+{
+return float(value * 2);
+}
+void main()
+{
+l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+b Make sure to pay attention to all operators. In this case : f = 4.2
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(va1) {}
+operator float();
+};
+Integerzzoperator float()
+{
+return float(va1ue * 2);
+}
+void main()
+{
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+b However, in this case f = 20.2 due to the addition operator (operator+)
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+operator float();
+float operator + (float f);
+};
+Integerzzoperator float()
+{
+return float(value * 2);
+}
+float Integerzzoperator+ (float f)
+{
+return value * 10.0f + f;
+}
+void main()
+{
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Operators for classes
+
+b The indexing operators allow the usage of [] for a certain object.
+
+b They have only one restriction and that is that they only have one parameter
+- but this parameter can be anything and the return value also can be of any
+kind. Also, the indexing operator cannot be a friend function/ outside the
+current object
+
+b In this case, ret=true because byte 1 from n1.value is set
+APP-CPD
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(vali {}
+bool operator [](int index);
+£501 Integerzzoperator [](int index)
+{ return (value & (1 << index)) != 9;
+ioid main()
+{ Integer n1(2):
+bool ret = n1[1];
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+b The following example uses a different key (a const char * ) for the index
+operator []/
+APP-CPD
+class Integer
+{
+int value;
+public:
+Inte1er int val : value val
+bool operator [](const char *name);
+};
+bool Integerzzoperator [](const char *name)
+{
+if ((strcmp(name, "first") == 0) && ((value & 1) != 9))
+return true;
+if ((strcmp(name, "second") == 0) && ((value & 2) != 9))
+return true;
+return false;
+}
+void main()
+{
+Integer n1 '
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+b One can also overload the index operator [] (to be used with different keys).
+The following example uses operator[] with both int and const char * keys.
+APP-CPD
+class Integer
+{
+int value;
+public:
+Inte1er int val : value val
+bool operator [](const char *name);
+bool operator [](int index);
+};
+bool Integerzzoperator [](int index)
+{
+} ...
+bool Integerzzoperator [](const char *name)
+{
+} ...
+void main()
+{
+Integer n1(2);
+bool ret = n1["second"];
+bool v2 = n1[2];
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+b The function call operator ( operator() )works almost the same as the
+indexing operator.
+> Like the indexing operator, the function call operator () can only be a member
+function within the class
+APP-CPD
+class Integer
+{
+int value;
+public:
+iliiiiiiili iii. I iiiiiiiiil {}
+bool operator ()(int index);
+}s
+bool Integerzzoperator ()(int index)
+{
+return (value & (1 << index)) != 0;
+}
+void main()
+{
+Integer n1 '
+bool ret =h
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Operators for classes
+b The main difference between index operator ( operator[] ) and function call
+operator ( operator() ) is that function call operator can have multiple
+arameters or none .
+class Integer
+{ int value;
+public: .
+lit Integerzzoperator ()(int start,int end)
+i return (value >> start) a ((1 << (end - start)) - 1);
+void main()
+{ Integer n -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+b In this example, the function call operator ( operator() ) is used without any
+parameter:
+APP-CPD
+class Integer
+{
+int value;
+public:
+I --- ‘I . ' value(val) {}
+int operator ()();
+};
+int Integerzzoperator ()()
+{
+return (value*2);
+}
+void main()
+{
+Integer n '
+int res =ﬁ
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+b The member access operator ( operatoré) can also be overwritten.
+> In this case, even though there are no restrictions imposed by the compiler,
+this operator has to return a pointer to an object.
+APP-CPD
+class MyData
+{
+float value;
+public:
+void SetValue(float val) { value = val; }
+};
+class Integer
+{
+MyData data;
+publ' '
+};
+MyData* Integerzzoperator —>()
+{
+return &data;
+}
+void main()
+{
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+b operatoré has to be used with an object (NOT a pointer). The following
+example will not compile as n2 (a pointer) does not have a data member
+called SetValue.
+
+APP-CPD
+class MyData
+{
+float value;
+public:
+void SetValue(float val) { value = val; }
+};
+class Integer
+{
+MyData data;
+public:
+MyData* operator —> ();
+};
+MyData* Integerzzoperator —>()
+{
+return &data;
+}
+void main()
+{
+Integer n1;
+Inte;er *n2 = &n1;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+b However, if we convert the pointer to an object, the operatoré will work.
+> The “9” operator can be defined only in a class (it cannot be defined outside
+the class as a friend function)
+APP-CPD
+class MyData
+{
+float value;
+public:
+void SetValue(float val) { value = val; }
+};
+class Integer
+{
+MyData data;
+public:
+MyData* operator —> ();
+};
+MyData* Integerzzoperator —>()
+{
+return &data;
+}
+void main()
+{
+Integer n1;
+(*n25->SetValue(100);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Operators for classes
+b Other operators that behave in the same way as operatoré are:
+‘z. . (A.B)
+‘z. ->* (A->*B)
+‘z. .* (A.*B)
+4' * (*A)
+‘z. & (&A)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Operators for classes
+
+b The list operator “operator,” is used in case of lists
+
+> For example, the following list is evaluated from left to right and without a
+specific operator, it returns the last value::
+
+b The evaluation is done as follows:
+
+‘t. First evaluated is the expression “10,20” 9 which returns 20
+
+‘z. The following expression which is evaluated is “20,30” (20 returned from the
+previous expression) which returns 30
+
+\ ‘z. And finally, it is evaluated “30,40” which will return 40
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+b In this case, the “operator,” is called first, for n1 and 2.5f, which returns 75
+(30*2.5 = 75)
+> res local variable will have the value 75
+APP-CPD
+class Integer
+{
+int value;
+public:
+I -'- 'l _ ‘ _ c- -l) {}
+W
+};
+int Integerzzoperator ,(float f)
+{
+return (int)(va1ue*f);
+}
+void main()
+{
+Integer n1(30);
+int res = (n1, 2.5f);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+b In this case the “operator,” is called first for n1 and 2.5f, which returns the
+value 30*2.5=75, then the default “,” operator for 75 and 10 is applied that
+returns 10.
+
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer(int val) : value(val) {}
+int operator , (float f);
+};
+int Integerzzoperator ,(float f)
+{
+return (int)(va1ue*f);
+}
+void main()
+{
+Integer n1(30);
+int res = (n1, 2.5f,‘);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+b lt is recommended to use friend specifier to explain several combinations
+that can be found when using the list operator ( operator, )
+APP-CPD
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+friend int operator , (Integer&, float f);
+friend int operator , (int value, Integer&);
+};
+int operator , (Integer& i, float f)
+{
+return (int)(i.va1ue*f);
+}
+int operator , (int value, Integer &i)
+{
+return value + i.va1ue;
+}
+void main()
+{
+Integer n1(39);
+int res = (n1, 2.5f, n1);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+b lt is recommended to use friend specifier to explain several combinations
+that can be found when using the list operator ( operator, )
+Appmpp
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+friend int operator , (Integer&, float f);
+friend int operator , (int value, Integer&);
+};
+int operator , (Integer& i, float f)
+return (int)(i a1ue*f);
+}
+int operator , (int -1ue, Integer &i)
+{
+return value + i.va1ue;
+}
+void main()
+{
+Integer n a -
+int res = n1);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+b lt is recommended to use friend specifier to explain several combinations
+that can be found when using the list operator ( operator, )
+Appmpp
+class Integer
+{
+
+int value;
+public:
+Integer(int val) : value(val) {}
+friend int operator , (Integer&, float f);
+friend int operator , (int value, Integer&);
+};
+int operator , (Integer& i, float f)
+{
+return (int)(i.va1ue*f);
+}
+{
+return value + i.va1ue
+}
+void main()
+{
+Integer n1(39);
+int res = (n1, 2.5f
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+b When overloading an operator, some optimizations that compiler is doing
+(such as lazy evaluation) will be lost.
+APP-CPD
+class Bool {
+bool value;
+const char * name;
+public:
+Bool(bool val, const char * nm) : value(val), name(nm) {}
+Bool operator|| (const Bool &i) {
+bool res = value || i.value;
+printf("Compute bool(%s and %s)=>%s\n", name, i.name, res ? "true" : "false");
+Bool b(res, "temp");
+return b;
+};
+operator bool() {
+printf("Return bool for %s => %s\n", this->name,value?"true":"false");
+return value;
+}
+int main() { Retuniboolforn1 =>true
+Bool n1(true,"n1");
+5°01 "2(‘calse’ ,,n2,,)f Once is evaluated and it is , the rest of
+Bool n3(false, n3 ), . . . .
+bool res = ((bool)n1) || ((bool)n2) || ((bool)n3); the evaluation is skipped. Lazy evaluation for
+return 9; operator is applied and the cast operators for n2
+} and n3 are called an more.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+When overloading an operator, some optimizations that compiler is doing
+(such as lazy evaluation) will be lost.
+class Bool {
+bool value;
+const char * name;
+public:
+Bool(bool val, const char * nm) : value(val), name(nm) {}
+Bool operator|| (const Bool &i) {
+bool res = value || i.va1ue;
+printf("Compute bool(%s || %s)=>%s\n", name, i.name, res P "true" : "false");
+Bool b(res, "temp");
+return b;
+};
+operator bool() {
+printf("Return bool for %s => %s\n", this->name,va1ue?"true":"false");
+return value;
+}; } Compute bool(n1 || n2)=>true
+int main() { Compute bool(temp || n3)=>true
+Bool n1(true’..n1..); Return bool for tem => true
+Bool n2(false,"n2");
+Bool n3(false "n3" '
+bool res = n1 || n2 || n3;
+return 6;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Operations with
+> objects
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+Let’s analyze the following code:
+— — 1°“ = 16 =
+— sizeof(Data)
+class Date
+{
+int X,Y,Z,T;
+public:
+Date(int value) : X(value), Y(va1ue + 1),
+Z(va1ue + 2), T(value+3) {}
+void SetX(int value) { X = value; }
+};
+void Set(Date d,int value)
+{
+d.SetX(value);
+}
+void main()
+{
+Date dflfl: call Set
+Set(d,123);
+}—
+In this case, as there is no copy-constructor the compiler copies the entire
+object “d” byte-by-byte similar to what memcpy function does.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+Let’s analyze the following code:
+1— — 1°“ = 16 =
+D t .
+E ass a e Slzeof(Data)
+int X, Y, Z, T;
+public:
+Date(int value) : X(value), Y(value + 1),
+Z value + 2 T value + 3
+Date(const Date & d) : X(d.X), Y(d.Y),
+l:| my
+void SetX int value { X = value; } Constructor
+};
+void Set(Date d, int value)
+{
+d.SetX(value); C811 SE1:
+}
+void main()
+{
+I. ' I. '
+}
+However, if a copy-constructor exists, that method will be call to copy the
+object “d” into the stack.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Let’s analyze the following code:
+class Date
+{
+int X, Y, Z, T;
+public:
+Date(int value) : X(value), Y(value + 1),
+Z value + 2 T value + 3
+Date(Date && d) : X(d.X), Y(d.Y), MOVG
+z d.Z , T d.T
+void SetX int value { X = value; } conStrUCtor
+};
+void Set(Date d, int value)
+{
+d.SetX(value);
+}
+\{mld ma1n() error C2280: 'Date::Date(const Date &)': attempting to reference a deleted
+n. - ., - function
+note: compiler has generated 'Date::Date' here
+} note: 'Date::Date(const Date &)': function was implicitly deleted because 'Date'
+has a user-defined move constructor
+If the move constructor is present, but not a copy constructor, the code will
+fail at compile time. Adding a copy-constructor will make this code work.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+b Let’s analyze the following code:
+APP-CPP
+class Date
+{
+int X,Y,Z,T;
+public:
+Date(int value) : X(value), Y(value + 1),
+Z(value + 2), T(value+3) {}
+void SetX(int value) { X = value; }
+}s
+void Set(Date &d,int value)
+{
+d.SetX(value);
+}
+void main()
+{
+Date d 1 '
+}—
+> If we send the object via a reference or pointer, the copy-constructor is no
+longer required.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+ObJect operations
+
+When a parameter is given to a functionz we have the following cases:
+
+b If the parameter is reference/pointer - only its address is copied on the stack
+
+b If the parameter is an object, all of that object is copied on the stack and it
+can be accessed as any other parameter that was copied on the stack
+(relative at [EBP+xxx] ). The compiler uses the copy-constructor to copy an
+object into the stack. If no copy constructor is present, a memcpy - like code
+is generated (a code that copies byte-by-byte the entire content of the object
+into the stack).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+> Let's analyze the following code:
+APP-CPD
+class Date
+{
+int X,Y,Z,T;
+public:
+Date(int value) : X(value), Y(value + 1),
+Z(value + 2), T(value+3) {}
+void SetX(int value) { X = value; }
+Date Get(int value)
+{
+Date d(value);
+return d;
+}
+V01! ma1n
+{ /
+Date d(1);
+d = Get(lGG);
+}
+_ _ mov eax,dword ptr [ebp+8]
+> In thlS case, functlon Get returns
+an object (NOT a reference) of type
+Date.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+> Let's analyze the following code :
+App.cpp Date (1(1);
+class Date
+{
+int X,Y,Z,T;
+public: _ ,
+Date(int value) : X(value), Y(value + 1), d _ GEt(199)’
+Z(value + 2), T(value+3) {}
+void SetX(int value) { X = value; }
+};
+Date Get(int value)
+{
+Date d(value);
+return d; mov ecx,dw0rd ptr [eax]
+} ,d , () mov dword ptr' [d.X],ecx
+:01 mam mov edx,dword ptr [eax+4]
+|.. - , ' mov dword ptr [d.Y],edx
+mov ecx,dword ptr [eax+8]
+} mov dword ptr' [d.Z],ecx
+_ _ mov edx,dword ptr [eax+0Ch]
+> In thlS case, functlon Get returns mov dword ptr‘ [d.T],edx
+an object (NOT a reference) of type
+Date.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+b Let’s analyze the following code :
+App.cpp App.pseudocode
+class Date
+{ class Date
+int X,Y,Z,T; {
+public: ...
+Date(int value) : X(value), Y(value + 1), }3
+Z(value + 2), T(value+3) {} _ _
+void SetX(int value) { X = value; } Date* Get(Date *tempObJect, 1nt value)
+};
+Date Get(int value) Date d(va1ue);
+{ memcpy(temp0bject,&d,sizeof(Date));
+Date d(va1ue); return tempObject;
+return d; }
+} void main()
+void main() {
+{ Date d(1);
+Date d(1)- unsigned char temp[sizeof(Date)]
+d = Get(lég); Date* tmpObj = Get(temp,100);
+} memcpy(d,tmp0bj,sizeof(Date))
+— }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+b Let’s analyze the following code:
+App.cpp App.pseudocode
+class Date
+{ class Date
+int X,Y,Z,T; {
+public: ---
+Date(int value) : X(value), Y(value + 1), }3
+Z(value + 2), T(value+3) {} _ _
+void SetX(int value) { X = value; } Date* Get(Date *tempObJect, int value)
+Date(const Date & obj) { X = obj.X; } {
+Date Get(int value) tempObject->Date(d);
+{ return tempObject;
+Date d(value); } _ _
+return d; ¥°1d main()
+}
+void main() Date d(1)3
+{ unsigned char temp[sizeof(Date)]
+Date d(1); Date* tmpObj = Get(temp,100);
+d = Get(100); memcpy(d,tmp0bj,sizeof(Date))
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+b Let’s analyze the following code:
+App.cpp App.pseudocode
+class Date
+{ class Date
+int X,Y,Z,T; {
+public: ---
+Date(int value) : X(value), Y(value + 1), }3
+Z(value + 2), T(value+3) {} _ _
+void SetX(int value) { X = value; } Date* Get(Date *tempObJect, int value)
+Date(const Date & obj) { X = obj.X; } {
+Date& operator = (const Date &d) Date d(va1ue);
+{ tempObject->Date(d);
+X = d.X; return tempObject;
+return (*this); }
+} void main()
+}; {
+Date Get(int value) Date d(1)3
+{ unsigned char temp[sizeof(Date)]
+Date d(value); Date* tmpObj = Get(temp,100);
+return d; d.operator=(*tmp0bj);
+} }
+void main()
+{
+Date d(1);
+d = Get(100);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+Let’s analyze the following code:
+class Date —
+{ class Date
+int X,Y,Z,T,' {
+public: "'-
+Date(int value) : X(value), Y(value + 1), }3
+Z(value + 2), T(value+3) {} . _
+void SetX(int value) { X = value; } Date* Get(Date *tempObject, 1nt value)
+Date const Date & ob‘ X = ob .X' {
+Date(const Date && obj) { X = obj.X; } Date dcvalue);
+,a e1 opera or = cons ,a e 1, tempObJect->Date(d);
+{ return tempObject;
+X = d.X; } . .
+return (*this); :01d ma1n()
+}; } Date d(1);
+Date Get(int value) unsigned char temp[sizeof(Date)]
+{ Date* tmpObj = Get(temp,160);
+Date d(value); d.operator=(*tmp0bj);
+return d; }
+}
+void main() .
+{ If present, the move constructor IS used when
+Date d(1); ' ' ' |
+d = Get(m); returnlng an obJect from a functlon .
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+ObJect operations
+When dealing with temporary object, the compiler will always prefer:
+1. Move constructor
+2. Move assignment
+Instead of copy constructor or simple assignment.
+These methods (move constructor / move assignment) are preferred if they
+exist. If they are not specified, the copy-constructor and assignment operator
+will be used (if any).
+Move constructor and Move assignment are only used for temporary object.
+For a regular object (reference) copy-constructor and assignment operator
+are preferred (if they exists).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Ob ' t t'
+b Let’s consider the following class:
+APP-CPP
+class String {
+char * text;
+void CopyString(const char * string) {
+text = new char[strlen(string) + 1];
+memcpy(text, string, strlen(string) + 1);
+}
+public:
+String(const char * s) {
+CopyString(s);
+printf("CTOR => Obj:%p,Text:%p\n", this,text);
+}
+~String() {
+if (text != nullptr) {
+printf("DTOR => 0bj:%p,Text:%p\n", this, text);
+delete text;
+} else {
+printf("DTOR => Obj:%p (nothing to delete)\n", this);
+}
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+b Let’s consider the following class:
+APP-CPP
+class String {
+char * text;
+void CopyString(const char * string) { m }
+public:
+String(const char * s) { m }
+~String() { m }
+String(const String & obj) {
+CopyString(obj.text);
+printf("COPY => 0bj:%p,Text:%p from 0bj:%p,Text:%p\n", this, text,&obj,obj.text);
+}
+String& operator = (const String &obj) {
+if (text != nullptr) {
+printf("Clear => 0bj:%p,Text:%p\n", this, text);
+delete text;
+text = nullptr;
+}
+CopyString(obj.text);
+printf("EQ(Copy) => 0bj:%p,Text:%p from Obj:%p,Text:%p\n", this, text, &obj, obj.text);
+return (*this);
+}
+}
+b We will also add a copy-constructor and an assignment operator 1;;this class.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+b What will be the result of the following code ?
+APP-CPP
+class String {
+char * text;
+void CopyString(const char * string) { m }
+public:
+String(const char * s) { m }
+~String() { m }
+String(const String & obj) { m }
+String& operator = (const String &obj) { m }
+}
+String Get(const char * text)
+{
+printf("Entering Get function\n");
+String s(text);
+printf("Exiting Get function\n");
+return s;
+}
+void main()
+{
+printf("Entering main function\n");
+String s("");
+s = Get("C++ test");
+printf("Exiting main function\n");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+What will be the result of the following code ?
+Entering main function
+CTOR => Obj:919FFA68,Text:91295949
+class String { Entering Get function
+char * text; CTOR => Obj:919FFA94,TeXt191295979
+void CopyString(const char * string) {.u Exiting Get function
+public: COPY => Obj:919FFA24,Text:91294EF8 from Obj:919FFA04,Text:91295079
+Strirjg<C°mt Cha'" * S) { } DTOR => Obj:919FFA94,Text:91295979
+giltﬂﬁgiignit'"siping & obj) { } Clear => Obj:010FFA68,Text:91295940
+. '1' . EQ(Copy) => Obj:019FFA68,Text:91294F30 from Obj:016FFA24,Text:91294EF8
+Str1ng& operator = (const String &ob]) { _
+} DTOR => Ob]:919FFA24,Text:91294EF8
+String Get(const char * text) Exiting main function
+{ DTOR => Obj:919FFA68,Text:91294F36
+printf("Entering Get function\n");
+String s(text),' TranSlated
+printf("Exiting Get function\n"); Entering main function
+PEtupn S3 CTOR => main::s (Text:91295940)
+} . . Entering Get function
+v01d ma1n()
+{ CTOR => Getzzs (Text:01295070)
+printf("Entering main function\n"); Exiting Get function
+String 5@"§; COPY => temp_obj_1(Text:61294EF8) from Get::s(Text:91295679)
+s = Get("C++ test"); DTOR => Get::s(Text:91295076)
+printf("Exiting main function\n"); Clear => main::S(Text:91295949)
+} EQ(Copy) => main::s(Text:91294F30) from temp_obj_1(Text:91294EF8)
+DTOR => temp_obj_1(Text:91294EF8)
+Exiting main function
+DTOR => main::s(Text:61294F30)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+What will be the result of the following code ?
+— From the String::text goint of view the following haggen:
+class String {
+char * text;
+void CopyString(const char * string) {.
+public:
+String(const char * s) { m }
+~String() { m }
+String(const String & obj) { m }
+String& operator = (const String &obj)
+}
+String Get(const char * text)
+{ “C++ test” is allocated 3 times (for Get::S, temp_obj_1 and main::s)
+print'F("Entering Get 'Function\n"),' —
+String s(text); TranSlated
+printf("Exiting Get function\n"); Entering main Function
+PEtupn S3 CTOR => main::s (Text:91295940)
+} . . Entering Get function
+v01d ma1n()
+{ CTOR => Getzzs (Text:01295070)
+printf("Entering main function\n"); Exiting Get function
+String sC“ﬁ; COPY => temp_obj_1(Text:91294EF8) from Get::s(Text:91295679)
+5 = Get("C++ test"); DTOR => Get::s(Text:91295076)
+printf("Exiting main function\n"); Clear => main::s(TeXt:91295949)
+} EQ(Copy) => main::s(Text:01294F30) from temp_obj_1(Text:91294EF8)
+DTOR => temp_obj_1(Text:91294EF8)
+Exiting main function
+DTOR => main::s(Text:01294F36)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+b Let’s conslder the followmg class:
+APP-CPP
+class String {
+char * text;
+void CopyString(const char * string) { m }
+public:
+
+String(const char * s) { m }
+
+~String() { m }
+
+String(const String & obj) { m }
+
+String& operator = (const String &obj) { m }
+
+String(String && obj) {
+this->text = obj.text;
+obj.text = nullptr;
+printf("MOVE => 0bj:%p,Text:%p from 0bj:%p,Text:%p\n", this, text, &obj, obj.text);
+
+}
+
+String& operator = (String &&obj) {
+this->text = obj.text;
+printf("EQ(Move) => Obj:%p,Text:%p from Obj:%p,Text:%p\n", this, text, &obj, obj.text);
+obj.text = nullptr;
+return (*this);
+
+}
+
+}
+b Now, we W1ll add a move constructor and a move aSSIgnment to the dag as
+well.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+b What W1ll be the result of the followmg code ?
+APP-CPP
+class String {
+char * text;
+void CopyString(const char * string) { m }
+public:
+String(const char * s) { m }
+~String() { m }
+String(const String & obj) { m }
+String& operator = (const String &obj) { m }
+String(String && obj) { m }
+String& operator = (String &&obj) { m }
+}
+String Get(const char * text)
+{
+printf("Entering Get function\n");
+String s(text);
+printf("Exiting Get function\n");
+return s;
+}
+void main()
+{
+printf("Entering main function\n");
+String s("");
+s = Get("C++ test");
+printf("Exiting main function\n");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+What will be the result of the following code ?
+Entering main function
+_ CTOR => Obj:99AFFBD9,Text:99DA6@A9
+class String { . .
+char * text; Entering Get function
+void CopyString(const char * string) {.u CTQR'=> Ob]:99AFFE6C,Text:99DA69D9
+public: Ex1t1ng Get function
+stringwonst char * S) { } MOVE => Obj:90AFFBSC,Text:99DA69D9 from Obj:90AFFB6C,Text:09999999
+Ngtpingo { } DTOR => Obj:90AFFB6C (nothing to delete)
+String(const String & obj) { } EQ(Move) => Obj:09AFFBD9,Text:96DA69D6 from Obj:06AFFB8C,Text:90DA69D9
+String& operator = (const String &obj) { DTOR => Obj:90AFFBSC (nothing t0 delete)
+String(String && Obj) { } Exiting main function
+} StPin8& OPP-Patot = (StPing &&Ob3') { } DTOR => Obj:90AFFBD9,Text:99DA66D6
+Strin Get const char * text
+{ g < ) Translated
+printf("Entering Get function\n");
+String s(text); Entering main function
+printf("Exiting Get function\n"); CTOR => main::s Text:99DA69A9
+return s; Entering Get function
+} CTOR => Get: :s(Text:99DA69D9)
+VOid main() Exiting Get function
+{ _ .. _ _ _ .. MOVE => temp_obj_1(Text:60DA69D0) from Get: :s(Text:96969669)
+giggiwimng maln funct10n\n ); DTOR => Getzzs nothin_ to delete
+s = Get("C++’test"); EQ(Move) => main: :s,Text390DA60D0 from temp_obj_1(Text:99DA69D9)
+printf("Exiting main function\n"); DTOR => temp_ob]_1 (nothing to delete)
+} Exiting main function
+DTOR => main: :s(Text:69DA60D0)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+What will be the result of the following code ?
+From the String::text goint of view the following haggen:
+class String {
+char * text;
+void CopyString(const char * string) {.
+public:
+String(const char * s) { m }
+~String() { m }
+String(const String & obj) { m }
+String& operator = (const String &obj)
+String(String && obj) { } “C++ test” is allocated one time and then the pointer is moved until in
+} Strings‘ Operator = (String &&°bj) { } reaches the destination object (“5” from main)
+Strin Get const char * text —
+{ g < ) Translated
+printf("Entering Get function\n");
+String s(text); Entering main function
+printf("Exiting Get function\n"); CTOR => main::s TeXt:99DA69A9
+return s; Entering Get function
+} CTOR => Get: :s(Text:99DA69D9)
+VOid main() Exiting Get function
+{ _ _ _ _ MOVE => temp_obj_1(Text:90DA69D0) from Get: :s(Text:96969669)
+pplntﬂnETEG'nlng maln function\n"); DTOR => Getzzs nothin_ to delete
+it:12§ti'(‘C+J)rJtest")' EQ(Move) => main: :s,Text:06DA60D0 from temp_obj_1(TeXt:99DA69D9)
+printf("Exiting main function\n"); DTOR => temp_obj_1 (nothing to delete)
+} Exiting main function
+DTOR => main: :s(Text:09DA66D0)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+b What is the problem with the following code ?
+App.cpp App.pseudocode
+class Date
+{ class Date
+int X,Y,Z,T; {
+public: ...
+Date(int value) : X(value), Y(value + 1), }3 _
+Z(value + 2), T(value+3) {} Date* Get(int value)
+void SetX(int value) { X = value; } {
+Date(const Date & obj) { X = obj.X; } Date d(value);
+Date& operator = (Date &d) return &d3
+{ }
+X = d.X; void main()
+return (*this); {
+} Date d(1);
+}; Date* tmpObj = Get(100);
+Date& Get(int value) } d.operator=(*tmp0bj);
+{
+Date d(value);
+return d;
+}
+void main()
+{
+Date d(1);
+d = Get(100);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+> What is the problem with the following code ?
+APP-CPD
+class Date
+{
+int X,Y,Z,T;
+public:
+Date(int value) : X(value), Y(va1ue + 1),
+Z(va1ue + 2), T(value+3) {}
+void SetX(int value) { X = value; }
+Date const Date & ob' X = obj.X; }
+void operator = (Date &d)
+{ rep stos dword ptr es:[edi]
+X = d.X;
+}
+};
+Date& Get(int value)
+{
+Date d(va1ue);
+return d;
+}
+void main()
+{
+Date d(1);
+d = Get(lGG);
+}
+
+***************Ending Page***************
+
+
+ 

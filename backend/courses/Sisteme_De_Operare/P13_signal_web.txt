@@ -1,0 +1,489 @@
+***************Beginning Page***************
+***************page number:1**************
+Programare concurentii in C (VII) :
+Gestiunea proceselor, partea a III-a:
+Semnale UNIX
+Cristian Vidrascu
+vidrascu@info.uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Sumar
+~ lntroducere
+~ Categorii de semnale
+~ Tipurile de semnale predefinite ale UNIX-Ului
+~ Cererea explicité de generare a unui semnal
+— primitiva kill
+- Coruperea semnalelor — primitiva signal
+- Definirea pr0prii|or hand/ere de semnal
+- Blocarea semnalelor
+- A$teptarea unui semnal
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introducere
+Semnalele UNIX reprezinté un mecanism
+fundamental de manipulare a proceselor $i de
+comunicare Tntre procese, ce asiguré tratarea
+evenimentelor asincrone apérute Tn sistem.
+Un semnal UNIX este o fntrerupere software
+generaté Tn momentul producerii unui anumit
+eveniment si transmisé de sistemul de Operare
+unui anumit proces.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Introducere (cont)
+Un semnal este generatde aparitia unui eveniment exceptional
+(care poate fi 0 eroare, un eveniment extern sau 0 cerere explicita).
+Orice semnal are asociat un tip, reprezentat printr-un numar
+Tntreg pozitiv (ce codifica cauza sa), $i un proces destinatar.
+Odata generat, semnalul este pus Tn coada de semna/e a
+sistemului, de unde este extras ei transmis procesului destinatar
+de catre sistemul de operare.
+Transmiterea semnalului catre destinatar se face imediat dupa
+ce semnalul a ajuns Tn coada de semnale, cu o exceptie: daca
+primirea semnalelor de tipul respectiv a fost blocata de catre procesul
+destinatar, atunci transmiterea semnalului se va face abia Tn momentul
+cand procesul destinatar va debloca primirea acelui tip de semnal.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.4/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Introducere (cont)
+Tn momentul Tn care procesul destinatar prime$te acel semnal, el
+T$i fntrerupe execufia $i va executa o anumité actiune (i.e., 0
+functie de tratare a acelui semnal, functie numité handler de
+semnal) care este ata$até tipului de semnal primit, dupé care
+procesul T$i va relua executia din punctul Tn care a fost Tntrerupt
+(cu anumite exceptii: unele semnale vor cauza terminarea fortaté a
+acelui proces).
+Tn concluzie, fiecare tip de semnal are asociat o actiune (un
+handler) specificé acelui tip de semnal.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.4/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+O O
+Categcrll de semnale
+Evenimentele ce genereaza semnale se impart Tn trei categorii:
+
+' erori (Tn procesul destinatar)
+O eroare Tnseamné cét programul a fécut o operatie invalidé $i nu poate sé-ei
+continue executia. Nu toate erorile genereazé semnale, ci doar acele erori care
+pot apare Tn orice punct al programului, cum ar fi: Tmpértirea la zero, accesarea
+unei adrese de memorie invalide, etc.
+
+' evenimente externe (procesului destinatar)
+Evenimentele externe sunt Tn general legate de operatiile l/O sau de actiunile
+altor procese, cum ar fi: sosirea datelor (pe un socket sau pipe), terminarea unui
+proces fiu, expirarea intervalului de timp setat pentru o alarmé, sau suspendarea
+ori terminarea programului de cétre utilizator (prin apésarea tastelor AZ ori AC).
+
+' cereri explicite
+O cerere explicité Tnseamné generarea unui semnal de cétre un (alt) proces, prin
+apelul primitivei kill.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.5/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+O O
+Categorll de semnale (cont.)
+Semnalele pot fi generate sincron sau asincron.
+
+' Un semnal sincron este generat de o anumita aotiune specifioa Tn
+
+program $i este Iivrat (daca nu este blocat) Tn timpul aoelei aotiuni.
+' Evenimente ce genereaza semnale sincrone: erorile ei cererile explicite ale
+unui proces de a genera semnale pentru el Tnsuei.
+
+' Un semnal asincron este generat de un eveniment din afara
+zonei de control a procesului care TI receptioneaza; cu alte
+cuvinte, un semnal ce este reoeptionat, Tn timpul executiei
+procesului destinatar, Ia un moment ole timp oe nu poate fi
+antioipat.
+
+' Evenimente ce genereaza semnale asincrone: evenimentele externe $i
+cererile explicite ale unui proces de a genera semnale destinate altor procese.
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.6/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+O O
+Categorll de semnale (ccnt.)
+
+Pentru fiecare tip de semnal existé 0 actiune implicité de tratare
+a acelui semnal, specificé sistemului de operare UNIX respectiv.
+Aceasté actiune este denumité handlerul implicit de semnal
+ataeat acelui tip de semnal.
+Atunci cénd semnalul este Iivrat procesului, acesta este Tntrerupt ei are
+trei posibilitéti de comportare:
+
+° fie s51 execute aceasté actiune implicité,
+
+' fie sé ignore semnalul,
+
+° fie s51 execute o anumité functie handler utilizator.
+Setarea unuia dintre cele trei comportamente se face cu ajutorul
+apelului primitivelor signal sau sigaction.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.7/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Tipurile de semnale predeﬁnite ale UNIX-ului
+Tipurile predefinite de semnale din UNIX se clasificé Tn mai multe
+categorii:
+' semnale standard de eroare: SIGFPE, SIGILL, SIGSEGV,
+SIGBUS
+' semnale de terminare a proceselor: SIGHUP, SIGINT, SIGQUIT,
+SIGTERM,SIGKILL
+' semnale de alarmé: SIGALRM, SIGVTALRM, SIGPROF
+° semnale asincrone l/O: SIGIO, SIGURG
+° semnale pentru controlul proceselor: SIGCHLD, SIGCONT,
+SIGSTOP,SIGTSTP,SIGTTIN,SIGTTOU
+° alte tipuri ole semnale: SIGPIPE, SIGUSRl, SIGUSR2
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.8/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Tipurile de semnale predeﬁnite ale UNIX-ului (cont.)
+Lista semnalelor UNIX predefinite, mai exact numarul intreg asociat
+fiecarui tip de semnal, poate fi obtinuta cu comanda urmatoare:
+UNIX> kill —l
+iar pagina de manual ce contine descrierea semnalelor este:
+UNIX> man 7 signal
+Observatie: o parte dintre aceste tipuri de semnale depind ei de suportul oferit de partea
+de hardware a calculatorului respectiv, nu numai de sistemul de operare de pe acel
+calculator. Din acest motiv, exista mici cleosebiri in modul de implementare a acestor
+semnale pe diferite tipuri de arhitecturi de calculatoare (adica unele semnale se poate sa
+nu fie implementate deloc, sau sa fie implementate cu mici diferente).
+Exemple de semnale ce pot diferi de la un tip de arhitectura la altul: cele generate de
+erori, cum ar fi SIGBUS (care nu este implementat in Linux-ul pentru hardware-ul i386).
+ln concluzie: trebuie studiata documentatia tipului de calculator pe care il utilizati pentru
+a vedea ce semnale aveti la dispozitie.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.9/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Cererea explicitii de generare a unui semnal — primitiva kill
+Apelul de sistem kill este utilizat pentru a cere explicit
+generarea unui semnal. lnterfata acestei functii:
+int kill (int pid, int id-signal)
+
+~ pid = PID-Ul procesului destinatar
+' id-signal = tipul semnalului
+' valoarea returnaté este 0, Tn caz de reu$ité, sau -1, Tn caz
+de eroare.
+Efect: Tn urma executiei functiei kill se genereazé un semnal
+de tipul specificat, destinat procesului specificat.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Cererea explicitii de generare a unui semnal — primitiva kill
+Observaiie: prin apelul kill(pid, 0) ; nu se trimite nici un
+semnal, dar este util pentru verificarea validitétii PID-ului
+respectiv (i.e., dacé existé un proces cu acel PID Tn momentul apelului, sau nu)I SG
+returneazé 0 dacé PID-ul specificat este valid, sau -1, Tn caz contrar.
+Pentru cererea explicité de generare a unui semnal se poate
+folosi $i comanda kill:
+
+UNIX> kill —semnal pid
+
+Un proces T$i poate trimite semnale sie Tnsu$i folosind functia
+
+raise, ce are interfata:
+
+int raise(int id-signal)
+
+Efect: este echivalent cu apelul kill ( getpid( ) ,id-signal) ; .
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.11/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Coruperea semnalelor - primitiva signal
+
+Actiunea asociaté unui semnal poate fi:
+
+‘ O actiune implicité (specificé sistemului de operare respectiv),
+
+~ sau ignorarea semnalului,
+
+~ sau un hand/er propriu, definit de programator.
+Se utilizeazé termenul de corupere a unui semnal cu sensul de:
+setarea unui handler propriu pentru acel tip de semnal.
+Noté: uneori, se folose$te $i termenul de tratare a semnalului.
+Observafie: semnalele SIGKILL si SIGSTOP nu pot fi corupte,
+ignorate sau blocate!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Coruperea semnalelor - primitiva signal (cont.)
+Specificarea actiunii asociate unui semnal se poate face cu
+apelurile de sistem signal sau sigaction.
+lnterfata primitivei signal este:
+sighandler_t signal (int id-signal, sighandler_t action)
+
+° id-signa/ = tipul semnalului caruia i se asociaza acea actiune
+' action = actiunea (i.e., handlerul de semnal) ce se asociaza
+semnalului; poate fi numele unei functii definite de programator, sau poate lua
+una dintre valorile:
+' SIG_DFL : specifica actiunea implicité (cea stabilité de cétre sistemul de
+operare) la receptionarea semnalului
+' SIG_IGN : specificé faptul ca procesul va ignora acel semnal
+° valoarea returnaté este vechiul handler pentru semnalul
+specificat, sau constanta simbolica SIG_ERR Tn caz de eroare.
+aaaaaaa aaaaaaaaal aaaaa a ma aamaaa UNIX _ p.13/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Coruperea semnalelor - primitiva signal (cont.)
+lnterfala primitivei signal este:
+sighandler_t signal (int id-signal, sighandler_t action)
+Efect: se asociazé handlerul specificat pentru acel tip de semnal.
+Ca urmare, ulterior (piné la o noué recorupere), ori de céte ori procesul va
+receptiona semnalul id-signal, se va executa handlerul de semnal action.
+Observarie: in general nu este bine ca programul sé ignore semnalele
+(mai ales pe acelea care reprezinté evenimente importante). DaCé SG doreete ca
+programul s51 nu receptioneze semnale in timpul execuliei unei
+anumite porliuni de cod (pentru a nu ﬁ intrerupté), solulia cea mai indicaté
+este sé se blocheze primirea semnalelor, nu ca ele sé fie ignorate.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.13/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Coruperea semnalelor - primitiva signal (cont.)
+lnterfata primitivei signal este:
+sighandler_t signal (int id-signal, sighandler_t action)
+Dacé argumentul action este numele unei functii definite de utilizator,
+aceasté functie trebuie sé aibé prototipul sighandler_t, definit astfel:
+typedef void (*sighandler_t)(int);
+i.e., tipul “functie ce intoarce tipul void, $i are un argument de tip int”.
+Noté: la momentul executiei unui handler de semnal, acest argument
+va avea ca valoare numérul semnalului ce a determinat executia acelui
+hand/er. in acest tel, se poate asigna o aceeaei functie ca ei handler
+pentru mai multe semnale, in corpul ei puténd eti, pe baza
+argumentului primit, care dintre acele semnale a cauzat apelul
+respectiv.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.13/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Coruperea semnalelor - primitiva signal (cont.)
+Exemplu: un program care sé ignore intreruperile de tastaturé, adicé
+semnalul SIGINT (generat de tastele CTRL+C) ei semnalul SIGQUIT
+(generat de tastele CTRL+\ ).
+A se vedea programul sig-exl . c féré ignorarea celor doué semnale
+(i.e., poate fi intrerupt/oprit cu CTRL+C, respectiv CTRL+\ ), $i respectiv programul
+sig-eXZ . c cu ignorarea celor doué semnale (i.e., va rula féré a putea ﬁ
+intrerupt/oprit cu CTRL+C, respectiv CTRL+\ ).
+Sé modificém exemplul anterior astfeI: corupem semnalele sé execute
+un handler propriu, care sé afieeze un anumit mesaj. lar apoi refacem
+comportamentul implicit al semnalelor.
+A se vedea programul sig-eX3 . c
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.14/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Deﬁnirea propriilor handlere de semnal
+Un handler de semnal propriu este 0 functie definité de programator,
+ce va fi apelaté atunci cénd procesul receptioneazé semnalul céruia Ti
+este asociaté.
+Strategii principale folosite Tn scrierea de hand/ere proprii:
+
+° Se poate ca hand/erul sé notifice primirea semnalului prin setarea
+unei variabile globale $i apoi sé returneze imediat, urménd ca Tn
+bucla principalé a programului, sé se verifice periodic dacé acea
+variabilé a fost setaté, Tn care caz se vor efectua operatiile dorite.
+
+' Se poate ca hand/erul sé termine executia procesului, sau sé
+transfere executia Tntr-un punct Tn care procesul poate sé-si
+recupereze starea Tn care se afla Tn momentul receptionérii
+semnalului.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.15/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Deﬁnirea propriilor handlere de semnal (cont.)
+Atentie: trebuie luate masuri speciale atunci cand se sorie codul
+pentru hand/erele de semnal, deoarece acestea pot fi apelate
+asincron, adica Ia momente de timp imprevizibile.
+Spre exemplu, in timp ce se executa hand/erul asociat unui semnal
+primit, acesta poate fi Tntrerupt prin receptia unui alt semnal (al doilea
+semnal trebuie sa fie de alt tip decat primul; daca este ace|a$i tip de semnal, el va fi
+blocat pana cand se termina tratarea primului semnal).
+Important: prin urrnare, primirea unui semnal poate intrerupe nu
+doar executia programului respectiv, oi chiar executia handlerului
+unui semnal anterior primit, sau poate intrerupe executia unui
+apel de sistem efectuat de program in acel moment.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.16/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Blocarea semnalelor
+Blocarea semnale/orinseamné cé procesul spune sistemului de
+operare sé nu Ti transmité anumite semnale (ele vor réméne Tn
+coada de semnale, péné cénd procesul va debloca primirea lor).
+Noté: nu este recomandabil ca un program sé blocheze semnalele pe
+tot parcursul executiei sale, ci numai pe durata executiei unor portiuni
+critice ale codului séu. Astfel, dacé un semnal ajunge Tn timpul
+executiei acelei portiuni de program, el va fi Iivrat procesului abia dupé
+terminarea executiei acesteia $i deblocarea acelui tip de semnal.
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.17/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Blocarea semnalelor
+Blocarea semnale/orinseamné cé procesul spune sistemului de
+operare sé nu Ti transmité anumite semnale (ele vor réméne Tn
+coada de semnale, péné cénd procesul va debloca primirea lor).
+Blocarea semnalelor se realizeazé cu functia sigprocmask, ce
+utilizeazé structura de date sigset_t (care este 0 mascé de biti, cu
+semnificatia de set de semnale ales pentru blocare).
+Cu primitiva sigpending se poate verifica existenta, Tn coada de
+semnale, a UHOF semnale blocate (deci care asteapté sé fie deblocate pentru a
+putea fi livrate procesului).
+Exemplu: a se vedea fi$ierul sursé sig-ex4 . c
+
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.17/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+Agteptarea unui semnal
+Dacé aplicatia este influentaté de evenimente externe, sau
+folose$te semnale pentru sincronizare cu alte procese, atunci ea
+nu trebuie sé facé altceva decét sé a$tepte semnale.
+Se poate folosi Tn acest scop functia pause, ce are prototipul:
+int pause()
+Efect: suspendarea executiei programului péné Ia sosirea unui semnal.
+Observalie: simplitatea acestei functii poate ascunde erori greu de
+detectat. Deoarece programul principal nu face altceva decét sé
+apeleze pause( ), Tnseamné cé cea mai mare parte a activitétii utile Tn
+program 0 realizeazé handlerele de semnal. Tnsé, codul acestor
+hand/ere nu este indicat sé fie prea lung, deoarece poate fi Tntrerupt
+de alte semnale.
+
+Ge eeeeeee, eeeee e “Gee Gemeee UNIX _ Gee/2G
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+.
+
+Agteptarea unul semnal mam.)
+Modalitatea cea mai indicaté, pentru asteptarea unui anumit semnal
+(i.e., a$teptarea primului semnal primit, dintr-o multime fixaté de semnale), €St€ d6 a
+folosi functia sigsuspend, ce are prototipul:
+int sigsuspend(const sigset_t *set)
+Efect: se Tnlocuieste masca de semnale curenté a procesului cu cea
+specificaté de parametrul set $i apoi se suspendé executia procesului
+péné la receptionarea unui semnal, de cétre proces (deci un semnal care
+nu este blocat, adicé nu este cuprins Tn masca de semnale curenté).
+Masca de semnale réméne Ia valoarea setaté (i.e., valoarea Iui set)
+numai péné cénd functia sigsuspend( ) returneazé, moment Tn care
+este reinstalaté, Tn mod automat, vechea mascé de semnale.
+
+aaaaaaaa aaaaaaaaal aaaaa a “aaa Samaala UNIX _ p.19/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+O
+Agteptarea unul semnal (um)
+Modalitatea cea mai indicaté, pentru asteptarea unui anumit semnal
+(i.e., a$teptarea primului semnal primit, dintr-o multime fixaté de semnale), €St€ d6 a
+folosi functia sigsuspend, ce are prototipul:
+int sigsuspend(const sigset_t *set)
+Valoarea returnaté: 0, Tn caz de succes, respectiv -1, Tn caz de esec
+(iar variabila errno este setaté Tn mod corespunzétor: EINVAL,
+EFAULT sau EINTR).
+Exemplu: un program care T$i suspendé executia Tn asteptarea
+semnalului SIGQUIT (generat de tastele CTRL+\ ), féré a fi Tntrerupt de
+alte semnale. A se vedea fi$ierul sursé sig-ex5 . c
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.19/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Bibliograﬁe obligatorie
+Cap.4, §4.5 din manualul, Tn format PDF, accesibil din pagina
+disciplinei “Sisteme de operare”:
+ohttps://profs.info.uaic.ro/~vidrascu/SO/books/ManualID—SO.pdf
+Programele demonstrative amintite pe parcursul acestei prezentéri pot fi descércate de
+la adresa urmétoare:
+O
+https://profs.info.uaic.ro/~vidrascu/SO/cursuri/C—programs/signal/
+Tntrebéri?
+Gestiunea proceselor, partea a Ill-a: Semnale UNIX — p.20/20
+
+***************Ending Page***************
+

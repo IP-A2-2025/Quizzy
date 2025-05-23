@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Explore.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { api } from '../utils/api';
 
 const Explore = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const currentPath = location.pathname;
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await api.get('/courses');
+                setCourses(response.data);
+            } catch (err) {
+                setError(err.response?.data?.message || err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourses();
+    }, []);
 
     const handleClick = (label) => {
         if (label === "Home") {
@@ -19,15 +39,6 @@ const Explore = () => {
             navigate('/library');
         }
     };
-    const courses = [
-        { title: 'Graph Algorithms', flashcards: 24, files: 6, path: '/graph-algorithms' },
-        { title: 'Software Engineering', flashcards: 37, files: 12 },
-        { title: 'English', flashcards: 7, files: 2 },
-        { title: 'Databases', flashcards: 95, files: 16 },
-        { title: 'Databases', flashcards: 95, files: 16 },
-        { title: 'Databases', flashcards: 95, files: 16 },
-        { title: 'Databases', flashcards: 95, files: 16 },
-    ];
 
     const getActiveClass = (route) => {
         return currentPath === route ? 'active' : '';
@@ -89,26 +100,33 @@ const Explore = () => {
 
             {/* Cards Section */}
             <div className="library-cards-container">
-                {courses.map((course, index) => (
-                    <div
-                        key={index}
-                        className="library-card"
-                        onClick={() => course.path && navigate(course.path)}
-                        style={{ cursor: course.path ? 'pointer' : 'default' }}
-                    >
-                        <div className="library-card-header" />
-                        <div className="library-card-header-text">
-                            <div className="library-course-title">{course.title}</div>
-                            <div className="library-course-info">
-                                <span className="library-number">{course.flashcards}</span> Flashcards |
-                                <span className="library-number">{course.files}</span> Files
+                {loading ? (
+                    <div className="library-loading">Loading courses...</div>
+                ) : error ? (
+                    <div className="library-error">Error: {error}</div>
+                ) : courses.length === 0 ? (
+                    <div className="library-empty">No courses available</div>
+                ) : (
+                    courses.map((course, index) => (
+                        <div
+                            key={course.id || index}
+                            className="library-card"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => navigate(`/course/${course.id}`, { state: { course } })}
+                        >
+                            <div className="library-card-header" />
+                            <div className="library-card-header-text">
+                                <div className="library-course-title">{course.title}</div>
+                                <div className="library-course-info">
+                                    <span className="library-number">{course.flashcardCount || 0}</span> Flashcards |
+                                    <span className="library-number">{course.materials?.length || 0}</span> Files
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </div>
-
     );
 };
 

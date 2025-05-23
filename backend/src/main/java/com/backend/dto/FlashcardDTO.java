@@ -8,7 +8,7 @@ import java.util.Set;
 public class FlashcardDTO {
     private Long id;
     private String question;
-    private int level;
+    private Integer level;
     private Date lastStudiedAt;
     private String questionType;
     private Integer pageIndex;
@@ -22,7 +22,7 @@ public class FlashcardDTO {
     public void setQuestion(String question) {
         this.question = question;
     }
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
     public void setLastStudiedAt(Date lastStudiedAt) {
@@ -49,7 +49,7 @@ public class FlashcardDTO {
     public String getQuestion() {
         return question;
     }
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
     public Date getLastStudiedAt() {
