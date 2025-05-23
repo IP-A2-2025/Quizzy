@@ -13,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TestQuestionService {
@@ -38,46 +36,55 @@ public class TestQuestionService {
     }
 
     @Transactional
-    public Long createQuestion(TestQuestionDTO questionDTO) {
-        //spaghetti code x_x
-
+    public Collection<TestQuestion> createQuestions(Collection<TestQuestionDTO> questionDTOs) {
         TestQuestionMapper mapper = new TestQuestionMapper(testRepository);
-        TestQuestion question = mapper.toEntity(questionDTO);
+        Collection<TestQuestion> createdQuestions = questionDTOs.stream()
+                .map(dto ->{
 
-        Objects.requireNonNull(question, "Question must not be null");
+                    TestQuestion question = mapper.toEntity(dto);
 
-        if (question.getId() != null) {
-            throw new IllegalArgumentException("New question must have no ID");
-        }
+                    Objects.requireNonNull(question, "Question must not be null");
 
-        if (question.getQuestionText() == null || question.getQuestionText().trim().isEmpty()) {
-            throw new IllegalArgumentException("Question text cannot be empty");
-        }
+                    if (question.getId() != null) {
+                        throw new IllegalArgumentException("New question must have no ID");
+                    }
 
-        if (question.getPointValue() <= 0) {
-            throw new IllegalArgumentException("Point value must be positive");
-        }
+                    if (question.getQuestionText() == null || question.getQuestionText().trim().isEmpty()) {
+                        throw new IllegalArgumentException("Question text cannot be empty");
+                    }
 
-        TestEntity test = question.getTest();
-        if (test == null) {
-            throw new NullPointerException("Question must be associated with a test");
-        }
+                    if (question.getPointValue() <= 0) {
+                        throw new IllegalArgumentException("Point value must be positive");
+                    }
 
-        if (test.getId() == null) {
-            throw new IllegalStateException("Foreign key for test is null");
-        }
+                    TestEntity test = question.getTest();
+                    if (test == null) {
+                        throw new NullPointerException("Question must be associated with a test");
+                    }
 
-        if (test.getProfessor() == null) {
-            throw new IllegalStateException("Test has no assigned professor");
-        }
+                    if (test.getId() == null) {
+                        throw new IllegalStateException("Foreign key for test is null");
+                    }
 
-        String role = test.getProfessor().getRole();
-        if (!("PROFESOR".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role))) {
-            throw new IllegalArgumentException("Only professors or admins can create questions");
-        }
+                    if (test.getProfessor() == null) {
+                        throw new IllegalStateException("Test has no assigned professor");
+                    }
 
-        saveQuestion(question);
-        return question.getId();
+                    String role = test.getProfessor().getRole();
+                    if (!("PROFESOR".equalsIgnoreCase(role) || "ADMIN".equalsIgnoreCase(role))) {
+                        throw new IllegalArgumentException("Only professors or admins can create questions");
+                    }
+                    saveQuestion(question);
+                    return new TestQuestion(
+                            question.getId(),
+                            "Question created successfully",
+                            dto.getPointValue(),
+                            null,
+                            null
+                    );
+                })
+                .collect(Collectors.toList());
+        return createdQuestions;
     }
 
     @Transactional(readOnly = true)
@@ -175,7 +182,7 @@ public class TestQuestionService {
     }
 
     @Transactional
-    public void deleteQuestionById(Long id) {
+    public String deleteQuestionById(Long id) {
         Optional.ofNullable(id)
                 .filter(i -> i > 0)
                 .ifPresentOrElse(
@@ -189,35 +196,47 @@ public class TestQuestionService {
                             throw new IllegalArgumentException("Invalid question ID");
                         }
                 );
+        return "Question deleted successfully";
     }
 
     @Transactional
-    public TestQuestion updateQuestion(Long id, TestQuestion question) {
-        return Optional.ofNullable(id)
-                .filter(i -> i > 0)
-                .map(i -> Optional.ofNullable(question)
-                        .map(q -> {
-                            TestQuestion existingQuestion = testQuestionRepository.findById(i)
-                                    .orElseThrow(() -> new EntityNotFoundException("Question not found with id " + i));
-                            return updateQuestionFields(existingQuestion, q);
-                        })
-                        .orElseThrow(() -> new IllegalArgumentException("Updated question data must not be null")))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid question ID"));
+    public TestQuestion updateQuestion(Long id, TestQuestionDTO questionDTO) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid question ID");
+        }
+        if (questionDTO == null) {
+            throw new IllegalArgumentException("Updated question data must not be null");
+        }
+
+        TestQuestion existingQuestion = testQuestionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Question not found with id " + id));
+
+        if (questionDTO.getQuestionText() != null && !questionDTO.getQuestionText().trim().isEmpty()) {
+            existingQuestion.setQuestionText(questionDTO.getQuestionText());
+        }
+        if (questionDTO.getPointValue()>=0) {
+            existingQuestion.setPointValue(questionDTO.getPointValue());
+        }
+        if (questionDTO.getTestId() != null && testRepository.existsById(questionDTO.getTestId())) {
+            existingQuestion.setTest(testRepository.getReferenceById(questionDTO.getTestId()));
+        }
+
+        return saveQuestion(existingQuestion);
     }
 
-    private TestQuestion updateQuestionFields(TestQuestion existingQuestion, TestQuestion questionToUpdate) {
-        return Optional.ofNullable(questionToUpdate)
-                .map(update -> {
-                    Optional.ofNullable(update.getQuestionText())
-                            .ifPresent(existingQuestion::setQuestionText);
-                    Optional.ofNullable(update.getPointValue())
-                            .ifPresent(existingQuestion::setPointValue);
-                    Optional.ofNullable(update.getTest())
-                            .ifPresent(existingQuestion::setTest);
-                    Optional.ofNullable(update.getAnswers())
-                            .ifPresent(existingQuestion::setAnswers);
-                    return testQuestionRepository.save(existingQuestion);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("Question data to update cannot be null"));
-    }
+//    private TestQuestion updateQuestionFields(TestQuestion existingQuestion, TestQuestion questionToUpdate) {
+//        return Optional.ofNullable(questionToUpdate)
+//                .map(update -> {
+//                    Optional.ofNullable(update.getQuestionText())
+//                            .ifPresent(existingQuestion::setQuestionText);
+//                    Optional.ofNullable(update.getPointValue())
+//                            .ifPresent(existingQuestion::setPointValue);
+//                    Optional.ofNullable(update.getTest())
+//                            .ifPresent(existingQuestion::setTest);
+//                    Optional.ofNullable(update.getAnswers())
+//                            .ifPresent(existingQuestion::setAnswers);
+//                    return testQuestionRepository.save(existingQuestion);
+//                })
+//                .orElseThrow(() -> new IllegalArgumentException("Question data to update cannot be null"));
+//    }
 }

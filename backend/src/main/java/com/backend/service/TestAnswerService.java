@@ -4,6 +4,7 @@ import com.backend.dto.TestAnswerDTO;
 import com.backend.mapper.TestAnswerMapper;
 import com.backend.model.TestAnswer;
 import com.backend.model.TestEntity;
+import com.backend.model.TestQuestion;
 import com.backend.repository.TestAnswerRepository;
 import com.backend.repository.TestQuestionRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TestAnswerService {
@@ -36,27 +38,36 @@ public class TestAnswerService {
     }
 
     @Transactional
-    public Long createAnswer(TestAnswerDTO answerDTO) {
-
+    public Collection<TestAnswer> createAnswers(Collection<TestAnswerDTO> answerDTOs){
         TestAnswerMapper mapper = new TestAnswerMapper(testQuestionRepository);
-        TestAnswer answer = mapper.toEntity(answerDTO);
+        Collection<TestAnswer> createdAnswers = answerDTOs.stream()
+                .map(dto -> {
+                    TestAnswer answer = mapper.toEntity(dto);
 
-        Objects.requireNonNull(answer, "Answer must not be null");
+                        Objects.requireNonNull(answer, "Answer must not be null");
 
-        if (answer.getId() != null) {
-            throw new IllegalArgumentException("New answer must have no ID");
-        }
+                        if (answer.getId() != null) {
+                            throw new IllegalArgumentException("New answer must have no ID");
+                        }
 
-        if(answer.getTestQuestion() == null || answer.getTestQuestion().getId() == null) {
-            throw new IllegalArgumentException("Test answer must have associated a test question");
-        }
+                        if(answer.getTestQuestion() == null || answer.getTestQuestion().getId() == null) {
+                            throw new IllegalArgumentException("Test answer must have associated a test question");
+                        }
 
-        if(answer.getOptionText() == null || answer.getOptionText().isEmpty()) {
-            throw new IllegalArgumentException("Option text must exist");
-        }
+                        if(answer.getOptionText() == null || answer.getOptionText().isEmpty()) {
+                            throw new IllegalArgumentException("Option text must exist");
+                        }
 
-        saveAnswer(answer);
-        return answer.getId();
+                        saveAnswer(answer);
+                    return new TestAnswer(
+                            answer.getId(),
+                            "Answer added successfully",
+                            dto.isCorrect(),
+                            null
+                    );
+                })
+                .collect(Collectors.toList());
+        return createdAnswers;
     }
 
     @Transactional(readOnly = true)
@@ -152,34 +163,29 @@ public class TestAnswerService {
     }
 
     @Transactional
-    public TestAnswer updateAnswer(Long id, TestAnswer answer) {
-        return Optional.ofNullable(id)
-                .filter(i -> i > 0)
-                .map(i -> Optional.ofNullable(answer)
-                        .map(a -> {
-                            TestAnswer existingAnswer = testAnswerRepository.findById(i)
-                                    .orElseThrow(() -> new EntityNotFoundException("Answer not found with id " + i));
-                            return updateAnswerFields(existingAnswer, a);
-                        })
-                        .orElseThrow(() -> new IllegalArgumentException("Updated answer data must not be null")))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid answer ID"));
+    public TestAnswer updateAnswer(Long id, TestAnswerDTO answerDTO) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid answer ID");
+        }
+        if (answerDTO == null) {
+            throw new IllegalArgumentException("Updated answer data must not be null");
+        }
+
+        TestAnswer existingAnswer = testAnswerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Answer not found with id " + id));
+        
+        if(answerDTO.getOptionText() != null && !answerDTO.getOptionText().isEmpty()) {
+            existingAnswer.setOptionText(answerDTO.getOptionText());
+        }
+        if (answerDTO.getQuestionId() != null && testQuestionRepository.existsById(answerDTO.getQuestionId())) {
+            existingAnswer.setTestQuestion(testQuestionRepository.getReferenceById(answerDTO.getQuestionId()));
+        }
+        existingAnswer.setCorrect(answerDTO.isCorrect());
+        return saveAnswer(existingAnswer);
     }
 
     @Transactional
-    public TestAnswer updateAnswerFields(TestAnswer existingAnswer, TestAnswer answerToUpdate) {
-        return Optional.ofNullable(answerToUpdate)
-                .map(update -> {
-                    Optional.ofNullable(update.getOptionText())
-                            .ifPresent(existingAnswer::setOptionText);
-                    Optional.ofNullable(update.isCorrect())
-                            .ifPresent(existingAnswer::setCorrect);
-                    return testAnswerRepository.save(existingAnswer);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("Answer data to update cannot be null"));
-    }
-
-    @Transactional
-    public void deleteAnswerById(Long id) {
+    public String deleteAnswerById(Long id) {
         Optional.ofNullable(id)
                 .filter(i -> i > 0)
                 .ifPresentOrElse(
@@ -193,7 +199,9 @@ public class TestAnswerService {
                             throw new IllegalArgumentException("Invalid answer ID");
                         }
                 );
+        return "Answer deleted successfully";
     }
+
     @Transactional
     public int deleteMultipleAnswers(Collection<Long> answerIds) {
         if (answerIds == null || answerIds.isEmpty()) {
@@ -213,6 +221,7 @@ public class TestAnswerService {
 
         return deletedCount;
     }
+
     @Transactional
     public int deleteAllAnswersForQuestion(Long questionId) {
         Optional.ofNullable(questionId)
@@ -231,6 +240,7 @@ public class TestAnswerService {
 
         return deleteMultipleAnswers(answerIds);
     }
+
     @Transactional
     public int deleteAllAnswersForTest(Long testId) {
         Optional.ofNullable(testId)

@@ -40,41 +40,47 @@ public class TestQuestionController {
         return ResponseEntity.ok(testQuestionService.getQuestionById(id));
     }
 
-@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<TestQuestion>> createTests(@Valid @RequestBody Collection<TestQuestionDTO> questionDTOs) {
+    public ResponseEntity<Collection<TestQuestion>> createQuestions(@Valid @RequestBody Collection<TestQuestionDTO> questionDTOs) {
         logger.info("Attempting to create {} questions", questionDTOs.size());
-        Collection<TestQuestion> createdQuestions = questionDTOs.stream()
-                .map(dto -> {
-                    Long id = testQuestionService.createQuestion(dto);
-                    logger.info("Question created successfully with ID: {}", id);
-                    return new TestQuestion(
-                            id,
-                            "Question created successfully" + dto.getQuestionText(),
-                            dto.getPointValue(),
-                            null,
-                            null
-                    );
-                })
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(createdQuestions);
-    }
-
-    //ASTA NUSH LA CE AJUTA ;-;
-    @PostMapping("/save")
-    public ResponseEntity<TestQuestion> saveQuestion(@RequestBody TestQuestion question) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(testQuestionService.saveQuestion(question));
+        var questions = testQuestionService.createQuestions(questionDTOs);
+        try{
+            return ResponseEntity.ok(questions);
+        } catch (Exception e) {
+            logger.error("Failed to create questions: {}", e.getMessage());
+            throw e;
+        } finally{
+            for(var q : questions){
+                logger.info("Test created successfully with ID: {}", q.getId());
+            }
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TestQuestion> updateTestQuestion(@PathVariable Long id, @RequestBody TestQuestion testQuestion) {
-        return ResponseEntity.ok(testQuestionService.updateQuestion(id, testQuestion));
+    public ResponseEntity<TestQuestion> updateTestQuestion(@PathVariable Long id, @RequestBody TestQuestionDTO testQuestionDTO) {
+        logger.info("Attempting to update question");
+        try{
+            return ResponseEntity.ok(testQuestionService.updateQuestion(id, testQuestionDTO));
+        } catch (Exception e) {
+            logger.error("Failed to update question: {}", e.getMessage());
+            throw e;
+        } finally {
+            logger.info("Question updated successfully with ID: {}", id);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTestQuestion(@PathVariable Long id) {
-        testQuestionService.deleteQuestionById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteTestQuestion(@PathVariable Long id) {
+        logger.info("Attempting to delete question");
+        try {
+            return ResponseEntity.ok(testQuestionService.deleteQuestionById(id));
+        } catch (Exception e) {
+            logger.error("Failed to delete question: {}", e.getMessage());
+            throw e;
+        } finally {
+            logger.info("Question deleted successfully with ID: {}", id);
+        }
     }
 
     @GetMapping("/test/{testId}")
@@ -153,22 +159,4 @@ public class TestQuestionController {
             @PathVariable Float minPoints) {
         return ResponseEntity.ok(testQuestionService.getQuestionsByTestAndMinPoints(testId, minPoints));
     }
-    @DeleteMapping("/with-answers/{id}")
-    public ResponseEntity<Void> deleteQuestionAndAnswers(@PathVariable Long id) {
-        testQuestionService.deleteQuestionAndAnswers(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/multiple")
-    public ResponseEntity<Integer> deleteMultipleQuestions(@RequestBody Collection<Long> questionIds) {
-        int deletedCount = testQuestionService.deleteMultipleQuestions(questionIds);
-        return ResponseEntity.ok(deletedCount);
-    }
-
-    @DeleteMapping("/test/{testId}")
-    public ResponseEntity<Integer> deleteAllQuestionsForTest(@PathVariable Long testId) {
-        int deletedCount = testQuestionService.deleteAllQuestionsForTest(testId);
-        return ResponseEntity.ok(deletedCount);
-    }
-
 }

@@ -25,7 +25,6 @@ public class TestController {
     private final TestService testService;
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
-
     @Autowired
     public TestController(TestService testService) {
         this.testService = testService;
@@ -45,39 +44,42 @@ public class TestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TestEntity> createTest(@Valid @RequestBody TestDTO testDTO) {
         logger.info("Attempting to create new test");
-        try {
-            Long id = testService.createTest(testDTO);
-            logger.info("Test created successfully with ID: {}", testDTO.getId());
-            return ResponseEntity.ok(new TestEntity(
-                    id,
-                    testDTO.getTitle(),
-                    "Test added successfully" + testDTO.getTitle(),
-                    testDTO.getDate(),
-                    null,
-                    null,
-                    null
-            ));
-        } catch (Exception e) {
+        var test = testService.createTest(testDTO);
+        try{
+            return ResponseEntity.ok(test);
+        } catch (Exception e){
             logger.error("Failed to create test: {}", e.getMessage());
             throw e;
+        } finally {
+            logger.info("Test created successfully with ID: {}", test.getId());
         }
     }
 
-    //ASTA NUSH LA CE AJUTA ;-;
-    @PostMapping("/save")
-    public ResponseEntity<TestEntity> saveTest(@RequestBody TestEntity test) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(testService.saveTest(test));
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<TestEntity> updateTest(@PathVariable Long id, @RequestBody TestEntity test) {
-        return ResponseEntity.ok(testService.updateTest(id, test));
+    public ResponseEntity<TestEntity> updateTest(@PathVariable Long id, @RequestBody TestDTO testDTO) {
+        logger.info("Attempting to update new test");
+        var test = testService.updateTest(id, testDTO);
+        try{
+            return ResponseEntity.ok(test);
+        } catch (Exception e){
+            logger.error("Failed to update test: {}", e.getMessage());
+            throw e;
+        } finally {
+            logger.info("Test updated successfully with ID: {}", test.getId());
+        }
     }
 
-    @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> deleteTestById(@PathVariable Long id) {
-        testService.deleteTestById(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTestById(@PathVariable Long id) {
+        logger.info("Attempting to delete test");
+        try {
+            return ResponseEntity.ok(testService.deleteTestById(id));
+        } catch (Exception e) {
+            logger.error("Failed to delete test: {}", e.getMessage());
+            throw e;
+        } finally {
+            logger.info("Test deleted successfully with ID: {}", id);
+        }
     }
 
     @GetMapping("/professor/{professorId}")
@@ -164,15 +166,15 @@ public class TestController {
     public ResponseEntity<Long> countTestsByDateRange(@RequestParam Date start, @RequestParam Date end) {
         return ResponseEntity.ok(testService.countTestsByDateBetween(start, end));
     }
-    @DeleteMapping("/complete/{id}")
-    public ResponseEntity<Void> deleteTestAndRelatedEntities(@PathVariable Long id) {
-        testService.deleteTestAndRelatedEntities(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/multiple")
-    public ResponseEntity<Integer> deleteMultipleTests(@RequestBody Collection<Long> testIds) {
-        int deletedCount = testService.deleteMultipleTests(testIds);
-        return ResponseEntity.ok(deletedCount);
-    }
+//    @DeleteMapping("/complete/{id}")
+//    public ResponseEntity<Void> deleteTestAndRelatedEntities(@PathVariable Long id) {
+//        testService.deleteTestAndRelatedEntities(id);
+//        return ResponseEntity.noContent().build();
+//    }
+//
+//    @DeleteMapping("/multiple")
+//    public ResponseEntity<Integer> deleteMultipleTests(@RequestBody Collection<Long> testIds) {
+//        int deletedCount = testService.deleteMultipleTests(testIds);
+//        return ResponseEntity.ok(deletedCount);
+//    }
 }

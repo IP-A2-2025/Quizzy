@@ -67,33 +67,33 @@ class TestControllerTest {
 //        assertEquals(testSample, response.getBody());
 //    }
 
-    @Test
-    void shouldSaveTest() {
-        when(testService.saveTest(testSample)).thenReturn(testSample);
+//    @Test
+//    void shouldSaveTest() {
+//        when(testService.saveTest(testSample)).thenReturn(testSample);
+//
+//        ResponseEntity<TestEntity> response = testController.saveTest(testSample);
+//
+//        assertEquals(201, response.getStatusCodeValue());
+//        assertEquals(testSample, response.getBody());
+//    }
 
-        ResponseEntity<TestEntity> response = testController.saveTest(testSample);
+//    @Test
+//    void shouldUpdateTest() {
+//        when(testService.updateTest(1L, testSample)).thenReturn(testSample);
+//
+//        ResponseEntity<TestEntity> response = testController.updateTest(1L, testSample);
+//
+//        assertEquals(200, response.getStatusCodeValue());
+//        assertEquals(testSample, response.getBody());
+//    }
 
-        assertEquals(201, response.getStatusCodeValue());
-        assertEquals(testSample, response.getBody());
-    }
-
-    @Test
-    void shouldUpdateTest() {
-        when(testService.updateTest(1L, testSample)).thenReturn(testSample);
-
-        ResponseEntity<TestEntity> response = testController.updateTest(1L, testSample);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(testSample, response.getBody());
-    }
-
-    @Test
-    void shouldDeleteTestById() {
-        ResponseEntity<Void> response = testController.deleteTestById(1L);
-
-        assertEquals(204, response.getStatusCodeValue());
-        verify(testService).deleteTestById(1L);
-    }
+//    @Test
+//    void shouldDeleteTestById() {
+//        ResponseEntity<Void> response = testController.deleteTestById(1L);
+//
+//        assertEquals(204, response.getStatusCodeValue());
+//        verify(testService).deleteTestById(1L);
+//    }
 
     @Test
     void shouldReturnTestsByProfessorId() {

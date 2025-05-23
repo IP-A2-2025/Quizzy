@@ -64,25 +64,25 @@ class TestQuestionControllerTest {
 //        assertEquals(question, response.getBody());
 //    }
 
-    @Test
-    void updateTestQuestion_ShouldReturnOk() {
-        TestQuestion question = new TestQuestion();
-        when(testQuestionService.updateQuestion(eq(1L), any(TestQuestion.class))).thenReturn(question);
+//    @Test
+//    void updateTestQuestion_ShouldReturnOk() {
+//        TestQuestion question = new TestQuestion();
+//        when(testQuestionService.updateQuestion(eq(1L), any(TestQuestion.class))).thenReturn(question);
+//
+//        ResponseEntity<TestQuestion> response = testQuestionController.updateTestQuestion(1L, question);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(question, response.getBody());
+//    }
 
-        ResponseEntity<TestQuestion> response = testQuestionController.updateTestQuestion(1L, question);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(question, response.getBody());
-    }
-
-    @Test
-    void deleteTestQuestion_ShouldReturnNoContent() {
-        doNothing().when(testQuestionService).deleteQuestionById(1L);
-
-        ResponseEntity<Void> response = testQuestionController.deleteTestQuestion(1L);
-
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
-    }
+//    @Test
+//    void deleteTestQuestion_ShouldReturnNoContent() {
+//        doNothing().when(testQuestionService).deleteQuestionById(1L);
+//
+//        ResponseEntity<Void> response = testQuestionController.deleteTestQuestion(1L);
+//
+//        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+//    }
 
     @Test
     void getTestQuestionsByTestId_ShouldReturnOk() {

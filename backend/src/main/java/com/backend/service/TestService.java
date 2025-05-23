@@ -34,8 +34,6 @@ public class TestService {
         this.courseRepository = Objects.requireNonNull(courseRepository, "CourseRepository must not be null");
         this.userRepository = Objects.requireNonNull(userRepository, "UserRepository must not be null");
     }
-    @Autowired
-    private TestQuestionService testQuestionService;
 
     @Transactional
     public TestEntity saveTest(TestEntity test) {
@@ -44,10 +42,23 @@ public class TestService {
                 .orElseThrow(() -> new IllegalArgumentException("Test must not be null"));
     }
 
+    @Transactional(readOnly = true)
+    public Collection<TestEntity> getAllTests() {
+        return testRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public TestEntity getTestById(Long id) {
+        return Optional.ofNullable(id)
+                .filter(i -> i > 0)
+                .flatMap(testRepository::findById)
+                .orElseThrow(() -> new EntityNotFoundException("Test not found with id " + id));
+    }
+
     @Transactional
-    public Long createTest(TestDTO testDTO) {
-        TestMapper testMapper = new TestMapper(courseRepository, userRepository);
-        TestEntity test = testMapper.toEntity(testDTO);
+    public TestEntity createTest(TestDTO testDTO) {
+        TestMapper mapper = new TestMapper(courseRepository, userRepository);
+        TestEntity test = mapper.toEntity(testDTO);
 
         Objects.requireNonNull(test, "Test entity must not be null");
         if (test.getId() != null) {
@@ -64,20 +75,58 @@ public class TestService {
             throw new AccessDeniedException("Only professors or admins can create tests");
         }
         saveTest(test);
-        return test.getId();
+        return new TestEntity(
+                    test.getId(),
+                    testDTO.getTitle(),
+                    "Test added successfully ",
+                    testDTO.getDate(),
+                    null,
+                    null,
+                    null
+            );
     }
 
-    @Transactional(readOnly = true)
-    public Collection<TestEntity> getAllTests() {
-        return testRepository.findAll();
-    }
+    @Transactional
+    public TestEntity updateTest(Long id, TestDTO testDTO) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Invalid test ID");
+        }
+        if (testDTO == null) {
+            throw new IllegalArgumentException("Updated test data must not be null");
+        }
 
-    @Transactional(readOnly = true)
-    public TestEntity getTestById(Long id) {
-        return Optional.ofNullable(id)
-                .filter(i -> i > 0)
-                .flatMap(testRepository::findById)
+        TestEntity existingTest = testRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Test not found with id " + id));
+
+        if (testDTO.getTitle() != null && !testDTO.getTitle().trim().isEmpty()) {
+            existingTest.setTitle(testDTO.getTitle());
+        }
+        if (testDTO.getDescription() != null && !testDTO.getDescription().trim().isEmpty()) {
+            existingTest.setDescription(testDTO.getDescription());
+        }
+        if (testDTO.getDate() != null) {
+            existingTest.setDate(testDTO.getDate());
+        }
+
+        return saveTest(existingTest);
+    }
+
+    @Transactional
+    public String deleteTestById(Long id) {
+        Optional.ofNullable(id)
+                .filter(i -> i > 0)
+                .ifPresentOrElse(
+                        i -> {
+                            if (!testRepository.existsById(i)) {
+                                throw new EntityNotFoundException("Test not found with id " + i);
+                            }
+                            testRepository.deleteById(i);
+                        },
+                        () -> {
+                            throw new IllegalArgumentException("Invalid test ID");
+                        }
+                );
+        return "Test deleted successfully";
     }
 
     @Transactional(readOnly = true)
@@ -97,16 +146,16 @@ public class TestService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<TestEntity> findUpcomingTests() {
-        return testRepository.findUpcomingTests();
-    }
-
-    @Transactional(readOnly = true)
     public Collection<TestEntity> findTestsForStudentEnrollments(Integer studentId) {
         return Optional.ofNullable(studentId)
                 .filter(id -> id > 0)
                 .map(testRepository::findTestsForStudentEnrollments)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid student ID"));
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<TestEntity> findUpcomingTests() {
+        return testRepository.findUpcomingTests();
     }
 
     @Transactional(readOnly = true)
@@ -208,96 +257,19 @@ public class TestService {
                         .orElseThrow(() -> new IllegalArgumentException("End date must not be before start date")))
                 .orElseThrow(() -> new IllegalArgumentException("Dates must not be null"));
     }
-
-    @Transactional
-    public void deleteTestById(Long id) {
-        Optional.ofNullable(id)
-                .filter(i -> i > 0)
-                .ifPresentOrElse(
-                        i -> {
-                            if (!testRepository.existsById(i)) {
-                                throw new EntityNotFoundException("Test not found with id " + i);
-                            }
-                            testRepository.deleteById(i);
-                        },
-                        () -> {
-                            throw new IllegalArgumentException("Invalid test ID");
-                        }
-                );
-    }
-    @Transactional
-    public void deleteTestAndRelatedEntities(Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("Invalid test ID");
-        }
-
-        if (!testRepository.existsById(id)) {
-            throw new EntityNotFoundException("Test not found with id " + id);
-        }
-
-        // Get all questions for this test
-        Collection<TestQuestion> questions = testQuestionService.getQuestionsByTestId(id);
-
-        for (TestQuestion question : questions) {
-            testQuestionService.deleteQuestionAndAnswers(question.getId());
-        }
-
-        // Delete the test itself
-        testRepository.deleteById(id);
-    }
-
-    @Transactional
-    public int deleteMultipleTests(Collection<Long> testIds) {
-        if (testIds == null || testIds.isEmpty()) {
-            throw new IllegalArgumentException("Test IDs collection must not be null or empty");
-        }
-
-        int deletedCount = 0;
-        for (Long testId : testIds) {
-            try {
-                deleteTestAndRelatedEntities(testId);
-                deletedCount++;
-            } catch (EntityNotFoundException e) {
-                // Log the error but continue with other deletions
-                System.err.println("Error deleting test: " + e.getMessage());
-            }
-        }
-
-        return deletedCount;
-    }
-
-    @Transactional
-    public TestEntity updateTest(Long id, TestEntity test) {
-        return Optional.ofNullable(id)
-                .filter(i -> i > 0)
-                .map(i -> Optional.ofNullable(test)
-                        .map(t -> {
-                            TestEntity existingTest = testRepository.findById(i)
-                                    .orElseThrow(() -> new EntityNotFoundException("Test not found with id " + i));
-                            return updateTestFields(existingTest, t);
-                        })
-                        .orElseThrow(() -> new IllegalArgumentException("Updated test data must not be null")))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid test ID"));
-    }
-
-    @Transactional
-    public TestEntity updateTestFields(TestEntity existingTest, TestEntity testToUpdate) {
-        return Optional.ofNullable(testToUpdate)
-                .map(update -> {
-                    Optional.ofNullable(update.getTitle())
-                            .ifPresent(existingTest::setTitle);
-                    Optional.ofNullable(update.getDescription())
-                            .ifPresent(existingTest::setDescription);
-                    Optional.ofNullable(update.getDate())
-                            .ifPresent(existingTest::setDate);
-                    Optional.ofNullable(update.getProfessor())
-                            .ifPresent(existingTest::setProfessor);
-                    Optional.ofNullable(update.getCourse())
-                            .ifPresent(existingTest::setCourse);
-                    Optional.ofNullable(update.getQuestions())
-                            .ifPresent(existingTest::setQuestions);
-                    return testRepository.save(existingTest);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("Test data to update cannot be null"));
-    }
+//    @Transactional
+//    public TestDTO updateTestFields(TestEntity existingTest, TestDTO testToUpdate) {
+//        return Optional.ofNullable(testToUpdate)
+//                .map(update -> {
+//                    Optional.ofNullable(update.getTitle())
+//                            .ifPresent(existingTest::setTitle);
+//                    Optional.ofNullable(update.getDescription())
+//                            .ifPresent(existingTest::setDescription);
+//                    Optional.ofNullable(update.getDate())
+//                            .ifPresent(existingTest::setDate);
+//
+//                    return testRepository.save(existingTest);
+//                })
+//                .orElseThrow(() -> new IllegalArgumentException("Test data to update cannot be null"));
+//    }
 }

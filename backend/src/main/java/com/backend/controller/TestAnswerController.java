@@ -1,11 +1,7 @@
 package com.backend.controller;
 
 import com.backend.dto.TestAnswerDTO;
-import com.backend.dto.TestDTO;
-import com.backend.dto.TestQuestionDTO;
 import com.backend.model.TestAnswer;
-import com.backend.model.TestEntity;
-import com.backend.model.TestQuestion;
 import com.backend.service.TestAnswerService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -43,38 +39,45 @@ public class TestAnswerController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<TestAnswer>> createTests(@Valid @RequestBody Collection<TestAnswerDTO> answerDTOs) {
+    public ResponseEntity<Collection<TestAnswer>> createAnswers(@Valid @RequestBody Collection<TestAnswerDTO> answerDTOs) {
         logger.info("Attempting to create {} answers", answerDTOs.size());
-        Collection<TestAnswer> createdAnswers = answerDTOs.stream()
-                .map(dto -> {
-                    Long id = testAnswerService.createAnswer(dto);
-                    logger.info("Answer created successfully with ID: {}", id);
-                    return new TestAnswer(
-                            id,
-                            "Answer added successfully" + dto.getOptionText(),
-                            dto.isCorrect(),
-                            null
-                    );
-                })
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(createdAnswers);
-    }
-
-    //ASTA NUSH LA CE AJUTA ;-;
-    @PostMapping("/save")
-    public ResponseEntity<TestAnswer> saveTest(@RequestBody TestAnswer answer) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.saveAnswer(answer));
+        var answers = testAnswerService.createAnswers(answerDTOs);
+        try{
+            return ResponseEntity.ok(answers);
+        } catch (Exception e) {
+            logger.error("Failed to create answers: {}", e.getMessage());
+            throw e;
+        } finally{
+            for(var a : answers){
+                logger.info("Test created successfully with ID: {}", a.getId());
+            }
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TestAnswer> updateAnswer(@PathVariable Long id, @RequestBody TestAnswer answer) {
-        return ResponseEntity.ok(testAnswerService.updateAnswer(id, answer));
+    public ResponseEntity<TestAnswer> updateAnswer(@PathVariable Long id, @RequestBody TestAnswerDTO testAnswerDTO) {
+        logger.info("Attempting to update answer");
+        try{
+            return ResponseEntity.ok(testAnswerService.updateAnswer(id, testAnswerDTO));
+        } catch (Exception e) {
+            logger.error("Failed to update answer: {}", e.getMessage());
+            throw e;
+        } finally {
+            logger.info("Answer updated successfully with ID: {}", id);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAnswer(@PathVariable Long id) {
-        testAnswerService.deleteAnswerById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteAnswer(@PathVariable Long id) {
+        logger.info("Attempting to delete answer with ID: {}", id);
+        try {
+            return ResponseEntity.ok(testAnswerService.deleteAnswerById(id));
+        } catch (Exception e) {
+            logger.error("Failed to delete answer: {}", e.getMessage());
+            throw e;
+        } finally {
+            logger.info("Answer deleted successfully with ID: {}", id);
+        }
     }
 
     @GetMapping("/question/{questionId}")

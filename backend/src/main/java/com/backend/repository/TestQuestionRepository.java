@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface TestQuestionRepository extends JpaRepository<TestQuestion, Long> {
 
+//    @Query("SELECT q FROM TestQuestion q WHERE q.id = :questionId")
+//    List<TestQuestion> findById(@Param("questionId") Long questionId);
+
     @Query("SELECT q FROM TestQuestion q WHERE q.test.id = :testId")
     List<TestQuestion> findByTestId(@Param("testId") Long testId);
 

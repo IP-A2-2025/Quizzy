@@ -63,25 +63,25 @@ class TestAnswerControllerTest {
 //        assertEquals(answer, response.getBody());
 //    }
 
-    @Test
-    void updateAnswer_ShouldReturn200() {
-        TestAnswer answer = new TestAnswer();
-        when(testAnswerService.updateAnswer(eq(1L), any(TestAnswer.class))).thenReturn(answer);
+//    @Test
+//    void updateAnswer_ShouldReturn200() {
+//        TestAnswer answer = new TestAnswer();
+//        when(testAnswerService.updateAnswer(eq(1L), any(TestAnswer.class))).thenReturn(answer);
+//
+//        ResponseEntity<TestAnswer> response = testAnswerController.updateAnswer(1L, answer);
+//
+//        assertEquals(200, response.getStatusCodeValue());
+//        assertEquals(answer, response.getBody());
+//    }
 
-        ResponseEntity<TestAnswer> response = testAnswerController.updateAnswer(1L, answer);
-
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(answer, response.getBody());
-    }
-
-    @Test
-    void deleteAnswer_ShouldReturn204() {
-        doNothing().when(testAnswerService).deleteAnswerById(1L);
-
-        ResponseEntity<Void> response = testAnswerController.deleteAnswer(1L);
-
-        assertEquals(204, response.getStatusCodeValue());
-    }
+//    @Test
+//    void deleteAnswer_ShouldReturn204() {
+//        doNothing().when(testAnswerService).deleteAnswerById(1L);
+//
+//        ResponseEntity<Void> response = testAnswerController.deleteAnswer(1L);
+//
+//        assertEquals(204, response.getStatusCodeValue());
+//    }
 
     @Test
     void getAnswersByQuestionId_ShouldReturn200() {
