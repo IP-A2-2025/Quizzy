@@ -232,4 +232,36 @@ public class TestAnswerService {
                         }
                 );
     }
+
+    // Add these methods to your TestAnswerService class
+
+    @Transactional
+    public Collection<TestAnswerDTO> saveAnswers(Collection<TestAnswerDTO> testAnswerDTOs) {
+        if (testAnswerDTOs == null || testAnswerDTOs.isEmpty()) {
+            throw new IllegalArgumentException("Answer collection must not be null or empty");
+        }
+
+        return testAnswerDTOs.stream()
+                .map(this::saveAnswer)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Collection<TestAnswerDTO> createAnswers(Collection<TestAnswerDTO> testAnswerDTOs) {
+        if (testAnswerDTOs == null || testAnswerDTOs.isEmpty()) {
+            throw new IllegalArgumentException("Answer collection must not be null or empty");
+        }
+
+        // Validate that all answers are new (no IDs)
+        boolean hasExistingIds = testAnswerDTOs.stream()
+                .anyMatch(dto -> dto.getId() != null);
+
+        if (hasExistingIds) {
+            throw new IllegalArgumentException("New answers must not have IDs");
+        }
+
+        return testAnswerDTOs.stream()
+                .map(this::saveAnswer)
+                .collect(Collectors.toList());
+    }
 }

@@ -240,4 +240,36 @@ public class TestQuestionService {
                         }
                 );
     }
+
+    @Transactional
+    public List<TestQuestionDTO> createMultipleQuestions(List<TestQuestionDTO> questions) {
+        return Optional.ofNullable(questions)
+                .filter(list -> !list.isEmpty())
+                .map(list -> list.stream()
+                        .filter(q -> q.getId() == null)
+                        .map(this::saveQuestion)
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new IllegalArgumentException("Questions list cannot be null or empty"));
+    }
+
+    @Transactional
+    public List<TestQuestionDTO> saveMultipleQuestions(List<TestQuestionDTO> questions) {
+        return Optional.ofNullable(questions)
+                .filter(list -> !list.isEmpty())
+                .map(list -> list.stream()
+                        .map(this::saveQuestion)
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new IllegalArgumentException("Questions list cannot be null or empty"));
+    }
+
+    @Transactional
+    public List<TestQuestionDTO> updateMultipleQuestions(List<TestQuestionDTO> questions) {
+        return Optional.ofNullable(questions)
+                .filter(list -> !list.isEmpty())
+                .map(list -> list.stream()
+                        .filter(q -> q.getId() != null)
+                        .map(q -> updateQuestion(q.getId(), q))
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new IllegalArgumentException("Questions list cannot be null or empty"));
+    }
 }

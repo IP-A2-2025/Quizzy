@@ -100,4 +100,13 @@ public class TestAnswerController {
     public ResponseEntity<Long> countCorrectAnswersByTestId(@PathVariable Long testId) {
         return ResponseEntity.ok(testAnswerService.countCorrectAnswersByTestId(testId));
     }
+    @PostMapping("/bulk")
+    public ResponseEntity<Collection<TestAnswerDTO>> createAnswers(@RequestBody Collection<TestAnswerDTO> answers) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.createAnswers(answers));
+    }
+
+    @PostMapping("/bulk/save")
+    public ResponseEntity<Collection<TestAnswerDTO>> saveAnswers(@RequestBody Collection<TestAnswerDTO> answers) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(testAnswerService.saveAnswers(answers));
+    }
 }
