@@ -1,0 +1,148 @@
+***************Beginning Page***************
+***************page number:1**************
+Algontmul Rabln-Karp
+Algoritmul Rabin-Karp este 0 optimizare a algoritmului naiv. in cazul cel Inai nefavorabil, are
+timp de rulare péttrattic7 dar in practicé este deosebit de eﬁcient. Are avantajul c5 poate ﬁ usor
+generalizat de la siruri la matrice.
+Ideea in algoritmul Rabin-Karp este de a transforma pattern-ul7 precum si ﬁecare subsir de
+lungime m a1 textului7 in nuInere.
+Fie urmétorul exemplu:
+T = BABABXBABAB
+P = BABX
+Presupunétnd c5 lucréun cu alfabetul E I {A7 B, . . . , Z}7 asociem pattern-ului BABX numérul
+f(BABX) I 1 >< 263 + 0 >< 262 + 1 >< 26 + 23 :17625.
+Subsirurilor de m I 4 elemente de pe pozitii consecutive din text 1e asociern numerele:
+1. f(BABA) : 17602;
+2. f(ABAB) : 677;
+3. f(BABX) : 17625;
+4. s.a.m.d.
+Calculul functiei f se poate face eﬁcient7 in timp 0(m), folosind regula lui Hornet:
+f (S)
+{
+result = O;
+for i = O,m—1:
+result = result * 26 + S [i]
+return result;
+}
+Transformém algoritmul naiv in felul urmétor:
+X = f(P[O. .m-1])
+f or i = O ,n—m:
+if f(T[i. .i+m-11) == X
+return i
+return —1
+in algoritmul de mai sus facem n — m comparatii de numere.
+Prima problema este cé pentru a calcula f (T[i..i + m i 1]) facern m pasi7 astfel incémt algoritmul
+nostru incé nu este Inai rapid decét algoritmul naiv.
+Putem optimiza varianta de mai sus calculénd mai eﬁcient f(T[i + 1..i + 1 + m — 1]) pornind
+de la valoarea f(T[i..i + m — 1]). Cum?
+Ne folosim de faptul c5 T[i+1 . .i+1+m—1] si T [i . .i+m-1] partajeazé 111-2 simboluri:
+1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:2**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de siruri)
+
+. f(T[i..i +111 — 1]) I T[i] >< 26'"-1 +T[i + 1] >< 26””2 + . . . + T]i +m - 1] >< 260
+
+0 f(T[i + 1..i +m]) : T[i + 1] >< 26m—1 + T]i + 2] >< 26W2 + . . . +T[1 +m] >< 260
+
+Observarn ca f(T]i + 1..i + 1 + In 1 1]) I 26 >< (f(T]i..i + In 1 1]) *T[i] >< 26m’1)+T]i +m] ><
+260 si ne folosirn de aceasta identitate pentru a calcula rnai eﬁcient T[i. .i+m—1] la ﬁecare pas al
+algoritrnului:
+
+X = f(P[O. .m—1])
+y = f(T[O. .m—1l)
+for i = O,n—m:
+if y == X
+return i
+y = (y — T[i] * 26‘ (In-1)) * 26 + T[i+m]
+return —1
+
+ln ciuda aparentelor, algoritrnul inca nu este liniar, deoarece numerele cu care lucrarn au tot
+atatea cifre cate sirnboluri sunt in pattern. Din acest rnotiv, nu este rezonabil sa considerani ca
+operatiile (comparatii, adunari, inrnultiri, scaderi) cu aceste nurnere sunt in tirnp 0(1).
+
+Pentru a imbunatati complexitatea, vorn lucra doar cu restul impartirii acestor numere la q,
+un numar prim ales astfel incat calculele modulo q sa se poata face eficient:
+
+q = 23; // exemplu, poate fi orice numér prim
+fq(S)
+{
+result = O;
+for i = O,m—1:
+result = (result * 26 + S[il) Z q
+return result;
+}
+X = fq(P[O. .m—1l)
+y = fq(T[O..m-1l)
+for i = O,n—m:
+if y == X
+return i
+y = ((y + q — (T[i] * 26*(m-1)) % q) * 26 + T[i+ml) ‘Z q
+return —1
+
+Artiﬁciul (y + q — (T[i] * 26“ (In-1)) °A q) (in 10c de (y — (T[i] * 26“ (m-1)) ‘7° q)
+) este necesar deoarece in cele Inai Inulte lirnbaje de prograrnare functia care calculeaza restul
+impartirii nu este corecta pentru numere negative.
+
+Functia fq este o functie de dispersie (functie hash), deoarece transforma spatiul sirurilor cu m
+caractere in spatiul numerelor intre 0 si q—1. Deoarece se poate calcula eﬁcient fq(T[i + 1..i + 1 + In — 1])
+pornind de la valoarea fq(T]i..i + m — 1]), functia este un exemplu de rolling hash function.
+
+Algoritrnul de mai sus introduce 0 problema noua: potrivirile false. Deoarece spatiul sirurilor
+cu m caractere este in general rnai rnare decat spatiul nurnerelor intre O si q — 1, exista siruri
+diferite cu aceeasi valoare hash.
+
+ln exemplul nostru de mai sus, fq(BABA) = 7 si fq(BABX) = 7 (pentru q : 23). Din acest
+motiv, algoritrnul de Inai sus raporteaza 0 potrivire la pozitia O, desi patternul nu apare la pozitia
+0. O astfcl do pozitic, la care sc potrivcsc hash-urilc, dar nu subsirurilc, so numcstc potrivirc falsa.
+
+Pentru a evita potrivirile false, in algoritrnul Rabin-Karp testarn explicit egalitatea subsirurilor,
+dar doar in cazul in care hashurile se potrivesc:
+
+Universitatea Alexandru loan Cuza 2 Varianta preliminara
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:3**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de siruri)
+// Algoritmul Rabin-Karp
+q = 23; // exemplu, poate fi orice numér prim
+fq(S)
+{
+
+result = 0;
+
+for i = O,m—1:
+
+result = (result * 26 + S[i]) ‘Z, q
+
+return result;
+}
+x = fq(P [0. .m-1])
+y = fq(T [0. .m—1])
+for i = O,n—m:
+
+if y == X
+
+if P[O..m—1] == T[i..i+m—1] // (*)
+return i
+
+y = ((y + q — (T[i] * 26*(m-1)) % q) * 26 + T[i+m]) ‘Z q
+return —1
+
+in cel mai nefavorabil caz, testul din if-ul interior (marcat cu (*)) se va executa 1a ﬁecare
+pas si in acest caz algoritmul Rabin-Karp nu este mai eﬁcient asimptotic decémt algoritmul naiv.
+Totusi7 pentru valori ale lui q bine alese, se poate argumenta 0:1 in media algoritmul Rabin-Karp
+este liniar.
+Universitatea Alexandru Ioan Cuza 3 Varianta preliminaré
+
+***************Ending Page***************
+
+

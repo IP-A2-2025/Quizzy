@@ -1,0 +1,337 @@
+***************Beginning Page***************
+***************page number:1**************
+ALGEBRAIC FOUNDATIONS
+of COMPUTER SCIENCE
+ieciures by Ferucio Laurentiu Tiplea
+
+ngs and Fields
+
+Part ||| — Applications in cryptography
+
+Prof.dr. Ferucio Laurentiu Tiplea
+
+Spring 2022
+
+Department of Computer Science
+
+“Alexandru loan Cuza" University of lagi
+
+la5i 700506, Romania
+
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Advanced Encryption Standard (AES)
+AES description
+AES security
+Reading and exercise guide
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Advanced Encryption Standard
+(A ES)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+AES — a bit of hystory
+
+1. On January 2, 1997, the American National Institute for Standards
+and Technology (NIST) invited cryptographers from all over the
+world to develop candidates for a new standard for the protection of
+sensitive electronic information;
+
+2. Twenty-one teams of cryptographers from 11 countries submitted
+candidates;
+
+3. On October 2, 2000, the winner was announced: the algorithm
+Rijndael (pronounced “Rhine-dahl"), designed by two Flemish
+researchers, Joan Daemen and Vincent Rijmen. Strong points:
+
+o a simple and elegant design;
+o efficient and fast on modern processors, but also compact in
+hardware and on smartcards;
+
+4. On November 26, 2001, Rijndael was officially published as the
+Advanced Encryption Standard (AES).
+
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 2 / 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+AES description
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+AES description
+AES processes data blocks of 4 >< m >< 8 bits using a key of 4 >< k x 8
+bits, where m, k € {4,6,8}, as follows:
+
+o first, the data block is divided into groups of 8 bits each (called
+bytes), obtaining in this way an array of bytes which is then
+organized as a 4 >< m matrix
+
+b0 b4 b4m-4
+b1 b5 b4m43
+b2 be b4m42
+b3 b7 b4m—1
+
+0 the matrix obtained as above is considered as a plaintext symbol of
+the cryptosystem. lt is encrypted by performing a set of
+transformations on it. The result is a 4 >< m matrix 0f bytes as well.
+
+Prof_dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 3/ 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+AES description
+In Rijndael, bytes are represented in various ways:
+o as sequences of 8 bits, or
+0 as 8-dimensi0nal (row) vectors over Z2, or
+0 as sequences of two hexadecimal digits.
+For example, the following notations refer to the same byte:
+00111101, (0,0,1,1,1,1,0,1), (3d)h
+(“-”()h stands for the hexadecimal notation).
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 4/ 16
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+AES description
+0 77 : C : M4Xm(Zg), where m 6 {4,6,8};
+o IC I WIN/((22), where k G {4,6,8};
+o For any K € K,
+6K: 772,70 TKn110"'O TKlO Til-<0
+and
+_ if 41 41 i
+dK - TKO o TK1 0---0 TKn_1o TKn
+0 n denotes the number of rounds to be performed during the
+execution of the algorithm. It is dependent on the key and block
+length
+k I 4 10 12 14
+k : 6 12 12 14
+k I 8 14 14 14
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 5/ 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+AES description
+o T2, T2, and TZ’r are transformations given by:
+0 T2 I Az,
+o Tz:AZoMcoShO$,
+O TZfIAZOShOS,
+for any Z € M4><m(Zg).
+o A2, called the AddRoundKey transformation, is just a simple bitwise
+XOR operation extended to matrices. That is,
+for any X € MMMZZ), 0 g i g 3 and 0 gj g m — 1. We simply
+write A2(X) : X QB Z;
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 6/ 16
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+AES description
+0 S, called the SubBytes transformation, is a non-linear byte
+substitution that operates independently on each byte of the input
+matrix. It uses a substitution table that can be computed by
+where
+1 O 0 O 1 1 1 1 1
+1 1 O O O 1 1 1 1
+1 1 1 0 0 O 1 1 O
+1 1 1 1 1
+M1 : O O O , C : O 7
+1 1 1 1 1 O 0 O O
+0 1 1 1 1 1 0 O 1
+O O 1 1 1 1 1 0 1
+O O 0 1 1 1 1 1 0
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 7/ 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+AES descrlptlon
+
+and
+
+X(i j), _ (0., 0, 0, 0, 0, 0,0, 0) , If X(I,j) 2 (00),,
+l (X(i,j)’1)t, otherwise
+(the inverse is in the finite field GF(28) with the irreducible
+polynomial x8 -l— x4 —l— x3 —l— x —l— 1 E Z2[X]).
+_
+II!’II him-III
+
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 8 / 16
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+AES description
+0 Sh, called the ShiftRows transformation, cyclically shifts the rows of
+the input matrix over different numbers of positions (offsets). The
+ith row is shifted over C,- : i positions (i:0,1,2,3)
+/-\
+@ji”
+@
+@B)
+Formally, we may write
+Sh(X)(/',j) : X(i, (j + Ci) mod m),
+foranyX€M4Xm(Zg),0§i§3and0§j§m—1;
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 9 / 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+AES description
+0 Mc, called the MiXColumns transformation, treats each column as a
+polynomial over GF(28) and multiplies it modulo X4 + l with a fixed
+polynomial a(x) given by:
+8(X) z (03),“3 + (01)h><2 + (01),,X + (02);,.
+This transformation can be written as a matrix multiplication in
+GF(28)[X],
+Mc(X) I M2 0 X7
+Where
+(02);, (03);, (01);, (01);,
+M i (01);; (02% (03% (01%
+2 _
+(01);, (01);, (02);, (03);,
+(03);, (01);, (01);, (02);,
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science- Rings and Fields Spring 2022 10/ 16
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+AES description
+The matrix M2 is invertible and its inverse is
+(06);, (013)}, (0d)h (09);,
+M-1 : (09% (06% (0b)h (0dlh
+2 (0(1),, (09),, (06% (Ob),,
+(013)}, (0d)h (09)h (06);,
+The transformation is pictorially represented by
+/ \
+a!“ a!“
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 11 / 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+AES description
+0 T51 and Tgf are transformations given by:
+o Tgl : Amt-1(2) o Mc_1 0 Sh_1 o 5-1
+0 Tgf I AZ o Sh’1 O Sil,
+for any Z G M4><m(Zg).
+The transformations 5, Sh, and ll/lc are invertible;
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 12 / 16
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+AES description
+K0, . . r , Kn, called round keys, and obtained as follows:
+0 define first W0, W1, . . ., Wm(,,+1)_1 by
+o l/l/;:K(—,i),forany0§i§k—l;
+o Vl/,- : Vl/,-_k 69 T(Vl/,-_1), Where:
+SB(RB(W)) e Rcon(i//<), if i mod k I 0
+T(W) : $B(W), l-f k > 6 and
+I mod k : 4
+W, otherwise
+RB((20721722,23)t) I (21722,Zs,ZO)t
+55((20721,zo,23)t) I (5(20), 5(21), 5(22)7 5(23))t
+Rconm I (RC0), (00%, (00m <00»)
+RC(1) : (01);, and RC(/) : x0 RC(i — 1), Vk g i g m(n+ l) — l
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 13/ 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+AES security
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+AES security
+AES Security:
+
+0 Asiacrypt 2002: Nicolas Courtois and Josef Pieprzyk showed that
+Rijndael can be written as an over-defined system of multivariate
+quadratic equations (MQ). For example authors showed that for
+128-bit Rijndael, the problem of recovering the secret key from one
+single plaintext can be written as a system of 8000 quadratic
+equations with 1600 binary unknowns;
+
+o If Shamir's XL algorithm would work for efficiently solving large
+systems of equations, then attacking Rijndael by such a method
+would require only a few known plaintexts to succeed;
+
+o XL and XSL attacks do work in many interesting cases.
+Unfortunately they are heuristic, and their behavior is not well
+understood. There are examples where these or similar attacks do
+behave in practice as it is predicted, and there are examples where
+they do not.
+
+Prof_dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 14/ 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Reading and exercise guide
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Reading and exercise guide
+Course readings:
+1. Pages 343-349 from textbook [1].
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 15 / 16
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+References
+[1] Ferucio Laurentiu Tiplea. Algebraic Foundations of Computer Science. “Alexandru loan Cuza"
+University Publishing House, lasi, Romania, second edition, 2021.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Rings and Fields Spring 2022 16 / 16
+
+***************Ending Page***************
+
+
+
+
+

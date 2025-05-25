@@ -1,0 +1,2677 @@
+***************Beginning Page***************
+***************page number:1**************
+Gavrilut Dragos
+0 O P Course 7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+b Standard Template Library (STL)
+> Sequence containers
+b Adaptors
+SU m m a ['y b Associative containers
+b l/O Streams
+b Strings
+\ b Initialization lists
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Standard Template
+> Library (STL)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+STL (Standard Template Library)
+> A set of templates that contains:
+> Containers (class templates that may contain other classes)
+> lterators (pointer used for template iteration)
+> Algorithms (functions that can be called for a container)
+> Adaptors
+> Allocators
+> Others
+b To use an STL template, we have to include the header(s) where that
+template is defined.
+b STL object can be initialized in the following way: (“vector<int> x”) if we
+use “using namespace stdg”, or using their full scope definition
+(“stdz :vector<int> x”) otherwise.
+b There may be various implementation of STL objects. As these
+implementation are compiler specific, their performance varies fr on
+compiler to another.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+STL-Containere
+b Sequence containers
+> vector
+> Array
+> list
+> forward_list
+> deque
+> Adaptors (stack, queue, priority_queue)
+> Associative containers
+> Ordered: set, multiset, map, multimap
+> Un-ordered: unordered_set, unordered_map, unordered_multiset,
+unordered_multimap
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Sequence
+> containers
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+STL - Vector
+b Vector = an unidimensional array for objects
+b Constructors:
+APP-CPP
+I‘ l-ll‘ l- ‘ d;
+void main(void)
+{
+vector<Type> v;
+vector<Type> v(Size);
+}—
+> Memory allocation / resizing is clone dynamically
+b Every object added in a vector is actually a copy of the original one
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+b Insertion in a vector is done using the following commands: push_back, insert
+b For deletion, we can use: pop_back, erase or clear
+b For reallocation: the resize and reserve methods
+b For access to elements: the index operator and the “at” method
+APP-CPD
+using namespace std;
+#include <vector>
+void main(void)
+{
+vector<int> v;
+v.push_back(1);v.push_back(2);
+int x = v[1];
+int y = v.at(0);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+APP-CPD
+using namespace std;
+#include <vector>
+class Integer
+{
+int Value;
+public:
+Integer() : Value(0) {}
+Integer(int v) : Value(v) {}
+Integer(const Integer &v) : Value(v.Value) {}
+void Set(int v) { Value = v; }
+int Get() { return Value; }
+};
+void main(void)
+{
+vect0r<Integer> v;
+Integer 1(5);
+v.push_back(i);
+i.Set(6);
+printf("i=%d,v[9]=%d\n", i.Get(), v[0].Get());
+}—
+After execution: i=6,v[0]=5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Example:
+APP-CPD
+class Integer
+{
+int Value;
+public:
+Integer() : Value(0) { printf("[%p] Default ct0r\n", this); }
+Integer(int v) : Value(v) { printf("[%p] Value ctor(%d)\n", this,v); }
+Integer(c0nst Integer &v) : Value(v.Value) { printf("[%p] Copy ctor from (%p,%d)\n",
+this, &v, v.Value); }
+Integer& operator= (const Integer& i) { Value = i.Value; printf("[%p] op= (%p,%d)\n",
+this, &i, i.Value); return *this; }
+void Set(int v) { Value = v; }
+int Get() { return Value; }
+};
+void main(void)
+{
+vector<Integer> v;
+Integer i(5);
+for (int tr = 0; tr < 5; tr++)
+{
+i.Set(1000 + tr);
+v.push_back(i);
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+STL - Vector
+
+Example:
+
+M—
+
+- [OO98FC90] Value ctor(5)
+
+tr=0 [OOD3A688] Copy ctor from (0098FC90,1000)
+
+tr=1 [OOD3A6C8] Copy ctor from (OOD3A688,1000)
+[OOD3A6CC] Copy ctor from (0098FC90,1001)
+
+tr=2 [OOD3A710] Copy ctor from (OOD3A6C8,1000)
+[OOD3A714] Copy ctor from (OOD3A6CC,1001)
+[OOD3A718] Copy ctor from (0098FC90,1002)
+
+tr=3 [OOD3A688] Copy ctor from (OOD3A710,1000)
+[OOD3A68C] Copy ctor from (OOD3A714,1001)
+[OOD3A690] Copy ctor from (OOD3A718,1002)
+[OOD3A694] Copy ctor from (0098FC90,1003)
+
+tr=4 [OOD3A6D8] Copy ctor from (OOD3A688,1000)
+[OOD3A6E8] Copy ctor from (0098FC90,1004)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+STL - Vector
+v.9ush backgi)
+
+v *
+
+\
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+STL - Vector
+v.9ush backgi)
+b Allocate space for
+c0unt+1 elements
+v
+\
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+STL - Vector
+v.9ush backgi)
+b Allocate space for
+c0unt+1 elements
+ltem[0] |tem[0] C / h f
+- - ’ °py MW“ e "St
+V ’ ltem[1] ltem[1] count elements in the
+ltem[2] ltem[2] new allocated space
+i - ltem[0]
+Copy-ctor/Move-
+ctor
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+STL - Vector
+v.gush backgi)
+b Allocate space for
+— count 1 elements
+‘m ltem[0] +
+v m“ ltem[1] > Copy/Move the first
+‘ count elements in the
+m ltem[2] new allocated space
+v _ .
+> Free the space used by
+i ltem[0] the current elements
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+STL - Vector
+v.push backgi)
+b Allocate space for
+c0unt+1 elements
+|tem[0] C / h f
+- > opy Move t e irst
+v ” ' ' a a 7 ltem[1] count elements in the
+ltem[2] new allocated space
+ltem[3] > Free the space used by
+i _ ltem[0] i the current elements
+b Copy/Move the new
+Copy / Move ctor Item Into the extra
+allocated space
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Test case:
+APP'1-CPP
+#de'Fine INTEGER_SIZE 1000
+class Integer
+{
+int Values[INTEGER_SIZE];
+public:
+Integer() { Set(0); }
+Integer(int value) { Set(value); }
+Integer(const Integer &v) { CopyFrom((int*)v.Values); }
+Integer& operator: (const Integer& i) { CopyFrom((int*)i.Values); return *this; }
+void Set(int value)
+{
+for (int tr = 0; tr < INTEGER_SIZE; tr++)
+Values[tr] = value;
+}
+void CopyFrom(int* lista)
+{
+for (int tr = 0; tr < INTEGER_SIZE; tr++)
+Values[tr] = lista[tr];
+}
+void Set(const Integer &v)
+{
+CopyFrom((int*)v.Values);
+}
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Test case:
+Vec-1.cpp Vec-2.cpp
+void main(void) void main(void)
+{ {
+vector<Integer> v; vector<Integer> v;
+Integer i; Integer i;
+For (int tr = 0; tr < 100000; tr++) v.reserve(100000);
+{ for (int tr = 0; tr < 100000; tr++)
+i.Set(tr); {
+v.push_back(i); i.Set(tr);
+} v.push_back(i);
+} }
+}
+Ptr-1.cpp
+void main(void) Ptr-2.cpp
+{
+Integer *v = new Integer[100000]; VOid main(void)
+Integer i; {
+for (int tr = 9; tr < 199999; tr++) Integer **v = new Integer*[100000];
+{ for (int tr = 0; tr < 100000; tr++)
+i.Set(tr); {
+v[tp]_5et(i); v[tr] = new Integer(tr);
+} }
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+STL - Vector
+The study was conducted in the following way:
+b Each of the 4 applications was executed for 10 time. Execution time was
+measured in milliseconds.
+> Execution time was divided into two times: time needed to initialize the
+container and the time needed to add the data into the container.
+APP'1-¢PP
+void main(void)
+{
+Integer i;
+{
+}—
+> All of these tests were conducted using the following specifications:
+> OS: Windows 8.1 Pro
+> Compiler: cl.exe [18.00.21005.1 for x86]
+> Hardware: Dell Latitude 7440 - i7 - 4600U, 2.70 GHz, 8 GB RAM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+STL - Vector
+Results:
+Vec- lnit 0 0 0 0 0 0 0 0 0 0
+1 Set 1985 1922 1937 1922 1922 1953 1937 1938 1922 1922
+Vec- Init 140 125 157 125 109 110 110 109 110 110
+2 Set 531 515 515 516 516 515 531 516 515 500
+Ptr- Init 406 359 360 375 359 360 359 359 359 360
+1 Set 485 485 468 469 485 468 469 485 469 484
+Ptr- lnit 0 0 0 0 0 0 0 0 0 0
+2 Set 422 453 453 437 375 391 390 375 375 375
+b Vec-1,Vec-2,Ptr-1,Ptr-2 9 the 4 methods previously described
+b “lnit” 9 the series of times recorded when we initialize the container
+b “Set” 9 the series of times needed to add the data in in container
+b T1 .. T10 9 result times
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Results:
+Average execution time
+
+2000
+
+1800
+
+1600
+
+1400
+
+1200
+
+1000
+
+800
+
+600
+
+400
+
+200
+
+° Vec-1 Vec-Z Ptr-1 Ptr-2
+I Init 0 120.5 365.6 O
+I Set 1936 517 476.7 404.6
+Ilnit ISet
+
+b Vec-1,Vec-2,Ptr-1,Ptr-2 9 the 4 methods previously described
+b “Init” 9 the series of times recorded when we initialize the contai r
+b “Set” 9 the series of times needed to add the data in in con ner
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+APP'1-CPP
+void main(void) {
+vector<int> v;
+b Let’s consider the following code: *°'" (“t t" = 93 t? < 10005 tr“) {
+v.push_back(0),
+. pr'ntf("Elem: %4d, Allocated: %4d\n", .s' e(), .capac't ());
+b If we run this code on g++, clang } 1 V 12 V 1 y
+and cl.exe (Microsoft) }
+I
+b The results show that the 128
+allocation strategy is 112
+different depending on the 96
+compiler. 80
+b Clang/G++ prefers powers 64 \
+of 2. 48 ’
+32
+16
+0 ‘PRO \OCbN OO VNC) \OON co who \OON OO who
+—CL —GCC/Clang
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+b To iterate through all of the elements stored in a vector we can use iterators. An
+iterator is a special object (similar to a pointer)
+APP-CPD
+void main(void)
+{
+vector<int> v;
+v.push_back(1); v.push_back(2); v.push_back(3); v.push_back(4); v.push_back(5);
+vector<int>zziterator it;
+it = v.begin();
+while (it < v.end())
+{
+printf("%d ", (int)(*it));
+it++;
+}
+}—
+b lterators work by overloading the following operators:
+o operator++ , operator-- (to go forward/ backwards within the container)
+o Pointer related operators (operator->) to gain access to an element from th container
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+> In this example access to elements is done via operatoré
+b vector template also provides two methods: front and back that allows
+access to the first and last elements stored.
+APP-CPD
+class Number
+{
+public:
+int Value;
+Number() : Value(0) {}
+Number(int val) : Value(val) {}
+};
+void main(void)
+{
+vector<Number> v;
+v.push_back(Number(1)); v.push_back(Number(2)); v.push_back(Number(3));
+v.push_back(Number(4)); v.push_back(Number(5));
+vector<Number>zziterator i = v.begin();
+printf("%d\n", i->Va1ue);
+printf("%d\n", (i + 2)—>Value);
+printf("%d %d", v.fr0nt().Value, v.back().Value);
+}
+b This example will print on the screen: 1 3 1 5
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+b vector template also provides a special iterator (called reverse_iterator)
+that allows iterating/ moving through the elements of the vector in the
+reverse order.
+
+APP-CPD
+class Number
+{
+void main(void)
+{
+vector<Number> v;
+v.push_back(NumbeP(1)); v.push_back(Number(2)); v.push_back(Number(3));
+v.push_back(Number(4)); v.push_back(Number(5));
+vector<Number>zziterator it;
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+vect0P<NumbeP>z:Peverse_iterator Pit;
+for (Pit = v.rbegin(); Pit != v.rend(); rit++)
+printf("%d ", Pit->Va1ue);
+}
+> This example will print: “12 3 4 5 5 4 3 2 1”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+b Inserting elements in a vector:
+APP-CPP
+class Number
+{
+void main(void)
+{
+vecton<Number> v;
+v.push_back(Number(1)); v.push_back(Number(2)); v.push_back(Number(3));
+v.push_back(Number(4)); v.push_back(Number(5));
+vecton<Number>zzitenaton i = v.begin();
+v.insent(i + 2, Numben(10));
+while (i < v.end())
+{
+pnintf("%d,", i->Value);
+i++;
+}
+}
+> This example will print: 1,2,1 ,3,4,5
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+b Deleting an element from the vector: ( v.erase(iterator) )
+APP-CPP
+class Number
+{
+void main(void)
+{
+vector<Number> v;
+v.push_back(Number(1)); v.push_back(Number(2)); v.push_back(Number(3));
+v.push_back(Number(4)); v.push_back(Number(5));
+vector<Number>zziterator i = v.begin();
+v.erase(i+2);
+v.erase(i+3);
+while (i < v.end())
+{
+printf("%d,", i->Value);
+i++;
+}
+}—
+> This example will print: 1,2,4
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+b This code compiles. However, keep in mind that after an element is deleted, an
+iterator can be invalid. As a general rule, don’t REUSE an interator after it was
+deleted like in the next example: “v.erase(i+ 1)”
+
+APP-CPD
+class Number
+{
+void main(void)
+{
+vector<Number> v;
+v.push_back(NumbeP(1)); v.push_back(Number(2)); v.push_back(Number(3));
+v.push_back(Number(4)); v.push_back(Number(5));
+vector<Number>zziterator i = v.begin();
+v.erase(i);
+v.erase(i+1);
+while (i < v.end())
+{
+printf("%d,", i->Va1ue);
+i++;
+}
+}—
+b During the execution, an exception will be triggered on “v.erase(i+ 1)”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+b To fix the previous problem, we don’t re-use an iterator when we delete an
+element. Instead, we compute an iterator in place (using v.begin() to do
+this).
+
+APP-CPD
+class Number
+{
+void main(void)
+{
+vector<Number> v;
+v.push_back(Number(1)); v.push_back(Number(2)); v.push_back(Number(3));
+v.push_back(Number(4)); v.push_back(Number(5));
+v.erase(v.begin());
+v.erase(v.begin()+1);
+vector<Number>zziterator i = v.begin();
+while (i < v.end())
+{
+printf("%d,", i->Va1ue);
+i++;
+}
+}
+P I HIS Can compiles and WOI'RS correctly.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+> Other operators that are overwritten are relationship operators (>, < , !=, ...)
+b Two vectors are_considered to be equals if they have the same number of elements
+and elements With the same index in those two vectors are equal.
+APP-CPD
+class Number
+{
+};
+void main(void)
+{
+vector<Number> v1;
+vector<Number> v2;
+for (int tr = 0; tr < 10; tr++)
+{
+v1.push_back(NumbeP(tP));
+v2.push_back(NumbeP(tP));
+}
+if (v1 == v2)
+printf("V1 is equal with V2");
+else
+printf("V2 is different than V2");
+}
+b This example will not compile as Number does not have an operator = defined !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+b Make sure that you define operator== as const. vector template requires a
+const operator== to work.
+b This code will not compile.
+APP-CPD
+class Number
+{
+bool operator==(const Number &n1) { return Value == n1.Value; }
+};
+void main(void)
+{
+vector<Number> v1;
+vector<Number> v2;
+for (int tr = 0; tr < 10; tr++)
+{
+v1.push_back(Number(tr));
+v2.push_back(Number(tr));
+}
+if (v1 == v2)
+printf("V1 is equal with V2");
+else
+printf("V2 is different than V2");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+b Now this code compiles and work as expected.
+b You can also replace operator== with a friend function with the following
+syntax: “bool friend operator== (const Number & n1, const Number & n2);“
+APP-CPD
+class Number
+{
+bool operator==(const Number &n1)-{ return Value == n1.Value; }
+};
+void main(void)
+{
+vector<Number> v1;
+vector<Number> v2;
+for (int tr = 0; tr < 10; tr++)
+{
+v1.push_back(Number(tr));
+v2.push_back(Number(tr));
+}
+if (v1 == v2)
+printf("V1 is equal with V2");
+else
+printf("V2 is different than V2");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+b For < and > compare operations, vector template uses the following
+algorithm (see the pseudo-code below) to decide if a vector is bigger/ smaller
+than another one.
+
+Pseudocode
+. APP-CPD
+Function IsSmaller (Vector v1, Vector v2)
+Size = MINIM(v1.Size, v2.Size) void main(void)
+for (i=9; i<Size; i++) {
+if (v1[i] < v2[i]) vector<int> v1;
+return "v1 is smaller than v2"; vector<int> V23
+end if
+end for v1.push_back(10);
+if (v1,size < v2,size) v2.push_back(5); v2.push_back(20);
+return "v1 is smaller than v2";
+end if if (v2 < v1)
+return "v1 is NOT smaller than v2"; printf("v2<v1");
+End Function }
+
+b One important observation here is that operator> is not needed (only
+operator< is needed to decide).
+
+b The previous code will print “v2<v1 ” (even if “v2” has two elements,
+“v1 ” only one).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+b Let’s analyze the following example:
+APP-CPD
+class Number
+{
+bool operator<(const Number &n1) const { return Value < n1.Value; }
+};
+void main(void)
+{
+vector<Number> v1;
+vector<Number> v2;
+v1.push_back(Number(1)); v1.push_back(Number(2)); v1.push_back(Number(3));
+v2.push_back(Number(1)); v2.push_back(Number(2)); v2.push_back(Number(4));
+if (v1 < v2)
+printf("OK");
+else
+printf("NOT-OK");
+}—
+b This code compiles and upon execution prints “OK” on the screen as v1 =3
+and v2[2]=4, and 3<4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+b This code will not compile as operator< is not defined.
+APP-CPD
+class Number
+{
+bool operator>(const Number &n1) const { return Value < n1.Value; }
+};
+void main(void)
+{
+vector<Number> v1;
+vector<Number> v2;
+v1.push_back(Number(1)); v1.push_back(Number(2)); v1.push_back(Number(3));
+v2.push_back(Number(1)); v2.push_back(Number(2)); v2.push_back(Number(4));
+if (v1 > v2)
+printf("OK");
+else
+printf("NOT-OK");
+}—
+b vector template requires operator< to be defined in class Number. Sim‘ rly,
+operator!= is not needed, only operator== is.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+b You can also copy the values from one vector into another.
+APP-CPD
+class Number
+{
+}; ...
+void main(void)
+{
+vector<Number> v1;
+vector<Number> v2;
+v1.push_back(Number(1)); v1.push_back(Number(2)); v1.push_back(Number(3));
+for (int i = 0; i < v2.size(); i++)
+printf("%d ", v2[i].Value);
+}
+> This code compiles and prints 1 2 3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+b The following methods from template vector can be used to obtain different
+information:
+> size() 9 the amount of elements stored in the vector
+> capacity() 9 the pre-allocated space in the vector
+> max_size() 9 maximum number of elements that can be stored in the vector
+> empty() 9 returns “true” if the current vector has no elements
+> data() 9 provides direct access (a pointer) to all of the elements in the vector.
+APP-CPP
+class Number { ... };
+void main(void)
+{
+vector<Number> v;
+v.push_back(Number(9)); v.push_back(Number(1));
+printf("%d ", v.max_size());
+pnintf("%d ", v.size());
+pnintf("%d ", v.capacity());
+Number *n = v.data();
+pnintf("[%d %d]", n[0].Va1ue, n[1].Va1ue);
+}
+é
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+STL - Deque
+b The “deque” template is very similar to “vector”.
+> The main different is that elements don't have consecutive memory
+addresses. That is why the “data” method is not available for a deque. This
+also goes for the “reserve” and “capacity” methods.
+b But deque has new methods (push _front and pop _front)
+b The rest of the methods behave just like the ones in the “vector” class
+I b ln order to use a deque: “#include <deque>”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+STL - Deq ue
+This is an illustrative picture that shows the difference between vector and
+deque. It should be NOTED that this is but am illustrative picture and does not
+reflect how the algorithms actually work.
+Object 1 ptr to Object 1 Object 4
+Ob' Ob'
+J Object 2 J ptr to Object 2 b —
+Object 3 ptr to Object 3 'v* —
+Object 4 ptr to Object 4 Object 3
+Object 5 ptr to Object 5 Object 1
+Object 5 r
+Object 2 I
+Vector Deque —
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Let’s retest the previous algorithm - this time we will use deque as well.
+Vec-1.cpp Vec-2.cpp
+void main(void) void main(void)
+{ {
+vector<Integer> v; vector<Integer> v;
+Integer i; Integer i;
+for (int tr = 0; tr < 100000; tr++) v.reserve(100000);
+{ for (int tr = 0; tr < 100000; tr++)
+i.Set(tr); {
+v.push_back(i); i.Set(tr);
+} v.push_back(i);
+} }
+}—
+Deq-1.cpp
+void main(void)
+{
+deque<Integer> v;
+Integer i;
+for (int tr = 0; tr < 100000; tr++)
+{
+i.Set(tr);
+v.push_back(i);
+}
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+STL - Deque
+Results:
+Vec- lnit 0 0 0 0 0 0 0 0 0 0
+1 Set 1985 1922 1937 1922 1922 1953 1937 1938 1922 1922
+Vec- Init 140 125 157 125 109 110 110 109 110 110
+2 Set 531 515 515 516 516 515 531 516 515 500
+Deq lnit 0 0 0 0 0 0 3509 0 0 0
+'1 Set 687 657 656 640 656 640 656 641 641 640
+b Vec-1 and Vect-Z 9 two methods using vector
+b Deq-1 9 same algorithm using deque
+b “lnit” 9 the series of times recorded when we initialize the container
+b “Set” 9 the series of times needed to add the data in in container
+b T1 .. T10 9 result times
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+STL - Deque
+Results: Execution time
+2000
+1800
+1600
+1400
+1200
+1000
+800
+600
+400
+200
+O Vec-1 Vec-2 Deq-1
+Ilnit 0 120.5 0
+ISet 1936 517 651.4
+Ilnit ISet
+b Vec-1 and Vect-Z 9 two methods using vector
+> Deq-1 9 same algorithm using deque
+b “lnit” 9 the series of times recorded when we initialize the conta' er
+> “Set” 9 the series of times needed to add the data in in con ner
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+STL - Array
+
+b The “array” template has been introduced in the C++11 standard.
+
+> It represents a fixed size vector
+
+b lt has almost the same support as the vector class (iterators, overloaded
+operators, etc)
+
+b lt doesn't have any add methods (having a fixed size, it doesn't need them)
+
+b For the same reason, it doen't have any methods that can be used to erase an
+element
+
+b lt has some methods that vector doesn not have (e.g. fill)
+
+b ln order to use an array: “#include <array>”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+b An example on how to use array template:
+APP-CPP
+class Number
+{
+void main(void)
+{
+array<Number,5> v;
+v.fill(Number(2));
+for (int tr = 0; tr < v.size(); tr++)
+printf("%d ", v[tr].Va1ue);
+for (array<Number, 5>::iterator it = v.begin(); it < v.end(); it++)
+it->Value = 19;
+printf("%d ", v.at(3).Va1ue);
+}
+b In case of array template, the size is predefined 9 this means that is
+somehow equivalent to a vector template that is initialized with u ' g
+resize() method.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+STL - Array & vector
+b Both array and vector have 2 ways of accessing elements: the [] operator
+and the “at” method
+> They both return an object reference and have 2 forms:
+O Type& operator[](size_type)
+O const Type& operator[](size_type) const
+O Type& at(size_type)
+O const Type& at(size_type)
+O size_type is defined as size_t (typedef size_t size_type;)
+b There are differences between these two implementations that will be
+discussed in the next slides
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+STL - Array & vector
+b Let’s see how operator[] and method “at” are defined ?
+APP-CPP APP-CPD
+reference at(size_type _Pos) reference operator[](size_type _POS)
+{ {
+if (_Size <= _Pos)
+_Xran();
+return (_Elems[_Pos]);
+}—
+_Ana1ysis_assume_(_Pos < _Size);
+return (_Elems[_Pos]);
+}
+with
+#define _Ana1ysis_assume_(expr) // for release
+Compile method Value of _lTERATOR_DEBUG_LEVEL
+Release O
+Release (_SECURE_SCL) 1
+Debug 2
+/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+STL - List
+
+b The “list” template is a doubly-linked list
+
+> Elements do not share a contiguous memory block
+
+b Element access is possible only by moving through the list using iterators. The
+first and last element are easier to access
+
+b The list iterator doesn't implement the < operator - the elements aren't
+stored in consecutive memory addresses, and so this type of comparison
+between these addresses is pointless. It does, however, implement the ==
+operator.
+
+b The list iterator does not implement the + and - operators; only ++ and -- are
+implemented
+
+b Methods used to add elements: push_back and push_front
+
+> To remove elements: erase, pop_front, or pop_back can be used
+
+b It supports a series of new methods: merge, splice (work with other ' ts)
+
+> In order to use a list: “#include <list>”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+b An example of using the list template
+APP-CPP
+class Number { ... };
+void main(void)
+{
+list<Number> v;
+v.push_back(Number(0)); v.push_back(Number(1)); v.push_back(Number(2));
+v.push_front(Number(3)); v.push_front(Number(4)); v.push_front(Number(5));
+list<Number>zziterato ° '
+for‘ (it = v.begin();*it++)
+printf("%d ", 1 — Va ue ;
+it = v.begin()+3;
+v.insert(it, Number(20));
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+it = ++v.begin();
+v.erase(it);
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+}
+b This code will not compile as the list template does not have operator and
+operator> defined.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+b An example of using the list template
+APP-CPP
+class Number { ... };
+void main(void)
+{
+list<Number> v;
+v.push_back(Number(0)); v.push_back(Number(1)); v.push_back(Number(2));
+v.push_front(Number(3)); v.push_front(Number(4)); v.push_front(Number(5));
+list<Number>zziterator it;
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+v.inser 1 , ‘um-er(20));
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+it = ++v.begin();
+v.erase(it);
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+}
+b This code will not compile as the list template does not have operator defined.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+b An example of using the list template
+APP-CPP
+class Number { ... };
+void main(void)
+{
+list<Number> v;
+v.push_back(Number(0)); v.push_back(Number(1)); v.push_back(Number(2));
+v.push_front(Number(3)); v.push_front(Number(4)); v.push_front(Number(5));
+list<Number>zziterator it;
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+it = v.begin();it++;it++;it++;
+v.insert(it, Number(20));
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+it = ++v.begin();
+v.erase(it);
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+}
+b Now the code compiles and prints: “5 4 3 0 1 2 5 4 3 20 0 1 2 5 3 2 1 2“
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+STL - Forward List
+
+b The “forward_list” template is a single linked list container. It has been
+added in the C++11 standard
+
+> It respects almost the same logic as in the case of the doubly linked list.
+
+b The iterator doesn't overload the -- operator, only ++ (the list is
+unidirectional)
+
+b Some methods that list has are no longer found here: push_back and
+pop_back
+
+b ln order to use a forward_list: “#include <forward_list>”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+b An example of using the forward_list template
+APP-CPP
+class Number { ... };
+void main(void)
+{
+forward_list<Number> v;
+v.push_front(Number(0)); v.push_front(Number(1)); v.push_front(Number(2));
+forward_list<Number>::iterator it;
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+it = v.begin();
+it++; it++;
+v.insert_after(it, Number(20));
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+it = ++v.begin();
+v.erase_after(it);
+for (it = v.begin(); it != v.end(); it++)
+printf("%d ", it->Va1ue);
+}
+b Now the code compiles and prints: “2 1 0 2 1 0 20 2 1 20“
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+STL
+
+Access operator[] operator[] operator[] .front() .front()
+.at() .at() .at() .back()
+.front() .front() .front()
+.back() .back() .back()
+.data() .data()
+
+lterators .begin() .begin() .begin() .begin() .begin()
+.end() .end() .end() .end() .end()
+
+Reverse .rbegin () .rbegin () .rbegi n () .rbegin ()
+
+Iterator .rend() .rend() .rend() .rend()
+
+Information .empty() .empty() .empty() .empty() .empty()
+.size() .size() .size() .size() .max_size()
+.max_size() .max_size() .max_size() .max_size()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Size/ .resize() .resize() .resize() .resize()
+Capacity .reserve()
+.capacity()
+Add .push_back() .push_back() .push_back() .push_front()
+.insert() .push_front() .push_front() .insert_after()
+.insert() .insert()
+Delete .clear() .clear() .clear() .clear()
+.erase() .erase() .erase() .pop_front()
+.pop_back() .pop_back() .pop_back() .erase_after()
+.pop_front() .pop_front()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+m’ Adaptors
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+STL - Adaptors
+b Adaptors are not containers - in the sense that they do not have an
+implementation that can store, they use an existing container that have this
+feature for storage
+> Adaptors only work if the container that they use implement some specific
+functions
+b Adaptors do NOT have iterators, but they can use iterators from the container
+that they use internally
+b Adaptors:
+O stack
+O queue
+o priority_queue
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+STL - Stack
+b This adaptor implements a stack (LIFO - Last In First Out)
+b To use : “#include <stack>”
+b The default container is “deque” (in this example “s” uses deque while “sZ”
+uses vector)
+APP-CPP
+void main(void)
+{
+stack<int> s;
+s.push(10); s.push(20); s.push(39);
+stack<int, vector<int>> 52;
+52.push(10); 52.push(20); 52.push(30);
+}
+> Has the following methods: push, pop, top, empty, size
+> It also implements a method called “_Get_container” that can be used
+create iterators based on the container that is being used internally.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+STL - Queue
+b This adaptor implements a queue (FIFO - First In First Out)
+b To use : “#include <queue>”
+b The default container is “deque” (in this example “s” uses deque while “sZ”
+uses list)
+APP-CPP
+void main(void)
+{
+queue<int> s;
+s.push(10); s.push(20); s.push(39);
+queue<int, list<int>> 52;
+52.push(10); 52.push(20); 52.push(30);
+}
+> Has the following methods: push, pop, back, empty, size
+> It also implements a method called “_Get_container” that can be used
+create iterators based on the container that is being used internally.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+STL - Priority Queue
+> This is a queue where each elements has a priority. All elements are sorted out based
+on their priority (so that the element with the highest priority is extracted first).
+b To use : “#include <queue>”
+> The default container is “vector”
+APP-CPD
+void main(void)
+{
+priority_queue<int> s;
+s.push(19); s.push(5); s.push(20); s.push(15);
+while (s.empty() == false)
+{
+printf("%d ", s.top());
+S-popO;
+}
+}—
+> This code prints: “20 15 10 5”
+> Has the following methods: push, pop, top, empty, size
+> It also implements a method called “_Get_container” that can be used t create
+iterators based on the container that is being used internally.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+b A priority_queue can be initialized with a class that has to implement
+“operator()”. This operator is used to compare two elements (it should return
+true if the first one is smaller than the second one).
+
+APP-CPD
+class CompaneModule
+{
+int modValue;
+public:
+CompaneModule(int v) : modValue(v) {}
+bool openaton() (const int& v1, const int& v2) const
+{
+return (v1 % modValue) < (v2 % modValue);
+}
+};
+void main(void)
+{
+pnionity_queue<int, vector<int>, CompaneModule> s(CompareModule(3));
+s.push(10); s.push(5); s.push(29); s.push(15);
+while (s.empty() == false)
+{
+printf("%d ", s.top());
+S-p0p();
+}
+}
+> This example prints: “5 20 10 15” ;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+STL - Adaptors
+-——EE—
+push Container.push_back Container.push_back Container.push_back
+pop Container.pop_back Container.pop_front Container.pop_back
+top Container.back Container.front
+back Container.back
+
+size Container.size Container.size Container.size
+empty Container.empty Container.empty Container.empty
+stack YES YES YES
+
+queue YES YES
+
+priority_queue YES YES
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Associative
+> containers
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+STL (associative contai ners - pai r)
+b “pair” is a template that contains two values (two different types)
+b For use “#include <utility>”
+b Two objects of type pair can be compared because the = operator is
+overloaded
+b lt’s internally used by associative containers
+> The declaration of pair template:
+APP-CPP
+template <class T1, class T2>
+struct pair
+{
+T1 first;
+T2 second;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+STL (associative contai ners - map)
+
+b Map is a container that store pairs of the form: key/value; the access to the
+value field can be done using the key
+
+b For use “#include <map>”
+
+b The key field is constant: after a key/value pair is added into a map, the key
+cannot be modified - only the value can be modified. Other pairs can be
+added and existing pairs can be deleted.
+
+b The declaration of map template:
+
+APP-CPP
+template < class Key, class Value, class Compare = less<Key> > class map
+{
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+> An example of using map:
+APP-CPD
+void main(void)
+{
+map<c0nst char*, int> Grades;
+Grades[“Popescu"] = 10;
+Grades[“Ionescu"] = 9;
+Grades[“Marin"] = 7;
+printf(“Ionescu’s grade = %d\n", Grades[“Ionescu"]);
+printf(“Number of pairs = %d\n", Grades.size());
+map<c0nst char*, int>:ziterat0r it;
+for (it = Grades.begin(); it != Grades.end(); it++)
+printf("Grades[%s]=%d\n", it—>first, it—>sec0nd);
+it = Grades.find(“Ionescu");
+Grades.erase(it);
+int x = Grades [“I0nescu"]; Output
+printf(“I0nescu’s grade = %d (x=%d)\n", Grades[“Ionescu"],X)
+printf("Number of pairs = %d\n", Grades.size()); lonescu’s grade = 9
+} .
+Number of palrs = 3
+Grades[Popescu]=1O
+Grades[l0nescu]=9
+Grades[Marin]=7
+lonescu’s grade = 0 (x=0)
+Number of pairs = 3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+STL (associative containers map)
+> An example of usmg map:
+APP-CPP
+void main(void)
+{
+map<const char*, int> Grades;
+Grades[“Popescu"] = 10;
+Grades[“Ionescu"] = 9;
+Grades[“Marin"] = 7;
+printf(“Ionescu’s grade = %d\n", Grades[“Ionescu"]);
+printf(“Number of pairs = %d\n", Grades.size());
+map<const char*, int>::iterator it;
+for (it = Grades.begin(); it != Grades.end(); it++)
+printf("Grades[%s]=%d\n", it—>first, it—>second);
+it = Grades.find(“Ionescu");
+Grades.erase it '
+prln one \ ;raoe = a. (x=%d)\n", Grades[“Ionescu"],x);
+printf("Number o = %d\n", Grades.size());
+} i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+STL (associative containers - map)
+> The methods supported by the map container:
+Assignment (operator= )
+Accessing and inserting values (operator[] and at, insert methods)
+Deletion (erase, clear methods)
+Search into a map (find method)
+lterators (begin, end, rbegin, rend, cbegin, cend, crbegin, crend (the last 4 from
+C++11))
+\ Informations (size, empty, max_size)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+> Accessing elements ([] operator and at, find methods):
+APP-CPD
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 19;
+printf(“Grade = %d\n", Grades["Popescu"]);
+}
+APP-CPD
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 19;
+printf(“Grade= %d\n", Grades.at("Popescu"));
+}
+APP-CPP
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 10;
+printf(“Grade= %d\n", Grades.find("Popescu")->second);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+Accessing elements ([] operator and at, find methods):
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 10;
+printf(“Grade = %d\n", Grades["Popescu"]);
+}
+App.cpp (“lonescu” key does not exist)
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 10;
+printf(“Grade= %d\n", Grades.at(“Ionescu"));
+}
+App.cpp (“lonescu” key does not exist)
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 10;
+printf(“Grade= %d\n", Grades.¥ind(“Ionescu")->second);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+> Checking Whether an element exists in a map can be done using find and
+count methods:
+APP-CPP
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 10;
+if (Grades.find("Ionescu")==Grades.cend())
+printf("Ionescu does not exist in the grades listl");
+}
+APP-CPD
+void main(void)
+{
+map<const char*, int> Grades;
+Grades["Popescu"] = 10;
+if (Grades.count("Ionescu")==0)
+printf("Ionescu does not exist in the grades listl");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+STL (associative containers - map)
+
+b The elements from a map containers are stored into a red-black tree
+
+b This represents a compromise between the access/ insertion time and the
+amount of allocated memory for the container
+
+b Depending on what we are interested in, a map container is not always the
+best solution (e.g. if the number of insertions is much bigger than the number
+of reads, there are containers that are more efficient)
+
+b We do the following experiment - the same algorithm is written using a map
+and a simple vector and we evaluate the insertion time
+
+> The experiment is repeated ten times for each algorithm and the execution
+times are measured in milliseconds
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+STL (associative containers - map)
+> The two algorithms:
+Map-1.cpp
+void main(void)
+{
+map<int, int> Test;
+For (int tr = 0; tr < 1000000; tr++)
+Test[tr] = tr;
+}—
+Map-2.cpp
+void main(void)
+{ int *Test = new int[1000000];
+for (int tr = 0; tr < 1000000; tr++)
+Test[tr] = tr;
+}—
+b Even if it is obvious that App-2 is more efficient, the hash collisions must be
+considered. For the above case, there are no hash collisions because the keys
+are integers.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+STL (assoCiative containers - map)
+
+b Results:
+III-I-I-I-I-
+Map-1 20156 20625 20672 20453 19922 19547 19219 19516 19563 19344 19901
+Map-2 0 16 0 0 16 0 15 0 16 0 6.3
+
+b The specifications of the system:
+
+‘z. OS: Windows 8.1 Pro
+‘t. Compiler: cl.exe [18.00.21005.1 for x86]
+‘z. Hardware: Dell Latitude 7440 —i7 —4600U, 2.70 GHZ, 8 GB RAM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+STL (associative contai ners - multimap)
+b “multimap” is a container similar to map. The difference is that a key can
+contain more values.
+b For use “#include <map>”
+b Accessing elements: the [] operator and the at method can not be used
+anymore.
+b The declaration of multimap template:
+APP-CPP
+template < class Key, class Value, class Compare = less<Key> > class multimap
+{
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+> An example of using multimap:
+APP-CPD
+void main(void)
+{
+multimap<c0nst char*, int> Grades;
+Grades.insert(pair<const char*, int>("I0nescu", 10));
+Grades.insert(pair<const char*, int>("I0nescu", 8));
+Grades.insert(pair<const char*, int>("I0nescu", 7));
+Grades.insert(pair<const char*, int>("P0pescu", 9));
+multimap<c0nst char*, int>:ziterat0r it;
+for (it = Grades.begin(); it != Grades.end(); it++)
+{
+printf("%s [%d]\n", it—>first,it—>sec0nd);
+} } Output
+lonescu [10]
+lonescu [8]
+lonescu [7]
+Popescu [9]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+S | L ( ' t' t ' lt' )
+> An example of using multimap:
+
+APP-CPD
+
+void main(void)
+
+{
+multimap<const char*, int> Grades;
+Grades.insert(pair<const char*, int>("Ionescu", 10));
+Grades.insert(pair<const char*, int>("Ionescu", 8));
+Grades.insert(pair<const char*, int>("Ionescu", 7));
+Grades.insert(pair<const char*, int>("Popescu", 9));
+Grades.insert(pair<const char*, int>("Popescu", 6));
+Grades.insert(pair<const char*, int>("Georgescu", 8));
+multimap<c0nst char*, int>::iterat0r it;
+it = Grades.begin();
+printf("%s->%d\n", it—>first, it—>second);
+
+_ Output
+
+it = Grades.upper_bound(it—>f1rst);
+print-F("%s->%d\n", it—>fir‘st, it—>second); lonescu->1O
+it = Grades.upper‘_bound(it—>-Fir‘st); PODeSCU->9
+print-F("%s->%d\n", it—>fir‘st, it—>second); Georgescu->8
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+STL( ' t' ta'ners m lt'map)
+> An example of using multimap:
+APP-CPD
+void main(void)
+{
+multimap<c0nst char*, int> Grades;
+Grades.insert(pair<const char*, int>("I0nescu", 10));
+Grades.insert(pair<const char*, int>("I0nescu", 8));
+Grades.insert(pair<const char*, int>("I0nescu", 7));
+Grades.insert(pair<const char*, int>("P0pescu", 9));
+Grades.insert(pair<const char*, int>("P0pescu", 6));
+Grades.insert(pair<const char*, int>("Ge0Pgescu", 8));
+multimap<c0nst char*, int>:ziterat0r it;
+for (it = Grades.begin(); it != Grades.end(); it = Grades.upper_b0und(it—>first))
+{
+printf(“Unique key: %s\n", it—>fir'st); Output
+} } Unique key: lonescu
+Unique key: Popescu
+Unique key: Georgescu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+S | L ( ' t' t ' lt' )
+> An example of using multimap:
+Appﬁpp
+void main(void)
+{
+multimap<const char*, int> Grades;
+Grades.insert(pair<const char*, int>("I0nescu", 10));
+Grades.insert(pair<const char*, int>("I0nescu", 8));
+Grades.insert(pair<const char*, int>("I0nescu", 7));
+Grades.insert(pair<const char*, int>("P0pescu", 9));
+Grades.insert(pair<const char*, int>("P0pescu", 6));
+Grades.insert(pair<const char*, int>("Ge0rgescu", 8));
+multimap<c0nst char*, int>::iterat0r it;
+it = Grades.begin();
+while (it != Grades.end())
+{
+pair <multimap<const char*, int>::iterat0r, multimap<c0nst char*, int>::iterat0r> range;
+range = Grades.equal_range(it—>first);
+printf("%s’s grades: ", it—>first);
+for (it = range.first; it != range.sec0nd; it++)
+print-F("%d,", it—>second); OUtpLIt
+rintf "\n" ;
+} p ( ) Ionescu’s grades: 10,8,7
+} Popescu’s grades:9,6
+Georgescu’s grades:8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+S|L( ' t' t ' lt'map)
+> An example of using multimap:
+
+APP-CPD
+
+void main(void)
+
+{
+multimap<c0nst char*, int> Grades;
+Grades.insert(pair<const char*, int>("I0nescu", 10));
+Grades.insert(pair<const char*, int>("I0nescu", 8));
+Grades.insert(pair<const char*, int>("I0nescu", 7));
+Grades.insert(pair<const char*, int>("P0pescu", 9));
+Grades.insert(pair<const char*, int>("P0pescu", 6));
+Grades.insert(pair<const char*, int>("Ge0Pgescu", 8));
+multimap<c0nst char*, int>:ziterat0r it,it2;
+it = Grades.find("Popescu");
+it2 = Grades.upper_b0und(it—>first);
+
+_ Output
+pr1ntf(“Popescu’s grades: ");
+“{“hile (it l: it2) P0pescu’s grades: 9,6
+printf("%d,", it—>sec0nd);
+it++;
+
+}
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+> An example of using multimap:
+APP-CPD
+void main(void)
+{
+multimap<c0nst char*, int> Grades;
+Grades.insert(pair<const char*, int>("I0nescu", 10));
+Grades.insert(pair<const char*, int>("I0nescu", 8));
+Grades.insert(pair<const char*, int>("I0nescu", 7));
+Grades.insert(pair<const char*, int>("P0pescu", 9));
+Grades.insert(pair<const char*, int>("P0pescu", 6));
+Grades.insert(pair<const char*, int>("Ge0rgescu", 8));
+multimap<c0nst char*, int>:ziterat0r it,it2;
+for (it = Grades.begin(); it != Grades.end(); it = Grades.upper_b0und(it—>first))
+{
+printf("%s has %d grades\n", it—>first, Grades.count(it—>first));
+}
+} Output
+lonescu has 3 grades
+Popescu has 2 grades
+Georgescu has 1 grades
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+> An example of using multimap:
+APP-CPD
+void main(void)
+{
+multimap<c0nst char*, int> Grades;
+Grades.insert(pair<const char*, int>("I0nescu", 10));
+Grades.insert(pair<const char*, int>("I0nescu", 8));
+Grades.insert(pair<const char*, int>("I0nescu", 7));
+Grades.insert(pair<const char*, int>("P0pescu", 9));
+Grades.insert(pair<const char*, int>("P0pescu", 6));
+Grades.insert(pair<const char*, int>("Ge0Pgescu", 8));
+multimap<c0nst char*, int>:ziterat0r it,it2;
+it = Grades.find("Ionescu");
+it++;
+Grades.erase(it);
+for (it = Grades.begin(); it != Grades.end(); it++)
+{ Output
+printf("%s [%d]\n", it—>first, it—>sec0nd);
+} lonescu [10]
+}
+lonescu [7]
+Popescu [9]
+Popescu [6]
+Georgescu [8]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+> An example of using multimap:
+APP-CPD
+void main(void)
+{
+multimap<c0nst char*, int> Grades;
+Grades.insert(pair<const char*, int>("I0nescu", 10));
+Grades.insert(pair<const char*, int>("I0nescu", 8));
+Grades.insert(pair<const char*, int>("I0nescu", 7));
+Grades.insert(pair<const char*, int>("P0pescu", 9));
+Grades.insert(pair<const char*, int>("P0pescu", 6));
+Grades.insert(pair<const char*, int>("Ge0Pgescu", 8));
+if (Grades.find("Ionescu") != Grades.cend())
+printf("Ionescu exists!\n");
+if (Grades.find("Marin") == Grades.cend())
+printf("Marin DOES NOT exist!\n");
+}—Em!—
+Ionescu exists!
+Marin DOES NOT exist!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+STL (associative containers - multi map)
+
+> The methods supported by the multimap container:
+Assignment (operator= )
+Insertion (insert)
+Deletion (erase, clear methods)
+Accessing elements (find method)
+lterators (begin, end, rbegin, rend, cbegin, cend, crbegin, crend (the last 4 from
+C++11))
+
+\ Informations (size, empty, max_size methods)
+
+Special methods (upper_bound and lower_bound - to access the intervals in witch
+there are elements with the same key; equal_range - to obtain an interval for all the
+elements stored for a key)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+STL (assoclatwe c0nta1 ners - set)
+b “set” is a container that store unique elements
+> For use “#include <set>”
+b The declaration of set template:
+APP-CPD
+template < class Key, class Compare = less<Key> > class set
+{
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+STL (assocnatwe conta1 ners - set)
+> An example of using set:
+APP-CPP
+void main(v0id)
+{
+set<int> s;
+s.insert(10);
+s.insert(20);
+s.insert(5);
+s.insert(10);
+set<int>zziterator it;
+for (it = s.begin(); it != s.end(); it++)
+printf("%d ", *it);
+}—
+Output
+5 1O 20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+> An example of using set:
+APP-CPD
+struct Comparator {
+bool 0perat0r() (const int& leftValue, const int& rightValue) const
+{
+return (leftValue / 20) < (rightValue / 20);
+}
+};
+void main(void)
+{
+set<int, C0mparat0r> s;
+s.insert(10);
+s.insert(20);
+s.insert(5);
+s.insert(10);
+set<int, Comparator>zziterator it;
+Output
+for (it = s.begin(); it != s.end(); it++)
+printf("%d *it); 1O 20
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+STL (associative containers - set)
+
+> The elements from a “set” follows a specific order.
+
+b This brings a performance penalty.
+
+Set-1.cpp
+void main(void)
+{
+set<int> s;
+for (int tr = 0; tr < 1000000; tr++)
+s.insert(tr);
+}—
+
+b Let’s remake the previous experiment:
+------------
+Map-1 20156 20625 20672 20453 19922 19547 19219 19516 1956319344
+Map-2 0 16 0 0 16 0 15 0 16 0
+Set-1 15375 15469 16407 16563 16359 15750 16094 16625 1703215906
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+STL (associative containers - set)
+> The methods supported by the set container:
+Assignment (operator= )
+Insertion (insert method)
+Deletion (erase, clear methods)
+Accessing elements (find method)
+lterators (begin, end, rbegin, rend, cbegin, cend, crbegin, crend (the last 4 from
+C++11))
+\ Informations (size, empty, max_size methods)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+STL (associative containers - multiset)
+b “multiset” is similar with set, but duplicate elements are allowed
+> For use “#include <set>”
+b The declaration of multiset template:
+APP-CPD
+template < class Key, class Compare = less<Key> > class multiset
+{
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+STL (assocnatwe contan ners - multlset)
+> An example of using multiset:
+APP-CPP
+void main(v0id)
+{
+multiset<int> s;
+s.insert(10);
+s.insert(20);
+s.insert(5);
+s.insert(10);
+multiset<int>zziterator it;
+for (it = s.begin(); it != s.end(); it++)
+printf("%d ", *it);
+}—
+Output
+5 1O 1O 20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+STL (associative containers - multiset)
+
+> The methods supported by the multiset container:
+Assignment (operator= )
+Insertion (insert)
+Deletion (erase, clear methods)
+Accessing elements (find method)
+lterators (begin, end, rbegin, rend, cbegin, cend, crbegin, crend (the last 4 from
+C++11))
+
+\ Informations (size, empty, max_size methods)
+
+Special methods (upper_bound and lower_bound - to access the intervals in witch
+there are elements with the same key; equal_range - to obtain an interval that
+includes all the elements which have a specific key)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+STL (assoclatwe contalners -
+unordered_map)
+b The elements from an unordered_map container are stored into a hash-table
+b Introduced in C++11
+> For use “#include <unordered_map>”
+b Supports the same methods as map plus methods for the control of buckets.
+> The declaration of unordered_map template:
+
+APP-CPP
+
+template < class Key, class Value, class Hash, class Equal > class unordered_map
+
+{
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+STL (associative containers -
+unordered_map)
+b How hash tables works:
+Hash functi0n(transforms
+a string into a index)
+\
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+STL (assoCiative containers -
+unordered_map)
+> How hash tables works. 0 NULL
+1 NULL
+We consider the 2 NULL
+following hashing 3 NULL
+function:
+HashFunction 5 NULL
+- int HashFunction(const char* s) 6 NULL
+Georgescu int sum = a;
+while ((*s) != a) 7 NULL
+{
+sum.+= (*s); 8 NULL
+} ’° 9 NULL
+return sum A 12;
+}— 1O NULL
+11 NULL
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+STL (associative containers -
+unordered_map)
+b How hash tables works: 0 NULL
+1 NULL
+Popescu 2 NULL
+3 Popescu
+‘:l Hash (“Popescu”) 4 NULL
+= 3 5 NULL
+6 NULL
+7 NULL
+8 NULL
+9 NULL
+1O NULL
+11 NULL
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+STL (associative containers -
+unordered_map)
+b How hash tables works: 0 NULL
+1 NULL
+2 NULL
+3 Popescu
+- , , , , , , . Hash (“lonescu”) = V 4 NULL
+6 5 NULL
+6 lonescu
+7 NULL
+8 NULL
+9 NULL
+1O NULL
+11 NULL
+/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+STL (associative containers -
+unordered_map)
+b How hash tables works: 0 NULL
+1 NULL
+2 NULL
+3 Popescu
+:l . Hash(“Georgescu”) 4 NULL
+= 8 5 NULL
+6 lonescu
+Georgescu
+7 NULL
+8 Georgescu
+9 NULL
+1O NULL
+11 NULL
+/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+STL (assomative containers -
+unordered_map)
+b Consider the following code:
+Umap-1.cpp
+void main(void)
+{
+unordered_map<int,int> Test;
+for (int tr = 0; tr < 1000000; tr++)
+Test[tr]=tr;
+}—
+b Let’s remake the previous experiment:
+------------
+Map-1 20156 20625 20672 20453 19922 19547 19219 195161956319344
+Map-2 0 16 0 0 16 0 15 0 16 0
+Set-1 15375 15469 16407 16563 16359 15750 16094 166251703215906
+Umap-1 14891 15984 15578 15063 15250 15234 15704 149531526515186
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+STL (assouative containers -
+unordered_map)
+b Consider the following code:
+Umap-2.cpp
+void main(void)
+{ unordered_map<int,int> Test;
+Test.reserve(1999999);
+for (int tr = 9; tr < 1999999; tn++)
+Test[tr]=tr;
+}—
+b Let’s remake the previous experiment :
+------------
+Map-1 20156 20625 20672 20453 19922 19547 19219 195161956319344
+Map-2 0 16 0 0 16 0 15 0 16 0
+Set-1 15375 15469 16407 16563 16359 15750 16094 166251703215906
+Umap-1 14891 15984 15578 15063 15250 15234 15704 149531526515186
+Umap-2 9594 9703 10610 9890 10672 9922 10047 9984 9703 9938
+////
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+STL (associative containers -
+unordered_set)
+b “unordered_set” is similar with the set container, but the elements are not
+sorted
+> Introduced in C++11
+> For use “#include <unordered_set>”
+b Supports the same methods as set plus methods for the control of buckets
+> The declaration of unordered_set template:
+APP-CPP
+template < class Key, class Hash, class Equal > class unordered_set
+{
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+STL (associative containers -
+unordered_set)
+b Consider the following code:
+void main(void)
+{ unordered_set<int> s;
+for (igtiﬁge:t0ipgg < 1000000; tr++)
+}—
+b Let’s remake the previous experiment:
+------------
+Map-1 20156 20625 20672 20453 19922 19547 19219 195161956319344
+Map-2 0 16 0 0 16 0 15 0 16 0
+Set-1 15375 15469 16407 16563 16359 15750 16094 166251703215906
+Umap-1 14891 15984 15578 15063 15250 15234 15704 149531526515186
+Umap-Z 9594 9703 10610 9890 10672 9922 10047 9984 9703 9938
+Uset-1 12140 11625 12047 11984 12109 12078 11609 115781178211672
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+STL (assouatwe contamers -
+unordered_set)
+b And the variant with reserve:
+Uset-2.cpp
+void main(void)
+{ unordered_set<int> s;
+s.reserve(1000000);
+for (int tr = 0; tr < 1000000; tr++)
+s.insert(tr);
+}—
+------------
+Map-1 20156 20625 20672 20453 19922 19547 19219 19516 19563 19344
+Map-2 0 16 0 0 16 0 15 0 16 0
+Set-1 15375 15469 16407 16563 16359 15750 16094 16625 17032 15906
+Umap-114891 15984 15578 15063 15250 15234 15704 14953 15265 15186
+Umap-2 9594 9703 10610 989010672 992210047 9984 9703 9938
+Uset-1 12140 11625 12047 11984 12109 12078 11609 11578 11782 11672
+Uset-2 6516 6328 6875 6844 6812 6453 6453 6531 6500 6515
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+STL (associative containers)
+b Besides the presented containers, two other associative containers exists:
+> unordered_multimap
+> unordered_multiset
+b Similar with multimap/multiset (the difference is that hash tables are used,
+not sorted trees)
+> When choosing between map and unordered_map (set and unordered_set,
+...), the amount of available memory and the execution times (insertion,
+deletion, access of elements, ...) must be considered.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+“> l/C) Streams
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+STL (IOS)
+ios_base
+ios clog
+o istream - iostream _ ostream r cout
+cerr
+ifstream istringstream ostringstream ofstream
+fstream stringstream
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+b From the previous presented classes, the most used are istream, ostream and
+iostream.
+
+> These classes allows the l/O access to miscellaneous streams (most well-
+known is the file system)
+
+b Another use is represented by the cin and cout objects, which can be used to
+write to/ read from the terminal
+
+b Two operators are overloaded for these classes (operator>> and operator<<),
+representing the input from stream and the output to stream, respectively
+
+> Besides the two operators, manipulators were also added to these classes
+(elements that can change the way of processing the data that follows them)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+STL (IOS - manipulators)
+
+endl Adds a line terminator (“\n” , “\r\n”, etc) and flush
+
+ends Adds ‘\O’ (NULL)
+
+flush Clears the stream’s intern cache
+
+dec The numbers will be written in the base 10.
+
+hex The numbers will be written in the base 16.
+
+oct The numbers will be written in the base 8.
+
+ws Extracts and discards whitespace characters (until a non-
+whitespace character is found) from input
+
+showpoint Shows the decimal point
+
+noshowpoint Doesn't show the decimal point
+
+showpos Add the “+” character in front of the positive numbers
+
+noshowpos Does not add the “+” character in front of the positive numbers
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+STL (IOS - manipulators)
+
+boolalpha Bool values will be written using “true” and ”false”
+noboolalpha Bool values will be written using 1 and O
+
+scientific Scientific notation for float/ double numbers
+
+fixed Floating-point values will be written using fixed-point notation
+left Left alignment
+
+right Right alignment
+
+setfill(char) Sets the fill character
+
+setprecision(n) Sets the precision for real numbers
+
+setbase(b) Sets the base
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+‘\ > Strings
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+> Template that provides the most used operations over strings
+b The declaration:
+APP-CPD
+template <c1ass CharacterType, class traits = char_traits<CharacterType>>
+class basic_string
+{
+i.-
+> The most common objects that implements this template are string and
+wstring
+Apncpp
+typedef basic_string<char> string;
+typedef basic_string<wchar_t> wstring;
+b Other objects introduced Cx11 based on this template:
+APP-CPP
+typedef basic_string<char16_t> u16string;
+typedef basic_string<char32_t> u325tring;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+> “char_traits” is a template that provides a list of operations over the strings
+(not necessarily characters of type char) used by basic_string for some
+operations
+b The main methods of char_traits are:
+Definition Functionality
+static bool eq (CType c1, CType c2) Returns true if C1 iS equal with CZ
+static bool 1t (CType c1, CType c2) Returns true if c1 is lower than c2
+static size_t length (const CType* s); Returns the size Of a string
+335:3: void assign (CType& character, const CType& Assignment (character= value)
+static int compare (const CType* sl, Compares two strings; returns1 if s1 > $2, 0 if s1 = $2
+const CType* st2, size_t n); and -1 if 51 < 52
+Static ‘50"ch Char-Up“ ﬁnd (2335:”;pr s’ Returns a pointer to the first character equal with c
+cons; char_type& c); from the string s
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+> The main methods of char_traits are:
+Definition Functionality
+static char_type* move (char_type* dest,
+const char_type* src, Moves the content of a string between two locations
+size_t n);
+Static Char-type* COpy(ChaP—type* deSt’ Copies the content of a string from one location to
+const char_type* src,
+size_t n); another
+static int_type eof() Returns a value for EOF ( usually -1 )
+> “char_traits” has specializations for <char>, <wchar> which are using efficient
+functions like memcpy, memmove, etc.
+> For normal use of strings, a char_traits object is not needed. However, it is
+useful for the cases where we want a particular behavior (some comparisons
+or assignments to be made differently - e.g. case insensitive)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+> “basic_string” supports various forms of initialization:
+
+APP-CPD
+
+void main(void)
+
+{
+
+string sl(“Tomorrow");
+
+string 52(sl+" I’11 go ")3
+
+string 53(51, 3, 3);
+
+string s4("Tomorrow I’11 go to my cousin.", 13);
+
+string 55(s4.substr(9,10));
+
+string 56(10, '1');
+
+printf("%s\n%s\n%s\n%s\n%s\n%s\n", sl.c_str(),
+52.c_str(),
+s3.c_str(),
+s4.c_str(),
+55.c_str(), Output
+s6.c_str());
+
+} Tomorrow
+Tomorrow l’ll go
+orr
+Tomorrow I’11
+I’11 go to
+1111111111
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+STL (basic_string)
+
+> Methods/ operators supported by the objects derived from the basic_string template:
+Assignment (operator= )
+Append (operator+= and append, push_back methods)
+Characters insertion (insert method)
+Access to characters (operator[] and at , front (C++11) , back (C++11) methods)
+Substrings (substr method)
+Replace (replace method)
+Characters deletion (erase, clear, and pop_back (C++11) methods)
+Search (find, rfind, find_first_of, find_last_of, find_first_not_of, find_last_not_of
+methods)
+Comparations (operator> , operator< , operator== , operatorl= , operator>= ,
+operator<= and compare method)
+lterators (begin,end,rbegin,rend,cbegin,cend,crbegin,crend (the last four from
+C++11))
+lnformations (size, length, empty, max_size, capacity methods)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+> An example of working with String objects:
+APP-CPD
+void main(void)
+{
+string sl;
+sl += "Now";
+printf("Size = %d\n", sl.1ength());
+sl = sl + " " + sl;
+printf("51 = %s\n", sl.data());
+sl.erase(2, 4);
+printf("51 = %s\n", sl.c_str());
+sl.insert(1, "_")3
+sl.insert(3, "__")3
+printf("51 = %s\n", sl.c_str());
+sl.rep1ace(sl.begin(), sl.begin() + 2, "123456");
+printf("51 = %s\n", sl.c_str'()); output
+}
+Size = 3
+S1 = Now Now
+S1 = Now
+S1 = N_o_w
+S1 = 1234560_W
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+> Some example of using char_traits (a string with ignore case ):
+APP-CPD
+struct IgnoreCase : public char_traits<char> {
+static bool eq(char c1, char c2) {
+return (upper(c1)) == (upper(c2));
+}
+static bool lt(char c1, char c2) {
+return (upper(c1)) < (upper(c2));
+}
+static int c0mpare(c0nst char* sl, const char* 52, size_t n) {
+while (n>0)
+{
+char c1 = upper(*sl);
+char c2 = upper(*sZ);
+if (c1 < c2) return —1;
+if (c1 > c2) return —1;
+sl++; sZ++; n--;
+}
+return 0;
+}
+};
+void main(v0id)
+{
+basic_string<char, IgnoreCase> sl("Salut");
+basic_string<char, IgnoreCase> 52("sAlUt");
+if (sl == $2)
+printf("Siruri egale !");
+}
+-----________________________________________________________________:,__________
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+‘\ > Initialization lists
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+b Initialization lists work with STL as well:
+APP-CPD
+using namespace std;
+#include <vector>
+#include <map>
+struct Student
+{
+const char * Name;
+int Grade;
+};
+void main()
+{
+vecton<int> v = { 1, 2, 3 };
+vecton<stning> s = { "P00", "C++" };
+vecton<Student> st = { { "Popescu", 10 }, { "Ionescu", 9 } };
+map<const chan*, int> st2 = { { "Popescu", 10 }, { "Ionescu", 9 } };
+}
+> The code complies ok and all objects are initialized properly. :
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+b Initialization lists work with STL as well:
+APP-CPD
+using namespace std;
+#include <vector>
+#include <map>
+struct Student
+{
+const char * Name;
+int Grade;
+};
+void main()
+{
+vector<int> v = { 1, 2, 3 };
+vector<string> s = { "P00", "C++" };
+vector<Student> st = { { "Popescu", 10 }, { "Ionescu", 9 } };
+map<const char*, int> st2 = { { "Popescu", 10 }, { "Ionescu", 9 } };
+map<const char*, int> st3 = { { "Popescu", 10 }, { "Popescu", 9 } };
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+b STL also provide a special container (called std::initializer_list that can be
+used to pass a initialization list to a function).
+APP-CPP
+using namespace std;
+#include <initializer_list>
+int Sum(std::initializer_list<int> a)
+{
+int result = 9;
+std::initializer_list<int>::iterator it;
+for (it = a.begin(); it != a.end(); it++)
+result += (*it);
+return result;
+}
+void main()
+{
+print-F("Sum = %d\n", Sum(—));
+}
+b This code will compile and will print to the screen the value 15. :
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+b If std::initializer_list is used in a constructor the following expression for
+initializing an object can be used:
+APP-CPD
+using namespace std;
+#include <initializer_list>
+class Data
+{
+int v[19];
+public:
+Data(std::initializer_list<int> a)
+{
+int index = 9;
+std::initializer_list<int>::iterator it;
+for (it = a.begin(); (it != a.end()) && (index<10); it++,index++)
+v[index] = (*it);
+}
+};
+void main()
+{
+Data d1({ 1, 2, 3, 4, 5 });
+Data d2 = { 1, 2, 3, 4, 5 };
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:122**************
+Initialization lists
+b Let’s consider the following code:
+APP-CPD
+#define D0_SOMETHING(X) x
+void main() { D0_SOMETHING(printf("Test")3); }
+> This code will work ok, and the compiler will print “Test” to the screen. Now let’s
+consider the following one:
+APP-CPP
+#define D0_SOMETHING(X) x
+void main() { D0_SOMETHING(— ); }
+> In this case the code will not compile. When analyzing a MACRO the compiler does
+not interpret in any way the “{“ character. This means that from the compiler
+point of view, D0_SOMETHING macro has received 3 parameters:
+> vector‘<int> x{1
+> 2
+> 3}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+Initialization lists
+b In this cases the solution is to change the macro from:
+APP-CPP
+#define D0_SOMETHING(X) x
+to
+APP-CPP
+#de-Fine D0_SOMETHING(...) _VA_ARGS_
+void main() { D0_SOMETHING( vector<int> x{1, 2, 3}; )5 }
+I b This code will compile and run correctly.
+
+***************Ending Page***************
+
+
+ 

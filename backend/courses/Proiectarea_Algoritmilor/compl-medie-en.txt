@@ -1,0 +1,1563 @@
+***************Beginning Page***************
+***************page number:1**************
+Algorithm Design: Expected Time I
+
+Dorel Lucanu
+
+Faculty of Computer Science
+Alexandru loan Cuza University, lasi, Romania
+dlucaaninfo . uaic . ro
+
+PA 2021/2022
+cl 51 - '= I: QQO
+Expected Time PA 2021/2022 1/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+a Recap
+e Expected Time for Deterministic Algorithms
+a Case Studies
+o First Occurrence in a List
+o Quicksort
+o Nuts and Bolts
+o Treaps
+El r51 i E :5 QQQ
+Expected Time PA 2021/2022 2 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Plan
+0 Recap
+Expected Time for Deterministic Algorithms
+Case Studies
+o First Occurrence in a List
+0 Quicksort
+o Nuts and Bolts
+Q Treaps
+E1 ﬁ ' _= :E ‘)‘RG
+Expected Time PA 2021/2022 3 / 81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Randomized Algorithms
+o a particular case of nondeterministic algorithms when the choices are
+made according to a probability distribution
+0 uniform X from 5;
+— assign to x a value uniformly chosen (with the probability
+1
+— from the list set arra S;
+$.size()) / / y
+o uniformNat (n)
+— returns an X € {0, 1, . . . , n — 1} uniformly chosen (with the
+. . 1
+probablllty —)
+n
+El r51 i E :5 {)qu
+Expected Time PA 2021/2022 4/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Random Variables
+o A random variable is a function X defined over a set of possible
+outcomes Q of a random phenomena.
+0 Example (only discrete variables): D2 (two dice):
+o random phenomenon: rolling two dice
+0 D2 returns the sum of the numbers on the two dice
+o probability distribution: X(§2) : {XO,X1,x2, . . .,} Prob(X : xi) : p,-1
+o Expected Value of X: E(X) : Zix; - p,-
+Properties:
+E(X + Y): E(X) + E(Y)
+E(X- Y): E(X) - E(Y)
+(X and Y independent)
+lThe exact terminology for Prob(X : xi) is "probability mass function". Here we
+use the more general term of probability distribution ( the way the total probability of 1
+is distributed over all various possible outcomes ).
+Expected Time PA 2021/2022 5/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Monte Carlo Algorithms
+
+— may produce incorrect results with some small probability, but whose
+
+execution time is deterministic
+
+— if runned multiple times with independent random choices each time, the
+
+failure probability can be made arbitrarily small, at the cost of the running
+
+time .
+
+Example: primality test
+
+cl 51 2 E :2 oqcv
+
+Expected Time PA 2021/2022 6/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Las Vegas Algorithms
+
+- never produce incorrect results, but whose execution time may vary from
+
+one run to another
+
+— random choices made within the algorithm are used to establish an
+
+expected running time for the algorithm that is, essentially, independent of
+
+theinput
+
+Example: k-median
+
+cl 51 2 E :2 oqe
+
+Expected Time PA 2021/2022 7/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+k-median: Las Vegas Algorithms
+randPartition(out a, p, q) {
+if (p < q) {
+i = p + uniformNat(q — p);
+swap(a, i, q);
+return partition(a, p, q);
+}
+1'
+randSelectRec(out a, p, q, k)
+{
+j = randPartition(a, p, q);
+if (j == k) return a[j];
+if (j < k) return randSelectRec(a, j+1, q, k);
+return randSelectRec(a, p, j-l, k);
+1'
+randSelect(out a, k)
+{
+return randSelectRec(a, O, a.size()—1, k);
+}
+cl 51 2 E :5 QQG
+Expected Time PA 2021/2022 8 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+randSelect: analysis 1/2
+exp-time(n, k) - the expected time to find the k-median in an array of
+length n
+exp-time(n) : maxk exp-time(n, k)
+Since we are interested in the worst case analysis, we assume that the
+recursive call chooses always the longest subarray.
+
+3
+Recall that E(CB) < Z
+
+. 3
+It follows that the expected length of the longest subarray IS at most Zn.
+Expected Time PA 2021/2022 9/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+randSelect: analysis 2/2
+Lemma
+. . 3 ’
+The expected length of the array after I call IS at most Z n.
+Theorem
+exp-time(n) = O(n) h
+:I a] - -= I: om»
+Expected Time PA 2021/2022 10 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Plan
+a Expected Time for Deterministic Algorithms
+El 15' ' _= :E JDQG
+Expected Time PA 2021/2022 11/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Motivation
+o A solves P, x € P
+o worst-case execution time:
+TA(n) : sup{time(A, p) | p € P /\ size(p) : n}
+o Sometimes the number of instances p with size(p) : n and for which
+time(A, p) : TA(n) or time(A, p) is close to TA(n) is very small.
+0 For such cases the expected time is more appropriate.
+e. 51 2 E :5 oqo
+
+Expected Time PA 2021/2022 12/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Definition 1/2
+o deterministic algorithm: each input X uniquely determines an
+execution path
+
+o but let us think that the inputs are randomly coming
+
+o timeA(2) as random variable:
+o random event : the execution of the (deterministic) algorithm for a
+
+random input X,
+
+o the associated value : the execution time
+
+a time} is timeA restricted to instances x with size(x) : n
+
+Expected Time PA 2021/2022 13/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Deﬁnition 2/2
+o probability distribution: Prob(timef1\ : t)
+o expected time : expected value of the random variable
+exp-time(n) : E(timeQ\)
+0 A particular case: {timeA(x) | size(x) : n} : {t0, t1, . . . },
+Prob(time,’1\ I ti) I p,-
+exp-time(n) I Z t,- - p,-
+i
+El 15' i E :5 QQQ
+Expected Time PA 2021/2022 14/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Correspondence with the probabilistic algorithms
+Recall that for each input x uniquely determines an execution path CX.
+A probabilistic algorithm A deterministic algorithm
+with randomized input
+Probab. that A execute C for inp. x Probab. that A execute inp. x
+probAX(C) probA(x) : probAX(C,<)
+Time of A to execute C for inp. x Time of A to execute inp. x
+timeA,X(C) timeA(x) I timeA,X(CX)
+i:| ﬁl 2 E :5 0Q‘?
+Expected Time PA 2021/2022 15/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Plan
+Recap
+Expected Time for Deterministic Algorithms
+e Case Studies
+First Occurrence in a List
+Quicksort
+Nuts and Bolts
+Treaps
+E1 ﬁ ' _= :E ‘)‘KO
+Expected Time PA 2021/2022 16/ 81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Plan
+a Case Studies
+o First Occurrence in a List
+El 5' ' _= :E JDQG
+Expected Time PA 2021/2022 17 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+FIRST OCCURRENCE Problem
+Problem FIRST OCCURRENCE
+©input n, a : (a0, . . . , an_1),z, all integers.
+©output Poz = min{i I a,- = Z} if {i I a',- = Z} 7A Q),
+—1 0therw1se.
+El 15' i E :5 QQQ
+Expected Time PA 2021/2022 18/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Algorithm for FIRST OCCURRENCE
+FOAlg(a, z) {
+i: O;
+while ((a[i] != z) && (i < a.size()—l)){
+i = i+1;
+}
+if (a[i] I z) poz I i;
+else poz : —1;
+return poz;
+}
+The number of comparisons for the worst-case is n I a.size().
+El i5‘ i E :5 QQG
+Expected Time PA 2021/2022 19/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Randomized FOAIg
+FOAIgRand(n, k) {
+a:[ i | i from [1..n] ];
+a : uniformPerm(a);
+z = 1 + uniformNat(n*k); // z occurs in a With the prob. 1/k
+return FOAlg(a, z)
+}
+cl 51 - '= I: QQO
+Expected Time PA 2021/2022 2o /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+The set of values for time()
+FOAlgTime(a, z) {
+i: 0;
+time : O;
+while ((a[i] !: z) && (i < a.size()—1)){
+-H—time;
+}
+-|—|-time;
+if (a[i] : z) poz = i;
+else poz = —1;
+-|—|-time;
+return time;
+}
+:l 51 - '= I: QQG
+Expected Time PA 2021/2022 21/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+The set of values for time(), test
+a = [ i | i from [1..7]];
+for (i:1; i <27; ++i)
+print(FOA|gTime(a, i ));
+print(FOA|gTime(a,10));
+Output:
+$ alki —a foalg-time-test.alk
+2
+3
+4
+5
+6
+7
+8
+8
+cl a] 2 E :5 020
+Expected Time PA 2021/2022 22/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Expected Time for FOAlg 1/2
+— instance size: n I a.size()
+— measured operations: comparisons evolving elements in a
+— {timeFOA1g(a,z) | size(a,z) : n} I {i | 2 g i g n-l- 1}
+— it is difficult to compute the probability of an instance
+Assumptions:
+0 probability that z G {a07 . . . , an_1} is q, and
+0 probability that the first occurrence of z is on position i is Q
+n
+cl 51 t E :2 QQG
+Expected Time PA 2021/2022 23/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Expected Time for FOAIg 2/2
+Prob(z ¢ {5:0, . . . , an_1}) : 1 — q
+Prob(timegOA1g(p) I i) z g I Pi, 2 g i g n
+Prob(timelﬂlOA1g(p) = n + 1) = g + (1 — q) = pn+1
+Expected time is:
+n+1
+exp-time(n) : 2 pit,-
+: 2--1+(-+(1—q)>-(n+1>
+[:2 n n
+n - q 1
+= 1 _ — -
+n + 2 + 2
+1 3 - 3
+For q : 5 we have exp-time(n) : Tn + 5.
+. n 3
+For q : 1 we have exp-t!me(n) : — + —.
+2 2 cl 51 t E :2 QQG
+Expected Time PA 2021/2022 24/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Experlment WIth Alkl 1/2
+1
+q_ 2
+time : O;
+a=[ i | i from [1..1001];
+for (i I 0; i < 100; -l—l-i){
+a : uniformPerm(a);
+z I 1 + uniformNat(200);
+time +2 FOAlgTime(a,z);
+}
+print(float(time)/100.0);
+$ alki —a foalg-time-test.alk
+77.05
+Note that the executed algorithm is probabilistic.
+The probability for this execution is: OE—1O
+cl 51 2 E :5 QQO
+Expected Time PA 2021/2022 25 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Experlment WIth Alkl 2/2
+qzl
+time : O;
+a:[ i | i from [1..1001];
+for (i I O; i < 100; -l—l-i){
+a : uniformPerm(a);
+z I 1 + uniformNat(100);
+time +: FOAlgTime(a,z);
+}
+print(float(time)/100.0);
+$ alki —a foalg-time-test.alk
+53.99
+Note that the executed algorithm is probabilistic.
+The probability for this execution is: OE—10
+cl 51 * E :5 QQO
+Expected Time PA 2021/2022 26 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+P | a n
+a Case Studies
+o Quicksort
+cl 51 - '= I: J) q 0
+Expected Time PA 2021/2022 27 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Quicksort: description
+Design paradigm: divide-et-impera.
+Algorithm Quicksort
+@input S : (20, . . . , a,,_1)
+@output a sequence including all elements a,- in increasing order
+0 choose x : ak G 5
+9 compute
+5<:(8,'|8,'<X)
+5::(8/ I Q/IX)
+5>:(8,'|8,'>X)
+9 sort recursively S< si S> producing Seq< si Seq>, respectively
+0 return the sequence Seq<, 5:, Seq>
+Expected Time PA 2021/2022 28/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Quicksort: partitioning
+Use Lomuto algorithm from k-median:
+partition(out a, p, q)
+{
+pivot:a[q];
+i = p — 1;
+for(1'=P:i'<q;++j)
+if (a[j] <2 pivot) {
+i : i + 1;
+swam, i ,j);
+}
+swap(a, i+l, q);
+return i + 1;
+}
+cl a] - '= :5 QQO
+Expected Time PA 2021/2022 29/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Qulcksort: algorlthm
+©input: a : (a[p], . . . , a[q])
+@output : a sorted in increasing order
+qsortRec(out a, p, q)
+{
+if (p < q) {
+k : partition(a, p, q);
+qsortRec(a, p, k-1);
+qsortRec(a, k+1, q);
+}
+}
+qsort(out a)
+{
+qsortRec(a, O, a.size()—1);
+}
+cl 51 - '= I: QQG
+Expected Time PA 2021/2022 30/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Quicksort: worst-case time analysis
+o instance size: n = a.size()
+o measured operations: compararisons between elements of a
+o worst case: the array is sorted
+o the number of comparisons for the worst case:
+(n—1)+(n—2)+-~~+1: 0(n2)
+El 15' i E :5 ‘)QQ
+Expected Time PA 2021/2022 31/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Quicksort: expected time
+Expected time for qsort is equal to the expected time of the "randomized
+quicksort".
+El 5' ' _= :E ‘DQG
+Expected Time PA 2021/2022 32 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+"Randomized Quicksort", intuitively
+- canonic example for Las Vegas algorithms
+Algoritmul RQS
+Input: S : {a0, . . . , a,,_1}
+Output: elements a,- sorted in increasing order
+0 if n : 1 returns a0, otherwise randomly choose x : ak 6 5
+9 compute
+S< I (a,- | 8,‘ < 3k)
+5: I (a,- | 3,- : 9k)
+S> : (a,- | a,- > 3k)
+9 recursively sort 5< si S> producing Seq< si Seq>, resp.
+0 returns the sequence Seq<, Seq: Seq>
+Expected Time PA 2021/2022 33/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+"Randomized Quicksort", algoritmically
+randPartition(out a, p, q) {
+if (p < q) {
+i : p + uniformNat(q - p);
+swaph, i. q);
+return partition(a, p, q);
+} else if (p:q) return p;
+}
+randQsortRec(out a, p, q) {
+if (P < Q) {
+k = randPartition(a, p, q);
+randQsortRec(a, p, k—l);
+randQsortRec(a, k+1, q);
+}
+}
+RQS(out a) { randQsortRec(a, 0, a.size()—1); }
+cl 51 2 E :5 0&0
+Expected Time PA 2021/2022 34 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+RQS is equivalent with Quicksort with randomized input
+o The execution time of Quicksort depends on the partition:
+o two different inputs that produce the same partitions will have the
+same execution time.
+o To obtain all possible partitions for inputs of size n, it is enough to
+consider all the permutations of a set {a07 . . . 7 an_1}.
+o Assume that the inputs are uniformly chosen (each permutation is
+given as input with the same probability).
+0 lt follows that each a,- from a[p..q] candidates for pivot with same
+. . 1
+probabllity: i.
+q+1—p
+o This is equivalent to uniformly choose the pivot from the set (what
+the randomized partition does).
+Expected Time PA 2021/2022 35/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Time analysis of RQS: version 1 (1/4)
+
+Define Xij I
+1 the i-th and the j-th elements in the sorted list are compared
+0 otherwise
+
+XU is in fact the number of comparisons between the i-th and the j-th
+
+elements in the sorted list.
+
+Xij is a random variable of type indicator.
+
+C(n) - random variable that returns the number of comparisons.
+
+C(n) I 21>,- Xu
+
+Expected number of comparisons:
+
+E(C(n)) I RED/X11) I 21>,‘ Elxij)
+
+Expected Time PA 2021/2022 36/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Time analysis of RQS: version 1 (2/4)
+Let p,-j be the probability that the i-th and the j-th elements to be
+compared.
+We have E(X,-j) = p,-j >< 1+ (1 — pij) >< O = p,-j.
+Assume i <j. The i-th and the j-th elements (in the sorted list) are
+compared iff the first pivot from
+8,‘, . . . , aj
+is a,- or aj. Otherwise the pivot split the array.
+2
+lt follows -- : —.
+p '1 j— i+ 1
+El 5' i E :5 0Q‘?
+Expected Time PA 2021/2022 37/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Time analysis of RQS: version 1 (3/4)
+2/5001) I Zpu
+j>i j>i
+n—2 n—1
+222%
+i=0j=i+1
+i=0j=i+lj — I + 1
+n—2 n—i—1 2
+é Z Z Z
+i:0 k:1
+n—2 n—i—1 1
+< 2 —
+_ Z Z k
+1:0 k:1
+cl 51 2 E i5 QQO
+Expected Time PA 2021/2022 3s /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Time analysis of RQS: version 1 (4/4)
+We obtain:
+- 1
+22;‘? F I Hn_,-_1 s In(n — i - 1) + 1,
+Z?;g(ln(n — i — 1) + 1) : |n(n — 1)! + n — 1 : O(n|og n).
+Theorem
+The expected number of comparisons given by RQS is O(n|og n). I
+El r51 i E :5 QQQ
+Expected Time PA 2021/2022 39/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Experiment with Alki, RQS with time
+randQsortRecTime(out a, p, q) uses time {
+if (P < q) {
+k : randPartition(a, p, q);
+time +: q+1—p;
+randQsortRecTime(a, p, k—1);
+randQsortRecTime(a, k+1, q);
+}
+}
+RQSTime(0ut a) uses time {
+randQsortRecTime(a, O, a.size()—1);
+return time;
+}
+m 51 , E :5 0&0
+Expected Time PA 2021/2022 4o /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Experiment with Alki, QS with time
+qsortRecTime(out a, p, q) uses time {
+if (P < q) {
+k I partition(a, p, q);
+time +: q+1—p;
+qsortRecTime(a, p, k-l);
+qsortRecTime(a, k+1, q);
+}
+}
+QSTime(out a) uses time {
+qsortRecTime(a, 0, a.size()—1);
+return time;
+}
+m 51 , E :5 0&0
+Expected Time PA 2021/2022 41/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Experiment with Alki, RQS and QS with time, the test
+For RQS:
+time I 0;
+a:[ i | i from [1..100] ];
+for (i:0; i<100; —|—H) {
+a I uniformPerm(a);
+RQSTime(a);
+}
+print(float(time)/100.0);
+For QS:
+time I O;
+a=[ i | i from [1..100] 1;
+for (i:0; i<100; -|—|-i) {
+a = uniformPerm(a);
+QSTime(a);
+}
+print(float(time)/100.0);
+cl 51 t E :5 QQO
+Expected Time PA 2021/2022 42 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Experiment with Alki, RQS and QS with time, the output
+$ alki —a randomized-qsort-test.alk
+723.76
+Note that the executed algorithm is probabilistic.
+The probability for this execution is: OE-lO
+$ alki —a qsort-test.alk
+651.83
+Note that the executed algorithm is probabilistic.
+The probability for this execution is: OE-lO
+We see that two average times are very close. QSort is indeed quick!
+VVe have 100 |n100 ::460.5170186000 (k seewm thatthe constantis
+g 2)
+Compare it with 100- 100 I 10000!
+Expected Time PA 2021/2022 43/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Exercises
+Compute the expected time of insertSort and of bubbleSort, respectively.
+Consider two cases:
+o measured operations are swaps
+o measured operations are the element moves
+When there is a significant difference?
+cl 51 t E :2 oqo
+Expected Time PA 2021/2022 44 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Time analysis of RQS: version 2 (recursiv) 1/2
+0 assume that the sequence size is q + 1 — p : n
+1
+0 probability that the pivot x to be the k-th element: 1
+n
+0 subproblems sizes: k — p : i- 1 and q — k : n —i
+0 C(n) - the number of comparisons
+o let Y,- be the random variable returning the expected number of comparisons
+given by the recursive calls if the partitioning algorithms returns k, returns O
+otherwise
+Y-— E(C(i—l))—l—E(C(n-i)) ,i:k—p+l
+' i 0 ,iee k _ p + 1
+1 . .
+° E(Yi) I ;(E(C(I — 1)) + l-E(C(n — 0))
+0 the number of comparisons:
+C(n):(n—1)—l—2yi
+Exeeeeee Time ‘:1 PA 2021/2022 45/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Time analysis of RQS: version 2 (recursively) 2/2
+o expected number of comparisons:
+eXp-time(n) I E(C(n)) z E((n _ 1) + Z Y,-)
+I'Il
+1 n
+(n — 1) + E Z(E(C(i — 1)) + E(C(n — i)) ,if n Z 1
+= i=1
+1 ,if n : O
+Computing the above recurence, we obtain the same result: the expected time for
+RQS is O(n|og2 n).
+cl 51 t E :2 oqo
+Expected Time PA 2021/2022 46/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Computing the recurrence 1/2
+Let E(n) denote E(C(n)).
+2
+E(n)I(n—1)+;(E(O)+"-+E(n—1))
+nE(n)zn(n—1)+2(E(O)+---+E(n—1))
+
+Substitute n by n + 1:
+
+(n—1)E(n—1):(n—1)(n—2)+2(E(0)+--~+E(n—2))
+Subtract:
+
+nE(n):2(n—1)+(n+1)E(n—1)
+Divide by n(n + 1) and solve the obtained recurrence:
+E(n) _ E(n—1)+ 2 _ 2
+n+1 _ n n+1 n(n+1)
+
+_ M+2+i_(;+;>
+
+_ n—1 n n+1 (n-1)n n(n+1)
+
+i @121...+i_(i+m+;)
+
+_ 1 1 n+1 1-2 n(n+1)
+
+_ 1141111111)_2<1+v..+;>
+
+_ 1 2 n+1 1‘2 n(n+1)
+
+:1 51 t E :5 QQG
+
+Expected Time PA 2021/2022 47/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Computing the recurrence 2/2
+s' 1+1+ +1 0(| ) dth '2 1 - t
+mce — — : nn an e serles — IS conver en ,
+2 n k(k + 1) g
+it follows that E(n) = O(n|n n).
+\I' r51 ' _= :E QQG
+Expected Time PA 2021/2022 4s /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Plan
+a Case Studies
+o Nuts and Bolts
+cl a] - '= :5 0R0
+Expected Time PA 2021/2022 49 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Problem domaln
+
+o n bolts and n nuts
+
+o no way to compare two bolts or two nuts, resp.
+
+o each nut matches exactly one bolt
+
+o when a bolt is compared with a nut, one can decide if they match, or
+
+is larger, or is smaller
+
+o the goal is to find the matching nit for each bolt (or vice versa)
+Obs. Recently, in1995, was designed an algoritm that solves the problem
+in O(n log n)time:
+Janos Komlos, Yuan l\/la, and Endre Szemeredi. Sorting nuts and bolts in O(nlogn) time, SIAM
+J. Discrete Math 11(3):347-372, 1998. Technical Report MPl-l-95-1-025, Max-Planck-lnstitut
+ﬁir lnformatik, September 1995.
+
+Expected Time PA 2021/2022 50/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Simpliﬁed version
+Find a nut for a given bolt.
+Let cmp(N, B) be a function that returns:
+—1 if the nut N is less than the bolt B,
+0 if the nut N is equal to the bolt B,
+1 if the nut N is greater than the bolt B,.
+NutsAndBolt (NL, B)
+{
+n : NL. size ();
+for (i:0; i < n — 1; -l—l—i)
+if (cmp(NL[i], B): 0) return i;
+return n — 1;
+}
+cl 51 t E :2 oqe
+Expected Time PA 2021/2022 51/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Expected number of comparisons: version 1
+Assume that the order of nuts in NL (that is the same with the comparing
+order) is a uniform random variable.
+1
+lt follows that the probability that the needed nut to be on position i is 1
+n
+(why?).
+Let C(n) be the random variable that returns the number of comparisons.
+Assume that NL is nonempty and that always there is a nut that matches
+B.
+Possible values for C(n): 1, 2, . . . , n — 1.
+1
+Probability that C(n) : i, 1 g i < n — 1: 1
+n
+. . 2
+Probablllty that C(n) : n — 1: 1
+n
+Expected Time PA 2021/2022 52/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Expected number of comparisons
+n—2 1 2
+E C n : '-— n—1 -—
+( ( n Z! n+< > n
+1:1
+"'11' n— 1
+:2-+—
+_ n n
+1:1
+n n — 1 n — 1
+I Q + _
+2n n
+_ n+ 1 1
+_ 2 n
+e. a] - -= :5 mu»
+Expected Time PA 2021/2022 53 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Expected number of comparisons: version 2 (recursiv) 1/2
+If n > 1, the first element is always compared(i.e. its probability is 1).
+Recalll that the probability that the algorithm stops after the ﬁrst
+comparison IS i. lt follows that the rest of the ||st IS processed w1th the
+n
+
+. . l — l
+
+probability 1 — 1 : L.
+n n
+Y - the random variable that returns E(C(n — 1)) for the recursive call,
+and 0 otherwise.
+We have:
+C(1) I 0, C(n) I 1 + Y pentru n > 1
+which implies
+— 1
+E(C(n)) I 1 + E(Y) I 1 + "TEN/1 _ 1)) pentru n > 1.
+Expected Time PA 2021/2022 54/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Expected number of comparisons: version 2 (recursiv) 2/2
+Let c(n) : nE(C(n)).
+It follows: c(1) : O, c(n) : n + c(n — 1) for n > 1.
+1
+We obtain: c(n) : 27:2 i : w — 1.
+. . . c(n) n+ 1 1
+h h | EC :_:—_-.
+w |c Imp les ( (n)) n 2 n
+El r5] i E :5 ‘)QG
+Expected Time PA 2021/2022 55 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+General case, solution 1 (naive)
+NutsAndBoltsNaiv (NL, BL) {
+M: emptyList; n : NL.size();
+foreach B from BL {
+l I O;
+while (i < n)
+if (cmp(NL[i], B): O){
+M. pushBack([B, NL[ i ]]);
+i : n;
+}
+else -l—|—i;
+}
+return M;
+}
+The number of comparisons for the worst case I O(n2)
+The above solution does not use the values —1 and 1 returned by cmp.
+cl a] 2 E :2 oqo
+Expected Time PA 2021/2022 56 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+General case, solution 2: idea
+lt is of recursive nature.
+Curent step:
+
+0 choose a bolt as a pivot and compare it with all the current nuts;
+
+9 take the matched nut and compare it With the remained bolts;
+
+9 after 2(n — l) comparisons, split the lists of bolts in two: the list of
+bolts/nuts smaller than the matched nut/bolt, and the list of bigger
+ones;
+
+Recursive calls:
+o one call for the list with the bolts/nuts smaller
+o one call for the list with the bolts/nuts bigger
+Exercise. Write in Alk the above algorithm.
+Expected Time PA 2021/2022 57/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Worst-case analysis
+C(O) = 0
+C(n) = 2n — 1 + krriax (C(k — 1) + C(n — k))
+: ,...,n
+:2n-1+C(n—1)
+After solving the recurrence, we get
+n
+C(n) I Em - 1) I 0(n2)
+i=1
+El r51 i E :5 QQG
+Expected Time PA 2021/2022 58/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Expected number of comparisons 1/3
+Assume that the pivot bolt is uniform randomly chosen.
+Let B,- be the i-th bolt in the sorted list. Similar Nj.
+Xij the random variable (of type indicator), that returns l if B,- and NJ- are
+compared, 0 otherwise.
+Assume i <j. B,- and NJ- are compared ifF the first pivot from Bi, . . . , BJ- is
+B; OI’ BJ' (why?).
+2 . .
+lt follows E(X,-j) I Prob(X,-j I 1) I HT I <_/.
+2
+The symetric relation is obtained in the same way: E(X,-j) I T
+I _.l
+i >j.
+If i :j, E(X,-j) : 1 (although these comparisons can be avoided).
+Expected Time PA 2021/2022 59/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Expected number of comparisons 2/3
+Since C(n) = 27:1 217:1 X,-J-, it follows
+n n
+E(C(")) = HZZX/j)
+i:1 j:l
+n n
+= Z Z 5W)
+i:1 j=1
+n n n
+= 25W) +22 Z 5W)
+i=1 i=1 j:i+1
+n n 1
+i:1j=i+1‘/ + 1 —'
+: n+4(nH,, — 2n+ H”)
+El r51 i E :5 QQQ
+Expected Time PA 2021/2022 60/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Expected number of comparisons 3/3
+We used:
+n n 1 n n+lii 1
+_ . k
+k:2 1:1
+_ i n + 1 — k
+— k
+k:2
+n 1 n
+k=2 k=2
+I (n+1)(H,,— 1) — (n— 1)
+. 1 .
+Slnce H,, : 22:1 F I O(|n n), It follows
+E(C(n)) : O(n|n n)
+El 5' i E :5 QQO
+Expected Time PA 2021/2022 61/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Expected number, recursively 1/3
+Assume that the pivot is uniform randomly chosen and each bolt B is
+equiprobable the k-th smallest in the list, i.e. B occurs on position k in
+1
+the sorted list with the probability i.
+n
+Let Yk be the random variable that returns the expected number of
+comparisons for the recursive calls if the pivot is the k-th element, 0
+otherwise:
+Y _ E(C(k i 1)) + E(C(n i k)) if the pivot is Bk
+k — O otherwise
+We have n
+C(n):2n—1+ZYk
+k:1
+1
+E(Yk) I ;(E(C(l< — 1)) + 15(C(n — 10))-
+Expected Time PA 2021/2022 62/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Expected number, recursively 2/3
+E(C(n)) I E(2n - 1 + Z Yk)
+[(21
+:2n—1+ZE(Yk)
+k=1
+1 I1
+:2 _1 - E k-l E —k
+n +nk;( (C( ))+ (C(n ))
+2 n—1
+:2 _ _
+n 1 + n 215mm)
+k:0
+We obtain
+n—1
+nC(n) I n(2n - 1) + 2 2 E(C(k))
+k:0
+which implies
+nC(n):(n—|-1)C(n—1)+4nﬁ3 51 1 e :5 QQQ
+Expected Time PA 2021/2022 63/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Expected number, recursively 3/3
+E _ ﬁ + i _ L
+n + 1 — n n + 1 n(n + 1)
+C(n-l) C(n-2) 4 3
+— : — + _ _ —
+n n — 1 n (n — 1)n)
+C(2) C(l) 4 3
+_ : _ _|_ _ _ _
+3 2 2 1(2)
+We obtain C( ) C(l)
+n
+_ z _ |
+n + 1 2 + O( n n)
+which implies
+C(n) I O(n|n n)
+cl a] 2 E :5 eqe
+Expected Time PA 2021/2022 64 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Reduction to sorting
+0 two bolts are compared using the nuts (how ?)
+a similarly, two nuts are compared using the bolts (how ?)
+o define comparing functions (and compute their execution time)
+o call a generic sorting algorithm, having the two comparing functions
+as arguments
+0 return (BL[i], NL[i]) from the sorted lists
+Expected Time PA 2021/2022 65/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Reducing sorting to NutsAndBolts
+o duplicate the list to be sorted
+0 a copy plays the role of nuts, the other one that of bolts
+0 call NutsAndBolts
+o merge the lists returned by NutsAndBolts a sorted list of the initial
+elements
+El r51 i E :5 QQQ
+Expected Time PA 2021/2022 66/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Plan
+Recap
+Expected Time for Deterministic Algorithms
+a Case Studies
+First Occurrence in a List
+Quicksort
+Nuts and Bolts
+o Treaps
+:l a] - -= :z mu»
+Expected Time PA 2021/2022 67/ 81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Deflnltlon
+0 combine binary search tree with max-heap (or min-heap)
+0 binary search structure is given by a key associated to each data
+o max-heap structure is given by a priority pri associated to each data
+a searching is performed using the binary search structure
+The main idea of use: assign higher priorities to frequently searched
+elements.
+Remark
+Given a set of pairs (key, value), there is only one treap representing the
+treap.
+Raimund Seidel and Cecilia R. Aragon. Randomized search trees. Algorithmica,
+16(4/5):464-497, 1996. Available at
+https : //faculty . washington. edu/aragon/pubs/rst96 . pdf .
+Jeff Erickson. Algorithms, Treaps and Skip Lists.
+https : //j effe . cs . illinois . edu/teaching/algorithms/noteS/OS-treaps .pdf
+Expected Time PA 2021/2022 68/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+“ea”
+Exa m ple
+C1 ﬁ - '= :5 I) q 0
+DY Lucanu (Fll 7 UAIC) Expected Time PA 2021/2022 69/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+Example, |n Alk 1/2
+t |—>
+{
+key —> 15 pri —> 13 value —> "R"
+left —> {
+key —> 7 pri —> 12 value —> "A"
+left -> {
+key —> 5 pri —> 9 value —> "B"
+left —> {
+key —> 4 pri —> 12 value —> "C"
+left —> {—>}
+right —> {—>}
+}
+right —> {—>}
+}
+right —> {
+key —> 10 pri —> 5 value —> "D"
+left —> {
+key —> 9 pri —> 4 value —> "E"
+left -> {->}
+right —> {—>}
+}
+right —> {
+key -> 13 pri —> 3 value —> "F"
+left —> {->}
+right —> {—>}
+}
+}
+} cl 51 2 E :2 eqe
+Expected Time PA 2021/2022 7o /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Example, |n Alk 2/2
+right -> {
+key —> 24 pri —> 4 value —> "G"
+left —> {
+key -> 19 pri -> 1 value -> "H"
+left —> {—>}
+right —> {—>}
+)-
+right -> {->}
+1'
+1*
+:I a] - '= I: QQO
+Expected Time PA 2021/2022 71/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+Treaps: lookup
+lookup(t, k) uses emptyTreap, none {
+if (t = emptyTreap)
+return none;
+else {
+if (k : t.key)
+return t.va|ue;
+if (k < t.key)
+return lookup(t.|eft, k);
+return |ookup(t.right, k);
+}
+}
+cl 51 - '= I: QQO
+Expected Time PA 2021/2022 72/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Treaps: insertion
+o insert the new element into a leaf node using the binary search
+structure
+o restore the max-heap property using priorities and rotations
+El r51 i E :5 QQG
+Expected Time PA 2021/2022 73 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Treaps: Insertlon |n Alkl
+insertTreap(t, xk, xp, xv) uses emptyTreap {
+if (t I emptyTreap)
+return {
+key —> xk
+pri —> xp
+value —> xv
+left —> emptyTreap
+right —> emptyTreap
+};
+else if (xk I t.key)
+return t;
+else if (xk < t.key){
+t1 I insertTreap(t.left, xk, xp, xv);
+return heapRotate(tl.key, t1.pri, t1.value,
+t.key, t.pri, t.value,
+t1.left, t1.right, t.right);
+}
+else {
+t1 = insertTreap(t.right, xk, xp, xv);
+return heapRotate(t.key, t.pri, t.value,
+tl.key, t1.pri, t1.value,
+t.left, t1.|eft, tl.right);
+} , 2, e
+El 5' 2 5 QQG
+Expected Time PA 2021/2022 74/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Treaps: heapRotate |n Alkl
+heapRotate(xk, xp, xv, yk, yp, yv, a, b, c){
+if (XP > YP) {
+return {
+key —> xk
+pri —> xp
+value —> xv
+left —> a
+right —>{
+key —> yk
+Pri —> yP
+value —> yv
+left —> b
+right —> c
+}
+};
+} else {
+return {
+key —> yk
+Pri -> yP
+value —> yv
+left —>{
+key —> xk
+pri —> xp
+value —> xv
+left —> a
+right —> c
+}
+right —> b
+};
+l
+}
+El r51 ' _= :E ‘)QG
+Expected Time PA 2021/2022 75 /81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Deletion
+o its operation way is dual to that of inserting
+o the element to be deleted is moved into a leaf using both structures,
+by rotations
+0 delete the leaf
+El r51 i E :5 QQG
+Expected Time PA 2021/2022 76 /81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Expected number of comparisons 1/3
+The number of comparisons for a key is depending on the depth of the key
+in the treap.
+For the sake of presentation, we assume that the keys are 17 27 . . . , n.
+We use an indicator random variable AU- that returns 1 iff i is an ancestor
+ofj.
+We have that i is an ancestor ofj ifF i has the maximum priority in all
+nodes in [min(i,j).. max(i,j)].
+1 1
+lt follows that Prob A-- I 1 I f and hence E A-- : i.
+(U ) |I—j|+1 (U) ll—_/|-l-1
+The random variable returning the depth of a nodej is given by
+depth(j) : ZiA/j i 1, where we assumed that the root has the depth O
+and thatj is ancestor to itself.
+Expected Time PA 2021/2022 77/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Expected number of comparisons 2/3
+We have:
+adept/1(1)) z HZ Au- — 1)
+z 2 E(A,-j) _ 1
+1
+i |/ —_/| + l
+j n
+1 > ( 1 )
+I f + f — 1
+j r1—j+1
+1 1
+Z Z t + Z t — 1
+k=1 k=2
+I I_Ij + Hn—j+1 — 2
+where Hk is the sum of the first k elements from the hilrmogc se[ies. E :I qu
+Expected Time PA 2021/2022 78/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+Expected number of comparisons 3/3
+Since Hk g (In k) —l— 1, we obtain
+E(depth(j)) g (lnj) —l— 1 —l— (ln(n —j + 1)) —l— 1 — 2 g 2ln n
+
+This is an upper bound for the number of comparisons.
+A randomized tree is obtained by uniform random generating priorities
+(real numbers in [0,1]) at insertion.
+If the nodes are inserted in the decreasing order of priorities, then the
+result is a treap.
+The above analysis holds also for random binary search trees (random
+insertions, no priorities).
+
+Expected Time PA 2021/2022 79/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Quicksort again
+We may use the binary search trees for designing a randomized algorithm
+for sorting:
+T = empty binary search tree
+randomly insert the keys in T
+returns the inorder list of T
+Show the converse claim, namely that RQS can be transformed into a
+randomized algorithm for building binary search trees.
+Is the expected time preserved?
+Expected Time PA 2021/2022 80/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+“ea”
+The End
+C1 ﬁ - '= :5 I) q 0
+DY Lucanu (Fll 7 UAIC) Expected Time PA 2021/2022 81/81
+
+***************Ending Page***************
+
+
+
+
+

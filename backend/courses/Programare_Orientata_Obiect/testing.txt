@@ -1,0 +1,1316 @@
+***************Beginning Page***************
+***************page number:1**************
+OOP (C++): Testing
+Dorel Lucanu
+Faculty of Computer Science
+Alexandru loan Cuza University, |a§i, Romania
+dlucanu@info.uaic.ro
+Object Oriented Programming 2021/2022
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+ﬂ CMake
+
+Q Unit Testing with Google Test
+Q Test Fixtures
+
+Q Test-driven development (TDD)
+Q TDD = A Simple Case Study
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+lntroduotion
+
+' In this lesson we learn how to use a unit-testing framework.
+
+0 The framework we use is Google Test
+https://github.com/google/googletest/
+
+' Usually, a unit-testing framework is used together with a
+build automation tool.
+
+. We use CMake, a cross platform builder:
+https://cmake.org/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Plan
+ﬂ CMake
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Brief Description
+
+. A CMake-based buildsystem is organized as a set 0f
+high-level logical targets.
+
+¢ Each target corresponds to an executable, or a library, or is
+a custom target that contains custom commands.
+
+. Dependencies between targets are expressed in the
+generation system t0 determine the order of generation
+and the rules for regeneration when changes are made.
+
+~ CMake commands are written in CMake Language and
+included in CMakeLists.txt files or with the .cmake
+extension.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Resources
+
+0 An introduction:
+https://cmake.org/cmake/help/v3.ZO/manual/
+cmake.l.html
+
+. Detailed description:
+https://cmake.org/cmake/help/latest/manual/
+cmake—buildsystem.7.html
+
+. CMake Language is described in
+https://cmake.org/cmake/help/latest/manual/
+cmake—language.7.html
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+First Example: Folder Structure
+This is the most simple example using CMake.
+Li exO_cmake
+ECMakeLists . txt
+main.cpp
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Flrst Example: CMakeLlsts.txt
+# CMake minimum version required
+cmake_minimum_required(VERSION 3.16)
+# the name of the project
+project(ex0)
+# C++ minimum version required
+# GoogleTest requires at least C++1l
+set (CMAKE_CXX_STANDARD l4)
+# add an executable target
+add_executable(ex0_main main.cpp)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+First Example: main.cpp
+#include <iostream>
+int main() {
+stdzzcout << "Hello, World!" << stdzzendl;
+return O;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+First Example: Demo with CLion
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+First Example: Command line building
+We work with a copy exO_cmake_cmd
+cd exO_cmake_cmd // go to the example folder
+cmake —H. —Bbuild // create the scripts in the "build" folder
+cd build
+cmake ibuild . // the building process
+ls
+CMakeCache.txt Makefile eXO_main
+CMakeFiles cmake_install.cmake
+./ex0_main // run the generated binary
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Third Example: Folder Structure
+Let’s elaborate a bit the folder structure.
+l: awake
+CMakeLiSts . txt
+includes
+LE Date.h
+lib
+LE libex2_library.a
+src
+E Date . opp
+main.cpp
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Thlrd Example: New commands In
+CMakeUstsixt
+
+add_executable(ex2_date src/main.cpp src/Date.cpp)
+# for additional headers available for including
+# from the sources of all targets
+include_directories(includes)
+# add a library target
+add_library(ex2_library STATIC src/Date.cpp)
+# linking the library
+find_library(EX2_LIBRARY ex2_library lib)
+target_link_libraries(ex2_main LINK_PUBLIC ${EX2_LIBRARY})
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Third Example: Date.h
+//. ..
+class Date {
+private:
+int year;
+int month;
+int day;
+public:
+void setToday(int aYear, int aMonth, int aDay);
+string to_string();
+string today();
+string tomorrow();
+private:
+static bool isLeapYear(int year);
+static int daysNo(Date& d);
+};
+//. ..
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Third Example: Demo with CLion
+
+Comment
+find_library(EX2_LIBRZ-\RY ex2_library lib)
+target_link_libraries (ex2_main LINK_PUBLIC ${EX2_LIBRARY
+Copy libex2_|ibrary.a from Release/Debug into folder /|ib
+Uncomment
+#find_library(EX2_LIBRARY ex2_library lib)
+#target_link_libraries(ex2_main LINK_PUBLIC ${EX2_LIBRAR
+build
+
+cl 51 , E i: eqe
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Plan
+Q Unit Testing with Google Test
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Testing Frameworks fro C++
+
+' BOOStTéStUbﬁﬂyhttps://www.boost.org/doc/
+libs/l_66_O/libs/test/doc/html/index.html
+
+° CppUnHhttp://cppunit.sourceforge.net/doc/
+cvs/cppunit_cookbook.html
+
+' CUTE (C++ Unit Testing Easier)
+http://cute—test.com/
+
+¢ Google C++ Mocking Framework
+https://github.com/google/googletest/tree/
+master/googlemock
+
+° GOOweibSthttps://github.com/google/
+googletest/tree/master/googletest
+
+' Microsoft Unit Testing Framework for C++
+https://msdn.microsoft.com/en-us/library/
+hh598953.aspx
+
+. I I I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+On Google Test
+From Google Test primer:
+
+ﬂ Tests should be independent and repeatable.
+
+9 Tests should be well organized and reflect the structure of
+the tested code.
+
+Q Tests should be portable and reusable.
+
+Q When tests fail, they should provide as much information
+about the problem as possible.
+
+6 The testing framework should liberate test writers from
+housekeeping chores and let them focus on the test
+content.
+
+(5 Tests should be fast.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Unit Testing Terminology
+
+Assertion A statement that checks if a condition holds (is
+
+true).
+Test A collection 0f assertions that check the behaviour
+
+of a piece of code.
+
+Test suite A group of test. The test suite should reflect the
+structure of the code.
+
+Test program A set of test suites.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Advantages of using unit testing (UT)
+
+. UT helps to fix bugs in early stahes.
+
+' UT helps t0 understand better the code testimg.
+
+' UT helps to understand better what functionality should be
+provided by a unit code.
+
+' UT allows t0 test some parts of the code without waiting
+the other ones to be finished.
+
+. UT helps to reuse the code.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Unit testing myth
+Less More
+stable code presure
+Less
+productive
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+The structure of a Google test
+TEST<TestSuiteName, TestName) {
+... test body ...
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Six Steps to Follow
+' Step 1: Initialize the project
+0 Step 2: Incorporate the Google Test project
+0 Step 3: Add the source files to the project
+. Step 4: Add tests
+. Step 5: Complete the files with the test configuration
+information
+' Step 6: Build and execute the project
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+First Example with tests: Folder
+Structure
+This is the most simple example using CMake.
+[ileXO_cmake
+CMakeLists.txt
+hello_test.cpp
+main.cpp
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Flrst Example WIth tests: New
+- |
+Commands In CMakeLlsts.txt
+
+# fetch Google Test
+include(FetchContent)
+FetchContent_Declare(
+
+googletest
+
+URL https://qithub_com/google/googletest/archive/refs/tagS/release*l.10.0.Zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(qtestiforceisharedicrt ON CACHE BOOL "" FORCE)
+FetchContentiMekeAvailable(googletest)
+enableitestingU
+# add an executable test target
+addiexecutable(
+
+ex0_test
+
+hello_test.cpp
+)
+# link the Google Test library
+target_link_librarie5(
+
+ex0_test
+
+gtest_main
+)
+# enable CMake's test runner to discover the tests included in the binary,
+# using the GoogleTest CMake module
+include(GoogleTest)
+gtestidiscoveritests(eintest)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+First Example with tests: he||o_test.cpp
+
+#include <gtest/gtest.h>
+// Demonstrate some basic assertions.
+TEST(HelloTest, BasicAssertions) {
+
+// Expect two strings not to be equal.
+
+EXPECT_STRNE("mine", "yours");
+
+// Expect equality.
+
+EXPECT_EQ(2 + 2, 4);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+First Example with tests: Demo with
+CLion
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+First Example with tests: Command
+llne bwldlng
+We work with a copy eincmakeicmd
+cd exOAcmakeicmd // go to the example folder
+cmake *H. *Bbuild // create the scripts in the "build" folder
+cd build
+cmake ibuild . // the building process
+ls
+CMakeCache.txt cmakeiinstall.cmake
+CMakeFiles exO_main
+CTestTestfile.cmake hello_test
+Makefile hello_test[1]_include.cmake
+ideps helloitest[l]itests.cmake
+bin lib
+./he1lo_test // run the generated tests
+[::::::::::] Running 1 test from 1 test suite.
+[iiiiiii] Global test environment setiup.
+[iiiiiii] 1 test from HelloTest
+[ RUN ] He1loTest.BasicAssertions
+[ OK ] HelloTest.BasicAssertions (O ms)
+[iiiiiii] 1 test from HelloTest (O ms total)
+[iiiiiii] Global test environment tearidown
+[==========] 1 test from 1 test suite ran. (O ms total)
+[ PASSED ] l test.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Second Example with tests: Folder
+Structure
+This is the most simple example using CMake.
+E: exl_cmake_with_tests
+CMakeLists.txt
+includes
+k5 fnctns.h
+lib
+k5 libexl_library.a
+src
+l5 fm . opp
+tests
+k5 testl.cpp
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+# add an executable target
+
+add_executable(exl_main src/main.cpp)
+add_executable(exl_fnctns src/main.cpp src/fnctns.cpp)
+
+# add a library target
+
+add_library(exl_library STATIC src/fnctns.cpp)
+
+# linking the library
+
+findilibrary(EXliLIBRARY exlilibrary lib)
+target_link_libraries(exl_main LINK_PUBLIC $EX1_LIBRARY)
+# fetch Google Test
+
+enableitestinq ()
+
+# add an executable test target
+add_executable(exl_testl tests/testl.cpp src/fnctns.cpp)
+# link the Google Test library
+target_link_libraries(exl_testl gtest_main)
+
+# enable CMake’s test runner to discover the tests
+gtest_discover_tests(ex1_testl)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Second Example WIth tests: test1.cpp
+
+#include <gtest/qtest.h>
+
+#include "../includes/fnctns.h"
+
+#include <climits>
+
+// Tests for inc2
+
+TEST<ExlTest, BasicAssertionsIncZ) {
+EXPECLEQ (5, inc2 (3) );
+ASSERT_TRUE(inc2(7) > 7),-
+
+}
+
+// Tests for sqr
+
+TEST(Ex1Test, BasicAssertionsSqr) (
+EXPECT_EQ(9, sqr(3));
+ASSERT_TRUE(sqr(—5) > 0),-
+
+}
+
+// Tests for combinations of the two
+
+TEST(ExlTest, CombinedAssertions) {
+EXPECT_EQ(inc2(2), sqr(2));
+ASSERT_TRUE (sqr (7) > inc2 (7) );
+ASSERT_TRUE(inc2(1) > sqr(1));
+
+)
+
+// Tests for boundary cases
+
+TEST<ExlTest, BondaryAssertions) (
+ASSERTiTRUECLnCZ (INTiMAX) > INTiMAX);
+ASSERT_TRUE(sqr(INT_MAX/5) > INT_MAX/5);
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Second Example with tests: Demo with
+CLion
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Second Example WIth tests: Command
+I - -
+llne bwldlng
+
+We work with a copy ex1icmakeiwilitestsicmd
+cd exl_cmake_with_tests_cmd // go to the example folder
+cmake *H. *Bbuild // create the scripts in the "build" folder
+cd build
+cmake ebuild . // the building process
+./eXl_test1
+[==========] Running 4 tests from l test suite.
+[———————] Global test environment set-up.
+[———————] 4 tests from ExlTest
+[ RUN ] ExlTest.BasicAssertionsIncZ
+[ OK ] ExlTest.BasicAssertionsIncZ (O ms)
+[ RUN ] ExlTest.BasicAssertionsSqr
+[ OK ] ExlTest.BasicAssertionsSqr (O ms)
+[ RUN ] ExlTest.CombinedAssertions
+[ OK ] ExlTest.CombinedAssertions (O ms)
+[ RUN ] ExlTest.BondaryAssertions
+.../examples/exl_cmake_with_tests_cmd/tests/testl.cppz30: Failure
+Value of: incZ(INT_MAX) > INT_MAX
+
+Actual: false
+Expected: true
+[ FAILED ] ExlTest.BondaryAssertions (O ms)
+[terrier] 4 tests from EXlTest (0 ms total)
+[terrier] Global test environment tearedown
+[==========] 4 tests from l test suite ran. (O ms totah
+[ PASSED ] 3 tests.
+[ FAILED ] 1 test, listed below:
+[ FAILED ] ExlTest.BondaryAssertions
+
+l FAILED TEST
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Plan
+Q Test Fixtures
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+What ls a Test Fixture
+0 Allows the use of the same object configuration for multiple
+tests
+. lt is recommended for testing classes
+¢ The steps to follow are:
+
+ﬂ Derive a class from :: testing :: Test.
+
+Q Inside the class, state any objects you intend to use.
+
+Q lf necessary, write a default constructor or a SetUp()
+function to prepare the objects for each test. A common
+mistake is to write SetUp() as Setup(), with a small u - don’t
+let this happen.
+
+0 If necessary, write a destructor or TearDown() function to
+free up the resources allocated in SetUp().
+
+6 lf necessary, define methods to allow test sharing.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Further Info
+https://github.com/google/googletest/blob/
+master/googletest/docs/FAQ.md
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+TEST_F() Macro
+' it must be used whenever we have "test fixture" type
+objects
+. template:
+TEST_F(test_case_name, test_name) {
+... test body ...
+l
+. the first parameter must be the name of the "test fixture"
+class
+' you must first define a test fixture class before using it in a
+TEST_F()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+How TEST_F() Works
+
+For each test defined with TEST_F(), Google Test will:
+
+Q create a new “test fixture” at runtime
+
+9 initialize with SetUp ()
+
+9 run the test
+
+Q free memory by calling TearDown()
+
+6 delete "test fixture".
+Keep in mind that different tests in the same test have different test
+objects, and Google Test always deletes one test item before creating
+the next one.
+Google Test does not reuse the same "fixture test" for multiple tests.
+Any changes that a test makes to the "test fixture" do not affect other
+tests.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Third Example: Folder Structure
+
+Let’s elaborate a bit the folder structure.
+e ex2_cmake
+
+CMakeLists .tXt
+
+includes
+
+LE Date.h
+
+lib
+
+[E libex2_library.a
+
+src
+
+E Datacpp
+
+main.cpp
+tests
+{E DateTest.cpp
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Thlrd Example: New commands In
+CMakeLlsts.txt
+# fetch Google Test
+# add an executable test target
+add_executable(ex2_testl tests/DateTest.cpp src/Date.cpp)
+# link the Google Test library
+target_link_libraries(ex2_testl gtest_main)
+# enable CMake’s test runner to discover the tests included in
+gtest_discover_tests(ex2_testl)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Thlrd Example. DateTest.cpp
+#include "gtest/gtest.h"
+#include "Date.h"
+class DateTest : public testingzzTest {
+protected: // You should make the members protected s.t. they can be
+// accessed from sub-classes.
+// virtual void SetUp() will be called before each test is run. You
+// should define it if you need to initialize the variables.
+// Otherwise, this can be skipped.
+virtual void SetUp() i
+dli.setToday(2021, 5, 10);
+d2_.setToday(2020, 2, 28);
+d3_.setToday(2020, 12, 31);
+l
+// virtual void TearDown() will be called after each test is run.
+// You should define it if there is cleanup work to do. Otherwise,
+// you don’t have to provide it.
+//
+// virtual void TearDown() {
+// i
+// Declares the variables your tests want to use.
+Date dli, 012,, d3l;
+};
+// When you have a test fixture, you define a test using TESTiF
+// instead of TEST.
+// Tests for today().
+TEST_F(DateTest, Today) (
+ASSERT_STREQ("10.542021", dl_.today().c_str()); U 51 i E E (\QIx
+l l / \
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+What Happen When a Test is Executed
+
+For the Today test, Google Test builds a DateTest object (Iet’s
+call it t1). Then the following steps are performed.
+
+0 t1 .SetUp () initializes t1.
+
+0 The first test (DefaultConstructor) is run over t1.
+
+0 t1.TearDown () cleans up after the test (if any).
+
+. t1 is destroyed.
+The above steps are repeated with another DateTest object, in
+this case the Tomorrow test.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Third Example: Demo with CLion
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Thlrd Example WIth tests: Command
+llne bwldlng
+We work with a copy ex2_cmake_wit_tests_cmd
+cd ex2_cmake_with_tests_cmd // go to the example folder
+cmake *H. *Bbuild // create the scripts in the "build" folder
+cd build
+cmake ibuild . // the building process
+./eX2_testl
+[==========] Running 2 tests from l test suite.
+[———————] Global test environment set-up.
+[———————] 2 tests from DateTest
+[ RUN ] DateTest.Today
+[ OK ] DateTest.Today (0 ms)
+[ RUN ] DateTest.Tomorrow
+[ OK ] DateTest.Tomorrow (O ms)
+[ﬂeeeee] 2 tests from DateTest (0 ms total)
+[terrier] Global test environment tearidown
+[IIIIIIIIII] 2 tests from 1 test suite ran‘ (O ms totah
+[ PASSED ] 2 tests.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Plan
+Q Test-driven development (TDD)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+A Giants’s Dialog
+From SOFTWARE ENGINEERING TECHNIQUES Report on a
+conference sponsored by the NATO SCIENCE COMMITTEE Rome,
+Italy, 27th to 31st October 1969:
+Hoare: One can construct convincing proofs quite readily
+of the ultimate futility of exhaustive testing of a
+program and even of testing by sampling. So how
+can one proceed? The role of testing, in theory, is
+to establish the base propositions of an inductive
+proof. You should convince yourself, or other
+people, as firmly as possible that it the program
+works a certain number of times on specified data,
+then it will always work on any data.
+Dijkstra: Testing shows the presence, not the absence of
+bugs.
+httpi//hOmepages.cs.ncl.ac.uk/brian.randell/NATO/natol969.PDF
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+On TDD
+“One of the primary reasons l switched to TDD is for improved
+test coverage, which leads to 40%-80% fewer bugs in
+production. This is my favorite benefit of TDD. lt’s like a giant
+weight lifting off your shoulders.”
+(Eric Elliott, TDD Changed My Life)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Test-driven development (TDD):
+Definition
+“Test-driven development” refers to a style of programming in which
+three activities are tightly interwoven: coding, testing (in the form of
+writing unit tests) and design (in the form of refactoring).
+lt can be succinctly described by the following set of rules:
+¢ write a “single” unit test describing an aspect of the program
+~ run the test, which should fail because the program lacks that
+feature
+' write “just enough” code, the simplest possible, to make the test
+pass
+' "refactor” the code until it conforms to the simplicity criteria
+° repeat, “accumulating” unit tests over time
+https://www,agilealliance.org/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+TDD: Expected Benefits
+
+. many teams report significant reductions in defect rates, at
+the cost of a moderate increase in initial development effort
+
+. the same teams tend to report that these overheads are
+more than offset by a reduction in effort in projects’ final
+phases
+
+v although empirical research has so far failed to confirm
+this, veteran practitioners report that TDD leads to
+improved design qualities in the code, and more generally
+a higher degree of “internal” or technical quality, for
+instance improving the metrics of cohesion and coupling
+
+https://www.agilealliance.org/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+TDD: Common Pitfalls 1/2
+
+Typical individual mistakes include:
+
+¢ forgetting to run tests frequently
+
+' writing too many tests at once
+
+' writing tests that are too large or coarse-grained
+
+0 writing overly trivial tests, for instance omitting assertions
+
+0 writing tests for trivial code, for instance accessors
+https://wwwvagilealliance.org/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+TDD: Common Pitfalls 2/2
+Typical individual mistakes include:
+v partial adoption — only a few developers on the team use
+TDD
+0 poor maintenance of the test suite — most commonly
+leading to a test suite with a prohibitively long running time
+' abandoned test suite (i.e. seldom or never run) —
+sometimes as a result of poor maintenance, sometimes as
+a result of team turnover
+https://www.agllealliance.org/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+TDD: Signs of Use
+
+0 “code coverage” is a common approach to evidencing the
+use of TDD; while high coverage does not guarantee
+appropriate use of TDD, coverage below 80% is likely to
+indicate deficiencies in a team’s mastery of TDD
+
+0 version control logs should show that test code is checked
+in each time product code is checked in, in roughly
+comparable amounts
+
+https://www.agllealliance.org/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Skill Levels: Beginner
+¢ able to write a unit test prior to writing the corresponding
+code
+¢ able to write code sufficient to make a failing test pass
+https://www.agilealliance.org/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Skill Levels: Intermediate
+
+. practices “test driven bug fixing”: when a defect is found,
+writes a test exposing the defect before correction
+
+' able to decompose a compound program feature into a
+sequence of several unit tests to be written
+
+0 knows and can name a number of tactics to guide the
+writing of tests (for instance “when testing a recursive
+algorithm, first write a test for the recursion terminating
+case”)
+
+' able to factor out reusable elements from existing unit
+tests, yielding situation-specific testing tools
+
+https://www.agllealliancelorg/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Skill Levels: Advanced
+
+. able to formulate a “roadmap” of planned unit tests for a
+macroscopic features (and to revise it as necessary)
+
+. able to “test drive” a variety of design paradigms:
+object-oriented, functional, event-drive
+
+. able to “test drive” a variety of technical domains:
+computation, user interfaces, persistent data access. . .
+
+https://wwwvagilealliance.org/
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Plan
+6 TDD = A Simple Case Study
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+First Step 1/3
+o From Wikipedia:
+In mathematics, the greatest common divisor (god) of two or
+more integers, which are not all zero, is the largest positive
+integer that divides each of the integers. For example, the gcd
+of 8 and 12 is 4.
+Q The definition already gives us a test, which we include in
+the file ./tests/gcd-unittest.cc
+TEST<chTest, Positive) {
+EXPECT_EQ(4, gcd(8, 12));
+l
+9 add the file gcd-unittest.cc in ./tests/CI\/lakeList.txt
+9 add in ./src/myfsttstprj.h the prototype of ch:
+int gcd(int a, int b);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+First Step 2/3
+9 add to the ./src/ folder the gcd.cc file in which we write the
+empty GCD function:
+int gcd(int a, int b) {
+// nothing
+}
+6 add the file gcd.cc in ./src/CMakeList.txt and comment
+isprime_unittest.cc (for optimisation)
+6 build the binaries
+0 Ignore the warning
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Flrst Step 2/3
+
+Q test (gcd-step1):
+Running main() from gtest_main.cc
+[==========] Running l test from l test case.
+[——————————] Global test environment set-up.
+[——————————] l test from chTest
+[ RUN ] chTest.Positive
+.../myfsttstprj/tests/gcd_unittest.ccz88: Failure
+Expected equality of these values:
+
+4
+
+gcd(8,12)
+
+Which is: l
+
+[ FAILED ] chTest.Positive (O ms)
+[——————————] l test from chTest (O ms total)
+[iiiiiiiiii] Global test environment tearedown
+[::::::::::] l test from l test case ran. (l ms total)
+[ PASSED ] O tests.
+[ FAILED ] l test, listed below:
+[ FAILED ] chTest.Positive
+
+l FAILED TEST
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+First Refinement 1/3
+‘I add the Euclid algorithm:
+int gcd(int a, int b) {
+while (a != b)
+if (a > b)
+a = a — b;
+else
+b = b — a;
+return a;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Flrst Reﬁnement 2/3
+
+Q build and test (gcd-step2):
+Running main() from gtest_main.cc
+
+[==========] Running 1 test from l test case.
+[——————————] Global test environment set-up.
+[iiiiiiiiii] 1 test from chTest
+
+[ RUN ] chTest.Positive
+
+[ OK ] chTest.Positive (O ms)
+
+[iiiiiiiiii] 1 test from chTest (O ms total)
+[——————————] Global test environment tear-down
+[==========] l test from l test case ran. (O ms total)
+[ PASSED ] l test.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Flrst Reﬁnement 3/3
+Q add more positive tests (god-step2):
+TEST(chTest, Positive) {
+EXPECT_EQ (4, ch(8, 12));
+EXPECT_EQ (7, gcd(28, 21));
+EXPECT_EQ(1, gcd(23,31));
+EXPECT_EQ (1, gcd(48, 17) );
+}
+6 build and test:
+Running main() from gtest_main.cc
+[==========] Running 1 test from 1 test case.
+[——————————] Global test environment set-up.
+[iiiiiiiiii] 1 test from chTest
+[ RUN ] chTest.Positive
+[ OK ] chTest.Positive (O ms)
+[iiiiiiiiii] 1 test from chTest (O ms total)
+[——————————] Global test environment tear-down
+[==========] 1 test from 1 test case ran. (O ms total)
+[ PASSED ] l test .
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Second Refinement 1/3
+ﬂ add trivial tests
+TEST(chTest, Trivial) {
+EXPECT_EQ(18, gcd(l8,0));
+EXPECT_EQ (24, gcd (O, 24) );
+EXPECT_EQ(19, gcd(l9,l9));
+EXPECT_EQ(O, gcd(0,0)); // undefined
+}
+9 build and generate (gcd-step3)
+Running main() from gtest_main.cc
+[==========] Running 2 tests from l test case.
+[——————————] Global test environment set-up.
+[——————————] 2 tests from chTest
+[ RUN ] chTest.Positive
+[ OK ] chTest.Positive (O ms)
+[ RUN ] chTest.Trivial
+AC
+Oooops! The execution does not terminate
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Second Refinement 2/3
+Q proceed by elimination and see that gcd(18,0) is the problem
+a analyze the problem:
+int gcd(int a, int b) l
+while (a != b)
+if (a > b)
+a I a i b; // if b I: O, a is not modified!!!
+else
+b : b — a;
+return a;
+l
+Q fix it:
+int gcd(int a, int b) {
+if (b :: O) return a;
+if (a I: O) return b;
+while (a != b)
+if (a > b)
+a I a — b;
+else
+b : b — a;
+return a;
+l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Second Refinement 3/3
+6 build and test it (gcd-step4):
+
+Running main() from gtest_main.cc
+[==========] Running 2 tests from l test case.
+[——————————] Global test environment set—up.
+[eeeeeeeeee] 2 tests from chTest
+[ RUN ] chTest.Positive
+[ OK ] chTest.Positive (O ms)
+[ RUN ] chTest.Trivial
+[ OK ] chTest.Trivial (O ms)
+[——————————] 2 tests from chTest (O ms total)
+[——————————] Global test environment tear-down
+[==========] 2 tests from l test case ran. (l ms tot
+[ PASSED ] 2 tests.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Third Refinement 1/3
+a add negative tests
+TEST(chTest, Negative) {
+EXPECT_EQ (6, gcd(l8, —12));
+EXPECT_EQ(4, gcd(*28, 32));
+EXPECT_EQ (1, gcd(—29, —37) );
+}
+Q build and generate (gcd-step5)
+Running main() from gtest_main.cc
+[::::::::::] Running 3 tests from l test case.
+.../gcd_unittest.cc:104: Failure
+Expected equality of these values:
+6
+gcd(l8, *12)
+Which is: —2147483638
+AC
+Oooops! The execution does not terminate again
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Third Refinement 2/3
+Back to the documentation:
+"d | a if and only if d | —a. Thus, the fact that a number is negative does not
+change its list of positive divisors relative to its positive counterpart. .. .
+Therefore, gcd(a, b) = gcd(|a|, |b|) for any integers a and b, at least one of
+which is nonzero."
+Q include the case when the numbers are negative:
+int gcd(int a, int b) {
+if (b == O) return a;
+if (a :: O) return b;
+if(a < 0) a = fa;
+if(b < 0) b = —b;
+while (a I: b)
+if (a > b)
+a : a — b;
+else
+b I b i a;
+return a;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Thlrd Reﬁnement 3/3
+
+a build and test it (gcd-step6):
+
+Running main() from gtest_main.cc
+
+[==========] Running 3 tests from l test case.
+
+[——————————] Global test environment set-up.
+
+[——————————] 3 tests from chTest
+
+[ RUN ] chTest.Positive
+
+[ OK ] chTest.Positive (0 ms)
+
+[ RUN ] chTest.Trivial
+
+[ OK ] chTest.Trivial (O ms)
+
+[ RUN ] chTest.Negative
+
+[ OK ] chTest.Negative (O ms)
+
+[——————————] 3 tests from chTest (O ms total)
+
+[iiiiiiiiii] Global test environment tearedown
+
+[::::::::::] 3 tests from l test case ran. (O ms total)
+
+[ PASSED ] 3 tests.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+Conclusion
+
+0 TDD, like any other software development concept or method,
+requires practice.
+
+. The more you use TDD, the easier TDD becomes.
+
+' Don’t forget to keep the tests simple.
+
+' The tests, which are simple, are easy to understand and easy to
+maintain.
+
+' Tools like Google Test, Google Mock, CppUnit, JustCode,
+JustMock, NUnit and Ninject are important and help facilitate the
+practice of TDD.
+
+¢ But it is good to know that TDD is a practice and a philosophy
+that goes beyond the use of tools.
+
+¢ Experience with tools and frameworks is important, the skills
+acquired will inspire confidence in the application developer.
+
+' But it is good to know that the tools should not be the center of
+attention.
+
+' Equal time must be given to the idea of "test first".
+
+***************Ending Page***************
+

@@ -1,0 +1,500 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Input / Output Streams
+File l/O
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+The Context
+- How do we read from a file, or write to a file:
+— text: characters or lines of text, ...?
+— binary: arrays of bytes ...?
+- How do we send or receive:
+— objects in a distributed application?
+— data to/from a serial port?
+~ How do threads communicate asynchronous?
+- How do we write very large sets of data into a
+relational database?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+l/O Streams
+- A stream is a sequence of data: serial,
+unidirectional, having a source / destination.
+' Byte Streams (8 bits) / Char Streams(16 bits)
+- Producers (Output Streams)
+' Consumers (Input Streams)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Using l/C) Streams
+
+import java.io.*;
+open the stream; //new StreamClass([arguments]);
+while (there is more data to read or write) {
+
+read/write some data;
+
+//invoke read(), write() or other specialized methods
+}
+close the stream; //...dont't forget to invoke close()
+take care of the possible exceptions: IOExeption;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+FlleOutputStream HlelnputStream Linelnpumumberstmm
+PipedlnputStream
+. pulStream
+“Momma DataOutpulStream
+BulferedInputStream
+FillerDulputSlream BulleredOulpulSlrea Inputstmam
+Bytellrraylnpulﬂtream " shBacklnpulStream
+OutputStream _
+Bllﬁlill'ﬂyﬂlllpllllilleﬂlll
+equencelnputStream
+bjectOuipulStream tringBuﬂerInputStmam
+ObjectlnputStream
+OutputStream = the su erclass of all classes
+representing an h. Applications
+that need to define a subclass of OutputStream must lnputStream = the SU erclass Of all classes _
+always provide at least a method that writes one representmg an .Appllcatlons that
+byte of output need to deflne a subclass of lnputStream must always
+provide a method that returns the next byte of input
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+BufferedReader'
+CharArmyReader
+m
+@ ' shbackReader
+PipedReader
+@ StringReader
+Writer = abstract class for writing to Reader_abstract class for reading
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Primitive Streams vs. Decorators
+- Primitive streams “know” to effectively communicate
+(read or write) with an external “partener” (file,
+memory, thread, etc.). Examples:
+— FileReader, FileWriter
+— ByteArrayInputStream,ByteArrayOutputStream
+— PipedReader, PipedWriter
+- Decorator streams “know” to communicate with
+another stream (primitive or not) in order to process
+the raw data and offer specialized methods:
+— BufferedReader, BufferedWriter, PrintWriter
+— DataInputStream, DataOutputStream
+— ObjectInputStream, ObjectOutputStream
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Creating Streams
+
+PrimitiveStream stream =
+
+new PrimitiveStream(externalResource);
+DecoratorStream decorator =
+
+new DecoratorStream(stream);
+Exemplu:
+FileReader fileReader = new FileReader("fisier.txt");
+BufferedReader bufferReader =
+
+new BufferedReader(fileReader);
+
+String line = bufferedReader.readLine();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+D t D ' P tt
+Decorator Pattern Structure
+“interface” an instance of Component—
+Component
+Operetionﬂ
+Concrete
+Component Decorator ,xx
+\v/
+Attributes . Add additional
+AttrlbUtES functionality k
+Uperahonﬁ Operation() .-tddilional()pera
+. lionﬂ
+Concrete Decorator
+_ deEdStBtE Add nddilinnal
+functionality
+AdditionalOperation{) -"\i1t|";‘_~'"=*[l;3l1'~'l‘“
+lUn
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+- Abstract class for reading character streams. The only methods that a
+subclass must implement are read(char[], int, int) and close(). Most
+subclasses, however, will override some of the methods defined here in
+order to provide higher efficiency, additional functionality, or both.
+public abstract class Reader implements Readable, Closeable {
+public abstract int read(char cbuf[], int off, int len)
+throws IOException;
+public abstract void close() throws IOException;
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+- Reads text from a character-input stream, buffering characters so as to
+provide for the efficient reading of characters, arrays, and |ines..
+public class BufferedReader extends Reader { {
+
+private Reader in; //the decorated object
+
+public BufferedReader(Reader in) {
+this.in = in;
+
+}
+
+public String readLine() throws IOException {
+in.read( m );
+
+}
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+BufferedReader, BufferedWriter, BufferedInputStream, BufferedOutputStream
+Read /Write data from a stream, buffering elements so as to
+provide for the efficient reading of arrays, and lines.
+BufferedOutputStream out = new BufferedOutputStream(
+
+new FileOutputStream("out.dat"), 1024)
+//1024 is the size of the buffer
+for(int i=0; i<100; i++) {
+out.write(i);
+//the buffer is not full yet, the file contains nothing
+
+}
+out.flush();
+
+//the buffer is flushed, data is written to the file
+
+i Greatly reduces the access to the external resource
+0 Increases the execution speed
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+public class TestBufferedWriter {
+private void test(Writer writer) throws IOException {
+try (writer) {
+long t0 = System.currentTimeMillis();
+int n = 20_OOO_OOO;
+String test = "Lorem ipsum dolor sit amet";
+for (int i = O; i < n; i++) {
+writer.write(test);
+}
+System.out.println((System.currentTimeMillis() — t0) + " ms");
+}
+}
+public static void main(String args[]) throws IOException {
+var app I new TestBufferedWriter();
+app . test (new FileWriter("d: /test. txt") ); //-
+app . test (new BufferedWriter (new FileWriter ("dz /test. txt") ) ) ; //-
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Serlallzmg Prlmltlve Data
+DataInputStream, DataOutputStream
+ﬁ ertlng/Readlng prlmtlve data In blnary format,
+H. . . ,
+In a machine-Independent way
+//Writing
+FileOutputStream fos I new FileOutputStream("test.dat");
+DataOutputStream out = new DataOutputStream(fos);
+out.writeInt(12345);
+out.writeDouble(12.345);
+out.writeBoolean(true);
+out.writeUTF("Sir de caractere");
+out.flush();
+fos.close();
+//Reading
+FileInputStream fis = new FileInputStream("test.dat");
+DataInputStream in = new DataInputStream(fis);
+int i z in.readInt();
+double d = in.readDouble();
+boolean b = in.readBoolean();
+String s = in.readUTF();
+fis.close();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Serlallazmg Objects
+ObjectInputStream, ObjectOutputStream
+ﬁ ertlng/Readlng oblects In a blnary format,
+H. . . ,
+In a machine-Independent way
+//Writing
+FileOutputStream fos I new FileOutputStream("test.ser");
+ObjectOutputStream out = new ObjectOutputStream(fos);
+out.write0bject(new Date());
+out.writeObject("Hello World");
+out.writeInt(12345);
+out.flush();
+fos.close();
+//Reading
+FileInputStream fis = new FileInputStream("test.ser");
+ObjectInputStream in = new ObjectInputStream(fis);
+Date date = (Date)in.read0bject();
+String message = (String)in.read0bject();
+int i = in.readInt();
+fis.close();
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+¢ System.in — InputStream
+
+' System.out — PrintStream
+
+' System.err - PrintStream
+
+Redirecting the standard streams:
+
+setIn(InputStream) — redirecting the input
+setOut(PrintStream) — redirecting the output
+setErr(PrintStream) — redirecting the error stream
+Example:
+
+PrintStream fis = new PrintStream(new FileOutputStream("results.tXt")));
+System.setOut(fis);
+
+PrintStream fis = new PrintStream(new FileOutputStream("errors.txt")));
+System.setErr(fis);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+java.util.Scanner,
+java.util.Formatter, java.text.Format
+Scanner s = Scanner.create(System.in);
+String name = s.next();
+int age = s.nextInt();
+double salary = s.nextDouble();
+s.close();
+System.out.printf("%s %8.2f %n",name, salary, age);
+SimpleDateFormat dateFormat =
+new SimpleDateFormat("dd-MM-yyyy");
+String date = dateFormat.format(today);
+System.out.println("Today in dd-MM-yyyy format : " + date);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Java.|o. File
+- An abstract representation of file and directory pathnames.
+- User interfaces and operating systems use system-
+dependent pathname strings to name files and directories.
+— File.separator: \or/
+— File.pathSeparator ; or :
+- Example:
+File file = new File("file.txt"); //immutable
+file.createNewFile(); //~ IOException
+file.delete();
+File dir = new File("d:/books");
+File[] files = dir.listFiles();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+“Useful” l/O Classes
+- java.io.Fi/e
+An abstract representation of file and directory pathnames.
+- java.io.RandomAccesFi/e
+Supports both reading and writing to a file, using a file pointer.
+' java.io.Stream Tokenizer
+Takes an input stream and parses it into "tokens", allowing the
+tokens to be read one at a time.
+(see also StringTokenizer, String. split)
+- here comes the New Java l/O —> java.nio
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+' j8V8./O.Fi/6 has some “iSSUGS” (some methods didn't throw exceptions
+when they failed, no support fo symbolic links, no consistency across platforms, not
+scalable, no support for recursively walk a file tree, etc.)
+
+' java.nio.ﬁle.Path is the modern replacement of File.
+
+l' {Solaris rout]
+c1 {Winséws ru-oll A Path object is a programmatic
+representation of a path in the
+home file system. May be:
+‘u ' relative
+' absolute
+i116 I ally I lo-gfileﬂilei -----1-| HomeLogFila-{lilel I zlyembOhC (80ft) Imk
+' directory (folder)
+[m | - might not exist
+\w Path p1 = Paths.get("/home/joe/foo") ;
+//may throw InvalidPathException
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+File 0perat|ons
+- java.nio.ﬁle.Fi/es - Static methods that operate
+on files, directories, or other types of files.
+- Examples:
+boolean readable I Files.isReadable(file);
+Files.copy(source, target, REPLACE_EXISTING);
+Files.move(source, target, ATOMIC_MOVE);
+Files.delete(path);
+Path newFile = Files.createFile(path);
+Path newDir I Files.createDirectory(path);
+BasicFileAttributes attr I
+Files.readAttributes(file, BasicFileAttributes.class);
+System.out.println("lastAccessTime: " + attr.lastAccessTime());
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+Traversmg a Dlrectory Tree
+Files. waIkFlIeTree(path, new FlIeVISItor<Path>() { });
+Files.walkFileTree(path, new FileVisitor<Path>() {
+public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes
+attrs) throws IOException {
+System.out.println("pre visit dirz" + dir);
+return FileVisitResult.CONTINUE;
+// or TERMINATE or SKIB_SIBLINGS or SKIB_SUBTREE
+}
+public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+throws IOException {
+System.out.println("visit file: " + file);
+return FileVisitResult.CONTINUE;
+}
+public FileVisitResult visitFileFailed(Path file, IOException exc)
+throws IOException {
+System.out.println("visit file failed: " + file);
+return FileVisitResult.CONTINUE;
+}
+public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+throws IOException {
+System.out.println("post visit directory: " + dir);
+return FileVisitResult.CONTINUE;
+}
+}) ;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Reading and Writing
+
+- Commonly Used Methods for Small Files
+byte[] fileArray I Files.readAllBytes(path);
+List<String> fileLines I Files.readAllLines(path);
+String fileContent = new String(Files.readAllBytes(path));
+Files.write(path, buffer); // to write bytes, or lines
+
+- Buffered l/O Methods for Text Files
+BufferedReader reader = Files.newBufferedReader(path);
+BufferedWriter writer I Files.newBufferedWriter(path);
+
+- Unbutfered Streams
+InputStream in I Files.newInputStream(path);
+OutputStream out I Files.newOutputStream(path);
+
+- Methods for Channels and ByteBuffers
+While stream l/O reads a character at a time, channel l/O reads a buffer at a time
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+Usmg Streams and Flles
+- Iterating over the lines of a text file
+Path path = Paths.get("cz\\data\\SomeFile.tXt");
+try (Stream<String> lines = Files.lines(path)) {
+lines.forEachOrdered(line->System.out.println(line));
+} catch (IOException e) {
+System.err.println(e); \hq
+- Iterating over the files in a directory if!’
+Path path = Paths.get("c:\\data"); h»\ ,7
+Files.list(dir) "
+.filter((Path file) —>
+file.getFileName().toStrinq().endsWith(".pdf"))
+.forEach(System.0ut::println);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+- Watch Serwce API
+' Create and Reglster
+WatchService watcher = FileSystems.getDefault().newWatchService();
+Path dir = Paths.get("Path/To/Watched/Directory");
+dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+' Watch...
+while (true) {
+WatchKey key = watcher.take(); // wait for a key to be available
+for (WatchEvent<?> event : key.pollEvents()) {
+WatchEvent.Kind<?> kind = event.kind();
+WatchEvent<Path> ev = (WatchEvent<Path>) event;
+Path fileName = ev.context();
+System.out.println(kind.name() + ": " + fileName);
+key.reset();
+}
+}
+
+***************Ending Page***************
+

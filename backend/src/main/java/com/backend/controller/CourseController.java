@@ -5,6 +5,7 @@ import com.backend.mapper.CourseMapper;
 import com.backend.model.Course;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
+import com.backend.repository.FlashcardRepository;
 import com.backend.service.CourseService;
 import com.backend.service.EnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/courses")
@@ -21,16 +25,30 @@ public class CourseController {
 
     private final CourseService courseService;
     private final EnrollmentService enrollmentService;
+    private final FlashcardRepository flashcardRepository;
 
     @Autowired
-    public CourseController(CourseService courseService, EnrollmentService enrollmentService) {
+    public CourseController(CourseService courseService, EnrollmentService enrollmentService, FlashcardRepository flashcardRepository) {
         this.courseService = courseService;
         this.enrollmentService = enrollmentService;
+        this.flashcardRepository = flashcardRepository;
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Course>> getAllUsers() {
-        return ResponseEntity.ok(courseService.getAllCourses());
+    public ResponseEntity<List<Map<String, Object>>> getAllCourses() {
+        List<Course> courses = (List<Course>) courseService.getAllCourses();
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Course c : courses) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", c.getId());
+            map.put("title", c.getTitle());
+            map.put("description", c.getDescription());
+            map.put("semestru", c.getSemestru());
+            map.put("flashcardCount", flashcardRepository.countByCourseId(c.getId()));
+            map.put("materials", c.getMaterials());
+            result.add(map);
+        }
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")

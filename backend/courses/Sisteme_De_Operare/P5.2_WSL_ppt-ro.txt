@@ -1,0 +1,612 @@
+***************Beginning Page***************
+***************page number:1**************
+dows:
+. Subsystem for Linux)
+&
+l ‘=I. I =. v"-==v"
+/ distros on Windows 10
+Cristian Vidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Su mar
+' Introduoero — despro WSL 1
+' Ghid do instalare WSL 1
+' Ghid do utilizare WSL 1
+° Noutégi legato do WSL in Windows 10 FCU (v17 09)
+' Noutégi legato d6 WSL in Windows 10 April 2018 Update (V1803)
+' Noutégi legato d6 WSL in Windows 10 October 2018 Updato (V1809)
+' Noutégi logate d6 WSL in Windows 10 April 2019 Update (V1903)
+' Arhitootura WSL 1
+' Comparario cu Wine
+' Tehnologia viitoaro: WSL 2
+2/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+lntroducere — despre WSL 1
+
+' WSL (Windows Subsystem for Linux) — este un feature nou
+introdus in Windows 10 x64 AU (v1607), ce permite sa rulezi
+aplicatii native de Linux in linie de comanda (deci, fara GUI),
+i.e. native Linux ELF 64 binaries, sub Windows, in mod direct
+(i.e. iara Inasini virtuale, containere, sau alte tehnici de virtualizare), alaturi de
+alte aplicatii WindOWS, atat traditionale (Win32 apps), cat si aplicatii moderne (store
+apps).
+
+' Ubuntu on Windows — este o imagine user-mode de Ubuntu,
+ce contine interpretorul nativ /bin/bash si diversele utilitare
+Linux in linie de comanda disponibile in distributia Ubuntu de
+provenienta, dar fara sa contina si un kernel de Linux.
+
+' Bash (Bourne Again SHell) — este unul dintre cele mai populare
+interpretoare de comenzi, folosit ca shell implicit de catre Ubuntu si
+de multe alte distributii de Linux, precum si de OSX.
+
+3/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+lntrod u ee re
+
+' Audienga: WSL este o unealtﬁ pentru dezvoltatorii de aplieagii web si
+aplieagii open-source, ee 1e pennite s5 foloseaseé diversele unelte de
+dezvoltare si limbaje de programare de sub Linux, direct pe Windows.
+Detalii: https://msdn.mierosoft.eom/en-us/eommandline/wsl/about
+
+https://msdn.mierosoft.com/en-us/eonnnandline/wsl/faq
+$1 https://blogs.msdnmierosoft.eom/wsl/2016/07/08/bash-on-ubuntu-on-windows-10-anniversary-update/
+
+A se eiti si artieolul: Ubuntu on Windows — The Ubuntu Userspaee for Windows Developers
+
+' Noutatea: au mai existat subsisteme de Linux in versiuni mai veehi de
+Windows, dar aeelea aveau limitéri mult mai mari, dintre care, eea mai
+importanté — aplieagiile de Linux trebuiau reeompilate pe Windows.
+Folosind WSL, puteIn rula direct pe Windows, exeeutabilele eompilate sub Linux!
+
+' Istorie a1 subsistemelor (si un overview a1 arhiteeturii subsistemului WSL):
+https://blogs.msdn.mierosoft.eom/wsl/ZO16/04/22/windows-subsystem-for-linux-overview/
+
+4/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+lntrod u ce re
+
+' Avertisment: WSL este o tehnologie imaturé, ﬁind incé in stadiu beta
+in V1703 (are abia 2 ani de cénd este disponibilé, intéi doar pentru cei inscrisi in
+programul Windows Insider, apoi si pentru publicul larg, prin versiunea vl607 de
+Windows 10), avénd prin urmare o serie de lipsuri si de implementﬁri
+incomplete ale apelurilor de sistem si altor facilitéti din Linux.
+
+Detalii despre evolutia acestei tehnologii, de la un build (de Win10) la altul:
+https://msdn.microsoft.com/en-us/commandline/wsl/release_notes
+A se citi si https://b10gs.msdn.micros0ft.com/commandline/ZO17/04/1l/Windows-10-creators-update-whats-neW-in-bashwsl-Windows-console/
+' Consecinté: existé posibilitatea ca unele programe pe care le dezvoltati
+pentru Linux in linia de comandé, sé nu functioneze corect (in sensul de
+a produce aceleasi rezultate/a avea acelasi comportament ca in Linux) atunci
+cénd le rulati in mediul Ubuntu on Windows oferit de WSL!
+° ObSGfVﬂ'tii pﬁl'SOIlalﬁ (deduse fzicénd unele teste cu programele demo de la cursuri,
+folosind WSL din Windows lO CU — V1703)I
+- implementarea lacételor pe ﬁsiere este incompleté, i.e. nu asiguré caracterul mutual
+exclusiv al accesului la ﬁsier, pentru lacétele de scriere
+
+- combinatia de taste CTRL+\ nu genereazé semnalul de terminate SIGQUIT pentru
+procesul din foreground
+
+- posibil $51 mai existe si alte limitéri, pe care incé nu le-am descoperit 5 / 30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Ghid de instalare WSL 1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Ghid de instalare (I)
+' Cerinte: Windows lO X64, AU (vl607) sau CU (V1703)
+' Pasii neeesari pentru instalare:
+l) Turn-0n Developer Mode
+2) Enable the "Windows Subsystem for Linux (beta)" feature
+3) First run 0f Bash on Windows — this installs Ubuntu image
+' Detalii despre pasii pentru instalare:
+https://msdn.mier0s0ft.eom/en-us/eommandline/wsl/install_guide
+' Rezultatul instalarii:
+- doua aplieatii Win32: bashexe si lxrunexe
+- plus 0 imagine de Ubuntu, i.e. 0 distributie Ubuntu LTS ee este
+special eenﬁguratajdrd GUI sifdréz' kernel de Linux
+7/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Ghld de Instalare (ll)
+' Aplicagia Win32 bashexe:
+
+l) Se lanseazé ﬁe de la linia de comandéi din Windows (i.e. dintr-o fereastré
+emd.exe sau powershellexe), ﬁe se alege din StartMenu, aplieayia “Bash
+0n Ubuntu 0n Windows”.
+
+2) Rolul ei este de a inigializa 0 instangé a imaginii de Ubuntu instalate,
+in care va porni 0 instangé a interpretorului /bin/bash, rulaté in numele
+utilizatorului ereat la instalarea imaginii de Ubuntu.
+
+' Aplieagia Win32 lxrunexe:
+Se folose§te pentru a administra (i.e. instalare/actualizare/dezinstalare)
+imaginea de Ubuntu.
+' Detalii despre eele douéi comenzi:
+https://msdn.micr0s0ft.com/en-us/commandline/wsl/referenee
+8 / 3O
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Ghld de Instalare (III)
+' Vcrsiunca dc distribugic Ubuntu LTS din imaginca instalaté:
+- p6 Win10 X64 AU (V1607)I Ubuntu 14.04.X LTS (bazatﬁ pc kcrnclul 3.4.0)
+— p6 Win10 X64 CU (V1703): Ubuntu 16.04.X LTS (bazaté pc kcrnclu14.4.0)
+' Locagia pc disc undc so instalcazéi imaginca dc Ubuntu:
+- folderul C:\Users\CristianbAppData\Loca|\|xss
+- restrictie: continutul acestui folder nu trebuie modificat folosind
+aplicatii rulate direct din mediul Windows 1O
+' Motivalzia accstci restriclzii:
+https://blo gs.n1sdn.microsoft.corn/ commandline/ZO 1 6/ 1 1/ 1 7/do-not-change-1inux-ﬁles-using-Windows-apps-and-tools/
+si https://blogs.msdn.microsoft.com/wsl/ZO16/06/15/Ws1-ﬁle-systcm-support/
+' Instalarca dc comcnzi suplimcntarc in imaginca dc Ubuntu instalaté (e. g.
+compilatorul gcc, utilitarul mc, etc.) so face in modul uzual din Ubuntu:
+sudo apt install gcc
+' Noutéyi: in luna mai 2017 s-a anungat suportul in vcrsiunilc viitoarc dc Windows 10
+pentru alto imagini dc Linux, bazatc pe distribugiilc Fedora si SuSE:
+https :// techcrunchcom/ 20 1 7/ 05/ 1 1/microsofts-bash-on-windows-10-gocs-bcyond-ubuntu-and-gcts-support-for-fcdora-and-suse-too/ 9 / 3 0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Noutati W SL 1n Windows 10 V1709 (I)
+' Pasii pentru instalare pe Windows 10 x64, V1709 si urmatoarele
+versiuni aparute intre tirnp:
+1) Enable the "Windows Subsystem for Linux" feature
+2) Install from Windows store any/every of the following store apps:
+' Ubuntu — versiunea 16.04 LTS (bazata pe kernelul 4.4.0), si respectiv 18.04 LTS
+° OpenSUSE — versiunea Leap 42, si respectiv versiunea Leap 15
+' SLES — SUSE Linux Enterprise Server versiunea 12, si respectiv versiunea 15
+° Debian GNU/Linux — versiunea 9.5
+' Kali Linux (o distributie specializata) — versiunea 1.1.4.0
+° Alpine Linux — versiunea 3.7
+Notd: lista aeeasta continua sa creasea pe pareursul timpului!
+3) First run of the chosen store app: will install the corresponding Ubuntu/
+SUSE / Debian /. .. distribution’s image
+13618111: https://msdn.mierosoft.con1/ en-us/eommandline/wsl/install-win1 0
+' Rezultatul lIlStﬂléfllI . . . (see next slide)
+10/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+v ' A o
+Noutan W SL 1n Windows 10 V1709 (I)
+' Pasii pentru instalare p6 Windows 10 X64, V1709 si urniétoarels
+versiuni apérute intre timp:
+' Rezultatul instalérii:
+1) Una (sau mai mu1t6) store: apps: Ubuntu.exe / 0penSUSE.6xe / SLES.exe /...
+Locagia pe disc: C:\Program Files\Wind0wsApps\CanonicalGroupLimited.UbuntuonWindows_1604.2017.922.0_x64_xxxxxxxx\
+2) Imaginils distribugiilor de Linux aferents
+Localtia pe disc: C:\Users\Cristian\AppData\Loca1\Packages\CanonicalGroupLimited.UbuntuonWindows_xxxxxxxx\LocalState\
+Restricgie: continutul acestui folder nu trebuie modiﬁcat folosind aplicagii rulate direct din mediul Windows 10
+3) wslconﬁgﬁxe — utilitar pentru administrarea distribugiilor instalate sub WSL
+Plus, ws1.exe si bash.exe — alte variante de a porni distribugia default
+D6ta1ii: https://msdn.micr0s0ft.com/en-us/c0mmand1ine/ws1/ws1-conﬁg
+si https://b10gs.msdnmicrosoft.com/commandline/ZO17/ 1 1/2 8/21-guide-t0-inv0king-ws1
+11/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Ghid de utilizare WSL 1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Ghld de utlllzare (I)
+
+' Prin intermediul aplicalziei Win32 bashexe (dosorisé anterior) se porneste
+mediul de lucru “Ubuntu/SUSE/... on Windows”, oe ne oferéi posibilitatea
+d6 a luora la linia d6 COInandé “Cd §i Gum” (cu aoele limitéri arnintite anterior)
+am lucra pe un Linux nativ.
+
+' Modelul de permisiuni pentru aeoesul la resurse:
+
+Programele rulate in rnediul de lucru “Ubuntu/... on Windows” foloseso, pentru
+controlul aocesului la resursele din imaginea de Ubuntu/SUSE/. .. instalaté, acel
+cont de utilizator Linux oreat la instalarea imaginii respective.
+
+Nu confundagi acest cont de Linux, cu contul de utilizator Windows cu
+care suntegi logat in Windows, si care “guverneazé” oontrolul accesului 1a
+resursele din Windows, a aplicagiilor pe care 1e rulagi sub Windows,
+inClllSiV a aplicagiei bashexe (Exemplu: faptul 051 porni§i bashexe intr-o fereastré
+crndexe rulaté ca Admin in Windows, nu atrage dupé sine rularea ca root a instangei
+interpretorului /bin/bash pornité astfel in mediul de lucru “Ubuntu/... on Windows”).
+
+' Detalii despre contul de Linux si modelul de permisiuni:
+https://msdn.microsoft.corn/en-us/commandline/wsl/user_support
+
+13/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Ghld do utlllzaro (II)
+
+' Aooosul, din linia do oomandé a modiului do luoru “Ubuntu/.. on Windows”,
+la sistomul do ﬁsioro din Windows: osto porrnis, pontru oitiro si sorioro, cu
+obsorvatia 051 spooiﬁoaroa oéii, rolativo sau absolute, oétro ﬁsiorul dorit so
+face utilizﬁnd sintaxa din Linux, plus ounosoénd faptul oéi:
+
+- disoul ﬁx C: din Windows osto montat automat in punctul /mnt/o in imaginoa do Ubuntu,
+- disoul ﬁx D: din Windows osto montat automat in punctul /mnt/d in imaginoa do Ubuntu,
+s.a.m.d.
+
+' Observagie: oxist'Zi insé si unolo particularitéti legato do aoost tip do aooos,
+datorato diforontoi dintro modolul do pormisiuni si sotul do oapabilitéti alo
+sistoniolor do ﬁsioro din Linux vs. oolo din Windows.
+
+' Dotaliilo tohnioo dospro implomontaroa aoostui tip do aooos:
+https://blogs.msdnmiorosoft.oom/wsl/ZO16/06/15/wsl-ﬁlo-systom-support/
+
+' Accosul invors, din modiul do lucru Windows, la sistomul do ﬁsioro din
+imaginoa do Ubuntu/SUSE/... : osto pormis doar in oitiro (i.o. read-only),
+ﬁind total NERECOMANDAT aooosul in sorioro; motivatia acostoi rostriotii — vozi
+in slido-ul Ghid do instalaro (III).
+
+14 / 3O
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Ghld do utlllzare (III)
+' Intor-oporabilitatoa dintro WSL si Windows:
+
+- osto o facilitato mai nouéi, prozonté in vorsiunoa WSL din Win10 CU (V1703),
+
+dar caro lipsosto din vorsiunoa inigialé WSL din Win10 AU (V1607)
+
+- aooastéi facilitate prosupuno doué aspocto:
+
+1) Posibilitatoa do a invooa oxooutabilo do Linux do 1a linia do comandé din
+Windows, i.o. 1a promptorul dintr-o foroastré omd.oxo sau poworsholl din
+Windows putom lansa in oxocugio oomonzi oxooutabilo do Linux
+
+2) Posibilitatoa do a invoca oxocutabilo do Windows do 1a linia do oomandé
+din WSL, i.o. 1a promptorul intorprotorului /bin/bash rulat in imaginoa do
+Ubuntu/SUSE/. .. , putom lansa in oxocuyio oxocutabilo do Windows,
+inolusiv pro gramo cu GUI
+
+' Dospro modul do utilizaro a aoostor tipuri do invocéri, a so oiti:
+https://msdn.miorosoft.com/on-us/commandlino/ws1/intorop
+° Dotaliilo tohnico dospro implomontaroa acostoi facilitégi do intor-oporabilitato:
+https ://blo gs .msdnmicrosoft. com/wsl/ 20 1 6/ 10/ 19/windows-and-ubuntu-intoroporability/
+15 / 3O
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+v Q A Q
+Noutatl W SL 1n W1ndows 10 V1709 (I I)
+
+' Status: tehnologia WSL nu mai este considerata in stadiu beta in vl709
+D€tﬂlll§ https://blo gs.msdnmicrosoft.com/commandline/20 l 7/ 07/2 8/Windows-subsystem-for-linuX-out-of-beta/
+
+' Aceesul, din WSL (i.e. din linia de comanda a distributiei Ubuntu/SUSE/H.),
+la sistemul de ﬁsiere din Windows: aeum se poate monta, manual, oriee volum
+de ﬁsiere din Windows, inolusiv removable drives sau network locations
+
+l) Montare removable drive X: sudo mount -t drvfs X: /mnt/x
+2) Montare network location: sudo mount -t drvfs '\\server\share' /mnt/share
+D€tﬂlll§ https ://blo gs.msdn.microsoft.com/wsl/ 20 l 7/ 04/ l 8/ﬁle-system-improvements-to-the-Windows-subsystem-for-linux/
+
+' Aeoesul, din WSL, la porturile seriale din Windows
+D€tﬂlll§ https ://blo gs.msdn.mierosoft.com/wsl/ 20 l 7/ 04/ 14/serial-support-on-the-Windows-subsystem-for-linux/
+
+' Alte noutati, despre WSL in Windows 10 V1709:
+
+' Install Linux distros via the Windows Store
+° WSL now runs multiple Linux distros, side-by-side, simultaneously
+' WSL no longer requires developer mode
+° WSL is coming to Windows Server and to Microsoft Azure Windows VM instances
+' Deprecating the name "Bash on Windows"
+D€t211ll§ https ://blogs.msdn.mierosoft.com/commandline/20 l 7/ 10/1 l/Whats-new-in-wsl-in-Windows- l 0-fall-ereators-update/
+16/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+V ' A o
+Noutati W SL 1n Windows 10 vl 803
+' New distro apps: in martie 2018 au fost publicate in Windows store doua
+noi distributii: Kali Linux (O distributie specializata) si Debian GNU/Linux v9.5
+Detalii: https://blogs.msdn.microsoft.com/commandline/2018/03/05/kali-linux-for-wsl/ 8i
+https ://blogs.msdn.microsoft.com/ commandline/ 20 l 8/ 03/ 06/ debian- gnulinux-for-wsl-now-available-in-the-windows-store/
+' Tot in martie 2018 s-a lansat o unealta pentru “impachetat” orice distributie
+de Linux intr-o aplicatie pentru Windows store
+Detalii: https://blogs.msdn.microsoft.com/commandline/20 l 8/03/26/wsl-distro-launcher/
+' Noutatile despre WSL din Windows 10 vl 803:
+' A new conﬁg ﬁle (for drive mounting & network conﬁguration): /etc/wsl.conf
+° WSL now runs background tasks even after you close the WSL console windows
+° Many interoperability improvements: a new tool wslpath, sharing environment
+variables between Windows and WSL, ﬁlesystem improvements, etc.
+' Added support for Unix Sockets (i.e., domain AF_UNIX)
+' Hyper-V has an enhanced session mode
+° More Windows native CLI tools: OpenSSH, tar, curl
+' Added support for UWP Console applications
+Detaliii https://blogs.msdn.microsoft.com/commandline/2018/03/07/windows10vl803/
+17/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Noutati W SL in Windows 10 vl 809
+° New distro apps: au fost publicate in Windows store noi distributii si noi
+versiuni ale unora deja prezente in store:
+Ubuntu 18.04, SLES v15 & OpenSUSE Leap 15, Alpine Linux, and
+WLlIlllX (a paid distribution)
+' Noutatile despre WSL din Windows 10 vl 809:
+' Run WSL and Ubuntu 18.04 on ARM devices
+' {Dupa multi ani fara acest feature. . .} Notepadexe now supports Linux line endings
+' Launch a Linux shell from the File Explorer
+° Install WSL distros from the command line in Powershell
+' Improved per-directory case sensitivity support
+' Copy/paste arrives for Linux/WSL consoles
+' More Windows Console improvements
+D€tﬂlll§ https ://devblogs.microsoft.com/commandline/Whats-new-for-wsl-in-the-Windows- l 0-october-201 8-update/
+18/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+v ° A °
+Noutatl W SL 1n W1ndows lO vl 903
+° Noutatile despre WSL din Windows 10 vl903:
+' Biggest improvement: Accessing Linux files from Windows in write mode!
+Notd: acest feature este suportat partial deocamdata (i.e. are unele limitari — a se
+vedea referinta de mai jos)
+' Improved wsl.exe command line experience:
+— new options added for: to run commands as different users, to terminate running
+distributions, and to export and import different distros as tar ﬁles
+— consolidating options: the options from wslconﬁgexe were added to wsl.exe
+' More Windows Console improvements
+Detalii: https ://devblogs.microsoft.com/commandline/whats-new-for-wsl-in-windows- l 0-version- l 903/
+§i https://devblogs.microsoft.com/commandline/a-deep-dive-into-how-wsl-allows-windows-to-access-linux-ﬁles/
+v ° A °
+Noutatl W SL 1n W1ndows lO vl 909
+Nu exista noutati legate de WSL Tn aceasta versiune, Tntrucét Tnsési Tntreaga versiune
+v1909 este de fapt versiunea V1903, cu o serie de mici Tmbunatatiri.
+Mai mult, aceasta este ultima versiune de Windows 10 ce ofera mediul WSL 1. lncepénd
+cu urmatoarea versiune, v2004, Windows 10 ofera o tehnologie complet noué, WSL 2. 19/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Arhitectura subsistemului WSL 1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+lis$$d§=“==”“=“='=“”==“=””‘“’i
+n "Llnux Instance i] I _ LII."-
+i L; ;;;;J;;;"
+|;_=_=gg==_ _=B_g==s_g=gnssgu
+i Kernel Mode I
+i —i 2-H»
+_oo|v|§
+‘ m _lork+
+n u -9 ll}
+La==EEEEEEEEEEL==GE=G__==J W
+Trei componente:
+1) User mode session manager service that handles the Linux instance life cycle
+2) Pico provider drivers (lxss.sys, lxcore.sys) that emulate a Linux kernel by translating Linux syscalls
+3) Pico processes that host the unmodified user mode Linux binaries (e.g. /bin/bash)
+Detalii tehnice: https://blogs.msdn.microsoft.com/wsl/2016/04/22/windows-subsystem-for-linux-overview/
+21 /3O
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+' Conceptul de pico process:
+
+- dezvoltat de Microsoft Research in proiectul Drawbridge
+Detalii tehnicei —
+NT Process Minimal Process Pico Process _ minimal pI'OCGSSI a
+i mmmmm g process not managed by
+Windows kernel; from the
+gmmmu Windows kernel point of
+m‘ view, it is simply an empty
+user-mode address space
+j - pico process: a minimal
+process with an associated
+pico provider kernel-mode
+—| driver to manage that
+ml | -»-| empty user-mode address
+22/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Arhitectura WSL (I ll)
+' “Translatarea” apelurilor de sistem de Linux
+Tn apeluri de sistem de Windows
+Detalii tehnicei —
+—
+23/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+- “Translatarea” operatiilor cu sistemul de fieiere din Linux
+in operatii cu sistemul de fieiere din Windows
+Detalii tehnice: https://b|ogs.msdn.microsoft.com/wsl/2016/06/15/wsl-fiIe-system-support/
+Applications (bash, sed, gcc, git, etc.)
+User mode 5 E E’
+Kernelmode B- E 4'7‘
+Lxcoresys
+System call layer
+VFS
+VolFs Ders Tmst Proch, Syst, etc.
+f, front, {home frnntfc, fmnt/d fdev fproc, [53's, etc.
+_
+NT kernel
+Ongr loMgr NTFS
+24/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Arh ltectu ra WSL (V)
+' “lnter-operabilitatea” WSL cu executabilele Win32
+- disponibilé Tn Win10 CU (V1703), dar nu §i Tn Win10 AU (V1607)
+Detalii tehnice: —
+é 53+ Bash.exe 501')“ LXSZehfvazgzger I linit ll § [bin/bash I /init \ E
+é LxCore/LXSS | é
+25/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Comparagle: WSL 1 vs Wlne
+- Wine este, similar ca si WSL 1, un “compatibility laye!” si nu un emulator (i.e.,
+o masiné virtualé), ce permite rularea aplicatiilor Windows pe un sistem Linux,
+doar cé “translatarea” se face in sens opus decét la WSL 1:
+— Wine “translateazé” apelurile de sistem de Windows in apeluri
+de sistem de Linux;
+— Wine “translateazé” operatiile ou sistemul de fisiere din Windows
+in operaiii cu sistemul de fisiere din Linux.
+Detalii despre acest proiect: https://www.winehq.org/
+A so citi si https://WWW.osnews.com/story/133 130/proton-has-enabled-7000-Windows-games-to-run-on-linux/
+- lstoric: dezvoltarea acestei tehnologii a inceput in anul 1993 si au ajuns la
+VGi'SiUHGG 1.0 abia in 2008 (https://WWW.osnews.com/story/19871/Wine-10-released/), iar 18
+versiunea 2.0 in 2017 (https://WWW.osnews.com/story/29628/Wine-20-released/); apoi
+progresul s-a aooelerat, urmétoarele versiuni majore fiind Iansate respectiv in:
+ian. 2018 (versiunea 3.0), ian. 2019 (versiunea 4.0), ian. 2020 (versiunea 5.0),
+ian. 2021 (versiunea 6.01 https://WWW.osnews.com/story/132858/Wine-6-0-released/) $1 ian.
+2022 (versiunea 7.0).
+26/30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+T€hn010gia viitoara: WSL 2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Noutati W SL anuntate 1n 2019: WSL 2
+' O arhitectura complet noua pentru WSL 2, ce utilizeaza un kernel de Linux,
+inside of a lightweight utility virtual machine (based on Hyper-V)
+Dﬁtaliii —
+§i —
+§i —
+Avantaje: — increased ﬁle system performance
+— full system call compatibility with POSIX/Linux
+Dezavantaj e: penalizare de performanta, ﬁind o masina virtuala, plus pierderea
+inter-operabilitatii intre mediile WSL si Windows, ce era disponibila in WSL 1.
+Disponibilitate (in 2019): WSL 2 era disponibil doar prin programul Windows Insiders.
+Dﬁt'dliil —
+[L.E.] WSL 2 a devenit disponibil public in 2020, prin Windows 10 V2004 & 20H2.
+Detalii: —
+§i —
+§i —
+§i —
+28 / 30
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Dataln dﬁspre: WSL 2
+
+° Ce este WSL 2?
+
+A $6 vﬂdea —
+° Comparagie intre WSL 1 §i WSL 2:
+
+A $6 Vﬁvdea —
+' Instalare WSL 2:
+
+A $6 vedea —
+
+§i —
+' Comenzi de administrare WSL 2:
+
+A $6 wdﬁa —
+
+§i —
+° Run Linux GUI apps (available only on Windows 11):
+
+A $6 wdﬁa —
+
+§i —
+
+29/30
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Bibliografie
+- Articolele de pe MSDN:
+lndexul lor este Ia: https://msdn.miorosoft.com/commandline/wsllabout
+- Artioolele de pe blogul ‘Windows Subsystem for Linux’,
+gézduit pe MSDN (biog “mutat” in prezent pe oel de mai jos):
+lndexul lor este Ia: https://b|ogs.msdn.microsoft.com/ws|/
+' Articolele de pe blogul ‘Windows Command Line Tools For
+Developers’, gézduit pe MSDN:
+lndexul lor este Ia: https://devb|ogs.microsoft.oom/oommandline/
+30/30
+
+***************Ending Page***************
+

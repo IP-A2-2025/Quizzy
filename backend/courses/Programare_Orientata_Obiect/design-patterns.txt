@@ -1,0 +1,1347 @@
+***************Beginning Page***************
+***************page number:1**************
+OOP (C++): Design Patterns
+Dorel Lucanu
+Faculty of Computer Science
+Alexandru loan Cuza University, lasi, Romania
+dlucanu@info.uaic.ro
+Object Oriented Programming 2021/2022
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+ﬂ On Design Patterns
+Q Singleton
+Q Composite
+Case Study: Expressions
+9 Visitor
+Combining Composite and Visitor
+6 Object Factory
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Plan
+Q On Design Patterns
+Case Study: Expressions
+Combining Composite and Visitor
+cl 51 i E i: 0Q‘?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Alexanders Definition
+"Each pattern describes a problem which occurs over and over
+again in our environment, and then describes the core of the
+solution to that problem, in such a way that you can use this
+solution a million times over, without ever doing it the same way
+twice"1
+¢ applied first in urbanism architecture
+0 the first contributions in software: prima contributie in
+software: 1987, Kent Beck (creator of Extreme
+Programming) & Ward Cunningham (wrote the first wicki)
+1C. Alexander. A Pattern Language. 1977
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+GoF Book
+Elements of Reusable
+Object-Ori =~ ---\- re
+Erid'l Cam ‘
+bann V 7
+, ,7 a“ _ ' includes 23 design patterns
+n KELLEY
+\:| 5| i E if QQQ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Full Template for a Pattern
+Q name and classification
+Q intention
+Q known as
+Q motivation
+Q applicability
+Q structure
+Q participants
+Q collaborations
+Q consequences
+Q implementation
+Q code
+Q known use cases
+Q related patterns
+We will use a simplified template.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Classification
+o creational
+used to create complex/specific objects
+. structural
+used to define the structure of the classes and objects
+o behavioral
+describe how the classes and their objects interact in order
+to distribute the responsabilities
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Plan
+Q Singleton
+Case Study: Expressions
+Combining Composite and Visitor
+i:| 5' i E if QQG
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Motivation
+o Classification:
+creational
+o Intention:
+designing a class with a single object (a single instance)
+o Motivation:
+in an operating system:
+o there is a file system
+o there is only one window manager
+in a website: there is only one web page manager
+o Application:
+when there must be exactly one instance
+class clients must have access to the instance from any
+well-defined point
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Consequences
+0 controlled access to the single instance
+o namespace reduction (global variable elimination)
+o allows refinement of operations and representation
+0 allows a fixed number of instants (Doubleton, Tripleton, ...)
+o more flexible than class-level operations (static functions)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Structure
++getUniquelnstance()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Impementatlon (versmn 1, Z C++2011)
+
+class Singleton {
+public:
+
+static Singleton& instance() {
+
+return uniquelnstance;
+
+}
+
+// .. .
+
+void operator=(Singleton&) I delete;
+
+Singleton(const Singleton&) : delete;
+protected:
+
+// object state
+
+Singleton() { }
+private:
+
+static Singleton uniquelnstance;
+};
+Singleton Singleton::uniqueInstance;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Testlng
+class SingletonTest : public testingzzTest {
+protected:
+
+virtual void SetUp() {
+s2.setValue(9);
+// s3 = sl; // compiling error
+s3.setValue(77);
+}
+// Declares the variables your tests want to use.
+Singleton &sl = Singleton::instance();
+Singleton &s2 : Singleton::instance();
+Singleton &s3 = s2;
+// Singleton s4 I s2; // compiling error
+
+};
+
+// Tests the uniqueness.
+
+TEST_F(SingletonTest, Uniqueness) {
+ASSERT_EQ(sl.getValue(), s2.getValue());
+ASSERT_EQ(sl.getValue(), s3.getValue());
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+What about the move
+
+constructor/assignment-operator?
+From the manual (12.8):
+"10 If the definition of a class X does not explicitly declare a move
+constructor, one will be implicitly declared as defaulted if and only if
+— X does not have a user-declared copy constructor,
+— X does not have a user-declared copy assignment operator,
+— X does not have a user-declared move assignment operator,
+— X does not have a user-declared destructor, and
+— the move constructor would not be implicitly defined as deleted."
+Does it make sense to declare a move constructor or an
+assignment-operator for a Singleton?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Impementatlon (versmn 2)
+class Singleton {
+public:
+static Singleton* instance() {
+if (uniquelnstance :: O) {
+uniquelnstance = new Singleton();
+}
+return uniquelnstance;
+}
+protected:
+// object state
+Singleton() { }
+private:
+static Singleton* uniquelnstance;
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Testlng
+class SingletonTest : public testingzzTest {
+protected:
+
+virtual void SetUp() {
+sl : Singleton::instance();
+sli>setValue(47);
+s2 = Singleton::instance();
+s2—>setValue(9);
+s3 = sl;
+*s3 = *sZ;
+s3—>setValue(75);
+}
+// Declares the variables your tests want to use.
+Singleton *sl;
+Singleton *s2;
+Singleton *s3;
+
+};
+
+// Tests the uniqueness.
+
+TEST_F(SingletonTest, Uniqueness) {
+ASSERT_EQ(sl*>getValue(), $2i>getValue());
+ASSERT_EQ(sl->getValue(), s3—>getValue());
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Testlng
+[==========] Running l test from l test suite.
+[——————————] Global test environment set-up.
+[——————————] l test from SingletonTest
+[ RUN ] SingletonTest.Uniqueness
+[ OK ] SingletonTest.Uniqueness (O ms)
+[——————————] 1 test from SingletonTest (0 ms total)
+[——————————] Global test environment tear-down
+[::::::::::] l test from l test suite ran. (O ms total)
+[ PASSED ] 1 test.
+Process finished with exit code O
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Plan
+Q Composite
+Case Study: Expressions
+Combining Composite and Visitor
+i:| 5' i E if @QG
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Intention
+o it is a structural pattern
+0 composes objects in a tree structure to represent a
+part-whole hierarchy
+o let the clients (of the structure) treat the individual and
+compound objects in a uniform way
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Motlvatlon
+*
+_
+draw()
+add(Graphic)
+remove(Graphic)
+getChild(int)
+A
+_
+— — — r i i draw() .
+‘ * * add‘G'ap“i°g>
+l l remove(Graphic)
+\ \ getChild(int)
+for all g in graphics k l I
+g.draw() J l
+\
+\
+\
+\
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+It is a Recursive Definition
+0 any (object) line is a graphic object
+o any (object) rectangle is a graphic object
+o any text (object) is a graphic object
+o a picture made up of several graphic objects is a graphic
+object
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Structure
+m *
+—
+operation()
+addChi/d()
+removeChi/d()
+getCh/Id()
+A
+—
+— [if 0peration() .
+p l removeChi|d()
+\ getChi|d()
+\
+f . ,
+l
+g.operation() , j
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Participants 1/2
+o Component (e.g., Graphic)
+o declares the interface for the objects in the
+composition
+o implements the default behavior for the common
+interface of all classes
+o declares an interface for accessing and managing
+child components
+0 (optional) defines an interface for accessing parent
+components in the recursive structure
+o Leaf (e.g., Rectangle, Line, Text, etc.)
+. represents primitive objects
+o a leaf has no children
+0 defines the behavior of primitive objects
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Participants 2/2
+o Composite (e.g., Picture)
+o defines the behavior of components with children
+o memorizes child components
+0 implements operations related to copies of the
+Component interface
+0 Client
+o handles the objects in the composition through the
+Component interface
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Collaborations
+
+o clients use the Component interface class to interact with
+objects in the structure
+
+o if the container is a Leaf instance, then the request is
+resolved directly
+
+o if the container is a Composite instance, then the request
+is forwarded to the child components; other additional
+operations are possible before or after forwarding
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Consequences 1/2
+
+0 defines a hierarchy of classes consisting of primitive and
+compound objects
+
+o primitive objects can be composed of more complex
+objects, which in turn can be composed of other more
+complex objects, etc. (recursion)
+
+. whenever a client expects a primitive object, he can also
+take a composite object
+
+0 for the client it is very simple; it treats primitive and
+composite objects uniformly
+
+o the client does not care if it has to do with a primitive or
+composite object (avoiding the use of switch-case
+structures)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Consequences 2/2
+
+0 it is easy to add new types of Leaf or Composite
+components; the new subclasses work automatically with
+the existing structure and the customer code. The
+customer does not change anything.
+
+. makes the design very general
+
+0 drawback: it is difficult to restrict which components can
+appear in a composite object (a solution could be to check
+during execution)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Implementation: Decisions to Make
+0 explicit references to parents?
+o shared components?
+0 maximize the interface? safety or transparence?
+Transparence could lead to violation of the SRP!
+Safety requires to convert a Component into a Composite!
+o where to implement the operations handling children?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Plan
+Q Composite
+Case Study: Expressions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Expressions in Programming
+Languages
+0 arithmetic expressions: a + b * 2 — c
+o relational expressions: a + 2 < b >l< 3
+¢ Boolean expressions: a < 3 && (b < O l| a < b)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Arlthmetlc Expressmns: Syntax
+PrimaryExpression 2::
+IntConstant
+\ VarName
+\ "(“ Expression “)"
+IntConstant :::
+Digit+
+Digit ::=
+"O" I "1" I ' ' ' ‘ "9"
+VarName :z:
+"a" l "b" | ___ ‘ "z"
+MultExpression :2:
+PrimaryExpression (("*" \ "/" | "%") PrimaryEXpression)*
+ArithEXpression ::=
+MultEXpression (("+" | "—") MultExpression)*
+Expression ::= ArithExpression
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+AST Classes
+MultExpression ArithExpression
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Relatlonshlp between Classes 1/3
+PrimaryExpression :1:
+IntConstant
+PrimaryExpression 2:: | VarName
+IntConstant :
+\ VarName +
+\ "(" Expression ")" . .
+PrlmaryExpre551on ::=
+"(" Expression ")"
+. . CHM _
+— 1
+4 v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Relatlonshlp between Classes 2/3
+MultExpression :::
+PrimaryEXpressiOn (("*" \ "/" l "%") PrimaryEXpression)*
+MultExpression o Chgldien PrimaryExpression
+ArithExpression :::
+MultEXpression (("+" | "—") MultExpression)*
+ArithExpression o Child?“ MultExpression
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Relationship between Classes 3/3
+1
+4 V
+Ugly!
+Question. What OO design principles are violated?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Using Composite 1/2
+Leafs: lntConst, VarName
+Composites: ArithExpression, MultExpression, Expression
+What about PrimaryExpression? It is both
+It is both, therefore we split it:
+4 V
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Usmg Composne 2/2
+v w
+Q
+TokenExpression CompoundExpression
+1 v 1 A v
+BracketExpression ArithExpression MultExpression
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Class Expression in C++
+
+class Expression {
+
+public: virtual list<string> getLabel();
+public: virtual void addLabel(string str);
+public: virtual list<string> getLabel();
+public: virtual string toString();
+protected: list<string> label;
+};
+
+. we opted for safety
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Class CompoundExpressmn |n C++
+class CompoundExpression : public Expression {
+public: void addChild(Expression* pe);
+public: string toString();
+public: list<Expression*> getChildren();
+protected: list<Expression*> children;
+};
+class ArithEXpression : public CompoundExpression {
+};
+class MultEXpression : public CompoundExpression {
+l;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Expressions Parser
+See the appendix.
+The implementation can be found in the folder
+examples/interpreter/cpp/expressions/parser-composite
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Plan
+Case Study: Expressions
+9 Visitor
+Combining Composite and Visitor
+KI 5' * E :5 one
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Intention
+0 it is a behavioral pattern
+0 models an operation (a set of operations) that runs over
+the elements of an object structure
+o allows the definition of new operations without changing
+the classes of the elements over which the operations are
+executed
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Motivation
+
+0 A compiler is a program like an abstract syntactic tree
+(AST). This syntactic tree is used both for static semantics
+(e.g., type checking) and for code generation, code
+optimization, display.
+
+0 These operations differ from one type of instruction to
+another. For example, a node representing an assignment
+differs from a node representing an expression and
+consequently the operations on them will be different.
+
+0 These operations should be performed without changing
+the structure of the AST.
+
+o Even if the structure of the AST differs from one language
+to another, the ways in which the operations are performed
+are similar.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Motlvatlon: Pollutlng Solutlon
+_
+typeCheck()
+generateCode()
+prettyPrint()
+4 V
+m
+_ _
+typeCheck() typeCheck()
+generateCode() generateCode()
+prettyPrint() prettyPrint()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+. Motlvatlon: Solutlon WIth VlSltors
+Hlerarchy:
+—. —
+accept(VisitorNode&)
+1 V
+— —
+accept(VisitorNode&) accept(VisitorNode&)
+Visitors:
+—
+visitArithExpressionO
+visitAss/gnStmlO
+v A v
+— — —
+visitArithExpression() visitArithExpressionQ visitArithExpression()
+visitAssignStth visitAssignStmtO visitAssignStmlO
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Hierarchy:
+o _
+accept(Visitor&)
+4 V
+ConcreteElementA ConcreteElementB
+— —
+
+accept(Visitor&) accept(Visitor)
+Visitors:
+
+—
+visitConcreteE/ementAO
+visitConcreteE/ementB()
+
+4 V
+— —
+visitConcreteElementAO visitConcreteElementAO
+visitConcreteElementBO visitConcreteElementBO
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Participants 1/3
+o Visitor (e.g., NodeVisitor)
+o declares a visit operation for each ConcreteElement
+class in the structure
+o the name of the operation and the signature identify
+the class that sends the visit request to the visitor
+o this allows the visitor to identify the specific element
+they are visiting
+0 then, the visitor can visit the item through its interface
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Participants 2/3
+0 ConcreteVisitor (e.g., TypeCheckingVisitor)
+
+o implements each operation declared by the visitor
+
+o each operation implements a fragment of the visit
+algorithm that corresponds to the element in the
+structure visited
+
+0 it memorizes the state of the visiting algorithm, which
+often accumulates the results obtained while visiting
+the elements in the structure
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Participants 3/3
+. Element (Node)
+o defines accepting operations, which have a visitor as
+an argument
+o ConcreteElement (e.g.,
+AssignmentNode,VariableRefNode)
+o implements accepting operations
+O ObjectStructure (e.g., Program)
+O it can list its elements
+o it can provide a high-level interface for a visitor visiting
+its elements
+o it can be a "composite"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Collaboratlon (Sequence Dlagram)
+accept(v)
+visitConcreteElementA
+operationA
+<iiiiiiiiiiiiiiiiiiiiiiii
+accept(v)
+visitConcreteElement
+i , , Pp,e@tl°rlbi i i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Explanation
+
+0 after some internal computations, 0 sends the message
+accept(v) to a (in C++ this means that o calls a.accept(v))
+
+o then a sends the message visitConcreteElementA to v
+(i.e., a calls v.visitConcreteElementA(this), a kind of " v,
+please visit me")
+
+o then v "visits" a by executing a.0perationA()
+
+0 then a similar scenario with o and b and v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Consequences 1/2
+o Visitor makes adding new operations easy
+o a visitor gathers the related operations and separates the
+unrelated ones
+o adding new ConcreteElement classes to the structure is
+difficult
+o causes changes in the interfaces 0f all visitors
+o sometimes a default implementation in the Visitor
+abstract class can make the job easier
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Consequences 2/2
+0 unlike iterators, a visitor can traverse multiple class
+hierarchies
+0 allows the calculation of cumulative states. Otherwise, the
+cumulative state must be transmitted as a parameter
+0 it could destroy the encapsulation
+0 the concrete elements must have a strong interface
+capable of providing all the information requested by
+the visitor
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Implementatlon 1/2
+
+class Visitor {
+public:
+
+virtual void visitElementA(ElementA*);
+
+virtual void visitElementB(ElementB*);
+
+// and so on for other concrete elements
+protected:
+
+Visitor();
+};
+class Element (
+public:
+
+virtual ~Element();
+
+virtual void accept(Visitor&) = 0;
+protected:
+
+Element();
+};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Implementatlon 2/2
+class ElementA : public Element {
+public:
+
+ElementA();
+virtual void accept(Visitor& v) {
+v.visitElementA(this);
+}
+};
+class ElementB : public Element {
+public:
+ElementB();
+virtual void accept(Visitor& v) {
+v.visitElementB(this);
+}
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Simple/Double Dispatch
+
+o Simple dispatch. The operation that makes a request
+depends on two criteria: the name of the request and the
+type of receiver. For example, generateCode () depends
+on the type of node.
+
+o Double dispatch. The operation that performs the request
+depends on the types of two receivers. For example, an
+accept () call depends on both the component and the
+visitor.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Who Traverses Object Structure?
+There are several options:
+o the object structure itself
+o the visitor
+o an iterator
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Plan
+9 Visitor
+Combining Composite and Visitor
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Recall Composne Dlagram for
+Expressmn
+6
+CompoundExpression
+€ V 1 A v
+BracketExpression ArithExpression MultExpression
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Addingaccept()
+—
+—
+—w
+1 V
+Q
+—
+=
+‘ V (AV
+m-
+——
+———
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Vl$|tors for Expressmn
+—
+visit/ntConstant()
+visitVarName()
+visitCompoundExpression()
+visitArithExpression()
+visitMu/tExpress/onO
+visitBracketExpressionO
+4 b
+VisitorPretTypr/nt VisitorEvaI . m
+— — —
+visitlntConstant() visitlntConstantO Iookup()
+visitVarName() visitVarNameO updateO
+visitCompoundExpressionO visitCompoundExpression()
+visitArith Expression() visitArith Expression()
+visitMultExpression() visitMultExpressionO
+visitBracketExpression() visitBracketExpressi0n()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Implementatlon 1/2
+
+The implementation can be found in the folder
+examples/interpreter/cpp/expressions//visit0r
+main.cpp:
+stdzz cout << "Input: ";
+std::cin.getline(str, 80);
+Parser p(str);
+std::optional<Expression*> ae I p.expression();
+if (ae.has_value()) stdzzcout << ae.value()e>toStrinq() << "\n";
+else stdzzcout << "nothing\n";
+State st;
+VarName a("a"), b("b");
+st.update(a, lO);
+st.update(b, 5);
+st.print();
+VisitorEval visitorEvall(st);
+if (ae.has_value()) {
+
+ae.value()e>accept(visitorEvall);
+
+cout << "ae I " << visitorEvall.qetCumulateVal() << endl;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Implementatlon 2/2
+Running:
+$ g++ *.cpp ../*.cpp istd=c++17 *0 demo.exe
+$ ./demo.exe
+Input: a+bi2
+(a + b — 2)
+a |i> 10
+b |—> 5
+ae : 13
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Plan
+Case Study: Expressions
+Combining Composite and Visitor
+Q Object Factory
+m 51 i E i: 0Q‘?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Intention
+o it is a creational pattern
+0 to provide an interface for creating a family of
+intercorrelated or dependent objects without specifying
+their specific class
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Applicabilty
+
+o a system should be independent of how the products are
+created, composed or represented
+
+o a system would be configured with multiple product families
+
+o a family of intercorrelated objects is designed so that the
+objects can be used together
+
+o you want to provide a product library and you want only the
+interface to be accessible, not the implementation
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Motlvatlon1/2
+Recall the counter-example from OCP:
+* ShapeContainer
+— _
+A \
+\
+l
+\
+L
+void load(std: :ifstream& inp)
+m Rectangle <
+while (inp) (
+— — int tag;
+inp >> tag;
+switch (tag) {
+case RECTANGLE:
+ggge CIRCLE:
+>
+)
+If we add more shapes, we have to modify ShapeContainer: :load ().
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Motivation 2/2: (De)Ser|a||zat|on of
+Expressmns
+a+b*2
+I \ Serialization
+I \
+<arith>
+<label> [+1 </label>
+<varName> a </varName>
+<mult>
+<label> [*1 </label>
+<varName> b </varName>
+Deseﬂaﬁzaﬂon <intC0nStant> 2 </intCOnstant>
+</mult>
+</arith>
+XML notation
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+AbstractFactory 1
+Client
+_ -
+createProductA()
+createProductBO
+4 }
+iiii iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii‘
+l 1 \
+‘ AbstractProduclA
+v v 1
+ConcreteFaclory1 ConcreleFactoryZ
+_ _ i i
+L i ConcreleProductAZ ConcreteProduclM
+crealeProductA() createProduclA() i i‘
+crealeProductBO createProduclBO ‘
+‘ 1
+l l AbstractProduclB
+\ \ y v
+\ \
+\ \
+l ‘ i i ConcreleProductBZ
+Lifiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ConcreteProduclB1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+_
+registerExpr() ExprManager
+unregisterExpr()
+createExprO
+v w O
+6
+CompoundExpression
+1 i 1 A V
+BracketExpression ArithExpression MultExpression
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Correspondens with the Standard
+Structure
+o AbstractProductA = Expression
+o AbstractProductB = Statements (not implemented yet)
+o ConcreteFactory = Registrar (of expressions and
+statements)
+o Client = ExprManager (in charge with (de)seria|ization)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+Consequences
+0 isolates concrete classes
+o simplifies the exchange of the product family
+o promotes consistency among products
+O supports new product families easily
+o respects the open / closed principle
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Participants: Registrar
+0 it is a class that manages the types 0f expressions
+0 registers a new type of expression (called whenever a new
+derived class is defined)
+o delete a registered expression type (delete a derived class)
+O creates expression objects
+o at the implementation level we use pairs
+(tag, createExern)
+0 and callback functions (see next slide)
+o Singleton template can be used to have a single factory
+(register)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Callback Functions
+
+o a callback function is a function that is not explicitly invoked
+
+. the responsibility for the call is delegated to another
+function that receives as parameter the address 0f the
+callback function
+
+0 the object factory uses callback functions to create objects:
+for each type there is a callback function that creates
+objects of that type
+
+o for the "expression factory" we declare an alias for the type
+of Expression object creation functions:
+
+typedef Expression* ( *CreateEXern ) ();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Implementatlon: Reglstrar 1/2
+class Registrar
+{
+public:
+bool registerExpr(string tag,
+CreateEXern createExern )
+{
+return catalog.insert(
+std::pair<string, CreateExern>(
+tag, createExern)
+).second;
+}
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Implementatlon: Reglstrar 2/2
+void unregisterExpr(string tag)
+{
+cataloq.erase(tag);
+}
+Expression* createExpr(string tag)
+{
+map<string, CreateExern>zziterator i;
+i = catalog.find(tag);
+if ( i :: catalog.end())
+throw string("Unknown expression tag");
+return (i—>second)();
+)
+protected:
+map<string, CreateExern> catalog;
+};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Implementatlon: Object Creatlon
+
+Expression* createIntConstant() {
+
+return new IntConstant();
+}
+Expression* createVarName() {
+
+return new VarName();
+}
+Expression* createMultEXpression() {
+
+return new MultExpression();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Implementatlon: ExprManager
+Constructor
+ExprManager::EXprManager() {
+reg I new Registrar();
+regi>reqisterExpr("<intConstant>",
+createIntConstant);
+regi>reqisterExpr("<varName>",
+createVarName);
+regi>registerExpr("<mult>",
+createMultExpression);
+regi>registerExpr("<arith>",
+createArithExpression);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+Full Implementatlon
+The full implementaiion can be found in the folder
+examples/interpreter/cpp/expressionsl/factory
+Running:
+$ g++ *.cpp istd=c++l7 *0 demo.exe
+$ ./demo.exe
+Input: a+bi2
+test .Xml file created:
+<arith>
+<label> [+,*] </label>
+<mult>
+<label> [] </label>
+<varName> a </varName>
+</mult>
+<mult>
+<label> [] </label>
+<varName> b </varName>
+</mult>
+<mult>
+<label> [] </label>
+<intConstant> 2 </intConstant>
+</mult>
+</arith>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Conclusion
+o design patterns are a way to learn how to build your
+programs
+o a design pattern is a tip that comes from people who have
+distilled their most common solutions into simple, digestible
+and suggestive advices
+o OOP and design patterns are distinct topics
+o OOP teaches you how to program, it is a programming
+methodology or a programming concept
+o design patterns teach you
+o how to think about programs,
+0 suggest methods for building classes / objects to solve
+a certain scenario in a program,
+o proven methods t0 succeed
+o many other useful patterns are found in GoF
+
+***************Ending Page***************
+

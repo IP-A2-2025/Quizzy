@@ -1,0 +1,832 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+lectures by Ferucio Laurentiu Tiplea
+lP Security
+lPsec: A Security Architecture for lP
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of la$i
+la§i 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Introduction
+What is lPsec?
+Transport and tunnel modes
+More on AH and ESP
+AH format
+ESP format
+Security associations
+Security associations
+Basic combinations of SAs
+Security association and policy databases
+Internet key exchange
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introduction
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+TCP/IP protocol suite
+1. The Internet protocol suite, also known as the TCP/IP protocol
+suite, is a framework for organizing the set of communication
+protocols used in the Internet and similar computer networks;
+2. 1973: DARPA initiated a research program to investigate techniques
+and technologies for interlinking packet networks of various kinds;
+3. 1974: the ﬁrst-ever paper on Internet
+Vinton Cerf, Robert Kahn: A Protocol for Packet Network Inter-
+communication, IEEE Trans on Communications, Vol Com-22,
+N0 5, May 1974;
+4. Sept 1981:
+I RFC 791: Internet Protocol;
+I RFC 793: Transmission Control Protocol;
+5. Updates: RFC 6864 for IPv4 (Feb 2013) and RFC 9293 for TCP
+(Aug 2022).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security IP SecuritylPsec Fall 2023 2/44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+TCP/IP protocol suite
+Application App App
+{I
+Transport TCP/UDP TCP/UDP
+{I
+Internet IP IP
+Prof.dr.F.L.Tip|ea,UAlC,RO Lectureson Information Security lP SecuritylPsec Fall 2023 3/44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Security issues with IP
+Bellovin (1989) reported several security issues in the TCP/IP protocol
+suite, such as:
+I Eavesdropping (sniffing, snooping);
+I Data modification;
+I Sequence number spoofing;
+I lP address spoofing;
+I Routing attacks.
+The Internet will never be fully secure
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 4 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Security issues with IP
+Application App APP
+{I
+Transport TCP/UDP TCP/UDP
+{I
+Internet IP |p
+{I
+Link
+L I I 4%
+Prof.dr. F.L. Tiplea, UAIC, R0 Lectures on Information Security lP SecuritylPsec Fall 2023 5 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+What is lPsec?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+lPsec: what is it?
+I lPsec is a security architecture for the Internet Protocol (IPv4 and
+va6);
+I Provides security services at the lP layer;
+I Provides security in three situations:
+I host — host;
+I host — security gateway;
+I security gateway — security gateway;
+I Operates in two modes
+I transport (for end-to-end);
+I tunnel (for VPN).
+Current development: lPsec v3 (Seo and Kent (2005)) and IKE v2
+(Kaufman et al. (2014)).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 6 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+lPsec: networking concepts
+I Node:
+I device attached to a network where messages can be created,
+received, or transmitted;
+I examples: computers, personal digital assistants (PDAs), cell
+phones, or various other networked devices;
+I on a TCP/IP network, a node is any device with an lP address;
+I Host: node that is a computer;
+I Security gateway:
+I system that implements lPsec protocols;
+I examples: router or firewall implementing lPsec.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 7 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+lPsec: fundamental components
+1. Security protocols:
+
+- Authentication Header (AH): piece of information (MAC) associated
+to an lP datagram in order to authenticate certain fields of the
+datagram;
+
+I Encapsulating Security Payload (ESP): obtained from an lP
+datagram by encrypting, and optionally authenticating, certain fields
+of the datagram;
+
+2. Security associations;
+3. Key management protocols;
+4. Algorithms for authentication and encryption.
+Because of these protocols are provided at the lP layer, they can be used
+by any higher layer protocol (e.g., TCP, UDP, ICMP etc.).
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 8 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Securing IP datagram
+Application App App
+Tramp“ TCP/UDP TCP/UDP
+I L
+Internet IP, - hea H H IP,
+Link
+
+\— 0111010011010 Q
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 9 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+lPsec security services
+_-—-
+_-—-
+limited traffic flow confidentiality -—
+/-\ traffic flow confidentiality (TFC) mechanism alters or masks statistical
+characteristics of the traffic pattern(s).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 10 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Transport and tunnel modes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+IP datagrams
+lP hdr lP payload
+Figure 1: IPv4 datagram
+IPv6 hdr
+<—>
+lP main hdr lP payload
+routing extension header
+fragmentation extension header
+destination options extension header
+Figure 2: va6 datagram
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 11 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Transport mode
+
+- Typically, the transport mode is used for communication between
+two hosts (e.g., a client and a server or two workstations);
+
+I Gateways are not required to support the transport mode!. A
+gateway is allowed to support the transport mode when it acts as a
+host, that is, when the traffic is destined to the gateway itself;
+
+I Due to its definitions, the transport mode provides protection for
+upper layer protocols (e.g., TCP or UDP);
+
+© Fewer processing costs;
+® Mutable fields are not authenticated.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 12/44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+AH in transport mode
+In the transport mode, AH authenticates the lP payload and selected
+portions of the IP header (e.g., mutable and unpredictable ﬁelds are not
+authenticated)
+IPv4 lP hdr lP payload
+<—>
+AH (except for mutable fields)
+lP hdr lP payload
+ext hdrs
+(—>
+IPv6 IP main hdr lP payload
+l
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 13 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+ESP in transport mode
+In the transport mode, ESP encrypts and optionally authenticates the lP
+payload (but not the lP header)
+ESP ESP ESP
+IPv4 lP hdr lP payload
+e
+Encrypted
+<—>
+Authenticated
+ext hdrs
+|
+e
+Encrypted
+<—>
+Authenticated
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 14 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Tunnel mode
+I Tunneling means encapsulation and it consists of wrapping a packet
+in a new one;
+I Tunnel mode is used whenever either end of an SA is a security
+gateway:
+I host — security gateway;
+I security gateway — security gateway (such as two ﬁrewalls);
+I security gateway — host;
+I Remark that hosts must support both transport and tunnel mode;
+© Total protection (possibility of using private addresses);
+@ Extra processing costs.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 15 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+AH in tunnel mode
+In the tunnel mode, AH authenticates the entire inner lP packet plus
+selected portions of the outer IP header and outer IP extension headers
+IPv4 new IPv4 hdr IPv4 datagram
+<—>
+Authenticated (except for mutable fields in the new IPv4 hdr)
+IPVG rflneglllnlflxl? lPV6 datagram
+e
+Authenticated (except for mutable ﬁelds in the new lP hdr and its extensions hdrs)
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 16 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+ESP in tunnel mode
+In the tunnel mode, ESP (with authentication) encrypts (and
+authenticates) the inner IP packet
+IPv4 new IPv4 hdr E3‘? IPV4 datagram trEaSiIZr gust‘;
+e
+Encrypted
+<—>
+Authenticated
+new IPv6 ESP ESP ESP
+IPV6 IPV6 datagram
+<—>
+Encrypted
+e
+Authenticated
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 17 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+More on AH and ESP
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Authentication Header
+O 8 16 31
+security parameter index (SPI)
+authentication data (variable)
+Figure 3: AH format
+I Sequence number field: designed to thwart reply attacks;
+I Source Address and Destination Address are always authenticated
+under AH and ESP and, therefore, address spoofing is prevented.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 18 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Authentication Header
+Authentication data field: contains the Integrity Check Value (ICV), or
+MAC, for the packet. RFC 8221 recommendation (Wouters et al.
+(2017)):
+Authentication algorithm
+AUTH_NONE, HlVlAC-MD5-95, KPDK_l\/ID5, MUST NOT
+DES_l\/IAC
+HMAC-SHA-1-96 MUST-
+AES_XCBC_96 SHOULD / MAY
+AES_128_GMAC, AES_256_G|\/|AC
+HMAC_SHA2_256_128 MUST
+HMAC_SHA2_512_256 SHOULD
+AUTH_NONE is acceptable only when authenticated encryption
+algorithms are used!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 19/44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Encapsulating Security Payload format
+O 16 24 31
+security parameter index (SPI)
+(U
+.2
+E E payload data (varIable)
+‘é g
+g padding (0-255 bytes)
+authentication data (variable)
+Figure 4: ESP format
+The authentication in ESP follows the same recommendations as in AH.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 20 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Encryption in ESP
+RFC 8221 recommendation (Wouters et al. (2017)):
+Encryption Algorithm
+DES, DES_|V32, DES_|V64, BLOWFISH, 3|DEA MUST NOT
+3DES SHOULD NOT
+NULL, AES_CBC, AES_GCM_16 MUST
+AES_CCM_8, CHACHA20_POLY1305 SHOULD
+NULL does nothing to alter data: it is the identity function with a block
+size of 1 byte (therefore, padding is not necessary).
+NULL is simply a convenient way to use ESP in order t0 provide
+authentication and integrity Without confidentiality.
+Authentication and encryption can each be "NULL", but not at the same
+time!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 21 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Security associations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Security associations
+A security association (SA) is a unidirectional logical connection between
+two IP systems, uniquely identiﬁed by a triple
+(SPI, lP destination address7 security protocol)
+where:
+
+I SPI (security parameter index) is a 32-bit value used to identify
+different SAs with the same destination address and the same
+security protocol;
+
+I lP destination address can be unicast, broadcast, or multicast;
+
+I security protocol — this can be either AH or ESP.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 22/44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Security associations
+1. SAs are uniderectional! Thus, for bidirectional communication
+bewteen two lPsec systems there must be two SAs definied, one for
+each direction;
+2. A single SA gives security to the traffic carried by it either by using
+AH or ESP, but not both;
+3. For a connection that needs to be protected by both AH and ESP,
+two SAs must be defined for each direction.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 23/44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+SA bundle
+I An SA bundle is a sequence of SAs through which traffic must be
+processed to provide a desired security;
+I SAs may be combined into bundles in two ways:
+I transport adjacency — consists of applying in the transport mode
+both security protocols to the same IP datagram; Zflafst'xmcag'fgﬂ
+I iterated tunneling — consists of applying multiple layers of security
+protocols through lP tunneling (although there is no limit in the
+nesting levels, more than three levels is considered impractical).
+These approaches can be combined: e.g., an lP packet with transport
+adjacency lPsec headers can be sent through nested tunnels.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 24 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+End-to-end security
+Internet!
+tunnel
+'—
+Figure 5: End-to-end security
+
+Two hosts are connected through the Internet or an intranet without any
+
+security gateway between them. They can use ESP, AH, or both. Either
+
+transport or tunnel mode can be applied.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 25 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Basic VPN support
+t E
+tunnel
+Figure 6: Basic VPN support
+
+The hosts in the intranets are not required to support lPsec, but the
+
+gateways are required to run lPsec and support tunnel mode (either with
+
+AH or ESP).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 26 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+End-to-end security with VPN support
+@ E
+*_i—_
+Figure 7: End-to-end security with VPN support
+
+This is a combination of the previous two cases. For instance, the
+
+gateways may use AH in tunnel mode, While the hosts use ESP in
+
+transport mode.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 27 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Remote access
+Internet! 62
+e
+'13-
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiitunnem
+Figure 8: Remote access
+Between the host H1 and the ﬁrewall G2, only the tunnel mode is
+required (e.g., AH in tunnel mode), and between the host H1 and H2,
+either transport 0r tunnel mode can be used (e.g., ESP in transport
+mode).
+Prof.dr. F.L.Tip|ea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fa||2023 28/44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+SAD and SPD
+
+1. Each SA has an entry in a Security Association Database (SAD)
+
+2. A Security Policy Database (SPD) specifies; what services are to be
+offered to lP datagrams and in what fashion;
+
+3. An SPD consists of an ordered lists of policy entries. each policy
+being keyed by one or more (traffic) selectors that define the set of
+lP traffic encompassed by this policy entry;
+
+4. Example of policy entry: all matching traffic must be protected by
+ESP in transport mode using 3DES-CBC with an explicit IV, nested
+inside of AH in tunnel mode using HMAC-SHA-l;
+
+5. SPD must be consulted during the processing of all traffic (inbound
+or outbound), including non-lPsec traffic.
+
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 29/44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Internet key exchange
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Internet key exchange
+I Internet Key Exchange (IKE) is a component of lPsec that:
+I establishes an IKE SA that includes shared secrets;
+I performs mutual authentication between parties;
+I establishes AH and ESP SAs and a set of cryptographic algorithms
+to be used by them;
+I The design of lKE was influenced by three protocols:
+I STS (Station-to-Station) protocol (Diffie et al. (1992));
+I SKEME protocol (Krawczyk (1996));
+I Oakley protocol (Orman (1998)).
+Current development: lKE v2 (Kaufman et al. (2014)).
+lKEv2 is more flexible than lKEvl, has fewer negotiation steps, and
+brings many significant new features compared to lKEv1. lt is not
+backward compatible with lKEvl.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 30/44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+IKE exchanges
+I Exchange: pair of messages consisting of a request and a response;
+I Types of exchanges in IKE:
+I The first exchange (IKE_SA_INIT)
+I negotiates security parameters for the IKE SA;
+I sends nonces;
+I sends DH values;
+I The second exchange (IKE_AUTH)
+I transmits identities;
+I proves knowledge of the secrets corresponding to the two identities;
+I sets up an SA for the ﬁrst (and often only) AH or ESP Child SA;
+I Subsequent exchanges:
+I CREATE_CH|LD_SA: creates new Child SAs or re-keys (create a
+new SA and then delete the old SA) both IKE SAs and Child SAs;
+I INFORMATIONAL: deletes an SA, reports error conditions, or does
+other housekeeping.
+Prof.dr. F.L. Tiplea, UAIC, R0 Lectures on Information Security lP SecuritylPsec Fall 2023 31 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+IKE exchanges Illustrated
+Initiator Receptor
+, crypto suite proposal, DH value, nonce
+‘ crypto suite selected, DH value, nonce \é' % unprotected
+Alice <— Bob
+Create keys:
+SKd % used to create Child SA keys
+5143;, 5K”, 5K9, 5K6, % used to protect the neg. steps
+SKpfr SKp! % used to compute Auth payload
+{auth. ident., neg. Child SA}5K
+{auth. ident., complete neg. Child SA}5K % protected by SKEX + SKaX
+‘—
+Use SKd to create keys
+for the ﬁrst Child SA
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 32 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+.
+IKE exchanges Illustrated
+IKE SA
+SKEYSEED = pm/v, H NR, g”)
+keys SKd, . . 4
+I
+|_
+3 +
+<| KEYMAT = prf (sxd, Iv, H NR)
+g k8y(5)
+z .
+—| =| KEV/MAT : prfﬂSKd, [HM] N1 H NR) 0660“ "9991 =8?
+< 5 k pasheaza dln seslune
+‘"| ml “(5) ce e cu msu = valori noi
+LLI
+E E l
+LLI
+1:
+u ,
+1 re-key Cl‘ _ ‘ ‘ /re-key IKE SA
+K‘ .
+-» MAT = prfﬂsm [Hm/v1 H NR)
+‘-$KEY$EED : p,+($Kd,g"' H 1v, || NR)
+key(s)
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 33 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+lKE_SA_lNlT
+I Hdr contains SPls, version numbers, exchange type, message ID,
+and flags;
+I SA,1 states the cryptographic algorithms the initiator supports for
+the IKE SA;
+I SAR1 is the responder choice selected from the initiator's offered
+choices (SA/1);
+I N, and NR are nonces;
+I KE/ and KER are DH values (gi and g’);
+I CertReq: certificate request.
+Prof.dr. F.L.Tiplea, UAIC, R0 Lectures on Information Security lP SecuritylPsec Fall 2023 34/44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+lKE_SA_lNlT: key generation
+At this point, each party can generate all keys for IKE SA:
+SKEYSEED I prf(Nl ll NR, g”)
+KEYS : prf+(SKEYSEED, N1 ll NR || SPI/ ll SPIR)
+KEYS I 5Kd ll 5Kai || SK” || 5K6!‘ ll 5K8, ll SKPI ll 5Kpr ll
+Where prf is a PRF and prf+ is an iteration of it
+Prf+(K7 To) I T1 ll T2 ll T3 ll
+T1 : prf(K, T0 || 0x01)
+T2 I prf(K, T1 || 0x02)
+SKd will be used for derivation of further keying material for Child SAs.
+SKex + 5K3X will be used for auth. encryption, where x E {i, r}.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 35/44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+IKE_AUTH
+I {'}5K means auth. encryption by SKeX + SKBX, with X E {i, r};
+I ID], IDR: identities;
+I Auth: authentication payload (based on SKP; and SKpr);
+I Cert: certificate payload;
+I SAlz, SARZ: the initiator begins negotiation of a Child SA using the
+SA,2 payload, and the receptor completes the negotiation With SARZ;
+I T5,, TSR: traffic selectors
+I A traffic selector is a list of IP addresses and port numbers that are
+to be protected by the SA;
+I TS/ (TSR) specifies source (destination ) addresses and ports.
+Prof.dr. F.L.Tiplea, UAIC, R0 Lectures on Information Security lP SecuritylPsec Fall 2023 36/44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+IKE_AUTH: key generation for Child SA
+When the first Child SA is created by IKE_AUTH, the keys are generated
+as follows:
+I The keying material is
+KEY/VIAT : prf+(SKd,N/ H NR)
+where N, and NR are the nonces from the |KE_SA_|N|T exchange;
+I Generally, keys are taken from KEYMAT in the order: encryption
+key and then integrity key.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 37 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+CREATE_CH|LD_SA
+Used to:
+I Create new Child SA (recall that the first Child SA is created by
+IKE_AUTH);
+I Re-key a Child SA;
+I Re-key an IKE SA — the main reason for rekeying the IKE SA is to
+ensure that the compromise of old keying material does not provide
+information about the current keys, or vice versa.
+Re-keying an SA: create a new SA and then delete the old one.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 38/44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+CREATE_CH|LD_SA: new Child SA
+CREATE_CH|LD_SA: New Child SA
+1% R: Hdr, {5A, N/[, KEI], TS], TSR}5K
+R ~> II Hd!‘7 {SA7 NRL KER]7 TS], TSR}5K
+where:
+I SA: the new security association the initiator wants to create;
+I If KE, and KER are not used, the keys are generated as in the case of
+a Child SA created by IKE SA but with the fresh nonces N, and NR;
+I If KE/ and KER are used, the keys are generated as follows:
+I KEYMAT I prf+(5Kd,gi’ H N, H NR) (gh, N1, NR are the fresh
+ones);
+I the same rules for taking the keys.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 39/44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+CREATE_CHILD_SA: re-keying a Child SA
+CREATE_CH|LD_SA: Re-keying a Child SA
+l—> R: Hdr7 {N(REKEY_5A)7 5A7 N,[7 KEI]7 T5,7 TSR}5K
+R % II Hdl’,{$A. /\/,1:\>[,/'<E,1;>]7 TS]7 TSR}5K
+where:
+I N(REKEY_SA) identifies (by the SPI field) the SA to be rekeyed;
+I The keys are generated as in the case of creation of a new Child SA.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 40 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+CREATE_CHILD_SA: re-keying IKE SA
+CREATE_CHILD_SA: Re-keying IKE SA
+/_> R: Hdr, {5A, /v,, KE,}5K
+R % I: Hdr, {5A, NR, KER}5K
+where:
+I SA re-keys the current IKE SA;
+I The new SKEYSEED is computed by
+SKEYSEED : prf(5Kd,g” ll Iv, ll NR)
+where SKd and prf are the old ones;
+I The new SKd, 5K3,- etc., are computed as usual (a new prf may be
+used).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 41 / 44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+INFORMATIONAL
+INFORMATIONAL
+l—>R: Hdr,{[N,][D,][CP,]...}5K
+Ra]: Hdr,{[N,][D,][CP,]H.}5K
+where:
+I N: notify;
+I D: delete;
+I CP: configuration;
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 42 / 44
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+References
+References
+Bellovin, S. M. (1989). Security problems in the tcp/ip protocol suite. SIGCOMM Comput.
+Commun. Rem, 19(2):32—48.
+Diffie, W., Van Oorschot, P. C., and Wiener, M. J. (1992). Authentication and authenticated key
+exchanges. Des. Codes Cryptography, 2(2):107—125.
+Kaufman, C., Hoffman, P. E.. Nir, Y., Eronen, P., and Kivinen. T. (2014). Internet Key Exchange
+Protocol Version 2 (lKEv2). RFC 7296.
+Krawczyk, H. (1996). SKEME: a versatile secure key exchange mechanism for internet. In
+Proceedings of Internet Society Symposium on Network and Distributed Systems Security,
+pages 114-127.
+Orman, H. (1998). The OAKLEY Key Determination Protocol. RFC 2412.
+Seo, K. and Kent, S. (2005). Security Architecture for the Internet Protocol. RFC 4301.
+Wouters, P., Migault. D., Mattsson, J. P., Nir, Y., and Kivinen, T. (2017). Cryptographic
+Algorithm Implementation Requirements and Usage Guidance for Encapsulating Security
+Payload (ESP) and Authentication Header (AH). RFC 8221.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security lP SecuritylPsec Fall 2023 43 / 44
+
+***************Ending Page***************
+

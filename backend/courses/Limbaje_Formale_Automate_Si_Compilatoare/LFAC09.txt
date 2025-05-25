@@ -1,0 +1,652 @@
+***************Beginning Page***************
+***************page number:1**************
+Limbaje formale, automate 5i
+oompilatoare
+Q
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Recapitu Iare
+
+' Gramatici LR(O)
+¢ Teorema d6 caractmizare LR(O)
+¢ Automatul LR(O)
+' Parserul LR(O)
+
+' FIRST, FULLOW
+
+' Gramatici SLR(1)
+
+9
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Parser ascendent general
+---_-_
+-
+Control Tabela de parsare
+———
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Multimile FIRST §i FOLLOW
+¢ FIRST(a) = {a|a E T, on st=>* au } U
+if (a st :>* a) th6n {a} 6156 <2).
+¢ FOLLOW(A) I {a|a E T U {a}, S st =>"< uAy,
+a E FIRST (y) }
+9
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Determinare FIRST
+0 l.for(X E Z)
+0 2.if(X E T)FIRST(X)={X} else FIRST(X)=@;
+0 3.for(A%aB EEU
+' 4 . FIRST (A) :FIRST (A) U { a};
+¢ 5.FLAG=true;
+0 6.while(FLAG){
+' 7.FLAG=false;
+0 8.for(A _> Xle...XnE P){
+9.i=l;
+lO.if((FIRST(Xi) 9; FIRST(A)){
+0 ll.FIRST(A)=FIRST (A) U(FIRST(X1)—{8});
+¢ 12.FLAG=true;
+l3.}//endif
+l4.while(i<n && Xn;:*s)
+- l5.if((FIRST(Xi+1) gt. FIRST (A)){
+O l6 . FIRST (A) =FIRST (A) U FIRST (Xiﬂ);
+o l7.FLAG:true;i++;
+' }//endif
+}//endwhile
+° }//endfor
+° }//endwhile
+a. for(AEN)
+' if(Ast=>* 8) FIRST (A):FIRST(A) U{8};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Determinare FIRST
+0 Intrare: Gramatica G:(N,T,S,P).
+¢ Multimile FIRST (X) ,X E Z .
+¢ (1=XQQWX5, Xis 2,1éién.
+0 Ie$irez FIRST(a).
+0 1.FIRST(0L):FIRST(X1)—{8};i:l;
+0 2.while(i<n && Xi:ﬁs){
+0 3 .FIRST (0L) :FIRST (0L) U (FIRST (Xi+l) —{8});
+0 4.i:i+l;
+' }//endwhile
+0 5.if(i::n && Xn:¢8)
+' 6.FIRST ((1)2FIRST (0L) U {8};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Determinarea FOLLOW
+
+¢ s E FOLLOW(S).
+
+¢ DacéiA —> (xBBXy E P $i B 2+ a, atunci FIRST(X) -{s}~
+Q FOLLOW (B).
+' S =>* alA Bl => alaBBXyﬁl =>* ozlocBXyB1 $i atunci rezultéi
+
+FIRST(X)-{e} g FOLLOW (B).
+
+0 DacéiA —> aBB E P atunci FIRST(B)-{s} Q FOLLOW
+(B)-
+
+¢ DacéA —> aBﬁ E P gi [3 3+ a, atunci FOLLOW(A) Q
+FOLLOW(B).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Determinarea FOLLOW
+- 1. for(A e 2)FOLLOW(A)=®;
+
+0 2.FOLLOW(S)={8};
+
+' 3.for(A—>XlX2...Xn){
+
+¢ 4.i=1;
+
+' 5.while(i<n){
+6.while(Xi€N)++i;
+7.if(i<n){
+
+' 8 . FOLLOW (Xi) = FOLLOW (Xi) U
+(FIRST (Xi+1xi+2...><n) — {8}) ;
+' 9.++i;
+}//endif
+' }//endwhile
+' }//endfor
+Q
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Determinarea FOLLOW
+0 lO.FLAG=true;
+' 11.while(FLAG){
+¢ 12.FLAG=false;
+0 13.for(A—>XlX2...Xn){
+14.i=n;
+15.while(i>0 && XiEN){
+0 16.if(FOLLOW(A) ¢ FOLLOW(X-l) ){
+O 17.FOLLOW(Xi)=FOLLOW(Xi) U FOLLOW(A);
+o 18.FLAG=true;
+0 19.}//endif
+~ 20.if(><i :+s)——i;
+¢ 21.else continue;
+22.}//endwhile
+' 23.}//endfor
+' 24.}//endwhile
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Gramatici SLR(1)
+¢ Deﬁnitie
+¢ Pie: G 0 gramaticé pentru cam automatul LR(0) conﬁne
+stéri inconsistente (deci G nu esta LR(O)). Gramatica G
+este gramaticé SLR(1) dacé oricare ar ﬁ staraat a
+automatului LR(O) sunt indeplinite condiyiile:
+' —Dac€1A—>0L-, B —> [3- E t,
+atunci FOLLOW(A)OFOLLOW(B) I (D;
+' —Dacéi A—>0v, B —> B'ay E t atunci a 65 FOLLOW(A).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Constructia tabelei de parsare SLR(1)
+¢ Intram:
+¢ Gramatica G I (N, T, S, P) augmentaté cu S’ —> S;
+¢ Automatul M I (Q, Z, g, to, Q );
+¢ Multimile FOLLOW(A), AEN
+¢ Ie$ire:
+¢ Tabda d€ analizé SLR(1) compusé din doué péryi:
+~ ACTIUNE(t, a), t E Q, a E T U {# },
+¢ GOTO(t, A), t E Q, A E N.
+Q
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Pa rsa rea SLR( 1)
+
+¢ Deplasare: (6t, au#, 1c)|—(0tt’, u#, 1c) dacé ACTIUNE(t, a):Dt’;
+
+' Reducere: (6t6’t’, u#, 7c)|—( stt”, u#, nr) ACTIUNE(t, a.) = Rp unde
+P: A —> B, |6’t’| I IBI $i t”: GOTOU, A);
+
+' Acceptare: (tot, #, 1c) dacé ACTIUNE(t,a) = “acceptare”; Analizorul
+se opregte cu accaptarea cuvﬁntului de analizat iar 1|: este parsarea
+acestuia (girul de reguli care s-a aplicat, in ordine inversé, in
+derivarea extrem dreapté a lui W).
+
+' Eroare: (6 t, au#, 1c) |— eroare dacé ACTIUNE(t,a) = “eroare”;
+Analizorul se opregte cu respingerea cuvéntului de analizat.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Exemplu
+' 0.S—> E, 1.E—> E+T, 2.E—> T, 3.T—> T*F,4.T—> F, 5.F —>(E),
+6.F—>a
+I I
+E—>~E+T E—>E~+T E—>~E+T
+EQHT E—>-T
+T—>-T*F T%-T*F
+F%4B F+4B
+F—>'a E*T' F—>-a
+T—>To*F n
+F—>(E-)
+I n
+E—>E+-T T—>T*-F T—>T*F-
+T—>-T*F F—>-(E)
+T—>~F F—>-a
+M n
+F—>-a E—>E+T-
+T—>T-*F F+(E)-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Tabela ole tranzitie a automatului LR(O)
+-_-------
+II-------
+--—------
+--------
+---------
+-------II
+---------
+—-------
+--------
+II-—------
+---------
+---------
+---------
+14
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Test S LR( 1)
+¢ G nu esta LR(O) stérile 1, 2, 9 conyin conﬂict d6
+deplasare/reducere
+0 FOLLOW(S):{#}, FOLLOW(E):{#,+,)}
+0 Gramatica este SLR(1) pﬁntru cé:
+' in starea 1: + (i FOLLOW(S);
+¢ in staraa 2: * (i FOLLOW(E);
+' in starea 9: * GE FOLLOW(E).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+. u
+Tabela cle anallza SLR(1)
+------—---
+II--------
+--ﬂ------
+---------
+---------
+--------II
+---------
+n-I-I-I-In
+---------
+II-ﬂ-------
+“III-"II-
+---------
+---------
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+———-
+
+———-
+
+———-
+
+———-
+
+———-
+Q
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+M
+
+———-
+
+———-
+
+———-
+$
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Gramatlm LR(1)
+¢ Deﬁnitie
+0 Fie G I (V, T, S, P) 0 gramaticé redusé. Un articol LR(1) pentru
+gramatica G este 0 pereche (A —> a'B, a), unde A —> OLB este un articol
+LR(0), iar a EFOLLOW(A) (se pune # in 100 de a).
+~ Deﬁnitie
+0 Articolul (A —> [31-82, a) este valid pentru preﬁxul viabil aBldacé are 100
+derivarea
+S dr=>*aAu => OLBIBZu
+iara=1:u(a=# dacéiu= a).
+, Teorema
+¢ O gramaticé G = (V, T, S, P) este gramaticé LR(1) dacé 5i numai dacé
+oricare ar ﬁ preﬁxul viabil (p, nu existé doué articole distincte, valide
+pentru (p, de f0rma(A —> 0v, a), (B —>B-y, b) unde a E FIRST(yb).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Gramatlm LR(l)
+
+¢ Nu existé conﬂict deplasare/reducere. Un astfel de conﬂict
+inseamné doué articole (A —> 0v, a) 5i (B —> B-aB’, b) valide
+pentru acelagi preﬁx.
+
+' Nu existé conﬂict reducere/reducere. Un astfel de conﬂict
+inseamné doué articole complete(A —> 0v, a) 5i (B —> [3-, a) valide
+pentru acelagi preﬁx
+
+¢ Pentru a veriﬁca dacé o gramaticé este LR(l) se construieete
+automatul LR(l) in mod aseménétor ca la LR(O):
+¢ Automatul are ca stéri multimi de articole LR(l)
+¢ Tranzitiile se fac cu siniboluri ce apar dupé punct
+0 inchiderea unei multimi de articole se bazeazé pe faptul 051 dacé
+
+articolul (B —> B-AB’, b) este valid pentru un preﬁx viabil atunci
+toate articolele de forrna (A —> -0t, a), unde a EFIRST([3’b) sunt
+valide pentru acelaei preﬁx.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Procedura ole Inchldere LR(1)
+' flag: true;
+¢ while( flag) {
+¢ flag: false;
+0 for ( (Ae aﬂBB, a) E I) {
+for B e y E P)
+~ for( b E FIRST(Ba)){
+O if( (B —>'V I b) E I) {
+- I = IU{(B A 'y , b)};
+- flag= true;
+o }//endif
+' }//endforb
+}//endforB
+' }//endforA
+' }//endwhile
+a. return I;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+' tOAlégczohitErea(-¥SL’J |—> ITS,R#)§,JE2{’CO} ;marcat (to) =false;
+¢ while(3 tET&& lmarcat(t)){ // marcat(t) = false
+¢ for( X E 2) {
+¢ t’ = ®;
+for( (A_> on'XB ,a) E t )
+¢ t’ = t’ U{(Be QX15,a) | (B BachB,a) E t};
+0 if( t’¢ ®){
+o t’ = inchidere( t’ );
+o if( t’€iH {
+- T: T U{ t’ };
+' marcat( t’ ) = false;
+o }//endif
+O q(t, X) = t’;
+° } //endif
+° } //endfor
+' marcat( t ) = true;
+a‘ } // endwhile
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Automatu I LR( 1)
+¢ Teorema
+0 Automatul M construit in algoritmul 2 cste determinist 5i L(M)
+coincide cu multimca preﬁxelor viabilc ale lui G. Mai mult, pcntru
+oricc preﬁx viabil y, g(t0,y) rcprezinté multimca articolelor LR(l)
+validc pcntru y.
+¢ Automatul LR(l) pentru o graniaticé G, se foloscgtc pentru a
+veriﬁca dacé G cste LR(l)
+¢ Conﬂict rcducerc/rcduccrc: Dacé in T cxistﬁ o stare cc continc
+articolc dc fornia (A —> 0v, a), (B —> B', a) atunci gramatica nu cstc
+LR(l);
+¢ Conﬂict deplasarc/reducere: Dacé in T existé o stare cc continc
+articole dc fonna (A —> 0v, a) 5i (B —> Bl'aﬁz, b), atunci G nu este
+LR(l).
+. O gramaticéi este LR(l) dacéi orice stare t ETeste liberé dc conﬂicte
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Exe m pl u
+- S—> L:R|R,L—> *R|a,R—> L
+I
+(s —> -L=R, #) (R A’ ‘L, {1, #D
+(S a -R, #) 5 (L + “Ra {1, #n
+(L —> ‘*R, {=,#}) _ I (L —> ‘a, {1, #})
+(S —> L0—R, #)
+(R—>oL,#) (R—>L,#)
+h h (“ahm
+(s —> L=-R, #) (L % *R" {_’#}) EIL‘% ‘51125)
+(R _> 0L, #) - _’ ' ’
+(L A, -*R, #) u 10 (L * ‘a’ #)
+a
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Tabela ole tranzitie
+III-III}-
+IIIIIIII
+IIIIIII
+IIIIIII
+IIIIIII
+IIIIIIII
+IIIIIII
+IIIIIII
+IIIIIII
+BIIIIII
+IIIIIII
+IIIIIII
+IIIIIII
+IIIIIII
+a IIIIIII
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Constructla tabelel de anallza LR(1)
+0 for(t E T)
+0 for (a E T) ACTIUNE(t, a) = “eroare”;
+0 for (A E V) GOTO(t, A) = “eroare”;
+0 for(t E T}{
+¢ for((A~(raB, L) E t)
+ACTIUNE(t,a):“D g(t, a)”;//deplasare in g(t,
+a)
+0 for((Bqu IQ E t ){// acceptare sau reducere
+for(c E L) {
+0 if(B =2 ‘S’) ACTIUNE(t, #) = “acceptare”;
+- else ACTIUNE(t,c)=“R B%y”;//reducere cu BAY
+° }//endfor
+' }// endfor
+¢ for (A E N) GOTO(t, A) = g(t, A);
+' }//endfor
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+' O:S’—>S, 1:5 —>L:R, 2:5 —>R, 3:L —>*R, 4-:L —>a, 5zR —>L
+
+Stare
+-_—--"
+II------
+-------
+-m----
+-------
+------II
+-------
+"um--
+-------
+n------
+n-------
+-------
+-------
+-------
+-------
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Exempl u
+¢ Fia cuvintale
+, *>1<>1<a
+¢ a:**a
+, *a=**a
+¢ Analiza LR(1)?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Exe m pl u
+v Fie gramatica:
+-E—>EE+|EE*|e
+ee+e*
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+G ra matici LALR(1)
+. Deﬁnitie
+' Fie t 0 stam in automatul LR(1) pentru G. Nucleul acestei
+stéri este multimaa articolelor LR(O) cam apar ca prime
+comp0n6nte in articolele LR(1) din t.
+0 Deﬁninitie
+¢ Doué stéri t1 $i t2 ale automatului LR(1) pentru gramatica
+G sunt echivalenm dacé au acelagi nucleu.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+G ra mat|0| LALR(1)
+¢ Fiecare stare a automatului LR(1) este 0 multimﬁ de
+articole LR(1). Pornind de la doué stéri t1 5i t2 putem
+vorbi de stama t1 U t2.
+¢ Pie: t1: {(L —> *R., {2, # })}, t2: {(L —> *R., #)}, atunci
+tlUt2=t1 p6ntru céi t2 c t1 .
+~ Deﬁnitie
+' Fie G gramaticé LR(1) $i M I (Q, Z, g, t0, Q) automatul
+LR(1) corespunzéitor. Spunem 051 gramatica G @ste
+LALR(1) ( Look Ahead LR(1)) dacé oricare ar ﬁ
+perechea de stéri 6chivalant6 t1, t2 din automatul LR(1),
+starea tlUt2 este liberé de conﬂicte.
+Q
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Tabela de anallza LALR(1)
+¢ Intrare: Gramatica G = (N, T, S, P) augmentaté cu S’ —> S;
+~ Iegire: Tabela d6 analizéi LALR(1) (ACTIUNE 5i GOTO ).
+' Algoritm;
+¢ 1. Se construie§te automatul LR(l), M I (Q, Z, g, t0, Q) Fin Q
+I {t0, t1,. . ., tn}. Dacé toate stérile din Q sunt liberﬁ de conﬂict,
+urninazé 2, altfel algoritmul se opregte deoarece gramatica nu
+este LR(1).
+¢ 2. Se determiné stérile echivalente din Q 5i, prin reuniunea
+acestora, se obtine 0 noué multime de stéri Q’ I {t’0, t’1,...,
+Fm}
+' 3. Dacé in Q’ existé stéri ce contin conﬂicte, algoritmul se
+0pre§t6 deoarcace graniatica G nu este LALR(1).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Tabela de anallza LALR(1)
+¢ 4. Se: construieste automatul M’ = (Q’, E, g’, t’0, Q’),
+unde ‘v’ t’EQ’:
+5. Dacé t’ E Q atunci g’(t’, X) I g(t, X), VXEZ;
+6. Dacé t’ =t1Ut2U..., t1, t2,...EQ, atunci
+~ 7. g’(t’, X) = g(t1, X)Ug(t2, X)U....
+' 8. Sa aplicé algoritmul pentru construirea tabelai d6:
+parsare LR(1) pornind de la automatul M’. Tabda
+obtinuté se numegte tabela LALR(1) p6ntru gramatica G.
+Q
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+Exe m pl u
+~ P€ntru gramatica discutatéi anterior avem 4U 11 = 4, 5U 12
+= 5, 7U13 = 7, 8U10 = 8
+
+_—\
+
+STAR # i s L
+.IiI-IIE
+III-m
+----—\---
+---—\---
+-----E-\---
+HIM
+--IEEl--E-\---
+---EI—\-u
+"II-\I-I
+“III-\I-I
+@ ----—\---
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Exe m pl u
+
+¢ Existé gramatici LR(1) care nu sunt LALR(1).
+¢ S —>aAb | bAd | aBd | bBb
+¢ A —>e
+' B —>6
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+Bibliografie
+
+¢ A. V. Aho, M. S. Lam, R. Sothi, and J. D. Ullman,
+Compilers: Principles, Techniques, and Tools, Second
+Edition. Addison-Wesley, 2007
+
+0 G. Grigoras, Construeiia eompilatoarelor. Algoritmi
+fundamentali, Editura Universitégii “Alexandru Ioan
+Cuza”, Iasi, 2005
+
+@
+
+***************Ending Page***************
+

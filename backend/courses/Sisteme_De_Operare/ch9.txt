@@ -1,0 +1,1261 @@
+***************Beginning Page***************
+***************page number:1**************
+I
+Chapter 9' MHIH Memory
+I
+Operating System Concepts - 10th Edition Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+‘@Py Chapter 9: Memory Management
+
+we
+I Background
+I Contiguous Memory Allocation
+I Paging
+I Structure of the Page Table
+I Swapping
+I Example: The Intel 32 and 64-bit Architectures
+I Example: ARMv8 Architecture
+
+I Operating system Concepts _10m Edition 9_2 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+My)’ Ob jeCthGS
+I To provide a detailed description of various ways of
+organizing memory hardware
+I To discuss various memory-management techniques,
+I To provide a detailed description of the Intel Pentium,
+which supports both pure segmentation and segmentation
+with paging
+Operating System Concepts — 10th Edition 9.3 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+lay)’ Background
+I Program must be brought (from disk) into memory and
+placed within a process for it to be run
+I Main memory and registers are only storage CPU can
+access directly
+I Memory unit only sees a stream of:
+. addresses + read requests, or
+' address + data and write requests
+I Register access is done in one CPU clock (or less)
+I Main memory can take many cycles, causing a stall
+I Cache sits between main memory and CPU registers
+I Protection of memory required to ensure correct operation
+All” g’
+Operating System Concepts — 10th Edition 9.4 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+I Need to ensure that a process can only access those addresses in it
+address space.
+I We can provide this protection by using a pair of base and limit
+registers define the logical address space of a process
+1024000 _
+operatmg
+880000
+300040
+256000
+0 -
+Operating System Concepts — 10th Edition 9.5 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+I CPU must check every memory access generated in user
+mode to be sure it is between base and limit for that user
+m
+no no
+trap to operating system
+illegal addressing error memory
+I The instructions to loading the base and limit registers are
+privileged
+Operating System Concepts — 10th Edition 9.6 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+,1 t
+‘fay’ Address Blndlng
+I Programs on disk, ready to be brought into memory to execute form an
+inputqueue
+' Without support, must be loaded into address 0000
+I Inconvenient to have first user process physical address always at
+0000
+' How can it not be?
+I Addresses represented in different ways at different stages of a
+program’s life
+' Source code addresses usually symbolic
+' Compiled code addresses bind to relocatable addresses
+> i.e. “14 bytes from beginning of this module”
+' Linker or loader will bind relocatable addresses to absolute
+addresses
+> i.e. 74014
+' Each binding maps one address space to another
+Operating System Concepts — 10th Edition 9.7 Silberschatz, Galvin and Gagne ©2010
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+~“W I I I
+legw B|nd|ng of Instructlons and Data to Memory
+I Address binding of instructions and data to memory addresses
+can happen at three different stages
+' Compile time: If memory location known a priori, absolute
+code can be generated; must recompile code if starting
+location changes
+' Load time: Must generate relocatable code if memory
+location is not known at compile time
+' Execution time: Binding delayed until run time if the process
+can be moved during its execution from one memory segment
+to another
+> Need hardware support for address maps (e.g., base and
+limit registers)
+Operating System Concepts — 10th Edition 9.8 Silberschatz, Galvin and Gagne ©2022;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+yr Multistep Processing of a User Program
+source
+program
+compiler or oompile
+assembler time
+object
+module
+other
+object
+modules
+linkage‘
+editor
+load load
+module time
+system
+library
+dynamicall
+loaded
+system
+library in~memor
+dynamic binary ﬁﬁgtztltonn
+linking memory time)
+imfa'ge
+Operating System Concepts — 10th Edition 9.9 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+My)’ Loglcal vs. Physlcal Address Space
+I The concept of a logical address space that is bound to a
+separate physical address space is central to proper memory
+management
+' Logical address — generated by the CPU; also referred to
+as virtual address
+' Physical address — address seen by the memory unit
+I Logical and physical addresses are the same in compile-time
+and load-time address-binding schemes; logical (virtual) and
+physical addresses differ in execution-time address-binding
+scheme
+I Logical address space is the set of all logical addresses
+generated by a program
+I Physical address space is the set of all physical addresses
+generated by a program
+Operating System Concepts — 10th Edition 9.10 Silberschatz, Galvin and Gagne @201;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+ii f
+I Hardware device that maps virtual to physical address at
+runtime
+logical physical
+address address _
+phys|cal
+I Many methods possible, covered in the rest of this chapter
+| Operating System Concepts — 10th Edition 9.11 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+QP/ Memory-Management Unlt (Cont.)
+I Consider a simple scheme, which is a generalization of the
+base-register scheme
+I The base register now called relocation register
+I The value in the relocation register is added to every address
+generated by a user process at the time it is sent to memory
+I The user program deals with logical addresses; it never sees
+the real physical addresses
+' Execution-time binding occurs when reference is made to
+location in memory
+' Logical address bound to physical addresses
+in
+Operating System Concepts — 10th Edition 9.12 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+@il‘? Memory-Management Unlt (Cont.)
+‘QC; :4
+I Consider a simple scheme, which is a generalization of the
+base-register scheme
+I The base register now called relocation register
+I The value in the relocation register is added to every address
+generated by a user process at the time it is sent to memory
+relocation
+register
+logical physical
+address address
+CPU a memory
+- 346 H 14346
+MMU
+Operating System Concepts — 10th Edition 9.13 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+is»? Dynamic Loading
+I The entire program does need to be in memory to execute
+I Routine is not loaded until it is called
+I Better memory-space utilization; unused routine is never
+loaded
+I All routines kept on disk in relocatable load format
+I Useful when large amounts of code are needed to handle
+infrequently occurring cases
+I No special support from the operating system is required
+' Implemented through program design
+' OS can help by providing libraries to implement
+dynamic loading
+|
+Operating System Concepts _10.h Edition 9_14 Silberschatz, Galvin and Gagn: ©2on
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+tww Dynamic Linking
+I Static linking — system libraries and program code combined by
+the loader into the binary program image
+I Dynamic linking — linking postponed until execution time
+I Small piece of code, stub, used to locate the appropriate
+memory-resident library routine
+I Stub replaces itself with the address of the routine, and executes
+the routine
+I Operating system checks if routine is in processes’ memory
+address
+' If it’s not in address space, add it to address space
+I Dynamic linking is particularly useful for libraries
+I System also known as shared libraries
+I Consider applicability to patching system libraries
+' Versioning may be needed
+Operating System Concepts -10th Edition 9.15 Silberschatz, Galvin and Gagn: ©2512;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+4:4,?“ Contiguous Allocation
+I Main memory must support both OS and user processes
+I Limited resource, must allocate efficiently
+I Contiguous allocation is one early method
+I Main memory usually into two or more partitions:
+' Resident operating system, usually held in low memory
+with interrupt vector
+' User processes then held in high memory
+' Each process contained in single contiguous section of
+memory
+A
+I Operating System Concepts _10.h Edition 9_16 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Ky! Contlguous Allocatlon (Cont.)
+I Relocation registers used to protect user processes from each
+other, and from changing operating-system code and data
+' Base register contains value of smallest physical address
+' Limit register contains range of logical addresses — each
+logical address must be less than the limit register
+' MMU maps logical address dynamically
+' Can then allow actions such as kernel code being
+transient and kernel changing size
+Operating System Concepts — 10th Edition 9.17 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+‘W? $3 Hardware Support for Relocatlon and L|m|t Reglsters
+mm "
+limit relocation
+register register
+logical physical
+address yes address
+@PU a memory
+no
+trap: addressing error
+| Operating System Concepts — 10th Edition 9.18 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+X Varlable Partltlon
+I Multiple-partition allocation
+
+' Degree of multiprogramming limited by number of partitions
+
+. Variable-partition sizes for efficiency (sized to a given process’ needs)
+
+. Hole — block of available memory; holes of various size are scattered
+throughout memory
+
+' When a process arrives, it is allocated memory from a hole large enough to
+accommodate it
+
+' Process exiting frees its partition, adjacent free partitions are combined
+
+' Operating system maintains information about:
+a) allocated partitions b) free partitions (hole)
+
+high
+-
+Operating System Concepts — 10th Edition 9.19 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+if
+’ .ﬁm~ I '
+@v/ Dynamlc Storage-Allocatlon Problem
+How to satisfy a request of size n from a list of free holes?
+I First-fit: Allocate the first hole that is big enough
+I Best-fit: Allocate the smallest hole that is big enough;
+must search the entire list, unless ordered by size
+' Produces the smallest leftover hole
+I Worst-fit: Allocate the largest hole; must also search the
+entire list
+. Produces the largest leftover hole
+First-fit and best-fit behave better than worst-fit in terms of speed
+and storage utilization
+Operating System Concepts — 10th Edition 9.20 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+£6 w Fragmentatlon
+I External Fragmentation — total memory space exists to
+satisfy a request, but it is not contiguous
+I Internal Fragmentation — allocated memory may be slightly
+larger than requested memory; this size difference is memory
+internal to a partition, but not being used
+I First fit analysis reveals that given N blocks allocated, 0.5 N
+blocks lost to fragmentation
+. 1/3 may be unusable -> 50-percent rule
+Operating System Concepts — 10th Edition 9.21 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+@jﬁﬁ Fragmentation (Cont.)
+I Reduce external fragmentation by compaction
+' Shuffle memory contents to place all free memory
+together in one large block
+' Compaction is possible only if relocation is dynamic,
+and is done at execution time
+. l/O problem
+> Latch job in memory while it is involved in l/O
+> Do l/O only into OS buffers
+I Now consider that backing store has same fragmentation
+problems
+A
+I Operating System Concepts-10"‘ Edition 922 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+gﬁvw Paging
+I Physical address space of a process can be non-contiguous;
+process is allocated physical memory whenever the latter is
+available
+. Avoids external fragmentation
+' Avoids the problem of varying sized memory chunks
+I Divide physical memory into fixed-sized blocks called frames
+' Size is power of 2, between 512 bytes and 16 Mbytes
+I Divide logical memory into blocks of same size called pages
+I Keep track of all free frames
+I To run a program of size N pages, need to find N free frames and
+load program
+I Set up a page table to translate logical to physical addresses
+I Backing store likewise split into pages
+I Still have internal fragmentation
+Operating System Concepts -10th Edition 9.23 Silberschatz, Galvin and Gash: @251»;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+My)’ Address Translatlon Scheme
+I Address generated by CPU is divided into:
+' Page number (p) — used as an index into a page table which
+contains base address of each page in physical memory
+' Page offset (d) — combined with base address to define the
+physical memory address that is sent to the memory unit
+page number ‘ page offset
+m —n n
+' For given logical address space size: 2m and page size: 2n
+| Operating System Concepts —10th Edition 9.24 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+gay)?‘ Pagmg ar ware
+Lg “‘
+logical address physical address 0x000
+d
+frame f
+CPU Illl III
+p Oxfff
+E physical memory
+page table
+Operating System Concepts _ 10th Edition 925 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+W Paglng Model of Logical and PhySIcal Memory
+‘Lib ”
+frame
+number
+@-
+0
+1 1
+2
+2-
+8
+page table 3
+logical 4
+memory
+5-
+B-
+I
+physical
+memory
+Operating System Concepts-10"‘ Edition 926 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Paglng Example
+k
+I Logical address: n = 2 and m = 4. Using a page size of 4 bytes and a
+physical memory of 32 bytes (8 pages)
+
+1 b
+2 c
+8 d
+4 a: 4
+g ﬁ 1B H
+g i 2|. s
+11 | pagetable
+13
+14
+15
+
+logical memory 16 I
+
+24
+9
+h
+physical memory A
+Operating System Concepts — 10th Edition 9.27 Silbel'scmtzi Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+ﬂai’ Paging -- Calculating internal fragmentation
+I Page size = 2,048 bytes
+I Process size = 72,766 bytes
+I 35 pages + 1,086 bytes
+I Internal fragmentation of 2,048 — 1,086 = 962 bytes
+I Worst case fragmentation = 1 frame — 1 byte
+I On average fragmentation = 1 l2 frame size
+I So small frame sizes desirable?
+I But each page table entry takes memory to track
+I Page sizes growing over time
+' Solaris supports two page sizes — 8 KB and 4 MB
+' Windows on x86/x64 supports two page sizes — 4 KB and 4 MB
+Operating System Concepts _10m Edition 928 Silberschatz, Galvin and Gagn: ©2on
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Free Frames
+free-frame list free-frame list -
+14 15
+18
+15
+- 15 - 15-
+page 0 16 page 0‘ 16 -
+page 1 page 1
+page 2 17 page 2 17 -
+Page 3 Page 3 _
+1
+3
+21 new-process page table 21 -
+(a) (b)
+Before allocation After allocation A
+Operating System Concepts _ 10m Edition 929 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+‘Q?’ Implementation of Page Table
+I Page table is kept in main memory
+. Page-table base register (PTBR) points to the page table
+' Page-table length register (PTLR) indicates the size of the
+page table
+I In this scheme every data/instruction access requires two memory
+accesses
+' One for the page table and one for the data / instruction
+I The two memory access problem can be solved by the use of a
+special fast-lookup hardware cache called translation look-aside
+buffers (TLBs) (also called associative memory).
+Operating System Concepts — 10th Edition 9.30 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+my)’ Translatlon Look-Aslde Buffer
+I Some TLBs store address-space identifiers (ASle) in each
+TLB entry — these uniquely identifies each process to provide
+address-space protection for that process
+. Otherwise need to flush at every context switch
+I TLBs typically small (64 to 1,024 entries)
+I On a TLB miss, value is loaded into the TLB for faster access
+next time
+. Replacement policies must be considered
+' Some entries can be wired down for permanent fast access
+| Operating System Concepts —10th Edition 9.31 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+‘a’. $76‘ Hardware
+gig“ “
+I Associative memory — parallel search
+Page # Frame #
+I Address translation (p, d)
+' lf p is in associative register, get frame # out
+' Otherwise get frame # from page table in memory
+| Operating System Concepts — 10th Edition 9.32 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+‘53%;, Paglng Hardware Wlth TLB
+ms—
+logical
+address
+CPU - nu
+page frame
+number number
+-——
+——— _
+_—— TLB hlt physicaI
+-—— address
+I
+-—_
+—— -u
+TLB
+TLB miSS
+-
+physical
+memory
+page table
+Operating System Concepts — 10th Edition 9.33 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+I 9,?’ Effective Access Time
+I Hit ratio — percentage of times that a page number is found in the
+TLB
+I An 80% hit ratio means that we find the desired page number in
+the TLB 80% of the time
+I Suppose that 10 nanoseconds to access memory
+> lf we find the desired page in TLB then a mapped-memory
+access take 10 ns
+> Othen/vise we need two memory access so it is 20 ns
+I Effective Access Time (EAT)
+EAT = 0.80 x 10 + 0.20 x 20 = 12 nanoseconds ,
+implying 20% slowdown in access time
+I Consider a more realistic hit ratio of 99%,
+EAT = 0.99 x 10 + 0.01 x 20 =10.1ns,
+implying only 1% slowdown in access time!
+Operating System Concepts -10th Edition 9.34 Silberschatz, Galvin and Gag; ©2512;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+‘Q?’ Memory Protectlon
+I Memory protection implemented by associating protection bit
+with each frame to indicate if read-only or read-write access is
+allowed
+' Can also add more bits to indicate page execute-only, and
+so on
+I Valid-invalid bit attached to each entry in the page table:
+. “valid” indicates that the associated page is in the process’
+logical address space, and is thus a legal page
+. “invalid” indicates that the page is not in the process’ logical
+address space
+. Or use page-table length register (PTLR)
+I Any violations result in a trap to the kernel
+Operating System Concepts — 10th Edition 9.35 Silberschatz, Galvin and Gagne ©2022;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+:64‘; .1 k? I I I I
+if - Valld (v) or lnval Id (I) Blt ln A Page Table
+O -
+1 -
+2
+00000 frame number valid-invalid bit
+I
+0
+1II 4-
+2
+5-
+page sII
+w:- 6-
+5 EI-
+nu Y-
+10,468 7 nu s
+12,287 page table
+9
+Operating System Concepts — 10th Edition 9.36 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+‘@y/ Shared Pages
+I Shared code
+' One copy of read-only (reentrant) code shared among
+processes (i.e., text editors, compilers, window systems)
+' Similar to multiple threads sharing the same process
+space
+' Also useful for interprocess communication if sharing of
+read-write pages is allowed
+I Private code and data
+. Each process keeps a separate copy of the code and data
+. The pages for the private code and data can appear
+anywhere in the logical address space
+Operating System Concepts — 10th Edition 9.37 Silberschatz, Galvin and Gagne ©201l8
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+‘ are ages xamp e
+0
+-
+lib02
+g -
+2 -
+=
+forP1
+B -
+II 5
+pagetable 'c
+7 -
+B I
+I 9-
+pagetable
+I for P 3 physical memory
+process P3
+Operating System Concepts -1oth Edition 9.38 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+£39”? Structu re of the Page Table
+I Memory structures for paging can get huge using straight-fon/vard
+methods
+' Consider a 32-bit logical address space as on modern
+computers
+P Page size of 4 KB (212)
+' Page table would have 1 million entries (232 / 212)
+. If each entry is 4 bytes -) each process needs 4 MB of
+physical address space for the page table alone
+> Don’t want to allocate that contiguously in main memory
+' One simple solution is to divide the page table into smaller
+units
+> Hierarchical Paging
+> Hashed Page Tables
+> Inverted Page Tables
+Operating System Concepts -10th Edition 9.39 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+@336‘ H|erarch|cal Page Tables
+13gb 1"
+I Break up the logical address space into multiple page tables
+I A simple technique is a two-level page table
+I We then page the page table
+°-
+p
+5| =
+_
+— 7°8-
+outterbpage -I 900 —
+EM —
+page table n
+memory a
+Operating System Concepts — 10th Edition 9.40 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+‘Qy/ Two-Level Paging Example
+I A logical address (on 32-bit machine with 4K page size) is divided into:
+' a page number consisting of 20 bits
+' a page offset consisting of 12 bits
+I The page number is further divided into:
+' a 10-bit outer page number
+. a 10-bit inner page number
+I Thus, a logical address is as follows:
+page number page offset
+10 10 12
+I where p1 is an index into the outer page table, and p2 is the
+displacement within the page of the inner page table
+I Known as forward-mapped page table I
+Operating System Concepts — 10th Edition 9.41 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+W Address-Translatlon Scheme
+W—
+logical address
+IMII
+P1 { -
+—
+- pd -
+outer page — d -
+table -
+page of _
+page table -
+| Operating System Concepts — 10th Edition 9.42 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+“Wm
+‘(u/yr 64-blt Loglcal Address Space
+I Even two-level paging scheme not sufficient
+I lf page size is 4 KB (212)
+' Then page table has 252 entries
+. lf two level scheme, inner page tables could be 21O 4-byte entries
+' Address would look like
+outer page inner page offset
+42 10 12
+' Outer page table has 242 entries or 244 bytes
+' One solution is to add a 2nd outer page table
+' But in the following example the 2nd outer page table is still 234
+bytes in size
+> And possibly 4 memory access to get to one physical memory
+location A
+Operating System Concepts — 10th Edition 9.43 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Q??? Three-level Paging Scheme
+outer page inner page offset
+——-
+42 10 12
+2nd outer page outer page inner page offset
+32 10 10 f2
+' Windows on Itanium used a three-level paging scheme
+' Windows on x64 use a four-level paging scheme
+Operating System Concepts — 10th Edition 9.44 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+(we? Hashed Page Tables
+I Common in address spaces > 32 bits
+I The virtual page number is hashed into a page table
+' This page table contains a chain of elements hashing to the same
+locaﬁon
+I Each element contains: (1) the virtual page number; (2) the value of the
+mapped page frame; (3) a pointer to the next element.
+I Virtual page numbers are compared in this chain searching for a match
+. If a match is found, the corresponding physical frame is extracted
+I Variation for 64-bit addresses is clustered page tables
+' Similar to hashed but each entry refers to several pages (such as
+16) rather than 1
+' Especially useful for sparse address spaces (where memory
+references are non-contiguous and scattered)
+Operating System Concepts — 10th Edition 9.45 Silberschatz, Galvin and Gag; @262
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Hashed Page Table
+'i' \3 14
+physical
+logical address address
+IIIEI III
+I physical
+- IQ|$|||‘||P|F||!I“' memory
+hash table
+Operating System Concepts — 10th Edition 9.46 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+4mm
+Qay/ Inverted Page Table
+I Rather than each process having a page table and keeping track of
+all possible logical pages, track all physical pages
+I One entry for each real page of memory
+I Entry consists of the virtual address of the page stored in that real
+memory location, with information about the process that owns that
+page
+I Decreases memory needed to store each page table, but increases
+time needed to search the table when a page reference occurs
+I Use hash table to limit the search to one — or at most a few —
+page-table entries
+' TLB can accelerate access
+I But how to implement shared memory?
+' One mapping of a virtual address to the shared physical address
+Operating System Concepts — 10th Edition 9.47 Silberschatz, Galvin and Gag; @262
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+I ‘6V; Inverted Page Table Archltectu re
+m—
+6:33:21 phvSical
+address physical
+CPU mun Ilu memory
+search i E
+Ell!
+page table
+Operating System Concepts — 10th Edition 9.48 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+tag-y?’ Oracle SPARC Solarls
+I Consider modern, 64-bit operating system example with tightly
+integrated HW
+' Goals are efficiency, low overhead
+I Based on hashing, but more complex
+I Two hash tables
+' One kernel and one for all user processes
+' Each maps memory addresses from virtual to physical memory
+' Each entry represents a contiguous area of mapped virtual
+memory,
+> More efficient than having a separate hash-table entry for
+each page
+' Each entry has base address and span (indicating the number
+of pages the entry represents)
+Operating System Concepts — 10th Edition 9.49 Silberschatz, Galvin and Gaylek @251:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+t%vf Oracle SPARC Solarls (Cont)
+I TLB holds translation table entries (TTEs) for fast hardware lookups
+' A cache of TTEs reside in a translation storage buffer (TSB)
+> Includes an entry per recently accessed page
+I Virtual address reference causes TLB search
+. lf miss, hardware walks the in-memory TSB looking for the TTE
+corresponding to the address
+> If match found, the CPU copies the TSB entry into the TLB
+and translation completes
+> If no match found, kernel interrupted to search the hash table
+— The kernel then creates a TTE from the appropriate hash
+table and stores it in the TSB, Interrupt handler returns
+control to the MMU, which completes the address
+translation.
+Operating System Concepts — 10‘h Edition 9.50 Silberschatz, Galvin and Gaylek @262
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+tay/ Swapping
+I A process can be swapped temporarily out of memory to a
+backing store, and then brought back into memory for
+continued execution
+' Total physical memory space of processes can exceed
+physical memory
+I Backing store — fast disk large enough to accommodate
+copies of all memory images for all users; must provide
+direct access to these memory images
+I Roll out, roll in — swapping variant used for priority-based
+scheduling algorithms; lower-priority process is swapped out
+so higher-priority process can be loaded and executed
+I Major part of swap time is transfer time; total transfer time is
+directly proportional to the amount of memory swapped
+I System maintains a ready queue of ready-to-run processes
+which have memory images on disk
+Operating System Concepts — 10th Edition 9.51 Silberschatz, Galvin and Gagne @262
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+@v/ Swapplng (Cont.)
+I Does the swapped out process need to swap back into the same
+physical addresses?
+I Depends on address binding method
+. Plus consider pending l/O to / from process memory space
+I Modified versions of swapping are found on many systems (i.e.,
+UNIX, Linux, and Windows)
+' Swapping normally disabled
+' Started if more than threshold amount of memory allocated
+' Disabled again once memory demand is reduced below
+threshold
+Operating System Concepts — 10th Edition 9.52 Silberschatz, Galvin and Gagn; @202‘;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+‘ /
+/" {24",p '- I I I
+Schematlc Vlew of Swapplng
+operating -
+system
+rocess P-
+® swap OUt
+. DFOCB-SS P2
+@ swap In
+. —
+space backing store
+main memory
+Operating System Concepts — 10th Edition 9.53 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+535's?!" I I I I I
+ﬂy?’ Context SWItch T|me Includlng SwappIng
+I If next processes to be put on CPU is not in memory, need to
+swap out a process and swap in target process
+I Context switch time can then be very high
+I 100MB process swapping to hard disk with transfer rate of
+50MB/sec
+' Swap out time of 2000 ms
+' Plus swap in of same sized process
+' Total context switch swapping component time of 4000ms
+(4 seconds)
+I Can reduce if reduce size of memory swapped — by knowing
+how much memory really being used
+' System calls to inform OS of memory use via
+request_mem0ry () 80d release_memory ()
+Operating System Concepts — 10th Edition 9.54 Silberschatz, Galvin and Gagne @202‘;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+£639 Context Switch Time and Swapping (Cont.)
+I Other constraints as well on swapping
+' Pending l/O — can’t swap out as l/O would occur to wrong
+process
+' Or always transfer l/O to kernel space, then to l/O device
+> Known as double buffering, adds overhead
+I Standard swapping not used in modern operating systems
+' But modified version common
+> Swap only when free memory extremely low
+I Operating System Concepts _10m Edition 9_55 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+My! Swapplng on Mob|le Systems
+I Not typically supported
+' Flash memory based
+> Small amount of space
+> Limited number of write cycles
+> Poor throughput between flash memory and CPU on mobile
+platform
+I Instead use other methods to free memory if low
+' iOS asks apps to voluntarily relinquish allocated memory
+> Read-only data thrown out and reloaded from flash if needed
+> Failure to free can result in termination
+. Android terminates apps if low free memory, but first writes
+application state to flash for fast restart
+' Both OSes support paging as discussed below
+Operating System Concepts _10m Edition 9_56 Silberschatz, Galvin and Gagn: ©2on
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+W Swapping with Paging
+-
+,II -
+proiess m page out 0 Cl 1 |:| 2 |:| 3 |:|
+% 4 I5 5 6 E 7 [I
+_ A 8B 9B10|I|11|j
+V 12|113B14B15U
+WA
+r- pagein 16E17II1819|1
+progess % 20 E21 U22 |:|23 [I
+- backmg store
+m:;:ry
+Operating System Concepts — 10th Edition 9.57 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+is??? Example: The lntel 32 and 64-bit Architectures
+I Dominant industry chips
+I Pentium CPUs are 32-bit and called lA-32 architecture
+I Current Intel CPUs are 64-bit and called IA-64 architecture
+I Many variations in the chips, cover the main ideas here
+| Operating System Concepts-10th Edition 9.58 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+@114‘ Example: The lntel lA-32 Architecture
+I Supports both segmentation and segmentation with paging
+' Each segment can be 4 GB
+' Up to 16 K segments per process
+' Divided into two partitions
+> First partition of up to 8 K segments are private to
+process (kept in local descriptor table (LDT))
+> Second partition of up to 8K segments shared among all
+processes (kept in global descriptor table (GDT))
+I Operating System Concepts-10"‘ Edition 9_59 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Egg Example: The lntel lA-32 Architecture (Cont.)
+I CPU generates logical address
+' Selector given to segmentation unit
+> Which produces linear addresses
+1a 1 2
+' Linear address given to paging unit
+> Which generates physical address in main memory
+> Paging units form equivalent of MMU
+> Pages sizes can be 4 KB or 4 MB
+| Operating System Concepts-10th Edition 9.60 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+W Logical to Physical Address Translation in lA-32
+logical linear physical
+address address address physical
+umt unlt memory
+page number page offset
+———
+10 10 12
+| Operating System Concepts-10th Edition 9.61 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+‘3?? Intel lA-32 Segmentation
+ms "
+descriptor table
+segment descriptor 0
+32-bit linear address
+Operating System Concepts — 10th Edition 9.62 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+)1 r‘ ‘ v I I
+Q???‘ Intel lA-32 Paging Architecture
+(logical address)
+page directory page table offset
+31 O
+page 4-KB
+table page
+page
+directory
+CR3 4-MB
+register page
+page directory offset
+31 22 21 0
+Operating System Concepts -10th Edition 9.63 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:64**************
+‘53$? lntel lA-32 Page Address Extenslons
+at!“ p
+I 32-bit address limits led Intel to create page address extension (PAE),
+allowing 32-bit apps access to more than 4GB of memory space
+. Paging went to a 3-level scheme
+. Top two bits refer to a page directory pointer table
+. Page-directory and page-table entries moved to 64-bits in size
+' Net effect is increasing address space to 36 bits — 64GB of physical
+memory
+page directory page table offset
+31 0
+- - -
+- - - 4_KB
+CR3 -
+register page directory page page
+pointer table directory table ‘A
+Operating System Concepts — 10th Edition 9.64 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:65**************
+, ¥ 1c
+‘he?’ Intel x86-64
+I Current generation Intel x86 architecture
+I 64 bits is ginormous (> 16 exabytes)
+I In practice only implement 48 bit addressing
+. Page sizes of4 KB, 2 MB, 1 GB
+' Four levels of paging hierarchy
+I Can also use PAE so virtual addresses are 48 bits and physical
+addresses are 52 bits
+page map page directory page page
+unused level 4 pointer table directory table offset
+63 48 47 39 38 3O 29 21 2O 12 11 O
+~41
+Operating System Concepts — 10th Edition 9.65 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:66**************
+‘QM Example. ARM Archltectu re
+I Dominant mobile platform chip
+(Apple iOS and Google Android 32m
+devices for example) l—l
+I Modern, energy efficient, 32-bit omerpage innerpage Offset
+CPU
+I 4 KB and 16 KB pages - 4K8
+I 1 MB and 16 MB pages (termed - or
+sections) - - 1&5:
+I One-level paging for sections, two- -
+level for smaller pages
+I Two levels of TLBs - 1-MB
+Ol'
+' Outer level has two micro 16MB
+TLBs (one data, one seam"
+instruction)
+' Inner is single main TLB
+' First inner is checked, on
+miss outers are checked,
+and on miss page table
+walk performed by CPU
+JR,
+Operating System Concepts — 10th Edition 9.66 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Operating System Concepts - 10th Edition Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+

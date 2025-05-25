@@ -80,6 +80,10 @@ public class MaterialService {
         return materialRepository.findByPathContaining(path);
     }
 
+    public Material findByPath(String path) {
+        return materialRepository.findByPath(path);
+    }
+
     public List<Material> findByProfessorId(Integer professorId) {
         return materialRepository.findByProfessorId(professorId);
     }

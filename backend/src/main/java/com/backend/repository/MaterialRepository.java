@@ -20,4 +20,7 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
 
     @Query("SELECT m FROM Material m WHERE m.course.professor.id = :professorId")
     List<Material> findByProfessorId(@Param("professorId") Integer professorId);
+
+    @Query("SELECT m FROM Material m WHERE m.path = :path")
+    Material findByPath(@Param("path") String path);
 }

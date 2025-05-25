@@ -28,7 +28,7 @@ public class Flashcard {
     private String question;
 
     @Column(name = "level")
-    private int level;
+    private Integer level;
 
     @Column(name = "laststudiedat")
     private Date lastStudiedAt;
@@ -65,10 +65,10 @@ public class Flashcard {
     public void setQuestion(String question) {
         this.question = question;
     }
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

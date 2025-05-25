@@ -1,0 +1,2994 @@
+***************Beginning Page***************
+***************page number:1**************
+0 O P Gavrilut Dragos
+Course 3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+b Initialization lists (recap)
+b Constructors
+b Const & Reference data members
+b Delegating constructor
+sum mary b Initialization lists for classes
+> Value Types
+> Copy & Move Constructors
+b Constrains
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Initialization lists
+> (recap)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Initialization lists
+b “{“ and “}” can now be used to initialize values.
+This method is called: “Initialization lists”
+APP-CPD
+void main()
+{
+int x = 5;
+int y = { 5 };
+int z = int { 5 };
+}—
+b In all of these cases “x”, “y” and “z” will have a value of 5.
+Assembly code generated
+mov dword ptr [x],5
+mov dword ptr [y],5
+mov dword ptr [z],5
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Initialization lists
+> “{“ and “}” can be used for array initialization as well:
+App.cpp Variable Values
+\{loid main() X [3] [1, 2’ 3]
+13§§li1=={{43’5’63}5’ Y [31 [4, 5, 61
+123E131 ; E £3 ,3 z [10] [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+int u[10] = { 15 };
+} int V[] ={1@@}; T [10] [1, 2,0,0,0,0,0,0, 0,0]
+U [10] [15, O, 0, O, 0, O, 0, 0, O, 0]
+V [1] [100]
+
+b If possible, the compiler tries to deduce the size of the array from the
+declaration. If the initialization list is too small, the rest of the array will be
+filled with the default value for that type (in case of “int” with value 0 9
+values that are grayed in the table).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Initialization lists
+b “{“ and “}” can be used to initialize a matrix as well.
+APP-CPP
+zoid main()
+int x[][3] = { { 1, 2, 3 }, { 4, 5, 6 } };
+} int y[2][3] = { { 1: 2: 3 }: { 4: 5: 6 } };
+
+b However, only the first dimension of the matrix can be left unknown. The
+following code will not compile as the compiler can not deduce the size of the
+matrix.
+
+APP-CPP
+zoid main()
+} int X[][] = { { 1: 2: 3 }: { 4: 5: 6 } };
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+b Initialization lists can also be used when creating a pointer:
+
+APP-CPP
+
+void main()
+
+{
+
+int *x = new int[3] {1, 2, 3};
+} push 0Ch
+w call operator new
+
+add esp,4
+mov dword ptn [ebp-9D4h],eax
+cmp dword ptr [ebp-9D4h],0
+j e _error_aL Locate_memory_ '
+mov eax,dword ptr [ebp-0D4h]
+mov dword ptn [eax],1
+mov ecx,dword ptr [ebp-0D4h]
+mov dword ptr [ecx+4],2
+mov edx,dword ptr [ebp-9D4h]
+mov dword ptr [edx+8],3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+“> Constructors
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Constructors
+
+> A constructor is a type-less function that is called whenever a class is created.
+
+b A class may contain multiple constructors (with different initialization
+parameters)
+
+> A class does not need to have a constructor. However, if it has at least one,
+then it’s initialization should be based on that constructor parameters.
+
+> lf one class contains several member data that have their own constructors,
+those constructors will be called in the same order of their declaration.
+
+b A constructor can not be static or constant
+
+b A class that contains at least a “const” data member or a data member that
+is a reference must have a constructor where these data members are
+initialized.
+
+> A constructor without any parameters is often call the default constructor.
+
+> A constructor may have an access modifier (public, private, protected .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+b The constructor is defined as a function with the same name as the class
+and no return value
+
+b A class :
+
+O May have NO constructors
+
+O May have only one constructor
+
+O May have multiple constructors
+
+O May have constructors that are not public
+APP-CPD Appspp APP-CPD APP-CPD
+class MyClass class MyClass class MyClass class MyClass
+{ { { {
+
+int x; int x; int x; int x;
+public: public: public: private:
+}; MyClass (); MyClass (); MyClass ();
+
+}; MyClass (int value); };
+MyClass (float value);
+— };
+— — +
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Type of constructors \
+Constructors: App.cpp
+b Default constructor (without any parameters) $15155 MYClass
+> Copy constructor int X;
+public:
+> Move constructor MyClass ()s
+MyClass (const MyClass & objToCopyFrom);
+MyClass (const MyClass && objToMoveFrom);
+};
+V
+A class can have none, one , some or all of these types of constructors.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+b A constructor is called whenever an object of that class is created (this means
+local object - create on local stack, heap allocated objects or global
+variables).
+
+b If we define an array of object, then the constructor will be called for every
+object in this array.
+
+> However, if we create a pointer to a specific object, the constructor (if any)
+will not be called.
+
+APP-CPD
+class Date
+{
+void main()
+{
+Date d; // constructor is called
+Date *d2 = new Date(); // constructor is called
+Date arr[100]; // constructor is called 100 times
+Date *d3; // un-itialized pointer — the constructor will not be called
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+This code will compile correctly and produce the following output:
+{
+Myélass( * ) { printF("CtoP for: %s\n", ); }
+}s
+g1°bal("gl°bal variable"); Ctor for‘: global variable
+{ mainO Entering main function
+printf("Enter‘ing main function \n"); Ctor‘ ‘FOP: local variable
+loca1("1oca1 variable"); Ctor for‘: Heap varlable
+* m = ("Heap variable");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+> This code will compile correctly and produce the following output:
+APP-CPD
+MyClass
+{
+Myélass( * text) { printf("
+};
+main()
+{
+printf("Entering main function \n");
+MyClass local("local variable");
+MyClass * m = MyClass("Heap variable");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+> This code will compile correctly and produ pus,” Offsfet String Entering mm” functlon \n
+caLL _pr1ntf
+add esp 4
+APP-CPP ’
+dassMwﬂass push qffset string "LocaL variabLe"
+{b1_ Lea ecx,[LocaL]
+pU 1C1 _ _
+MyClass(const char‘ * text) { print-F("Ctor for: %s\n", COLL MyCLass. .MyCLass
+h
+push 1
+MyClass global("global variable"); COLL operator new
+void main() add 85p,4
+{ mov dword ptr [ebp-4Ch],eax
+print-F("Enter‘ing main 'Function \n"); cmp dwopd pt!" [ebp-4Ch],0
+MyClass local("local variable"); je "ULL—ASigna_ment _
+push offset strlng "Heap varlabLe"
+MyClass * m = new MyClass("Heap variable"); mov QCX, dWOPd ptf‘ [ebp-4Ch]
+} caLL MyCLass::MyCLass
+mov dword ptr [ebp-50h],eax
+jmp asign_from_temp_to_m
+nuLL_Asignament:
+mov dword ptr [ebp-50h],0
+asign_fpom_temp_tq_m:
+mov eax,dword ptr [ebp-56h]
+mov dword ptr [m],eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Constructors \
+> This code will compile correctly and produ
+
+call _pr1ntf
+
+add es 4
+APP-CPP p’
+dassMwﬂess push offset string "LocaL variabLe"
+amlic' Lea ecx,[LocaL]
+P Myélass(const char‘ * text) { print-F("Ctor‘ 'For‘: %s\n", COLL MyCLass: :MyCLass
+h
+
+push 1
+MyClass global("global variable"); COLL operator new
+void main() Odd 85p,4
+
+mov dword ptr [ebp-4Ch],eax
+cmp dword ptr [ebp-4Chm
+
+MyClass local("local variable"); Je "ULL—AS-Lgna_ment 0
+push offSet strlng "Heap vartabLe"
+MyClass * m = new MyClass("Heap variable"); mov QCX, dWOPd pt!“ [ebp-4Ch]
+
+} caLL MyCLass::MyCLass
+
+mov dword ptr [ebp-50h],eax
+
+jmp asign_from_temp_to_m
+
+nuLL_Asignament:
+
+mov dword ptr [ebp-56h],0
+
+asign_from_temp_to_m:
+
+mov eax,dword ptr [ebp-56h]
+
+mov dword ptr [m],eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+> This code will compile correctly and produ pus,” Offsfet String Entering mm” functton \n
+caLL _pr1ntf
+add es 4
+APP-CPP p’
+dassMwﬂess push offset string "local variable"
+Lmlic' lea ecx,[loca1]
+Myélass(const char‘ * text) { print-F("Ctor‘ 'For‘: %s\n", C811 MyClass: :MyClass
+h
+push 1
+MyClass global("global variable"); COLL operator new
+void main() Odd 85p,4
+{ mov dword ptr [ebp-4Ch],eax
+print-F("Enter‘ing main 'Function \n"); cmp dwopd pt!" [6bp-4Ch],@
+je "““-A“g"“.'"e"t .
+push offSet strlng "Heap vartabLe"
+MyClass * m = new MyClass("Heap variable"); mov QCX, dWOPd pt!“ [ebp-4Ch]
+} caLL MyCLass::MyCLass
+mov dword ptr [ebp-50h],eax
+jmp asign_from_temp_to_m
+nuLL_Asignament:
+mov dword ptr [ebp-56h],0
+asign_from_temp_to_m:
+mov eax,dword ptr [ebp-56h]
+mov dword ptr [m],eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Constructors \
+b This code will compile correctly and Produ pUSh Off'cfet String "Entering main funcﬁon \n”
+caLL _pr1ntf
+add e5 ,4
+APP-CPD p
+dassMwﬂass push offSet string "LocaL variabLe”
+{ _ Lea ecx,[LocaL]
+publlc:
+MyClass(const char‘ * text) { print-F("Ctor‘ for‘: %s\n", CGLL MyCLass: :MyCLass
+h
+_ push 1 sizeof (MyClass)
+MyClass g10ba1("globa1 varlable"); C811 operator new
+void main() add 25p’: t b 4Ch
+mov wor r e - eax
+{ print-F("Enter‘ing main 'Function \n"); cmp dword gtp Eeb:-4Ch}:6 Has returned
+. 'e null Asi nament nuUptr?
+MyClass local("1oca1 varlable"); J - g _ .
+push offset strlng "Heap varlable"
+call MyClass::MyC1ass
+mov dword ptr [ebp-56h],eax
+jmp asign_from_temp_to_m
+nu11_Asignament:
+mov dword ptr [ebp-56h],0
+asign_from_temp_to_m:
+mov eax,dword ptr [ebp-50h]
+mov dword ptr [m],eax
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Constructors
+> In this case the default constructor is called and value of d.x is set to 10.
+APP-CPD
+class Date
+{
+private:
+int x;
+public:
+Date();
+gatezzDate()
+{
+x = 10;
+}
+void main()
+{
+Date d;
+}—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+> In this case the default constructor is called and value of d.x is set to 10.
+push ebp
+App.Cpp mov ebp, esp
+class Date SUb 85p, 44h Stub
+{ push ebx
+private: push 851'.
+int x; .
+public: push edt r
+Date(); 1 [d]
+}; ea ecx, _
+‘gate-1 mate-O call Date: :Date (0BBl325h) } Date d’
+x = 10; ,,_
+xor eax, eax
+void main() pop edi
+{ a
+_ pop est
+} Date d’ pop ebx StUb
+mov esp, ebp
+pop ebp
+r'et r
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+In this case the default constructor is called and value of d.x is set to 10.
+class Date StUb
+{
+private:
+int x;
+public:
+_ Date“ mov dword ptr [this],ecx
+Date::Date() mov eax,dword ptr [thls]
+{ mov dword ptr [eax],10
+X = 10; mov eax,dword ptr [this]
+}
+{
+Date d;
+}
+— Stub
+/permissive- /Yu"pch.h" /GS— /ana1yze— /W3
+/Zc:wchar_t /ZI /Gm— /Od /sdl /Fd"Debug\vc141.pdb"
+/Zc:inline /fp:precise /D "WIN32" /D "_DEBUG" /D
+"_CONSOLE" /D "_UNICODE" /D "UNICODE"
+/errorRepoPt:prompt /WX— /Zc:¥0PScope /RTCu
+/arch:IA32 /Gd /Oy— /MDd /FC /Fa"Debug\" /nologo
+/Fo"Debug\" /Fp"Debug\ConsoleApplication7.pch"
+/diagnostics:classic
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+> ”d” is build using the default constructor (d.x = 10)
+b “d2” is build using the constructor with one parameter (d2.x = 100)
+APP-CPD
+class Date
+{
+private:
+int x;
+public:
+Date();
+Date(int value);
+};
+Date::Date()
+{
+x = 10;
+}
+Date::Date(int value)
+{
+x = value;
+}
+void main()
+{
+Date d;
+Date d2(100);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Constructors
+> Every member data defined in a class can be automatically instantiated in
+every constructor if we add some parameters after its name (like in the
+example below).
+APP-CPD
+class Date
+{
+private:
+int x;
+public:
+Date();
+gatezzDateO :-
+{
+}
+void main()
+{
+Date d;
+}—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+> If the data member type is another class, the constructor of that class can be
+called in a similar way.
+APP-CPD
+class MyClass
+{
+int x;
+public:
+MyClass(int value) { this->x = value; }
+};
+class Date
+{
+MyClass m;
+public:
+Date(): { }
+};
+void main()
+{
+Date d;
+i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Constructors
+b If a class does not have a default constructor (a constructor without any
+parameters) but has at least another constructor, another class that has a
+data member of the same type HAS to:
+A) Explicitly call that constructor in all of its defined constructors
+APP-CPD
+class MyClass
+{
+int x;
+public:
+MyClass(int value) { this->x = value; }
+};
+class Date
+{
+MyClass m;
+Publggéeo { } error C2512: 'MyClass': no appropriate default
+}; constructor available
+void main()
+{
+Date d;
+}—
+b This code will NOT compile ll!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Constructors
+> If a class does not have a default constructor (a constructor without any
+parameters) but has at least another constructor, another class that has a
+data member of the same type HAS to:
+A) Explicitly call that constructor in all of its defined constructors
+APP-CPD
+class MyClass
+{ int x;
+public:
+MyClass(int value) { this->x = value; }
+};
+class Date
+{
+MyClass m;
+public:
+Date() : m(123) { }
+ibid main()
+{
+Date d;
+}—
+b This code will compile properly
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Constructors
+b If a class does not have a default constructor (a constructor without any
+parameters) but has at least another constructor, another class that has a data
+member of the same type HAS to:
+A) Explicitly call that constructor in all of its defined constructors
+APP-CPD
+class MyClass
+{
+int x;
+public:
+MyClass(int value) { this->x = value; }
+};
+class Date
+{
+MyClass m;
+public: '
+a e : 123 , - ._ .
+Bategint glue; {i }} error C2512. MyClass. no appropriate default
+}; 0 constructor available
+void main
+{
+Date d;
+}—
+b This code will NOT compile. There is at least one constructor that oes not
+instantiate data member “m” from class Date.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+> If a class does not have a default constructor (a constructor without any
+parameters) but has at least another constructor, another class that has a data
+member of the same type HAS to:
+A) Explicitly call that constructor in all of its defined constructors
+APP-CPD
+class MyClass
+{
+int x;
+public:
+MyClass(int value) { this->x = value; }
+};
+class Date
+{
+MyClass m;
+public:
+Date() : m(123) { }
+Date(int value) : m(value+10) { }
+};
+void main()
+{
+Date d;
+}—
+b Now the code compiles correctly
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+> If a class does not have a default constructor (a constructor without any
+parameters) but has at least another constructor, another class that has a data
+member of the same type HAS to:
+B) Add a default constructor
+
+APP-CPD
+
+class MyClass
+
+{
+int x;
+
+public:
+MyClass(int value) { this->x = value; }
+MyClass() { this->x = 0; }
+
+};
+
+class Date
+
+{
+MyClass m;
+
+public:
+DatE() { }
+Date(int value) : m(value+10) { }
+
+};
+
+b This code compiles correctly.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Constructors
+> If a class does not have a default constructor (a constructor without any
+parameters) but has at least another constructor, another class that has a data
+member of the same type HAS to:
+C) Remove all constructors
+APP-CPD
+class MyClass
+{
+int x;
+public:
+};
+class Date
+{
+MyClass m;
+public:
+DatE(> { }
+Date(int value) { }
+};
+b This code compiles correctly.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+> If a class does not have a default constructor (a constructor without any
+parameters) but has at least another constructor, another class that has a data
+member of the same type HAS to:
+D) Use initialization lists
+APP-CPD APP-CPD
+class MyClass class MyClass
+{ {
+int x; int x;
+public: public:
+MyClass(int value) { this->x = value; } MyClass(int value) { this->x = value; }
+MyClass() { this->x = 0; } MyClass() { this->x = 0; }
+}s };
+class Date ()Fl class Date
+{ {
+MyClass m = { 123 }; MyClass m = 123;
+public: public:
+Date() { } DateO { }
+Date(int value) { } Date(int value) { }
+}; };
+b This code compiles correctly. In this case a call to a constructor is no lo er need
+as the variable is instantiated with an initialization list.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+b This code will not compile because data members obj.t , obj.c and obj.c need a
+custom call to their own constructor.
+APP-CPP
+class Tree {
+public:
+Tree(const char * name) { printf("TPee: %s\n", name); }
+};
+class Car {
+public:
+Car(const char * name) { printf("CaP: %s\n", name); }
+};
+class Animal {
+public:
+Animal(const char * name) { printf("Animal: %s\n", name); }
+Elass Obje“ error C2280: 'Object::0bject(void)': attempting to reference a deleted function
+Tree t; note: compiler has generated 'Object::0bject' here
+iﬁimii a_ note: 'Object::0bject(void)': function was implicitly deleted because a data
+public: ’ member 'Object::a' has either no appropriate default constructor or overload
+'_ _ resolution was ambiguous
+v01d ma1n() { . , . .
+Object obj; note: see declaration of ObJectzza
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+> Now this code compiles. The constructors for Tree, Car an Animal are called from in
+the order of their definition in Object (Tree is first, Car is second and Animal is third).
+APP-CPD
+class Tree {
+public:
+Tree(const char * name) { printf("Tree: %s\n", name); }
+};
+class Car {
+public:
+Car(const char * name) { printf("Car: %s\n", name); }
+};
+class Animal {
+public:
+Animal(const char * name) { printf("Animal: %s\n", name); }
+};
+‘glass Obje“ Tree t -) is the first data member from Ob'ect
+‘2:38;; a Car c -) is the second data member from Ob'ect
+
+Animal a; ' ’
+pub ' ' .
+
+Object(): t("oak"), a("-Fox"), c("Toyota") {} Tree' oak .
+};_d _ 0 { Car: Toyota (tree, animal
+V°1 0:37;; obj; Animal: fox and car)
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+> This code compiles. If no constructor is present and all data members have either
+no constructors or a default constructor, the compiler will generate a default
+constructor that will call the default constructor from that class.
+APP-CPP
+class Tree {
+public:
+Tree() { printf("CTOR: Tree\n"); }
+};
+class Car {
+public:
+Car() { printf("CTOR: Car\n"); }
+};
+class Animal {
+public:
+Animal() { printf("CTOR: Animal\n"); }
+};
+class Object
+{ Tree t1,t2; CTOR: Tree
+Ca’? C; 1 CTOR: Tree
+Animal a;
+}; CTOR: Car
+void main() { _ -
+Object obj; CTOR. Ammal
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Constructors
+> This code compiles. “x” , “y” and “z” are initialized in the order of their definitio
+lt is important to keep this in mind when you call the constructor with default
+values for “x” , “y” and “z”
+APP-CPP
+class Object
+pub . 0 J y) J
+};
+void main()
+{
+Object 0(10);
+}—
+> As a result:
+El 0.x = 10 (the first one to be computed)
+El o.y = o.x * o.x = 10 * 10 = 100 (the second one to be computed)
+El o.z = 10 * o.y = 10 * 100 = 1000 (the third one to be computed)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+b This code compiles. “x” , “y” and “z” are initialized in the order of their definitio
+However, the results is inconsistent as “x” is the first one to be computed ll!
+APP-CPI»
+class Object
+{ III-Illlldlr
+
+int x, y, z;
+pub ' '
+Object(int value) : y(value), z(value/Z), x(y*z) {}
+};
+void main()
+{
+Object 0(19);
+}—
+
+b As a result:
+
+El o.x = o.y * o.z = unknown results (it depends on the values that resides on the stack when
+the instance “o” is created). (the first one to be computed l)
+
+El o.y = 1O (the second one to be computed)
+
+El o.z = 1O (value) / 2= 1O / 2 = 5 (the third one to be computed)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Const & Reference
+> Data members
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+b This code will not compile because class Date has a const member (y)
+(exempla (A) ) or a reference (example (B) ) that should be initialized.
+APP-CPD (A) Appmpp (B)
+class Date class Date
+{ {
+private: private:
+int X' int x'
+public: public:
+}; };
+void main() void main()
+{ {
+Date d; Date d;
+} }
+error C2289: ‘Date: Date(void)': attempting to reference a deleted function
+note: compiler has generated 'Date::Date' here
+note: see declaration of 'Date::y'
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Const & Reference data members
+> The code will not compile. While the class Data has a public constructor it
+does not initialize the value of y (a const member in example (A) and a
+reference in example (B) ).
+APP-CPD (A) Appﬂpp (B)
+class Date class Date
+{ {
+private: private:
+int x' int x'
+public: public:
+Date(); Date();
+gatezzDate() : x(100) gatezzDate() : x(100)
+{ {
+} }
+void main() void main()
+{ {
+Date d; Date d;
+}— }—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+> The code compiles — y is initialized with value 123 in example (A) and with a
+reference to data member “X” in example (B)
+APP-CPD (A) APP-CPD (B)
+class Date class Date
+{ {
+private: private:
+int x; int x;
+const int y; int & y;
+public: public:
+Date(); Date();
+}s };
+Date::Date() : x(100),- Date::Date() : x(100),-
+{ {
+} }
+void main() void main()
+{ {
+Date d; Date d;
+}— }—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+b This code will not compile
+b Every const data member or reference data member defined within a class
+has to be initialized in every constructor defined in that class.
+
+APP-CPD (A) APP-CPD (B)
+class Date class Date
+{ {
+private: private:
+
+int X' int x'
+publi . publi .
+
+Date(); Date();
+
+Date(int value); Date(int value);
+}; };
+Date::Date() : x(169), y(123) Date::Date() : x(100), y(x)
+{ {
+} } /
+Date::Date(int value) : x(value) Date::Date(int value) : x(value)
+{ {
+} }
+error C2789: 'Date:: ': an ob'ect . .
+
+. . y J error C2530: Date::y: references
+
+of const-qualified type must be . . . .
+. . . . must be initialized
+initialized
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+> This code compiles and runs correctly. One observation here is that a constant
+value (data member) can be initialized with a non-constant value (in this
+example with value*value) — see example (A)
+APP-CPD (A) APP-CPD (B)
+class Date class Date
+{ {
+private: private:
+int x; int x;
+const int y; int & y;
+public: public:
+Date( ); DatE( )3
+Date(int value); Date(int value);
+}s };
+Date::Date() : X(100), y(123) Date::Date() : x(199), y(x)
+{ {
+} }
+Date::Date(int value) : X(va1ue), y(value*va1ue) Date::Date(int value) : x(value), y(value)
+{ {
+} }
+void main() void main()
+{ {
+Date d; Date d;
+Date d2(100); Date d2(199);
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Const & Reference data members
+b This code will not compile. A constant or reference defined within a
+constructor must be initialized using either an initialization list or the current
+class constructor definition.
+Apncpp APP-CPD
+class Date class Date
+{ {
+private: private:
+int x; int x;
+const int y; int & y;
+public: public:
+Date(); Date();
+gatezzDate() : x(100) gatezzDate() : x(100)
+{ {
+} } /
+void main() void main()
+{ {
+Date d; Date d;
+} }
+error C2789: Datezzy: an ObJeCt error C2530: ‘Datezzy': references
+of const-qualified type must be . . . .
+. . . . must be initialized
+initialized
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+b This code compiles correctly. Data member “y” is initialized directly in the
+definition of the class. This way of initializing data members (either constant
+or references) is available starting with C++11 standard.
+
+APP-CPD APP-CPD
+class Date class Date
+{ {
+private: private:
+int X: int x:
+const int y = 123; int & y = x;
+public: public:
+Date(); Date();
+Date(int value); Date(int value);
+}; };
+Date::Date() : x(196) Date::Date() : x(199)
+{ {
+} }
+Date::Date(int value) : x(va1ue), y(va1ue*va1ue) Date::Date(int value) : x(value), y(value)
+{ {
+} }
+void main() void main()
+{ {
+Date d; Date d;
+Date d2(199); Date d2(100);
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+References that are not constant can not be instantiated with a constant
+value !
+class Date class Date
+{ {
+pub 1c: pub 1c:
+Date() : y(123) {} Date() : y(123) {}
+}; };
+void main() void main()
+{ {
+Date d; Date d;
+} }
+error C2440: 'initializing': cannot convert From 'int' to ‘int &'
+error C2439: ‘Date :y': member could not be initialized This code compiles !
+note: see declaration of 'Date::y'
+However, it is not recommended to instantiate a constant reference in this
+way as it will create a pointer / reference to a value located on the stack !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+> Let’s analyze the followmg code. What Wlll be prmted on the screen upon the
+executlon of thls code ?
+APP-CPD (B)
+class Date
+{
+public:
+const int & y;
+Date() : y(123) {}
+void Test() {
+int a[1000];
+for (int tr = 0; tr < 1000; tr++)
+a[tr] = 50;
+}
+};
+void main()
+{
+Date d;
+printf(“%d\n”,d.y);
+d.Test();
+printf(“%d\n”,d.y);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+> Let’s analyze the following code. What will be printed on the screen upon the
+execution of this code ? ,, > e,p ‘
+mov ebp, esp
+APP.CPP (B) sub esp, 48h
+class Date push ebx StUb
+gublic: pUSh 651}
+
+pus” em
+
+Date : 123 '
+
+void_Test . mov dword ptr [this],ecx
+
+i2: 21:93:: o- tr < 100o- mov dword ptr [ebp-81,123 {
+amp] = 59;’ ’ mov eax,dword ptr' [this] _
+
+} lea ecx,[ebp-8] 1nt temp = 1233
+};_d _ mov dword ptr [eax],ecx ﬁlls->3! = &temp;
+‘{’°1 ma1n() mov eax,dword ptr [this] }
+
+Date d; ‘
+
+print-F(“%d\n”,d .y); pop edi V
+
+d.Test(); pOp 851'.
+
+pnintf(“%d\n”,d.y);
+
+} P0P @bX Stub
+mov esp, ebp
+pop ebp
+ret _
+> After the constructor is called, d. y will point to an address on the stack that
+holds value 123.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Const & Reference data members
+> Let’s analyze the following code. What will be printed on the screen upon the
+execution of this code ?
+APP-CPP (B)
+class Date
+{
+public:
+const int & y;
+Date() : y(123) {}
+void Test() {
+int a[1000];
+for (int tr = 0; tr < 1000; tr++)
+a[tr] = 50;
+}
+};
+void main()
+{
+Date d;
+}
+This code will compile on cl.exe (Windows) and g++ (Linux)
+Clang version 7.0+ will NOT compile ! Versions prior to 6.0 will
+work.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+> Let’s analyze the following code. What will be printed on the screen upon the
+execution of this code ?
+
+APP-CPD (B)
+class Date
+{
+public:
+
+const int & y;
+
+Date() : y(123) {}
+
+void Test() {
+
+int a[1000];
+for (int tr = 0; tr < 1000; tr++)
+a[tr] = 50;
+
+}
+};
+void main()
+{
+
+Date d; /
+
+d.Test();' i '
+}
+
+As a result, d.y will be 50 and the value written
+on the screen the second time will be 50 !!!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Delegating
+> constructor
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Delegati ng constructor
+b A constructor can call another constructor during its initialization.
+APP-CPD
+class Object
+{
+int x, y;
+public:
+}. Object() -{ }
+void main()
+{
+Object o;
+}—
+b ln this case , when we create “Object o” the default constructor will be
+called that in terms will call the second constructor ( Object(int) )
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+b This code will not compile. When calling a constructor from another
+constructor initialization list, other initializations are not possible.
+APP-CPD
+class Object
+{
+int x, y;
+public:
+Object(int value) : x(value), y(value) {}
+Object() : Object(G) , y(l) { }
+h
+void main()
+{
+Object o;
+}
+error C3511: ‘Object’: a call to a delegating constructor shall be the
+only member-initializer
+error C2437: 'y': has already been initialized
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+b The same error is provided even if we do not initialize “y” in the Object(int)
+COnStl'LlCtOl".
+APP.C|3P error C3511: 'Object': a call to a delegating constructor
+class Object shall be the only member-initializer
+{ int X y_ error C2437: 'y': has already been initialized
+public: ’ ’
+Object(int vallw) 1 X(valu6) {} error: mem-initializer for ‘Objectzzy’ Follows constructor
+Object() = Object(G) , y(1) { } delegatlon
+};
+‘{’°id maino error: an initializer for a delegating constructor must
+Object 0; appear alone
+} ObjectO : Object(e), 3/(9) { }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Delegati ng constructor
+b This code will compile. In this case, the “y” data member is initialized in the
+code of the constructor.
+APP-CPD
+class Object
+{
+int x, y;
+public:
+Object(int value) : x(value), y(value) {}
+}. Object() : Object(0) {-}
+void main()
+{
+Object o;
+}—
+b Keep in mind that “y” is initialized twice. Once in “Object(int)” call (the
+delegation call), and then in the default constructor body.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Delegati ng constructor
+b This code will compile. “y” is first initialized by the delegation
+(“y(value+5)”) -) meaning that y will be 5 before running the code from the
+default constructor.
+> As a results, when running “y+=5”, “y” already has a value and its final value
+will be 10.
+APP-CPD
+class Object
+{
+int x, y;
+public:
+Object(int value) : x(value), y(value+5) {}
+}. Object() : Object(O) {- }
+void main()
+{
+Object o;
+}i—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Delegati ng constructor
+b This code will also compile.
+> However, since the delegation was removed, “y+=5” does not have an already
+uses a “y” that a stack value (something that we can not approximate).
+b This code will compile, but the value of “y” is undetermined.
+APP-CPD
+class Object
+{
+int x, y;
+public:
+Object(int value) : x(value), y(value+5) {}
+void main()
+{
+Object o;
+}i—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Delegati ng constructor
+b Constant or reference data members must NOT be instantiated on all
+constructors if delegation is used.
+APP-CPD
+class Object
+{
+int x, y;
+const int z;
+public:
+Object(int value) : x(value), y(value)-{}
+}. Object() : Object(0) { y = 1; }
+void main()
+{
+Object 0;
+}—
+b ln this case, the default constructor MUST not instantiate “z” as “z” is alre
+instantiated in constructor Object(int) that is called by the default
+constructor.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Delegati ng constructor
+b It is possible to create a circular reference (as in the example below). The
+default constructor is calling the 0bject(int) that in terms calls the default
+constructor.
+APP-CPD
+class Object
+{
+int x, y;
+public:
+0bject(int value) : Object() {}
+}. Object() : 0bject(0) { }
+void main()
+{
+Object o;
+}—
+b This code will compile, but the execution will initially freeze and after the
+stack is filled in due to recursive calls between constructors, it will creat
+run-time error (e.g. segmentation error in linux)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Initialization lists
+> for classes
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Initialization lists for classes
+b Classes and structures can be initialized using initialization lists:
+APP-CPD
+struct Data
+{
+int x;
+char t;
+const char* m;
+geid main()
+{ Data d1{ 10, 'A', "test" };
+Data d2 = { 5, 'B', "C++" };
+Data array[] = {
+{ 1, 'A', "First element" },
+{ 2, 'B', "Second element" },
+{ 3, 'C', "Third element" },
+};
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+b Classes and structures can be initialized using initialization lists:
+APP-CPD
+struct Data
+{
+int x;
+char t;
+const char* m;
+};
+void main()
+{ I | ll || .
+Data d1{ 1a, 'A', "test" }; Data d1{ 19’ A ’ test }’
+Data d2 = { 5, 'B', "C++" };
+Data array[] = {
+{ 1, 'A', "First element" },
+{ 2, 'B', "Second element" }, Data d2 = { 5, IBI, "C++" };
+{ 3, 'C', "Third element" },
+};
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+b Classes and structures can be initialized using initialization lists:
+APP-CPD
+class Data
+nublic:
+int x;
+char t;
+const char* m;
+};
+void main()
+{
+Data d1{ 10, 'A', "test" };
+Data d2 = { 5, 'B', "C++" };
+Data array[] = {
+{ 1, 'A', "First element" },
+{ 2, 'B', "Second element" },
+{ 3, 'C', "Third element" },
+};
+}
+> This code works, but it is important for data members to be public ;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+b Classes and structures can be initialized using initialization lists:
+APP-CPD
+class Data
+{
+public:
+char t;
+const char* m;
+};
+void main()
+Data m 10’ ,A,’ "test" }; ‘error Q2440: initializmg. cannot convert from
+initializer list to Data
+Data d2 = { 5’ B ’ CH }’ note: No constructor could take the source type,
+Data arrayl] = { , or constructor overload resolution was ambiguous
+{ 1, 'A', "Flrst element" },
+{ 2, 'B', "Second element" },
+{ 3, 'C', "Third element" },
+};
+}
+> This code will not work as “x” is not public l If a class has at least one mem r
+that is NOT public and no matching constructor, these assignments will n be
+possible.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+> Classes and structures can be initialized using initialization lists:
+APP-CPD
+class Data
+{
+int x;
+public:
+char t;
+const char* m;
+Data(int xx, char tt, const char * mm) : x(xx), t(tt), m(mm) {};
+};
+void main()
+{
+Data d1{ 10, 'A', "test" };
+Data d2 = { 5, 'B', "C++" };
+Data array[] = {
+{ 1, 'A', "First element" },
+{ 2, 'B', "Second element" },
+{ 3, 'C', "Third element" },
+};
+}
+b This code will compile because a proper public constructor has been_/added.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+b This code will not compile. If there at least on constructor and its parameters
+do NOT match the ones from the initialization list, the compiler will throw an
+error !
+
+APP-CPD
+class Data
+{
+int x;
+public:
+char t;
+const chan* m;
+Data(int xx, char tt) : x(xx), t(tt), m(nu11ptr) {};
+};
+void main()
+Data d1{ 19’ ,A,’ "test" }; ‘error C_2440_. initialiZing. cannot convert from
+initializer list to Data
+d = J I I) I‘ I‘ ;
+32:: airayﬁ: {B CH } note: No constructor could take the source type,
+i 1’ IA} First element"), or constructor overload resolution was ambiguous
+{ 2, B , Second element },
+{ 3, 'C', "Third element" },
+};
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Initialization lists for classes
+b Promotion and casting rules wok in a similar way as for a regular method call.
+> In this case, true is promoted to int, ‘A’ (a char) is promoted to int and
+“test” (a const char * pointer) is casted to a const void *, allowing the
+compiler to call the existing constructor.
+APP-CPD
+class Data
+{
+int x;
+public:
+char t;
+const char* m;
+}. Data(int xx, int tt, const void * p) : x(xx), t(tt), m((c0nst char *)p) {};
+void main()
+Data d1{ true, 'A', "test" };
+Data d2 = { true, 'A', "test" };
+}
+b This code compiles correctly ;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Initialization lists for classes
+b Promotion and casting rules wok in a similar way as for a regular method call.
+> In this case a constructor that works like a fallback method exists and since
+there is no good match, it will be used to initialize d1 and d2 instances of
+Data.
+APP-CPD
+class Data
+{
+int x;
+public:
+char t;
+const char* m;
+Data( ) {};
+};
+void main()
+{ |
+Data d1{ true, 'A', "test" };
+Data d2 = { true, 'A', "test" };
+}
+b This code compiles correctly ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Initialization lists
+b Trying to initialize this class with an empty initialization list {} will result in
+an error if no default constructor is present
+b This code will NOT compile.
+APP-CPD
+class Data
+{
+int x;
+public:
+char t;
+const char* m;
+}. Data(int xx, int tt, const void * p) : x(xx), t(tt), m((const char *)p) {};
+void main()
+error C2512: 'Data': no appropriate default
+Data d2 = {}; .
+} constructor available
+note: No constructor could take the source type, V
+or constructor overload resolution was ambiguous
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+b If however, either a default constructor or a constructor that models a
+fallback function is present, the following code will compile and run
+correctly.
+
+APP-CPD APP-CPD
+class Data class Data
+{ {
+int x; int x;
+public: public:
+char t; char t;
+const char* m; const char* m;
+Data() {}; Data( ) {};
+}; };
+void main() void main()
+{ {
+Data d1{}; Data d1{};
+Data d2 = {}; Data d2 = {};
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+Initialization lists for classes
+b If no constructor is present:
+APP-CPP
+class Data
+{
+int x;
+public:
+char t;
+const char* m;
+};
+void main()
+{
+Data d1.
+}—
+> This code will compile. “d1 ” object will have the following values after the
+execution:
+El d1 .x = 0
+El d1.t = ‘\0’
+El d1.m = nullptr;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Initialization lists for classes
+b If no constructor is present:
+APP-CPD
+class Data
+{ .-
+int x;
+public:
+char t;
+const char* m;
+void main()
+{
+Data d1 '
+}—
+> This code will compile. “d1 ” object will have the following values after the
+execution:
+El d1 .x = 0
+El d1.t = ‘\0’
+El d1.m = nullptr;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+Initialization lists for classes
+b If no constructor is present:
+APP-CPD
+class Data
+{
+int x;
+public:
+char t;
+const char* m;
+};
+void main()
+{
+Data d1
+}—
+> The compiler creates a code that fills the entire content of Data with 0
+(similar to a memset call).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Initialization lists for classes
+b If a constructor with only one parameter is present, the following
+initialization is also possible:
+APP-CPP
+class Data
+{
+int x;
+public:
+Data(int value) : x value) {}
+h
+void main()
+{
+} push 10
+lea ecx,[d]
+call DatazzData
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+b Promotion and conversion rules also work in this case
+El In case (A) 9 a char (‘A’) is promoted to int -) d.x = 65 (Ascii code of ‘A’)
+El ln case (B) 9 a bool (true) is promoted to int -) d.x = 1
+El In case (C) 9 a double is converted to int -) d.x = 4 ( int(4.5)=4 )
+APP-CPD (A) APP-CPD (B) APP-CPD (C)
+class Data class Data class Data
+{ { {
+int x; int x; int x;
+public: public: public:
+Data(int value) : Data(int value) : Data(int value) :
+x(value) {} x(value) {} x(value) {}
+}s }; };
+void main() void main() void main()
+{ { {
+Data d = ‘A’; Data d = true; Data d = 4.5;
+}— }— }—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Initialization lists for classes
+b Initialization lists can also be applied to initialized array defined as a class
+member:
+APP-CPP APP-(ZPP
+class Data class Data
+{ {
+int x[4]; int x[4] =-
+public: public:
+}; };
+void main() void main()
+{ {
+Data d; Data d;
+}— }—
+> The previous code will NOT compile on VS 2013 (as that version does not
+implement the full specification of Cx++11). However, it will work on VS 201
+or later and g++ >16.0.0 (g++ (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0
+20160609). This feature is available as part of C++11 standard.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Initialization lists for classes
+b Other data members can be initialized in a similar manner. The following
+example shows how to initialized basic types data members.
+APP-CPP
+class Data
+{
+int x = 5;
+float y = 19.5f;
+bool t = false;
+};
+{
+}—
+> The compiler will add a new default constructor (as there isn’t one defined
+already in the class). That new constructor will instantiate the values for “x”
+“y” and “t”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+b Other data members can be initialized in a similar manner. The following
+example shows how to initialized basic types data members.
+APP-CPP
+class Data pUSh ebp
+{ mov ebp,esp
+int X = 5;
+Eigittyjfﬁng; mov dword ptr [this],ecx
+}; mov eax,dword ptr [this] X=5
+_ _ lea ecx, d mov dword ptr [eax],5
+ION ma1n() Acall Data£:|])ata mov eax,dword ptr [this] ,
+Data d; movss xmm6,dword ptr ds:[0E36AE4h] y=10.5
+} movss dword ptr Teax+41:xmm9 a’
+mov eax,dword ptr [thls] t _ false (0)
+> The compiler will add a new default co m°v bvtedpttdleiﬂiilr-I? V
+already in the class). That new construc m°v eax’ w°r p r [ 15]
+“y” and “tn mOV esp,ebp
+pop ebp
+Pet
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Initialization lists for classes
+b Other data members can be initialized in a similar manner. The following
+example shows how to initialized basic types data members.
+APP-CPP
+class Data
+{
+int x = 5;
+float y = 19.5f;
+bool t = false;
+public:
+_asm nop;
+_asm nop;
+};
+void main()
+{
+Data d;
+}
+b Adding a constructor will force the compiler to modify that construct to
+integrate the default initialization as well.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+b Other data members can be initialized in a similar manner. The following
+example shows how to initialized basic types data members.
+APP-CPD
+class Data
+{
+int X = 5;
+float y = 10.5%; mov dword ptr [this],ecx
+b1_ P001 t = false; mov eax,dword ptr' [this]
+pu 1coata() { mov dword ptr [eax],5.
+_asm nop; mov eax,dword ptr' [thls]
+_asm ﬂop; movss xmm9,dword ptr‘ ds: [9E36AE4h]
+}_ } movss dword ptP [eax+4],xmm6
+’ mov eax,dwor‘d ptn [this]
+void main() mov byte ptl" [eax+8],6
+{
+} Data d; nop
+nop
+b Adding a constructor willforc mov eaxﬁword ptp [this]
+integrate the default initializ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Initialization lists for classes
+b Initialization lists can also be applied to initialized array defined as a class
+member:
+APP-CPP
+class Data
+{
+int x = 5;
+float y = 19.5f;
+bool t = false;
+public:
+Data() : -{ }
+};
+void main()
+{
+Data d;
+}—
+b Furthermore, the default values can be overridden in the constructor list. l
+this case, “x” will be initialized with 10, “y” with 10.5 and “t” with fa
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+Initialization lists for classes
+b Initialization lists can also be used for pointers.
+APP-CPD APP-CPD
+class Date class Date
+{ int * x = new int[19]; { int * x = new int[10] { 1,2,3,4,5,6,7,8,9,10 };
+public: public:
+}; };
+void main() void main()
+{ {
+Date d; Date d;
+}— }—
+> In both of these cases, a default constructor is created that will call new
+operator and instantiate pointer “x”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+b The same thing can be done for pointers by using constructor initialize list:
+APP-CPD APP-CPD
+class Date class Date
+{ {
+int * x; int * x;
+public: public:
+Date(int count): x(new int[count]) { } Date(int count): x(new int[count] {1,2,3} ) { }
+}; };
+void main() void main()
+{ {
+Date d(3); Date d(3);
+}— }—
+> ln this case, the call to the new operator will be added in the constructor.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+Initialization lists for classes
+b Initialization lists can also be used to return a value from a function:
+APP-CPP
+struct Student
+{ const char * Name;
+int Grade;
+};
+Student GetStudent()
+}
+void main()
+{ Student s;
+s = GetStudent();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+“> Value Types
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Value Types
+b When an expression is evaluated, each of its terms are associated with a
+value type. This helps the compiler to understand how to use that value (and
+also what kind of methods / functions can be used for overload resolution).
+> Currently, there are 5 such types:
+1. glvalue
+2. prvalue
+3. xvalue
+4. lvalue
+5. rvalue
+> The way this types work, and what there represent has been changed from
+standard to standard.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+Value Types: glvalue (generalized lvalue)
+b A glvalue is an expression that results in an object
+b Examples:
+
+1. Assignment -) a = <expression>, where “a” is a variable/data member (“a” in this
+context will be a glvalue). lt’s valid for other type of assignments operators such
+as “+=, -= , *= , etc)
+
+2. Pre-increment/decrement -) ++a, --a where “a” is a variable/data member (“a” in
+this context will be a glvalue).
+
+3. Array members -) a[n] where “a” is an array (“a[n]” in this context will be a
+glvalue).
+
+4. A method/function that returns a reference -) int& GetSomething()
+
+> To simplify this observation, consider a glvalue an expression that refers a
+memory offset of a variable / data member).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+b Axvalue is an expression that results in an object that can be reused (a temporary
+object).
+> Let’s consider the following example:
+int a = 19+29+363 e
+b This code will be evaluated in the following way:
+1. We first add “10” with “20”
+2. The result is a temporary value (Temp-1) G
+3. Then we add Temp-1 with “30”
+4. The result is another temporary value (Temp-2) '
+5. Finally - we copy the value from Temp-2 into “a”
+> Both “Temp-1” and “Temp-2” are xvalues 0
+> ”a” is a glvalue
+b "10”, “20” and “30” are prvalues
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Value Types: xvalue (eXpi ring value)
+> A xvalue is an expression that results in an object that can be reused (a temporary
+object).
+> Let’s consider the following example:
+e
+> In practice, “Temp-1 ” only exists until the next
+operation (addition with “c” is completed). q,
+5’
+> In this case, “Temp-1” can be reused (rather than E; G
+create another temporary variable). This can '
+improve the evaluation performance.
+Temp-1 = 10 + 29 0
+Temp-1 = Temp-1 + 30
+a = Temp-1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+Value Types: prvalue (pure rare value)
+
+b A prvalue is an expression that reflects a value
+
+b Examples:
+
+1. Numerical constants -) 10, 100, true, false, nullptr
+
+2. Post-increment/decrement -) a++, a-- where “a” is a variable/data member (“a”
+in this context will be a prvalue).
+
+3. A method/function that returns a value -) int GetSomething()
+
+4.
+
+b an “glvalue” can be transformed in a “prvalue” (this is often call lvalue-to-
+rvalue conversion). This is normal (if the glvalue refers to a location of
+memory , it can be transformed in a prvalue if it refers to the value that
+resides in that memory location).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+Value Types: lvalue (left value)
+
+b A lvalue is a glvalue that is NOT an xvalue
+
+> lvalue got its name because it refers mostly to the left location within an
+expression.
+int a = 19;
+int b;
+b = (a += 29)+19;
+
+b In this example, both “a” and “b” are lvalues (and glvalues), “20” and “10”
+are prvalues (and rvalues).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+Value Types: rvalue (right value)
+b A rvalue is a prvalue OR an xvalue
+> rvalue got its name because it refers mostly to the right location within an
+expression.
+b lvalue and rvalue are considered mixed categories of type values
+b glvalue, xvalue and prvalue are considered primary categories
+lvalue rvalue
+AND OR
+NOT
+glvalue xvalue prvalue
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+Copy & Move
+> Constructors
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+b A copy constructor is a constructor that has only one parameter that is a
+reference (const or not-const) to the same class as the current one.
+Appmpp
+class Date
+{
+public:
+} Date( const Date & d )3 Copy Constructor
+b It is usually used in the following way:
+Appspp
+class Date
+{
+int value;
+public:
+Date(const Date &d) { value = d.value; }
+Date(int v) { value = v; }
+};
+int main()
+{
+Date d (1); Copy Constructor
+Date d2 = d;
+return 0;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+> A copy constructor is a constructor that has only one parameter that is a
+reference (const or not-const) to the same class as the current one.
+APP-CPD
+class Date
+{
+public:
+} Date(— Copy Constructor
+’ APP-CPP
+class Date
+{
+int value;
+public:
+Date(const Date &d) a
+Date(int v) { value
+};
+int main()
+{ —
+Date d 1 '
+return 0;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+b The copy constructor is also used Whenever a function/ method has a
+parameter of that class type that is not send via reference !
+APP-CPP
+class Date
+{
+int x,y,z,t;
+public:
+Date(const Date &d) { x = d.x; y = d.y; z = d.z; t = d.y; }
+Date(int v) { x = y = z = t = v; }
+};
+void Process(Date d) { m }
+int main()
+{
+Date d(1);
+PP°CESS(‘?>‘ In this case , a copy of “d” is
+return 0, _
+} made, and that copy is pass to
+function Process. More on this
+mechanisms on next course.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+> Similarly, if a function returns an object (not a reference or a pointer) the
+copy constructor is used.
+APP-CPP
+class Date
+{
+int x,y,z,t;
+public:
+Date(const Date &d) { X = d.x; y = d.y; z = d.z; t = d.y; }
+Date(int v) { x = y = Z = t = V5 }
+};
+Date Process()
+{
+Date d 1 '
+} . .
+This is where the copy
+construction will be called. More
+on this topic on the next course
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+> A copy constructor can be declared in two ways:
+El With a const parameter (this is the most generic usage)
+El With a non-const parameter
+APP-CPD
+class Date
+{
+int x;
+publi '
+- X = M * 2; } Both declarations are copy
+constructors.
+Date(int v) { x = v; }
+};
+b Some compilers might produce a warning in this case: “warning C4521:
+‘Date’: multiple copy constructors specified”
+> lt’s best to use the copy constructor that uses a constant reference as a
+parameter (this is more generic, and any non-constant references can b
+converted to a const reference).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Copy constructor
+> If both types of copy constructors are present (with const and non-const
+parameter), the compiler will choose the best fit.
+b ln this case, since “cl” is not a constant, the non-constant form of the copy
+constructor will be used.
+APP-CPP
+class Date
+{
+int x;
+public:
+Date const Date &d X = d.x'
+Date 1nt v x = v;
+};
+int main()
+{ - .
+return 9;
+i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+> In this case, event if the “d” is not a constant, its non-const reference can be
+converted to a constant reference and then used the copy constructor with a
+constant parameter.
+APP-CPD
+class Date
+{
+int x;
+public:
+Date(int v) { x = v; }
+};
+int main()
+{
+re urn 5;
+}—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+> In this case the compiler will call the copy constructor that has a “const”
+parameter.
+APP-CPD
+class Date
+{
+int x;
+public:
+Date Date 1' x = -.x 2;
+Date(int v) { x = v; }
+};
+int main()
+{
+const Date d(1);
+return 9;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+b In this case the code will not compile. There a copy constructor defined, but
+it does not accept const parameters !
+APP-CPD
+class Date
+{
+int X;
+public:
+Date(Date &d) { x = d.x * 2; }
+Date(int v) { x = v; }
+};
+int main()
+{
+const Date d(1); error C2440: 'initializing': cannot convert from ‘const Date‘ to
+‘Date'
+note: Cannot copy construct class 'Date' due to ambiguous copy
+} return a‘ constructors or no available copy constructor
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Copy constructor
+
+> This code will compile.
+
+b Since there is no copy constructor defined, the compiler will generate a code
+that copies the data from “d” to “d2” (similar to what memcpy function
+doesy
+
+APP-CPD
+class Date
+{
+int x;
+public:
+Date(int v) { x = v; }
+};
+int main()
+{
+const Date d(1);
+mov eax,dwor‘d ptl" [d]
+’ mov dword ptr [d2],eax
+return 0;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+> Let’s analyze the following code:
+APP-CPD
+char * DuplicateString(const char * string) {
+char * result = new char[str1en(string) + 1];
+memcpy(resu1t, string, strlen(string) + 1);
+return result;
+}
+class Date
+{
+char * sir;
+public:
+Date(const Date &d) {
+sir = DuplicateString(d.sir); printf("COPY-CTOR: Copy sir from %p to %p \n", d.sir, sir);
+}
+Date(const char * tmp)
+{
+sir = DuplicateString(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+}
+};
+Date Get(Date d) { return d; }
+int main()
+{
+Date d = Get(Date("test"));
+return 0;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+Let's analyze the following code :
+char * DuplicateString(const char * string) {
+char * result = new char[strlen(string) + 1];
+memcpy(result, string, strlen(string) + 1);
+return result;
+}
+class Date
+{
+char * sir;
+public:
+Date(const Date &d) {
+sir = DuplicateString(d.sir); printf("COPY-CTOR: Copy sir from %p to %p \n", d.sir, sir);
+}
+Date(const char * tmp)
+{
+sir = DuplicateString(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+}
+};
+Date Get(Date d) { return d; }
+int mam‘) CTOR: Allocate sir to OOABO€>1O
+Daze d g Get(Date<"test">>s COPY-CTOR: Copy sir from 00A80610 to 00A80648
+re urn ;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+Let’s analyze the following code :
+Step What happened
+. . . , .
+char * Duplicatestringmnst char * strin 1. Atemporary obJect IS created (1t s temporary because 1t
+char * result = ne char[strlen(strin 'IS nOt aSSIgHEd t0 any varlable)
+memcpy(result, str' g, strlen(string) ,
+return result;
+}
+class Date
+{
+char * sir;
+public:
+Date(const Date &d) {
+sir = Duplicat=-tring(d.sir); printf("COPY-CTOR: Copy sir from %p to %p \n", d.sir, sir);
+}
+Date(const char * I p)
+{
+sir = Duplicat=-tring(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+}
+};
+Date Get(Date d) { ret n d; }
+int ‘"8an CTOR: Allocate sir to OOABO€>1O
+Date d = Get ;
+return 0;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+Let's analyze the following code :
+Step What happened
+. . . , .
+
+char * Duplicatestringmst char * 5mm 1. Atemporary obJect IS created (1t s temporary because 1t
+
+char * result = new char[strlen(strin 'IS nOt aSSIgHEd t0 any varlable)
+
+memcpy(result, string, strlen(string) . . .
+} return - ' 2. That temporary obJect 1s sent to Get(...) fUDCUOﬂ
+class Date
+{
+
+char * sir;
+public:
+
+Date(c'nst Date &d) {
+
+si = DuplicateString(d.sir); printf("COPY-CTOR: Copy sir from %p to %p \n", d.sir, sir);
+
+}
+
+Date(crnst char * tmp)
+
+{
+
+si = DuplicateString(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+
+}
+};
+Date— return d; }
+int ' CTOR: Allocate sir to OOABO€>1O
+
+Date d = Get(Date("test"));
+
+return 0;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+Let's analyze the following code :
+Step What happened
+
+char * Duplicatestringmst char * 5mm 1. Atemporary obJect lS created (1t s temporary because 1t
+
+char * result = new char[strlen(strin 'IS nOt aSSIgHEd t0 any varlable)
+
+memcpy(result, string, strlen(string) . . .
+} return result: 2. That temporary obJect 1s sent to Get(...) functlon
+class Date 3. Get(...) functlon returns 1t (so 1t calls the copy-ctor)
+{
+
+char * sir;
+public:
+
+Date(const Date &d) {
+
+sir = Duplicate-tring(d.sir); printf("COPY-CTOR: Copy sir from %p to %p \n", d.sir, sir);
+
+}
+
+Date(const char * t p)
+
+{
+
+sir = Duplicate-tring(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+
+}
+};
+Date Get(Date d)
+int mam‘) CTOR: Allocate sir to OOABO€>1O
+
+Date d = Get(Date("test"));
+
+return 0;
+1»
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+Let's analyze the following code :
+Step What happened
+
+char * Duplicatestringmst char * 5mm 1. Atemporary obJect is created (it s temporary because it
+
+char * result = new char[strlen(strin 'IS nOt aSSIgHEd t0 any variable)
+
+memcpy(result, string, strlen(string) . . .
+} return result: 2. That temporary obJect is sent to Get(...) function
+class Date 3. Get(...) function returns it (so it calls the copy-ctor)
+{ chap * sip; 4. Within the copy-ctor the string is copied again
+public:
+
+Dat ll I- - In.
+
+printf("COPY-CTOR: Copy sir from %p to %p \n", d.sir, sir);
+
+}
+
+Date(const char * tmp)
+
+{
+
+sir = DuplicateString(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+
+}
+};
+Date Get(Date d) { return d; }
+int mam‘) CTOR: Allocate sir to 00A5061O
+
+Daze d Z Get<Date<"test">>s COPY-CTOR: Copy sir from 00A80610 to 00A80648
+
+re urn ;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Move constructor
+So what is the problem ?
+> We allocate memory and we copy the same string twice ll!
+b First as part of the constructor
+b Second as part of the copy-constructor
+This is not unusual; however, the first constructor creates a temporary object (an
+object that only exists during the evaluation of the following expression:
+Date d = Get(Date("test"));
+So we know that we have allocated memory for an object that we can not
+control after the expression is evaluated.
+Q: Do we need to allocate the memory twice ? (or can’t we just use the ori ' al
+memory that was allocated ?)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+b A move constructor is declared using “&&” to refer to temporary value. It is
+mostly used to reuse an allocated memory.
+Apncpp
+class Date
+{
+char * pointer;
+public:
+Date(Date && d) { char * temp = d.pointen; d.pointen = nullptn; this->pointer = temp; }
+};
+
+b If no “move” constructor is provided, but a “copy” constructor exists, the
+compiler will use the copy-constructor. This is valid only for temporary values
+(such as an xvalue). Move constructor is never used for a glvalue or a rvalue.
+
+> A move constructor can be used with a const arameter
+
+APP-CPP
+class Date
+{
+Date( Date && d) { m }
+};
+However, as usually in the “move-constructor” the parameter received ill be
+modified, the “const” form is not used.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+b Let’s analyze the following code :
+APP-CPD
+char * DuplicateString(const char * string) {
+}
+class Date
+{
+char * sir;
+public:
+Date(const Date &d) {
+sir = DuplicateString(d.sir); print-F("COPY—CTOR: Copy sir -From ° Move Constructor
+}
+Date(Date &&d) { printf("Move from %p to %p \n", &d, this);sir = d.sir;d.sir = nullptr; }
+Date(const char * tmp)
+{
+sir = DuplicateString(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+}
+};
+Date Get(Date d) { return d; }
+int main()
+{
+Date d = Get(Date("test"));
+return 0;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+Let’s analyze the following code :
+char * DuplicateString(const char * string) {
+} m
+class Date
+{
+char * sir;
+public:
+Date(const Date &d) {
+sir = DuplicateString(d.sir); printf("COPY-CTOR: Copy sir from %
+}
+Date(Date &&d) { printf("Move from %p to %p \n", &d, this);sir = d.sir;d.sir = nullptr; }
+Date(const char * tmp)
+{
+sir = DuplicateString(tmp); printf("CTOR: Allocate sir to %p \n", sir);
+}
+};
+Date Getwate d) { return d; } CTOR: Allocate sir to 00A50610
+. t .
+1“ mm" Move from 00A50610 to 00D8FE04
+Date d = Get(Date("test"));
+return 0;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+“> Constraints
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+Singleton pattern.
+b Problem: what if we want to model a class that can only have one instance ?
+The solution is to combine a private constructor with a static function:
+APP-CPD
+class Object
+{
+int value;
+Eff?“ Oblew‘ Nita)“; The default constructor is private - thus an object
+Ject() { value - 0, } _
+Public: of this type can not be create l
+static Object* GetInstance();
+};
+Object* Objectzzinstance = nullptr;
+Object* Object =GetInstanceO As Getlnstance is a static method of class Object, it can
+{ if (instance == nullptr) . access any private constructors. However, as
+instance = new ObjectO; Objectmnstance is a static variable, the new operator
+} return “Stance; will only be called once (when the first instance is
+requested -) therefor the name ).
+void main()
+{
+Object *obj = Object::GetInstance();
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+Singleton pattern.
+b Problem: what if we want to model a class that can only have one instance ?
+The solution is to combine a private constructor with a static function:
+APP-CPD
+class Object
+{
+int value;
+static Object* instance;
+Object() { value = 0; } Object* Object::GetInstance() {
+public: if (instance == nullptr)
+static Object* GetInstance() { m } instance = new Object();
+}3 return instance;
+Object* Object::instance = nullptr; }
+void main()
+{
+Object *obj1 = Object::GetInstance();
+Object *obj2 = Object::GetInstance();
+Object *obj3 = Object::GetInstance();
+}
+> Both obj1 , oij and obj3 are in reality the same pointer. When obj1 is fir
+requested, Object::instance is first allocated, then it gets returned for a -j2
+and obj3.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+Singleton pattern.
+Problem: what if we want to model a class that can only have one instance ?
+The solution is to combine a private constructor with a static function:
+class Object
+{
+int value;
+static Object* instance;
+Object() { value = 9; }
+public:
+static Object* GetInstance() { m }
+};
+Object* Object::instance = nullptr;
+‘{’°id maino error C2248: 'Object::Object': cannot access private
+member declared in class 'Object'
+} ObJECt * Ob] = new Objecmi note: see declaration of 'Object::Object'
+note: see declaration of 'Object'
+This code will not compile l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+> Private constructors can also be used with friend function. This is useful if we
+want the entire functionality of a class to have a limited availability (only a
+couple of classes can use its functionality).
+APP-CPD
+class Object
+{
+int value;
+Object(): value(9) { }
+friend class ObjectUser;
+};
+class ObjectUser
+{
+public:
+int GetValue();
+};
+int 0bjectUser::GetVa1ue()
+{
+Object o;
+return o.va1ue;
+}
+void main()
+{
+ObjectUser ou;
+printf("%d\n", ou.GetValue());
+}
+b This code will compile l ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+b Private constructors can also be used with friend function. This is useful if we
+want the entire functionality of a class to have a limited availability (only a
+couple of classes can use its functionality).
+
+APP-CPD
+class Object
+{
+int value;
+Object(): value(0) { }
+friend class ObjectUser;
+};
+class ObjectUser
+{
+public:
+int GetValue();
+};
+int ObjectUser::GetValue()
+{
+Object o;
+r'etur'n o.va1ue; /
+}
+void mainO error C2248: 'Object::Object': cannot access private member
+{ Object obj; declared in class ‘Object’
+} note: see declaration of 'Object::Object'
+note: see declaration of ‘Object’
+b This code will NOT compile !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+> Let's analyze the following code:
+APP-CPP
+class Date
+{
+public:
+static int Suma(int x, int y) { return x + y; }
+static int Dif(int x, int y) { return x + y; }
+static int Mu1(int x, int y) { return x * y; }
+};
+int main()
+{
+Mwm", Date::Suma(10, 20));
+}
+b Since class Data only has static functions, it makes no sense to allow creating
+instances of this class. However, with the current code, this is possible l What
+can we do so that a programmer CAN NOT create an instance of type Data ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+> Solution 1 9 make the default constructor private:
+APP-CPD
+class Date
+{
+public:
+static int Suma(int x, int y) { return x + y; }
+static int Dif(int x, int y) { return x + y; }
+static int Mu1(int x, int y) { return x * y; }
+};
+int main()
+{
+Mam", Date::Suma(10, 20));
+}
+b This code will not compile. However, a static method can still create an
+instance of Data.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+> Solution 2 9 use the keyword delete
+APP-CPD
+class Date
+{
+publi '
+s a 1c 1n uma 1nt x, int y) { return x + y; }
+static int Dif(int x, int y) { return x + y; }
+static int Mu1(int x, int y) { return x * y; }
+};
+int main()
+{
+Mwm", Date::Suma(10, 20));
+}
+b In this case we are telling the compiler that there is NO default constructor
+and it (the compiler) should not create one by default.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+Constrai nts
+> Let's analyze the following code:
+APP-CPP
+class Date
+{
+int value;
+public:
+Date(int x) { value = x; }
+};
+int main()
+{
+return 0;
+}—
+b This code works, due to promotion mechanism (‘a’ (a char) is promoted to an
+int).
+b What can we do if we do not want to allow creating objects with a char
+parameter, but we do want to allow creating objects with an int param er?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+Constrai nts
+b The solution is similar as with the previous cases:
+APP-CPP
+class Date
+{
+int value;
+publ' '
+la e 1n x va ue = x; }
+};
+int maino error C2280: 'Date::Date(char)': attempting to reference a deleted function
+note: see declaration of 'Date::Date'
+return a, note: 'Date::Date(char)': function was explicitly deleted
+}
+b This code will not compile. /
+b Using the delete keyword in this manner tells the compiler that there is a
+constructor that has a char parameter, but it can not be used l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:124**************
+Constrai nts
+> Let's analyze the following code:
+APP-CPD
+class Date
+{
+int value;
+public:
+Date(int v) { value = v; }
+int main()
+{
+return 9;
+}—
+> This code compiles. Due to the initialization lists methods, the constructor
+that has an int parameter is called.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:125**************
+Constrai nts
+> Similarly
+APP-CPD
+class Date
+{
+int value;
+public:
+Date(int v1, int v2, int v3) { value = v1+v2+v33 }
+};
+int main()
+{
+—j
+return 93 I
+}—
+> This code compiles. Again, due to the initialization lists method, if there is
+constructor that has 3 int parameter, it will be used.
+b What can we do to force the usage of the constructor and not the
+initialization list (e.g. if we want to have a code that is compatible with olde
+standards 9 this will only work for C++11 and after).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:126**************
+Constrai nts
+b Similarly
+APP-CPP
+class Date
+{
+int value;
+public:
+};
+int main()
+{ error C3445: copy-list-initialization of ‘Date’ cannot use an
+explicit constructor
+return a; note: see declaration of ‘DatezzDate'
+}
+> The solution is to use the keywork explicit. In this case we tell the compiler
+that it should use the constructor based initialization and not the
+initialization list method.
+b This code does not compile. However, if we replace “Date d = {1,2,3};” wit
+“Date d(1, 2, 3);” the code will compile l
+
+***************Ending Page***************
+
+
+ 

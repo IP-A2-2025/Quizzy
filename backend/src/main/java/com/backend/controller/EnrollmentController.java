@@ -4,6 +4,7 @@ import com.backend.model.Course;
 import com.backend.model.Enrollment;
 import com.backend.model.User;
 import com.backend.repository.CourseRepository;
+import com.backend.repository.FlashcardRepository;
 import com.backend.service.CourseService;
 import com.backend.service.EnrollmentService;
 import com.backend.service.UserService;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.foreign.MemorySegment;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,9 +27,10 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
     private final UserService userService;
     private final CourseService courseService;
+    private final FlashcardRepository flashcardRepository;
 
     @Autowired
-    public EnrollmentController(EnrollmentService enrollmentService,UserService userService, CourseService courseService) { this.enrollmentService = enrollmentService; this.userService = userService; this.courseService = courseService; }
+    public EnrollmentController(EnrollmentService enrollmentService,UserService userService, CourseService courseService, FlashcardRepository flashcardRepository) { this.enrollmentService = enrollmentService; this.userService = userService; this.courseService = courseService; this.flashcardRepository = flashcardRepository; }
 
     @GetMapping
     public ResponseEntity<Collection<Enrollment>> getAllEnrollments(){
@@ -38,7 +42,10 @@ public class EnrollmentController {
         if (!userService.checkUserById(userId) || !courseService.checkCourseById(courseId)) {
             return ResponseEntity.badRequest().body("Invalid user or course ID.");
         }
-        enrollmentService.addEnrollment(userId, courseId);
+        boolean enrolled = enrollmentService.addEnrollment(userId, courseId);
+        if (!enrolled) {
+            return ResponseEntity.badRequest().body("You have reached the maximum limit of 4 enrolled courses.");
+        }
         return ResponseEntity.ok("Enrollment created successfully.");
     }
 
@@ -103,6 +110,23 @@ public class EnrollmentController {
         }
 
         return ResponseEntity.ok(foundEnrollments);
+    }
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<Map<String, Object>>> getEnrolledCoursesByStudent(@PathVariable Integer studentId) {
+        List<Course> courses = courseService.getEnrolledCoursesByStudentId(studentId);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Course c : courses) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", c.getId());
+            map.put("title", c.getTitle());
+            map.put("description", c.getDescription());
+            map.put("semestru", c.getSemestru());
+            map.put("flashcardCount", flashcardRepository.countByCourseId(c.getId()));
+            map.put("materials", c.getMaterials());
+            result.add(map);
+        }
+        return ResponseEntity.ok(result);
     }
 
 }

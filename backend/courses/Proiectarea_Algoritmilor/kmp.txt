@@ -1,0 +1,587 @@
+***************Beginning Page***************
+***************page number:1**************
+Algontmul KMP
+1 Introducere 5i Motivare
+Algoritrnul KMP (Knuth-Morris-Pratt) este unul dintre cei mai eleganti algoritmi de céutare a
+unui sub$ir intr-un $ir. Timpul de rulare este liniar in cazul cel mai nefavorabil.
+
+Nu este folosit de obicei in practice, deoarece existé algoritrni (Boyer-Moore) care sunt incé $1
+mai eﬁcienti in cazul cel mai favorabil sau cazul mediu. Totugi, unele concepte 5i idei din KMP
+sunt refolosite in algoritmul Boyer-Moore.
+
+Problema pe care 0 rezolvé algoritmul KMP este problema céutérii unui subeir intr-un eir:
+Input: TEO..n-1] (un text, cu n simboluri)
+
+P[O. .m-l] (un pattern, cu In simboluri)
+Output: i a.i. T[i..i+m—1] == P
+sau —1, daca nu exista un astfel de i
+
+Vorn adopta urmétoarea conventie notationalé:
+
+Textul este denurnit T, pattern-ul P, textul are n siInboluri (indexate de la 0 la n — 1),
+iar pattern-ul are m simboluri (indexate de la 0 1a m — 1).
+
+Notatia S [i. .j] desemneazi subsirul lui S care incepe pe pozitia i 5i se termini pe pozitia j.
+Daci i > j7 subeirul este considerat sjrul vid.
+
+Textul $1 pattern-ul sunt din acelasi alfabet, pe care il notém cu Z. Alfabetul poate ﬁ, de
+exemplu, E I {0, 1} sau E I {A, B, . . . , Z}, sau orice alté multime. Algoritmul KMP functioneazi
+1a fel indiferent de alfabet, astfel incét E nu este important in acest capitol (pentru unnétorii
+algoritrni pe care ii studiem, Rabin-Karp $i Boyer-Moore, aﬂabetul Z joacé un r01 mai important).
+
+Algoritmul KMP poate ﬁ u$0r adaptat pentru a rezolva urmétoarele variante ale problemei
+céutérii unui sub$ir intr-un $11":
+
+Input: T[O. .n-l] (un text, de obicei cu mai multe caractere)
+P[O. .m-l] (un pattern, de obicei cu mai putine caractere)
+Output: { i | T[i..i+m—1] == P }
+(varianta in care se cer toate aparitiile)
+Input: T[O. .n-l] (un text, de obicei cu mai multe caractere)
+P[O. .m-l] (un pattern, de obicei cu mai putine caractere)
+Output: existé i a.i. T[i..i+m—1] == P ?
+(varianta in care se cere doar DA/NU)
+Exemplu Pentru datele de intrare T = THEDOGATEMYHOMEWORK $1 P = GATE, rezultatul corect
+este i = 5:
+"GATE" apare in T 1a pozitia 5
+l
+v
+0123456789012345678
+THEDDGATEMYHOMEWDRK
+1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+| | | |
+G A T E
+O 1 2 3
+2 Algoritmul naiv
+Dacé T[i. .i+m—1] == P[O. .m-l]7 spunem c5:
+1. P apare in T 1a pozitia i sau
+2. P apare in T incepétnd cu pozitia i sau
+3. P apare in T 1a deplasarnentul i sau
+4. P apare in T incepénd cu deplasamentul i.
+Algoritrnul naiv testeazé rénd pe rand toate posibilele deplasamente 1a care apare P in T, péné
+1a prima potrivire:
+int naive(char *T, int n, char *P, int m)
+{
+for (inti=0; i<n—m+1; ++i) {
+bool found = true;
+for (int k = 0; k < m; ++k) {
+if (PIkI != TIi + k1) I
+found = false;
+break;
+}
+I
+if (found) I
+return i;
+}
+I
+return —1;
+}
+Cazul cel mai nefavorabil Readucere aminte: cazul cel mai nefavorabil este reprezentat de
+0 serie de date de intrare (pentru ﬁecare dimensiune posibilé a datelor de intrare, cétte un input
+de dimensiunea respective) care determiné algoritmul s5 execute cei mai multi pa$i dintre toate
+datele de intrare de aceeagi dimensiune.
+In problema ciutirii unui sub$ir intr-un alt $11", datele de intrare au dimensiune d I n + m.
+Déndu-se o dimensiune d G N a datelor de intratre7 cazul cel mai nefavorabil este dat de
+urmétoarea serie de input-uri:
+0 n I 2 >1< d/3;
+o m I d/ 3 (pattern-ul are jumétate din numérul de caractere ale textului);
+71-1
+/—/%
+o T I AAA. . .AAAB (n i 1 de A urrnat de un B);
+m-l
+/—/% ' _
+o P I AA. . .AB (m — 1 A-ur1$1 un B).
+151%., pentru d I 12, aveIn T = AAAAAAAAAAAB $i P = AAAAB. A
+In acest caz7 la ﬁecare deplasament 2' E {0, 17 . . . ,n — m} algoritmul naiv face m comparatii. In
+total7 avem (n — m + 1) >< m compatrattii7 adicé (2 * d/3 — d/3 + 1) >< d/3 I 0(d2)7 ceea ce inseamnét
+c5 algoritmul naiv are complexitate pétraticé in cazul cel mai nefavorabil.
+Universitatea Alexandru Ioan Cuza 2 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de eiruri)
+3 Algoritmul KMP
+KMP poate fi considerat 0 optimizare a algoritrnului naiv.
+
+Ideea principalé este de a refolosi informatia obtinuté prin comparatiile de 1a un anurnit de-
+plasarnent pentru a reduce din comparatiile necesare la deplasamentele ulterioare.
+
+Pentru a ilustra aceastzi idee, consideréin urrnétorul exemplu:
+
+01234567890123456
+TEXT = HIABABXABABXABABY
+pattern = ABABXABABY
+
+0123456789
+
+Presupunem 05 deplasamentul curent este i I 2. Gésim Ci primele 9 simboluri, aﬂate la
+pozitiile 0-8 in pattern, se potrivesc, in timp ce a1 10-1ea simbol, aﬂat 1a pozitia 9 in pattern, nu
+se potriveete:
+
+01234567890123456
+
+TEXT = HIABABXABABXABABY
+| | l l | | | l IX
+pattern = ABABXABABY
+0123456789
+
+in acest punct, algoritmul naiv ar trece la urmétorul deplasament, i I 3. in algoritmul KMP,
+urmétoarele 4 deplasarnente, cele in care i variazé de 1a 3 1a 6, sunt sérite. Trecem direct la
+deplasamentul i : 7:
+
+012345678901234567890
+HIABABXABABXABABYABAB
+= = = = = = = = = 7
+A B A B X A B A B Y
+0 1 2 3 4 5 6 7 8 9
+012345678901234567890
+HIABABXABABXABABYABAB
+= = = = ?
+A B A B X A B A B Y
+0 1 2 3 4 5 6 7 8 9
+
+Mai Inuit, algoritinul KMP economiseete comparatii prin faptul (:21 nu Inai comparé T[7],
+T[8], T[9] $i T[10] cu P[0], PH], P[2] 3i P[3]. “Stie” (323 aceste elemente sunt egale 5i urmétoarea
+comparatie este intre T[11] 5i PM].
+
+Pentru a intege cum anume alege KMP acest nou deplasament, ne concentrém pe preﬁxul
+pattern-ului care s-a potrivit peste partea corespunzétoare din text, preﬁx pe care il numim eirul
+OVERLAP:
+
+01234567890123456
+
+TEXT = ??ABABXABAB??????
+| | l | | | | l Ix
+pattern = ABABXABAB?
+0123456789
+
+in acest caz, ne concentrzirn pe OVERLAP-ul ABABXABAB.
+
+Folosind doar informatia din acest subeir Si nimic atltcevat7 este clar cit urméttoarea posibilé
+potrivire este 1a deplasarnentul i = 7, intrucétt 1a i = 3, i = 4, i = 5 ei i = 6 sunt simboluri
+care nu se potrivesc:
+
+Universitatea Alexandru Ioan Cuza 3 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+i = 3:
+TEXT = ??ABABXABAB??????
+x
+pattern = ABABXABAB?
+i = 4:
+TEXT = ??ABABXABAB??????
+l IX
+pattern = ABABXABAB?
+i = 5:
+TEXT = ??ABABXABAB??????
+X
+pattern = ABABXABAB?
+i = 6:
+TEXT = ??ABABXABAB??????
+x
+pattern = ABABXABAB?
+i = 7
+frontiera
+vvvv
+TEXT = ??ABABXABAB??????
+| | l |
+pattern = ABABXABAB?
+frontiera
+La pozitia i = 7, preﬁxul ABAB a1 pattern-ului corespunde cu suﬁxul ABAB a1 OVERLAP-ului.
+Pentru a calcula urrnatorul deplasament viabil7 deplasém pattern-111 spre dreapta astfel incat
+un preﬁx a1 pattern-ului sa se potriveascé cu un suﬁx a1 OVERLAP-ului7 vazut ca subsir a1 TEXT-
+ului. Un asemenea preﬁx7 care este $1 suﬁx, se numegte frontiera. De exemplu, ABAB este 0 frontieré
+a eirului ABABXABAB.
+Observatia 1 Un sir poate avea mai multe frontiere. Tn exemplul nostru7 ABABXABAB are
+ABAB $1 AB ca frontiere.
+ABABXABAB
+ABABXABAB
+ABABXABAB
+ABABXABAB
+Urmatorul deplasament viabil ar trebui s5 suprapuné cea mai mare dintre acestea.
+Urmétorul deplasament, folosind frontiera cea mai mare (nu sunt sense s5 pierdem 0 potrivire):
+01234567890123456
+TEXT = ??ABABXABAB??????
+| | l I?
+pattern = ABABXABAB?
+0123456789
+Urrnatorul deplasarnent daca am folosi frontiera mai mica (avern potentialul de a pierde o
+potrivire):
+Universitatea Alexandru Ioan Cuza 4 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+01234567890123456
+TEXT = ??ABABXABAB??????
+l I?
+pattern = ABABXABAB'?
+0123456789
+in algoritrnul KMP, urrnétorul deplasament este calculat astfel incét $51 suprapuné frontiera
+cea mai mare.
+Observatia 2 Cea mai rnare frontieré a unui $ir s-ar putea suprapune cu ea insésii.
+De exemplu, consideréun sirul ABABA.
+Are frontierele A $i ABA:
+ABABA
+ABABA
+ABABA
+ABABA
+Observérn frontiera ABA:
+01234
+vvv
+ABABA
+Vizuté ca preﬁx7 se suprapune cu ea inséei, vizuté ca suﬁx, pe pozitia 2.
+Aceasté suprapunere nu ridieé problerne deosebite in algoritrnul, dar este un lucru pe care
+trebuie six il avern in vedere.
+Observatia 3 Din punct de vedere tehnic, eel mai mare preﬁx a1 unui sir care este si suﬁx este
+chiar sjrul in sine:
+Preﬁxul ABABA a1 $iru1ui ABABA este de asernenea suﬁx a1 lui ABABA.
+Totuei, dacé arn deplasa pattern-ul astfel incét acest preﬁx (tot sirul) sf; se suprapuné peste
+suﬁx7 nu arn face deloc progres (pattern-ul ar rérnéne la acelaei deplasarnent).
+Din acest Inotiv nu considerzirn frontieré decét un preﬁx propriu (adiczi un preﬁx Inai rnic
+decét $irul in sine) care este $i suﬁx.
+Observatia 4 Cea mai mare frontieré a unui Sir ar putea ﬁ girul vid:
+Sirul vid este cea mai mare frontieré a $irului ABCABD.
+Acest aspect nu ridicé probleme deosebite in algoritm, dar trebuie s5 tinern cont de e1.
+Cénd cea mai mare frontieré este eirul vid, pattern-ul este deplasat péné imediat dupé partea
+din text care s-a potrivit.
+Pentru a surnariza idea, in algoritrnul KMP tinern rninte doi indici:
+1. i7 deplasarnentul curent;
+2. k, numérul de simboluri care s-au potrivit.
+Iaté cum araté starea algoritrnului 1a i : 2 5i k : 8:
+01234567890123456
+TEXT = HIABABXABABXABABY
+| | l l | | | I?
+pattern = ABABXABABY
+0123456789
+Universitatea Alexandru Ioan Cuza 5 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+
+La ﬁecare pas, comparfnn simbolul T[i + k] cu simbolul P[k]. Dacé se potrivesc, crestem k cu
+0 unitate:
+
+In exemplul de mai sus7 obtinern i I 2 si k I 9:
+
+01234567890123456
+
+TEXT = HIABABXABABXABABY
+| | l l | | | l I?
+pattern = ABABXABABY
+0123456789
+
+Dacia T[i + k] nu se p0trive$te cu P[k], (zum este cazul in exemplul de mai sus, ciutﬁrn cea mai
+mare frontieré a eirului care s-a suprapus. In cazul nostru7 este ABAB, de lungirne 4.
+
+Deoarece OVERLAP-ul este un preﬁx a1 pattern-ului, puteIn precalcula frontiera cea mai lungs}
+pentru ﬁecare preﬁx, $1 s5 1e stocém intr-un tablou, pe care il numim f.
+
+Elementul f[k - I] va stoca lungimea celei Inai mari frontiere a preﬁxului de lungime k a1
+pattern-ului. Acest tablou, f, este nuInit functia preﬁx (sau functia e$ec) pentru pattern. Vom
+vedea mai térziu cum se poate precalcula f in mod eﬁcient.
+
+Presupunénd 05 f este deja calculat, pentru a gési unnétorul deplasarnent viabil, Inutérn
+pattern-ul cu k pozitii la drepata (in cazul nostru7 9):
+
+i = i + k ...
+01234567890123456
+TEXT = HIABABXABABXABABY
+pattern = ABABXABABY
+0123456789
+$i apoi il retragem spre sténga cu tot atéxtea pozitii céte simboluri are frontiera (in cazul nostru,
+4):
+i=i+k—f[k—1]
+01234567890123456
+TEXT = HIABABXABABXABABY
+pattern = ABABXABABY
+0123456789
+
+Aceste deplaséri au ca efect faptul 021 frontierab7 vézuté ca preﬁx a1 patctern-ului7 se suprapune
+cu suﬁxul corespunzétor a1 OVERLAP-ului7 vézut ca sub$ir a1 textului.
+
+Mai mult, deoarece $tin1 c5 elementele frontierei sunt aceleasi $1 in TEXT $1 in pattern7 actu-
+alizém k cu lungimea frontierei:
+
+k = f[k — 1]
+i
+01234567890123456
+TEXT = HIABABXABABXABABY
+pattern = ABABXABABY
+0123456789
+k
+
+Continuérn péné cénd k atinge m, caz in care arn gésit 0 potrivire 1a pozitia i sau pziné cénd
+i depé$e$te n — m7 caz in care nu existﬁ nicio potrivire.
+
+Universitatea Alexandru Ioan Cuza 6 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de eiruri)
+4 Algoritmul
+Presupuncm pcntru moment 05 tabloul f [] continc functia suﬁx (voni vcdca in scctiunilc ulterioarc
+cum se calculeazé eﬁcient aceasté functie).
+Incepem cu i = O 5i k = O:
+int i = O;
+int k = O;
+Repetém algoritmul atét timp cét nu am gésit nicio potrivire, dar incé existé gansa 55 gésim
+una:
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+// . . .
+}
+Efectuzim urinétoarea comparatie:
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+// . . .
+}
+Dacé cele doué caractere se potlvivesc7 este suﬁcient s23 incrementim k, numérul de simboluri
+despre care etim 05x se potrivesc 1a deplasamentul actual.
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+k++;
+l
+// . . .
+}
+Dacé cele douﬁ simboluri nu se potrivesc, existé doué cazuri necesare in implementarea noastré.
+Primul caz este cazul special in care k = O:
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+k++;
+} else if (k == O) {
+// . . .
+}
+Dacé k e O (ceea ce inseamné c5 deja primul sin1b01 din pattern nu se potriveete cu simbolul
+din TEXT), trecem la urmétorul deplasament si pastram k = 0:
+Universitatea Alexandru Ioan Cuza 7 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de siruri)
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+k++;
+} else if (k == O) {
+i = i + 1;
+l
+// . . .
+}
+Dacé indexul k nu este O (cazul general), trebuie $5 deplasém pattern-ul spre dreapta cu k
+pozipii:
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+k++;
+} else if (k == O) {
+i = i + 1;
+} else {
+i = i + k . . .
+}
+si apoi s5 il retragem spre stzinga cu atétea pozitji céte simboluri sunt in frontieré:
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+k++;
+} else if (k == O) {
+i = i + 1;
+} else {
+i=i+k—f[k—1];
+// . . .
+}
+Trebuie s5 il actualizém si pe k, numérul de elemente despre care stim 05L se potrivesc la
+deplasamentul curent:
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+k++;
+} else if (k == 0) {
+i = i + 1;
+} else {
+i=i+k—f[k—1];
+k = f[k — 1];
+1'
+}
+Universitatea Alexandru Ioan Cuza 8 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de siruri)
+Dupe ce bucla while se opreste, veriﬁcéun de ce. Dacé bucla s-a oprit deoarece k = In, inseamné
+c5 am gésit 0 potrivire si intoarcern deplasamentul i 1a care apare potrivirea. Dacé bucla s-a oprit
+deoarece i a depésit n — m, insealnni (:23 nu existﬁ sansa unei potriviri si intoarcem —1.
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) {
+k++;
+} else if (k == 0) {
+i = i + 1;
+} else {
+i=i+k—f[k—1];
+k = f[k — 1];
+1'
+}
+if (k == m) {
+return i;
+} else {
+return —1;
+}
+5 Complexitatea-timp a algoritmului KMP
+Pentru a intelege complexitatea-timp a algoritmului KMP7 vom numéra céte iteratii ale buclei
+while sunt efectuate, deoarece ﬁecare iteratie se executé in timp 0(1).
+int i = O;
+int k = O;
+while (i<=n—m&&k<m) {
+if (T[i + k] == P[k]) { \
+k++; |
+} else if (k == 0) { |
+i = i + 1; | 1 iteratie = 0(1)
+} else { |
+i=i+k—f[k—1]; |
+k = f [k — 1]; |
+1' /
+}
+if (k == m) {
+return i;
+} else {
+return —1;
+}
+Vorn analiza 0e se intémplé 1a ﬁecare iteratie a buclei cu valorile a doué expresii:
+0 expresia i + k;
+0 expresia i.
+Sunt trei cazuri de analizat, in functie de ramura instructiunii conditionale care este executaté:
+1. CazulI(T[i + k] == P[k])
+in acest caz7 i + k creste cu o unitate7 iar valoarea lui i nu se schimbé.
+2. CazulII (T[i + k] != P[k] sik == 0)
+in acest caZ7 atét i + k cét si i cresc cu 0 unitate.
+Universitatea Alexandru Ioan Cuza 9 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+3. Cazul III (T[i + k] != P[k] $ik != O)
+in acest caZ7 valoarea expresiei i + k nu se schimbé:
+noua valoarea a lui i vechea valoarea a lui i
+vvvvvvvvvvvvvvvv vvv
+i+k—f[k—1]+f[k—1] =i+k
+noua valoare a lui k noua valoarea a lui k
+T0tu$i, noua valoare a lui i este i + k — f[k — 1]. Deoarece f[k — 1] < k (frontiera
+unui $ir de k siInboluri nu poate ﬁ tot $irul), avein (:5 valoarea lui i cre$te strict.
+
+Din moment ce i poate sé creascé de cel mult n - m ori inainte de a declansa ie$irea din buclé,
+iar i + k de cel mult (n — m) + m = n 01vi7 inseamné (:51 numérul de iteraﬁii este de cel Inult (n
+— m) + n = 2n — m = 0(n + m) (timp liniar in dimensiunea datelor de intrare).
+
+6 Calculul functiei preﬁx
+Si funcpia preﬁx se poate calcula tot in timp liniar.
+In primul rénd, pentru initializare, setéun f [O] = O (frontiera $irului P [0. .O] are lungirne O).
+f[O] = O;
+
+Apoi construini f [1]7 f [2]7 f [3]7 . . . dupé cum urmeazé. Presupunem (:5 am calculat f [O] ,
+
+f [1] , . . . , f [i-1] si calculérn f [i] , adicé lungiinea celei Inai mari frontiere a $irului P [0. . i-l] .
+f [0] = 0;
+for (i = 1; i < m; ++i) {
+}
+
+Presupunénd 05 aceasté frontieré are lungirne X (adicé P [0. .X-l] == P [i-x. .i-1] ), avern c5
+x — 1 este lungirnea unei frontiere a $irului P [0. . i-2] (nu neapérat cea mai mare). De ce? Din
+P [0. .X-l] == P [i-x. . i-1], aveni iniediat P [O. .x-2] == P [i-x. .i-2] (dém 1a 0 parte ultimul
+simbol).
+
+Stiind c5 frontiera cea mai mare a $iru1ui P [0. . i-1] extinde cu un simbol 0 frontieré a $irului
+P[O. .i-2], parcurgern in ordine descrescétoare toate frontierele $irului P[O. .i-2] sj veriﬁcém
+dacé poate ﬁ extinsi cu un caracter.
+
+Cea mai lungé frontiers] a $irului P [0. .i-2] este de lungirne f [i-1] .
+
+A doua cea Inai lungé frontieré (daczi existé) este de lungirne f [f [i - 1] - 1] (exercitiu:
+explicati de ce).
+
+A treia cea mai lungé (dacé existé) este de lungime f [f [f [i — 1] — 1] — 1] $.a.rn.d.
+
+f [0] = 0;
+for (i = 1; i < In; ++i) {
+k = f[i — 1]; // cea mai lunga frontiera pe care incercam sa o extindem
+while (k > O 8:8: P[k] != P[i]) { // nu se potrivesc caracterele
+(*) k = f[k — 1]; // trecem la urmatoarea frontiera
+}
+if (k == O) { // cazul k = O e tratat special deoarece f[k — 1] nu are sens
+if (P[O] == P[i]) {
+f [i] = 1;
+} else {
+f[i] = O;
+}
+Universitatea Alexandru Ioan Cuza 10 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+} else { // P[k] == P[i]
+(**) f[i] =k+ 1;
+}
+1'
+Complexitatea-timp Aparent existé riscul ca algoritmul de Inai sus six aibé complexitate
+pétraticé, deoarece sunt doué bucle imbricate.
+
+Totusi, corpul buclei interioare (bucla while) se poate executa de maxim m ori (in totalitate,
+pentru toate valorile lui i).
+
+De (3e? Instructiunea (*) descreste strict valoarea lui k. Existé un singur loc unde valoarea
+lui k poate s23 creascé (in instructiunea (**)). Cum k nu scade niciodaté sub O, acesta nu poate
+s5 descreascé de mai multe ori decét cre$te. Dar cre$te de cel mult m-l ori (instructiunea (**));
+abjadar scade tot de ce mult 111-1 ori.
+
+Acest lucru inseamné 05 numérul total de executii ale instructiunii (*) este liniar. Deci 5i
+algoritrnul in ansamblu este liniar.
+
+Universitatea Alexandru Ioan Cuza 11 Varianta preliminaré
+
+***************Ending Page***************
+
+
+
+
+

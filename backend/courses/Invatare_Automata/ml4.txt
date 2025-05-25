@@ -1,0 +1,955 @@
+***************Beginning Page***************
+***************page number:1**************
+l.
+Artiﬁcial Neural Networks
+Based 0n “Machine Learning”, T. Mitchell, McGRAW Hill, 1997, ch. 4
+Acknowledgement:
+The present slides are an adaptation of slides drawn by T. Mitchell
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2.
+PLAN
+1. Introduction
+Connectionist models
+2 NN examples: ALVINN driving system, face recognition
+2. The perceptron; the linear unit; the sigmoid unit
+The gradient descent learning rule
+3. Multilayer networks of sigmoid units
+The Backpropagation algorithm
+Hidden layer representations
+Overﬁtting in NNs
+4. Advanced topics
+Alternative error functions
+Predicting a probability function
+[Recurrent networks]
+[Dynamically modifying the network structure]
+[Alternative error minimization procedures]
+5. Expressive capabilities of NNs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+3.
+Connectionist Models
+Consider humans: Properties of
+artiﬁcial neural nets
+0 Neuron switching time: .001 sec. 0 Many neuron-like threshold
+o Number of neurons: 1010 sw1tch1ng un1ts
+. Connections per neuron‘ 104_5 o Many weighted interconnections
+_ . . among units
+0 Scene recognltlon t1me: 0.1 sec. _ _ .
+. . o nghly parallel, d1str1buted pro-
+o 100 mference steps doesn’t seem llke cess
+enough _ _ .
+0 o Emphas1s on tunmg welghts au-
+e much parallel computatlon tomatically
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+. 4.
+A Flrst NN Example‘
+o
+ALV INN drlves at -
+7 O mph 0n hlghways x H. _,..p==-~—-=-——_____E_:_ _;
+[P0merleau, 1993] “V N - P‘
+q — 1|
+:.-|__ 1 ..
+Sharp Straight Sharp I1
+Left Ahead Right . ' . _ _
+\\\\\i\\q //
+‘ 4' 91>
+¥£§aéga$igb 4Hidden
+Input Retina "H-'HH*H*
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+5.
+A Second NN Example Typical input imageS=
+Neural Nets fOI‘ Face Recognition http://www.cs.cmu.edu/~tom/faces.html
+left strt rght up
+\‘Wl/
+ww
+4%.
+“>4
+/' ‘\
+'3' '3' 30x32
+El inputs
+Results:
+90% accurate learning head pose,
+and recognizing 1-of-20 faces
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+6.
+after 1 epoch:
+O O O O
+O O O
+U [I30X32
+inputs
+U after 100 epochs:
+E- -: -:I I:-
+h -
+._- _|__ l-h
+I. L. II. III 1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+Design Issues for these two NN Examples
+See Tom Mitchell’s “Machine Learning” book,
+pag. 82-83, and 114 for ALVINN, and
+pag. 112-177 for face recognition:
+o input encoding
+o output encoding
+o network graph structure
+0 learning parameters:
+17 (learning rate), or (momentum), number of itera-
+tions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+When to Consider Neural Networks
+o Input is high-dimensional discrete or real-valued
+(e.g. raw sensor input)
+o Output is discrete or real valued
+0 Output is a vector of values
+o Possibly noisy data
+o Form of target function is unknown
+o Human readability of result is unimportant
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+9.
+2. The Perceptron
+[Rosenblat, 1962]
+x1 w] xozl
+x2 W2 W0
+1 n . o
+. W igWixi 0={1ifi§)Wixi>0
+x n -1 otherwise
+0W x)— 1 ifw0+w1$1+~-+wnxn20
+1’ ' ' " n _ —1 otherwise.
+Sometimes we’ll use simpler vector notation:
+0(f)_ 1 ifU-j'fZO
+— —1 otherwise.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10.
+Decision Surface of a Perceptron
+x2 X2
++
++
+_ + _
++
+X1 x1
+_ ' — +
+(a) (b)
+Represents some useful functions
+0 What weights represent 9(x1, .952) : AND(x1, .952)?
+But certain examples may not be linearly separable
+o Therefore, we’ll want networks of these...
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+11.
+The Perceptron Training Rule
+wz- e wl- + Awq; with Awq; I 77(15 — 0):1;'Z-
+or, in vectorial notation:
+ZBFTE-l-AUY) with A15:77(t—0)a_3’
+
+Where:
+
+o t : 0(5) is target value
+
+o 0 is perceptron output
+
+o 17 is small positive constant (e.g., .1) called learning rate
+It will converge (proven by [Minsky 85 Papert, 1969])
+
+o if the training data is linearly separable
+
+o and 77 is sufficiently small.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+2’. The Linear Unit 12'
+
+To understand the perceptron’s
+training rule, consider a (simpler) X X0 =1
+linear unit, where 1 W1 W0
+
+0:w0+w1x1+~-+wnatn x2
+
+W
+Let’s learn w/s that minimize the . 2 _ En O
+squared error : Wn — 1:0 7' Z
+1
+E _. E — t — 2
+lwl 2 Z} d 0d) xn
+deD
+
+where D is set of training examples.
+The linear unit uses the descent gradient training rule, presented on the
+next slides.
+Remark:
+Ch. 6 (Bayesian Learning) shows that the hypothesis h : (2110,1111, . . . ,wn)
+that minimises E is the most probable hypothesis given the training data.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+13.
+The Gradlent Descent Rule
+Gradient:
+25 a _ (‘9E 8E 8E
+‘\“‘\\\ \\“W Tr ' ' 1
+111111 I’ Z
+H ‘ \\\\ \ ‘ Q a a a
+L“ 1o \‘Q§§\\\\\\\\\\\\\\\\‘\‘¢K§QOQ¢¢ w I w + Aw
+§§\\\\\\\\\\\\\\\\\\\““““,o.v ,
+\\\\\\‘\\\“‘\\\“ \\‘ ¢¢¢§¢¢§o
+\\\\\\\\\\‘“““"\“&¢%¢oooo'¢
+/\\>\\\\\\\\\\\\\\\\vw‘%¢¢%¢¢¢¢¢¢%% ,,,,
+1 -2 wi I wi + Aw“
+-1
+O 0 (9E
+2 1 with sz- I —77—.
+-1 3 811%‘
+wO W1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14.
+The Gradient Descent Rule for the Linear Unit
+Computation
+6E (9 1 8
+g I 5?; 2% — 0602 I 5 Z $(td — Od)2
+'L Z d d 'L
+1 a a
+: — 2(15 —0)—(?5 —0): (t —0)—(t _"¢U'f)
+226265 dawid d Zdjd dawid d
+I 2W — 0d)(—1131,d)
+d
+Therefore
+sz- I 77 2056; — 0d)33z',d
+d
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+l5.
+The Gradlent Descent Algorlthm for the L1near Un1t
+GRADIENT-DESCENT(training_e.9camples7 17)
+Each training example is a pair of the form (f, 15>, where
+a? is the vector of input values
+t is the target output 'value.
+17 is the learning rate (e.g., .05).
+0 Initialize each wl- t0 some small random value
+o Until the termination condition is met
+— Initialize each sz- to zero.
+— For each <f,t> in training_examples
+>l< Input the instance a? t0 the unit and compute the output o
+>|< For each linear unit weight wz-
+sz- P sz- —|— 17(t — o)xz-
+— For each linear unit weight wz-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+16.
+Convergence
+[Hertz et al., 1991]
+
+The gradient descent training rule used by the linear unit is
+guaranteed to converge to a hypothesis with minimum squared
+GI'I'OI'
+
+o given a sufficiently small learning rate 17
+
+o even when the training data contains noise
+
+o even when the training data is not separable by H
+NOte: If 17 is too large, the gradient descent search runs the risk of over-
+stepping the minimum in the error surface rather than settling into it.
+For this reason, one common modiﬁcation of the algorithm is to gradually
+reduce the value of 17 as the number of gradient descent steps grows.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+17.
+Remark
+
+Gradient descent (and similary, gradient ascent: 1E P 1U + UVE)
+is an important general paradigm for learning. It is a strategy
+for searching through a large or inﬁnite hypothesis space that
+can be applied whenever
+
+o the hypothesis space contains continuously parametrized hypotheses
+
+o the error can be differentiated w.r.t. these hypothesis parameters.
+Practical difficulties in applying the gradient method:
+
+o if there are multiple local optima in the error surface, then there is no
+
+guarantee that the procedure will ﬁnd the global optimum.
+
+o converging to a local optimum can sometimes be quite slow.
+To alleviate these difficulties, a variation called incremental
+(or: stochastic) gradient method was proposed.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+18.
+Incremental (Stochastic) Gradient Descent
+Batch mode Gradient Descent: Incremental mode Gradient Descent:
+Do until satisﬁed Do until satisﬁed
+1. Compute the gradient VED[15] o For each training example d in D
+2. 15 <— 15 — nVED[15] 1. Compute the gradient VEd[15]
+2. 15 e 15 — nVEd[15]
+Hazlitt”? Emit”?
+D — 2 d d d — 2 d d
+deD
+Covergence:
+The Incremental Gradient Descent can approximate the Batch
+Gradient Descent arbitrarily closely if 17 is made small enough.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Q O O 19-
+2”. The Slgmold Un1t
+X] W] X0 = 1
+x2 W2 W0
+= - - 1
+. W” net 150W! xl O I 017161‘) I W
+1 + e
+xn
+0(33) 1s the s1gm01d functlon 1+?
+Nice property: 6Z—f) I 0(x)(1 — 0(x))
+We can derive gradient descent rules to train
+0 One sigmoid unit
+0 Multilayer networks of sigmoid units e Backpropagation
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+20.
+Error Gradient for the Sigmoid Unit
+6E 8 1
+w I w 581561-0002 But
+(90d 50(netd)
+1 (9 — I — I 1_
+I 52%(td—0d)2 ﬁnetd ﬁnetd Od( 0d)
+d Z @netd (aw-5d)
+1 6 — I — 2%,
+I §ZQ<td-Od> @wdwd) @wi @wi d
+d So:
+Ea 0 >( 80d) 8E
+I d— d ——
+d 8102' a? I _20d(1_0d)(td—0d)xi,d
+_ _Z(t —0) 30d @netd Z CED
+_ d d d 3netd 8101-
+where netd = 221:0 wﬂm
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+21.
+Remark
+
+Instead of gradient descent, one could use linear pro-
+gramming to ﬁnd hypothesis consistent with separable
+data.
+
+[Duda 85 Hart, 197 3] have shown that linear program-
+ming can be extended to the non-linear separable case.
+However, linear programming does not scale to multi-
+layer networks, as gradient descent does (see neXt sec-
+tion).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+3. Multilayer Networks of Sigmoid Units
+An example
+
+This network was trained to recognize . + ,
+1 of 10 vowel sounds occurring in the hea hd WhOd hOOd
+
+t t “h_d” . . “h d” “h'd” . s§§\ ,ﬁ/
+con eX (e g ea , 1 ) \\\\\\./////”/
+The inputs have been obtained from a ‘\géiégiééi/jn
+spectral analysis of sound. '“?‘?';‘»'
+The 10 network outputs correspond to \Qggl’
+the 10 possible vowel sounds. The net- V/‘\\‘
+work prediction is the output whose ' '
+value is the highest. F1 i F2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+23.
+4000
+u head
+0% ° a hid
+00° . ‘ I!
+. . 16%?’ . + hod
+Th1s plot 1llustrates the ° _- =FP . had
+- . . . ‘baa -':@lb.u Qhawed
+h1ghly non-l1near deC1s1on 2°°° q, “5 - — . heard
+h d
+surface represented by =12. _. + 2m‘:
+92 (Hz) ' ~ ' ‘
+the learned network. a, ‘i'k t . + * > :hodd
+I . + 4- A OO
+“M ++“"+ + +
+Po1nts shown on the plot 1°°° MP ,0 "3:52! *
+o c , ° + 0‘
+are test examples d1st1nct ’ 1* ‘r 93%.. + °
+from the examples used ,1’ I" °° 4’
+to train the network. 500 °
+O 500 (H ) 1000 1400
+E'l z
+from [Hang 85 Lippmann, 1988]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+3.1 The Backpropagation Algorithm (Rumelhart et al., 1986) 24'
+Formulation for a feed-forward 2-layer network of sigmoid units, the
+stochastic version
+Idea: Gradient descent over the entire vector of network weights.
+Initialize all weights to small random numbers.
+Until satisﬁed, // stopping criterion to be (later) deﬁned
+for each training example,
+1. input the training example to the network, and
+compute the network outputs
+2. for each output unit k:
+5;, e 0;,(1 — 0k)(t;, — 0],)
+3. for each hidden unit h:
+5h w 0/.(1 — 0h) EkGoutputs wkh5k
+4. update each network weight wﬂ:
+wj, <— wj, + ij, where ij, = 1753-37,,
+and x],- is the ith input to unit j.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+25.
+Derivation of the Backpropagation rule,
+(following [Tom Mitchell, 1997], pag. 101—103)
+Notations: E
+atji: the ith input to unit j; G E
+(j could be either hidden or output unit) E G '
+wji: the weight associated with the ith input to unit j ' - E
+0: the sigmoid function _ wji _ E
+09-: the output computed by unit j; (03- I 0(netj)) Q/ \Q
+outputs: the set of units in the ﬁnal layer of the network : G ‘
+D0wnstream(j): the set of units whose immediate in- . :
+puts include the output of unit j _ ' '
+Ed: the training error on the example d (summing over :
+all of the network output units) Legend: in magenta color, units be_
+longing to Downstreamﬁ)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+Preliminaries =
+x..
+1 1 " W >
+EM I 5 Z (tk “W I 5 Z at —U<"etk>>2 = W1!“
+k G outputs k € outputs
+Common staff for both hidden :
+and output units: . " r"
+. , . >
+M
+netj I ijixji = ‘t :
+' x.. , ,
+I 1- $6 a: W” e: 0k
+:> 8Ed I 8Ed (9netj I 8Ed $34 . | :
+:Awu dif _ %__ ﬁx... .
+. . 8Ed
+Note: In the sequel we W111 use the notatlon: 63' = —8—t :> iji I 775j$ﬂ
+ne '
+J
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+Stage/ Case 1: Computing the increments (A) for output unit weights
+8Ed _ % (90]-
+3netj — 803' 3nd]-
+§0j _ 80(netj) _ :
+8netj — 3netj _ 09(1 0]) _
+8Ed _ a 1 2
+8—0j — 80]‘ 2 Z (tk 0k) : Oi
+k€0utputs
+— 803‘ 2U] OJ) — 22059 OJ) 8% ;
+I —(tj — Oj)
+8E6;
+:> M I —(tj — Oj)0j(1 — 01') I —0j(1 — Ojo — 01')
+not. @Ed
+:> 59' I —8n—6tj I 0j(1 — Ojo — 01)
+i Awﬂ I 775j$ﬂ I 7701(1 — 00W — 03-)sz-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+28.
+Stage/ Case 2: Computing the increments (A) for hidden unit weights
+E I Z Ew ‘ H M ’
+8netj _ 8netk @netj .
+k7€D0wnstream(j) : i‘ .
+. kéinetj = .
+k€D0wnstream(j) .
+. m
+Lmk ‘901' ' " M ’
+I Z —6k 80- 8net~ '
+kEDo'wnstreamU) J J
+80]‘
+: Z . _6kwkj8n—€tj I Z . _5kwkj0j(1 _ OJ)
+kGDownstreamO) kéDownstreamQ)
+Therefore:
+not aEd
+5.1 I —8n—6tj I 01(1 — 0,1) Z ‘(Skwkrj
+kéDownstreamQ)
+def (9Ed 8E6; (971675]- 8E6;
+A4 I _—:_——:_—.Z.: 5.1.: .1_. 5 . .Z.
+w] 7781094" nﬁnetj awji 77(9n6tj £13] 77 356] 77 [ OJ< 022D 2t (‘1;wa ] x]
+O'wns "ream j
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+29.
+Convergence of Backpropagatlon
+for NNs of Sigmoid units
+Nature of convergence
+o The weights are initialized near zero;
+therefore, initial decision surfaces are
+near-linear. ' 0'5 '
+Explanation: oj is of the form 0(15' - f), therefore wj, z O for all 2',j;
+note that the graph of c7 is approximately liniar in the vecinity of 0. “6 “4 ‘2 O 2 4 6
+o Increasingly non-linear functions are possible as training
+progresses
+o Will ﬁnd a local, not necessarily global error minimum.
+In practice, often works well (can run multiple times).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+. 30.
+More on Backpropagatlon
+0 Easily generalized to arbitrary directed graphs
+o Training can take thousands of iterations e slow!
+o Often include weight momentum oz
+Effect:
+— speed up convergence (increase the step size in regions where the
+gradient is unchanging);
+— “keep the ball rolling” through local minima (or along ﬂat regions)
+in the error surface
+0 Using network after training is very fast
+0 Minimizes error over training examples;
+Will it generalize well to subsequent examples?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Q Q Q Q Q 31'
+3.2 Stopplng Crlterla when Tralnlng ANNs
+and Overﬁttlng
+(see Torn Mitchell’s “Machine Learning” book, pag. 108-112)
+Error versus weight updates (example 1) Error versus weight updates (example 2)
+
+0.01 0.08 a...
+0,009 i Training set error t 0,07 ‘a Training set error ‘
+
+Validation set error t ++++++++. Validation set error t
+0.008 0.06 tit
+0 .007 it 0 .05 .+++t++++++++i+H+H+++++++++++++++++++
+
+8 15 ++++++++++++++++++++++
+5 0,006 ‘x 77 in: 0.04 ‘ ++++++++++++tt++++t++te++n+
+0.005 0.03 1
+0.004 ' 0.02 1
+0.003 . 0.01
+0.002 0 WM
+0 5000 10000 15000 20000 0 1000 2000 3000 4000 5000 6000
+Number Of weight updates Number of weight updates
+Plots of the error E, as a function of the number of weights updates, for
+two different robot perception tasks.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+32.
+3.3 Learning Hidden Layer Representations
+AH EXample: Learning the identity function f(:1_3’) : if
+Inputs Outputs
+0 0
+‘k j‘ 10000000 —> 10000000
+\V'q/ 01000000 —> 01000000
+'§\§¢% \‘h'ill' 00100000 —> 00100000
+‘$133k ﬁg,‘ 00010000 —> 00010000
+'ggiggitgggég' 00001000 e 00001000
+‘59% /'5£{¢§:§' 00000100 —> 00000100
+/'\\ %/‘\ 00000010 —> 00000010
+1!‘ 4“
+'V"' 00000001 e 00000001
+G G
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+33.
+Learned hidden layer representation:
+Input Hidden Output
+Values
+
+10000000 —> .89 .04 .08 —> 10000000
+
+01000000 —> .15 .99 .99 —> 01000000
+
+00100000 —> .01 .97 .27 —> 00100000
+
+00010000 —> .99 .97 .71 —> 00010000
+
+00001000 —> .03 .05 .02 —> 00001000
+
+00000100 —> .01 .11 .88 —> 00000100
+
+00000010 —> .80 .01 .98 —> 00000010
+
+00000001 e .60 .94 .01 e 00000001
+After 8000 training epochs, the 3 hidden unit values encode the 8 distinct inputs. Note
+that if the encoded values are rounded to 0 or 1, the result is the standard binary
+encoding for 8 distinct values (however not the usual one, i.e. 1 —> 001, 2 —> 010, etc).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+Tralmng (I)
+Sum 0f squared errors for each output unit
+O .8 ‘e“\\\ ~>_~_>_\_\__\__\\\\ ‘\\\\
+0 7 ‘ * “ \
+, “\\ \ X \_ \
+Z‘ \. ‘ \ \\
+“x \. ‘\ ‘\ \\
+0 .6 l‘. ‘\ \- ‘\ ‘\. \\
+N‘ \‘ ‘\3. \ \
+.1‘ ‘. \‘ ‘6'; ‘\‘ \\
+. \ 3 \ \
+\'\ \‘\ \l\ IE:‘\.\-\ \\\
+| \ ' ‘. \ \
+0 .4 ‘. ‘X \_\ I‘: \\'\\ \\
+‘X ‘ \‘ .\ \\\\\ \ \\ \
+0 .3 ‘\‘ \\\ .\‘ ‘\ \‘ \ \\
+‘. \\ \. ‘\ \ \\
+\\ \\ \\_ “K ‘\ \» \ \\
+O .2 \\ \‘\___ ‘ ‘\‘ \ X \\\
+\\\ \‘\“~\\\ \\\\\\v\ ‘~ __ \ ‘_ \\\\
+0.1 I; 131;- ~TT?::.~_\__\_\___
+0 - - — — - - - - - - - _"_*:-:~:-:-:-=~:-—_-=-=~=-
+0 500 1000 1500 2000 2500
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+Training (II)
+1 Hidden unit encoding for input 01000000
+0.9
+0.8
+0.7
+0.4 I’
+0.3
+0.2
+0.1
+0 500 1000 1500 2000 2500
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+36.
+Trammg (III)
+Weights from inputs t0 one hidden unit
+4 - -_-_——_;-_-:_-_—_—:_-_--_
+-5
+0 500 1000 1500 2000 2500
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+. 37.
+4. Advanced Toplcs
+4.1 Alternative Error Functions (see ML book, pag. 117-118):
+0 Penalize large weights;
+_) 1
+dED k€0utputs iJ
+o Train on target slopes as well as values
+1 as a 2
+_, kd Okd
+E<W£§Z Z (tkd_0kd)2+1u Z <6J—8J>
+d€D kGoutputs sz'nputs {Ed Id
+o Tie together weights: e.g., in phoneme recognition network;
+0 Minimizing the cross entropy (see next 3 slides):
+— Z td lOg 0d —|- (1 — id) lOg<1 — 0d)
+deD
+where 0d, the output of the network, represents the estimated probability that the
+training instance xd is associated the label (target value) 1.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+. O Q . . 38-
+4.2 Predlctlng a probablllty functlon:
+Learning the ML hypothesis using a NN
+(see Torn Mitchell’s “Machine Learning” book, pag. 118, 167-171)
+Let us consider a non-deterministic function (LC: one-to-many relation)
+f : X —> {0, l}.
+Given a set of independently drawn examples
+D I {< £131,d1 >, . . . , < Jumdm >} Where d1- I ﬂing) € {0,1},
+we would like to learn the probability function 9(x) dgf' P( f (x) I 1).
+The ML hypotesis hML I arg'mawheH P(D I h) in such a setting is
+hML I argmamh€H G(h, D)
+Where GUL, D) I 21-11% lnh(;cZ-) + (1 — dd) ln(1 — h(:z:1))]
+We will use a NN for this task.
+For simplicity, a single layer with sigmoidal units is considered.
+The training will be done by gradient ascent:
+15+ 1E+17VG(D,h)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+39.
+The partial derivative of G(D7 h) with respect to wjk, which is the weight
+for the kth input to unit j, is:
+(9G(D,h) _ i”: sow/L) ahw)
+—awjk — 2,21 am» @wjk
+_ i (9(41- lnh<£8¢> + (1 _ di)ln(1 _ mom)» 8h(xZ-)
+m d2~—h Z- h Z-
+I Z ¢ - M and because
+h i .
+dwjk
+0G(D,h) m
+— I d1 — h 11 i '
+awjk Z} <1- >>w
+Note: Here above we denoted 5131,31? the kth input to unit j for the z'th
+training example, and 0’ the derivative of the sigmoid function.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+40.
+Therefore
+with
+8G<D h) m
+A ' I —7 I di — h 2' i '
+wjk 77 (910% 77;; (513)):6Jk
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+41.
+4.3 Recurrent Networks
+' O O 1
+o applled to tlme serles data EH :l
+o can be trained using a version of ‘is-12;’h1'
+Backpropagation algorithm r ""?"“"'-"" E‘ r —-..
+M113 cw "I
+o see [Mozer, 1995] 1m |
+. |
+An example: ‘~
+e 'e' e e -_“"'\
++1“? + 12' + I"? + 13' my- 13 ctr-13 I,
+II
+I' 1 I- 1 i
+"if-3:334"
+FIJI‘ m1!) my) i e l I
+Rm t k mix-2;. mix-2;.
+(a) Feedforward netlamrk (-5‘) Rezunent netwerk. I: :I unfeldednifuuﬁﬁe
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+42.
+4.4 Dynamically Modifying the Network Structure
+Two ideas:
+
+o Begin with a network with no hidden unit, then grow the
+network until the training error is reduced to some accept-
+able level.
+
+Example: Cascade-Correlation algorithm, [Fahlman 85
+Lebiere, 1990]
+
+o Begin with a complex network and prune it as you ﬁnd
+that certain connections w are inessential.
+
+E.g. see whether w z O, or analyze ‘2+5, i.e. the effect that a
+small variation in w has on the error E.
+Example: [LeCun et al. 1990]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+43.
+4.5 Alternative Optimisation Methods
+for Training ANNs
+See Torn Mitchell’s “Machine Learning” book, pag. 119
+o linear search
+o conjugate gradient
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:44**************
+44.
+4.6 Other Advanced Issues
+
+o Ch. 6:
+A Bayesian justification for choosing to minimize the sum
+of square errors
+
+o Ch. 7:
+The estimation of the number of needed training examples
+to reliably learn boolean functions;
+The Vapnik-Chervonenkis dimension of certain types of
+ANNs
+
+o Ch. 12:
+How to use prior knowledge to improve the generalization
+acuracy of ANNs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+45.
+5. Expressive Capabilities of [Feed-forward] ANNs
+Boolean functions:
+
+o Every boolean function can be represented by a network
+with a single hidden layer,
+but it might require exponential (in the number of inputs)
+hidden units.
+
+Continuous functions:
+
+o Every bounded continuous function can be approximated
+with arbitrarily small error, by a network with one hidden
+layer [Cybenko 1989; Hornik et al. 1989].
+
+o Any function can be approximated to arbitrary accuracy
+by a network with two hidden layers [Cybenko 1988].
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:46**************
+46.
+Summary / What you should know
+o The gradient descent optimisation method
+o The thresholded perceptron;
+the training rule, the test rule;
+convergence result
+The linear unit and the sigmoid unit;
+the gradient descent rule (including the proofs);
+convergence result
+o Multilayer networks of sigmoid units;
+the Backpropagation algorithm
+(including the proof for the stochastic version);
+convergence result
+o Batch/online vs stochastic / incremental gradient descent
+for artiﬁcal neurons and neural networks;
+convergence result
+o Overﬁtting in neural networks; solutions
+
+***************Ending Page***************
+

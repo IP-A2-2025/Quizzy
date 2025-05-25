@@ -1,0 +1,2373 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 7
+Gavrilut Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+1. Generics
+2. Match
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Geneﬁcs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+," G E n e r| CS
+Generics are a way of describing how methods, structs, enums and traits can be
+built based on a template where the type(s) that is(are) being used in those
+constructs is/are unknown and will be replace by the compiler at built time.
+Generics are very similar to C++ concept (C++20) or somehow similar cu C++
+templates, but there are a couple of exceptions (for example, a generic in Rust has
+the semantic ability to describe some limitations).
+Keep in mind that generic work by build code based on a template (this means that
+using multiple generics will increase the size of your final binary).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Generics can be applied for methods/functions or structures/enum and traits. The
+general format is:
+1. Functions
+name <Type1: , Typez: ,...Typen: > (...) ->
+OI’
+name <Type1, Type2 ,...Typen> (...) -> ReturnType
+Typel: ,...Typen: {...}
+2. Struct Enum Traits
+name <Type1: , Typez: ,...Typen: > (...) ->
+name <Type1, Type2 ,...Typen> (...) Typel: ,...Typen: {...}
+OBS: - are a combination of traits and lifetime rules that explain some requirements for a te
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+t?‘
+Generics can be applied for methods/functions or structures/enum and traits. The
+general format is:
+3. Template/Generic methods Within the implementation of a type
+TypeName
+{
+name <Type1:Bounds, Type2:Bounds,...Typen:Bounds> (...) {...}
+}
+or
+TypeName
+{
+name <Type1, Type2,...Typen> (...) -> ReturnType
+Type1:Bounds ,...Typen:Bounds
+{...}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+',® Generics
+Generics can be applied for methods/functions or structures/enum and traits. The
+general format is:
+
+4. Traits
+TraitName <Type1: , Typez: ,...Typen: >
+{
+method1(...);
+method2 (...);
+‘In-methodn (...);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+G I
+1. Generlc functlons
+Rust
+- , error[E9277]: ‘T‘ doesn't implement ‘Debug‘
+pr1nt< >(V' ) { --> src\main.rs:4:21
+rintln! " " v ' I
+p ( ’ )4‘ 4 | println!("{:?}",v);
+} | A ‘T‘ cannot be formatted using ‘{:?}‘ because it doesn’t
+| implement ‘Debug‘
+|
+main() { = note: this error originates in the macro ‘$crate::format_args_nl‘ (in Nightly
+. . . _ builds, run with —Z macro-backtrace for more info)
+pplnt - - < >(19) ) help: consider restricting type parameter ‘T‘
+. O O O I
+pPlnt ' ' < >(1' 5)’ 3 | fn print<T: std::fmt::Debug>(v: T) {
+pPln't: I<& > ( "H9110" )3 | +++++++++++++++++
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+G '
+1. Generlc functlons
+Rust
+error[E9277]: ‘T‘ doesn't implement ‘Debug‘
+——> src\main.rs:4:21
+|
+4 | println!("{:?}",v);
+| A ‘T‘ cannot be formatted using ‘{:?}‘ because it doesn’t
+| implement ‘Debug‘
+|
+= note: this error originates in the macro ‘$crate::format_args_nl‘ (in Nightly
+builds, run with —Z macro-backtrace for more info)
+help: consider restricting type parameter ‘T‘
+|
+Debug 3 | fn print<T: std::fmt::Debug>(v: T) {
+| +++++++++++++++++
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+1. Generic functions
+Rust Rust m
+use stdzzfmtzzDebug; use stdzzfmtzzDebug; 10
+fn print<T: Debug>(v: T) { fn print<T>(v: T)
+println!("{:?}",v); where e O
+} m T: Debug,
+10 {
+fn main() { L5 println!("{:?}", v);
+printzz<132>(19); "Heuo" }
+print::<f32>(1.5); fn main() {
+print::<&str>("Hello"); printgz<i32>(19);
+} print::<F32>(1.5);
+print::<&str>("Hello")3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+In reality, Rust actually builds 3 functions (one for each type T [i32,f32 and &str] used)
+Rust Rustequhaﬂentcode
+use stdzzfmtzzDebug; fn print_132(v: 132) {
+println!("{:?}",v),' m
+Fn print<Tz Debug>(v: T) { } 10
+println!("{:?}",v); fn print_f32(v: F32) { LS
+} println!("{:?}",v); "Hello"
+h }
+fn main() { fn print_str(v: &str) {
+printzz<132>(19); println!("{:?}",v);
+print::<f32>(1.5); }
+print::<&str>("Hello"); fn main() {
+} print_132(19);
+print_f32(1.5);
+print_str("He110");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+é?
+Generic are identical to using impl <trait> (for example turbofish can not be used).
+Rust Rust
+stdzzfmtzz ; stdzzfmtzz ;
+print< : >(v: ) { print(v: ) {
+println!(" ",v); println!(" ",v);
+} }
+main() { main() {
+print::< >(19); print::< >(16);
+print::< >(1.5); print::< >(1.5);
+print::<& >("Hello"); print::<& >("Hello");
+1' m }
+error[E9197]: function takes 9 generic arguments but 1 generic argument was supplied
+10 12 | print::<f32>(1.5); .
+1-5 i | ------- help: remove these generlcs
+"Hello" | expected 9 generic arguments
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Generic are identical to using impl <trait> (for example turbofish can not be used).
+Rust Rust
+use stdzzfmtzzDebug; use stdzzfmtzzDebug;
+fn pPint<T: Debug>(v: T) { fn pPint(v: impl Debug) {
+println!("{:?}",v); M println!("{:?}",v);
+} }
+10
+printzz<132>(19); HeHo print(19);
+print::<f32>(1.5); print(1.5);
+print::<&str>("Hello"); print("Hello");
+} }
+Outside of turbofish usage, the behavior is similar (using impl <trait> works like a
+syntatictic sugar).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+i?
+1. Generic functions (a more complex example)
+RUSt err0r[E03081: mismatched types
+Std: IOpSII 3 -I> src\ma1n.rs.4.12
+3 | fn compute_sum<T: Add>(v1: T, v2: T) -> T {
+| - this type parameter - expected
+compute_sum< : >(v1: , v2: ) -> | T‘bmm5eofrﬂwmtym
+4 | return v1+v2;
+{ | MAM expected type parameter ‘T‘,
+Petupn V1 + V2; i found associated type
+}
+main() {
+r1 = compute_sum::< >(19,5);
+r2 = compute_sum::< >(16.5,5.5);
+println!(" r1 , r2 ")3
+}
+So what happens in this case ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+. Generlcs
+1. Generic functions (a more complex example)
+Rust
+We have specified that T must support the Add trait as we know that we will add v1 with v2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+t?‘ *
+1. Generic functions (a more complex example)
+Rust
+Rust (from ariths.rs)
+add( , PhSZ ) —> : : 3
+}
+We have specified that T must support the Add trait as we know that we will add v1 with v2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+1. Generic functions (a more complex example)
+Rust
+use stdzzopszzAdd;
+tn compute_sum<T: Add<0utput=T>>(v1: T, v2: T) —> T {
+v1+v2;
+}
+fn main() {
+let P1 = compute_sum::<132>(1@,5);
+let P2 = compute_sum::<f32>(1@.5,5.5);
+println!("{r1},{r2}");
+}
+Notice that in order to proper/y explain how the template should work, we need to specify that the
+result of the addition will be of type T as well ! We do this by adding the <Output=T> to the
+specifications of Add trait.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+',® Generics
+But what if we want to add more restrictions (e. . we want a specific type to
+implement multiple traits). The actual format ofi allows this:
+Format:
+Where a trait can be defined in one of the following ways:
+' With its name: —
+' With its name defined as a template:
+' With its name and one or more inner types defined : : <0utput=...>
+OBS: Keep in mind that - does not necessarily have to be a template type (it
+could also be an existin type that re uires a bound related to the current temp/at
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Let's consider a slightly more complex function (a function that adds two numbers
+of potentially different types and return a value of a potentially different type.
+Rust
+use stdzzopszzAdd;
+fn compute_sum<T1, T2, T3>(v1: T1, v2: T2) -> T3
+where
+
+T3: Add<0utput = T3> + From<T1> + From<T2>,
+{
+
+T3::fnom(v1) + T3::fnom(v2);
+
+}
+fn main() {
+
+let n1 = compute_sum::<132, 18, 164>(19, 5);
+
+let n2 = compute_sum::<f32, 18, f64>(19.5, 5);
+
+pnintln!("{n1},{n2}");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+a
+.
+Genencs
+Let's consider a slightly more complex function (a function that adds two numbers
+of potentially different types and return a value of a potentially different type.
+Rust
+_
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+é?‘
+.
+Genencs
+Let's consider a slightly more complex function (a function that adds two numbers
+of potentially different types and return a value of a potentially different type.
+Rust
+_
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+é?‘
+.
+Genencs
+Let's consider a slightly more complex function (a function that adds two numbers
+of potentially different types and return a value of a potentially different type.
+Rust
+—’ _
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Let's analyze another example:
+use stdzzfmtzz ;
+use stdzzopszz ;
+fn < , , >(v1: , v2: ) —> I Output I
+Whepe _ + 10+5=15
+z + 10.5+5=15.5
+: < = > + < > + < > + , 15,1515
+{
+let result = :: (v1) + :: (v2);
+println!("{}+{}={}", v1, v2, result);
+return result; lﬂﬁ
+lEt P1 = II< , , >(19, 5); lﬁﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Let's analyze another example:
+
+IOutput I
+10+5=15
+10.5+5=15.5
+15,155
+
+, Display trait is needed for print/n!
+
+t1! " = ", 1, 2, 1t;
+prln n ( {}+{} {} v V P95“ ) macro
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Let's analyze another example:
+W
+l 10+5=15
+' 10.5+5=15.5
+15,155
+z : (V1) ' II I! '
+
+v1, The ownershlp of v1 |s transferred
+when T3::from(...) is called. As such,
+printing v1 is no longer possible,
+except for the case where "v1"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+r’? G e n e r| cs
+Bounds have another advantage. While in C++, its not that easy to enforce a
+specific type/list of types for a template variable, in Rust this can be easily obtained
+with a combination of bounds and traits.
+Let's analyze the following problem: we want to create a generic/template where
+one of the parameters can only be selected from a specific set of types. ln C++, we
+would have to use static_assert to achieve this, and even in this case we would still
+be limited by the fact that everything is written in a header and as such it can be
+easily modified. _
+ln Rust, we will use a combination of traits and bounds to achieve the same result. I‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+.H Genencs
+Let's consider the following snippet and assume that we would like to make sure
+that type T is just some signed integer (one of i8, i32 or i128).
+
+Rust
+use std: :fmt: :Display; mu
+fn pnint<T>(value: T) 5
+T: Display,
+{
+pnintln!("{}", value);
+}
+fn main() {
+pnint::<132>(—5);
+pnint::<18>(199);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+The solution is to create a special trait (that does not have to do anything),
+implement it for i8, i32 or i128, and finally add a bound for type T.
+RU“ m
+use stdzzfmtzzDisplay; _5
+fn main() { 100
+trait JustIntegePs {} print::<i32>(-5);
+impl JustIntegePs For i8 {} print::<i8>(199);
+impl JustIntegePs For i32 {} }
+impl JustIntegePs For i128 {}
+fn pnint<T>(value: T)
+where
+T: Display + JustIntegens
+{
+pnintln!("{}", value);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+.
+Genencs
+The solution is to create a s ecial trait (that does not have to do anything),
+implement it for I, I or i, and finally add a bound for type T.
+-5
+{}
+{}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+The solution is to create a s ecial trait (that does not have to do anything),
+implement it for I, I or , and finally add a bound for type T.
+error[E0277]: the trait bound ‘u32: JustIntegers‘ is not satisfied
+--> src\main.rs:14:18
+|
+14 | print::<u32>(1);
+I ____________ A
+| |
+| required by a bound introduced by this call
+|
+= help: the following implementations were found:
+--> src\main.rs:9:16 gig;
+| ----- required by a bound in this ﬁﬁﬁﬁ
+Where 55555555555555;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+2. Structures
+Rust
+derive< > m
+struct Point<T> {
+x: T, Pokn{x:1,y:2}
+y: T Point { x: 1.2, y: 2.3}
+}
+fn main() {
+let p1 = Point::<132>{ x:1, y:2 };
+let p2 = Point::<f32>{ x:1.2, y:2.3 };
+println!("{:?}",p1)3
+println!("{:?}",p2)3
+}
+In this example we have create two objects: p1 that has "x" and "y" of type i32, and p2 where both
+"x" and "y" are of type f32.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+In reality, Rust will construct two completely different structures:
+Rust Rust (approximation)
+denive( ) denive( )
+
+stnuct Point<T> { struct Point_132 { x: 132, y: 132 }
+x: T, denive( )
+y: T stnuct Point_f32 { x: {32, y: {32 }
+
+}
+
+Fn main() { fn main() {
+let p1 = Point::<i32>{ x:1, y:2 }; let p1 = Point_132{ x:1, y:2 };
+let p2 = Point::<f32>{ x:1.2, y:2.3 }; let p2 = Point_f32{ x:1.2, y:2.3 };
+pnintln!("{:?}",p1); pnintln!("{:?}",p1);
+pnintln!("{:?}",p2); pnintln!("{:?}",p2);
+
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+If we want to implement a method for a ,eneric structure or enum use the
+following format: impl<T—, T2,... Tn> StructureNome<T1, T2,... Tn> { }
+Rust
+derive( )
+struct Point<T> { M
+x: T, POHTt{X11,YZ2}
+} y: T POHTt{X11 2,y:2 3}
+imp1<T> Point<T> {
+fn new(x: T, y: T)->Self { Point {x:X, yzy} }
+}
+Fn main() {
+let p1 = Point::<132>::new(1,2);
+let p2 = Point::<F32>::new(1.2,2.3);
+println!("{:?}",p1);
+println!("{:?}",p2);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+® Generics
+Types can be inferred from the parameters used. For example, in this case, p1 is of
+type — because "x" is 1 (an i32) and "y" is 2 (an i32).
+( )
+str'uct < > { lOutput I
+X: ’ Point{x: 1, y:2}
+} y. ’ Point { x: 1.2, y: 2.3}
+imp1< > < > {
+fn (x: , y: ) —> Self{
+{ x: x, yr y }
+} ..
+PPintl"!<"{=?}", P2); .aﬁiiiiiiiiiii
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+If parameters do not match the template, the compiler will throw an error.
+—
+ePPoP[E9398]: mismatched types
+——> src\main.hs:12:28
+12 i let p1 = Point::new(1, 2.5);
+|
+let P1 = : : (1, 2. 5);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+ﬂ~ Genencs
+You can also use I (underline) as a template parameter to ask Rust to infer the
+type:
+Rust
+R: <>, >(x: )-> {
+1’
+main() {
+x = f::< , _>(5);
+pnintln!(" x ")3
+}
+In this case, we did not provide the type "T", but we've asked Rust to infer the type.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+é?
+Rust does not support specialized templates (like C++ does).
+Rust
+denive( )
+error[E6592]: duplicate definitions with name ‘new‘
+< > { -—> src\main.ns:7:5
+: , |
+X_ 7 | fn new(x: T, y: T) —> Self {
+ii.| f ( : '32, : '32) — S 1f {
+< > ( < > { ) { | —T—T?W—f——%————¥——%—————i——?—— other definition for ‘new‘
+new x: , y: —>
+{ XI X, y! y }
+}
+}
+< > {
+new(x: , y: ) —> {
+{X=X*X,y=y*y}
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+I G e n e rl CS
+However, certain functions can be implemented specifically for a type:
+struct w < > { x: , y: , }
+imp1< > < > {
+fn (x: , y: ) -> Sel1c { lOutput I
+} {Xi x,y:y} Point{x:1,y:4}
+1r Point { x: 1.2, y: 2.3}
+impl < > {
+fn (X: , y: ) —> Se11c {
+{X=X*X,y1y*y}
+}
+f“ () { iﬁﬁﬁﬁ
+Print1“!<"{=?}"’ p1>; ﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+G '
+However, certaln functlons can be Implemented speclflcally for a type:
+error[E9599]: no function or associated item named ‘new_i32‘ found for struct
+‘Point<f32>‘ in the current scope
+--> src\main.rs:18:28
+|
+2 | struct Point<T> {
+| --------------- function or associated item ‘new_i32‘ not found for this
+inunl < > { ié'l let p2 = Point::<f32>::new_i32(1.2, 2.3);
+_ _ | AAAAAAA function or associated item not found in
+'Fn (X- : Y- ) '> 5911c { | ‘Point<f32>‘
+x: X * X : * |
+{ ’ y y y’ } = note: the function or associated item was found for
+} - ‘Point<i32>‘------------------------------ other definition for
+} ‘new‘ é
+new i32 exists only for templates of Point where
+T = l32. As such, thls llne can not com plle.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+I G e n e r| CS
+3. Generic methods implemented in a structure/enum
+struct { fn () {
+x: , let mut p = { x: 5, y: 16 };
+y: , p. ::< >(19);
+} pPintln!("P is ({},{})",p x,p y);
+p. ::< >(5);
+impl { PPintln!("P is ({},{})",P-X,P Y);
+fn < >(&mut self, value: ) }
+where
+: < >, .
+self X += =1 (v81UE); . gﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Generics
+3. Generic methods implemented in a structure/enum
+fn < >(&mut self, value: )
+where
+: < > ,
+; "add" is a generic method within the
+{ implementation for structure Point
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+3. Generic methods implemented in a structure/enum
+wher'e _ . . .
+, < > Slnce we need to convert a value of type T Into an I32, then |32
+, ' ’ must implement From<T>.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+3. Generic methods implemented in a structure/enum
+where
+: < >, Since we call i32::from twice, and the value's ownership is
+: transferred the first time, T must implement Copy so that the
+second i32::from could be valid.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+3 I
+3. Generlc methods Implemented |n a structure/enum
+error[E0277]: the trait bound ‘i32: From<&str>‘ is not satisfied
+——> src\main.rs:17:7
+l
+17 | p.add::<&str>("test");
+I AAA ‘
+l
+= help: the following implementations were found:
+<i32 as From<NonZeroI32>>
+<i32 as From<bool>>
+<i32 as From<i16>>
+<i32 as From<i8>>
+and 71 others
+note: required by a bound in ‘Point::add‘ _é
+——> src\main.rs:8:14 @ﬁ
+| iﬁ
+6 | fn add<T>(&mut self, value: T) 5%
+| ——— required by a bound in this iﬁ
+7 | where 5%
+8 | i32: From<T>, @ﬁ
+|| H | AAAAAAA required by this bound in ‘Point::add‘ iﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Ge n e fl CS
+4. Generic traits
+trait < > {
+fn (self) —> 3 lOutput I
+} 61.5,246
+impl < > for {
+fn (self) -> { (self as ) * 2 }
+}
+impl < > for {
+fn (self) —> { (self as ) / 2.9 }
+1et x: = 123 - <>; aﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+4. Generic traits
+impl < > for {
+fn (self) -> { (self as ) * 2 }
+gm 1 < > for‘ { This behavior is very similar to a
+p specialized template from C++.
+fn (self) —> { (self as ) / 2.9 }
+1’
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+4. Generic traits
+I Output I
+61.5,246
+let x: = 123 . ()3 Another similar way of writing the same thing is: .
+let x = ::< >:: (12318);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+I G e n e rl CS
+At the same time, default implementation for a trait can be used as well.
+trait < >
+where I OUtPUt I
+Self: , 123,123
+: <Self>
+{
+fn (self) —> {
+:: (self)
+}
+}
+impl < > For {}
+impl < > For {} 35%
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+It is also possible to overwrite the original implementation:
+trait < >
+where I Output I
+Self: ,
+= <5e1+> 1.2345,123
+{
+fn (self) -> { z: (self) }
+}
+impl < > for‘ {
+1c“ (5911c) '> { This behavior is very similar to a
+} 1'2345 specialized template from C++. __
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+It is also possible to overwrite the original implementation:
+Self! , Why do we need this Sized trait here ?
+When compiling the code, the compiler needs to know the size of a type
+in order to implement operation over it that might imply copy-ing an
+object. Since we already require for T to implement From<Self> and this
+implies ownership transfer of Self, Self must have a known size.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+It is also possible to overwrite the original implementation:
+I Output I
+trait {
+fn ()->Se1f; 12345
+}
+impl for {
+fn ()-> { 12345 }
+}
+trait < > where : Sized
+{ 1c ' method convert to receives a reference
+n (&self) -> { _ _ .
+:: () ' default implementation of convert to does not requlre
+} any ownership transfer (assignments or From methods
+i called)
+let X = ::< >:: (&123is) ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+',® Generics
+When usin enerics (methods, functions, structures, etc) we might need to use
+i notation to refer to a specific implementation of a generic.
+ln many cases, Rust is able to infer the type (based on parameters) but sometimes
+(if several matches for the same generic exists) you might be required to use either
+this notation or other forms.
+As a generic observation, it is preferred NOT TO use turbofish notation (except for
+cases where there is no other way around).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+i;§ﬁilq_
+Case 1:
+Rust One case where turbofish can be used is if the structure
+< > { is a template/generic and upon creation you need to
+value; explain to Rust the generic parameter(s).
+} In this particular case, we need to explain what is I
+< >Set(& < > {X. ) { when initializing a—object.
+_Value =’X; Alternatives:
+} }
+main() l . _ _ _
+x.set(123);
+pnintln!(" ",x.va1ue);
+}
+OBS: Notice that ”x.set(123)” does not need to use turbofish notation as we already
+know
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Case 2:
+In this case, method set from the implementation of
+MyNumber is generic and as such type "T" must be
+value; specified or Inferred (If possible).
+}
+{ Alternatives:
+< >(& ,x: ) z < >{
+}
+}
+() {
+x = {valuezlG};
+x. ::< >(19918);
+phintln!(" ",x.value); _¢
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+i§§ﬁilq_
+;§@?_, ‘{-
+;_i f
+Case 3:
+Rust Notice that we did not use turbofish notation. This is
+struct MyNumbeP { because method set is not generic/template and as
+valuer 132, such using something like set::<i8>:: (...) is not a valid
+} . semantic expression.
+tPalt ValueSetteP<T> {
+{n set(value: T) —> Self;
+}
+impl ValueSetteh<18> For MyNumbeP {
+{n set(x: 18)—>Self
+{
+MyNumbeP {
+value: i32zzfnom(x),
+}
+}
+}
+Fn main() {
+let x = MyNumber::set(1Zi8);
+pnintln!("{}", x.value);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+é?‘
+Case 4:
+Rust In this case, we need turbofish to specify the template
+< > { for |\/|yNumber. Type "V" will be inferred by Rust from
+} value‘ ) the argument value of set method.
+< > {
+set<va1ue= > -> ; w
+}
+< > < > < >
+: < >,
+{
+set(x: ) -> {
+{
+value: ::from(x),
+}
+}
+} O
+ma1n
+pnintln!(" ", x.va1ue);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+‘if _
+Case 5:
+Rust In this case, we need to specify the type of MyNumber
+struct MyNumbeP<T> { value: T } and we need to make sure that we specifically explain
+tnalt ValueSetteP<V>l{ fn set(value: V) -> Selfg} the parametertype ofthe method set.
+1mpl<T> ValueSetteP<18> For MyNumbeP<T> K . . d l1 u u .16 . rd h d
+Where T: From<18>, eep |n min t ‘at ..set..<| >(...) IS not val as met o
+{ set IS not generic.
+Fn set(x: 18) -> Self {
+MyNumbeP { value: T::fnom(x) }
+} .
+} w
+Where T: From<il6>, let x. MyNumben..<132> - MyNumbeP..set(123 as 116),
+{
+Fn set(x: 116) -> Self {
+MyNumbeP { value: T::fnom(x) }
+}
+}
+Fn main() {
+let x = MyNumber::<i32>::set(123 as i16);
+pnintln!("{}", x.value);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+é?‘
+Case 6:
+Rust In this case, both "V" and "T" template parameters
+< > { must be deducted. For "T" we can use turbofish
+} value‘ ) notation, "V" will be obtained from the parameter of
+< > { set method.
+set(value: ) -> 3
+}
+< ’ > < > < > Alternatives:
+{
+set(x: ) -> {
+{
+value: ::from(x),
+}
+}
+}
+main
+pnintln!(" ", x.va1ue);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+jé§é$i;g_
+Finally, let's discuss a little bit what is the advantage of requiring a strict list of traits
+within the definition of a Generic. Let's analyze the following two cases (Rust and C++)
+Rust C++
+struct Test { struct Test {
+x- 132 int X3
+} ' ’ };
+_ _ template <typename T>
+Fn add_valuei<T>(;l. &T, v2. &T) —> T { T add_values(T& v1, T& v2) {
+} V + V ’ v1 + v2;
+}
+Fn main() { . .
+let t1 = Test { x: 1o }; VOldTmaing i 19 .
+let t2 = Test { x: 28 }; TZZt t2 I i 29 if
+let t3 = Test { x: 0 }; Test t3._ ’
+} t3 = add_values(&t1, &t2); t3 = add_values(t1, t2);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+i?‘
+Now 9 let's look at how errors are presented in both cases (notice that structure Test
+has no add operator in both cases, and as such ”v1+v2” Where v1,v2 is T is not possible.
+Rust C++
+error[E9369]:
+——> src\main.rs:5:15
+|
+5 | return v1 + v2;
+| -- A -- &T
+| |
+| &T
+|
+help: consider restricting type parameter ‘T‘
+| error C2676: binary '+': 'T' does not
+4 I —Fn add-values (V1: &T’ V2: &T) -> T {
+| ++++++++++++++++++++++++++++ type acceptable to the predefined operator
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Rust also support constants as a generic parameter (similar to the ones from C++). A
+constant parameter must de defined in the template declaration with the keyword
+const followed by the generic parameter name and its type (const N: type). Type N can
+be one of the following: u8, u16, u32, u64, u128, i8, i16, i32, i64, i128, usize , isize, char
+and bool.
+Rust
+struct FixAnray <T,const N: usize> {
+} Elements: [TEN] FixArray { elements: [0, O, O, O, O] }
+{n main() { FixArray { elements: ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'] }
+let azFixAnray<132,5> = FixArray {elementsz [9;51};
+let b:FixAnnay<chan,9> = FixArray {elementsz ['A';9]};
+println!("{:?}",a);
+println!("{:?}",b);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Let's see a more complex example:
+( ) impl< , const N: > < , >
+struct < , const N: > where
+where z std: opszz ,
+: std::ops:: , z < >,
+: < >, z
+: {
+{ tn (value: ) -> Self {
+elements: [ S 1, ::< , > {
+} elements: [valueg ],
+}
+}
+tn (start: ) -> Self {
+let mut x: < , > = :: (start);
+let mut temp = start; _
+for i in &mut x.elements { _éﬁ
+X liﬁﬁﬁﬁﬁﬁﬁﬁ§
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Let's see a more complex example:
+Fn () {
+let a: < , 5> = :: (1);
+let b: < , 7> = :: (19);
+println!("{:?}", a);
+println!("{:?}", b); _¢
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Rust generics can conditionally implement some traits using the where keyword:
+
+struct < > { IOUtPUt I
+
+} datai , x is odd ? => true
+
+trait {
+fn (&se1f) —> ;
+
+}
+
+impl for {
+fn (&se1f) -> { (*self % 2) == 1 }
+
+‘r
+
+impl< > for < >
+
+where . . . .
+
+. Thls tells the compller to Implement the tralt
+
+{ j OddNumber over MyStruct<T> only if T also
+tn (8661f) -> { self-data- () } implements trait.
+let x: < > = { data: 5 };
+PPintln! ("X is odd P :> {}", X- O);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Rust generics can conditionally implement some traits using the where keyword:
+struct < > { I OUtPUt I
+} data: , x is odd ? => true
+trait {
+fn (&se1f) —> ;
+i
+impl For {
+fn (&se1f) -> { (*self % 2) == 1 }
+}
+impi< > +or < >
+where
+; , Since implements OddNumber, so will
+{ implement OddNumber as well.
+} 1°" (815619 '> { self'data' O } As a result, we can call x.is_odd().
+let x: < > = { data: 5 };
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Rust generics can conditionally implement some traits using the where keyword:
+StrWJCt < > { error[E6599]:
+} data: ’ ——> sr‘c\main.r‘s:22:36
+|
+trait { 1 | struct MyStruct<T> {
+fn (&se11°) -> ; i |
+} | method ‘is_odd‘ not found for this struct
+lmpl 'FOI" { | doesn't satis-Fy ‘MyStruct<u32>: OddNumber‘
+fn (&se1f) -> { (*self % 2) == 1 } ~-
+} 22 | phintln!("x is odd P => {}", x.is_odd());
+impl< > for < > I
+where |
+let x: < > = { data: 5 },- In thls case, we can not call x.|s_odd() as the tralt
+Println!(">< is Odd P => U", X- O); was not implemented over MyStruct<u32> due
+} to the fact that does not implement .
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Rust generics can conditionally implement some traits using the where keyword:
+struct < > { IOUtPUt I
+data: , 5
+}
+trait {
+fn (&se1f) —> ;
+}
+impl for {
+fn (&se1f) -> { (*self % 2) == 1 }
+}
+impl< > for < >
+where
+tn (8661f) -> { self-data- () }
+fn () { Notice that this code compiles correctly. This is because
+19? X1 | .. <.. > = _ { data: 5 }- is onlyimplemented for MyStruct<T> if only ifT
+} prlntln‘ X I {} ’X'data)’ implements .Otherwise, the trait is is not
+implemented and if is_odd method is not called the code compiles.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+‘
+This conditional implementation of traits for generics allows Rust to add a specific
+behavior Whenever - is being used over a generic. Let's analyze the following
+case:
+Rust Rust
+main() { main() {
+x: < > = Some(1); x: < > = Some("123".to_string());
+y = X3 y = XS
+println!("x = , y = ",x,y); println!("x = , y = ",x,y);
+} }
+m error[E6382]: borrow of moved value: ‘x‘
+X = Some(1), y = Some(1) _l> src\main.rs:4:35
+2 | let X: 0ption<String> = Some("123".to_string());
+| — move occurs because ‘x‘ has type ‘0ption<String>‘, which
+does not implement the ‘Copy‘ trait
+3 | let y = x;
+| — value moved here
+4 | println!("x = {1?}, y = {1?}",x,y);
+| A value borrowed here after move
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+So why the case with — works, but the case with Option<String> does
+not?
+Let's see how Option is defined
+Rust (option.rs)
+denive( , , , , , )
+= "Option"
+( = "rustl", = "1.9.9")
+< > {
+= "None"
+( = "rustl", = "1.9.9")
+None,
+= "Some"
+( = "Pustl", = "1.9.9")
+Some( ( = "rustl", = "1.9.9") ),
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+.
+Genencs
+So why the case with — works, but the case with does
+not?
+Let's see how O
+Rust (option.rs)
+< > < > : {...}
+i32 Option<i32> String
+Option<String>
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+hAatch
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+Rust has a specific keyword (-) designed for complex and efficient value
+matching against various patterns. This is similar to the - keyword from C++,
+however it is more complex and can perform more complex matches.
+The general format for a match is:
+match value {
+“1'91, - pattern => code
+rulez, Where - has - pattern => { code}
+the fOHOng - pattern if condition => code ” "is
+} rulen, fOrmat: — pattern if condition => {code } also called a match guard
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+'® Match
+
+There are a couple of constraints that need to be followed for a - to be
+
+correct:
+
+1. At least one rule must be provided to a match construct
+
+2. All possible values must be covered by the existing rules provided to a match
+construct
+
+3. No overlapping rules. There can not be two rules in the same match construct
+that match the same value.
+
+Character underline (‘I’) used as a pattern has a special meaning : everything else.
+
+lt is similar to the usage of - keyword in a C++ switch statement.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Match
+The pattern used in a match constructs also has multiple forms:
+1. A single constant value (e.g. a number, a string, etc)
+2. Multiple constant values, separated by ‘I’ operator 9 (e.g. 1 | 2 | 3)
+3. A range 9 (e.g.1..=5)
+4. An enum
+5. An array
+6. A slice
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+é?
+Let's see a very simple example:
+main() { one
+for‘ X in 1..16{ t
+match x { W0
+1 => println!("one"), three
+2 => println!("tw0"), fOUI’
+3 => println!("three"), .
+4 => println!("1c0ur‘"), ﬁve
+5 => println!("1cive"), Another number
+_ => println!("An0ther‘ number"), Another number
+} Another number
+} } Another number
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+é?‘
+Let's see a very simple example:
+Rust
+main() { error‘[E0004]: non-exhaustive patterns: ‘132::MIN..=0_132‘ and ‘6_132..=132::MAX‘
+‘FOP X in 1..19 { not covered.
+match X { -l> sr‘c\ma1n.r‘s:3:15
+1 => phintln!("one"), 3| matd1x {
+2 => phintln! ("two"), | " patterns ‘i32::MIN..=0_i32‘ and ‘6_i32..=i32::MAX‘ not covered
+3 => phintln!("three"), |
+4 => phintln!("f0ur"),
+5 => phintln!("five"),
+}
+}
+}
+Notice that we have removed the arm/rule ”_ => pPintln! ("Another‘ number")".
+As a result, not all possible cases are covered, and a compile error is thrown. The
+error also provides a list of values that were missed (values from i32::|\/||N to O and
+values from 6 to i32::|\/IAX)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+é?“
+Let's see a very simple example:
+Rust M
+text = "three";
+value: 3
+match text {
+"one" => value = 1,
+"two" => value = 2,
+"three" => value = 3,
+"four" => value = 4,
+_ => value = 6,
+}
+phintln!("value = value ")3
+}
+Notice that we can also match strings.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+As a general rule, in case of strings, you have to check every one of them — so the
+usual complexity is O(n). However, in some cases, Rust can make some
+optimization:
+Rust (1.73.0 — optimized)
+foo(x: & ) -> { E
+match x {
+"one" => 1, our
+"two" => 2,
+"three" => 3,
+"four" => 4,
+_ => 9: : 5
+}
+} , 4
+j 3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+As a general rule, in case of strings, you have to check every one of them — so the
+usual complexity is O(n). However, in some cases, Rust can make some
+optimization:
+, 188
+Rust (1.73.0-optimized) , 4
+foo(x: & ) -> {
+match X { [ ], 1684234849
+I'ade" => 5) [ ], 1785292983
+"ghij" => 15,
+"klmn" => 25, [ ], 1852664939
+} — => 199’ , 1 1684234849
+} , 188
+, 25
+, 5
+, 15
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+JéﬁgiiQQI
+You can initialize any kind of variable in a match construct:
+Rust M
+struct Point {xz 132, y: 132} P==(3 3)
+tn main() { '
+let text = "three";
+let p: Point;
+text {
+"one" => p = Point{x:1,y:1},
+"two" => p = Point{x:2,y:2},
+"three" => p = Point{x:3,y:3},
+"Four" => p = Point{x:4,y:14},
+_ => p = Point{x:6,y:@},
+}
+pPintln!("P = ({}){})"Jp°x) p'y);
+}
+In this we initialize variable "p" that is of type Point.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+iiiiiéiFsii
+When initializing a variable through a match construct, that variable MUST be
+initialized in all rules/match arms !
+error[E0381]: used binding p is p0551bly-un1n1t1alized
+--> src\main.rs:12:28
+|
+4 | let p: Point;
+| - binding declared here but left uninitialized
+5 | match text {
+6 | "one" => p = Point{x:1,y:1},
+| ------------------ binding initialized here in some conditions
+7 | "two" => p = Point{x:2,y:2},
+| ------------------ binding initialized here in some conditions
+8 | "three" => p = Point{x:3,y:3},
+| ------------------ binding initialized here in some conditions
+9 | "four" => p = Point{x:4,y:14},
+| ------------------- binding initialized here in some conditions
+12 I printlnl("P = ({}J{})"Jp°XJ p'y)§
+| AA“ ‘p.x‘ used here but it is possibly-uninitialized
+|
+Notice that the default case ‘I’ does not initialize variable "I"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+i;§ﬁilq_
+;§ﬁ%_, ‘{-
+Let’s see a match construct that uses the bool type.
+Rust M
+v = ;
+v {
+=> pnintln!("Va1ue is true"),
+=> pnintln!("Value is False")
+}
+}
+Notice that there is no need for the rule/arm "I" (the default case) if all possible
+cases are already covered ! (in case of a bool variable this means the case of value
+true and the case of value false).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+i?‘
+However, it is important to know that using the default case ”_" when all possible
+cases are already covered will not trigger an error but a warning.
+match v { ’
+=> println!("Value is true"),
+=> println!("Value is False"),
+_ => println!("something else") Warning
+} warning: unreachable pattern
+} --> src\main.rs:6:9
+|
+6 | _ => println!("something else")
+I A
+|
+= note: ‘#[warn(unreachable_patterns)]‘ on by default
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+I i" j
+Another particular case are floating point values. While right now they are allowed
+in a match construct, they are going to be forbidden in future releases due to high
+complexity around comparing floating point values (e.g. including NaN values).
+Rust M
+f“ maino f Found 1.2
+let v = 1.2;
+v { _
+1.2 => println!("Found 1.2"), Warning
+1..1 => pr‘ith1r1!("FOLH1d 1.11‘), warning: floating-point types cannot be used in patterns
+9.0 => println!("Found 9"), "> “(Imam-“=49
+f64: :NAN => println!("found NAN"), 4 i 1_2 => ppintln!(..Found 11")’
+_ => println!("another value") | MA
+|
+} } = note: ‘#[warn(illegal_floating_point_literal_pattern)]‘ on by default
+= warning: this was previously accepted by the compiler but is being phased
+out; it will become a hard error in a future release!
+|\/|ore info on this topic on:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+a
+To match multiple values, use the I operator like in the following example:
+Rust m
+main() {
+v I 19; Prime numbers under 20
+match v {
+2 => println!("An odd prime number"),
+3|5|7 => println!("Prime numbers under 16"),
+11|13|17|19 => println!("Prime numbers under 26"),
+_ => println!("Another value")
+}
+}
+The same logic where every possible value has to be matched by one of the rules
+has to be present in this case as well (this is why we need the final ’_' (default)
+rule).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+However, it is possible to duplicate a value when using the OR (’|') operator. The
+code will compile and will use the match rule that first uses that value. At the same
+time, a warning will be thrown to explain that the second value is unreachable.
+Rm M
+Prime numbers under 10
+19 => println!("Pr‘ime numbers under“ 19"), Walnmureachable pattern
+——> src\main.rs:6:18
+6 i 11|13|17|19=> println!("Prime numbers under 20"),
+I AA
+l note: ‘#[warn(unreachable_patterns)]‘ on by default
+ln this case, the second 19 value is considered an unreachable pattern. Notice that
+the output now is "Prime numbers under 10” as the match is done for the rule that
+first uses 19 (rule with 3 | 5 | 7 | 19)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+i;§ﬁilq_
+It is also possible to match entire intervals (by using the operator ..=). However,
+keep in mind that matching an entire interval (or several of them) is not always a
+simple job (if you want to improve matching performance).
+R” m
+Fn main() {
+grade {
+
+1..=4 => println!("Class Failed"),
+
+5..=1@ => println!("Class passed"),
+
+_ => pnintln!("Invalid grade"),
+
+}
+
+}
+As such, it is preferred to use inclusive intervals (a..=b) rather than exclusive ones.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Partial intervals can be used (notice the 5.. usage in the next code).
+
+M“ m
+5.. => pnintln!("Class passed"),
+
+Keep in mind that default value ”_” has to be used in this case to cover all possible
+
+cases (for example value O or negative values).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+i;§ﬁilq_
+Overlapping intervals are also possible !
+R” m
+main() {
+grade {
+
+1..=4 => pnintln!("Class Failed"),
+
+@..=16 => pnintln!("Class passed"),
+
+_ => pnintln!("Invalid grade"),
+
+}
+
+}
+OBS: Keep in mind that intervals are hard to optimize and that the goal of a
+matcher is to obtain an 0(1) access/check time.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+i?“
+For range/interval-based rules only numerical and char values and patterns can be
+used. As such constructs like the next one that attempt to match intervals based on
+strings are not possible !
+Rust
+main() {
+name = "John";
+match name {
+"abc"..="zzz" => println!("Interval one"),
+" "..="aaa" => println!("Interval two"),
+_ => println!("Another interval"),
+}
+}
+error[E0029]: only ‘char‘ and numeric types are allowed in range patterns
+--> src\main.rs:4:9
+|
+4 | "abc"..="zzz" => println!("Class failed"),
+| _____AAA_____
+| | |
+| | this is of type ‘&‘static str‘ but it should be ‘char‘ or numeric
+| this is of type ‘&‘static str‘ but it should be ‘char‘ or numeric
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+i?‘ 1
+Match constructs are often used WIth enums. Notlce that slnce an enum has a
+flnlte set of posslble values, the default “I” case |s not needed.
+Rust
+{ M
+Red,
+Blue,
+Black,
+}
+main() {
+c = ::Red;
+match c {
+::Red => println!("Red"),
+::Green => println!("GPeen"),
+::Blue => println!("Blue"),
+::Black => println!("Black"),
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+ii!ii§%::ii
+If a specific case from an enum is not covered, the Rust compiler can also provide
+insights into what is missing and What needs to be added.
+Rust
+{ error[E0004]: non-exhaustive patterns: ‘Color::Black‘ not covered
+Red, --> src\main.rs:9:11
+|
+Green, 9| matdic {
+BJJJe’ | A pattern ‘Color::Black‘ not covered
+Black, |
+} note: ‘Color‘ detined here
+mai11() { -I> src\ma1n.rs:5:5
+C = ::Red} 1 | enum Color {
+match c { |
+::Red => println! ("Red"), 5| Bl k
+' II II ac )
+::Green => println!( Green ), | MAM not covered
+IZBlUE => pPlntln! ("BILLIE"), = note: the matched value is of type ‘Color‘
+} help: ensure that all possible cases are being handled by adding a
+} match arm with a wildcard pattern or an explicit pattern as shown
+|
+12~ ColorzzBlue => println!("Blue"),
+13~ ColorzzBlack => todo!(),
+|
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Let's discuss another case that involves a match construct and an enum.
+
+Let's consider library "A" that exports an enum with a list of possible errors defined
+
+like in the following way:
+
+Let's also consider application "B" that uses library “A” as a dependency and has a
+
+code that matches the errors from library (crate) "A":
+::IO => {...},
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+What happens if library "A" decides to add a new value in the error list ?
+The immediate result will be that application "B" will not compile anymore:
+ennon {
+figrmat :i ii’ Rust will show an error because this match construct from
+gparameteps => {}: application "B" does not match all possible values of Error.
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+So what are the solutions in this case ?
+
+1. Application "B" has to refactor its code to match the new constraints from
+library "A". This is possible, but if library "A" changes its enum often, this might
+be an issue for the developers of application "A"
+
+2. Library "A" uses the non-exhaustive attribute for their enum:
+This flag will force the compiler to explicitly request that application "A" adds
+the default case (I) on every match even if all cases are already treated. This
+will however make sure that if newer versions of library "A" adds new variants
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+.ﬁﬁw__'2_x
+So what are the solutions in this case ?
+2. Library “A” uses the non-exhaustive attribute for their enum:
+This flag will force the compiler to explicitly request that application "A" adds
+the default case (I) on every match even if all cases are already treated.
+As such the code from a o lication "B" will be chaned into somethin, like this:
+error {
+::Format => {m},
+::IO => {m},
+::Parameters => {m},
+_ => { <defauLt processing f0r_future errors> }
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+a
+Let's try a more complex enum (one that contains specific values as well). You will
+notice that this code does not compile as it requires as to specify the value as well.
+Rust
+error[E9532]: expected unit struct, unit variant or constant, Found tuple variant ‘Distance::Inch‘
+{ ——> src\main.rs:9:9
+Inch( ), |
+Cm( ), 2 | Inch(i32),
+Km( ) | ————————— ‘Distance::Inch‘ defined here
+} éii Distancezzlnch => println!("Distance is in inch"),
+rnair1() { | AAAAAAAAAAAAAA help: use the tuple variant pattern syntax instead: ‘Distance::Inch(_)‘
+d = ::Km(196);
+match d {
+::Inch => println!("Distance is in inch"),
+::Cm => println!("Distance is in cm"),
+::Km => println!("Distance is in km"),
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+JéﬁgiiQQI
+In this context, the underline character ‘_' means to match any value as long as the
+variant type is the one specified. While this code is correct, we might want to get
+the actual value as well (e.g. in out case value 100)
+Ru“ M
+Cm(i32),
+Km(i32)
+}
+fn main() {
+let d = Distance::Km(1@6);
+d {
+Distance :Inch(_) => pnintln!("Distance is in inch"),
+Distance :Cm(_) => pnintln!("Distance is in cm"),
+Distance :Km(_) => pnintln!("Distance is in km"),
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+jé§é$i;g_
+The general format to et the actual value associated with an enum variant is:
+enum::variant(variab|e_name) => {code}
+Ru“ m
+enumIEiEEig;§’{ Distance is 100 km
+Cm(132),
+Km(132)
+}
+fn main() {
+let d = Distance::Km(196);
+d {
+Distance::Inch(value) => pnintln!("Distance is {} inch", value),
+Distance :Cm(value) => pnintln!("Distance is {} cm", value),
+Distance::Km(value) => pnintln!("Distance is {} km", value),
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+jé§é$i;g_
+rmﬁ
+We can also match an exact value associated with a variant (in this case for variant
+Krn we have two rules/match-arms:
+' Km(90) that will match cases where Distance type is Km and its value is 9O
+' Km(value) that will match the rest of the cases where Distance type is Km
+Rust
+enum Distance { M
+InCMiBZ), Distance is 100 krn
+Cm(i32),
+Km(i32)
+}
+Fn main() {
+let d = Distance::Km(1@@);
+match d {
+Distance::Inch(value) => pnintln!("Distance is {} inch", value),
+Distance::Cm(value) => pnintln!("Distance is {} cm", value),
+Distance::Km(99) => println!("PaPticulan case (99 Km)"),
+Distance::Km(value) => println!("Distance is {} km", value),
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+Jé§é$i;g_
+Match constructs are often used with Option<...> and Resu|t<...> enums to match
+the two cases those two enums can provide.
+Rust
+fn get_odd_numben(value: u32)->Option<u32> {
+value % 2 != 0 {
+} {
+} None this is an odd number 11
+}
+fn main() {
+let d = get_odd_number(11);
+d {
+None => println!("Not an odd number"),
+Some(x) => {
+println!("this is an odd number {}",x);
+}
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+'® Match
+Similar to how enums matching works, a structure and its value can be matched in
+a match construct. In this case , the underline character ”_” has a special meaning
+(it implies that a specific field from a structure can have whatever value we want,
+and we don't need to know its value).
+Let's consider that we have a 2-dimensional screen of size 100 x 100 where points
+can be written.
+Each point is represented by a structure with two coordonates (X and Y) and we are
+interested in knowing if a point is:
+' On one of the margins (X = 0 or X = 100 or Y = O or Y = 100)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+t?‘
+Let's see how we can use a match construct to bulld thls rules:
+RU“ M
+{ . .
+y: )
+}
+main() {
+p = { X: 9, yr 9 };
+match p {
+{x:9,y:0} => println!("0rigin"),
+{xz56,y:50} => println!("CenteP"),
+{x:9,y:_} => println!("Bottom margin"),
+{xz109,y:_} => println!("Top margin"),
+{x:_,y:9} => println!("LeFt margin"),
+{x:_,y:199} => println!("Right margin"),
+_ => println!("0ther point")
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+‘1 Match
+Let's see how we can use a match construct to build this rules:
+RU“ M
+——
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+jé§é$i;g_
+It is also possible to associate the name of the field to its value by NOT specifying
+the expected value (e.g instead of ”x:<value>” or "x:_” just use ”x”)
+Rm m
+struct Point { .
+X: 132’ Bottom margin (0,23)
+y: 132,
+}
+Fn main() {
+let p = Point { x: 9, y: 23 };
+p {
+Point{x:9,y:9} => println!("0nigin"),
+Point{x:56,y:59} => println!("Centeh"),
+Point{x:9,y} => println!("Bottom margin (6,{})",y),
+Point{x:169,y:_} => println!("Top margin"),
+Point{x:_,y:9} => println!("Left margin"),
+Point{x:_,y:199} => println!("Right margin"),
+_ => println!("0ther point")
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+.1 Match
+It is also possible to associate the name of the field to its value b NOT specifying
+the expected value (e.g instead of ”x:<value>” or "x:_” just use "\i”)
+Rm m
+p= {mew/=23};
+E => println!("Bottom margin (9, Y‘!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+It is also possible to associate the name of the field to its value b NOT specifying
+the expected value (e.g instead of ”x:<value>” or "x:_” just use "\i”)
+Rm m
+p= {mew/=23};
+{x:9,y} => println!("Bottom margin (9, )",y),
+{x:9,y:my_van} => pnintln!("Bottom margin (9, )",my_var),
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+t?“
+If a structure has multiple parameters and you are interested in matching only one
+of them, you can use ”..” to specify that the rest of them should be ignored.
+Rm m
+{ . .
+X; , Some p0|nt With x = 5
+y: ,
+z: ,
+t:
+}
+main() {
+p = { X: 5, y: 23, 2:15, t:39 };
+match p {
+{X:9,y:6,z:6,t:9} => pnintln!("0nigin"),
+{x:5@,y:59,z:56,t:59} => pnintln!("CenteP"),
+{x:5, ..} => pnintln!("Some point with X=5"),
+_ => pnintln!("0then point")
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+If a structure has multiple parameters and you are interested in matching only one
+of them, you can use "..” to specify that the rest of them should be ignored.
+Rm m
+SomepoMtwﬁhx=5
+{x:5,y:_,z:_,t:_} => pnintln!("Some point with x=5"),
+{x:5,y,z,t} => pnintln!("Some point with x=5"),
+{x:5, ..} => pnintln!("Some point with X=5"),
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+é?‘
+A similar logic to What happens in case of a structure can be applied any tuple. Let's
+consider the previous example with Point4D defined as a tuple:
+Rm m
+mm‘) {
+p = (9:92919);
+match p {
+(9,9,9,9) => println!("0rigin"),
+(9,..) => pnintln!("X-axis is 9 "),
+(1,2,..) => pnintln!("X axis is 9 and Y axis is 2"),
+(_,_,_,19) => pnintln!("T axis is 19"),
+(9,y,z,_) => pnintln!("X is 6, Y = , z = , t is ignored",y,z),
+(7,..,t) => pnintln!("X is 7, X and Y are ignored, T is ",t),
+_ => pnintln!("0ther point")
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+A similar logic to What happens in case of a structure can be applied any tuple. Let's
+consider the previous example with Point4D defined as a tuple:
+Rm M
+(7,..,t) => pnintln!("X is 7, X ancl Y are ignored, T is ",t), -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+a Match
+A similar logic to What happens in case of a structure can be applied any tuple. Let's
+consider the previous example with Point4D defined as a tuple:
+Rm m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+t?‘
+hAatch
+Keep in mind that the order of the rules matters. If two rules match the same case,
+the first one (in terms of the definition order) will be used. In our case, -
+matches both - and -. However, the result will be the first one that its
+being matched 9 (0,..)
+M“ M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+i?
+Just like in the case of tuples, a similar logic can be applied for array as well. Lets
+consider the following example:
+Rm M
+mainO { .
+a = [1,2,3,4]; A vector WIth second element 2 and last one 4
+match a {
+[9,9,9,9] => println!("A vector with Zeros"),
+[9,..1 => println!("A vector with first element Zero"),
+[..,5] => println!("A vector with last element 5"),
+[2,..,3] => println!("A vector with first element 2 and last one 3"),
+[_,2,_,4] => println!("A vector with second element 2 and last one 4"),
+_ => println!("Something else")
+}
+}
+OBS: Just like in the previous cases, I can be used to match multiple consecutive
+elements.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+i;§ﬁilq_
+You can also capture the value of an element from the array, and/or combine this
+method with the usage of_ and .. to ignore one or multiple values.
+R” M
+fn main() {
+a {
+
+[0,6,0,0] => println!("A vector with Zeros"),
+
+[9,x,y,z] => println!("A vector with [@,{},{},{}1",x,y,z>,
+
+[..,l,5] => println!("A vector with last elements: {} and 5",l),
+
+[_,m,..] => println!("A vector with the second element {}",m)
+
+}
+}
+
+OBS: Notice that we don't need the final rule/match-arm for the default value (_).
+This is because [_,m,..] will match everything else and will provide the value of the
+second parameter in variable “m”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+é?‘
+Keep in mind that in case of arrays, the number of elements described in each rule
+must match the number of elements in the array. In this next example, the second
+rule/match-arm has 3 elements instead of 4 (the number of elements from ”I”)
+Rust
+main() {
+match a {
+9 6 9 9] => println!("A vector with Zeros"),
+=> println!("A vector with [9, , ]",x,y),
+_ => println!("Something else")
+}
+}
+error[E0527]: pattern requires 3 elements but array has 4
+--> src\main.rs:5:9
+|
+| AAAAAAA expected 4 elements
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+While in case of arrays, the number of elements must be matched by all patterns,
+in case of slices, there is no such rule. Let's analyze the next example:
+Rust
+check_slice(slice: &[ ]) {
+println!("Testing: ",slice);
+match slice {
+[_] => { println!(" Match: a slice with one element ")3 },
+[a,0] => { println!(" Match: two elements (first is a , last is 0)"); },
+[a,b] => { println!(" Match: two elements ( a and b )"); },
+[a,_,b] => { println!(" Match: three elements: first: a , last: b ")3 },
+[1,..,5] => { println!(" Match: starts with 1 and ends with 5"); }
+_ => { println!(" Match: other cases ")3 }
+} M
+} .
+main() { lesUng:UqO,5]
+x = [1u8,0,5]; IVIatchzthree elements:first:1,last:5
+check_slice(&x); lesﬂng:UJ
+check_slice(&x[ _ 4]); Match: a slice With one element
+check_slice(&x[..2]); lesﬁng:UqO]
+} |\/|atch:two elements (first is 1, last is O)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+While in case of arrays, the number of elements must be matched by all patterns,
+in case of slices, there is no such rule. Let's analyze the next example:
+Rust
+[a,_,b] => { println!(" Match: three elements: first: a , last: b ")3 },
+[1,..,5] => { println!(" Match: starts with 1 and ends with 5"); }
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+é?‘
+It is also possible to capture a slice from the array by using the sigil character (I) to
+bind a part of the array into a new slice that can be used in the rule/arm code.
+In case of arrays, the general format for this type of binding is:
+<variab|e_name> @ ..
+Keep in mind that <variab|e_name> @ (to bind a variable name to a single
+position) is also possible but unnecessary as you can use the variable name directly.
+Rust
+maino { M
+a = [9’1’2’3’4]5 First three elements: [0, 1, 2]
+match a {
+[9,9,9,9,9] => println!("A vector with Zeros"),
+[9,middle @..,9] => println!("Middle of the vector is: ",middle),
+[First_3 @ ..,3,4] => println!("First three elements: ", First_3),
+_ => println!("Something else")
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+i;§ﬁilq_
+However, binding a value with a sigil character (@) is useful for cases where that
+value is not stored in a local variable (but it is the result of an expression). Let's
+consider the following case:
+Rust
+fn get_a_nandom_va1ue() -> u8 { nand::nandom::<u8>() % 191u8 } OUtPUt (possible)
+get_a_r‘andom_va1ue() { Better than half
+9 => println!("Zeno"),
+1..=49 => println!("Less than half"),
+59..=99 => println!("BetteP than half"),
+199 => println!("1@9"),
+_ => println!("Impossib1e value")
+}
+}
+Notice that the result of get_a_random_value() function is not stored in function
+main. As such if we want to use the actual value in one of the match construct
+arms, we can't.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+However, binding a value with a sigil character (@) is useful for cases where that
+value is not stored in a local variable (but it is the result of an expression). Let's
+consider the following case:
+RUSt Output (possible)
+Better than half with value: 57
+
+n @ 1..=49 => pnintln!("Less than half with value: {}",n),
+
+n @ 59..=99 => pnintln!("Betten than half with value: {}",n),
+Notice that the result of get_a_random_value() function is not stored in function
+main. As such if we want to use the actual value in one of the match construct
+arms, we can't.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+JéﬁgiiQQI
+You can also bind with enums variants values. Let's change the previous example to
+use an Option instead of an u8 value.
+Rust
+Output (possible)
+fn get_a_nandom_value() -> Option<u8> {
+let x = rand: :random: :<u8>(); Better than half With value: 57
+x<191u8 { Some(x) } { None }
+}
+fn main() {
+get_a_nandom_value() {
+Some(G) => println!("ZePo"),
+Some(n @ 1..=49) => println!("Less than half with value: {}",n),
+Some(n @ 59..=99) => println!("BetteP than half with value: {}",n),
+Some(199) => println!("1®6"),
+Some(_) => println!("0then cases"),
+None => println!("HigheP than 199 value")
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+You can also bind with enums variants values. Let's change the previous example to
+use an - instead of an u8 value.
+R st
+u Output (possible)
+Better than half with value: 57
+if x<191u8 { Some(x) } else { None }
+Some(_) => println!("0then cases"),
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+i?
+Rust also support guards for a rule/match-arm. This allows using a more complex
+checks than the one than the ones allowed by the pattern rule/matching arm.
+Rust
+Output (possible)
+get_a_nandom_value() -> {
+rand: :Pandom: :< >() % 101u8 Better than half With value: 95
+}
+main() {
+match get_a_nandom_value() {
+v if v == 9 => println!("Zero"),
+v if v < 49 => println!("Less than half with value: ",v),
+v if v < 99 => println!("BetteP than half with value: ",v),
+v if v == 190 => println!("199"),
+_ => println!("Impossible value")
+}
+}
+OBS: Keep in mind that guards might have a performance impact (use them
+carefully !)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+Let's consider an even more complex example where we use the match guard to
+filter out prime numbers.
+{n () _> { lOutput (possible) l
+} randzz ::< >() % 26u8 Aprime number:5
+fn (value: ) —> {
+if value < 2 { return false; }
+if value == 2 { return true; }
+for i in 2..=(value/2) {
+if (value % i) == 9 { return false; }
+}
+return true;
+match () {
+v if v == 9 => println!("Zero"), ﬁﬁﬁﬁﬁ
+v if (v) => println!("A prime number: {}",v), ﬁﬁﬁﬁﬁ
+v => println!("0ther values: {}",v) EQEEE
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:126**************
+"® Match (C++ vs Rust)
+—m—
+Match numerical value (e.g. integers) YES YES
+Match strings constants (literals) 9 ”..." YES -
+Match enums (classical) YES YES
+Match enums (variant style) YES -
+Match structs YES -
+Match tuples YES -
+Match arrays YES -
+Match multiple values YES YES
+Continue to next rule/ match arm - YES
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:127**************
+r’? M atc h
+Keep in mind that a match construct is desired to be fast (- with -access time),
+but these optimization will not always be possible. Some of the limitations of C++ are
+because the can not obtain a better performance with a switch for some cases (other
+than a m one).
+Examples where using a match should provide helm:
+' Constant numbers (ideally consecutive numbers: 0,1,2, ....)
+' Enum values (but not variants)
+Examples where using a match will probably translate into a chained if...else construct
+' Strings 9 it is more efficient to use an automata
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:128**************
+- @@
+
+***************Ending Page***************
+

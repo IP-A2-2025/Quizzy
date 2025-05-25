@@ -1,6 +1,7 @@
 package com.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,10 @@ public class Material {
     @JoinColumn(name = "courseid", nullable = false)
     @JsonBackReference
     private Course course;
+
+    @OneToMany(mappedBy = "material", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private java.util.Set<Flashcard> flashcards;
 
     public Long getId() {
         return id;

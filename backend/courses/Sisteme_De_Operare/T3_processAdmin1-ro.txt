@@ -1,0 +1,727 @@
+***************Beginning Page***************
+***************page number:1**************
+Sist6m€ d€ Op6rar6
+G6stiun6a procﬁrsﬁlor
+partﬁa I-a
+Cristian Vidragcu
+https://pr0fs.inf0.uaic.ro/~vidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+> C0n0€ptu1 d6 proces
+> Stéirilﬁ procesului
+> R61a§iiintr6 procerse:
+> Procese concurentﬁ
+> Planiﬁcama proceselor
+2/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Conceptul de proces
+> Proces (sau task) vs job
+— Job : un program in curs de executie, ﬁind o secventé
+formaté din unul sau mai multe procese (eg. Google Chrome)
+— Proces : o entitate activé (dinamicé) a S.O.-u1ui, ﬁind
+unitatea de lucru traditionaléi intr-un sistern de calcul
+> Un proces include, printre alte resurse:
+— Z0118 d6 COd (ce contine codul programului)
+— ZOIla d6 date (ce contine variabilele globale)
+— Z0113 d6 heap (pentru variabile alocate dinamic)
+— StiVEI d6 1110111 (ce contine inforrnatii temporare,
+e. g. parametrii subrutinelor, adresele de return,
+variabilele temporare, etc.) O
+3/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Concﬁptul de procers
+> Layout-ul m6m0rlel unul program C:
+#include <stdio.h>
+high — #include <std1ib.h>
+argc,agrv
+memory \
+stack int X;
+__l___ inty=15;
+Jint main(int argc, char *argv[])
+_ _ I _ _ int *values;
+heap [int i;
+uninitialized |_ _ _ I
+data values = (1nt *)malloc(S1zeof(1nt)*5);
+initialized for(i = 0,- i < 5,- i++)
+data values[i] = i;
+low
+t O;
+4/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Stériln procﬁsului /1
+> Pn parcursul nxecugini sale, un proces igi
+schimbé starea
+> Fiﬁcare procns (mai 6X21Ct, ﬁr de execugie) poate ﬁ
+intr-una din urméitoamln stéri:
+— running (in 6X60u§i6)
+— waiting (in agteptare)
+— ready (gata d6 execugie)
+> in cazul sistemnlor uniprocnsor, in oricn moment, un
+singur prnces (ﬁr de 6xecu§i6) poatn f1 in starea running!
+5/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Stank procersulul /2
+cresaraL deplaniﬁcare /
+proces <— t6rm1nare
+
+_ proces
+planlﬁcare
+terminara iHVOCanJ
+apgl d6 sistem apel de 51stem
+Notd: in sistemele bazate pe multi-threading, diagrama stérilor este la nivel de thread.
+6/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Blooul do control a1 prooosulul/ 1
+
+> PCB (Proooss Control Block) osto o structuré do
+
+dato roprozonténd un prooos in oadrul S.O.-u1ui,
+
+oo péstroazé urmétoarolo informarii:
+
+— ID-ul prooosului (i.o. PID-ul)
+
+— PID-ul prooosului péirinto (col caro a oroat rospootivul prooos)
+
+— staroa prooosului
+
+— oontorul do program (program counter) §i ooilalri rogigtri CPU
+
+— dirootorul curont do luoru; linia do oomandé; variabilolo do modiu
+
+— dropturilo do aooos 1a rosursolo sistomului
+
+— ﬁ§iorolo dosohiso do rospootivul prooos
+
+— informagii do planiﬁoaro a CPU
+
+— informagii do gostiuno a momorioi
+
+— informarii pontru raportéri (accounting)
+
+— informagii dospro staroa I/E
+
+$.21.
+7/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Blooul de control a1 prooesulul/Z
+> Ca §i implementare, tipul de date PCB este un struot avénd céte un
+oémp pentru ﬁeoare dintre informatiile enumerate pe slide-ul anterior,
+cu observatia 051 unele oﬁmpuri sunt la réndul lor mai oomplexe, ﬁind
+ﬁe struct-uri, ﬁe ehiar pointeri eétre alte tipuri de date complexe
+> Tabela proceselor I ansamblul tuturor structurilor PCB pentru toate
+procesele existente la un moment dat
+> Ca §i implementare, tabela proceselor poate ﬁ:
+— un vector de PCB-uri, indexat dupé PID
+— o listé (simplu, sau dublu) inléntuité de PCB-uri, eventual sortaté dupé PID
+— $.21.
+8/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Relagii intre procese / 1
+> Un proees este independent daeé nu poate
+afeeta §i niei nu poate f1 afeetat de eelelalte
+procese ce se executé in sistem
+
+— “starea” procesului nu este partaj até de alte procese
+
+— execugia procesului este deterministé (depinde in
+intregime numai de datele de intrare)
+
+— execugia procesului este reproductibilé (rezultatul
+execuyiei va ﬁ mereu aeela§i pentru aeelea§i date de
+intrare)
+
+— execugia precesului poate ﬁ suspendaté gi apoi
+poate ﬁ reluaté féré a eauza efeete nedorite
+
+9/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+R61a§ii intm procesﬁ /2
+> Un proces ﬁste COOperant dacé poat€ afecta
+sau poatﬁ ﬁ af6ctat d6 celelalte proces6 C6 $6
+6xecut€1in sistem
+— “starea” procesului estﬁ: partaj até de alte procese
+— rﬁzultatul execu§i6i procﬁsului nu poatﬁ ﬁ pmvéizut
+1n avans
+— mzultatul execulziei procesului 6ste nedeterminist
+(nu d€pinde numai d6 datele d€ intrare)
+Notéi: sa formeazé astfal grupuri de cﬁte doué sau mai multe procese
+cooperante; ce: colaborwzé intre: ele pgntru a-gi indeplini sarcinile.
+10/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+R61a§ii intm procesﬁ / 3
+> Da ce se utilizaazéi mai multe procas€ coopﬂante
+(in cadrul unui job) ‘.7 Sau, de 66 se utilizaazé mai multe
+ﬁre de ﬁxecu§i6 (in cadrul unui proces) ?
+— P6ntru a captura activitélzi natural concumnte in
+cadrul sistﬁmului programat
+~ Trataraa evﬁnimantelor asincrone
+— Perntru a cé§tiga vitﬁzé d6 6X60u11ie (speedup) prin
+suprapun6r6a activitégilor de calcul cu C616 de I/E
+sau prin 6Xp10atar€a hardware-ului paralel
+11/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Rolatii intro proooso /4
+> Abstractizaroa thread — doﬁnogto un singur
+ﬂux soovontial do instructiuni
+(oontor program, stivéi, valori rogigtri)
+— Un thread osto unitatoa do b21251 do utilizaro a CPU
+— Poato ﬁ suportat do nucloul S.().-u1ui
+o.g. OS/2, Windows NT (NT4/2000/ ../Win8/Win10), Solaris §i alto
+varianto do UNIX
+> Procos — rosursa context, cu rol do “container”
+pontru unul sau mai multo throad-uri
+(spatiu do adroso partaj at do citro acostoa)
+12/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Relagii intre procese / 5
+Pfgcgs sgcvgntial PfOCﬁS multithreaded
+(cu un singur thrgad) (CU. mai multe thread-uri)
+Address Space Address Space
+13/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Procers6 concumnte /1
+> Pr006s6 multipl6 pot ﬁ multiprogramam p6 un
+Singur CPU (i.e., exﬁcutatﬁ: prin “paralelism aparent”)
+
+> Moth/6:
+
+— partaj ama resurselor ﬁzice
+
+— partajama msursalor logice
+
+— cr6§t6r6a vitazﬁi d6 calcul (speedup computagional)
+
+— modularitatﬁ
+
+— comoditatﬁ: de utilizare: a sistemului
+
+14/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Procﬁse concumnte /2
+Primitiva fork returneazd zero
+fiului §i PID-ulfiului pdrintelui
+° Craama s1 . ,
+, ’ 1nt pld; V _
+tenmnarea int Sm :0;
+exacta a procesului parmte
+pl'OC6S6lOf if (pid _ fork())
+* >X<
+(m0d€llll { / parent / Pdrintelefoloseﬂe wait pentru a
+- ' 2...: - , dormi pdnci ccindfzul se tel/mind;
+Uan) } 1d walt (&status), apelul wait returneazd PlD-ulﬁului
+else §i codul de terminare.
+{ /* child */ Variantele de wait permit aﬂeptarea
+unui anumiiﬁu, sau notiﬁcarea
+eX1t( st atu s)‘ stopciriiﬁului sau a altor semnale.
+}
+F iul intoarce pdrintelui codul
+v . . de terminare la exit, pentru a
+. PIOC6S€ paflnw $1 ﬁll raporta succesul/e§ecul.
+15/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Procers6 concumnte /3
+> Disciplina ﬁului
+— Dupé un apel f0rk(), programul périnte are
+00ntrolu1 total asupra comportamentului ﬁului séu
+— Fiul igi m0§t6ne§te m6diu1 d6 execuﬁﬁ de la péirinte
+(dar programul périnte i1p0at6 schimba)
+' asignérile descriptorilor de ﬁgiere sunt setate cu 0pen(),
+close(), dup()
+' pipe() inigialimazé canalele de comunicaﬁﬁ intre procese
+— Programul périnte poate pun6 ﬁul s51 €X€Cllt€ un
+program diferit, apelénd €X€CO in contextul ﬁului
+16/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Procesﬁ concurente / 4
+> Precesul ﬁu trebui6 s51 poaté f1 diferit d€ périnte
+— Primitivele 6xec() “b00t6azé” ﬁul cu 0 imagim
+axecutabilé difarité d6 cea a périntelui
+' programul pﬁrintﬁ apalﬁazé primitiva exec() (in contextul
+ﬁului creat) pentru a ex6cuta in ac6sta un nou program
+' exec() macoperé prowsul ﬁu cu 0 noué imagine executabilé
+' mstarteazéi ﬁul in mod utilizator la un punct de intrare
+predeterminat
+' nu returneazé nici 0 valoare programului apelant (deoarace
+awsta nu mai existéi!)
+' argum6ntel6 liniei de comandéi §ivariabi1616 de mﬁdiu sunt
+transferat6 in H16H10fi€ —> Declarayia completé a funcgiei main:
+' descriptorii d6 ﬁ§i6re, PID-ul, $.21. rémﬁn n6schimbate
+17/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+p L- 1‘! I'.|' 42' pram-r: .Il'wm' as
+I'I-‘i-l'j Pin-‘Ill furk child L'Imrc' quurmi'r: Marc-mm"
+rejfc'mml'r cm ﬂ'mrm'
+r'rrauuat'a's.
+Farr-m and vii-Ha" |".'l'4"'|"'1|'."|"
+fin-e'pa'ri'n'e'irl'h': nmrwrr
+‘-T."|'.'.l.":"'.i am?‘ mun-rm’ 111-‘ may
+diverge.
+Hm u" Uh‘ em}, F-FerrJ-‘ic'
+nlrrlrrrrjl'nrJ-nr
+Furmu.-|"w;1-.-:'n 14-ng 143m“ tit'r-I'lﬂ'h'wfr I"'-!’,|'l'l1'|l.|'f|'-'-
+HHH'II' [-IFHIJIIIIII ﬁrm“- “IF rm .'|illli'£]|"|"|'.|| Prhu'ei'JH'z'H'u.
+Hrr'l'j.
+{7&de EIH'E'I'E mun-HE ifﬂl'é'.‘
+J|:|rr.lr§'.'|'1|' is lrl'mﬂ' erm' i'nm'r
+.I'eu'aarrcﬁ are referrxm'. Fm.’
+prrm'xs ca'e'h'cn'prur .I'e'mm'ri's 2mm‘
+,Ilm'rm' raw"; m'r'l' Han-H‘ Tin waif‘.
+18/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Procers6 concumnte / 6
+> Mai multe cazuri tr6buie considéraw pantru “join”
+e. g. exit() §i wait()
+— Ce s6 intﬁmplé dacé ﬁul fa06 exit ($6 terminé)
+inainte ca tatél $51 facé join?
+' Un 0bi6ct proces “zombie” péstreazé codul de terminare §i
+informagiile de stara ale ﬁului
+— Ce se intémplé dacé tatél sa tanniné inaint6a ﬁului?
+' Orfanii devin copii ai procﬁsului init (cu PID-ul 1)
+— Ce se intémplé dacé tatél nu-§i poate permite s51
+a§tepte 1a un punct de join‘?
+' Facilitégi pentru notiﬁcéri asincrone: (prin semnale Unix)
+19/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Planiﬁcarea pr0caselor
+' Planiﬁcama procerselor (va ﬁ COntinuatﬁ)
+> Obi€CtiV€
+> Cozi de: planiﬁcare:
+> Planiﬁcatoare
+> Schimbarera conmxtului
+> Prioritéigi
+> Structura planiﬁcérii
+> Algoritmi d6 planiﬁcare
+20/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Planiﬁcarera proc6se210r /1
+' Obiectivelﬁ: gestiunii prowsorului
+— d6 a aloca timp CPU 1a j oburile/procﬁsﬁle
+
+d6 6X6cutat, intr-o as6menea maniﬁré incét
+
+s51 thimizﬁze: un anumit aspect (sau mai
+
+multe aspﬁctﬁ) ale performangei utilizérii
+
+sistemului de calcul
+
+21/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Planlﬁcarera procﬁseﬂor /2
+Obiective urmdrite:
+
+' Echitate ' Utilizarea resurselor
+Asigurarea faptului 051 ﬁecam Asigurama faptului c5 toate
+proces are: §anse echitabila 1a CPU resursele sunt folosite la maxim
+
+' Timp de rz'lspuns ' Throughput (rata de servirﬁ)
+Minimizarea timpului de réspuns Maximizarea numérului de joburi
+p6ntru utilizatorii interactivi axecutatﬁs pa oré
+
+' Predictibilitate 'Evitarea améinﬁrii la infinit
+Asigurarea faptului 651 un acela§i Asigurarea faptului céi toate
+job va avea 0 aceea§i duraté de joburile s6 terminé de executat
+exgcugie indiferent de variabilelﬁ: o Deadlines (tgfmgng limité)
+sistemului Asigurarea indeplinirii termenelor
+
+' Eﬁcienga limité sp6ciﬁcate de utilizatori
+Furnizarea unui grad ridicat de
+utilizare a CPU
+
+22/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Cozi d6 planiﬁcare /1
+> Cozi d6 planiﬁcare
+
+— pe misuré 66 prowsele intré in sistem, sunt
+depuse intr-o coadﬁ de j oburi (cu toate procesele
+ce a§t6apt€1 s51 1i se aloce mémoria principalé)
+
+— prowsele ce sunt rezid6nte in memoria principalé
+§i care sunt gata de 6xecu§ie §i a§teaptéi sé ﬁe
+ex6cutat6, sunt péstram in coada ready (gata de
+6X€cu§ie)
+
+— procﬁsele 06 a§t6apt€1 un dispozitiv parifﬁric I/O
+sunt pistratﬁ intr-o coadii I/O (coada periferic)
+
+23/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Cozi d6 planiﬁcare /2
+> Un nou proces este pus inigial in coada rerady
+> El agtwpté in coada mady péné cénd 6st6 selectat
+pentru execugie gi i s6 d5 CPU-ul
+> Dupéi ce CPU-ul ii este alocat prowsului §i incepa
+sé-l ex6cute, pot apara mai multe eveninmnte:
+— procesul poate lansa 0 carafe I/O §i apoi este plasat
+intr-o coadé I/O
+— procesul poate f0rk() un nou proces gi wait() terminarea
+ﬁului
+— procesul poate ﬁ inléturat forgat de pe CPU (ca urmare:
+a unei intmruperi) gi plasat inapoi in coada ready
+24/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+C021 de planrﬁcara / 3
+Activitatea de planiﬁcare:
+—> Coada ready 4‘>
+c d ‘ ‘t f
+Cm 1/0
+Cuanté de timp expirat5<—
+h11d terrnlnatlon’ urmat de wait
+' Coada ‘wait wait for an
+for interrupt’ intarrupt
+25/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Planiﬁeatoare /1
+
+Activitatea S.O.-ului de planiﬁeare poate ﬁ
+
+consideraté e51 se desfégoaré 1a trei nivele:
+
+1. La nivelul inalt (planiﬁcarea joburilor) se
+decide care joburi pot intra in sistem pentru a
+coneura pentru resursele acestuia
+
+2. La nivelul de mijloc (planiﬁcarea proceselor)
+se ajusteazé prioritégile proceselor gi se pot
+suspenda procese, determinénd astfel care
+procese vor coneura pentru CPU
+
+3. La nivelul scazut (dispecerat) se decide eérui
+thread i se va aloea efeetiv CPU-ul
+
+26/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Planiﬁeatoare /2
+Planiﬁcatoare:
+1. Planiﬁcator pe termen lung (planificator de j oburi)
+
+' selecteazé procesele §i 1e ineareé in memorie pentru exeeugie
+
+' controleazéi gradul de multi-progmmare (i.e., numéirul de
+procese din memorie)
+
+2. Planiﬁcator pe termen scurt (planiﬁcator CPU)
+
+' selecteazé dintre procesele (mai exact, dintre thread-urile) care
+sunt in starea ready (i.e., gata de execugie), unul eéruia ii 2110051
+CPU-ul pentru urmétoarea euanté de timp procesor
+
+' aeest planiﬁeator trebuie $51 ﬁe foarte rapid, deoareee va ﬁ
+executat eel pugin 0 daté la (aprox.) 10 ms
+
+27/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Planiﬁcatoam /3
+Tipuri de procﬁsﬁ:
+' Procese I/O-intﬁnsive
+— un procﬁs cam genereazéi d6s cemri I/O, i.6. cam-gi petrece
+timpul mai mult ﬁcénd 0p6ra§ii I/O deceit efectuénd calcule
+' Pmcﬁsﬁ CPU-intensive
+— un procﬁs cam genareazéi rar cereri I/O, petrecéndu-gi
+timpul mai mult ﬁcénd calcule deceit operagii I/O
+28/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Planiﬁcatoam /4
+' Orice algoritm de planiﬁcare trebuie séi ia in calcul
+unnétorii factori:
+i) dacé un task estn I/O-intansiv sau CPU-intensiv,
+ii) dacéi un task aste de tip batch sau interactiv, gi
+iii) cét de urgent se care a ﬁ réispunsul.
+' Sistninul cu cna mai bunéi pnrfonnangé va avea 0
+combinaiiﬁ de procesn CPU-intnnsivﬁ §i I/O-intensive.
+' Pnntru sistemelﬁ: modnrnﬁ, planiﬁcatorul pe ternmn
+lung poatn f1 minimal sau chiar absﬁnt.
+29/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Planiﬁcatoam / 5
+' Unele: S.O.-uri (6. g. sistema cu tima-sharing) pot
+introducﬁ un nival intermevdiar de planiﬁcam:
+planiﬁcatorul pe termen mediu
+%l'roces6 pargial executate: swapp6d-0ul swap out
+é-
+Y ® end
+w Cozi de a§teptare I/O
+Schema d6 swapping
+30/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Schlmbarea contextulul/ 1
+process PO operating system process P1
+, interrupt or system call
+O
+Context swztch executing
+Comutarea CPU -ului
+cétre alt proces I idle
+necesité salvarea '
+starn vechlulul E/
+proces si incércarea idle _ ,
+v _, ’ , Interruptorsystem call executlng
+starn salvate antenor
+a noului Proees ce P
+~ ~
+urmeaza sa $6 ‘
+execute pe CPU. - 'd'e
+executing
+31/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Schimbarea contaxtului/Z
+— Timpul necesar pantru schimbarea contextului constituie 0
+incarcare suplimentara a sistemului (de ordinul 1+100 as), dar
+depinde foarte mult d6 suportul oferit de hardware
+— Dispatcher: rutina din nucleul SO-ului care preda controlul
+CPU-ului catre procesul selactat din coada ready de catre CPU
+scheduler (i.e. planiﬁcatorul pe tarman scurt), ceea ce
+prasupune urmatoarele acriuni:
+1) Schinibaraa contextului
+2) Revenirea in modul neprivilegiat a1 procesorului (user-mode)
+3) Salt la instrucriunea potrivita din program (pe baza informayiilor salvate
+anterior in contextul acelui proces) pentru reluarea execuriei acestuia
+Notd: rutina dispatcher este scrisa adesea in limbaj masina, pentru eﬁcienga la execu'gie
+32/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Prioritéigi /1
+' Prioritate
+
+— Anumite 0bi6ctive pot ﬁ indeplinite prin
+incorporarea in disciplina de planiﬁcare d6: bazé
+(gm round-robin) a unei nogiuni de prioritate a
+procaselor.
+
+— Fiacam procﬁs din coada ready are asociaté 0
+anumitéi valoare a pinTitéﬂi; planiﬁcatorul
+favorizﬁazé pr0¢6se316 cu valori mai ridicat6 ale
+prioritéyii.
+
+33/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+Pnontap /2
+' Manipularea prioritégilor
+— intnrn — planiﬁcatorul calculeazé m prioritégile §i 1n
+utilizeazé pentru gestiunea cozilor de planiﬁcare
+(i.e., sistemul ajusteazé intnrn valorile prioritégilor, pe parcursul
+execugiei joburilor, printr-o tehnicé implementaté in planiﬁcator)
+— extern — valori statice, in funcgie de rangul utilizatorului, $.21.
+' Valori externe 2116: prioritégii
+— sunt impusﬁ: sistemului din afara sa
+— reﬂectéi prefnringe externe pﬁntru anumiﬁ utilizatori sau joburi
+(“Toate joburile sunt egale, dar unele sunt mai egale decét altele...”)
+— exemplu: primitiva Unix nic€() mic§0mazf1 prioritatna unui job
+— exemplu: joburile urgente intr-un sistem de control in timp real
+34/37
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+Pnontap / 3
+
+Prioritégile trerbuie manervrate cu grijé atunci cémd existé
+
+dependinip intre prowse cu prioritiigi diferite.
+
+— Un proces cu prioritatea P ar trabui s51 nu impiedice niciodaté
+progresul unui proces cu prioritatea Q > P.
+
+Q astfel d6 situagie se nume§t6 inversiunea prioritdﬁi §i
+trebuie s51 se evite aparigia sa.
+
+— Solugia 06a mai simpl'Zl consté intr-o m0§tenire a prioritdﬂi:
+Cénd un proces cu prioritatea Q a§teapté 0 anumité resursé, deginétorul
+6i (cu prioritatea P) m0§tane§te temporar prioritatea Q dacé Q > P.
+Mogtﬁnima s-ar puma s51 ﬁe n6c6saré §i atunci 05nd procesele se
+coordoneazé prin IPC (Inter-Proc6ss Communication).
+
+— M0§tenirea est6 utilé §i in altﬁ situagii, spre exemplu, pentru a
+ind6plini anumita termene limitéi.
+
+35/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+Bibliograﬁe
+' Bibliograﬁe obligatorie
+
+capitolele despm gestiunea proceselor din
+— Silberschatz : “Operating System Concepts”
+
+(cap.3,5 din [OSC10])
+S8111
+— Tanenbaum : “Modern Operating Systems”
+
+(prima parte a cap.2 din [MOS4])
+
+36/37
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Sumar
+> Conceptul d6 proces
+> Stérilﬁ procesului
+> R€1a§ii intm promisa
+> Procesﬁ concursntﬁ
+> Planiﬁcama procﬁtselor
+> Obiectiw
+> Cozi de planiﬁcare
+> Planiﬁcatoare
+> Schimbama contextului
+> Prioritégi
+intrebéri 7 va ﬁ contlnuata 37/37
+
+***************Ending Page***************
+

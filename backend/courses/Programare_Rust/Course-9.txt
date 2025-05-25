@@ -1,0 +1,2675 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 9
+Gavrilut Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Agenda for today
+1. Modules (visibility concepts)
+2. Modules and multiple files
+3. Crates
+4. Conditional Compilation
+5. Tests
+6. Documentation
+7. Workspaces W
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Modules
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+IVIod u les
+Rust does not have namespaces, but it does have a way to separate code in
+modules. This separation implies some visibility restriction (within and/or outside
+the module).
+
+The general rule is that within a module, everything (declared in that module) is
+visible for every code in that module.
+A module can be declared in two ways:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+i?
+Let's see a simple example:
+Rust
+math { error[E96931: function ‘add‘ is private
+add(x: ’ y: )_> { —l> src\ma1n.rs:7:21
+X+y 7 | let res = math::add(10,20);
+} | M" private 'Function
+} ‘lc'thft' ‘dd"d1c'dh
+main() { n?—(>e.src(\ema§2(.:r:;:5a 15 e lne ere
+res = math::add(16,26); |
+println!(" res ")3 2 | Fn add(x: 132, y: i32)-> 132 {
+} |
+Notice that function - is not visible (cannot be called) from function -.
+Function add is considered private outside its module.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+JéﬁgiiQQI
+Let's see a simple example:
+Ru“ m
+mod math {
+X+y
+}
+{n test() {
+println!("{}",add(1,2));
+}
+}
+{n main() {
+println!("OK");
+}
+Notice that function test can call function add. This is because both of them are
+part of the same module (math) and as such each one of them is visible for the
+other one.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+,’ M 0d U |€S
+So how can we change the visibility of a function/object so that it can be
+accessible outside its module ?
+
+Rust has a special keyword called - (short from public) that can be used for this
+scope.
+- keyword has several formats:
+
+' pub
+
+' pub (super)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+t?‘
+Let's see a simple example:
+Ru“ m
+math {
+x+y
+}
+}
+main() {
+PES = math::add(19,29);
+pnintln!(" P65 ")3
+}
+Now the code work.
+Notice the usage of "pub" keywork in front of the definition for a function.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+i?“
+Inner modules have to be made public in order to be accessible from outside their
+module the pub keywork must be use in front of them, even if— is
+defined as pub.
+Rust
+math {
+simple {
+add(x: , y: ) —> {
+x + y
+} error[E9693]: module ‘simp1e‘ is private
+} --> src\main.rs:14:21
+adoi(X2 ’ y: _ ’ Z: )'-> { 14 i let res = math::simple::add(10, 20);
+Simple::add(51mp1e::add(x,y), z) | ANMAAprnmtemomue
+|
+} } note: the module ‘simp1e‘ is defined here
+. --> src\main.rs:2:5
+ma1n() { . |
+res = math::51mp1e::add(1@, 26); 2 | modsimﬂe{
+println!(" res ")3 |
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+f. -- Modules
+One we add the pub specifier in front of the simple module, we can access
+math::simple::add. Keep in mind that we can not access math::add as it is not pub,
+but that function can access the add function from module simple.
+
+Rust
+pub
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+jé§é$i;g_
+In this case, mathzzsimplezzadd is not public While mathzzadd is. This means that
+from main mathzzadd is accessible, and from mathzzadd, mathzzsimplezzadd is
+accessible because it is public.
+Rust
+mod math {
+mod simple {
+pub fn add(x: 132, y: 132) -> 132 {
+i E-
+}
+pub Fn add(x: 132, y: 132, z: 132)-> 132 {
+simple :add(simp1e::add(x,y), z)
+}
+}
+Fn ma1n() {
+let PES = math::add(19, 28, 3G);
+println!("{res}");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+iigiigﬁigii
+At the same time, if we remove the - from the mathzzsimplezzadd, then it can
+not be access from mathzzadd and as such the program will not compile.
+Rust . c t . .
+error[E9663]: functlon add lS prlvate
+rnatr1 { ——> src\main.rs:8:17
+- |
+H. - 8 | simple::add(simple::add(x,y), z)
+adC1(XI , y: ) -> { | AAA private function
+x + y |
+no e: e unc 10n a lS e 1ne ere
+} t th f t' ‘ dd‘ ' d f' d h
+——> src\main.rs:3:9
+}
+|
+add(x: , y: , z: )-> { 3 | fn add(x: i32, y: i32) -> i32{
+simple: :add(simp1e: :add(x,y) , z) | AMAMMMMAMMMMMMMM
+} error[E9603]: function ‘add‘ is private
+} ——> src\main.rs:8:29
+main() { |
+PES = math::add(19, 29’ 39); 8 | simple::add(simple::add(x,y), z)
+- u .. | AAA private function
+pr1ntln!( res )3 |
+} note: the function ‘add‘ is defined here
+——> src\main.rs:3:9
+|
+3 | fn add(x: i32, y: i32) —> i32 {
+I AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+jé§é$i;g_
+emﬁ
+But what if we want to access a function define in another module that is not a
+child of the current module ?
+Ru“ m
+mod math {
+pub (super) fn add(x: 132, y: 132) -> 132 {
+x + y
+}
+}
+pub mod complex {
+pub fn add(x: 132, y: 132, z: 132) —> 132 {
+supen::simple::add(supen::simple::add(x, y), z)
+}
+}
+}
+Fn ma1n() {
+let PES = math::comp1ex::add(19, 29, 30);
+println!("{res}");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+But what if we want to access a function define in another module that is not a
+child of the current module ?
+Rm m
+simple { E-
+add(x: , yI ) -> {
+}
+}
+complex {
+add(x: , y: , z: ) —> {
+- :simple: :add( )
+}
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Another observatlon IS that we need both “add” functlon to be publ|c and the modules
+they are |n to be publlc as well (Slmple and complex) for the next code to complle.
+Wl
+mod math {
+pub mod simple { 60,30
+pub fn (x: , y: ) —> {
+x + y
+}
+}
+pub mod complex {
+pub fn (x: , y: , z: ) —> {
+super :simple:: (super: simplezz (x, y), z)
+let PGS = math :complex:: (19, 29, 39); ﬁﬁﬁﬁﬁ
+let Pe52 = mathzzsimplezz (19, 29); ﬁﬁﬁ E
+println!("{res},{resz}">; teﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+‘1 Modules
+Another observation is that we need both “add” function to be public and the modules
+they are in to be public as well (simple and complex) for the next code to compile.
+
+Rust
+simple {
+X + y
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+The solution is to declare mathzzsimplezzadd function as —. This will make it
+unaccesible from outside math module.
+error[E6663]: function ‘add‘ is private
+--> src\main.rs:15:36
+pub (super) fn (x: , y: ) -> { |
+X *_ y 15 | let resZ = math::simp1e::add(16, 26);
+} i AAA private function
+note: the function ‘add‘ is defined here
+--> src\main.rs:3:9
+|
+3 | pub (super) fn add(x: i32, y: 132) -> i32 {
+I AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+let resZ = mathzzsimplezz (19, 29);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+The solution is to declare mathzzsimplezzadd function as —. This will make it
+inaccessible from outside math module.
+I Output I
+mod math { 60
+pub mod simple {
+pub (super) fn (x: , y: ) -> {
+x + y
+}
+}
+pub mod complex {
+pub fn (X: , y: , z: ) —> {
+super :simple:: (super: simplezz (X, y), z)
+let PES = math :complex:: (19, 29, 39); ﬁﬁﬁﬁﬁ
+println!("{res},{resz}">; lﬁﬁtﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+The rule is that by default, everything declared within a module is considered
+
+private (meaning that it can be access by everything declared in that module and
+
+its ancestors) but not from other locations (other modules).
+
+OBS: for a struct, this rule includes its member and its implementation (if a struct
+
+its declared public but its members are not, then its members can not be accessed
+
+from another modules).
+
+There are two exceptions from this rule:
+1. If a - is declared public, its associated items are public as well
+2. If an - is declared public, its variants are public as well
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Let's see some examples and dlscuss how Vl5|b|||ty rules work here:
+Rust
+mod a { W
+mod b{
+fn add(x: 132, y: i32) -> 132 { x + y }
+mod c {
+Fn inc(x: i32) -> 132 { x+1 }
+mod d {
+fn sub(x:i32, y:i32) -> i32 {
+super::super::add(x,-y)
+}
+}
+}
+}
+}
+fn main() {
+println!("ok");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+‘1 Modules
+Let's see some examples and discuss how visibility rules work here:
+add(x: , y: ) -> { X + y }
+:: ::add(x,-y)
+|_ m
+E
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+.1 Mod u Ies
+Let's see some examples and discuss how visibility rules work here:
+add(x: , y: ) -> { X + y }
+:: ::add(x,-y)
+L_
+ii
+m
+ii
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Let's see some examples and discuss how visibility rules work here:
+add(x: , y: ) -> {x + y}
+super::super::add(...)
+a::b::add(...)
+I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Let's see some examples and discuss how visibility rules work here:
+add(x: , y: ) -> {X + y }
+::a::b::add(x,—y)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Let's modify the previous example so that we can access function - from main.
+Rust
+a { error[E9693]E module ‘b‘ is private
+b { —I> src\ma1n.rs:15:16
+add(X: ’ y: ) _> { X + y } 15 | let x = a::b::c::d::sub(10,4);
+C { | A private module
+inc(x: ) -> {x+1 } |
+d note: the mooule b is de-Fined here
+d SUb(X2 , y: ) _> { —I> src\ma1n.rs.2.5
+::a::b::add(x,-y) 2 | modb{
+}
+}
+} F
+}
+main() { m m
+x = a::b::c::d::sub(19,4);
+println!(" x ")3
+} E
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+‘1 Modules
+Let's modify the previous example so that we can access function - from main.
+Rust
+a W
+ELI b { I
+III C {
+d {
+E sub(x: , y: ) -> {
+}
+}
+}
+}
+X = az:b:zc:zd:zSUb(19,4); _
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+i?“
+Let's see how a structure works with modules:
+Rust
+a .{ error[E9693]: struct ‘MyClass‘ is private
+——> src\main.rs:7:16
+X: 7 i let a = a::MyC1ass {xz 19};
+} | AAAAAAA private struct
+} . hole: the struct ‘MyClass‘ is deFined here
+rnain ——> src\main.rs:2:5
+l
+println! (" ",a.x); 2 | struct MyClass {
+} |
+Notice that in this example, |\/|yClass structure is private and as such trying to access it
+from outside its module is not possible.
+The first step we should do is to make it public.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+é?
+Let's see how a structure works with modules:
+Rust
+ﬁ { er'r'or'[E6616]: field ‘x‘ of str'uct ‘MyClass‘ is private
+--> src\main.rs:8:21
+x: |
+} 8 | println!("{}",a.x);
+} | A private field
+main() {
+a = an --
+pnintln!(" ",a.x);
+}
+However, even if we make struct ublic the code will not compile as one of its
+fields that is required for initialization ( ) is not public !
+The solution is to make — public as well.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+JéﬁgiiQQI
+f. Modules
+Let's see how a structure works with modules:
+Rust
+pub struct MyClass {
+pub x: 132
+}
+}
+fn main() {
+let a = a :MyClass {xz 10};
+println!("{}",a.x);
+}
+Now the code compiles as expected.
+But what if we don't want MyStructzzx to be accessible ?
+Can we find a way to create an object of type MyStruct but without having access to
+data member ”x” ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+‘1 IVIod u Ies
+Let's see how a structure works with modules:
+Rust
+a { W
+{
+new(value: )-> { { x: value } }
+get(& )-> { .x }
+1»
+}
+main() {
+a = a:: ::new(19);
+println!(" ",a.get());
+}
+Notice that both - and I methods from MyCIass have the - specifier. If we don't
+explicitly add that specifier, those methods will not be available outside module "a" and
+as such the code from main .
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+s§§ﬁiqu
+ﬁqz l-
+” Modules
+But what if we have a different scenario (for the same structure MyCIass).
+We want to be able to access data member “x” at any time (both read and write) but
+we don't want to be able to create an object of type MyCIass in the standard way. ln
+other words, considering the following code:
+mod a
+}
+fn main() {
+let a = azzMyClass {xz 16};
+pnintln!("{}",a.x);
+}
+We would like for:
+1. Line let a = a: :MyClass {xz 19}; to be impossible (should not compile)
+2. Line pnintln! ("{}",a.x); to be possible( )
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+i?‘ ,1‘
+The solution is to add an extra member to the structure - (let's call it for the
+moment ’-”) That member has to be private and as such instantiation of-
+object will not possible. This is often referred to as a phantom member.
+Rust
+a -{ error[E9451]: field ‘extra‘ of struct ‘MyClass‘ is private
+{ -l> src\main.rs:8:32
+X: ’ 8 | let a = azzMyClass {x: 16, extra: 6};
+extn~az | AAAAAAAA private field
+}
+}
+main() {
+a = a:: {x1 19, extra: 9};
+println!(" ",a.x);
+}
+This solution has a drawback 9 an object of type - now has a size of 8 (instead
+of 4, its original size).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+jé§é$i;g_
+Let's see how this solution works:
+pub struct MyClass {
+pub x: i32,
+extra: i32
+}
+impl MyClass {
+pub tn new(value: i32) -> MyClass { MyClass { x: value, extra: 6 } }
+}
+}
+tn main() {
+let a = a::MyC1ass::new(19);
+pnintln!("{}, size={}",a.x,std::mem::size_of::<a::MyC1ass>());
+}
+Q: What can we do to make MyClass of size 4 (its designed size) but still respect our
+constraints (in C++ we would have used a private constructor).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+The solution lies in creating a ZST (Zero Sized Type) that can be used for the type of the
+”_extra” data member:
+struct MyEmptyStPuct;
+pub struct MyClass {
+pub X: 132,
+_extPa: MyEmptyStPuct
+}
+impl MyClass {
+pub Fn new(value: 132) —> MyClass { MyClass { x: value, _eXtPa: MyEmptyStPuct{} } }
+}
+}
+fn main() {
+let a = a::MyC1ass::new(19);
+println!("{}, size={}",a.x,std::mem::size_of::<a::MyC1ass>());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+jé§é$i;g_
+A similar solution can be obtained via a special generic/template called PhantomData.
+This allows adding various data members Within a structure that will are not public but
+have a size O and as such no impact on the final size of the structure.
+mod a { _
+use std: :manker‘: :PhantomData;
+pub struct MyClass {
+pub x: 132,
+_extra: PhantomData<MyClass>
+}
+impl MyClass {
+pub {n new(value: 132) —> MyClass { MyClass { X: value, _extra: PhantomData::defau1t() } }
+}
+}
+Fn main() {
+let a = a::MyClass::new(10);
+println!("{}, size={}",a.x,std::mem::size_oF::<a::MyClass>());
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+An even more slmple solutlon |s to use the v0|d type (). The result |s Slmllar, and It does
+not requlre any use of another module or an ZST structure.
+I Output I
+mod a { _
+pub struct { 10, 5|ZE=4
+pub x: ,
+_extra: ()
+}
+impl {
+pub Fn (value: ) —> {
+{
+x: value,
+_extna: ()
+println!("{}, size={}",a.x,std::mem:: ::<a:: >()); @ﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+a
+Modules
+A similar solution can be obtained via a special generic/template called —
+This allows adding various data members Within a structure that will are not public but
+have a size O and as such no impact on the final size of the structure.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+.1 Modules
+A similar solution can be obtained via a special generic/template called —
+This allows adding various data members Within a structure that will are not public but
+have a size O and as such no impact on the final size of the structure.
+10, size=4
+-—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+t?‘
+lVIod u Ies
+Let's see how an enum works with modules:
+{
+a denive( ) u
+III {
+Red,
+Green,
+Blue
+}
+}
+main() {
+c = a:: ::Red;
+pnintln!(" ",c);
+}
+This is one exception (since we have an enum we don't need to add pub for each of its
+variants, they are implicitly public when we define the enum public).
+OBS: The same logic applies for public traits in regard to their methods.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+We can also use modules to slmulate a statlc data member for a structure.
+mod a {
+static mut counter‘: = 9; lout ut I
+pub struct { pub x: } p
+impl { 1
+Pub tn () -> { 2
+unsafe { 3
+crate: a::counten += 1;
+{ x: cratezza: counter } 4
+} 5
+}
+pub tn (&self) —> { selt.x }
+}
+for i in @--5 { :aaaa
+let instance = a:: :: (); Eﬁﬁﬁﬁ
+println!<"{}", instance. <>>; tﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+There are also cases where you might not want to use the full qualifier name every
+time (especially it is long) -> for example the next example:
+mod a_veny_long_module {
+pub struct MyClass { pub x: i32 }
+} W
+fn main() {
+let obj = a_veny_long_module::MyClass { x: 10 },'
+pnintln!("{}", obj.x);
+}
+The solution is to use the "use" keyword in the following way:
+use a_veny_long_module::*; use a_veny_long_module::MyClass;
+let obj = MyClass { x: 10 }; C)r let obj = MyClass { x: 10 };
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+It is also possible to re-export a structure or a function b using the - syntax
+within another module. In the next example, is not visible from main
+because I is not public. However, the use of in module I makes it visible.
+Rust
+. { m
+b {
+H
+add(x: , y: )—> { x+y }
+}
+}
+::b::c::add;
+}
+main() {
+x = a::add(10,29); m
+ppintlnm" X H)’. a::b::c::add(...) a::add(...)
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+; Modules
+lt is also possible to re-export a structure or a function b using the - syntax
+within another module. ln the next example, is not visible from main
+because I is not public. However, the use of in module I makes it visible.
+
+Rust
+U-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+a Modules
+lt is also possible to re-export a structure or a function b using the - syntax
+within another module. ln the next example, is not visible from main
+because I is not public. However, the use of in module I makes it visible.
+
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Modules & Multiple files
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+vs: M od u les & m u lt| ple f | les
+Sometimes a program is too large to keep it in a single file. Even if that file is
+organized into multiple modules, it is still hard to navigate around it. The solution is
+to split that file into multiple ones and create a module like hierarchy around this.
+Currently, Rust considers that each module should be form out of:
+' A file with the name — that contains module specific definitions, re-
+exports, etc
+' An optional folder with the name - that will include sub-modules of the
+parent module (if any — hence optional). |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Va Modules & multiple files
+Let's consider the following hierarchy for a mathematical module:
+' - 9 root module
+' - 9 a module that contains simple operations (like sum of two number, multiplication of two
+numbers, etc)
+° - 9 a module that contains more complex operations (like sum of all numbers from an
+array, or their product, ...)
+° - 9 a module that contains some mathematical constants (like Pi, E, etc)
+' - 9 logs and debug stuff
+' - 9 debug methods for testing the result
+' I 9 log method
+' ”math::other" module should not be accessible outside math module.
+~ Methods from ”math::other::log” or "math::other::debug" must be visible within math mule
+' “m” module must have some configuration functions (to ena ble/ disable debug/log)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Modules & multiple files
+9 create a hierarchy of files and folders within the - folder of our Rust program
+Vi src
+Vi math
+simple.rs
+complex. rs
+constants.rs
+Vi other
+debug. rs
+log. rs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+_ Modules & multlple flles
+m 9 Let's write the code for "debug" and “log” modules
+Vi src Ru“
+r static mut enabled: bool = False;
+- math pub( crate::math) fn msg(s: &stn) {
+simple.rs unsafe {
+. enabled {
+c0mplex.rs println!<"{}", s);
+. }
+COHSthl'SJ'S }
+}
+'i Other pub( cratezzmath) fn enable_debug_mode(value: bool) {
+debug.rs unsate {
+g I enabled = value;
+- 0g.rs }
+othenrs }
+math.rs
+B main.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+a Modules & multiple files
+m 9 Let's write the code for "debug" and “log” modules
+Vi src Ru“
+'i math
+simple.rs
+complex.rs
+constants.rs
+i Other
+othenrs
+math.rs
+B main.rs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+m 9 Let's write the code for "debug" and “log” modules
+Vi src Ru“
+r static mut enabled: bool = False;
+- math pub( crate::math) fn msg(Function: &str‘, s: &str‘) {
+simple.rs unsafe {
+. enabled {
+c0mplex.rs pnintln!("Logging: (Function: {}) —> {}", function, s);
+. }
+COHSthl'SJ'S }
+}
+'i Other pub( cratezzmath) fn enable_log_mode(value: bool) {
+debug.rs unsate {
+. enabled = value;
+Iog.rs }
+E othenrs }
+math.rs
+B main.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+m 9 Let's write the code for "other" module
+i src ( "math) debug'
+i math ( ::math) log; ,
+sim Ie.rs
+t P In this case the code is quite simple. File ’-" just creates two new
+COmpIEXJ'S sub-modules (debug and log) that corresponds to the files - and
+constants rs - and that are public (in cratezzmath) 9 meaning that they are visible
+' within math module, but not outside it.
+Vi other
+debug.rs
+a 1m
+a math-rs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+vs: M od u les & m u lt| ple fl les
+m 9 Let's write the code for "constants" module
+i src PI‘ = 3 14-
+imath E:. = 231;’
+simple.rs _ _ _
+t In thls case both constants are declared as publlc (meanlng that they can be
+COmpIEXJ'S used from outside module -).
+Vi other
+debug. rs
+[091$
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+m 9 Let's write the code for "complex" module
+i Rust
+SFC pub Fn sum(v: &[132]) —> 132 {
+i math let mut elements_sum = 6;
+- elem v {
+é s!mple.rs elements_sum += elem;
+complex.rs 1’
+. elements_sum
+constants.rs }
+r pub Fn prod(v: &[132]) -> 132 {
+I other let mut elements_prod = 1;
+elem v {
+é debug.rs elements_prod *= elem;
+Iog.rs }
+~ elements_prod
+othenrs }
+math.rs Notice that both "sum" and "prod" functions are declared as public (so that
+B main I'S they will be accessible from outside math module).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+m 9 Let's write the code for "simple" module
+Vi src Ru“
+add(x: , y: ) -> {
+i math ::math: :other‘: :debug: :msg("add two numbers");
+~ , ::math::othenzzlog::msg("simple::add","add two numbers");
+srmple.rs X + y
+~ }
+complex.rs mul(x: , y: > -> {
+. ::math::otherzzdebug::msg("multiply two numbers");
+CO"$tC"1t$-r$ : :math: :other‘: :log: :msg("simple: :mul","multip1y two numbers");
+x * y
+Vi other }
+debug.rs Notice that both ’-" and ”-" functions are declared as public.
+IOQJS Before each one of them is called, they call function from both ’-” and
+other fS “I” module that if enable will print a message on the screen.
+math.rs
+B main.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+. .
+Modules & multlple flles
+Step 7 9 Let's write the code for "math" module
+i SFC RUSt simple'
+i math compleg
+. _ constants;
+s!mple.rs other;
+complex.rs derive( >
+t {
+CO"$tGI1t$-r$ None,
+Lo ,
+i other Deﬁug
+debug.rs }
+t set_info_mode(mode: ) {
+I0g.r$ other‘: :debug: :enable_debug_mode(mode == :zDebug);
+é other rs other‘: zlog: :enable_log_mode(mode == ::Log);
+' }
+math.rs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+“k Modules & multiple files
+9 Let's write the code for "math" module
+simple.rs conStants;
+complex.rs
+constants.rs
+Vi other
+debug.rs
+Iog.rs
+é othenrs
+math.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+my Modules & multiple files
+9 Let's write the code for "math" module
+Vi SFC Rust
+Vi math
+complex.rs
+constants.rs math
+i other
+debug.rs
+Iog.rs
+é othenrs
+math.rs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+a Modules & multiple files
+9 Let's write the code for "math" module
+Vi src Ru“
+
+Vi math
+simple.rs
+complex.rs derive( >
+Vi other IISZECJg
+debug.rs }
+Iog.rs
+é othenrs
+math.rs
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+. . .
+Modules & multlple flles
+Step 7 9 Let's write the code for "math" module
+Vi src Ru“
+Vi math
+simple.rs
+complex.rs
+c0nstants.rs
+Vi other
+debug.rs
+t set_info_mode(mode: ) {
+I0g.r$ other‘: :debug: :enable_debug_mode(mode == :zDebug);
+é Other rs other‘: zlog: :enable_log_mode(mode == ::Log);
+' }
+math.rs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Step 8 9 Let's write the code for "main.rs” file
+Rust
+Vi math mam) {
+Slmple'rs println! ("1+2 = ",math: :simple: :add(1, 2));
+complex rs println! ("2*4 = ",math: :simple: :mul(2, 4));
+constants.rs _ v = [Pies]; , ..
+pr1ntln!( Sum of all elements from 1s ,&v, math::complex::sum(&v));
+i Other println!("Pr"oduct o-F all elements -Fr'om is ",&v, math::complex::pr~od(&v));
+dEbug'rs println! ("Pi = , E = ", math: :constants: :PI, math: :constants: :E);
+I0 .rs
+k é g math: :set_imco_mode(math:: ::Debug);
+othenrs println! ("l+2 = ",math: :simple: :add(1, 2));
+é math: :set_1mco_mode(math:: ::L0g);
+- println!("1+2 = ",math::simple::add(1, 2));
+math'rs math: :set_in1co_mode(math:: ::N0ne);
+B main rs println!("1+2 = ",math::simple::add(1, 2));
+' }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Upon execution, the next program should print the following:
+Vi src Ru“
+i math M
+s!mple.rs 1+2 z 3
+complex. rs 2*4 = s
+Sum of all elements from [1, 2, 3, 4, 5] is 15
+COHSthtSJS Product of all elements from [1, 2, 3, 4, 5] is 120
+Vi other Pi = 3.14, E = 2.71
+d b add two numbers
+e ug.rs 1+2 z 3
+Iogjs Logging: (Function: simplezzadd) -> add two numbers
+‘ o er.rs 1+2 = 3
+math.rs
+B main.rs
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Crates
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+"g C rates
+A crate in Rust is a c ilation unit (e.g a lib y). In terms of binary output, a crate
+orrespond to amile in Windows or a i file in Unix based systems or a
+i in 05X.
+To create a crate, use the following cargo command:
+cargo new --|ib <|ibrary_name>
+Example: running the next command: ‘cargo new —|ib my_math_|ib” will create:
+' Folder: my_new_math_|ib
+' File: - -) this is the main entry for the new library.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+,’ Crates
+
+Usually, the code from - will indicate the functions/modules that are exported:
+
+(x: , y: ) —> { X + y }
+
+(x: , y: ) —> { X - y }
+
+(x: , y: ) —> { X * y }
+
+(X: , yr ) -> { X / y }
+If the library is more complex, other modules can be built (similar to What we have
+discussed on the previous chapters) and -just links all modules together.
+Notice that if you want to export something out of the crate you have to mark it as
+public- l‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+,’ Crates
+
+But what happens when we build a crate 9 it depends on what is its purpose. There
+
+are a couple of reasons a crate is being created:
+
+1. To act as a library for another Rust program (the default case). This implies static
+linkage between another Rust program and this crate
+
+2. A dynamic linked library( [Windowsz .dll, Linux: .so, OSX: .dylib] ). This implies
+other programs (maybe written in a different language can use this library)
+
+3. A static library for other programs written in a different language.
+
+While each one of these cases, relies on the existing of -, the difference is made
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+V'Q Crates
+9 a static library for another Rust program
+The — file contains just the regular fields: name,
+[PaCkage] version and edition. Optionally if other similar crates are being
+used in this one, they are refered in the section dependencies.
+_ The execution of cargo build will not produce a binary, but an
+[dePendenues] object file named: (in our case it will be named
+Iibmy_math_lib.rlib)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+V'Q Crates
+9 a static library for another Rust program
+The — file contains just the regular fields: name,
+[PaCkage] version and edition. Optionally if other similar crates are being
+used in this one, they are refered in the section dependencies.
+_ The execution of cargo build will not produce a binary, but an
+[dePendenues] object file named: (in our case it will be named
+Iibmy_math_lib.rlib)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+V'é Crates
+9 a static library for another Rust program
+You can use such a crate in other Rust programs in different ways:
+1. You can publish it in crates.io and then use it as a dependency
+2. You can upload it to a git repository and link it directly from there
+3. You can keep it locally and link it directly from its local folder
+4. You can use your own registry
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+i?‘
+Crates
+9 a static library for another Rust program
+1. Publish to crates.io and use it as a dependency
+Before you publish it, you need to make sure that your cargo.toml has the following fields:
+cargo.toml
+[package]
+"my_math_1ib"
+"9.1.9"
+"2921"
+["authonl" ]
+"some description on what crate is doing"
+"MIT"
+["keywondl" ]
+["categoryl" ]
+"https://github.com/...."
+"README.md"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+‘1 Crates
+9 a static library for another Rust program
+1. Publish to crates.io and use it as a degendency
+Before you publish it, you need to make sure that your cargo.toml has the following fields:
+cargo.toml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+‘1 Crates
+9 a static library for another Rust program
+1. Publish to crates.io and use it as a degendency
+Before you publish it, you need to make sure that your cargo.toml has the following fields:
+cargo.toml
+_
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+a Crates
+9 a static library for another Rust program
+1. Publish to crates.io and use it as a degendency
+Before you publish it, you need to make sure that your cargo.toml has the following fields:
+cargo.toml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+a Crates
+9 a static library for another Rust program
+1. Publish to crates.io and use it as a degendency
+Before you publish it, you need to make sure that your cargo.toml has the following fields:
+cargo.toml
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+,’ Crates
+9 a static library for another Rust program
+1. Publish to crates.io and use it as a dependency
+After you finish completing your cargo.toml file , you can run the following command to
+publish your crate:
+cargo publish
+You can also run cargo publish --dry-run to test for errors before uploading a new
+version.
+OBS: You have to create an account on crates.io first !
+OBS: Make sure that you increment your version (in cargo.toml) file before you are
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+,’ I C ra tG S
+9 a static library for another Rust program
+1. Publish to crates.io and use it as a dependency
+Once you finish uploading , you (or someone else) can use it by simply adding your crate
+in his Rust application cargo.toml dependencies section.
+[package]
+In this case, another application is using [dependencies]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Case 1 9 a static library for another Rust program
+2. Link your crate from a git repository
+Once you crate is completed, uploaded to a link repo and link it in another application in
+the following way:
+[package]
+In this context, <a git UR|> can be an URI towards any git
+based system (e.g. github, bitbucket from Atlassia n, etc).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Case 1 9 a static library for another Rust program
+3. Link from your local hard drive
+In this case, it is easier, just specify the location of the crate in your hard drive in the
+following way:
+[package]
+In this context, <path to crate> is a local folder where the
+crate is located. Relative paths ("../../.....”) are accepted as
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+V'Q Crates
+9 a dynamic library that another program can use
+The first step is to add a - section and specify that
+[paCkage] the crate type (- [Q dynamic @raryh
+Crate-type supports other types as well:
+[dependencies] : gill/lab
+' rlib
+[11b] . staticlib
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+,’ I C ra te S
+9 a dynamic library that another program can use
+We will also need to change the way we write our exported functions:
+"C" (x: , yr ) -> {
+
+x + y
+}
+1. The ”—” attribute is required as Rust mangles symbols and as such
+
+other applications can't use them.
+2. The ’_” specifier is required so that Rust exports that function in a way a
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+- » -- Crates
+9 a dynamic library that another program can use
+Upon compiling, a .dll or a .so or a .dylib will be created that export the function add.
+That library can be used in a C/C++ program in the following way:
+C/C++ program (for Windows)
+#include <Windows.h>
+#include <stdio.h>
+typedef int32_t (* FNADD)(int32_t,int32_t);
+void main() {
+auto handle = LoadLibPanyA("my_math_1ib.d11")3
+auto add = (FNADD)GetPPocAddPess(handle,"add");
+pnintf("%d",add(1,2));
+}
+OBS: We consider my_math_lib.dll the binary result obtain when running cargo build.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+'® Crates
+9 a static library that another program can use
+The first step is to add a - section and specify that
+[paCkage] the crate type (-)
+The execution of cargo build will produce a static library
+_ file (*.lib) (in our case it will be named my_math_lib.lib)
+[dependencles]
+That library file can further be used in a C/C++ program
+[11b] for linkage (option -| from C/C++ compiler). |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+Conditional Compilation
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+"g Conditional Com p| latlon
+In rust, a Conditional compilation means building different branches of code based
+on some condition (features) that can be activated or not.
+The closest similarity in C/C++ is - or - compounds.
+ln Rust a similar functionality is achieved with:
+1. cfg proc macro attribute: #[cfg(...)]
+2. cfg macro:
+Conditional compilation works based on features (that can be considered a
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+The following steps must be performed when defining custom features:
+1. Add a list of features in — file into the section features
+2. Use that feature (via - or -) in your program
+3. Either:
+1. enable that feature directly in cargo.toml (via default key)
+or
+2. use --features <name1, name2 , namen > with cargo command line to enable one or multiple
+features
+OBS: Notice that unlike C/C++ where a feature that enables conditional programming in a program
+does not have to be defined but can be used with the parameter ”—D" from command line , in Rust all
+feature MUST be defined in cargo.toml file in order to be used With cargo command line.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+pg Conditional Com p| latlon
+The general format of #[cfg(...)] attribute implies a logical condition (expression) that
+if evaluated with true will enable the next block from the program in the compilation
+phase. An expression from #[cfg(<expression>)] can be:
+' A simple key=”value" expression (where key is usually feature). Example: —
+' Another expression that uses not, and or any to create a more complex expression
+The compound after the #[cfg(...)] can be:
+1. A function/method. _
+2. A block —
+4. A variable definition —
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+é?“
+Let's see a simple example (with code and cargoioml).
+carg0.t0ml Rust C++ (equivalent code)
+[package] ( = "METHOD_A") #ifdef METHOD_A
+"my app" F000 { "Oid ‘c900 {
+-:@.:l.9" println!("Method A"); } pr1ntF("Method A")3
+"2921" } ( = "METHOD_B") #endif
+Foo<> { #‘Fd f METHOD B
+' 1 ! " h d " ,- 1 e _
+[features] } PPlnt n ( Met O B ) void F000 {
+= [1 main() { printF("Method B");
+= [1 F000; 1;
+} #endlf
+void main() {
+. _ ‘F 3
+There are two optlons to run thls program: } 000
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+if’
+Let's see a simple example (with code and cargo.t0m|).
+carg0.t0ml Rust C++ (equivalent code)
+[package] ( = "IVIETHOD_A") #ifdef IVIETHOD_A
+"my app" F000 { "Oid ‘c900 {
+-:@.:l.9" println!("Method A"); } pr1ntF("Method A")3
+"2921" } #endif
+#ifdef METHOD_B
+[features] void {000 {
+= [1 main() { printF("Method B");
+= [1 F000; }
+} #endif
+void main() {
+. _ ‘F 3
+There are two optlons to run thls program: } 000
+1. Run "cargo run “features IVIETHOD_A”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+i?‘
+Let's see a simple example (with code and cargo.toml).
+cargo.toml Rust C++ (equivalent code)
+( = "METHOD A") #ifdef METHOD_A
+Foo() { _ void foo() {
+pnintln!("Method A"); } printf("Method A")3
+} #endif
+#ifdef METHOD_B
+H ‘I void foo() {
+foo(); }
+} #endif
+void main() {
+. _ ‘F 3
+There are two optlons to run this program: } 000
+1. Run "cargo run --features IVIETHOD_A”
+2. Set a default field with a list of features to be automatically enabled upon execution and run the
+program with a "cargo run”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+i?‘ ,1‘
+Let's see a simple example (with code and cargo.toml).
+cargo.toml Rust
+( = "METHOD_A")
+Foo() {
+phintln! ("MethOCl A"); er'r'or'[E6428]: the name ‘foo‘ is defined multiple times
+} -l> src\main.rs:6:1
+( = "METHOD_B") 2 | {n {000 {
+F000 { | -------- previous definition of the value ‘foo‘ here
+phintln!("Method B"); .H
+_ -- -- } 6 ' ‘$33228? \ -
+Foo();
+}
+Those two methods, if combine are NOT exclusive (meaning that if we run: "cargo run --
+features IVIETHOD_B” then both IVIETHOD_A and IVIETHOD_B will be enabled and the code will not
+compile as there are two I methods).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+t?‘
+Let's see a simple example (with code and cargo.toml).
+cargo.toml Rust
+< = "METHOD_A"> m
+pnlntln!("Method A");
+}
+( = "METHOD_B")
+foo() {
+[features] pnintln! ("Method B");
+_ II ll }
+_ [ METHOD_A ] main() {
+foo();
+}
+The solution in this case is to use --no-default-features parameter in the cargo
+command line followed by the enablement of another feature via --features parameter:
+cargo run --no-default-featu res --features METHOD_B
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+VJQEﬁ§*‘;
+But what if we don't want to define two separate features, but instead we want to
+define one and if not set have another action/function defined that we can use
+(something like #ifdef #else #endif from C/C++). To do this we can negate the cfg
+attribute in the following way: #[cfg(not(...))]
+cargo.toml Rust C++ (equivalent code)
+( = "METHOD_A") #ifdef METHOD_A
+[package] fn r000 { void fOOO {
+nanng pnintln!("Method A"); phintf("Method A");
+version } }
+. . #else
+9d1t10n ( ( = "METHOD_A")) void +000 {
+fn foo() { phintf("Method B");
+[features] pnintln!("Method B"); }
+} #endif
+METHOD_A = []
+fn main() { void main() {
+foo(); foo();
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Similarly, any anol all can also be combined to check is one feature has been set up or if
+all features have been set up. The general format is:
+' ANY 9 #[cfg(any(feature=”feature1” , feature=”feature2” , feature=”featuren”))]
+' ALL 9 #[cfg(all(feature=”feature1" , feature=”feature2" , feature=”featuren”))]
+- NOT in various combinations such as 9 #[cfg(not(all(feature=”feature1" feature=”featuren")))]
+cargo.tom/ Rust
+( ( = "FEAT_A", = "FEAT_B"))
+[package] fn one_of_A_or‘_B() {
+name pnintln!("0ne of FEAT_A on FEAT_B");
+- }
+venston ( ( = "FEAT_A", = "FEAT_B"))
+9d1t10n fn both_of_A_or‘_B() {
+pnintln!("Both FEAT_A and FEAT_B");
+}
+[features] ( ( ( = "FEAT_A", = "FEAT_B")))
+FEAT_A = [1 fn not_both_of_A_or‘_B() {
+FEAT_B = [] println!("Not both FEAT_A and FEAT_B");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+In fact, any and all and not can be used to create a complex conditional compilation
+expression. In the next example we condition the existence of method "foo" with the
+fOIIOWlng EXpFGSSlOnI #[c-Fg(not(any(a11(feature="FEAT_A", feature="FEAT_B"), not(-Feature="FEAT_C"))))]
+carg0.toml Rust
+[package]
+name
+version ( ( ( ( ="FEAT_A", ="FEAT_B"), ( ="FEAT_C"))))
+edition {n {000 {
+
+pnintln!("Foo");
+
+} m
+
+default = ["FEAT_C"] tn"w1n0 { 00
+
+foo()
+FEAT_A = [1 }
+FEAT_B = [1
+FEAT_C = []
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+l?‘
+I 7;: 0 0 0 0
+Conditional Compilation
+Each one of the features from [features] section can have dependencies (e.g. a feature
+might pe dependent on another one). The list of dependencies is described as the value
+of a specific feature as follows:
+' feature = [“dependency1”, “dependencyz”,... “dependencyn”]
+cargo.tom/ Rust
+[package] .. ( ( = "FEAT_B", = "FEAT_C"))
+my_app +000 {
+"@_1.@" println!("foo");
+"2921" }
+main() {
+[features] r000
+= ["FEAT_A"] i
+= ["FEAT_B" , "FEAT_C"]
+= [1 m
+= [1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+Conditional Compilation
+
+Each one of the features from [features] section can have dependencies (e.g. a feature
+might pe dependent on a
+of a specific feature as foll
+' feature = [“depend
+carg0.t0m/ Rust
+
+foo() {
+
+pnintln!("foo");
+
+}
+[features]
+= "FEAT A"
+
+m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+"® Conditional Compilation
+Features can also be used to conditionally compile dependencies.
+[package]
+[dependencies]
+= { = "Q-l-Z", = true }
+[features]
+= ["de :ABCH] l|
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Q I I Q
+Condltlonal Compllatlon
+Features can also be used to conditionally compile dependencies.
+cargo.toml
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+Condltlonal Compllatlon
+
+At the same time, when using a dependency, one can enable features from that
+dependency:
+
+cargo.toml
+
+[dependencies]
+
+It is also possible to disable the default features setup from a librar for cases Where we
+want to compile a dependency with a specific setup via ’ " key).
+
+cargo.toml
+
+[dependencies]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+You can also define a features that forces some features from dependencies to be
+enabled upon compilation:
+
+cargo.toml
+
+[package]
+
+name
+
+version
+
+edition
+
+[dependencies]
+
+ABC = { version = "@.1.2", default-feature = false }
+[features]
+
+ABC_WITH_XY = ["ABC/FEAT_X", "ABC/FEAT_Y"]
+ABC_WITH_DEFAULT = ["ABC/default"]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+. . Q .
+Condltlonal Compllatlon
+You can also define a features that forces some features from dependencies to be
+enabled upon compilation:
+cargo.toml
+[dependencies]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Condltlonal Compllatlon
+You can also define a features that forces some features from dependencies to be
+enabled upon compilation:
+cargo.toml
+features
+= ["ABC/FEAT_X", "ABC/FEAT_Y"]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+Condltlonal Compllatlon
+You can also define a features that forces some features from dependencies to be
+enabled upon compilation:
+cargo.toml
+[features]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+Conditional Compilation
+Besides features, there are a couple of attributes (that have values — not Boolean
+values like features) that are already set up by Rust compiler. They can be used in the
+following way:
+#[cfg(<attribute1>=”value” , <attribute2>=”value" , <attributen>=”value")]
+
+m—
+
+target_arch x86, x86_64, mips, powerpc, powerpc64, arm, aarch64
+
+target_feature avx, avx2, crt-static, rdrand, sse, sse2, sse4.1
+
+target_os windows, macos, ios, linux, android, freebsd, dragonfly, openbsd, netbsd
+
+target_family unix, windows, wasm
+
+target_env gnu, msvc, musl, sgx
+
+target_endian big, little
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+Let's see an example Where we use target_os to set up the name of the current
+operating system.
+Rust
+( = "windows")
+Fn get_os_name()—>&' static str‘ { Output (possible)
+( = "linux")
+Fn get_os_name()—>&'static StP {
+"Linux"
+}
+Fn main() {
+pnintln!("CunPent OS is {}",get_os_name());
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+Conditional Compilation
+Besides custom features and attributes, there are some predefined / preset features
+that can be used:
+—m—
+debug_assertions Enabled when compiling in debug mode (without optimizations)
+unix Equivalent with target_family = "unix"
+windows Equivalent with target_family = "windows"
+test Usually used with modules to indicate that a module is used for unit testing
+proc_macro lf a crate is being compiled with proc_macro flag
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+i?‘
+7;’: 0 0 0 0
+Condltlonal Compllatlon
+Let's see an example that use — to enable a method only in debug
+mode:
+Ru“ A) Normal execution (debug mode)
+< >
+1“<><><> {
+pnintln!("¥oo");
+} B) Compiled in release mode (cargo run -r)
+maino {
+‘FOO(); ——> sr‘c\main.r‘s:6:5
+} |
+6 | foo();
+| AAA not found in this scope
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+Conditional Compilation
+Additionally, Rust provide another macro called cfg_attr, that can be used to add
+other attributes based on a condition. The general format is:
+
+#[cfg_attr(condition, Attributel, Attributez, Attributen)]
+
+Several such conditions can be applied over the same block.
+cargo.tom/ RUSt
+
+[packagE] ( ="MAKE_INLINE", ( ))
+name " "
+
+. ( = TEST_MODE , )
+
+VjTi%On fn foo() {
+
+e 1 10H ppintln!("F00")3
+
+[features] in main() {
+
+MAKE_INLINE = [] foo().
+
+TEST_MODE = [] } ’
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+. . . .
+Condltlonal Compllatlon
+Additionally, Rusl dd
+other attributes u
+Severalsuch con ‘c000 { printlnl("‘c°°")3 3’
+carg0.t0ml Rust
+( ="MAKE_INLINE", ( ))
+( ="TEST_MODE", )
+foo() {
+println!("foo");
+}
+= [1
+= [1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+- Condltlonal Compllatlon
+This technique is particularly useful for modules (e.g. if you want to have different
+modules with the same name but different file names for every OS specific build.
+
+Rust
+( = "linux", = "linux.rs")
+( = "macos", = "macos.rs")
+mod OS_methods;
+For example, in the previous context, the module OS_meth0ds will be defined in 3
+different files (Windows.rs, linux.rs and macos.rs). The compiler will choose what file
+to compile based on the path attribute of the module OS_meth0ds. The path
+attribute is selected based on the operating system (meaning that if we run on
+Windows, the previous code will look like the following one:
+Rust
+mod OS_methods;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+I- 7;‘. .' o o o 0
+f. Condltlonal Compllatlon
+
+”cfg" can also be used in cargo.toml (as a way to specify additional properties
+depending on the selected configuration). The most common one is to add additional
+dependencies based on the operating system.
+Cargo.toml
+[target.' '.dependencies]
+
+= ”<some version>"
+[target '.dependencies]
+
+= ”<some version>"
+In this case we specify that different libraries need to be linked depending on the
+target operating system. The general format for dependencies is:
+[targer.'<cfg rule>'.dependencies]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+Because of this format, we can write even more complex conditions for conditional
+compilation. Let's analyze the following example:
+[target.' '.dependencies]
+= "<some version>"
+
+This translated into the following compilation logic:
+
+' If the target operating system is unix
+
+and
+' If the pointer size for that operating system is stored on 64 bits
+' Add e dependency in the current project to “Pointer_optimizer_for_unix" crate.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+1fi‘ f
+'. I I I O
+f. Conditional Compilation
+The cfg! macro works similar with #[cfg(...)], with the difference is that it returns true
+or false. It is important to notice that even if the code is not enabled, if the cfg!
+macro is used with an if compound , the block of that if must compile.
+Ru“
+{n {000 { Output (p055| e).
+let x = cfg!(featur‘e = "METHOD_B") { 1 } { 2 };
+pnintln!("x = {}", x);
+}
+fn main() {
+foo();
+}
+In this case, cfg!(feature = "IVIETHOD_B") will translate to either true or false , and as
+such x will be 1 or 2.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+Tests
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+,’ I TE StS
+Working with library implies having some sort of unit test to run before
+releasing it. While in other languages this is done via a 3rd party
+application, Rust ecosystem can do this within the same integration (via
+cargo).
+
+Let's consider the following problem 9 we need to export a function
+that sums up two u8 values, but returns an Option for cases where an
+integer overflow appears (e.g. adding 200+200 will result in an integer
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+{a
+Tests
+Let's see how we can do this.
+Step 1 9 lets create a new library via cargo by running:
+cargo new --lib addlibrary
+m 9 lets add an add method:
+Rust (/ib.rs)
+add(x: , y: ) —> < > {
+result = (x ) + (y )3
+if result > 255 {
+return None;
+}
+return Some(result )3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+- '- Tests
+Let's see how we can do this.
+m 9 add some methods to test if function "add" works properly.
+Rust (lib.rs)
+pub Fn add(x: u8, y: u8) —> Option<u8> {m}
+test
+Fn check_add() {
+assert!(add(1,2)==Some(3));
+assert_eq!(add(166,155),Some(255));
+assert_ne!(add(9,6),Some(1));
+}
+test
+Fn check_overflow() {
+assert_eq!(add(299,299),None);
+assert_ne!(add(169,199),None);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+Tests
+Let's see how we can do this.
+m 9 add some methods to test if function ’-” works properly.
+Rust (lib.rs)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+Let's see how we can do this.
+m 9 add some methods to test if function ’-” works properly.
+Rust (lib.rs)
+
+assert!(add(1,2)==Some(3));
+
+assert_eq!(add(166,155),Some(255));
+
+assert_ne!(add(9,@),Some(1));
+
+assert_eq!(add(299,299),None);
+
+assert_ne!(add(199,199),None);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+Tests
+Let's see how we can do this.
+m 9 add some methods to test if function ’-” works properly.
+Rust (lib.rs)
+test
+x = add(296,266).unwrap(); _
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+Let's see how we can do this.
+Now that the testing was performed, it can be run in various ways:
+- All tests: 9 cargo test 9 run all tests
+running 3 tests
+test check_add 0k
+test check_overflow 0k
+test check_panic_test - should panic 0k
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.005
+° One test: 9 cargo test <name> 9 run a test with a name
+Ex: "cargo test add" will produce the following result
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.005
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+a
+Tests
+
+It is a common practice to group all test in a separate module (often
+name test). For example, in our case, the code could be organized in
+the following way:
+Rust (lib.rs)
+
+add(x: , y: ) -> < > {m}
+
+tests {
+
+test
+
+check_add() {m}
+
+test
+
+check_overflow() {m}
+
+test
+
+check_panic_test() {m}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+Tests
+It is also recommended that modules that are designed for tests to
+have a special attribute ( #[cfg(test)] ) that will only compile then if
+tests are being run.
+Rust (lib.rs)
+add(x: , y: ) —> < > {m}
+_
+GS S
+test
+check_add() {m}
+test
+check_ovenflow() {m}
+test
+check_panic_test() {m}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+Documentation
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+," D O C U m e ntat l O n
+Every project needs documentation. And there are usually two forms of
+documentation:
+' Function/Module documentation (very useful when using an IDE and you trying to
+use a method/function)
+Example (for Vector): httpszﬂdoc.rust-lang.org[stdZvechtructVeohtml
+' Project documentation (that usually explain a library / a project / general way of
+using that project / etc). Usually these types of documentations are presented as
+books.
+Example: httpsﬂdoc.rust-lang.org[book[
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+Every project needs documentation. And there are usually two forms of
+documentation:
+' Function/Module documentation (very useful when using an IDE and you trying to
+use a method/function) H W
+un GDLIQ
+main() {
+v = vec! [1,2,3,4],'
+9 x. sor*t_byv(vl
+} fn sor't_by(&mut self, )
+Sorts the slice with a comparator function.
+This sort is stable (i.e., does not reorder equal elements) and
+0(n * log(n)) worst-case.
+The comparator function must define a total ordering for
+the elements in the slice. If the ordering is not total, the
+order of the elements is unspecified. An order is a total
+order if it is (for all a , b and c ):
+' total and antisymmetric: exactly one of a < b , a ==
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+ﬁ
+Every proiect needs docu mentation. And there a re usually two forms of
+documentation:
+' Prolect documentation (Rust book):
+6 -> C‘ i doc.rust-lang.org l ' Y Q E’ 79f [I G 5
+Foreword
+Introdmn The Rust Programmmg Language
+1. Getting Started
+1,1, Installation by Steve K/abnik and Caro/ Nichols, With contributions from the Rust Community
+12' Hello, World! This version of the text assumes you're using Rust 1.67.1 (released 2023-0209) or
+1.3. Hello, Cargo! later. See the to install or update Rust.
+2' Programming a Guessing Game The HTML format is available online at and
+3- Common ngrammlng Concepts offline with installations of Rust made with rustup,‘ run rustup docs "book to
+3.1.Variables and Mutability open.
+3'2’ Data Types Several community are also available.
+3.3. Functions
+3.4. Comments This text is available in .
+3.5. Control Flow v v
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+To write a documentation, use I characters (on multiple lines) to explain (in
+Markdown format what that function / module is doing).
+>Run|Debug
+1c“ () {
+let .X. = ()
+i-F let result = 5/2 } expected 2 arguments, found 9 rust-analyzer(E6167)
+pnintln! "Result is {result}" I r'ust_tester‘
+else -Fn (x: , y: ) -> < >
+pPlntln! "D1v1s1on by 9" Divides x to y.lf y isOthan it returns None, otherwise it returns Some(x/y) -_
+fn (x: , y: ) —> < > { Example
+Some(x / y) i-F let (result) = (5/2) {
+} else { ("Result is {result}");
+None } else {
+} ("Division by 6");
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:129**************
+If a documentation is provided, this documentation will be built when a crate is
+
+uploaded to crates.io and is being visible on docs.rs (for example for the random
+
+library you can find the documentation on httpszﬂdocs.rsZrandomZIatestZrandomZ ).
+
+To view the documentation locally, run the following command:
+
+For the previous example this should open the browser to something that looks like
+
+thiSZ rust_tester . ‘ , , , .
+Version 0.1.0
+All Items Crate [-1 ‘.2:
+Crates div ﬂ Divides x to y. If y is 0 than it returns None, otherwise it returns
+
+main ﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+ﬁe
+Docu mentatlon (Fu nctlon/Modu Ie)
+Function rust_tester:: source [-1 '
+pub(crate) fn div(x: , y: ) —> < >
+H Divides x to y. If y is 0 than it returns None, otherwise it returns Some(X/y)
+rUSt_tESter Click 0|‘ p Example
+Version 0.1.0 ——
+All Items crate l‘ if let Some(resu1t) I div( / ) {
+( ) ;
+Functions Functio } else {
+( );
+_- }
+.WUWW. ﬁ
+Q
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:131**************
+JéﬁgiiQQI
+f. Documentatlon (Functlon/Module)
+The use of /// characters is in fact a syntax sugar for #[doc = ”..."] attribute. For
+example, the following two cases are the same:
+Rust Rust
+= "Ads two integer values (x and y)"
+= "a Ffample"
+let y = add 2 3 ; "1et y = add(2,3);"
+Fn add(x: 132, y: 132) -> 132 { {n addzx: 132, y: 132) -> 132 {
+X + y x + y
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+"E Doc u m e ntat | o n ( F u n ct | o n / M od u | e)
+
+The - attribute can be used for multiple purposes:
+
+1. Load the documentation from an external document
+#[doc = include_str!(”<path to external documentation file>")]
+
+2. Set the favicon for the documentation
+#![doc(html_favicon_url = "<url to favicon>")]
+
+3. Set the playground URL for your documentation (this allows you documentation
+to add a <Play> button to your examples so that you can test them:
+#![doc(htm|_p|ayground_url = "<url to playground site>")]
+
+4. IVlove some part of the documentation in a separate document or not (via inline
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:133**************
+Its also important to distinguish between function/method documentation and
+documentation for the entire crate or module.
+' Use /// for function / module documentation
+' Use //! for crate / module documentation (this type of documentation is usually
+added at the beginning of lib.rs file
+Ru“ Crate rust_tester
+[-1 math module can be used for simple math operations such as add or sub
+pub mod math { Modules
+DUb {n add“: 132’ y: 132) '> i32 { X + y } math mathmodulewichmethods
+pub fn sub(x: 132, y: 132) —> i32 { x - y }
+} Functions
+Fn main() {
+math::add(1,2);
+} main ﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+. .
+Documentatlon (Functlon/IVIodule)
+Another key aspect of Rust documentation is that examples that are added in the
+documentation can be tested as well. This makes sure that if you change something
+to a function, you will be notified if the new functionality is not correct according to
+What the documentation says.
+Ru“
+Pust_testen_1ib::div
+assent_eq! 19 2 5 test
+assent_eq! 5 9 test_function() {
+Pust_tester_lib::div;
+assent_eq!(div(19,2),Some(5));
+assent_eq!(div(5,9),None);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:135**************
+e
+Documentatlon (Fu nctlon/ Module)
+Another key aspect of Rust documentation is that examples that are added in the
+documentation can be tested as well. This makes sure that if you change something
+to a function, you will be notified if the new functionality is not correct according to
+what the documentation says. _
+Divides two numbers
+Example:
+asser*t_eq!(d1v(5,0)J );
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+e
+Documentatlon (Fu nctlon/ Module)
+The solution is to use - to hide some lines in the example that should not be
+presented in the documentation (but still have to be used when running tests).
+Rust
+r*ust_tester‘_lib
+div(x: , y: ) —> < >
+Divides two numbers
+Pust_tester‘_lib: :div i Example:
+assent_eq! 19 2 5 assent eq!(div(10 2) (5))‘
+assent_eq! 5 9 asse|"t:eq!(div(5,é),J )3 ’
+div(x: , y: )—> < > {
+if y!=9 { Some(x/y) } else { None }
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:137**************
+i?‘
+7;: I I
+Documentatlon (Functlon/Module)
+You can use - to define functions and other variables that you might need to test
+a function. If you define a function around you test code, Rust will not create another
+one around your code. This can also allow you to use special operators such as I in
+your documentation code.
+Pust_tester_lib::div;
+Puit_iesteh_lib::div ti;ftest() {
+$y_ $5 19 2 5 ZI> asseht_eq!(div(16,2),Some(5));
+asseh _eq. assent_eq!(div(5,9),None);
+assent_eq! 5 9 }
+div(x: , y: )—> < > {
+if yl=9 { Some(x/y) } else { None }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+Va Documentatlon (Functlon/Module)
+However, testing code from example is not without challenges. This is because the
+code from an example might reflect an error or something that is not recommended
+to be done. As such, there is a need to add some additional attributes to explain how
+that particular example should be tested.
+This is done my adding attributes (keywords) after the I characters (several
+attributes can be added if separated by I).
+You can find more on example test on:
+httpszﬂdoc.rust-lang.org[rustdocZwrite-documentationZdocumentation-tests.html
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:139**************
+Documentatlon (Functlon/Module)
+Let's see some examples:
+' — -) this attribute indicates that the code will panic
+' --) this indicates that the code should not be run (but should compile).
+For example, infinite loops or code that needs a lot of time to run should be
+preﬁxed with this attribute.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+"g Doc u m e ntat | o n ( F u n ct | o n / M od u | e)
+There are several additional configurations that can be added when describing how
+documentation should look like such as:
+' Ignoring a code
+' Specifying an edition to be used for testing
+' Specifying some compiling attributes
+' The use of cfg attribute for documentation
+|\/|ore on this topic can be found on:
+httpszﬂdoc.rust-lang.org[rustdocZhow-to-write-documentation.html 'l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:141**************
+"® Docu mentatlon (Book)
+If you want to write a project documentation (a book), Rust provides a utility called
+mdbook that helps you here.
+To build a book you have to perform the following steps:
+1. Install mdbook 9 use this command: cargo install mdbook
+2. Create a file in the root folder of your project (named: book.toml):
+[book]
+The most important fields in are:
+false ' "src" -) the source folder for your documentation
+' "build-dir” -) a folder where the resulted
+[build] documentation (in html format) will be outputted
+3. Create a SUMMARY.md file in the src file (this will be the entry point)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+Vi rust_course_fii TOML
+7i docs [book]
+SUMMARYmd authors = ["Gavnilut Dragos"]
+. ' language = "en"
+courses.md multilingual =
+administrative.md SPC = "docs"
+i labs [build]
+Vi Iab01 build-din = "html"
+Iab01.md
+menu.png
+Iabs.md
+Vi courses
+Course-1.pdf
+B book.toml
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:143**************
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+r I. #
+SUMMARY.md [Administrative] (administrative.md)
+c0urses.md [Counses](cour‘ses.md)
+. . . [Labs](1abs/1abs.md)
+E “dm'n'Strat've'md [Lab 91](1abs/lab91/lab91.md)
+Vi labs [Lab 92](1abs/lab92/lab92.md)
+[i IabOl [Lab 93](1abs/1ab93/1ab93.md)
+
+[ [Lab 94](1abs/1ab94/1ab94.md)
+labOl-md [Lab 95](1abs/lab95/1ab95.md)
+menu.png [Lab 96](1abs/1ab96/1ab96.md)
+
+Iabs.md
+[i courses
+Course-1.pdf
+B book.toml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+Vi rust_course_fii Markdown
+Vi docs #
+SUMMARY.md Introduction
+é administrative.md Variables
+Operators
+i labs Functions & Expression statements
+'i IabOl B- i - -m-n if Whi]. 100!
+k Link: [Course 1](courses/Course—1.pdf)
+Iab01.md
+menu.png Ownership
+Prerequisite: String type
+Iabs.md Ownership management
+i courses Borrowing & References
+Course-1.pdf Optimizations
+Link: [Course 2](courses/Course—2.pdf)
+B book.toml
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:145**************
+Since our course is organized using a mdbook format, let's take a deeper view into it:
+Vi rust_course_fii Markdown
+7i docs # .
+SUMMARY.md
+. ##
+courses.md . .
+administrative.md On windows: Install Visual Studio Community _
+Vi labs 5‘
+Other optional extensions: l
+i Iab01 Error lens (id: usernamehw.errorlens) L'
+Iab01.md crates (id: serayuzgur.crates) i"
+menu.png lWQW] (mEHU-Png) -
+Iabs.md ##
+Vi courses
+Cargo is a tool that helps building and packaging Rust applications.
+Course-1.pdf The usual workflow is:
+B bOOk toml open a terminal
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+Workspaces
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:147**************
+"E Wo rks pa ces
+Larger project usually imply a smaller set of projects (libraries, utilities, examples,
+books, etc). To organize all of these, Rust uses a concept of workspace.
+A workspace also have a cargo.toml file in its root, but it also has a cargo.toml file for
+each of the projects from that workspace.
+The cargo.toml file from the root contains the references of other projects from the
+workspace. It also contains default dependencies for all projects. A project can however
+overwrite them if needed. The main advantage is that if a workspace has multiple
+projects, you have one place to keep all your common dependencies (and you can
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+Let's see an example to better understand how a workspace works.
+Vi Workspace root TOML
+Vi Project-1 [workspace]
+i src members = [
+B cargo.t0ml "Project-1",
+i Project-2 "PPOJ'ECt-Z",
+i src "examples"
+B cargo.toml ]
+Vi Documentation
+[workspace]
+i docs common_dependency_1 = "version"
+B b00k.t0ml common_dependency_2 = "version"
+i Examples common_dependency_3 = "version"
+B cargo.toml
+B cargo.toml
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:149**************
+Let's see an example to better understand how a workspace works.
+Vi Workspace root TOML
+Vi Pr01ect-1 [package]
+i src name = "<name>"
+B cargo.t0ml version = "1.9.9"
+i Project-2 edltlon = 2921
+Vi src
+B cargo.toml
+Ti Documentation [dependencies] common_dependency_1
+i docs common_dependency_1 = "1.9.7"
+B book tom! common_dependency_Z.wonkspace =
+Ii Examples [features] common_dependency_Z
+B cargo.toml defauﬁ = [1
+SOME_BOUNDERIES = []
+B cargo.toml
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+Let's see an example to better understand how a workspace works.
+Vi Workspace root TOML
+Vi Project-1 [package]
+i src name = "examples"
+A version = "9.9.9"
+B cargo.t0ml publish =
+Vi Project-2 edition = "2921"
+i src _
+» [dev-dependencles]
+Ill carg0.t0ml Project-1 = { version = "1.9.9", path = "../pr‘oject—1" }
+Vi Documentation [[ 1 1]
+examp e
+i docs name = "example-1"
+B b00k.t0ml path = "example-1.r‘s"
+Vi Exam-Ies
+"example"
+Ill carg0.t0ml name = "example-2"
+B cargo toml path = "example-2.r‘s"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:151**************
+- @@
+
+***************Ending Page***************
+
+
+
+
+

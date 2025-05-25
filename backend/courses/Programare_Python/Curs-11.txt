@@ -1,0 +1,719 @@
+***************Beginning Page***************
+***************page number:1**************
+\/\/\/\/\/\/\I\
+1W
+‘W
+1W
+‘ﬂ\ﬂ\ﬂ\ﬂ\ﬂ\ﬂ\ﬂ\
+I\I\I\I\l\l\l\l
+PROGRAMMING IN PYTHON | $33;ng
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Python Threading support is achieved Through two modules:
+
+o _thread 9 old methods, low-level methods
+
+o threading 9 new methods, based on a class model
+Details about these modules can be found on:
+
+‘9 Python 3: htth:[ [docs.python.org[3Zlibraryl thread.html
+
+‘9 Python 3: htth:[ [docs.python.org[31librarylthreadinghtml
+Besides these a series of synchronization obiect that include locks, semaphores, events
+are also available.
+As thread module was renamed in python 3 to _thread. lt is best to use threading if you
+want a code that will run in the same way in Python 2 and Python 3.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+To stdrt d new threold, use stdrt_new_threud method from clolss thread. The method
+receives d function tholt will be executed on the new threold dnd functions pdrdmeters.
+Python 3.x
+import _thread,time
+Output
+def MyPrint (sleepPeriod, name, count) : Thread #l=>0
+for i in range(0,count) : Thread #3:>O
+. . Thread #2=>O
+print (name+":>"+str(i)) Thread #1=>1
+time . sleep (sleepPeriod) Thread #2=>1
+Thread #l=>2
+_thread.start_new_thread (MyPrint, (1,"Thread #1", 3))
+_thread.start_new_thread (MyPrint, (2, "Thread #2", 2))
+_thread.start_new_thread (MyPrint, (3, "Thread #3", 1))
+time . sleep<10)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+In case of ob'ects That are not Thread-safe 0| lock can be used. Output 1 Output 2
+PyThon 3.x Thread #1=>O Thread #3=>O
+_ _ Thread #3=>O Thread #l=>0
+1mport _thread,t1me Thread #2=>O Thread #2=>O
+lock = _thread.allocate_lock() Thread #1=>1 Thread #l=>1
+def MyPrint(sleepPeriod,name,count): muead*ﬂ;>2 Thmﬁdiﬂz>l
+l b l lOCk Thread #2=>l Thread #1=>2
+g O a _ Thread #3=>l Thread #3=>l
+for l 1n range (0,6011I1t) i Thread #2=>2 Thread #2=>2
+lock, acquire () Thread #3=>2 Thread #3=>2
+print (name+n=>n+str (i) ) Thread #3=>3 Thread #3=>3
+lock.release()
+time.sleep(sleepPeriod)
+_thread.start_new;thread (MyPrint, (1,"Thread #1", 3))
+_thread.start_new_thread (MyPrint, (2,"Thread #2", 3))
+_thread.start_new_thread (MyPrint, (3,"Thread #3", 4))
+time.sleep(10)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Locks can also be used with with statement (in this case the acquire and release are
+called |n _enter _ and _eXIt_ code Output 1 Output 2
+Python 3'X Thread #1=>O Thread #2=>O
+import _thread,tj_me Thread #3=>O Thread #1=>O
+lock I thread.allocate lock() Thread #2=>O Thread #3=>O
+—. , — Thread #1=>l Thread #1=>l
+def MyPrlnt (sleepPerlod,name, count) : Thread #1=>2 Thread #2=>1
+global lock Thread #2=>1 Thread #1=>2
+. th l k‘ Thread #2=>2 Thread #2=>2
+Wl OC I‘ . Thread #3=>2 Thread #3=>2
+prlnt (name+":>"+str(1) ) Thread #3=>3 Thread #3=>3
+time.sleep(sleepPeriod)
+_thread. start_new_thread (MyPrint, (1, "Thread #1" , 3) )
+_thread. start_new_thread (MyPrint, (2, "Thread #2" , 3) )
+_thread. start_new_thread (MyPrint, (3, "Thread #3" , 4) )
+time . sleep (10)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Locks ccm also be used To waif for Cl Thread To finish.
+Python 3.x
+import _thread,time
+lock I thread.allocate lock()
+lock . ac—uire () — Output
+q
+def MyPrint(sleepPeriod,name,count): waﬁingfora Unﬁadt” ﬁniﬁl'“
+Thread #1=>O
+for i in range(0,count): HueadiHF>2
+print (name+":>"+str(i)) Thread finished
+time.sleep(sleepPeriod)
+lock.release()
+_thread.start_new_thread (MyPrint, (1,"Thread #1", 3))
+print ("Waiting for a thread to finish ...")
+lock.acquire()
+print ("Thread finished")
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Locks can also be used To wait for Cl Thread To finish.
+Python 3.x
+import _thread,time
+lock = _thread.allocate_lock() 99p]:
+lock.acquire() lockvuﬁobkisaanMed
+def MyPrint(sleepPeriod,name,count): bekweqnyﬂweqdisﬂqned.
+global lock
+for i in range(0,count):
+print (name+":>"+str(i))
+time.sleep(sleepPeriod)
+lock.release()
+_thread.start_new_thread (MyPrint, (1,"Thread #1", 3))
+print ("Waiting for a thread to finish ...")
+lock.acquire()
+print ("Thread finished")
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Locks can also be used To waiT Tor a Thread To finish.
+PyThon 3.x
+import _thread,time ﬁep2'
+lOCk I _thread. allocate_lock () Main Thread Tries To acquire
+lOCk ' vallllJfG U . again The lock variable. As
+def MyPrint(sleepPeriod,name,count): Thkvaﬁabkawasaheady
+9101);‘: lOCk acquired, The main Thread
+for l 1n range (0’ count) ° . will waiT unTil lock variable is
+print (name+":>"+str(i)) rdewmd
+time.sleep(sleepPer"
+lock.release()
+_thread.start_new_threa¢ 'int, (1,"Thread #1", 3))
+print ("Waiting f0 read to finish ...")
+lock.acquire()
+print ("Thread finished")
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Locks can also be used To waiT for CI Thredd To finish.
+PyThon 3.x
+import _thread,time Sep3'
+lock = _thread.allocate_lock() Mﬂmn“ﬂweadiﬂ”is
+lock . acqnire () . finished The lock variable is
+def MyPrint(sleepPeriod,name,count): rekqﬁxlAtﬁmtpomee
+gl°b?l_ lOCk coll To lock.chuire from The
+for l 1n ‘range (0’ colint'? ° _ mdin Thredd will be execuTed
+pFlnt (name+ _> +St and The scripT will conTinue.
+time.sleep(s e’ -.
+lock.release() >
+_thread. start_new_thread (MyPrint, (1,"Thread #1" , 3) )
+print ("Waiting for a thread to finish ...")
+lock.acquire()
+print ("Thread finished")
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Exceptions not caught in a different thread than the main thread will not stop the
+progranL
+Python 3.x
+import _thread,time
+def MyPrint(sleepPeriod,name,count):
+global lock
+for i in range(—count,count):
+print (name+":>"+str(lO/i))
+time.sleep(sleepPeriod)
+_thread.start_new_thread (MyPrint, (1,"Thread #1", 3))
+for i in range(0,10):
+print ("Main thread : "+str(i))
+time.sleep(l)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Exceptions not caught in a different thread than the main thread will not stop the
+ro ITJHL
+P g Output
+Python 3.x Main thread : O
+import t Thread #1=>—3.3333333333333335
+def MyPri Thread #1=>—5.0
+Main thread : l
+91° Thread #1=>-10.0
+for Main thread : 2
+Unhandled exception in thread started by <function MyPrint at 0x01903810>
+Traceback (most recent call last):
+Main thread : 3
+__ttrreari.s: File "E:\Documente\Facultate\Python\2019-2020\p.py", line 5, in MyPrint
+er j_ in 1 print (name+"=>"+str(10/i))
+pri ZeroDivisionError: division by zero
+, Main thread : 4
+tlln Main thread : 5
+Main thread : 6
+Main thread : 7
+Main thread : 8
+Main thread : 9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+| THREADING AND SYNCHRONIZATION
+Threading module provides high level functions for thread workers and synchronization.
+lt also provides a class Thread that can be used to derive thread-based obiects. When
+deriving from a Thread class two methods are usually implemented:
+o run() 9 code that will be executed when the thread starts
+o _init_ 9 thread constructor (it is important to call _init_ from the base class before doing
+anything with the thread
+Thread class has the following methods:
+o start() 9 starts the thread
+O ioin(timeout) 9 waits for the thread to finish
+O getName/setName and name attribute 9 indicate the name of the thread (if needed)
+o is_alive() 9 return true if the thread is alive
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Using threading.Threo|d without sub-classing
+Python 3.x
+1mport threading, time Output
+def WaitSomeSeconds(seconds):
+time.sleep(seconds)
+t I threading.Thread(targetIWaitSomeSeconds, args I (5,))
+t.start()
+print("Wait for the thread to complete ...") Hmtqmptﬂmdbnemxxtq
+t - jOiﬂ () touple with arguments. It that
+touple contains
+, 0| ‘,’ must be
+added to specify 0| touple.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Using Threading.Threo|d without sub-classing
+Python 3.x
+1mport threading, time Output
+30
+def WaitSomeSeconds(seconds,x,y):
+time.sleep(seconds)
+print(x+y)
+t I threading.Thread(targetIWaitSomeSeconds, args I (5,10,20))
+t.start()
+print("Wait for the thread to complete ...")
+t.join()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Sub-clossing Threading.Threo|d. Threold code will be oldded in “run” method.
+Python 3.x
+1mport threading, time Output
+class Mythmd<threading¢hread>=
+def __init__(self,seconds):
+threading.Thread.__init__(self)
+self.seconds I seconds
+def run(self):
+time.sleep(self.seconds)
+t I Mythread(3)
+t.start()
+print("Wait for the thread to complete ...")
+t.join()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+| SYNCHRONIZATION
+The following synchronization oloiect are available in threading module:
+o lock
+O rlock (reentrani lock)
+o Condition oloiecfs
+o Semaphore
+O Event
+O Timer
+O Barrier
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Allows synchronized access to d resource.
+
+Lock obiects holve two functions:
+
+l. Python 3: Lock.chuire(blocking=True, timeout=-l) (timeout meoms how mdny seconds
+the Lock hos to wolit until it is acquired.
+
+2. Lock.relec|se() Q relecises the lock. If cdlled on on unlocked lock, on error will be
+rolised.
+
+Lock obiects also support working with with keyword.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Using Lock obiect (’rhere is no guarantee That The numbers will be ordered !!!)
+Python 3.x
+import threading,time
+1 = thread1ng.Lock() . Output
+def Threaanc(1ock,n_11st,start):
+for i in range<0llo): [100, 1000, 1001, 101, 1002, 102, 1003, 103,
+10ck.acquire() 1004, 104, 1005, 105, 106, 1006, 107, 1007,
+n_1ist+=[start+i] 108, 1008, 109, 1009]
+lock.release()
+time.sleep(1)
+lst = [1
+t1 = threading.Thread(targetIThreaanc, args:(l,lst,100))
+t2 = threading.Thread(target=Threaanc, args:(1,1st,1000))
+t1.start ()
+t2.start ()
+t1.join ()
+t2.join ()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Using Lock obiect with with keyword
+Python 3.x
+import threading,time
+l I threading.Lock()
+def Threaanc(lock,n_list,start):
+for i in range(0,lO):
+
+with lock: n_list+I[start+i]
+
+time.sleep(l)
+lst I []
+t1 I threading.Thread(targetIThreaanc, argSI(l,lst,lOO))
+t2 I threading.Thread(targetIThreaanc, argSI(l,lst,1OOO))
+t1.start ()
+t2.start ()
+t1.join ()
+t2.join ()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Allows reentrant lock (The same Thread can lock a resources multiple times).
+
+RLock obiects have two functions:
+
+l. Python 3: RLock.acquire(blocking=True, timeout=-l) (timeout means how many
+seconds the Lock has to wait until it is acquired.
+RLock.acquire returns true if the lock was acquired, false otherwise. If the lock was
+already acquire by the same thread, a counter is increased and true is returned.
+
+2. RLock.release() Q decreases The counter. Once it reaches O, the lock is unlocked.
+
+RLock obiects also support working with with keyword.
+
+Within The same Thread, be sure that the number of acquire queries is thee same as the
+
+number of release (otherwise you risk keeping the lock unlocked !!!)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Python 3.x
+1mport threading Current program will never end.
+(lie; Eﬁiiijgggliigtg ; When ThreaancZ calls Thredancl ,
+with lock: print ("fnc 1 called") The lock IS dlreddy block and d
+def ThreaancZ (lock) z — — dead-lock is produced.
+with lock:
+print("fnc_2_called")
+Threaancl(lock)
+t1 = threading.Thread(target=Threaancl, args=(l,))
+t2 = threading.Thread(target=Threaanc2, args=(l,))
+t1.start ()
+t2.start ()
+t1.join ()
+t2.join ()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Python 3.x
+import threading
+l = threading.RLock( If we replace Lock with
+def Threaancl (lock) = the some code will function as
+with lock: print("fnc 1 called") .
+def Threaanc2(lock): ITShOUkL
+with lock:
+print("fnc_2_called")
+Threaancl(lock)
+t1 = threading.Thread(target=Threaancl, args=(l,))
+t2 = threading.Thread(target=ThreaancZ, args=(l,))
+tl.start ()
+t2.start ()
+tl.join ()
+t2.join ()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+| SYNCHRONIZATION (CONDITION OBJECT)
+Provides d notification system to other systems bolsed on d condition. lt hols the following
+methods:
+o acquire
+o release
+o wait
+o wait_for (Python 3)
+o notify
+o notify_all
+Conditioncil obiects dlso support working with with keyword.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Python 3.x
+import threading,time
+c I threading.Condition()
+number I O
+def ThreadConsumer() = Output (uﬂer 2 seconds)
+global number,c
+if numberIIO: c.wait()
+print("Consume: "+str(number))
+number I O
+def ThreadProducer():
+global number,c
+with c:
+time.sleep(2)
+number = 5
+c.notify()
+t1 = threading.Thread(target=ThreadConsumer)
+t2 = threading.Thread(target=ThreadProducer)
+t1.start ()
+t2.start ()
+t1.join ()
+t2.join ()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Python 3.x
+import threading,time
+c I threading.Condition()
+number I O
+def ThreadConsumer() = Output (uﬂer 2 seconds)
+global number,c
+c.waiu_for(lambda: numberle)
+print("Consume: "+str(number))
+number I O
+def ThreadProducer():
+global number,c
+with c:
+time.sleep(2)
+number = 5
+c.notify()
+t1 = threading.Thread(target=ThreadConsumer)
+t2 = threading.Thread(target=ThreadProducer)
+t1.start ()
+t2.start ()
+t1.join ()
+t2.join ()
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+| SYNCHRONIZATION (SEMAPHORES)
+Provides access to a limited number of Threads to a resource. lt has the following
+functions:
+o acquire
+o release
+Conditional obiects also support working with with keyword.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+| Output
+nyhon 3.X Thread-#0 enter
+. . . Thread-#1 enter
+import threading,time Thread_#2 enter
+s I threading.Semaphore(4) Thread_#3 enter
+def WorkerThread(id) : Thread-#3 eXit
+Thread-#2 exit
+g2!‘0bal S Thread-#0 exit
+Wlth SI Thread-#4 enter
+print ("Thread-#"+str (id) +" enter") Thread-#1 exit
+time. Sl€€p(l) Thread-#5 enter
+. H . I, . H Thread-#6 enter
+print ("Thread—# +str (id) + exit ) Thread_#7 enter
+t I [1 Thread-#6 exit
+for i in range(0,10) : Thread-#5 exit
+_ - I I - Thread-#4 exit
+t _+— [threading.Thread (target WorkerThread, args (1,) ) ] Thread_#8 enter
+for _th in t: _th.start () Thread_#9 enter
+for th in t: _th.join () Thread-#7 exit
+— Thread-#8 exit
+Thread-#9 exit
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Timer is an obiect deriver from Thread. lt allows to run a code after a specific period. A
+timer also have a cancel method to stop the timer.
+Python 3.x
+import threading,time
+Output
+
+print (mesaj) one
+timer I threading.Timer(5,TimerFunction,("test after 5 seconds",))
+timer.start()
+timer.join()
+print("Done")
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Event obiect provides a way to synchronize execution between two or more threads.
+lt has the following functions:
+
+O set 9 to signal the current state of the event
+
+o clear 9 to clear the current state of the event
+
+o wait 9 wait until the event is signaled ( a call to set method was made)
+
+o is_set 9 to check if an event was signaled
+
+Events can not be used with with keyword.
+
+To synchronize two thread, two Events are usually used.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Python 3.x
+import threading
+e1 = threading.Event() OUipUi
+el.set()
+def AddNumber(start,eventl,event2,lista):
+for i in range(start,10,2):
+
+eventl.wait()
+
+eventl.clear()
+
+lista += [i]
+
+event2.set()
+l = [1
+t1 = threading.Thread(target=AddNumber, args=(l,el,e2,l))
+t2 = threading.Thread(target=AddNumber, args=(2,e2,el,l))
+tl.start()
+t2.start()
+tl.join()
+t2.join()
+print (l)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Provides a mechanism to wait for multiple Threads to start at the same time.
+
+lt has the following functions:
+
+O wait 9 wait until the number if threads that need to pass a barrier is completed. Only then all threads
+are released and will continue their execution
+
+O Reset 9 resets the barrier
+
+O abort 9 aborts current barrier
+
+o parties 9 number of parties (threads) that has to pass the barrier
+
+Barriers can not be used with with keyword.
+
+Barriers are available only on Python 3.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:32**************
+Python 3.x
+import threading,time
+b I threading.Barrier(2)
+def WorkerThread(b,id):
+b_id I b.wait()
+print("#"+str(id)+" pass the barier => "+str(b_id))
+time.sleep(2)
+print("#"+str(id)+" exit")
+t I [1
+for i in range(0,lO):
+t +: [threading.Thread(targetIWorkerThread, args:(b,i,))]
+for _th in t: _th.start ()
+for _th in t: _th.join ()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Python 3.x Output
+import threading, tim€ #1 pass the barier => 1
+b I threading.Barrier(2) #0 pass the barier => 0
+#3 pass the barier => 1
+, #2 pass the barier => O
+def WorkerThread(b,1d) : #5 pass the barier => 1
+b_jlj I k).WaiiI() #4 pass the barier => O
+print("#"+str(id)+" pass the barier :> "+str(b id)) #7 Pass the barier => 1
+tilnG .Sl£9€ (2) _' #6 pass the barier => O
+. ' f) . . #9 pass the barier => 1
+Prlnt("#"+str(ld)+" eXlt") #8 pass the barier => 0
+#1 exit
+t I: [1 #3 ex1t
+. . #2 exlt
+for 1 1n range(0,10): #0 exit
+t +: [threading.Thread(targetIWorkerThread, args:(b #6 exit
+for th in t: th.start () #4 exit
+_‘ . _' . . #9 exit
+for _th 1n t: _th.101n () #5 exit
+#7 exit
+#8 exit
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+PyThon 3.x OquuT
+import threading, tim€ #1 pass the barier => 1
+b I threading.Barrie w . . #0 pass the barier => O
+Each barrler walTs for 2 #3 pass the barier => 1
+f k h d b 'd Threﬂd- The b_id #2 pass the barier => O
+de Wor eer rea ( fl ) ° parameTerindicaTes The #5 Pass th€ barier => 1
+b ld I b.Walt() . . . #4 pass the barier => O
+—. . |d of a Thread Inslde a . 7 h b . _> 1
+prlnt("#"+str(ld)+" pa . . r(b 101)) # pass t e arler —
+. l 2 barrler. The call To walT — #6 pass the barier => O
+tlrrle.s"eep( > 'd +" , exiTs only when all #9 pass the barier => 1
+prlnt( # +Str(l > eXl Threads ThaT need To ﬁ pa?’ the barmr => O
+eXl
+_ pass The barrier are #3 exit
+Z _ ‘H _ O 10 presenT (in This case #2 exit
+or l 1n range( ' .) ' from 2 To 2 Threads). #0 eXit
+t +: [thread1ng.Thread( args:(b #6 exit
+for th in t: th.start () #4 ex?
+f —th . t_ —th . .n () #9 eXlt
+or _ 1n . _ .jOl #5 exit
+#7 exit
+#8 exit
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+SYNCHRONIZATION BARRIER
+( ) groups of 3. As There
+are lO Threads, Thread
+PYThon 3.x no. lO will never end
+b I threading _ Barrie w Two more Threads will
+enTer in The barrier).
+def WorkerThread(b,id):
+b_id I b.wait()
+print("#"+str(id)+" pass the barier :> "+str(b_id))
+time.sleep(2)
+print("#"+str(id)+" exit")
+t I l]
+for i in range(0,lO):
+t +: [threading.Thread(targetIWorkerThread, args:(b,i,))]
+for _th in t: _th.start ()
+for _th in t: _th.join ()
+
+***************Ending Page***************
+

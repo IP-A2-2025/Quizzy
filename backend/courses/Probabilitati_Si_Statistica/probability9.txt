@@ -1,0 +1,737 @@
+***************Beginning Page***************
+***************page number:1**************
+3 mai 2022
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Simulare - metodele Monte Carlo (MC)
+Estimarea mediei cu metoda Monte Carlo
+Estimarea lungimilor, ariilor §i a volumelor
+Estimarea. ariilor regiunilor cu frontiere necunoscute
+Integrarea Monte Carlo
+Estimarea probabilitétilor folosind metoda Monte Carlo
+Bibliography
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+0 Procesul de generare a valorilor aleatoare care au o anu-
+mité densitate se nume§te stmulare (unii o numesc stmulare
+Monte Carlo). Statistics and Data with R by Y. Cohen,
+J. Y. Cohen
+
+o M etoda Monte Carlo este numité orice metodé care rezolvé
+o problemé prin generarea unor anumite valori aleatoare §i
+observénd fractiunea acestor valori care au 0 anumité propri-
+etate. Aceasté metodéi este utilé pentru a ob'gine solu'gii nu-
+merice (aproximative) pentru probleme care sunt prea com-
+plicate pentru a ﬁ rezolvate analitic. mathworldwolfram. com
+
+o O valoare a unei variable aleatoare (sau o valoare care urmeazéi
+o densitate) este numité quanttla’ sau 'ualoare aleatoare,
+numar aleato'r (in englezé variate).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+o O metodd Monte Carlo poate genera foarte multe astfel de
+valori aleatoare (cateodata milioane) asociate unei distributii
+de probabilitate, iar acest proces se nume§te simulare a re-
+spectivei distributii.
+
+o Simularea este utilizata pentru a determina media sau dis-
+persia unei distributii sau un alt parametru asociat.
+
+o Simularea depinde de "calitatea" valorilor aleatoare. Cele
+mai utilizate numere aleatoare sunt cele provenite din dis-
+tributia uniforma continua standard, U(0, 1), sau din dis-
+tribu'gia uniforma discreta, Un.
+
+o Aproape orice limbaj de programare are un generator de
+numere aleatoare, dar aceste generatoare ofera doar numere
+pseudo-aleatoare sau quasi-aleatoare (valori uniforme).
+
+o Unul dintre cele mai bune generatoare de numere pseudo-
+aleatoare (pseudorandom number generator - PRNG) este
+Mersenne-Twister (implicit in R).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+o Fie X o variabilé aleatoare céreia dorim s5 ii estimém media
+u I E[X 1-
+
+0 Generém mai intéi un §ir Monte Carlo de valori aleatoare
+care urmeazé distributia lui X (acestea pot ﬁ privite §i ca
+variabile aleatoare independente §i identic distribuite cu X:
+X1, X2, . . . XN. Un estimator nedeplasat pentru ,u este
+
+Y- X1+X2+..-+XN
+_ iN ,
+deoarece EX] : ,u. Dacé Var[X] : 02, atunci
+N
+Z Var[XZ']
+i ¢—1 U2
+V X : _i : i.
+ar[ ] N2 N
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+0 Exemplu. Un vénzéitor comercializeazé un produs perisabil
+§i in ﬁecare zi face o comanda de 100 de unitéti din acest
+produs. Fiecare unitate vénduté aduce un proﬁt de 55 centi,
+iar o unitate nevénduté d5, 1a sfér§itu1 zilei, o pierdere de
+4O cen'gi. Cererea zilnicé, X, urmeazé o distributie uniforméi
+U [80, 140]. Estima'gi proﬁtul mediu.
+
+o Solu'gie. Dacé P este proﬁtul, atunci
+
+P I 55, if X 2 100
+0.55X — 0.4(100 — X), if X < 100
+
+0 Generém N valori pentru X §i calculém P1, P2, . . . , PN, apoi
+determiném media de selectie.
+
+o Pentru cinci e§antioane independente (cu N : 10000) ob'ginem
+
+51.7796 51.82632 51.87036 51.84095 51.88509
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+0 Valoarea exacté a proﬁtului mediu este
+/100 w dac + /140 § dac I 51.83333
+80 6O 100 60
+
+o Exemplu. Un server foarte performant este folosit de 250 uti-
+lizatori independen'gi. in ﬁecare zi, ﬁecare utilizator folose§te
+serverul, independent, cu probabilitate 0.3. Numérul de
+job-uri lansate de ﬁecare utilizator pe server urmeazé o dis-
+tributie Geometricé cu parametrul 0.15 §i ﬁecare job are
+nevoie de 1"(10,3) timp (in minute) pentru a ﬁ executat.
+J ob-urile sunt executate consecutiv. Estima'gi media timpu-
+lui total de utilizare a serverului.
+
+o Solu'gie. Timpul total necesar T I T1 + . . . + TX consté din
+suma timpilor Ti ceru'gi de cei X utilizatori activi. Numérul
+de utilizatori activi X este Binomial(250, 0.3).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+o Fiecare utilizator activ lanseazé YZ- job-uri, unde YZ- este
+Geometric(0.15). Astfel T1- I T¢,1 +...+ Tim, unde Tm- :
+1"(10, 3).
+
+0 Trei estimﬁri independente oferéi urméitoarele perioade de
+timp (in minute)
+
+1494.901 1492.228 1489.696
+
+o Aceste valori sunt pu'gin peste 24 de ore (1440 minute).
+
+o Exemplu. Doué servere web oferé (servesc) acelea§i pagini
+posibililor clienti (web). Timpul necesar procesérii unei
+cereri HTTP urmeazé o distributie exponentialé cu A1 :
+O.0?>ms_1 pentru primul server §i A2 : 0.04ms_1 pentru cel
+de-al doilea. Laten'ga totalé, care mai con'gine timpul necesar
+cererii §i réspunsului de a parcurge distan'ga intre client §i
+server §i inapoi, are o distributie exponentialé cu A : lmsil.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+o Exemplu - continuare. Un client oarecare este indreptat
+catre primul server cu probabilitate 0.4 §i catre a1 doilea
+cu probabilitate 0.6. Estima'gi timpul mediu de a§teptare pe
+care un client i1 petrece pana 1a sosirea raspunsului 1a cererea
+sa.
+
+o Solu'gie. O simulare (sau "run") pentru aceasta problema
+consta in generarea unei valori uniforme standard U, apoi
+In func'gie de aceasta valoare a unei valori care urmeaza 0
+distributie exponentiala cu A : 0.03 sau 0.04; rezultatul
+este adaugat unei valori distribuite exponential cu A : 1:
+
+Y, if U < 0.4
+T_X+{ Z, 1£U>0.4’
+where U: U(0,1), X : Exp(1), Y : Exp(0.03), Z : E$p(0.04).
+Pentru N : 10000 ob'ginem o estimare a mediei de 29.48822
+ms.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+o Fie U o variabilé uniformé standard; U apar'gine mul'gimii
+A Q [0,1] cu probabilitatea
+P(U € A) :/ 1 du : lungimea lui A.
+A
+o Fie X : XA( U) functia indicator (caracteristicé) a multimii
+A §i X1, X2, . . . X N un §ir de variabile aleatoare identic dis-
+tribuite cu X.
+1 u € A
+X : : ’ .
+(u) XAW) { 0, altfel
+i X X X
+X z 1 + 2 If + N,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+o Sirul (Xi) poate ﬁ ob'ginut prin generarea a n valori indepen-
+dente uniforme U1, U2,...,UN,1uénd apoi X1- : XA(U2')-
+
+o Lungimea lui A este aproximativ Y care este proportia val-
+orilor UZ- care se gésesc in A.
+
+o Fie A Q [a, b]; dacé U este o variabilé uniformé deﬁnité pe
+[a, b], atunci
+
+du 1 lungimea lui A
+
+o Generém un §ir de valori uniforme §i independente pe [a, b]:
+U1, U2,..., UN (Xi : XA(U1'))- Lungimea lui A va ﬁ cu
+aproximatie (b — a) -Y, adicé proportia valorilor Ui care se
+aﬁé in A inmultité cu (b — a), deoarece P(U 6 A) z Y.
+
+o De obicei calculul unei lungimi nu pune probleme majore;
+metoda aceasta poate ﬁ insé utilizaté pentru estimarea ari-
+ilor §i a volumelor.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+o Fie B o mul'gime 2-dimensionala care este inclusa in [0,1] ><
+[0, 1]; Doua variabile uniforme standard independente au
+densitatea comuna
+
+1, (11,11) E [0,1] >< [0,1]
+u 'u I .
+fU’V( ’ ) { 0, altfel
+0 Aria lui B se determina astfel
+P((U, V) G B) I // 1 dud'u.
+B
+0 Un algoritm pentru estimarea ariei unei multimi B Q [0, 1]2:
+1. Generarn un numar par de valori uniforme standard indepen-
+dente: U1, . . ., UN, V1, . . ., VN;
+2. Fie NB numérul de perechi (Ui, Vi) care apar’gin lui B.
+3. Un estimator pentru aria lui B este NB/N.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+o Fie B o multime 2-dimensionalé care este inclusé in [a1, b1] ><
+[(12, b2]; doué variabile uniforme una pe [a1, b1] §i una pe
+[0,2, b2], independente, au densitatea comuné
+
+1
+i, 11,,’U E £11,171 X £12,172
+flu/(“H”): (bl—a1)'(b2—a2) ( ) [ 1 [ 1
+0, altfel
+o Aria lui B se determiné astfel d d
+u 'u
+P U, v e B I // i I
+(( ) ) B (bl _a1)'(b2— 02)
+1 ' 1 ' B
+If” ldudv:&.
+(b1—a1)'(b2—a2) B (b1—a1)'(b2—a2)
+o Algoritm pt. estimarea ariei multimii B Q [0,1, b1] >< [(12, b2]:
+1. Generﬁm N valori uniforme pe [(11, b1], U1, . . ., UN §i N val-
+ori uniforme pe [(12, b2], V1, . . . , VN, toate independente;
+2. Fie NB numéirul de perechi (Ui, Vi) care apar'gin lui B.
+3. Un estimator a1 ariei lui B este (b1 — a1) ~ (b2 — (12)'NB/N.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+o Exemplul 1. Fie B discul unitate din plan:
+
+B : {(u,v) : v.2 + 'u2 g 1} Q [—1,1]2.
+
+o Generam N : 10000 valori uniforme pe [—1, 1] independente
+(in R folosim rumﬂl, -1, 1) de 10000 de ori sau runif(10000,
+-1, 1)).
+
+o Obtinem o estimare de 3.1368 pentru aria acestui disc care
+in realitate este 1r : 3.14159.
+
+o Exemp1u12. Fie B o elipsa (a : 4,1) : 3):
+
+B I {(u,'u) 1 iiZ/a2 +v2/b2 g 1} g [_4,4]><[_3,3] g [41,4]?
+
+o Generam N : 10000 perechi de valori uniforme din [—4,4]
+independente.
+
+o Obtinem 0 estimare de 37.4528 pentru aria acestei elipse care
+este ﬂab :121r : 37.69911.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+o Fie C o multime 3-dimensionalé inclusé in [a1, b1] >< [0,2, b2] ><
+[(13, b3]; trei variabile uniforme una pe [(11, b1], una pe [£12, b2]
+§i una pe [0,3, b3], independente, au densitatea comuné
+1
+i b
+fU,V,W('u': 'U, w) :{ (b1 i a1).(1,2 i a2) . (b3 i as), (u,v,w) 6 [£11, 1] >< [c
+O, otherwise
+o Volumul lui C’ se determinéi astfel d d d
+u 'u w
+P UVWeC:///—:
+(( ' ’ ) ) 0(b1—a1)'(b2—a2)'(b3—a3)
+volumul lui C
+(bl — a1) ' (b2 — a2) ' (b3 — a3)‘
+o Un algoritm pentru estimarea volumului lui C’ Q [0,1, b1] ><
+[(12,172] X [0,3,1]3]:
+1. Generém N valori uniforme pe [a1, b1], U1, . . ., UN, N val-
+ori uniforme pe [(12, b2], V1, . . . , VN, §i n valori uniforme pe
+[(13, b3], W1, . . ., WN, toate independente;
+2. Fie NC numéirul de triplete (Ui, Vi, Wi) care apar§in1ui C.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+3. Estimém volumul lui C’ prin (b1 — a1) - (b2 — a2) - (b3 — a3)-
+Nc/N.
+o Si estimém volumul sferei (bilei) unitatelz
+C : {(u,v,w) : 21,2 +112 +1112 g 1} Q [—1,1]3.
+
+0 Mai intéi generém N : 10000 triplete uniforme din [-1,1],
+independente §i apoi obtinem 0 estimare de 4.184 pentru
+volumul acestei bile care este 41r/3 : 4.18879.
+
+o Dacé generéim N : 50000 triplete uniforme din [-1,1], in-
+dependente, ob'ginem o estimare de 4.18816 pentru volumul
+bilei unitate
+
+o Pe misuré ce numérul de dimensiuni ale spatiului in care
+lucrém cre§te, avem nevoie de tot mai multe valori aleatoare
+pentru a aproxima bine parametrul dorit.
+
+o Acesta este the curse 0f dimensionality vizibil in spa'gii cu
+
+lDe obicei, prin sferEi se in'gelege doar frontiera mul'girnii care urmeazé.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+o S5 estimém volumul bilei unitate 8-dimensionale (care are
+volumul egal cu w4/24 : 4.058712):
+s
+C: {(u1,...,u8) : Zn? g 1} g [-1,1]8.
+izl
+o Urmétorul tabel con'gine con'gine patru estimatori diferi'gii
+pentru un numér diferit de simuléri MC:
+run N : 1000 N : 20000 N : 50000 N : 100000
+1. 2.816 3.3920 4.11136 3.99872
+2. 4.096 4.1600 4.01408 3.98592
+3. 3.584 4.3776 4.06528 4.04992
+4. 3.328 4.0704 4.2496 4.13440
+5. 4.864 3.6480 4.22912 4.00896
+average 3.7376 3.9296 4.133888 4.035584
+absolute error 0.321112 0.129112 0.075176 0.023128
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+0 Pentru a aproxima arii sau volume cu metoda Monte Carlo
+nu este necesar sa cunoa§tem frontierele multimii in cauza.
+
+o Pentru a aplica unu1 dintre algoritmii anteriori este suﬁcient
+s5 gtim cum putem aﬂa daca un punct dat apartine mul'gimii
+(pentru care masuram aria, volumul etc).
+
+o Astfel, nu este necesar ca mul'gimea din care ne extragem
+punctele $5 aiba o forma rectangulara; cu scalari diferite ale
+axelor, putem genera puncte aleatoare dintr-o forma rectan-
+gulara sau dintr-o forma mai complexa.
+
+0 O metoda de a genera puncte aleatoare dintr-o regiune cu 0
+forma arbitrara este de a genera puncte (de coordonate uni-
+forme) intr-o forma rectangulara care contine acea regiune
+numarand punctele din regiunea vizata.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+o Exemplu. O alerta este lansata 1a o centrala nucleara. Este
+necesar sa se estimeze aria regiunii expuse 1a scurgeri ra-
+dioactive. Frontierele acestei regiuni nu pot ﬁ determinate,
+insa se poate masura nivelul de radioactivitate in orice 10-
+catie data.
+
+o Solutie. Un dreptunghi de 10 >< 8 km este ales in jurul ariei
+expuse. Se genereaza perechi de valori uniforme indepen-
+dente (Ui, Vi) in acest dreptunghi.
+
+0 Se masoara radioactivitatea in cateva loca'gii alese aleator
+dintre cele accesibile. Aria este estimata ca proportia ma-
+suratorilor peste nivelul admis inmultita cu aria dreptunghi-
+ului.
+
+o s5 presupunem ca radioactivitatea este masurata in 50 de
+loca'gii aleatoare §i ca se gase§te un nivel peste cel normal
+in 18 locatii. Aria expusa este estimata prin g - 80 km2 :
+28.8 kmz.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+o O lungime, o arie sau un volum pot ﬁ vézute drept integrale
+deﬁnite ale unor anumite functii.
+
+o Metoda Monte Carlo se poate dealtfel extinde 1a calculul
+integralelor deﬁnite. Si presupunem 05 avem de integrat 0
+anumité functie h intre a §i b:
+
+H : /b h(u) du.
+a
+
+o Putem aproxima aceastéi integralé considerénd media unor
+valori ale lui h in puncte aleatoare repartizate uniform pe
+[a, b].
+
+o Dacé U1, U2, . . ., UN sunt valori uniforme pe [a, b] indepen-
+dente (pentru care densitatea este 1/ (b — a) pe acest interval
+§i 0 altfel), estimatorul Monte Carlo pentru H este
+
+N
+FN I Q Z h( Ui).
+N 1:1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+o Aceasté aproximare are 10c deoarece, pentru o variabilé uni-
+forméi, U, pe [a, b], media lui h(U) este
+b
+Ewwn I / h<u>f<u> du,
+unde f este densitatea distributiei uniforme pe [(1, b].
+o Astfel
+b 1 d
+E h U : h i
+[( )1 / (“Ma u,
+§i
+b
+H :/ h(u) du z (b _ a)E[h(U)].
+o Folosind estimarea Monte Carlo pentru media de mai sus
+obtinem
+b — a N
+H z i 1- z F ,
+N 2 h(U ) N
+pentru variabilele uniforme pe [0,, b] §i independente (Ui)1<i<1v-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+o Din Legea (tare a) Numerelor Mari P (Jim FN : H) : 1;
+‘>00
+dispersia acestui estimator este
+(b — 602
+V F : i : (9 1 N
+deoarece dispersia distributiei uniforme pe [a, b] este (b —
+(1)2 /12.
+
+o Cum deviatia standard este o masura a impra§tierii, ultima
+relatie poate ﬁ citita astfel: trebuie sa marim de patru ori di-
+mensiunea egantionului pentru a reduce 1a jumatate eroarea
+(deviatia standard).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+o S5 estimﬁm urmétoarea integralé (improprie):
+0° 2
+/ e_“ /2 du,
+0
+(se tie cé /oo 2*”2/2 du V /2 1 253314)
+I 7r I . .
+§ 0
+. . . a 2 2 00 2 2
+o Observﬁm malintéu cé 11m / e_“/ duz/ e_“/ du,
+OO
+deci, pentru valori mari ale lui a avem / ewz/2 du z
+0
+(Z
+/ e_“2/2 du. S5 alegem a : 10.
+0
+o Pentru diferite valori ale dimensiunii N am ob'ginut urmé-
+toarele medii pentru 30 de aproximéiri independente.
+N : 1000 N : 10000 N : 20000 N : 50000
+media 1.247216 1.259898 1.250592 1.251562
+dev. st. 0.08749 0.02256 0.01898 0.01045
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+0 Integrala deﬁnité de mai sus poate ﬁ scriséi astfel:
+1 b
+H I i/ (b _ a)h(u) du z E[(b _ a)h(U)],
+b — O, a
+unde U are o distributie uniforméi continué pe [a, b].
+o Urménd urmétoarea proceduré putem utiliza orice distribuﬁe
+continud in locul celei uniforme.
+o Fie X o distributie aleatoare continué cu densitatea f astfel
+ca f(u) > 0, pentru orice u 6 [a, b] §i f(u) : O pentru orice
+u ¢ [a, b].
+o Putem scrie
+b b Mm) h(X)
+H:/ ha; dxz/ ifrz: dw:E[].
+a U am‘) ﬂX)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+0 Vom estima H alegénd N valori aleatoare ale lui X (X1, . . .
+
+, X N) §i calculénd urmétoarea medie:
+N
+N 1:1 f (X1)
+
+0 Metoda de mai sus nu se limiteazé 1a intervale ﬁnite [a, b].
+Putem aproxima in acest fel §i integrale improprii (conver-
+gente).
+
+0 Putem aproxima pe orice interval (a, b) Q R trebuie doar
+ca suportul lui f, i. e., supp(f) : {x E R : f(:z;) 75 0} sé
+continﬁ (a, b).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+o De exemplu, alegénd f s5 ﬁe densitatea normalé standard
+putem aplica integrarea Monte Carlo de 1a —oo péné 1a oo
+sau, dacéi or alegem f s51 ﬁe densitatea exponentialé putem
+aplica integrarea Monte Carlo de 1a 0 péné 1a oo.
+
+o Si estimém din nou
+
+/oo e_“2/2 du,
+0
+folosind de data aceasta densitatea exponentialé A : 1 (§i
+nu o aproximare a limitei de integrare).
+N : 1000 N : 10000 N : 20000 N : 50000
+average 1.254416 1.254476 1.253978 1.253035
+st. dev. 0.01454 0.00349 0.00313 0.00176
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+o Estimarea unei probabilitéti este una dintre aplicatiile tipice
+ale metodei Monte Carlo.
+
+o Fie X o variabilé aleatoare realé §i A Q R; probabilitatea
+p : P(X € A) se estimeazéi astfel
+
+15 z #{XZ~ 6 A}
+1v iN -
+
+o Evident cé numérul variabilelor X1, X2, . . . , X N care apartin
+lui A este o variabilé aleatoare discreté cu o distributie bi-
+nomia15(B(N,p)).
+
+o Media §i dispersia 1ui f0); sunt
+
+A N .
+E[pN] : l : p, respectlv
+N
+A _ Np(1—:v) _ P(1—P)
+Va'r[pN] _ N2 _ N .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+o Cét de buné este aceasté metodé de aproximare a lui p prin
+151v (care este un estimator nedeplasat)?
+0 Folosind aproximarea normaléi a distributiei binomiale,
+NA — N A —
+M I A I N(0,1)-
+\/N;v(1 — P) \/P(1 — P)/N
+o De unde
+A \ﬁ — M E
+P(\P—P!>E):P< > m
+\/:v(1— P)/N \/:v(1— p)/N
+e e
+m2‘? —— :2-pn0'rm ——,
+< \/P(1—P)/N) < \/P(1—P)/N>
+unde <i>(-) este func'gia de repartitie a unei variabile normale
+standard (in R, <I>(z) : pnorm(z)).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+. Cum se proiecteazéi un studiu Monte Carlo care séi aibéi o
+acurate'ge anterior prescrisé?
+
+o Adicé, pentru un e §i O < oz < 1, cét de mare trebuie sé ﬁe
+N astfel ca
+
+P(|:5—P| > e) é a?
+
+0 Principalul obstacol este acela c5 in rela'gia de mai sus val-
+oarea lui p este necunoscuté (altfel estimarea nu ar mai avea
+sens).
+
+0 Avem doué posibilité'gi pentru a estima cantitatea p(1 — p):
+
+1. Mai intéi, am putem utiliza 0 "aproximare" (0 estimare pre-
+liminarﬁ) a 1ui p, dacé existé.
+2. In a1 doilea rand, putem utiliza un majorant din inegalitatea
+mediilor
+P(1 — P)€1/4,VP G [0,1]-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+o In primul caz, dacﬁ p* este o "aproximare", trebuie s5 re-
+zolvém inegalitatea
+e
+2<I> —— < a.
+< \/P*(1—P*)/N> \
+o Fie za : §’1(a) : qno'rm(a), unde a 6 (0,1). Inegalitatea
+devine
+-; < or \/p*(1—p*)/N < -i.
+x/P*(1 — P*)/N 2 Zg
+(Si notém cé, pentru a < 1/2, avem za < 0.)
+0 Obtinem un minorant pentru N:
+Zg 2
+e
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+o in cel de-al doilea caz, dacé nu avem o "aproximare", atunci
+N > 1 z? 2 z? 2
+/ 1 (E) — (26> -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+o Exemplu. Un server este utilizat de 250 clienti indepen-
+denti. in fiecare zi, un client, in mod independent, folose§te
+serverul cu probabilitate 0.3. Numérul de procese lansate
+in executie pe server de ﬁecare client activ urmeazé o dis-
+tributie Geometricé cu parametrul 0.15, iar ﬁecare proces
+are nevoie pentru a ﬁ executat de un timp care urmeazé
+o distributie 1"(10,3). Job-urile sunt procesate consecutiv.
+Care este probabilitatea ca timpul total necesar sé ﬁe mai
+putin de 24 de ore? Estimati probabilitatea cu o eroare de
+cel mult i001 cu probabilite 0.99.
+
+0 Solutie. Timpul total T : T1 + . .. + TX este format din
+suma timpilor necesari ﬁecérui clientilor activi, Ti, care sunt
+in numéir de X, variabilé distribuité Binomial(250, 0.3).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+o Fiecare client activ lanseazé in executie YZ- procese, Yl- :
+Geometric(0.15) . Astfel T1- I Tm + + TAYH unde
+Tm‘ I P(10, 3).
+
+0 Nu avem o "aproximare" a probabilitétii in cauzé, P(T <
+24). Pentru a ob'gine acurate'gea cerutéi (a : 0.01, e : 0.01)
+avem nevoie de
+
+1 ZQ 2 1 1,0005 2 1 —2.57529 2
+N>i i :2 ‘i :2 i :16587.24
+/4(6> 4(001) 4< 0.01 > '
+as z0_005 : qnorm(0.005) : —2.57529.
+
+o Astfel, vom avea nevoie de N : 16588 simuléri (valoare
+suﬁcient de mare pentru a utiliza aproximarea normalé a
+distributiei binomiale).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+0 Trei estiméri independente dau urmétoarele probabilitéi'gi
+0.4262117 0.4202435 0.4259103
+o Probabilitatea nu este chiar atét de micé; este posibil ca
+toate job-urile séi ﬁe terminate intr-o singuré zi.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Sfér§it
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+[a Baron, M., Probability and Statistics for Computer Scien-
+tist, Chapman 8t Hall/CRO Press, 2013 or the electronic edi-
+tion https://ww2.ii.uj.edu.pl/~z1099839/nauk0we/RP/rps-
+michael-byron.pdf
+
+ii Johnson, J. L., Probability and Statistics for Computer
+Science, Wiley Interscience, 2008.
+
+@ Lipschutz, S., Theory and Problems of Probability,
+Schaum's Outline Series, McGraw-Hill, 1965.
+
+@ Ross, S. M., A First Course in Probability , Prentice Hall,
+5th edition, 1998.
+
+ﬁ Shao, J ., Mathematical Statistics, Springer Verlag, 1998.
+
+ﬁ Stone, C. J., A Course in Probability and Statistics,
+Duxbury Press, 1996.
+
+***************Ending Page***************
+

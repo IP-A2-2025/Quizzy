@@ -1,0 +1,719 @@
+***************Beginning Page***************
+***************page number:1**************
+Oursul V: Probleme NP-cornplete
+1 Motivare
+in acest curs vorn intelege:
+
+1. ce sunt clasele P, NP 3i problemele NP-cornplete;
+
+2. de ce e important pentru un informatician sa ﬁe capabil sa identiﬁce astfel de probleme;
+
+3. cum putern arata ca 0 problema este NP-cornpleta;
+
+4. curn abordarn astfel de probleme in practica.
+
+Pentru a inﬁelege cum an fost identiﬁcate $i de ce sunt importante problemele NP-cornplete,
+trebuie sa ne intoarcem putin in tirnp, in momentele in care an aparut calculatoarele moderne.
+Calculatoarele aveau reputatia de a efectua calcule foarte rapid (mai rapid decat 0 persoana).
+
+Foarte curand, informaticienii $i-au dat searna ca nu e chiar a$az indiferent cat de rapid este
+executat un pas de calcul (curn ar fi adunarea a doi intregi rna$ina), luat individual, nurnarul de
+pa$i necesari pentru rezolvarea anurnitor probleme computaﬁionale poate ﬁ foarte mare $i astfel
+tirnpul de rulare a1 programelor sa ﬁe rnare.
+
+Din acest rnotiv, a aparut necesitatea de a proiecta de algoritrni cat rnai eﬁcienti pentru
+probleme computationale care apar in practica.
+
+Pentru anurnite probleme, curn ar ﬁ cautarea unui drum intre doua noduri dintr-un graf,
+informaticienii an gasit rapid algoritrni eﬁcienpi, care functionau in practica suﬁcient de rapid:
+
+PATH
+
+INPUT: Un graf G I (V, E)7 doua noduri 5,13 E V;
+
+OUTPUT: Exista drurn intre s $i t in graful G?
+(in tirnp liniar7 0(n), unde n I |V| + IE‘).
+
+Pentru alte probleme, curn ar ﬁ problema primalitatii, prirnul algoritrn determinist eficient a
+
+fost gasit in abia in 2002 (algoritrnul AKS).
+PRIMES
+INPUT: Un nurnar k G N;
+OUTPUT: Este k nurnar prirn?
+
+Algoritrnul AKS rezolva problema in tirnp OM12), unde n I [092(k) este dirnensiunea datelor
+de intrare.
+
+Pentru alte problerne7 cum ar ﬁ problema opririi in k: pa$i, informaticienii au demonstrat ca
+orice algoritrn care rezolva problerna are complexitate cel pufuin exponentiala.
+
+BOUNDED HALTING
+INPUT: Un algoritrn A, un nurnar natural k;
+OUTPUT: Se 0pre$te A in cel rnult k pasi?
+
+1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+Orice algoritm care rezolva problema de mai sus are complexitate 0(2"), unde n I [092(k).
+Pentru alte probleme importante care apareau in piractica7 informaticienii nu au reusit sa
+
+gaseasca algoritmi eﬁcienti si nici sa demonstreze ca nu exista algoritmi astfel de algoritmi.
+
+Incercand sa inﬁeleaga aceste probleme, informaticienii au descoperit 0 clasa importanta de
+probleme numite probleme NP-complete. Aceasta clasa de probleme include probleme cum ar ﬁ
+satisﬁabilitatea pentru logica propozitionala, cel mai lung drum simplu in graf, problema clicii,
+problema comis-voiajorului, problema submulpimii de suma data si multe altele.
+
+Nu stim daca aceste probleme au algoritmi polinomiali (si doar intamplator nu i-am gasit
+inca) sau pur si simplu astfel de algoritmi nu exista. Insa stim ca aceste probleme sunt echivalente
+polinomial: daca vreuna dintre ele este rezolvabila in timp polinomial7 toate sunt rezolvabile in
+timp polinomial.
+
+In plus fata de interesul stiintiﬁc7 este important ca un programator sa poata identiﬁca 0
+problema NP-completa. Daca este NP-completa, nu are sens sa caute un algoritm polinomial, ci
+trebuie sa gaseasca 0 metoda alternativa:
+
+0 sa accepte folosirea unui algoritm mai putin eﬁcient in cazul cel mai nefavorabil (de cele mai
+
+multe ori, bazat pe backtracking);
+
+o sa foloseasca un algoritm de aproximare;
+
+o sa caute rezolvari eﬁciente pentru cazuri particulare ale problemei;
+
+o sa analizeze daca 0 reformulare a problemei astfel incat sa nu fie NP-completa nu a1" putea
+
+ﬁ utila.
+
+2 Probleme computationale, probleme de decizie, probleme
+
+de optim
+
+O problema computaﬁionala (la nivel abstract), este 0 pereche formata din descrierea datelor de
+
+intrare si a datelor de iesire:
+
+INPUT: descriere a datelor de intrare
+
+OUTPUT: descriere a datelor de iesire (in functie de datele de intrare)
+
+O problema de decizie este 0 problema in care outputul este un singur bit (e.g., true/false,
+da/nu7 1/0).
+
+INPUT: d;
+
+QUTPUT: da/nu, in functie de un predicat P(d).
+
+Intr-o problema de optim (sau7 echivalent7 problema de optimizare), la iesire se cere cea mai
+buna solutie dintr-un spatiu de solupii:
+
+0 solutia cu costul minim pentru probleme de minimizare si
+
+0 solutia cu castigul maxim pentru probleme de maximizare.
+
+Schema generala pentru 0 problema de minimizare:
+
+INPUT: d;
+
+OUTPUT: s E S(d) a.i. cost(s) este minim (sau un marker special7 eg. —17 in caZ ca nu
+exista solutii).
+
+Spatiul de solutii aferent intrarii d este notat cu S (d), iar cost(s) returneaza costul unei solupii
+(cantitatea de minimizat).
+
+Universitatea Alexandru Ioan Cuza 2 Varianta preliminara
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+Schema generala pentru 0 problema de maximizare:
+INPUT: d;
+OUTPUT: s G S(d) a.i. cdgtig(s) este maxim
+(sau un marker special7 eg. —17 in caz ca nu exista solutii).
+Exemple:
+SHORTEST-PATH (problema de minimizare)
+INPUT: Un graf G I (V7 E)7 doua noduri s,t G V;
+OUTPUT: Cel mai scurt drum intre s 3i t in G.
+Spapiul de solutii este reprezentat de toate drumurile intre s gi t.
+LONGEST-PATH (problema de maximizare)
+INPUT: Un graf G I (V7 E)7 doua noduri s,t G V;
+OUTPUT: Cel mai lung drum simplu intre s $i t in G.
+in contextul problemelor NP-complete, lucram doar cu probleme de decizie (nu de optimizare).
+Acest lucru nu este 0 restrictie, deoarece orice problema de optimizare are asociata o problema de
+deciZie echivalenta, folosind schema de transformare ilustrata mai jos pentru probleme de minizare
+(pentru probleme de maximizare transformarea este similara):
+Problema initiala: Problema de decizie asociata:
+INPUT: INPUT:
+d d, k G N
+OUTPUT: OUTPUT:
+s G S(d) a.i. cost(s) e minim 35 G S(d) a.i. cost(s) g k?
+Cele doua probleme sunt echivalente polinomial (daca gtim sa rezolvam una dintre ele in timp
+polinomial7 etim sa rezolvam $i cealalta):
+:> Presupunem ca avem un algoritm polinomial A0 pentru problema de optimizare. Iata un
+algoritm polinomial AD pentru problema de decizie asociata:
+AD(d, k)
+{
+best = A0(d)
+return best <= k;
+}
+<: Presupunem ca avem un algoritm polinomial AD pentru problema de deciZie. Iata un algoritm
+polinomial A0 pentru problema de optimizare:
+AO(d)
+{
+for (k = 0;; k++) {
+if AD(d, k) {
+return k;
+}
+}
+}
+Universitatea Alexandru Ioan Cuza 3 Varianta preliminara
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Proiectarea Algoritrnilor (2021-2022) Cursul V (Probleme NP-complete)
+Puteni obtine o variantﬁ incé Inai eﬁcientﬁ pentru A0 implementénd o varianté a céutérii binare
+in 100 de céutarea liniaré.
+Conventie
+In continuare in curs7 dacé utilizﬁrn o problemi de optimizare, ne referiin la problema de
+decizie asociaté.
+Existi 0 modalitate incé 5i Inai generalé de a asocia o problemé de decizie oricérei probleme
+(fie ea de optiinizare sau nu):
+Problema initialé: Problema de decizie asociaté:
+INPUT: INPUT:
+x at, i E N
+OUTPUT: OUTPUT:
+ﬂat) a1 i-lea bit din f(;r;)
+Cele doué probleme sunt echivalente computational (dacé stiIn s5 rezolvéun (eﬁcient) una dintre
+ele7 puteIn rezolva (eﬁcient) si cealalté):
+:> dacé aveni un algoritrn AI pentru problema initialé7 construiin un algoritni AD pentru prob-
+leina de decizie in felul urrnitor:
+AD(X, i)
+{
+temp = AI (X);
+return temp [i]; // notatie pentru a1 i-lea bit din f(X)
+1'
+<: dacé avein un algoritni AD pentru problema decizie, construini un algoritin AI pentru prob-
+leina initialé in felul urniétor:
+AI (X)
+{
+// temp reprezinté o variabilé unde memorém datele de iesire
+for (i = O; i < size; ++i) { // size e dimensiunea datelor de iesire
+temp [i] = AD(X, i); // notatie pentru a seta a i—lea bit
+}
+return temp;
+}
+Aceste reduceri ne araté cé putein lucra in continuare doar cu probleme de decizie, firé a
+pierde din generalitate.
+3 Algoritmi nedeterministi
+Un algoritm nedeterminist este un algoritm in care avem la dispozitie suplimentar instructiunea
+choose:
+choose x in { }
+Algoritniii nedeterniinisti reprezinti un model de calcul complet nerealist, dar care este util
+din Apunct de vedere teoretic.
+In acest model de calcul, un algoritrn are una sau mai multe executii. Fiecare executie se
+terminé cu succes, cu esec sau este inﬁnité.
+Iaté un exemplu de algoritin nedeterniinist:
+Universitatea Alexandru Ioan Cuza 4 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+choose X in { O, 1, 2 };
+choose y in { O, 1, 2 };
+if (X + y == 3) {
+success;
+} else {
+failure;
+}
+
+Algoritmul de mai sus are 3 >< 3 I 9 executii.
+
+ln modelul de calcul nedeterminist alegem, dacé existé7 0 executie care s21 se termine cu succes.
+De exemplu, in programul de mai sus, 2 execupii se opresc cu succes‘ Astfel incét programul alege
+una dintre acestea 2 si returneazé TRUE/YES/ DA/ 1.
+
+Aceasté asimetrie in modelul de calcul, prin faptul c5 se preferé executiile care se terminé cu
+succes, este esentialé.
+
+FYI. Alt model de czrlcul7 modelul co-nedeterminist7 preferé executiile care se terminé cu
+esec.
+
+laté alt exemplu de algoritm nedeterminist:
+choose X in { O, 1, 2 };
+choose y in { O, 1, 2 };
+if (X + y == 5) {
+
+success;
+} else {
+
+failure;
+}
+
+in acest algoritm sunt tot 9 executii, dar toate se terminal cu esec. Astfel incét returneazé
+FALSE/NO/NU/O.
+
+Modelul de calcul nedeterminist este nerealist in sensul in care nu este cunoscuté o imple-
+mentare practicé a acestui model in mod eficient7 iar cei mai multl informaticieni cred cé nu existé
+0 astfel de implementare. De altfel, problema P versus NP poate ﬁ formulaté si sub aceasti formé.
+
+Acest model de calcul, mai puternic7 permite scrierea unor algoritmi surprinzétori:
+compus (n)
+
+{
+choose k in { 2 .. 11-1 l‘; // 0(10g n) in modelul logaritmic
+if (n mod k == O) {
+success;
+} else {
+failure;
+}
+}
+
+Algoritmul de mai sus testeazé in timp liniar (in functie de dimensiunea datelor de intrare,
+adicé in funcpie de numérul de bifui pe care este reprezentat n) dacé un numér este compus.
+
+Din cauza faptului c5 instructiunea nedeterministé alege “ca prin magie” varianta care conduce
+la “success”, alegerea nedeterministé se numeste si ghicire.
+
+Orice algoritm nedeterminist polinomial poate ﬁ reorganizat in dour} etape:
+
+1. etapa de “ghicire” (un numér de bipi ghiciti).
+
+2. etapa de “veriﬁcare” (un algoritm determinist care veriﬁczi dacé obiectul ghicit are pro-
+
+prietétile asteptate si intoarce 1/0);
+Universitatea Alexandru loan Cuza 5 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+4 Reduceri Karp
+Fic doué probleme:
+Problema X Problema Y
+INPUT: INPUT:
+x y
+OUTPUT: OUTPUT:
+f (Iv) f (y)
+
+O reducere Karp de 1a X 1a Y este un algoritm A care transformé un input a: pentru problema
+X intr-un input y : A(a:) pentru problema Y astfel incétt f(a:) I g(y) (adicé f(a:) I g(A(m))).
+
+In mod echivalent, 0 alti modalitate de prezentare a reducerilor Karp de la X la Y este sub
+forma un algoritrn pentru problema X care realizeazé o preprocesare a inputului x si apoi apeleazé
+un algoritm pentru Y:
+
+Reducere Karp de la X 1a Y:
+
+Ang(X)
+
+{
+y = . . . // calculeazé y in functie de X (i.e. , algoritmul A)
+return Ang(y); // un singur apel, chiar la sfér$it
+
+}
+
+Atentie! Implementarea Ang nu face parte din reducere.
+
+Reducerea este independenté de algoritmul pentru problema Y, se referé doar 1a modul cum
+se transformé inputul pentru X in input pentru Y.
+
+Exemplu. Fie urrnétoarele probleme:
+
+Probleina PARITATE Problema IMPARITATE
+INPUT: n 6 N INPUT: n e N
+OUTPUT: Este n par? OUTPUT: Este n impar?
+O reducere Karp de la PARITATE 1a IMPARITATE este:
+Prezentare 1 Prezentare 2
+AlgPARITATE(n)
+Reducere (n) {
+{ In = n + 1;
+return n + 1; return AlgIMPARITATE (m) ;
+} }
+
+Dacé avern deja un algoritm pentru Y, 0 reducere Karp de la X 1a Y permite rezolvarea
+problemei X féré a ﬁ nevoie de un algoritm direct pentru X, ci prin cuplarea reducerii cu algoritmul
+pentru Y.
+
+Acest lucru (rezolvarea X prin intermediul Y) poate ﬁ util, dar de cele mai Inulte ori reducerile
+de 1a X la Y sunt folosite altfel. Si anurne7 pentru a demonstra rezultate negative despre
+problema Y pornind de 1a un rezultat negativ pentru problema X.
+
+De exemplu. dacé $tirn 05L
+
+1. problema X nu este calculabilé si
+
+2. gésirn o reducere de la X la Y7
+atunci sigur nici problema Y nu este calculabilé.
+
+Universitatea Alexandru Ioan Cuza 6 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+
+Demonstratie prin reducere la absurd: daca ar fi Y calculabila, putem cupla algoritmul pentru
+Y cu reducerea de la ltemul (2) pentru a gasi un algoritm pentru X, contrazicand Itemul (1).
+
+Sau: daca $tim ca problema X nu are o rezolvare eﬁcienta (e.g., polinomiala) si exista o reducere
+polinomiala de la X la Y, atunci sigur nici problema Y nu are o rezolvare eﬁcienta.
+
+Demonstratie prin reducere la absurd: daca Y ar avea o rezolvare polinomiala, cuplam algorit-
+mulAeﬁcient pentru Y cu reducerea eﬁcienta $0 obtinem un algoritm eﬁcient pentru X (contradictiel).
+
+In principiu7 existenta unei reduceri (eﬁciente) de la X la Y asigura ca problema X nu este (cu
+mult) mai diﬁcila computational decat problema Y.
+
+5 Clasa P
+P (sau PTIME ) este o clasa (multime) de probleme computationale:
+P I {X l Xeste o problema de decizie
+3i exista un algoritm polinomial
+in cazul cel mai nefavorabil pentru X }
+
+in general, clasa P este privita ca ﬁind clasa problemelor “tractabile”.
+
+Exemple de probleme.
+
+1. 2 — SAT E P, BIPARTIT G P, SORT E P, (Atentie! toate vazute ca probleme de
+
+decizie).
+Toate aceste probleme au algoritmi care le rezolva in timp polinomial in cazul cel mai
+nefavorabil.
+
+2. Stim ca PRIMES 6 P, dar algoritmul polinomial a fost gasit abia in 2002 (AKS).
+
+3. Pentru multe probleme, cum ar ﬁ 3-SAT, HAMILTONIAN-CIRCUIT, TSP (Travelling
+Salesperson Problem i problem comis-voiajorului), GI, nu etim daca sunt in P sau nu.
+6 Clasa NP
+NP (sau NPTIME ) este o clasa (multime) de probleme computationale:
+NP I {X | X este o problema de decizie
+5i exista un algoritrn nedeterrninist polinomial
+in cazul cel mai nefavorabil pentru X }
+Singura diferenta in deﬁnitie fata de P este ca permite folosirea unui algoritm nedeterminist
+in loc de un algoritm determinist.
+Atentie! Eroare frecventa!
+NP nu este o prescurtare pentru non-polynomial, ci este o prescurtare pentru nondeter-
+ministic polynomial.
+
+Orice problema computationala din P este $i in NP, deoarece un algoritm determinist este un
+caz particular de algoritm nedeterminist (un algoritm determinist este un algoritm nedeterminist
+cu exact o executie).
+
+In plus (cel mai probabil) fata de problemele din P, clasa NP contine $i alte probleme intere-
+sante:
+
+Problema SAT face parte din NP.
+
+Universitatea Alexandru Ioan Cuza 7 Varianta preliminara
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+SAT
+INPUT: o formula propozifuionala 4p (eg.7 Lp I x1 /\ ﬂaig \/ $3)
+OUTPUT: este g0 satisﬁabila?
+
+SAT este 0 problema de decizie. Asadar7 pentru a arata ca face parte din NP7 este suﬁcient
+sa prezentam un algoritm nedeterminist polinomial in cazul cel mai nefavorabil care sa rezolve
+problema SAT:
+
+AlgSAT(phi)
+{
+for (i = O; i < n; ++i) { // faza 1: ghicirea unei atribuiri
+choose sigma[i] in { O, 1 }; // presupunem (:5 n este numérul de
+} // variabile propozipionale din phi
+if (eval (phi, sigma) == 1) { // faza 2: verificarea
+success;
+} else {
+failure;
+}
+}
+Functia eval calculeaza valoarea de adevar a formulei phi in atribuirea sigma.
+Problema 3-COL face parte din NP.
+3-COL
+INPUT: G : (V7 E)
+OUTPUT: este G 3-colorabil?
+Iata algoritmul nedeterminist pentru 3-COL:
+Alg3COL(G)
+{
+// presupunem V = { O, 1, ..., n — 1 }
+for (i = O; i < n; ++i) { // faza 1: ghicim o 3—colorare
+choose c[i] in { O, 1, 2 };
+}
+for ((X, y) in E) { // faza 2: verificém c5 e o colorare validé
+if (c[x] == c[y]) {
+failure; // doué noduri adiacente colorate cu aceeasi culoare
+1'
+}
+success;
+}
+
+Deoarece tofui algoritmii nedeterministi pot ﬁ structurafui in cele doua faze (ghicire si veriﬁcare),
+clasa NP Inai poate f1 deﬁnita7 in mod echivalent7 ca ﬁind clasa acelor probleme care au un
+“certiﬁcat” veriﬁcabil in timp polinomial pentru raspunsul TRUE.
+
+Certiﬁcatul este dat de datele ghicite in algoritmul nedeterminist.
+
+De exemplu7 certiﬁcatul pentru SAT este o atribuire care face formula adevarata7 in timp ce
+certiﬁcatul pentru 3-COL este 0 3-colorare a grafului.
+
+Am vazut deja ca P Q NP. Tntrebarea inversa7 daca si NP Q P, este 0 problema deschisa.
+Cei mai mulpi informaticieni suspecteaza ca nu este cazul, si ca P Q NP (incluziune stricta), chiar
+daca pana in acest moment nu avem 0 demonstratie a acestui fapt.
+
+Universitatea Alexandru Ioan Cuza 8 Varianta preliminara
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Proiectarea Algoritrnilor (2021-2022) Cursul V (Probleme NP-coniplete)
+7 Probleme NP-complete
+O problomé X cstc NP-coniplcté dacé:
+
+1. X € NP si
+
+2. orice problemé Y G NP se reduce in timp polinomial 1a X.
+
+Cu alte cuvinte, dacé avein o rezolvare polinomialé pentru o problemé NP-connpleté7 existé
+rezolvéri polinoniiale pentru toate problemele din NP. Altfel spus, probleme NP-conlplete sunt
+cele mai diﬁcile din punct de vedere computational din NP.
+
+Dacé o problemé respecté prima conditie dintre cele doué din definitie, problema este NP-facilé
+(NP-easy). Dacé o problemé respecté a doua condipie dintre cele doué din deﬁnitie7 problema este
+NP-diﬁcilé (NP-hard).
+
+Primele probleme despre care am aﬁat cé sunt NP-coniplete (Cook, 1971) sunt variatii ale
+problemei SAT (e.g., SAT, 3-SAT, CIRCUIT-SAT):
+
+Theorem 1 (Cook, 1971) Problema 3-SAT este NP-completd.
+
+Pentru a aréta cé 3-SAT este NP-completé7 partea diﬁcilé este reprezentaté de Itemul 2: orice
+problemé Y G NP se reduce in tinip polinornial la 3-SAT. De ce ar ﬁ diﬁcilé? De exemplu, fiindcé
+existé o inﬁnitate de probleme Y G NP.
+
+Demonstratia nu face parte din curs, dar poate fi u$or gisité in literaturi. Ideea este de a
+fixa arbitrar o problemé Y G NP $i de a analiza algoritmul de veriﬁcare (un algoritrn determin-
+ist) pentru problema Y, algoritin care primeste la intrare certiﬁcatul pentru Y. Algoritmul este
+echivalent cu un circuit combinatorial, care este echivalent cu o formulé propozifuionalé7 care este
+echivzilentéi1 cu o formula aﬂaté in 3-SAT.
+
+Din momentul in care cunoaetem deja o problema NP-completé, putern aréta c5 alte probleme
+sunt NP-complete intr-un mod mai simplu.
+
+Spre exemplu, $21 arétém c5 3-COL este NP-completé.
+
+Stiin deja c5 3-COL este in NP, a$adar mai réméne de arétat c5 orice problema orice problemé
+Y G NP se reduce in tinip polinornial 1a 3-COL. Ne folosini de faptul cé 3-SAT este cunoscuté
+deja ca NP-completé, gi a$adarz
+
+orice problemé Y E NP se reduce in timp polinomial la 3-SAT. (1)
+
+Arétém (in secpiunea urmétoare) $i 05L:
+
+3-SAT oc 3-COL(in timp polinomial) (2)
+si, deoarece reducerea polinomialé este tranzitivéi7 obfuinem ce ne intereseazé: orice problemé
+Y € NP o< 3-COL.
+
+Asadar este suﬁcient $5 reducem o problemé despre care $tirn deja c5 este NP-cornpleté (e.g.,
+3-SAT) la problema despre care vreau s5 arét c5 este NP-completzi.
+
+Atentie la direcpia reducerii!
+
+8 3-SAT o< 3-COL
+Fie o formulé cp aﬁaté in 3-CNF.
+Construim in timp polinomial un graf G cu proprietatea c5
+4p este satisﬁabilé ddacé G este 3-colorabil.
+
+1echivailenté in sensul in care réspunsul la problema SAT este acela$i (i.e., echisatisﬁabilé)
+
+Universitatea Alexandru Ioan Cuza 9 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+
+Observapi c5 efectuﬁm calcul intr-o singuré directie, dinspre formulé spre graf, dar avem de
+demonstrat 0 dublé implicatie.
+
+Construirn graful G a$a cum este ilustrat in diagrama de mai jos:
+
+a TRUTH GADGET
+° VARIABLE GADGETS
+[pentru fiecare variabilé
+propozitionalé)
+CLAUSE GADGETS
+(pentru fiecare clauzé)
+
+Constructia grafului se poate face in trei pagi.
+
+f Pasul 1.
+
+In primul rind, cream un triunghi cu trei noduri speciale: T, F $i O:
+
+I i l TRUTH GADGET
+
+in orice 3-colorare, cele trei noduri din triunghi vor primi 3 culori distincte, deoarece sunt
+adiacente doué cétte doué. Féré s5 pierdem din generalitate, vorn numi T culoarea nodului T, F
+culoarea nodului F $1 O culoarea nodului O. Cu alte cuvinte, dacé un nod a: a1 grafului are aceeaGi
+culoare cu nodul T, vom spune c5 :0 este colorat cu culoarea T.
+
+Acest triunghi se numegte truth gadget. Culoarile T 5i F vor reprezenta cele doué valori de
+adevér. Culoarea O (other) este folosité pentru a forta nodurile adiacente 55L ﬁe colorate cu T sau
+F , reprezenténd valori de adevér.
+
+o Pasul 2.
+
+Universitatea Alexandru Ioan Cuza 10 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+Adéugém céte un variable gadget pentru ﬁecare variabilé propozitionalé din formulé (51:1, x2, . . . , w”):
+a TRUTH GADGET
+o o o 0 VARIABLE GADGETS
+... (pentru fiecare variabilé
+propoziticnalé)
+0 0 0
+Fiecare astfel de variable gadget consté din doué noduri, etichetate cu numele variabilei
+propozitionale $1 cu negatia variabilei, legate intre ele gi cu nodul O:
+% TRUTH GADGET
+I'l/H. ‘I
+\ /
+VARIMLE GADGET
+I" —:1 1
+\__/
+Deoarece cele doué noduri sunt adiacente cu nodul O, pot ﬁ colorate doar cu T sau F:
+a a a TRUTH GADGET
+; ; a a VARIABLE GADGET
+~x1 1x1
+Fiind adiacente 3i intre ele, nodurile xi $1 ﬁxi sunt obligatoriu colorate cu valori de adevér
+opuse:
+Universitatea Alexandru Ioan Cuza 11 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:12**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+TRUTH GADGEF
+VARIABLE GADGET
+In urma Pasului 2, existé o bijecpie intre atribuiri de valori de adevér $1 3-0010rérile grafului.
+De exemplu, atribuirea
+{x1 r—> 0,13 r—> 0,333 »—> 1,...,a*n r—> O}
+este reprezentaté de 3-c010rarea de mai jos:
+TRUTH GADGET
+VARIABLE GADGETS
+... (pentru fiecare variabilé
+propoziticnalé)
+Iar 3-colorarea de mai jos:
+TRUTH GADGET
+VARIABLE GADGETS
+... (pentru fiecare variabilé
+propoziticnalé)
+corespunde atribuirii {x1 '—> 1,3172 |—> 1,123 |—> O, . . . ,atn |—> O}.
+
+0 Pasul 3.
+
+Scopul Pasului 3 e de a forgia ca 3-colorérile posibile $21 reprezinte doar atribuiri care satisfac for-
+mula. In acest scop, pentru ﬁecare clauzé, adaugém un clause gadget. Pentru a nu supraaglomera
+diagrama de 1a Pagina 10, este reprezentat un singur clause gadget7 pentru clauza —\a:1 \/ x2 V —\a:3.
+
+Scopul ﬁecérui clause gadget este s51 calculeze valoarea de adevir a clauzei 5i este alcétuit din
+doui triumghium'.
+
+Universitatea Alexandru Ioan Cuza 12 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+Un triunghi simuleazé 0 poarté OR. in diagrama de mai jos, nodul R poate ﬁ colorat doar cu
+culoarea aferenté disjunc§iei logice intre valorile de adevér corespunzétoare culorilor nodurilor X
+$1 Y:
+D2105 fortém nodul R sé aibé culoarea T, ca in diagrama de mai jos:
+atunci prin conectarea acestuia cu F $i O, celelalte doué noduri din triunghi trebuie 5:1 aibé
+culoarea F gi O:
+in acest caz, cel putin unul dintre nodurile X $1 Y trebuie six aibi culoarea T:
+Universitatea Alexandru Ioan Cuza 13 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:14**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+Cazul in care X 5i Y au culoarea F , iar R are culoarea T este imposibil:
+I‘.
+g 7
+Fiecare clause gadget conﬁne 0 inléntuire a celor doué triunghiuri, calculdnd in acest fel
+disjunctia, logicé a celor trei literali (ilustrat mai jos pentru clauza 11:1 \/ $2 \/ wing):
+Universitatea Alexandru Ioan Cuza 14 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Proiectarea Algoritmilor (2021-2022) Cursul V (Probleme NP-complete)
+\x}~x1 v x2 v ~x3
+
+Deoarece in graf avem Cate un clause gadget pentru ﬁecare (:lauza7 31colorarile grafului sunt
+in bijectie cu atribuirile care fac toate clauzele din formula adevarate. In acest fel7 graful este
+3-colorabil ddaca formula este satisﬁabila.
+
+9 Concluzie
+Foarte multe probleme de optimizare combinatoriala care apar in practica sunt NP-complete.
+
+Desi nu au reusit sa demonstreze acest lueru, cei mai mulpi informaticieni cred ea nu exista
+algoritmi polinomiali pentru problemele NP-complete. Din acest motiv, in cazul in care intalnim
+0 problema NP-completa, nu are sens sa cautam 0 rezolvare polinomiala i trebuie sa abordam
+problema in alte moduri (e.g., folosind algoritmi de aproximare7 euristici, algoritmi exponentiali,
+algoritmi polinomiali pentru cazuri particulare).
+
+Atenpie! Exista multe perechi de probleme aparent similare care sunt (probabil) in clase de
+complexitate diferite. Iata cateva exemple:
+
+1. SHORTEST-PATH (in P) vs LONGEST-PATH (NP-completa);
+
+2. 2-SAT (in P) vs 3-SAT (NP-completa);
+
+3. 2-COL (in P) vs 3-COL (NP-completa);
+
+4. EULER-TOUR (in P) vs HAMILTONIAN-TOUR (NP-completa).
+
+Problema GI (graph isomorphism i dandu-se cloua grafuivi7 sa se determine daca sunt de fapt
+acelasi graf, doar ea nodurile au potential alte nume) joaca un rol special deoarece este una dintre
+putinele probleme pentru care nu a fost gasit pana acum niciun algoritm polinomial si nici nu a
+fost demonstrata a ﬁ NP-completa.
+
+Universitatea Alexandru Ioan Cuza 15 Varianta preliminara
+
+***************Ending Page***************
+

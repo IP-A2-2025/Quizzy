@@ -1,0 +1,1329 @@
+***************Beginning Page***************
+***************page number:1**************
+GHID DE UTILIZARE LINUX (V)
+Lucrul la linia de comandé in UNIX, partea a lV-a:
+lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH
+Cristian Vidra$cu
+vidrascu©info uaic ro
+Martie, 2021
+1/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+A
+Su mar
+lntroducere Introducere
+:Zfilll;,imiln;§aJUIu' de Facilitatile limbajului de scripting bash
+—p—g— Proceduri shell — script-uri
+Variabile de she/l Executia procedurilor shell
+Exgresii aritmetice si logice Demo: un script “Helloworlcl”
+Alte facilitati
+Structuri de control alternative
+3i regetitive Variabile de She”
+__ Definire (creare) $i utilizare (substitutie)
+M lnstructiunea de atribuire
+Referinte bibliografice Alte forme de SUbStitUtiG
+Comenzi interne utile
+Variabile pozitionale ei alte variabile speciale
+Demo: un script “PrintArgs”
+Expresii aritmetice $i logice
+Comenzi pentru calcule aritmetice
+Comenzi pentru expresii conditionale
+Structuri de control alternative $i repetitive
+Structura alternativa IF
+Structura alternativa CASE
+Structura repetitiva WHILE
+Structura repetitiva UNTIL
+Structura repetitiva FOR
+Structura repetitiva SELECT
+Alte comenzi interne utile
+Funcﬁisheﬂ
+Definire (declarare) $i apelare (executie)
+Exemple de functii
+Meniu de navigare Referinte bibliografice 2/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+A
+'"tmducere in prima parte a acestei prezentari am discutat despre:
+Facilitatile limbajului de
+scrigting bash . .
+I ComenZI Slmple
+Variabile de she/l . . .
+— Modul ole executie a comenzHor Simp|9
+Exgresii aritmetice si logice , ’ , , A
+— Executia comen2||or Simple in background
+Structuri de control alternative R . c . |
+Functii she/l I Comenzi compuse
+— Executia secventiala a mai multor comenzi
+— Executia paralela, neinlantuita a mai multor comenzi
+— Executia conditionala a mai multor comenzi
+— Sintaxa extinsa: Iiste de comenzi
+I Specificarea numelor de fieiere
+— Specificarea fi$iere|or individuale
+— Sabloane pentru specificarea multipla ole fieiere
+I Fi$iere|e de configurare a interpretorului de comenzi
+— lnitializarea sesiunilor interactive ale she/l-ului
+— lstoricul comenzilor executate
+Acum vom continua prezentarea cu subiectele sumarizate pe slide-ul anterior.
+Meniu de navigare Lucrul Ia linia de comanda in UNIX, partea a IV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 3/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+~ Q
+lntroducere (cont)
+Introduces intr-un sistem UNIX, interpretorul de comenzi este un program executabil ce oferé
+Facilitétilelimbajuluide v . . v . v
+M ﬁn bash doua functionalitati de baza:
+Variabile de she/l
+EXE,,,,,,,,,,m,,,CeS,low, i I preia comen2||e introduse de utilizator, Ie interpreteaza $l Ie executa, reallzénd
+3153,1155 C°“"°' alternative astfel interfata dintre utilizator si sistemul de Operare;
+F_ih//— I oferé facilitéti cle programare intr-un limbaj cle comanclé specific, cu ajutorul céruia
+M se pot scrie script-uri, i.e. fisiere text ce contin secvente de comenzi UNIX.
+(Important: limbajul de scripting permite automatizarea lucrului Ia linia de comandé a acelui shell.)
+Reamintesc faptul cé in sistemele de operare din familia UNIX avem Ia dispozitie mai multe she/l-uri:
+sh (Bourne SHe/l), bash (Bourne Again SHe/l), csh (C SHe/l), ksh (Kcrn SHe/l), ash, zsh, s.a.
+Referitor la cea de-a doua functionalitate ole mai sus (i.e., aceea de limbaj de scripting), shell-urille
+disponibile in UNIX posedé toate facilitétile specifice oricérui limbaj de programare de nivel inalt:
+variabile, instructiuni de atribuire, instructiuni de control structurate — alternative si repetitive (de genul
+if, case, while, for, s.a.), proceduri si functii, parametri cle apel, etc. Sintaxa acestor facilitéti este
+specificé fiecérui she/l, fiind astfel o caracteristicé prin care se diferentiazé intre ele shell-urille UNIX.
+Vom prezenta in continuare toate aceste facilitéti, cu referiri explicite Ia sintaxa
+utilizaté de limbajul de scripting oferit de interpretorul de comenzi bash.
+Meniu de navigare Lucrul Ia linia de comandé in UNIX, partea a IV-a: lnterpretoare de comenzi UNIX, partea a II-a — scripting BASH 4/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+A
+Agenda
+lntroducere lntroducere
+ijii'iigli'i'janggaiu'“ de Facilitatile limbajului de scripting bash
+Proceduri she/l — script-uri Proceduri She” _ SCf/pt-Ul'i
+_ _ Executia procedurilor shell
+Executla procedurllor she/l Demo; un script “Helloworld”
+Demo: un script “Helloworld” , Alte faCilitéti
+Alte facilitati ' ’
+Variabile de she/l Variabile de She” . .
+— Definire (creare) $i utilizare (substltutle)
+Exgresii aritmetice si logice lnstructiunea de atribuire
+Structuri de control alternative Alte forme de SUbStitutie
+8i regetitive Comenzi interne utile
+Variabile pozitionale $i alte variabile speciale
+ML Demo: un script “PrintArgs”
+——9—Referinte biblio raﬁce Expresii aritmetice $i logice
+Comenzi pentru calcule aritmetice
+Comenzi pentru expresii conditionale
+Structuri de control alternative $i repetitive
+Structura alternativa IF
+Structura alternativa CASE
+Structura repetitiva WHILE
+Structura repetitiva UNTIL
+Structura repetitiva FOR
+Structura repetitiva SELECT
+Alte comenzi interne utile
+Funcﬁisheﬂ
+Definire (declarare) $i apelare (executie)
+Exemple de functii
+Meniu de navigare Referinte bibliografice 5/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+~ Q
+Proceduri shell — script-uri
+‘meIjIII b . I I O proceduré shell, olenumité si script (de la termenul in englezé), este practic un
+aCllaIle lm ajU Ul G
+egfjcggwfjeiICIIIIIIII fisier text ce contine secvente de comenzi UNIX, simple si/sau compuse.
+Elizt'aujrs°ciliuﬁ;zjxjd i Noté: si in MS-DOS sau Windows avem un concept similar — fisierele batch >I< .bat.
+Altefacilitéti . . I A I I I V I I
+Variabledeshel Pentru a inolica un comentariu intr-un script, se utilizeaza caracterul # urmat de un
+Expresiiaritmetice silogice teXt (pél'lé Ia fina|U| aCelei Iinii d9 teXt).
+Structuri de control alternative A , . . A . . .
+_pu— Accesarea in corpul unei proceduri (/.e., in acel fisier script) a argumentelor de apel a
+F—t””— acesteia, se realizeazé cu ajutorul unor variabile speciale (ce pot ii doar citite, nu si
+Referinte bibliografice
+moolificate), avanol numele $1, $2, ... , $9, ${10}, ${11}, ...
+* * *
+Apelul unui script inseamné invocarea numelui séu, folosinol oricare olintre formele
+sintactice permise pentru comenzi externe, prezentate oleja in prima parte: formele ole
+apel al unei comenzi simple in foreground sau in background, forma ole apel al unui
+pipeline (i.e., lant ole comenzi) si respectiv celelalte forme ole specificare a comenzilor
+compuse.
+Meniu de navigare Lucrul la linia de comandé in UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 6/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+O O
+
+Executia procedurilor shell
+
+:"Idu?II b . I _d Astfel, pentru Iansarea unui script Tn executie Tn foreground, se poate utiliza oricare
+
+acutatle lm aju w e
+
+7% dintre cele trei forme ole apel amintite deja, cu urmétoarele particularitéti de executie:
+
+Executia procedurilor shell
+
+Demo:unscr/prnemvvor'd" * UNIX> nume_sc'r*ipt [optiuni] [argumente] [redz'rectci'm I / U]
+
+Alte facilitéti
+
+Variabiledeshe” Efect: se creeazé un nou proces ce ruleazé neinteractiv she/l-ul specificat pe prima
+
+M linie a script-ului, prin constructia: # ! nume_shell (sau she/l-ul ourent, olacé nu este
+
+Structuri de control alternative
+
+M specificat vreun she/l pe prima linie), iar acesta va executa Iinie cu Iinie comenzile din
+
+Functiishe/l _ _ _ . . v
+
+Rf _t W f acel flSler (ca SI cum ar fl fost Introduse Ia prompterul sau).
+
+eenne l logralce ’ ’
+UNIX> nume_ shell nume_script [parametm' $7; redirectiiri I/U]
+Efect: Ia fel ca mai sus, procesul she/l nou creat fiinol cel specificat Ia prompter.
+UNIX> source nume_script [parametm' $7; redirectdm' I/U]
+sau UNIX> . nume_sc'r‘z'pt [parametri $7; redirectiiri I/U]
+Efect: nu se mai creeazé un nou proces she/l, oi Tnsu$i procesul she/l ourent va
+executa Iinie cu linie comenzile din acel fi$ier.
+
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de oomenzi UNIX, partea a ll-a — scripting BASH 7/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+O O
+
+Executia procedurilor shell (cont)
+
+'FntmIfth b . I _d lar pentru Iansarea unui script Tn executie Tn background, se adaugé caracterul ’&’ Ia
+
+acutatle lm aju w e
+
+7% finalul oricéreia olintre cele trei forme ole Iansare Tn executie specificate anterior:
+
+Executia procedurilor shell
+
+Demo:unscr/pr“He"owor'd" * UNIX> nume_sc'r*ipt [parametm s2 redz'rectdm I / U] &
+
+Alte facilitéti
+
+M UNIX> nume_ shell nume_script [parametm' s7; redirectiiri I/U] 8t
+
+Exgresii aritmetice si logice
+
+§‘§:C§,§1,j§°°""°'a'temame UNIX> source nume_sc'r*ipt [parametm' s7; redirectiim' I / U] &
+
+ML sau UNIX> . nume_sc'm'pt [parametri s2; redirectﬁ'ri I/U] 8t
+
+Referinte bibliografice
+Efect: script-ul se executé Tn maniera descrisé Ia cele trei forme de apel pentru
+executia Tn foreground, doar cé ole data aceasta interpretorul curent nu mai asteapté
+terminarea executiei acelui script, ci reafiseazé imeoliat prompterul, oferinol astfel
+utilizatorului posibilitatea sé introducé o noué comanolé pentru a fi executaté Tnainte
+ole a se termina executia script-ului respectiv (i.e., noua comanolé se va executa Tn
+paralel cu acel script).
+
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 8/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+0 0 ,
+D ' ' t “H ll Id”
+emo. un SCflp e owor
+.ntroducere lata un exemplu, numlt Hello. sh, cu care vom llustra modul ole execujue prln cele trel forme de apel:
+FadMéWeHmbmuwide
+scrigting bash
+Proceduri she/l — script-uri
+Executia procedurilor she/l
+Demo: un script “Helloworld”
+Altefacilitéti UNIX> . /HellO . Sh WOIld
+Variabiledeshe/l V Hello, world!
+u _ _ _ _ Lista proceselor active in sesiunea de lucru curenta:
+W UID PID PPID c STIME TTY TIME CMD
+Structuridecontrolalternative vidrascu 24249 24248 0 13:08 pts/4 00:00:00 —bash
+§rqmee vidrascu 24286 24249 O 13:08 pts/4 00:00:00 /bin/bash ./Hello.sh world
+vidrascu 24287 24286 O 13:08 pts/4 00:00:00 ps —f
+Funcﬁisheﬂ
+_ _ _ _ Noté: la prima forma de apel, trebuie setat dreptul de executie (i.e., chmod u+x Hello. sh) si specifioat numele prin cale absoluta sau relativé.
+Referlnte blbllograflce ’ '
+UNIX> dash Hello. sh Cristian
+—e Hello, Cristian!
+Lista proceselor active in sesiunea de lucru curenta:
+UID PID PPID C STIME TTY TIME CMD
+vidrascu 24249 24248 0 13:08 pts/4 00:00:00 —bash
+vidrascu 25002 24249 O 13:20 pts/4 00:00:00 dash Hello.sh Cristian
+vidrascu 25003 25002 O 13:20 pts/4 00:00:00 ps —f
+UNIX> source Hello.sh
+Hello, !
+Lista proceselor active in sesiunea de lucru curenta:
+UID PID PPID C STIME TTY TIME CMD
+vidrascu 24249 24248 O 13:08 pts/4 00:00:00 —bash
+vidrascu 25082 24249 O 13:21 pts/4 00:00:00 ps —f
+Meniu de navigare 9/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+O O
+
+Alte facilitéti
+
+lntroducere " - - v . . . v . . . .
+
+Facmtémenmbajuluide In secfuunlle urmatoare vom prezenta o serle de faollltatl oferlte de Ilmbajul ole
+
+scrigtinyg bash . . . . . . _
+
+Procedurishe,,_sc,,-pt_uri scripting oferlt de lnterpretorul ole comenZI bash, precum ar fl.
+
+Executia procedurilor she/l
+
+Demo: un script “Helloworld” ' - -
+
+Altefacmtéﬁ I Varlablle de shell
+
+M I Expresii aritmetice $i logice
+
+x resii ari me ice si o ice - - - - -
+
+—"——g—; t _d‘ tt I I't f I Structurl de control alternatlve $| repetltlve
+
+M “We I Functii she/l
+
+Funcﬁisheﬂ
+
+Referinte bibliografioe
+Avert/sment: prezentarea acestor facilitéti va fi Ia un nivel simplificat. Pentru o desoriere oompleté a
+tuturor acestor facilitéti vé recomand studierea dooumentatiei interpretorului de comenzi bash ([3]).
+
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 10/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+A
+lntroducere lntroducere
+Fa°,i'"?l"e "mbaiu'Ui de Facilitétile limbajului de scripting bash
+sor/Qtlng bash ’ _ , _
+Procedurl she/l — sorrpt-un
+Variaoile de she/II Executia procedurilor shell
+D‘?T'"'re (wear?) $1‘ Demo: un script “Helloworld”
+utlllzare(subst|tut|e) , Alte facilitéti
+lnstructiunea de atribuire ' ’
+Alte forme de substitutie Variabile de Shell
+Comenzi interne utile Definire (creare) $i utilizare (substitutie)
+Variabile Pozilionale $i alte lnstructiunea de atribuire
+var'ab'le Spe°'_a'e _ Alte forme de substitutie
+Demo: un script “PrlntArgs” Comenzi interne utile
+Exgresii aritmetice 3i |Ogice Variabile pozitionale 3i alte variabile speciale
+D m : n ri “Prin Ar ”
+Structuri de control alternative e O u SC ,Ol‘ t gS
+__P—$i re etitive Expresii aritmetice $i logice
+ML Comenzl pentru calculeuarltmeltllce
+ComenZI pentru expresu condltlonale
+Referinte biblio rafice _ _ _ _ _
+Structurl de control alternatlve $| repetltlve
+Structura alternative IF
+Structura alternativé CASE
+Structura repetitivé WHILE
+Structura repetitive UNTIL
+Structura repetitive FOR
+Structura repetitivé SELECT
+Alte comenzi interne utile
+Funcﬁisheﬂ
+Definire (declarare) $i apelare (executie)
+Exemple de functii
+Meniu de navigare Referinte bibliografice 11 /38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+~ '1
+Definire (creare) ei utilizare (substitutie)
+'I“i°I‘:III b . I -d O facilitate ccmuna tuturor interpretcarelor cle comenzi disponibile in sistemele UNIX
+aCllaIle lm ajU Ul e
+—‘LM este utilizarea de variabile, cu mentiunea ca variabilele au, implicit, valori de tipul $ir
+Variabile de she/l I I . I I I I I I
+Etiifl'iiiiliiliﬁie) de caractere. Variabilele mai sunt numite $l parametrll she/l-ulw respectiv.
+ngfjrifgjaeijjlfujree Variabilele sunt pastrate intr-o zcna de memorie a procesului she/l in care sunt
+Siﬂi'iiiiiniiiileniileaate definite (i.e., create), sub forma de perechi nume=val0ara
+variabile speciale
+Dem“U"S"”pt“P““tArgs" O variabila este definita (i. e., creata) in momentul executiei primei instruct/uni de
+Exgresiiaritmetice silogice I . I I II I A A A II I I I
+Structuridecomm.alternative atr/bu/re ce 0 implica (/.e., in care apare in partea stanga a semnulw de atribuire) sau
+sireQetitive , , , . . v
+Pumas/76” a primei comenZI read ce o specifica clrept argument.
+Referimebibuograﬁce Remarca': aeadar, variabilele shell nu trebuie declarate in avans (i.e., la inceputul procedurii sau
+functiei in care sunt utilizate), precum in alte limbaje de programare de nivel inalt (e.g., C/C++).
+Heferirea la valoarea unei variabile (i. e., atunci cand avem nevcie de valoarea
+variabilei intr-o expresie) se face prin numele ei precedat de simbclul ’$’, efectul fiind
+substitutia numelui variabilei prin valoarea ei in expresia in care apare.
+Remarca': $i interpretoarele de comenzi din MS-DUS sau Windows au un concept similar de variabile.
+Meniu de navigare Lucrul Ia linia de comanda in UNIX, partea a IV-a: lnterpretoare de comenzi UNIX, partea a II-a — scripting BASH 12/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+O O
+
+Instructiunea de atribuire
+
+Ltitllmbjlde lnstrucﬁunea de atribuire este comanda interné cu sintaxa urmétoare:
+
+M ”” baSh UNIX> var= [expr]
+
+W i unde var este un identificator (i.e., un nume) de variabilé, iar exp'r‘ este 0 expresie
+
+‘Aflfjfjrijgfjeijjlfujjree care trebuie sé se evalueze Ia un $ir de caractere (poate fi inclusiv $iru| vid).
+
+Sgggqgigﬂgggengfge;alte Atenfie: caracterul ’=’ nu trebuie sé fie precedat ori urmat de spatii albe!
+
+gm223$‘PrintArgS" Céteva exemple de atribuiri $i de expresii Tn care se utilizeazé valorile unor variabile:
+
+Jéég UNIX> v=123 # Variabila v prime$te valoarea “123"
+
+*—"—Ft"h” UNIX> echo $v # Se afi$eazé pe ecran textul “123”
+
+Referimebibuograﬁce UNIX> cat xyv # Se afi$eazé continutul fi$ieru|ui xyv
+UNIX> cat xy$v # Se afi$eazé continutul fi$ieru|ui xy123
+UNIX> v=abc${v}xyz # Variabila v prime$te valoarea “abc123xyz”
+UNIX> set # Se afi$eazé lista variabilelor definite
+UNIX> unset V sau UNIX> V= # V este “diStrUSé” (i.e., prime$te ca valoare “$irul vid”)
+Noté: se foloseste sintaxa ${var}su f z'a: pentru a indica substitutia dorité, atunci cénd numele
+variabilei este urmat imediat, Tn acea expresie, de alte caractere ce pot face parte dintr-un identificator.
+
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a IV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 13/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+O O
+Alte forme de substitutie
+lFm-llﬂl II . I -d Alte forme de substitutii/expresii ce implica variabile:
+acnaJe lm ajU Ul e
+scrigting bash ,
+Variabiledeshe” I Use default values: ${va'r : —sz'r*}
+Still'ililliiliﬁie) i Efect: rezultatul expresiei este valoarea variabilei var, daca aceasta este definita,
+lnstructiunea de atribuire . . v . . . . v .
+Anefmmedesubsmuﬁe altfel este valoarea sz'r (lar daca sz'r Ilpseste, atunCI se aflseaza un mesa]
+Comenziinterne utile v . . . . v
+variagiIlepozigiopalesiare standard de eroare ce spune ca varlablla este nedeflnlta).
+varla IGSpeClae
+Demo: unscript“PrintArgs" I Assign default values: ${va'r :=sz"r}
+Ex resii ari me ice si lo ice . . . . . v .
+—p—_q—smwrid;cor:tmlalternative Efect: rezultatul expreSIel este valoarea varlabllel 'ua'r, dupa ce eventual acestela
+~—""— i se asigneaza valoarea sir‘ (asignarea avand Ioc doar daca var era nedefinita).
+Funcﬁisheﬂ .
+Referime bibliograﬁce I Display error if null 0r unset: ${va'r : ?sz'r~ }
+Efect: rezultatul expresiei este valoarea variabilei 'ua'r, daca aceasta este definita,
+altfel se afiseaza sz'r (sau un mesaj standard de eroare, daca sir Iipseste).
+I Use alternate value: ${va'r :+sz"r}
+Efect: daca var e deja definita, atunci i se asigneaza valoarea s't'r, altfel ramane
+fara valoare (deci asignarea are Ioc doar Tn cazul Tn care 'ua'r era deja definita).
+Meniu de navigare Lucrul Ia linia de comanda Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 14 l 38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+O O
+
+Alte forme de substitutie (cont)
+
+:troitll I . I -d Alte forme ole substitutii/expresii ce implicé variabile (cont) :
+
+acnaJe lm ajU Ul G
+
+scrigting bash _
+
+VaIIIbIedeshe/l I Parameter length: o expreSIe ole forma ${#va'r}
+
+EtiILZIIZEZLZZZiLEL) Efectul este ole a ﬁ substituité cu lungimea cuvéntului/valorii variabilei var.
+
+lnstructiunea de atribuire , ,
+
+Aneformedesubsmuﬁe I Substrlng expanSIon: ${va'rzsta'rt : Length } sau ${va'rzsta'rt }
+
+Comenziinterne utile . . . V A . . . .
+
+vanagiIlepozigiopalesiawe Efectul este de a fl substltwta cu subcuvantul, o||n valoarea varlabllel var, ce
+
+varla IGSpeClae
+
+Demo:WSW/pcPrintArgs" Tncepe de Ia pozitia start ei ole Iungime Length (respectiv, péné Ia finalul
+
+Exgresii ari me ice si logice A . A .
+
+Structuridetcoimalternative cuvantulw, In cazul celel ole-a doua forme).
+
+si reQetitive II A I I I I I
+
+Functiishe” lata cateva exemple cu astfel de expresu/substltutu:
+
+mm UNIX> word=12345 # Variabila word primeete valoarea “12345”
+UNIX> echo $word # Se afieeazé pe ecran textul “12345”
+UNIX> echo ${#word} # Se afieeazé |oe ecran textul “5”
+UNIX> echo ${wordz O :2} # Se afieeazé pe ecran textul “12”
+UNIX> echo ${wordz 1 :2} # Se afieeazé pe ecran textul “23”
+UNIX> echo ${word : 2} # Se afieeazé pe ecran textul “345”
+
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 15/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+O O
+
+Alte forme de substitutie (cont)
+
+lntroducere ' ' .
+
+Facimémelimbajuluide I Remove matching pref/x pattern. ${varttw0'rd } sau ${'ua'r ##word }
+
+M Efect: va fi substituité cu valoarea variabilei var, din care se eliminé cel mai
+
+Variabile de she/l . . . _ _
+
+Etjjizjgggfiifjugie) i scurt, respectlv lung, preflx al acestela, egal cu valoarea expreSIel word.
+
+$33533;ij 135513;: I Remove matching suffix pattern: ${va'r%w07"d } sau ${var %%werd }
+
+SZEZ'FSLTZEFOGHZTZZane Efect: va fi substituité cu valoarea variabilei 'uar, din care se eliminé cel mai
+
+variabile speciale _ _ _ . _
+
+Demo:unscr/peprmwgs” scurt, respectlv lung, suflx al acestela, egal cu valoarea expreSIel word.
+
+—p——g—: risﬁiritmeﬁfels'il'to ice; laté céteva exemple cu astfel de expresii/substitutii:
+
+si regetitive UNIX> v=AbcAbcAbcAbcDEF # Se initializeazé variabila v, cu valoarea “AbcAbcAbcAbcDEF”
+
+——F“"°‘" she” UNIX> echo ${v#A*c} # Se afieeazé pe ecran textul “AbcAbcAbcDEF”
+
+——9—Refe""teb‘b"° “aﬁce UNIX> eChO ${v##A*c} # Se afieeazé pe ecran textul “DEF”
+UNIX> fisier=/thor/profs/vidrascu/subdir/sursa. c # Se initializeazé variabila fisier
+UNIX> echo ${fisiertt/thor/profs/vidrascu/} # Se afieeazé pe ecran textul “subdir/sursa.c”
+UNIX> echo ${fisier##*/} # Se afieeazé pe ecran textul “sursac”
+UNIX> echo ${f isier‘7o . c} . txt # Se afieeazé pe ecran textul “/thor/profs/vidrascu/subdir/sursa.txt”
+Mai putem utiliza $i comenzile externe dirname $i basename ([8]), astfel:
+UNIX> dirname $fisier # Se afiseazé pe ecran textul “/thor/profs/vidrascu/subdir”
+UNIX> basename $fisier . c # Se afiseazé pe ecran textul “sursa”
+
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 16/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+~ Q
+Alte forme de substitutie (cont)
+
+‘Ftlitllmbjlde I Command substitution: o substitutie speciala este expresia $ ( comcmda) sau,
+
+M echivalent, ‘ comanda‘ .
+
+W i Efectul este de a fi substituita, Tn linia ole oomanola sau Tn oontextul Tn care apare,
+
+ijfjrﬁgfjaejjjifujjree cu textul afisat pe iesirea normala standard prin executia comenzii specificate;
+
+S;£Zﬁ§‘;"§§i§;1,enifle$iwe aceasta este executata Tntr-un subshe/l (i.e., se creeaza un proces fiu al instantei
+
+Fijiiii-Zipnnmrgs" curente ole she/l, ce va rula o alta instanta a she/l-ului respectiv).
+
+W I Arithmetic expansion: o alta substitutie speciala este $ ( (expression) )
+
+u Efectul este de a fi substituita cu valoarea oaloulaté a acelei expresii aritmetice.
+
+Puma“ she”
+
+MM; Word splitting: Tn urma interpretarii liniei ole comanola (i.e., dupa ce se evalueaza
+substitutiile ole variabile, ole comenzi si cele aritmetice descrise anterior), instanta
+curenta ole she/l “parseaza” rezultatul aoestor substitutii, Tmpértindu-I Tn cuvinte
+folosinol ca si separatori oaracterele <spaoe>, <tab> si <new|ine>.
+
+Pathname expansion: dupa Tmpértirea Tn ouvinte, urmeaza substitutiile sabloanelor
+pentru specificarea multipla ole fisiere, descrise Tn prima parte a acestei prezentari.
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a IV-a: lnterpretoare de comenzi UNIX, partea a II-a — scripting BASH 17/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+O O
+Comen2| lnterne utlle
+'“tmducere laté céteva comenzi interne ale interpretorului bash, utile pentru lucrul cu variabile:
+Facilitétile limbajului de
+scrigting bash I I
+v 'b'l d h II I Comanda ole alt/re:
+ana IG GS 6
+Deﬁnire<creare>si UNIX> read var [var/*2 wax/*3 . . . ]
+utilizare(substitu’;ie) ' I I I . I I I I I I I I
+.nstrucﬁuneadeatribuire Are ca efect eltlrea, de Ia Intrarea standard stdln, ole valorl $| atrlbwrea lor vanabllelor speCIflcate.
+A'tefmmedewbsﬁtuﬁe Exemplu: UNIX> read —p "Dajci numarul n: " n
+Comenzi interne utile
+Variabile pozitionale $i alte
+variabilespeciale I Comanda ole declarare read-only:
+D : ' “P' A ”
+emo unscr'pt Hm rgs UNIX> readonly 'ua'r‘ [var/‘2 van? . . . ]
+SIX riSHZr'me'feIs'IIO 'Ci Are ca efect declararea vanabllelor speCIflcate ca fund read-only (/.e., ele nu mal pot fl modlflcate
+FUC UH GCOH r0 a ernalve
+ﬁrm— dupe executia comenzii, ci ramén cu valorile pe care Ie aveau cénd s-a executat aceasta comanda).
+Funcﬁisheﬂ
+Referinte bibliografice I comanda de exportare:
+UNIX> export var [var/*2 'uaré’ . . . ]
+Are ca efect “exportul” variabilelor specificate Tn toate procesele fii ale procesului she/l respectiv (Tn
+mod obienuit, variabilele nu sunt “vizibile” Tn procesele fii, ele fiind locale procesului she/l respectiv,
+fiind péstrate Tn memoria acestuia). |\/|ai putem utiliza ei combinatia:
+UNIX> eX ort var=val0are [var2=va/0ar92 . . . ]
+P
+Are ca efect atribuirea $i exportul variabilei printr-o singuré comanda.
+Tn terminologia UNIX, pentru 0 variabila exportata se foloseete termenul de variabi/é de mediu.
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 18/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+O O
+Variabile pozitionale ei alte variabile speciale
+'"tr?fif‘fere_ . _ Existé o serie de variabile ce sunt modificate dinamic de cétre procesul shell curent, pe parcursul
+ZZIZQH'ZiLHZQZaJUIU'de executiei de comenzi, cu scopul de a |e péstra semnificatia pe care o au:
+Variabile de she/l
+Dﬁiinireécrfrw) I $1 ,$2, . . . ,$9,${10},${11}, . . . Semnificatia: parametrii poziiionali cu care a fost apelat
+utiizare su stitutie '
+.nstrucﬁuneadegtribuire procesul curent (i.e. parametrii din |inia de apel in cazul unui script)
+g'tefmﬁfesubiiilwiie I $0 Semnificaiia: numele procesului curent (i.e., al script-ului in care este referité).
+variagillepoziiiolnalesialte I $# Semnificatia: numérul parametrilor poziiionali din |inia de apel (féré argumentul $0).
+varia IGSpeClae _ . . . _ . . _ . . . v v v
+Demo: un script “PrintArgs” I $>I< Semnificatia: lista parametrilor pozrnonali din |inia de comanda (fara argumentul $0).
+Exgresiiaritmeticesilogice I $0 Semnificaiia: lista parametrilor poziiionali din |inia de comandé (féré argumentul $0).
+Structutride control alternative Observafie: diferenia dintre $0 ei $>I< apare atunci cénd sunt folosite intre ghilimele:
+ﬁrﬁpe'We— . . . A . . .. . . . c
+Functiishe” Ia substitutie "$*" produce un smgur cuvant ce confune tofu parametrii din |inia de comanda, pe
+R f . t W. f. cénd "$0" produce céte un cuvént pentru fiecare parametru din |inia de comandé.
+eerine l IOQI'aICe
+I $$ Semnificaiia: PID-ul procesului she/l curent (i.e., instania she/l-ului ce execute acel script).
+I $? Semnificaiia: codul de terminare returnat de ultimul pipeline executat in foreground.
+I $! Semnificatia: PlD-ul ultimului proces executat in background.
+I $— Semnificatia: optiunile cu care a fost Iansat procesul she/l respectiv.
+Observafie: aceste optiuni pot fi manevrate cu comanda interné set.
+She/l-ul posedé ei o serie de variabile de mediu predefinite (prin fieierele de initializare):
+$HOME , $USER , $LOGNAME , $SHELL , $MAIL , $PSl , $PSZ , $TERM , $PATH , $CDPATH , $IFS , $.a.
+Meniu de navigare 19/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+O O
+Comen2| mterne utlle (cont)
+.ntmducere laté alte céteva comenzi interne ale interpretorului bash, utile pentru lucrul cu variabile:
+Facilitétile limbajului de . . .
+EM I Comancla cle shift-are, cu slntaxa: shlft [n ] , uncle n este 1, In caz ca Ilpseste. Are ca efect
+V'b'ld h/l H H " ' " ' — "
+m deplasarea spre stanga cu n p02|t|| a tuturor parametrllcr p02|t|ona|| (e.g., pentru n _ 1, In $1 se
+“ﬁ'izare<subst"utie> * ccpie valoarea lui $2, Tn $2 se c0pie valoarea lui $3, s.a.m.c|.), iar variabilele $#, $© si $>I< se
+lnstructiunea de atribuire _ V A V . V _ v _ A _ U U _
+Alteformedesubstituﬁe actuallzeaza In mod ccrespunzator. Este utlla, de pllcla, atuncl cand dorlm sa procesam secventlal
+35333313331331,at, argumentele cle apel a procedurii respective (a se vedea exemplul [FirstScript], iii), disponibil aici).
+variabile speciale . _ . _ c .. . . . .
+Demo: un SCI/p, ,PIIIIIAIQS, I Comancla eval, cu smtaxa. eval paramet'rz . Efect. se evalueaza parametru speclflcatl sl se
+Expresiiaritmeﬁces,logice execute rezultatul evaluérii (ca si cum ar fi fcst introdus cle utilizator la prompter).
+Structuri de control alternative Un exemplu: eval newvar=\$$varname . Efect: valoarea variabilei varname este consideraté
+sireQetitive . . . . . c . . . c . . c . . . .
+drept Identlflcatcr cle varlablla, lar valoarea acestwa clln urma este atrlbulta varlabllel newvar (/.e.,
+Functii shell . . . c . . c . I I I . . . . .
+— cbtmem practlc c referlnta Incllrecta). A se vedea sl exemplul [FlrStSCrlpt], |v)+v), dlsponlbll alCl.
+Referinte bibliografice
+I Comanda set se ut|||zeaza pentru a seta valorlle cptlunllor cle executle a procesulw shell curent,
+sau a variabilelor pozitionale.
+Un exemplu: set -o xtrace sau set —X . Efect: pentru fiecare linie cle comandé introdusé
+cle utilizator, se afiseazé rezultatul interpretérii acelei linii, Tnainte cle a o executa efectiv.
+Este utilé pentru depanare, ca s51 veclem exact ce se va executa, de cétre she/l, Tn urma citirii si
+interpretérii liniei cle ccmanclé respective.
+Sfat: adéugati ccmanda set —X Tn script-uri, Ia Tnceput, pentru a v51 ajuta Tn etapa de scriere si
+depanare; iar apci, céncl ati ajuns la forma dcrité a script-ului la care lucrati, o puteti elimina.
+Meniu de navigare ’ 20/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+0 O I
+I . as . a!
+Demo. un script PrlntArgs
+'“tmduwe Un exemplu, numlt PrintArgs . sh, ce llustreaza valorlle parametrllor pozmonall prln execufua sa:
+FadmaWeHmbmuwide
+scripting bash
+Variabile de she/l
+Dmmkemmam)$
+utilizare (substitutie)
+Instructiunea de atribuire
+Alte forme de substitutie é -
+.. . ’ UNIX> ./Pr1ntArgs.sh hello world
+ComenZI Interne utlle
+Wnaabpmmmeesmme Positional parameters are: $1=hello, $2=world, $3=, $4=, ...
+\mnaleammae The parameter $0=./PrintArgs.sh , the parameter $©=hello world , and the parameter $#=2
+DamaunsmmfPﬂmAgs’ USER PID PPID CMD
+E u _ _ W _ vidrascu 29472 29471 —bash
+w vidrascu 30212 29472 /bin/bash ./PrintArgs.sh hello world
+Smmwﬂdecmﬂmhmaane vidrascu 30214 30212 PS -° user,pid,ppid,cmd
+sirepeﬁﬁve
+Functiishe” UNIX> dash Pr1ntArgs.sh vall val2 val3
+Rebﬂmeﬁdbgmmm Positional parameters are: $1=va11, $2=val2, $3=va13, $4=, ...
+The parameter $0=PrintArgs.sh , the parameter $©=va11 val2 val3 , and the parameter $#=3
+USER PID PPID CMD
+vidrascu 29472 29471 —bash
+vidrascu 30351 29472 dash PrintArgs.sh vall val2 val3
+vidrascu 30352 30351 ps —o user,pid,ppid,cmd
+UNIX> source Pr1ntArgs.sh p1 p2 p3 p4 p5 p6
+Positional parameters are: $1=p1, $2=p2, $3=p3, $4=p4, ...
+The parameter $0=-bash , the parameter $©=p1 p2 p3 p4 p5 p6 , and the parameter $#=6
+USER PID PPID CMD
+vidrascu 29472 29471 —bash
+vidrascu 30409 29472 ps —o user,pid,ppid,cmd
+Meniu de navigare 21 /38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+A
+lntroducere lntroducere
+ijii'iigti'ilnggaiu'm de Facilitétile limbajului de scripting bash
+Procedurl she/l — script-um
+Variabile de she/l Executia procedurilor shell
+E .. . . . . Demo: un script “Helloworld”
+xgresu arltmetlce SI loglce _ _ v _
+Comenzi pentru calcule i Alte fa0|||tat|
+grotrrrrllgstlgfpentru expresii variabillgde She” _ _ _ _ _
+conditionme Deflnlre (creare) 5| utlllzare (substltutle)
+St t _d t | It t_ Instructiunea de atribuire
+FUC UFI 6 con ro a erna IVG . .
+8i re etitive Alte forme ole substltutle
+ComenZI Interne utlle
+ML Variabile pozitionale $i alte variabile speciale
+Referinte bibliografice Demo: un SCf/pl‘ “PrintArgS”
+Expresii aritmetice $i logice
+Comenzi pentru calcule aritmetice
+Comenzi pentru expresii conditionale
+Structuri de control alternative $i repetitive
+Structura alternative IF
+Structura alternativé CASE
+Structura repetitive WHILE
+Structura repetitive UNTIL
+Structura repetitive FOR
+Structura repetitive SELECT
+Alte comenzi interne utile
+Funcﬁisheﬂ
+Definire (declarare) $i apelare (executie)
+Exemple de functii
+Meniu de navigare Referinte bibliografice 22/ 38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+O O
+Comenzi pentru calcule aritmetice
+‘meIdffII b . I _d Expresiile aritmetice se pot calcula cu comanda interna let, ori cu comenzile externe
+acutatle lm aju w e
+M ti” bash expr sau bc ([6]). Iata cateva exemple de calcule:
+ariabile de she/l v
+Z __ _I I_ _I _ UNIX> let v=v-1 # Variabila v este decrementata.
+XQFGSII ari me ICG SI ogice ' . V _ V
+Cemenizipentru calcule UNIX> 1€t V+:10 # Valoarea IUI V eSte marlta CU 10.
+aretrrrrilgsilgiepentru expresii UNIX> l€t "V += 2 ** 3" # Valoarea IUI V €Ste mérlté CU 8.
+conditionale
+SiwaIrIde control alternative UNIX> eXpr 1 + 2 \* 3 # Se afieeaza valoarea expresiei, i.e. 7.
+SI reQe | lve x ~ . _ V
+FuncIIIsIIeII UNIX> v= eXpr $v - 1 # Variabila v este decrementata.
+Rf ,I W I, UNIX> v=$(expr $v + 10) # Valoarea Iui v este marita cu 10.
+GGFIHG l iograice
+O alta posibilitate este lucrul cu variabile de tip fntreg: comanda declare -i n seteaza atributul “cu
+valori intregi” pentru variabila n.
+Apoi se pot scrie expresii aritmetice in mod direct, fara a mai utiliza explicit comanda let. Exemple:
+UNIX> n=5>l<4 # Variabila n primeste valoarea 20 (i.e., 5 inmultit cu 4).
+UNIX> n=2>l<>l<3 # Variabila n primeste valoarea 8 (i.e., 2 ridicat la puterea 3).
+Putem lucra $i cu variabi/e de tip vector: comanda declare -a v seteaza atributul “array” pentru
+variabila v. Referirea la un element al vectorului se face prin v [i] . Pentru exemplificare, a se vedea
+exemplul [Iterative math #4], diSpOHibil aiCi.
+Meniu de navigare Lucrul Ia linia de comanda in UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 23/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+O O
+Comenzi pentru calcule aritmetice (cont)
+'I“"°I‘:III b . I _II Comanola bc ([6]) — un limbaj ole programare pentru calcule Tn virgulé mobilé.
+acnaIle lm ajU Ul G
+scrigting bash Exe m p I e I
+frame di 811:” _I _ UNIX> echo 3 “ 2 | bc # Se afieeazé valoarea 9.
+XQFGSII an me ICG SI OglCG . V A U
+ComenIzipentrucalcule UNIX> echo 3/ 2 | bc #Se afleeaza valoarea lntreaga 1.
+érétﬁéﬁifpemmexpres“ UNIX> echo 3 /2 | bc -1 # Se afiseazé 1.500. . . ooo (i.e., cu 20 ole zecimale).
+:nd'It'OTe I I II I_ UNIX> echo "scale=4; 3/2" | bc # Se afiseazé 1.5000 (i.e., cu 4 zecimale).
+wpemlve— UNIX> echo "scale=10; 4*a(1) " | bc —1 # Se afi$eazé 3.1415926532, i.e. numérul 7T,
+MWs/WI— cu 10 zecimale ($i nu cu 20 ole zecimale!); a(1) este apelul functiei ole bibliotecé arctan (3:) .
+W UNIX> echo "sca1e=5; sqrt (2) " | bc # Se afiseazé 1.41421, i.e. \ﬁ cu 5 zecimale.
+UNIX> echo "sca1e=2; v = 1; v += 3/2; v+10" | bc # Se afiseazé valoarea 12.50.
+A se veolea $i exemplele [FirstScript], i)-v) $i [MyExpr] din suportul ole laborator, disponibil aici.
+Arithmetic expansion folosinol constructiile ((. . .)) $i $((. . .)) . Exemple:
+UNIX> a=$ (( 4 + 5 )) # Variabilei a i se atribuie valoarea 9.
+UNIX> (( a += 10 )) # Valoarea Iui a este mérité cu 10.
+UNIX> (( b = a<45?11 :22 )) # Variabilei b i se atribuie valoarea expresiei conditionale,i.e.11.
+UNIX> echo $ ( (0XFFFF)) # Se afieeazé 65535, i.e. valoarea acelui numér hexazecimal.
+UNIX> echo $ ( (4111203)) # Se afieeazé 99, i.e. valoarea numérului 1203 scris 1n baza 4.
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 24/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+O O
+Comen2| pentru expresn condlponale
+
+'“tmducere Comanda interné de evaluare a unei expresii conditiona/e ([7]) are sintaxa urmétoare:
+
+Facilitétile limbajului de . . _ _
+
+£1ng test condzgize sau [ condzgﬁze ] ,
+
+M unde expresia conditionalé conditie poate fi de una dintre urmétoarele forme:
+
+Exgresii aritmetice si logice . _ . . .
+
+Comenzipemrucalcule I Operatorl relatlonall pe $|rur| de caractere:
+
+aritmetice
+
+fgggigﬂggmw was" — test -z string # Adevérat dacé string are lungimea O.
+
+Structuri de control alternative _ t€St —Il 5157"’ng saU t€St 5157"’ng # Adevarat daCé String nu eSte SirUI Vld.
+
+I I I - o v v v I I
+
+—p—s' re et't've — test st'rzng_ 1 = stmng_2 # Adevarat daca cele doua $|rur| sunt egale.
+
+Functii she/l . . v v v . .
+
+_— — test st'rzng_ 1 != st'rzng_2 # Adevarat daca cele doua $|rur| nu sunt egale.
+
+Referinte bibliografice , , . . . . . v
+— test st'rzng_ 1 < strzng_2 # Comparafue folosmd ordlnea leXIcograflca.
+— test stm'n9_ 1 > stm'n9_2 # Comparatie folosind ordinea lexicograficé.
+
+I Conditii relationale Tntre doué valori numerice:
+— test vaL 1 -eq 'uaLZ # Adevérat dacé cele doué valori sunt egale.
+— test vaL 1 -ne 'uaLZ # Adevérat dacé cele doué valori nu sunt egale.
+— test val_1 -gt vaLZ # Testeazé inegalitatea “mai mare strict”.
+— test val_1 -ge vaLZ # Testeazé inegalitatea “mai mare sau egal”.
+— test val_1 -lt vaLZ # Testeazé inegalitatea “mai mic strict”.
+— test val_1 -le vaLZ # Testeazé inegalitatea “mai mic sau egal”.
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 25/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+O O
+Comenzi pentru expresii conditionale (cont)
+'“tmducere (cont) Alte expresii conditionale utilizabile ca argumente ale comenzii interne test:
+Facilitétile limbajului de
+EM I Teste referitoare Ia fi$iere: test -opt figsz'e'r‘ , optiunea de testare —opt puténd fi:
+Variabile de she/l
+E _- .t f -| _ — -e : testeazé existenta acelui fi$ier (ole orice tip);
+XQFGSII an me ICG SI oglce ' V V . . . V . . .
+ComenZipentrucalcule — -d : testeaza daca f|$|eru| eXIsta $| este de tlp dlrector;
+aritmetice v v . . . v . . . . . .
+Comenzipentruexpresii — -f : testeaza daca f|$|eru| eXIsta $| este de tlp f|$|er 0b|$nu|t;
+condiionale v v . . . v . . .
+Structturidecomml alternative — -p : testeaza daca f|$|eru| eXIsta $| este de tlp f/fo;
+wpemwe— — -b / -c : testeazé dacé fi$ieru| existé $i este de tip dispozitiv Tn mod bloc / caracter;
+Mmshe/I— — -r / -w/ —X : testeazé dacé utilizatorul curent poate citi / modifica / executa fisierul;
+mm — -s : testeazé dacé fi$ieru| are continut nevid; $.a. (a se consulta help test $i
+man 1 test)
+I O expresie logicé (negatie, conjunctie, sau disjunctie ole conditii):
+— test ! conditieg 1 # Negatia conditiei conditieg 1.
+— test conditieg 1 —a conditiQZ # Conjunctia celor doué conditii.
+— test conditieg 1 —o conditiQZ # Disjuncftia celor doué conditii.
+unde conditig 1 $i conditiQZ sunt conditii de oricare dintre formele specificate anterior.
+Observaiie: mai existé $i comanda compusé [[ cond'it'ie 1] disponibilé Tn interpretorul bash, cu
+aceleasi conditii ca Ia test, dar cu anumite diferente Ia executie (e.g., string_2 poate fi 0 expresie
+Meniu de navigare regulaaél éiliQQQJQMEHJAQWiQﬁﬁJLrBQ §iv14ri|r¢éeepreaeraa41§§e§méqamg QGaIQggm-mlaﬁnsg51@@ceasté situatiem / 38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+A
+Agenda
+lntroducere lntroducere
+:32'|';,itlle1>lnggaJUIu'de Facilitatile limbajului de scripting bash
+—p—g— Proceduri she/l — script-uri
+M Executia procedurilor she/l
+Exgresii aritmetice si logice Demo: un script “Helloworlol”
+I Alte facilitati
+Structuri de control alternative
+5i regetitive Variabile de shell
+Structura alternativé |F Definire (creare) 5i utilizare (substitutie)
+Structura alternativa CASE Instructiunea de atribuire
+Structura repetitiva WHILE Alte forme d9 SUbStitutie
+Structura repetitiva UNTIL Comenzi interne utile
+Structura repetitivé FQR Variabile pozitionale $i alte variabile speciale
+Structura repetitiva SELECT Demo: un script “PrintArgs”
+Alte comenzi interne utile Expresii aritmetice $i logice
+Functii she” Comenzi pentru calcule aritmetice
+Comenzi pentru expresii oonolitionale
+Referinte bibliografice
+Structuri de control alternative $i repetitive
+Structura alternativa IF
+Structura alternativa CASE
+Structura repetitiva WHILE
+Structura repetitiva UNTIL
+Structura repetitiva FOR
+Structura repetitiva SELECT
+Alte comenzi interne utile
+Funcﬁisheﬂ
+Definire (deolarare) $i apelare (executie)
+Exemple de functii
+Meniu de navigare Referinte bibliografice 27/ 38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+O O
+
+Structura alternatlva lF
+
+'“troducere 1) Structura alternativé IF este realizaté de comanda interné if, avénd sintaxa urmétoare:
+
+Facilitétile limbajului de
+
+scrigting bash . . . . . . . .
+
+1f Lzsta_ comenzz_ 1 ; then Zzsta_ comenzz_2 ; [else Zzsta_ comenzz_ 3 ; ] f1
+Variabile de she/l
+.. . . . . Sau, oricare dintre cele trei aparitii ale caracterului ’;’ poate fi inlocuité cu <new|ine>. Spre exemplu:
+
+Exgresu antmetlce SI loglce ' ’
+
+Structuri de control alternative if lista COmeTLZTL 1
+
+si regetitive _ _
+
+Structura alternativé IF th€Il
+
+Structura alternative CASE Z 'ILS t CL comenzi 2
+
+Structura repetitivé WHILE _ _
+
+Structurarepetitivé UNTIL I: else
+
+Structura repetitive FOR L'ZLS ta COmeTLZYL 3 :l
+
+Structura repetitivé SELECT . _ _
+
+Alte comenzi interne utile f l
+
+Funcﬁisheﬂ
+
+Referintebibuograﬁce Semantica: se execute mai intéi comenzile din Listen comenzz; 1 si, dacé codul de terminare al
+ultimei comenzi din aceasté listé este O (i.e., terminare cu succes), atunci se executé comenzile din
+Lista_ comenzi_2. lar in caz contrar (dar numai dacé existé si ramura else), se executé comenzile
+din Zz'sta_ comenzi_ 3 .
+Structura alternative? “Multiple lFs”— putem avea mai multe if-uri imbricate (cu prescurtarea elif) :
+
+if Zz'sta_ 1; then Zz'sta_2; [elif Zz'sta_3; then Zista_4 ; ] . . . [else Zz'sta_]\/';] fi
+Meniu de navigare Lucrul Ia linia de comandé in UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 28/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+O O
+
+Structura alternatlva CASE
+
+'“troducere 2) Structura alternativé CASE este realizaté de comanda interné case, cu sintaxa urma'ttoare:
+
+Facilitétile limbajului de
+
+scrigting bash
+
+Variabile de she/l Case empres'zle in
+
+Exgresii aritmetice si logice ' 3917'; Iva Z’ OT'L._ 1 ) L715 ta_ COm€TLZ7L_ 1 ; ;
+
+Structuri de control alternative 5 i7’; 'Ua, Z, 07"L_ Z ) Z, is t a,_ comenzi_ Z ; ;
+
+si regetitive ’
+
+Structura alternativétlF . . . . . . . . . . . .
+
+Strucwra a'ternatiVé CASE $ir_'ual0r7l_]\/'-1 ) Zz'sta_ comenziJV-l ; ;
+
+Structura repetitivét WHILE _ _ . _
+
+Structurarepetitivét UNTIL $Zt"_valom_1\/ ) Zzsta_ comenzzJV
+
+Structura repetitivé FOR €S a C
+
+Structura repetitivét SELECT
+
+Alte comenzi interne utile
+
+Functiishe/l Semant/ca: se evalueaza ewpresze $| se “scaneaza” flecare ||n|e Tn cautarea prtmet ||n|| ce o confttne:
+
+Referintebibliografice dacé valoarea expresiei se regéseete Tn lista de valori einvalort; 1 , atunci se executét
+Zz'sta_ comenzi_ 1 ei apoi executia comenzii case se Tncheie. Altfel, dacé valoarea expresiei se
+regétseete Tn lista de valori $ir_valo'r~z'_2, atunci se executé Lista_ comenzi_2 $i apoi executia
+comenzii case se Tncheie. Altfel, $.a.m.d.
+Observatie: dacét se foloseste “; ;&” Tn Ioc de “; g”, atunci se vor executa listele ole comenzi asociate
+tuturor $iruri|or de valori ce contin valoarea expresiei respective (i.e., executia comenzii case nu se mai
+Tncheie dupé gésirea primei linii ce contine valoarea expresiei).
+
+Meniu de navigare Lucrul Ia linia de comandét Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 29/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+o o
+Structura repetltlva WHILE
+'“tmducere 2) Buc/a repetitivé WHILE este realizaté de comanda interné while, avénd sintaxa urmétoare:
+Facilitétile limbajului de
+scrigting bash
+Variabilede she” while Zz'sta_ comenz'i_ 1 ; do Lista_ comenzz'_2 ; done
+W Oricare dintre cele doué aparitii ale caracterului ’;’ poate fi inlocuité cu <new|ine>. Spre exemplu:
+Structuri de control alternative _ _ ,
+si regetitive while Zzsta_ comenz'z,_ 1
+Structura alternativé IF d0
+Structura alternativé CASE
+Structura repetitivé WHILE Z, 'L S t CL_ C Omen?) 'L._ 2
+Structura repetitivé UNTIL d.
+Structura repetitivé FOR OIl€
+Structura repetitivé SELECT
+A'tecomenziimemeuti'e Semantica: Ia fiecare iteratie a buclei, se executé comenzile din Zz'sta_ comenz'i_ 1 $i, dacé codul de
+ML terminare al ultimei comenzi din aceasté listé este O (i.e., terminare cu succes), atunci se executé
+mm comenzile din Zz'sta_ comenzLZ $i se reia bucla. Altfel, se terminé executia buclei while.
+Meniu de navigare Lucrul Ia linia de comandé in UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 30 / 38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+O O
+Structura repetltlva UNTIL
+'“tmducere 4) Buc/a repetitivé UNTIL este realizaté de comanda interné until, avénd sintaxa urmétoare:
+Facilitétile limbajului de
+scrigting bash
+Variabilede she” until Zz'sta_ comenz'i_ 1 ; do Lista_ comenzz'_ 2 ; done
+W Oricare dintre cele doué aparitii ale caracterului ’;’ poate fi inlocuité cu <new|ine>. Spre exemplu:
+Structuri de control alternative _ _ ,
+si regetitive unt 11 Zzs ta,_ comenz'z,_ 1
+Structura alternativé IF d0
+Structura alternativé CASE
+Structura repetitivé WHILE Z, '1; S ‘[3 CL_ C omenz i_ Z
+Structura repetitivé UNTIL d.
+Structura repetitivé FOR OIl€
+Structura repetitivé SELECT
+A'tecomenziimemeuti'e Semantica: Ia fiecare iteratie a buclei, se executé comenzile din Zz'sta_ comenz'i_ 1 $i, dacé codul de
+ML terminare al ultimei comenzi din aceasté listé este diferit de O (i.e., terminare cu esec), atunci se
+mm executé comenzile din Zz'sta_ comenzLZ $i se reia bucla. Altfel, se terminé executia buclei while.
+Meniu de navigare Lucrul Ia linia de comandé in UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 31 /38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+O O
+Structura repetltlva FOR
+
+'“tmducere 5) Buc/a iterative‘? FOR este realizaté de comanda interné for, avénd sintaxa urmétoare:
+
+Facilitétile limbajului de
+
+scrigting bash . . . . . . .
+
+for varzabzla [ 1n Zzsta_cuvznte ] ; do Zzsta_comenzz ; done
+Variabile de she/l
+.. . . . . Oricare dintre cele doué aparitii ale caracterului ’;’ poate fi Tnlocuité cu <new|ine>. Spre exemplu:
+
+Exgresu arltmetlce SI loglce '
+
+Structuride COHtrOI alternative for rualrvbabz La I: in Zzsta cururbnte :l
+
+si regetitive _
+
+Structura alternativé IF d0
+
+Structura alternativé CASE - -
+
+Structura repetitivé WHILE ZZS ta“ COmeTLZZ
+
+Structura repetitivé UNTIL dOI1€
+
+Structura repetitivé FOR
+
+ifgjsrrjefﬁtt'evri:55:“ Semantica: Zz'sta_ cum'nte descrie o listé de valori pe care Ie ia var/"Labz' La Tn mod succesiv $i,
+
+Fund" she” pentru fiecare asemenea valoare, se executé comenzile din Zz'sta_ comenzz' .
+
+mm Observaiie: aceasté formé a structurii for se foloseste pentru multimi neordonate de valori, date prin
+enumerare. lnsé, dacé avem o multime ordonaté ole valori, am putea sé o specificém prin valoarea
+minimé, cea maximé $i pasul de incrementare. In acest scop se poate folosi comanda seq, astfel:
+UNIX> for v in $ (seq 1 $n 2) ; do Lista_ comenzz' ; done
+Alternativ, se mai poate folosi $i comanda for (( , adicé a doua formé sintacticé a comenzii for:
+
+for (( expl; eXp2; eXp3 )); d0 Zista_c0menzi; done
+unde expl, eXp2 $i eXp3 sunt expresii aritmetice, cu aceleasgi semnificatii ca Tn limbajul C/C++.
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 32/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+O O
+
+Structura repetltlva SELECT
+
+'“tmducere 6) Buc/a iterative‘? SELECT este realizaté ole comanda interné select, avénd sintaxa urmétoare:
+
+Facilitétile limbajului de
+
+scrigting bash
+
+Variabiledeshe/l select variabi La [ in Zz'sta_ cuvinte ] ; do Zz'sta_ comenzi ; done
+
+—P——9—EX res" aritmeﬁce Si '0 ice Oricare dintre cele doué aparitii ale caracterului ’;’ poate fi Tnlocuité cu <new|ine>. Spre exemplu:
+
+Structuri de control alternative . _ _ . 0
+
+wPGHWG— select va'mabzla [ 1n Lzsta_cuvznte ]
+
+Structura alternativé IF
+
+Structura alternativé CASE d0
+
+Structura repetitivé WHILE erzsta comenzrzl
+
+Structura repetitivé UNTIL _
+
+Structura repetitivé FOR dOIl€
+
+Structura repetitivé SELECT
+
+A'te°°menz"“temeu“'e Semantica: este 0 combinatie Tntre for si case — la fiecare iteratie variabz' La primeste ca valoare
+
+Mm— acel cuvant dln llsta Zzsta_ cumnte ce este selectat prln Interactlune cu utlllzatorul. Executla buclel
+
+eer'ne ' '0 ralce select se Inchele tot prln Interactlune cu utlllzatorul (apasand tastele CTRL+D, /.e. EOF).
+Observatie:
+Atét la bucla select, cét si la bucla for, dacé lipseste partea optionalé in Lista_ cuvinte ,
+atunci drept listé de cuvinte se prelucreazé valoarea variabilei speciale $©.
+Meniu de navigare Lucrul Ia linia de comandé Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 33/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+O O
+Alte comenzi interne utile
+Introduce“, lata alte cateva comenzi interne, utile atat Tn script-uri, cat $i Ia linia ole comanola a interpretorului bash:
+Ziggilii,itgileiolnggaJUIUide I Comanola break, cu sintaxa: break [n] , unole n este 1, Tn caz ca lipseete. Efect: se iese afara
+Variabiledeshe/l din n bucle do-done imbricate, executia continuanol cu urmatoarea instructiune ole olupa done.
+Expresiiaritmeticesilogice i I Comanola continue, cu sintaxa: continue [n] , unole n este 1, Tn caz ca lipseete.
+Structuride control alternative Efect: Tn cazul n I 1 se reTncepe bucla curenta do-done (ole Ia pasul ole reinitializare), respectiv
+W pentru n > 1 efectul este ca $i cum s-ar executa de n ori comanola continue 1.
+Structura alternativa CASE
+Structura repetitiva WHILE I Comanola exit, cu sintaxa: exit [cod] , unole cod este valoarea variabilei speciale $?, Tn caz
+ZEZEZZZZZEZZLFJSZL ca lipseste. Efect: se Tncheie executia script-ului (sau instantei ole she/l) Tn care este apelata, iar
+Structura repetitiva SELECT coolul sau ole terminare va fi valoarea specificata.
+A'te°°me“z““teme“"e I Comanola wait, cu sintaxa: wait [pz'd] . Efect: se suspenda executia script-ului (sau instantei
+M ole she/l) Tn care este apelata, a$teptanqu-se terminarea procesului avanol PlD-ul specificat.
+mm I Comanola exec, cu sintaxa: exec comandii . Efect: se executa comanola specificata, fara a se
+crea un nou proces Tn acest scop. Astfel, she/l-ul ce executa aceasta comanola se va “reacoperi” cu
+procesul asociat comenzii (oleci nu este reentrant).
+I Comanda trap, cu sintaxa: trap comandii eveniment . Efect: se va executa comanda
+specificata atunci canol se va produce acel eveniment (i.e., canol se va primi semnalul respectiv).
+Exemplu: UNIX> trap ’rm /tmp/ps$$ ; exit ’ 2
+Noté: 2 = interrupt signal (semnalul generat prin apasarea tastelor CTRL+C), 3 = quit signal (semnalul generat prin
+apasarea tastelor CTRL+\ ) , $.a.
+Meniu de navigare Lucrul Ia linia de comanda Tn UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 34/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+A
+
+Agenda
+lntroducere Introducere
+iji"'lflil"ilnslgalu'u' de Facilitatile limbajului de scripting bash
+—p—g— Proceduri she/l — script-uri
+Variabile de she/l Executia procedurilor shell
+Exgresii aritmetice si logice Demo: un SCfipl‘ “Helloworld”
+
+i Alte facilitati
+
+Structuri de control alternative
+3i regetitive Variabile de She”
+
+__ Definire (creare) $i utilizare (substitutie)
+F“—".C‘“s”e”—. Instructiunea de atribuire
+Defm'rewedar-are) SI Alte forme ole substitutie
+apelare (executle) ,
+
+Exemple de functii Comenzi interne utile
+Variabile pozitionale $i alte variabile speciale
+mm Demo: un script “PrintArgs”
+Expresii aritmetice $i logice
+Comenzi pentru calcule aritmetice
+Comenzi pentru expresii conditionale
+Structuri de control alternative $i repetitive
+Structura alternativa IF
+Structura alternativa CASE
+Structura repetitiva WHILE
+Structura repetitiva UNTIL
+Structura repetitiva FOR
+Structura repetitiva SELECT
+Alte comenzi interne utile
+Funcﬂisheﬂ
+Definire (declarare) $i apelare (executie)
+Exemple de functii
+Meniu de navigare Referinte bibliografice 35/ 38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+O O
+
+Deflnlre (declarare) sl apelare (executle)
+
+'“imducere O functie shell este un nume pentru o secventa ole comenzi UNIX, analog cu procedurile shell, cu
+
+Facilitatilelimbajuluide . c . . A . . A . . .
+
+scrigtingbash deosebirea ca c functie nu se scrie |ntr-un fisier text separat, ca |n cazul acestora, c| se scrie (/.e., se
+
+Variabiledeshel/ declara) fie intr-c procedura she/l, fie direct la prompterul unei instante de she/l, folosind sintaxa:
+
+Exgresii aritmetice si logice '
+
+Structuri de control alternative funCtiQIl nume_ funct'L'e () { ZI'ZL-Stag COmeTLZYL ; }
+
+si reQetitive
+
+W Semantica: ccmancla interna function declara nume_functz'e ca tiincl o variabila' de tip functie,
+
+e|n|re ec arare sl . V H _ H _ _ .
+
+anelare(e><eCUtie) adica un alias pentru secventa cle ccmenzr Zzsta_ comenzz .
+
+Exemple de functii
+
+Referintebibliografice Apelul unei functii inseamna executia ace/ei secvente de comenzi si se face similar ca pentru orice
+comancla simpla, adica prin numele sau, plus parametri si eventuale redirectari.
+La tel ca la proceduri, in corpul unei functii (i.e., in Zz'sta_ comenzi) folosim variabilele pozitionale
+$1, $2, . . . , $9, ${10}, ${11}, . . . pentru a ne reteri la parametrii cle apel ai functiei, iar prin
+variabilele speciale $#, respectiv $>I< si $@, ne referim la numarul, respectiv lista, tuturor parametrilor de
+apel ai acelei tunctii.
+Observatii: i) in declaratia unei tunctii, fie function, fie O pot fi omise, clar nu simultan amandoual
+ii) intre perechea de paranteze () nu se scrie nicicclata nimic, chiar claca dorim sa declaram functia ca
+avand unul sau mai multe argumentel iii) in ccncluzie, ccnceptul de functie de la she/l-uri NU este
+similar, cl.p.d.v. sintactic si semantic, cu cel cle functie din limbaje cle programare precum C/C++.
+
+Meniu de navigare Lucrul la linia de ccmanda in UNIX, partea a lV-a: lnterpretcare de comenzi UNIX, partea a ll-a — scripting BASH 36/38
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:37**************
+> Exemple de functii
+'“tr?f*‘j?er? _ _ 1) Iaté un exemplu ole functie, declaraté si apelaté direct Ia linia de comanolé a shell-ului:
+w UNIX> function my_listing () { echo "Listingul directorului: $1" ; \
+M > if test -d $1 ; then ls -1A $1 ; else echo "Eroare" ; fi }
+_P—J_EX resiiaritmeticesim i°e UNIX> my_1isting ~vidrascu/so/
+jifftﬂijeewmm' a'temative Efect: se va afisa continutul directorului specificat ca argument al functiei.
+Functiishe/l 2) Iaté un alt exemplu de functie, declaraté si apelaté Tn interiorul unui script:
+Definire (declarare) si
+apelare (executie)
+Exemple de functii
+Referinte biblio raﬁce —
+Dacé apelém acest script cu urmétoarea Iinie de comandé, vom obtine ca output:
+UNIX> ./script . sh a b c
+Conc/uzie: mesajele afisate pe ecran ne demonstreazé diferenta dintre modul de evaluare al
+variabilelor speciale $>I< si $©, atunci cénol sunt cuprinse Tntre ghilimele.
+3) Alte exemple: a se vedea [MchcOrCat] si [Recursive math #1 & #2], disponibile aici.
+Meniu de navigare Lucrul la linia de comandé Tn UNIX, partea a lV-a: Interpretoare de comenzi UNIX, partea a Il-a — scripting BASH 37/38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:38**************
+O O
+Bibliografie obligatorie
+‘W’??? . . [1] Capitolul 2, §2.4 din cartea “Sisteme de operare — manual pentru ID”, autor C. Vidraecu, editura
+ZZZQII';I?71Q'I?DI;2;31UIU'de UAIC, 2006. Nota': este accesibil, in format PDF, din pagina disciplinei “Sisteme de operare”:
+w 0 https : //profs . info . uaic . ro/"vidrascu/SO/books/ManualID-SO . pdf
+Expresii aritmetice si logice ,
+Zirrléciéitﬁixwmm'a'iemaﬁve [2] Suportul online de laborator asociat acestei prezentari:
+Functii she/l 0 https : //profs . info . uaic . ro/"vidrascu/SO/labs/suport_lab4 . html
+mm 0 https : //profs . info . uaic . ro/"vidrascu/SO/labs/suport_lab5 . html
+[3] Documentatia interpretorului de comenzi bash: man 1 bash ,precum ei
+http://www.gnu.org/software/bash/manual/bashref.html
+[4] Linux Documentation Project Guides —> “Advanced Bash-Scripting Guide”
+[5] Cartea “Bash Pocket Reference” (1st edition), by A.Robbins, ’Rei||y Media lnc., 2010.
+[6] help let , man 1 eXpr $i man 1 bc / man 1p bc
+[7] help test $i man 1 test
+[8] man 1 basename $i man 1 dirname
+Meniu de navigare Lucrul Ia linia de comanda in UNIX, partea a lV-a: lnterpretoare de comenzi UNIX, partea a ll-a — scripting BASH 38/38
+
+***************Ending Page***************
+

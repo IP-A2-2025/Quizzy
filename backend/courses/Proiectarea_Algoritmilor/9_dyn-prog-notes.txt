@@ -1,0 +1,911 @@
+***************Beginning Page***************
+***************page number:1**************
+1 Programare Dinamica
+1.1 Problema sirului lui Fibonacci
+Sirul lui Fibonacci
+
+Fie functia f : N —> N, deﬁnita astfel:
+
+0, daca n I 0;
+f(n) I 1, daca n I 1;
+f(n — 1) + f(n — 2), daca n Z 2.
+
+in rnod evident, f (n) este a1 n-lea nurnar Fibonacci (nurnarand de la O).
+
+Deﬁnitia maternatica de rnai sus a functiei f poate ﬁ transformata usor intr-un program
+recursiv care calculeaza a1 n-lea nurnar Fibonacci:
+
+f (n)
+{
+if (n == O)
+return O;
+else if (n == 1)
+return 1;
+else
+return f(n — 1) + f(n — 2);
+}
+
+Pentru cazurile n I 0 si n I 1, timpul de rulare a1 functiei f este constant. Pentru cazul n Z 2,
+daca ignorani apelurile recursive, tinipul de rulare este constant (se face o singura adunare).A Cénd
+luani in calcul apelurile recursive, observani ca tirnpul de calcul necesar este exponential. In cele
+ce urrneaza, vorn demonstra acest lucru.
+
+Notarn cu T(n) timpul necesar pentru calculul efectuat de apelul f (n) (pentru n G N). Avern:
+
+T(O) I 1 caz de baza - numar constant de operatii
+T(1) I 1 caz de baza - nurnar constant de operatii
+T(n) I T(n — 1) + T(n — 2) + 1 cazul recursiv.
+
+1n cazul recursiv, tirnpul necesar T(n) este dat de timpul necesar celor doua apeluri recursive
+(T(n 1 1) si respectiv T(n 1 2)) plus 1, reprezentand adunarea.
+
+Putern reprezenta apelurile recursive ale functiei f sub forma unui arbore in care ﬁecare apel
+a1 lui f cu un argument i este un nod f (z) Copiii unui nod f (2) sunt apelurile recursive generate
+de evaluarea lui f (2) De exernplu7 pentru apelurile recursive generate de evaluarea lui f (5),
+arborele este:
+
+k////////////f(5)\\\\\\\\\\\x
+f(4) f(3)
+l‘(3) f(2) 112) 1‘(1)
+112) 1‘(1) 1‘(1) 1‘(0) f(1) 110)
+f (1) 110)
+1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Se poate observa foarte usor ca numarul de noduri din arborele aferent lui f (n) este chiar
+T (n) (timpul de calcul necesar pentru evaluarea lui f(n)).
+
+Frunzele arborelui sunt etichetate sau cu f (0) sau cu f (1) (singurele cazuri de baza 1 unde
+nu se fac apeluri recursive). Orice alt nod (care nu este frunza) are exact doi copii.
+Lemma 1. Pentru om'ce n Z 2, in arborele care are rdddcz'na f(n) sunt exact f(n) frunze
+etichetate cu f(1) 52' f(n — 1) frunze etichetate cu f(0).
+Proof. Vom demonstra afirrnatia prin inductie dupa n.
+
+f(2)
+f 1 f
+o (primul caz de baza) Pentru n I 27 arborele ( ) (0) are exact f(2) I 1 frunze
+etichetate cu f(1) si f(1) I 1 frunze etichetate cu f(0)
+f(3)
+f(2) f(1)
+f 1 f
+
+o (a1 doilea caZ de baza) Pentru n I 3, arborele ( ) (0) are exact
+f(3) I 2 frunze etichetate cu f(1) si f(2) I 1 frunze etichetate cu f(0).
+
+0 (cazul inductiv) Stirn ca arborele asociat lui f(n i 1) are f(n i 1) frunze etichetate f(1)
+si f(n — 2) frunze etichetate f(0) si ca arborele asociat lui f(n — 2) are f(n — 2) frunze
+etichetate f(1) si f(n — 3) frunze etichetate f(0).
+
+f(n)
+f (n — 1) f (n — 2)
+
+Dar arborele asociat lui f(n) este I i ; asadar numarul de frunze
+etichetate f(1) din arborele f(n) este egal cu numarul de frunze etichetate f (1) din ar-
+borele asociat lui f (n — 1) plus nuniarul de frunze etichetate f (1) din arborele asociat lui
+f(n — 2). Dar stiin ca numarul de frunze etichetate f(1) din arborele asociat lui f(n — 1)
+este f(n — 1) si numarul de frunze etichetate f(1) din arborele asociat lui f(n — 2) este
+f(n i 2). Asadar in arborele lui f(n) sunt f(n i 1) + f(n i 2) I f(n) frunze etichetate
+f (1) Printr-un argument similar, obtinern ca in arborele lui f (n) sunt f(n i 1) frunze
+etichetate f(O)
+
+E]
+
+1n total7 arborele asociat lui f(n) are f(n + 1) frunze. (f(n) frunze de f(1) plus f(n — 1)
+
+frunze de f(0)).
+
+Arborele binar asociat lui f(n) se numeste plin7 deoarece orice nod care nu este frunza are
+
+exact doi copii. Intr-un arbore binar plin cu a: frunze, exista exact w — 1 noduri interne (de ce7).
+
+Deoarece arbprele asociat lui f(n) are f(n + 1) frunze si este plin7 rezulta ca are f(n + 1) — 1
+
+noduri interne. In total, are 2 f (n + 1) — 1 noduri. Dar numarul de noduri din acest arborele este
+exact T(n), deci putein concluziona ca
+T(n) I 2f(n+ 1) — 1.
+2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Putem aréta ueor prin inductie c5
+f(n) g 1.5”’2
+pentru orice 22 Z 2. Aeadar f(22) I 0(0”); cum T(n) I 2f(22 + 1) — 17 rezulté $1 c5
+TM) I 0(6"),
+adicé timpul necesar pentru evaluarea lui f (22) este exponential in 22.
+
+Sursa acestei ineﬁciente este calcularea repetaté a valorilor f (2), unde O g 2 g 22. De exemplu,
+in arborele asociat lui f (5), observérn c5:
+
+1. f(1) este evaluat de 5 ori
+
+2. f(2) este evaluat de 3 ori
+
+3. f(3) este evaluat de 2 ori
+
+4. f(4) este evaluat de 1 ori
+
+5. f(5) este evaluat de 1 ori
+
+1n general, in cursul evaluzirii lui f(n), valoarea f(k) este calculaté de f(n — k + 1) ori
+(1 g k g 22).
+
+Exercitiul 1. Demonstrati acest lucru (indicatie: pentru k : 1 am arétat deja mai devreme).
+O varianté Inai eﬁcienté
+
+O varianté pentru a optimiza algoritmul de mai sus este s5 evitzinl recalcularea valorilor f (2)
+(1 g 2 g n) in felul urmétor:
+
+1. La primul apel a1 functiei f cu un anurnit argument 2, se calculeazé valoarea f (2) in mod
+
+obienuit $1 se memoreazé rezultatul (de exemplu intr-un vector at, pe pozitia 2).
+2. La urrnétoarele apeluri ale functiei f pentru acest argument 2'7 se stie c5 f (2) a fost deja
+calculat; aeadar nu se recalculeazé nimic $1 se intoarce direct mm.
+
+Avem nevoie de 0 Inetodé pentru a veriﬁca dacé a:[2'] a fost deja calculat sau nu. Presupunem
+c5 vectorul a: a fost initializat cu valoarea —1 in toate pozitiile; valoarea —1 1a pozitia 2 indicé
+faptul c5 x[2] nu a fost calculat incé.
+
+Obtinem agadar unnitorul algoritm:
+
+// presupunem X[0. .n] — vector global, initializat cu —1
+// in toate pozitiile
+f (n)
+{
+if (x [n] != —1) // am calculat deja f(n)
+return x[n]; // (A)
+else {
+if (n == O)
+// (B)
+return x[0] = 0; // marchez x[0] = 0 si intorc O
+else if (n == l)
+3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+// (C)
+return x[1] = 1; // marchez x[1] = 1 si intorc 1
+else
+// (D)
+return X[n] = f(n — 1) + f(n — 2);
+// calculez f(n — 1) + f(n — 2) (valoarea f(n))
+// marchez x[n] ca fiind calculat
+// retin valoarea f(n) = f(n — 1) + f(n — 2) in X[n]
+// intorc X[n]
+}
+}
+Exercitiul 2. Curn (in ce ordine) se completeaza valorile in vectorul x pe Inasura evaluarii
+expresiei f (5)?
+
+Vrern sa calcularn tirnpul de executie a1 functiei f. Presupunand ca vectorul m a fost deja
+initializat cu —1 in toate pozitiile $i ca tocmai am apelat f (m) pentru un nurnar natural ﬁxat
+m, calcularn de Cate ori se executa liniile A, B, C $i D:
+
+1. linia B se executa cel mult 0 data, deoarece pentru a se executa trebuie ca n I 0 5i m[0] I —1.
+Dupa executia liniei B, x[0] devine O $i deci nu mai sunt indeplinite conditiile pentru ca
+programul sa ajunga in punctul respectiv.
+
+2. linia C se executa cel mult o data, deoarece pentru a se executa trebuie ca n I 1 $i mm I —1.
+Dupa executia liniei C, sc[1] devine 1 $i deci nu mai sunt indeplinite conditiile pentru ca
+programul s21 ajunga in punctul respectiv.
+
+3. linia D se executa cel rnult 0 data pentru ﬁecare valoare posibila a argurnentului n a1 functiei
+f, deoarece pentru a se ajunge 1a D, este necesar ca $[n] I —1. Dar dupa executia lui D,
+90M] primeste 0 valoare nenegativa.
+
+Cum argumentul n variaza intre O si m, ajungern la concluzia ca linia D este executata de
+maxim O(m) ori.
+
+4. linia A se executa cel mult 0 data pentru ﬁecare apel recursiv a1 functiei f (apelul initial,
+f (m), va executa linia D, nu linia A). Dar singurele apeluri recursive ale lui f sunt cele
+generate pe linia D. Am vazut deja ca linia D este executata cel mult 0 data pentru ﬁecare
+valoare O § n g m; ﬁecare astfel de apel f (n) generaza doua apeluri recursive: f (n — 1) $i
+f(n — 2). A$adar exista cel rnult 2m astfel de apeluri. Deci linia A se executa de 0(m) ori.
+
+1n total, pentru calculul lui f(m), sunt facuti 0(1) + 0(1) + O(m) +O(m) I 0(m) paei, ceea
+ce inseamna ca algoritrnul este liniar.
+
+Tehnica de optimizare prezentata mai sus se nume$te memoizare (este corect fara “r”). Prin
+rnernoizare se intelege faptul ca rezultatele intoarse de 0 functie sunt pastrate in rnernorie; daca
+functia este apelata pentru a doua oara pe acela$i argument, nu se face calculul din nou, ci
+rezultatul este intors direct din locul in care a fost memorat.
+
+Tehnica de memoizare poate ﬁ folosita pentru orice functie recursiva pura (care nu are efecte
+secundare — in particular, pentru aceleaei date de intrare, intoarce aceleasi rezultate).
+Algoritrnul iterativ
+
+Observarn ca, exceptand valorile $[O] $i :E[1], vectorul m este umplut de la stanga la dreapta
+(adica in ordinea asp], ac[3], LEM], . . .) Putern proﬁta de aceasta observatie pentru a transforma
+algoritmul recursiv intr-unul iterativ:
+
+4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+f (n)
+{
+x [1] = 1;
+X[O] = O;
+for (i = 2; i <= n; ++i) {
+X[i] = X[i — 1] + X[i — 2];
+}
+return x[i] ;
+}
+
+Tirnpul de rulare este evident Om).
+
+Algoritrnul de Inai sus este un exemplu de programare dinarnica. Pentru a rezolva 0 anurnita
+problema folosind programarea dinaniica, trebuie sa identiﬁcani in mod convenabil mai Inulte
+subproblerne. 1n cazul $irului lui Fibonacci, problema initiala este sa calcularn f (m) (pentru un
+anurnit numar m). Subproblernele sunt: calculul lui f (2), pentru ﬁecare O g i g m (deci sunt
+m + 1 subprobleme).
+
+Dupa ce identiﬁcarn subproblernele, trebuie stabilit cum se poate calcula solutia unei subprob-
+lenie in functie de alte subproblerne. 1n cazul eirului lui Fibonacci, pentru a rezolva problema f (2'),
+este suﬁcient sa rezolvani problema f (2 i 1), problema f (z I 2) 5i sa adunain rezultatele. (1n cazul
+altor algoritrni de programare dinarnica, modul in care se calculeaza solutia unei subproblerne in
+functie de solutiile altor subproblerne este in general Inai complicat.) Pentru subproblernele f (O)
+ei f (1), solutia este irnediata (O $i respectiv 1). Dupa ce arn ales in rnod convenabil subproblernele
+ei arn identiﬁcat cum se poate rezolva 0 subproblerna in functie de solutiile altor subproblerne,
+este suficient sa rezolvarn subprobleniele “pe rand”. ln cazul problemei de niai sus, ordinea in
+care se rezolva subproblernele este foarte sirnpla: intai f(0), apoi f(1), apoi f(2), etc.
+
+Exemplul in care am folosit programarea dinarnica pentru a calcula al m-lea element din
+eirul lui Fibonacci este de natura didactic. in general, programarea dinarnica se aplica pentru
+probleme de optimizare pentru care algoritrnii greedy nu produc in general solutia optima.
+
+1.2 Problema buturugii
+
+Se da 0 buturuga care are n metri $i care poate ﬁ sectionata in 1 sau rnai multe (cel rnult n)
+buturugi de lungirne nurnar intreg. Sectiunile taiate pot ﬁ vandute, iar 0 buturuga de dimensiune
+i (1 g i g n) costa a[2'] RON pe piata. Care este castigul optirn care poate ﬁ obtinut prin
+sectionarea buturugii initiale de n metri?
+
+De exemplu, pentru n I 4, a[1] I 100,a[2] I 250,a[3] I 350,a[4] I 350, cea mai eﬁcienta
+sectionare este 4 I 2 + 2, care aduce un caetig de 500. 1n general, exista 2"_1 rnoduri de a
+sectiona o buturuga de dimensiune n, deoarece exista n — 1 puncte in care poate ﬁ taiata (sau
+nu), iar taieturile sunt independente una de cealalta. De exemplu, pentru n I 4, cele 8 moduri,
+impreuna cu caetigul aferent, sunt:
+
+1. 4 I 1+ 3 (caetig 450)
+
+2. 4 I 1 + 1 + 2 (castig 450)
+
+3. 4I1+1+1+1(ca$tig400)
+
+4. 4 I 1 + 2 + 1 (caetig 450)
+
+5. 4 I 2 + 2 (caetig 500)
+
+6. 4 I 2 + 1 + 1 (caetig 450)
+
+5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+7. 4 I 3 + 1(caetig 450)
+8. 4 I 4 (caetig 350)
+
+in general, daca buturaga are n metri, exista 2”’1 moduri de a o taia: putem alege inde-
+pendent, pentru ﬁecare dintre cele n — 1 locuri unde poate ii sectionata, daca facem taietura in
+punctul respectiv sau nu (2 variante pentru fiecare punct). Deci exista un numar exponential
+(in functie de lungimea buturugii) de variante de a o taia. Chiar daca eliminam variantele in
+care sectiunile se repeta, dar in alta ordine (cum ar ﬁ 1 + 1 + 2, 1 + 2 + 1, 2 + 1 + 1), numarul de
+posibilitati ramane exponential (obtinem numarul lui Catalan 1 google it).
+
+Asadar, orice rezolvare a problemei care enumera toate variantele de taiere, calculeaza caetigul
+corespunzator, $1 pastreaza maximul dintre toate variantele va avea o complexitate timp in cazul
+cel mai nefavorabil exponentiala in n.
+
+Vom vedea cum putem obtine un algoritm mai eﬁcient folosind programare dinamica. 1n
+acest scop, vom nota cu d(2') caetigul maxim care poate ﬁ obtinut prin taierea (intr-un mod cat
+mai convenabil) a unei buturugi de lungime i (unde O g i g n) Prin conventie, vom alege
+(11(0) I O (buturuga “Vida” nu poate aduce niciun proﬁt).
+
+Solutia problemei este numarul d(n), unde n este dimensiunea buturugii initiale. Putem gasi
+o formula de calcul (recursiva) pentru d(i) (1 g 2' g n)?
+
+Fie 2' I x1 + $2 —|— . . . —|— ark o descompunere optima pentru 2'. Avem 1 g 1:1 g 2' (daca 1:1 I 2',
+
+atunci k I 1 $i in descompunerea optima, buturuga nu este sectionata).
+Proprietatea de substructuré optima. Deoarece $1 + m2 + . .. + ask este o descompunere
+optima pentru o buturuga de dimensiune i, inseamna ca x2 + $3 + . . . + 95k este o descompunere
+optima pentru 0 buturuga de dimensiune z' — 1:1. Daca nu ar ﬁ aea, adicé daca ar exista o
+descompunere b1 + b2 —|— . . . + bl pentru i — $1 cu caetig mai bun decat m2 + x3 —|— . . . + wk, atunci
+:51 + b1 + b2 + + bl ar ﬁ 0 descompunere pentru i care ar aduce un caetig mai mare decat
+descompunerea x1 + :62 + + wk, ceea ce contrazice ipoteza de la care am pornit. (Aceasta
+proprietate este proprietatea de substructura optima pentru problema buturugii: intr-o solutie
+optima pentru o buturuga de dimensiune i, subproblema i — 901 are $i ea o solutie optima).
+
+Folosindu-ne de proprietatea de mai sus, putem observa ca
+
+d(z') I a[x1] + d(i — m1).
+
+Singura problema este ca nu $tim valoarea lui $1. Dar nu exista decat i valori posibile pentru
+x1, deoarece $tim ca 1 g m1 g 2' (x1 este lungimea primei sectiuni dintr-o descompunere a unei
+buturugi de lungime i). Care este cea mai convenabila valoare pentru x1, tinand cont ca vrem
+sa maximizam proﬁtul pentru buturuga de dimensiune i? 1n mod obligatoriu, x1 E {1,2, . . . , i}
+este numarul care maximizeaza valoarea a[x1] + d(2' — m1). Folosindu-ne de observatia de mai sus,
+obtinem:
+
+d(z) I ma33@1€{1,2,,,_,¢} (a[m1] + d(i — 061)).
+
+Am obtinut, folosindu-ne de proprietatea de substructura optima, 0 relatie de recurenta
+pentru solutiile d(z') ale subproblemelor 0 g i g n (subproblema i este: care este ca$tigul maxim
+adus de 0 buturuga de dimensiune 2?).
+
+1.2.1 Implementare
+Putem implementa direct recurenta intr-o functie recursivé:
+6
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+d(i)
+{
+if (i == 0) {
+return O;
+} else {
+result = a[1] + d(i — 1);
+for (int j = 2; j <= i; ++j) {
+if (a[j] + d(i — j) > result) {
+result = a[j] + d(i — j);
+}
+}
+return result;
+}
+}
+Din picate, functia recursivé de Inai sus are complexitate timp exponentialé, din cauza
+apelurilor recursive ale functiei care se repeté.
+Exercitiul 3. Calculati céte apeluri recursive ale lui d(O) se execute in cursul unui apel d(n).
+Putern aplica tehnica de Inernoizare pentru a obtine un algoritrn petratic:
+int m[]; // presupunem ca initial contine doar —1
+d(i)
+{
+if (m[i] == -1) {
+if (i == 0) {
+m[i] = O;
+return m[i];
+} else {
+result = a[1] + d(i — 1);
+for (int j = 2; j <= i; ++j) {
+if (a[j] + d(i — j) > result) {
+result = a[j] + d(i — j);
+}
+}
+m[i] = result;
+return m[i];
+}
+} else {
+return m[i];
+}
+}
+Observati 05L aceasté tehnicé se poate aplica rnecanic: ﬁecare “return ...” este inlocuit cu
+m[i] I ..., iar corpul C a1 functiei este protejat cu 0 instructiune conditionalé in felul urrnétor:
+if (m[i] == —1) {
+C
+return m[i];
+} else {
+7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+return m[i] ;
+}
+
+De altfel, existé limbaje de programare (cum ar ﬁ Haskell) care fac aceasté transformare de
+optimizare a timpului de executie (memoizarea) automat.
+
+Avénd varianta cu Inemoizzure7 putem observe Ci tabloul mH este completat in ordinea:
+m[O],m[1], . . .. Tinénd cont de acest lucru, putern foarte u$0r renunta la recursivitate $1 s5
+obtinem un algoritrn iterativ echivalent:
+
+m[] ;
+d(n)
+{
+m[O] = O;
+for (i = 1; i <= n; ++i> {
+m[i] = a[l] + m[i — 1];
+for (j = 2; j <= i; ++j) {
+if (m[i] < a[j] + m[i — j]) {
+m[i] = a[j] + m[i — j];
+}
+}
+}
+return m[n] ;
+}
+
+Complexitatea-timp a algoritmului iterativ este evident 0(n2). De altfel, din punct de vedere
+a1 timpului asimptotic de executie, algoritrnul recursiv (cel cu memoizare) are tot complexitate
+O(n2) (exerciﬁiu: veriﬁcaﬁi aceastzi aﬁnnatie)7 dar in practicé algoritmul iterativ este mai rapid
+deoarece “constanta din O-notatie” este mai mice.
+
+1.2.2 Reconstituirea solutiei
+
+Algoritmul de mai sus poate ﬁ folosit pentru calculul céstigului optim. Totusi, algoritmul nu
+returneazé cum anurne trebuie sectionati buturuga pentru a obtine acest céxgtig. Putem modiﬁca
+ugor algoritmul pentru a returna $i solutia optimzi, pe léngé cﬁetigul adus de aceasta.
+
+Este suﬁcient s5 memoriun, pentru ﬁecare dimensiune i, care este lungimea x1 a primei
+sectiuni dintr-o tiiere optimé $1 + x2 + . . . + wk a lui i:
+
+m[]; // m[i] va fi castigul maxim adus de o buturuga de dimensiune i
+prima[]; // prima[i] va fi lungimea X_1 a primei sectiuni dintr-o
+// descompunere optima a lui i.
+d(n)
+{
+descompunere = [1;
+m[O] = O;
+for (i = 1; i <= n; ++i> {
+m[i] = a[l] + m[i - 1];
+prima[i] = 1;
+for (j = 2; j <= i; ++j> {
+if (m[i] < a[j] + m[i — j]) {
+m[i] = a[j] + m[i - j];
+8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+prima[i] = j ;
+}
+}
+}
+// calculeaza in vectorul descompunere lungimile sectiunilor
+// dintr-o descompunere optima a unei buturugi de dimensiune n
+while (n > 0) {
+descompunere . add (prima [n] ) ;
+n —= prima[n];
+}
+return descompunere;
+}
+1.3 Problema distantei de editare
+Problema distantei de editare
+
+O astfel de problemé de optimizare este problema distantei de editare.
+
+1n contextul problemei distantei de editare7 trebuie s5 transformém un $ir intr-un alt $ir
+intr-un numér minim de operatii numite operatii de editare:
+
+1. substitutia: transformém 0 literé in alté literé. Exemplu: FOOD se transformé printr-o
+
+operatie de substitutie in FOND
+
+2. insemrea: adéugém 0 literé. Exemplu: FOOD se transformé in FROOD printr-o inserare.
+
+3. gtergerea: $tergem 0 literé. Exemplu: FOOD se transformé in FOO printr-o gtergere.
+
+Formal, problema distantei de editare (engl. EDIT DISTANCE problem) este urmétoarea:
+
+Input: Doué $iruri s[O..n — 1] gi t[0..m — 1]
+
+Output: Cel mai mic numér de operatii de editare (substitutie, inserare, $tergere) necesare
+pentru a transforma girul s in t (numﬁr numit $i distanta Levenshtein dintre cele doui $iruri).
+
+Deoarece in problemé se cere s21 se minimizeze numérul de operatii7 avem de a face 0 0
+problems} de optimizare. Pentru datele de intrare s I FOOD $i t I MONEY7 o solutie de 00st 4 este:
+
+FOOD % substitutie
+MOOD —> substitutie
+MOND —> insertie
+MONED —> substitutie
+MONEY —>
+
+Exercitiu: arétati <35 nu existé 0 alté solutie de cost mai mic deceit 4. Concluzionati (:5 solutia
+optimi are cost 4.
+
+Putem reprezenta solutia de mai sus 5i sub 0 alté formé, mai convenabilé:
+
+Inn-m
+
+II“:-
+
+Un spatiu care apare pe prima linie indicé 0 insertie, doué litere diferite indiczi o substitutie
+gi un spatiu pe a doua linie indicé 0 $tergere. Pentru a calcula costul solutiei este suﬁcient sé
+numérém coloanele care au continut diferit (in cazul de mai sus sunt 4 astfel de coloane).
+
+Un exemplu de solutie (care este de cost 3 si nu este optima) pentru $irurile ABCD $i ADBC:
+
+BEBE
+
+BEBE
+
+Solutia optima (de cost 2) este:
+
+9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+IIEEI
+
+Dacé eliminém ultima coloané dintr-o solutie optima, obtinem 0 noué solutie optimé (pentru
+alte $iruri). De exemplu,
+
+E-EE
+
+Emma
+
+este 0 solutie optimzi pentru sjrurile ABC si ADBC. Aceasté proprietate se numegte prin-
+cipiul de substructurd optimd:
+
+Lemma 2. (Proprietatea de substructurd optimd)
+In mum ... .....
+Fie 0 solutze optima (pentru cele doua szrum obtmute dm L1...Lk
+III-
+lm u! --.
+5i [/1 . “LL: prin eliminarea spatiilor). Atunci ,1 I f 1 e 0 solutze optima (pentru cele
+doud sirum' obtinute din L1 . . . Lkil 52' L] . . . L2_1 prim eliminarea spatiilor).
+
+Exercipiu: demonstrapi proprietatea de mai sus.
+
+Ne putem folosi de proprietatea de Inai sus pentru a deﬁni recursiv distanta Levenshtein intre
+preﬁxul s]0..l — 1] de lungirne l a lui s[0..n — 1] $1 t]0..k — 1] de lungirne k a lui t[0..m — 1]. Vom
+nota cu d(l, k) aceasté distanté (distanta de editare dintre preﬁxul de lungime l a1 lui s 3i preﬁxul
+de lungirne k a1 lui t.
+
+Dacé l I O, atunci d(l, k) I k (de ce7); dacé k I O, atunci d(l, k) I l (de ce?). Daczi l > O $1
+k: > O, atunci:
+
+1. (insertie) daci pe prima linie $i ultima coloané se aﬁé un spatju, atunci s-a efectuat o
+inserpie $1 d(l, kt) I d(l, k: — 1) + 1. Costul de +1 se datoreazé costului insertiei (s-a inserat
+elementul t[k — 1]). Proprietatea de substructura optimé ne spune 05 dacé $tergen1 ultima
+coloané, obtinem 0 solutie optimé pentru celelalte coloane cu exceptia ultimei. Dar aceasté
+solutie are cost d(l, k I 1).
+
+2. ($tergere) un argument similar cu cel de mai sus ne araté c5 dacé ultima coloané de pe a
+doua linie conﬁne un spatiu, atunci d(l, k‘) I d(l — 1, k) + 1.
+
+3. (substitutie) dacé ultima coloané contine doué caractere diferite, atunci s-a efectuat 0
+substitutie. Agadar d(l, k) I d(l — 1, k — 1) + 1. Costul de +1 se datoreazé substituﬁiei $1
+d(l — 1, k: — 1) este costul obfuinut dupé $tergerea ultimei coloane.
+
+4. (nicio schirnbare) dacé ultima coloanzi conﬁne doué caractere egale, atunci nu s-a efectuat
+nicio operatie. A$adar d(l, k‘) I d(l — 1, k — 1).
+
+Cum nu existé. nicio alti posibilitate (nu pot ﬁ doué spaﬁii intr-o solutie optima), rezulté 051
+
+d(l, k) trebuie s5 ﬁe cea mai micé valoare dintre posibilitétile de Inai sus:
+d(l, k — 1) + 1,
+. d(l I 1, k) + 1,
+‘W’ k) — mm d(l I 1, k: I 1) + 1, (doar daca Sp I 1] 74 t[k I 1])
+d(l—1,k—1). (doardacés]l—1]It[k—1])
+
+Putern IneInoiza recurentn de mai sus pentru a obpine un algoritrn de complexitate O(n ><
+m) pentru problema distanﬁei de editare (exercitiu pentru acasé) sau putem obfuine urrnétorul
+algoritrn iterativ:
+
+10
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+// input: s[0..n—1], t[O. .m-l]
+// output: distanta de editare intre s si t
+for (i = O; i <= n; ++i) {
+d[i] [0] = i;
+}
+for (j = O; j <= m; ++j) {
+d[O] [j] = j;
+}
+for (i = 1; i <= n; ++i) {
+for (j = 1; j <= m; ++j) {
+if (s[i — 1] == t[j - 1]) {
+d[i] [j] = min(d[i - 1] [j] + 1, // (*)
+d[i] [j - 1] + 1, // (**)
+d[i - 1] [j - 1]);
+} else {
+d[i] [j] = min(d[i — 1] [j] + 1,
+d[i] [j - 1] + 1,
+d[i - 1][j - 1] + 1);
+}
+}
+}
+return d[n] [In] ;
+
+Exercitiu: arétati c5 liniile (*) $i (**) nu sunt necesare.
+
+Exercitiul 4. Arétati cum se poate reconstitui solutia (operatiile de $tergere/inserare/substitutie)
+
+pornind de 1a matricea d completaté de algoritm.
+
+1.4 Problema plétii unei sume de bani folosind numﬁr minim de banc-
+note
+
+Problema plitii unei sume de bani folosind numér minim de bancnote
+
+Input: n € N, k E N \ {O},b1, . . . ,bk G N\ {O} astfel incét b1 : 1.
+
+Output: Numérul minim de bancnote de tipurile 191,192, . . . , bk necesare pentru a pléti suma
+n.
+
+Exemplu: Dacé k I 3, b1 I 1, b2 I 5, b3 I 10, output-u] corect pentru n I 17 este 4 deoarece
+folosim 0 bancnotzi de 10, una de 5 $i doué de 1.
+
+Exercitiul 5. Arétati cé algoritmul greedy nu produce tot timpul solutia optimé (incercati cu
+diferite valori pentru b1, . . . , bk).
+
+Arétati proprietatea de substructuré optimé: daczi bi, + . . . + 1),, I n este o descompunere
+optimé a lui n (i.e. n se poate pléti optim cu l bancnote: 12,1, . . . , bil) atunci 11,-, —1—...-|—b,-,i1 : n-bi,
+este 0 descompunere optimﬁ pentru n — 11,-, (Le. n — bi, se poate pléti optim cu l — 1 bancnote:
+bil, . . -,b¢,11)-
+
+Exercitiul 6. Gésiti 0 relatie de recurenté pentru $irul dn (n € N), unde dn este numzirul minim
+de bancnote necesar pentru a pléti suma n.
+Exercitiul 7. Folositi relatia de recurenté pentru a implementa:
+1. un algoritm recursiv (exponential) care calculeazé dn;
+11
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+2. un algoritrn recursiv, memoizat, care calculeazﬁ dn (arétafui c5 algoritmul este liniar in n);
+
+3. un algoritm iterativ7 liniar in n, care calculeazé d”.
+
+Un astfel de algoritm, care este polinomial in datele de intrare (0011)) 5i nu in dimensi-
+unea datelor de intrare (n este reprezentat pe [09201) biti, deci C(71) I O(2logz(")) I 0(2d) 1
+exponential in d I dimensiunea datelor de intrare) se numesfne pseudo-polinomial. 1n cadrul sem-
+inarului trebuie s5 gésifsi un algoritm pseudopolinornial pentru problema. (discreté a) rucsacului.
+1.5 Problema inmultirii optime a unui $ir de matrice
+Pentru a calcula produsul R a doué matrice A Si B de dimensiune n >< m gi respectiv m >< l,
+putern folosi urmétorul algoritm:
+mult (A, B)
+
+{
+for (i = O; i < n; ++i) {
+for (j = O; j < k; ++j) {
+R[i] [j] = 0;
+for (k = O; k < 1;++k){
+R[i] [j] += A[i] [k] * A[k] [j];
+}
+}
+}
+return R;
+}
+
+Matricea rezultaté este de dimensiune n >< l $i complexitatea-tirnp pentru calculul ei este de
+n >< m >< l. Notém cu T(n, m, l) I n >< m >< l timpul necesar calculului produsului a doua matrice
+de dimensiuni n >< m $i respectiv m >< l.
+
+Dacé avern de inmultit mai mult de doué matrice, ne puteIn folosi de asociativitatea inniultirii
+matricilor: pentru orice matrice M1, M27 M3,
+
+M1 X (M2 X M3) I (M1 X M2) X M3.
+
+Noté. Am presupus mai sus c5 numérul de linii ale matricei M1 este egal cu numérul de
+coloane ale matricei M2 $1 c5 numérul de coloane ale matricei M2 este egal cu numérul de linii
+ale matricei M3 (altfel inniultirea nu este deﬁnité).
+
+Si} considerérn (321 M1 are dimensiuni 100 >< 10007 M2 are dimensiune 1000 >< 10000 si M3 are
+dimensiune 10000>< 10. Dacé calculérn (M1 >< M2) XM3, timpul de calcul este T(100, 10007 10000)+
+T(100,10000,10) I 1000000000 + 10000000 I 1010000000 iar dacé calculém M1 >< (M2 >< M3),
+timpul de executie este T(1000,10000, 10)-1—T(1007 1000, 10) I 100000000+1000000 I 101000000.
+Observéin a$adar c5 a doua varianti este Inuit mai rapidé.
+
+Problema inmultirii optime a unui gir de Inatrice este: déndu-se dimensiunile a n matrice
+M1, M2, . . . , Mn7 s5 se determine 0 parantezare pentru M1 >< M2 >< . . . >< Mn care six minimizeze
+timpul de calcul. Notém cu l[i] numérul de linii ale matricei Mi 3i cu ch] numérul de coloane ale
+matricei Mi. Pentru ca operatia de inmulfuire s5 ﬁe deﬁnité, presupunern cé cm I [[i + 1] pentru
+orice lgz'gn-l.
+
+Enumerarea tuturor parantezérilor este prea costisitoare (sunt un numér exponential de
+parantezﬁri). Putern gési 0 soluﬁie bazatzi pe programare (iinmnicéi7 folosindu-ne de urmétoarele
+subproblerne:
+
+12
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+0 pentru orice 1 g 2' g j g n, care este timpul minim de calcul pentru a calcula M, >< Mi+1 ><
+
+Notam cu d(z',j) costul minim al calculului M,- >< M211 >< >< Mj.
+
+Fie (M, . . . Mk) >< (MkH . . . Mj) modul optim de a calcula M,- >< ... >< Mj (adica calculam
+intai M,- >< M111 >< >< Mk (nu $tim cum), apoi Mk+1 >< M1612 >< >< MJ- (nu etim cum), iar
+apoi produsul lor. Atunci are loc identitatea
+
+d(i,j) I CM, k) + d(k + 1,1) + T(llil7 clkl, Cljl)~
+Exercitiul 8. Enuntati proprietatea de substructura optima pentru problema inmultirii optime
+a unui $ir de matrice, proprietate care justiﬁca identitatea de mai sus.
+
+Dar nu etim cat este k. Totuei, cu siguranta este un numar natural intre i $i j *1. Asadar este
+suﬁcient sa alegem numarul k: G {1, i + 1, . . . ,j — 1} care minimizeaza partea dreapta a identitatii
+de mai sus. Obtinem 0 deﬁnitie recursiva pentru d(2'7 j):
+
+(KM) I mamk€{i,i+1,.v.,jil} (CW, k) ‘l' (“k + 17,7) ‘l' 71011101161701le
+
+Identitatea de mai sus este adevarata pentru i < j. Pentru 2' : j, convenim ca d(i, i) I 0 (nu
+ne costa nimic sa calculam M1).
+
+Recurenta de mai sus poate fi implementata direct, caz in care complexitatea-timp va fi
+exponentiala deoarece apar mai multe apeluri pentru aceleaei subprobleme d(i, j), dar prin mem-
+oizare se obtine un algoritm de complexitate 0(n3) (aeadar, polinomial). Algoritmul memoizat
+poate ﬁ transformat intr-un algoritm iterativ observand ca valorile d(2', j) sunt calculate incepand
+cu j — 2' I 1, apoi j —2' I 2, $.a.m.d. Aeadar, daca pastram valorile d(i,j) intr-o matrice, vom
+calcula intai diagonala principala a matricei 3i diagonala aﬂata imediat deasupra gi la dreapta de
+diagonala principala, $.a.m.d. (se calculeaza doar triunghiul de “deasupra” diagonalei principale
+deoarece avem nevoie doar de d(i, j), unde i g j).
+
+Exercitiul 9. Implementati varianta memoizata ei varianta iterativa a algoritmului de PD pen-
+tru problem inmultirii optime a $irului de matrice.
+
+Exercitiul 10. Modiﬁcati algoritmii de mai sus pentru a putea reconstitui $i parantezarea
+optima.
+
+1.6 Greedy ca instantii a programarii dinamice
+
+Daca ati fost atenti, ati observat ca exista cateva asemanari intre greedy 5i programare dinamica.
+In particular, in ambele cazuri apare notiunea de subproblema $i proprietatea de substructura
+optima. De fapt, tehnica greedy poate fi gandita ca un caz particular de programare dinamica7
+unde rezolvarea unei probleme este determinata direct de alegerea greedy, neﬁind nevoie de a
+enumera toate alegerile posibile.
+
+Pentru a intelege mai bine acest lucru, reconsideram problema selectiei activitatilor: dandu-
+se n activitati, prin timpul lor de inceput s[0..n 1 1] 3i timpul de ﬁnal flO..n i 1], sa se determine
+numarul maxim de activitati care nu se suprapun doua cate doua.
+
+Fie S(i,j) I {k € {O,...,n — 1} | f[i] g s[l<:] /\ f[l<;] g sljl}, multimea de activitati care
+incep dupa activitatea i $i se termina inainte de activitatea j. Notam cu d(2', j) numarul maxim
+de activitati din S(z', j) compatibile doua cate doua intre ele. Raspunsul ﬁnal al problemei este
+2 + maxx,y€{0,i.v,n*1} (d($» 11))-
+
+13
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:14**************
+Cum putem calcula d(i,j)? Daca S(i,j) I (Z), atunci evident d(i,j) I O.
+
+Daca S (2', j) nu este multimea Vida7 atunci evident d(z'7 j) > 0 deoarece putem selecta din
+5(1', j) macar o activitate. Fie a: € S (i, j) o activitate care apare intr-o solutie optima pentru
+d(i,j). Atunci avem ca
+
+(KM) :1+d(i7$)+d(:v,j)- (1)
+
+Din pacate, din nou, nu $tim cine este w. Dar e suﬁcient sa enumeram toate activitatile m € SM, j)
+
+$i sa alegem at-ul care maximizeaza partea dreapta a identitatii de mai sus. Aeadar obtinem
+recurenta:
+
+Mm) I ma$zes(i,j) (1 + dc, w) + deem)- (2)
+
+Relatia de recurenta de mai sus poate fi transformata prin memoizare intr-o algoritm de PD
+pentru problema selectiei activitatilor. Totuei, observati ca pentru a rezolva subproblema (1(2', j),
+suntem nevoiti sa parcurgem toate alegerz'le ac G S(2',j).
+
+Proprietatea de alegere greedy pe care am vazut-o in cursul precedent ne asigura ca, daca
+alegem ac ca ﬁind activitatea din S (2', j) care se termina cel mai devreme7 atunci partea dreapta
+a Identitatii (T?) este maximizata. Aeadar7 putem optimiza Identitatea (Z7?) astfel:
+
+61(131') : 1 + d(i7ﬁr$i(5(i, 17)) + d(ﬁr$t(5(i, 1)),9‘),
+unde ﬁrst este functia care intoarce activitatea care se termina cel mai devreme dintre activitatile
+sm-
+
+Observam ca, in mod necesar, d(i,ﬁrst(S(i, j))) I O. Agadar7 forma ﬁnala devine:
+
+65(139'): 1 + d(ﬁr$t(5(i, 1))71),
+care corespunde exact algoritmului greedy din cursul precedent.
+
+Aeadar, diferenta principala intre greedy $i programare dinamica este ca la greedy alegerea
+pe care o facem in rezolvarea unei subprobleme este dictata de alegerea greedy, in timp ce pentru
+programare dinamica trebuie sa enumeram toate posibilitatile, alegand-o pe cea mai convenabila.
+1.7 Denumirea “Programare Dinarnica”
+
+Programarea dinamica nu trebuie confundata cu alocarea dinamica. Tehnica programarii di-
+namice a fost descoperita de Richard Bellman in anii 1950. Pentru o istorie amuzanta privind
+alegerea denumirii “programare dinamica”, puteti consula cartea acestuia, “Dynamic Program-
+ming”. Cuvantul “programare” din sintagma “programare dinamica” trebuie inteles in sensul
+mai vechi7 cel tabelar, $i nu in sensul modern de program software pentru calculator. Cuvantul
+“dinamic” se refera la modul in care este construit “programul”, 5i anume putin cate putin
+(dinamic)7 in functie de valorile deja calculate.
+
+1.8 Exercitii
+
+1. Algoritmi pseudopolinomiali pentru probleme knapsack-like:
+
+(a) Gasiti un algoritm pseudopolinomial pentru problema discreta a rucsacului (care
+foloseete metoda programarii dinamice). Care sunt subproblemele rezolvate de al-
+goritm?
+
+14
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+(b) Gésiti un algoritm pseudo-polinomial pentru urmétoarea problemé: déndu-se o multime
+de numere intregi, $5 se determine dacé poate ﬁ partitionaté in doué submultimi de
+sumé egalé.
+
+2. Algoritmi de tip edit-distance:
+
+(a) Gésiti un algoritm pentru problema distantei de editare cénd singurele operatii per-
+mise sunt inserarea si stergerea.
+
+(b) Gésiti un algoritm polinomial pentru problema celui mai lung subsir crescﬁtor. Care
+sunt subproblemele rezolvate de algoritm? Arétati cum este aplicat principiul de
+optim in relatia de recurenté.
+
+(c) Déndu-se doué giruri de numere, gésiti cel mai lung subeir crescétor care apare in
+ambele $iruri.
+
+(d) Gésiti un algoritm polinomial pentru problema subsecventei de sumé maximé (déindu-
+se un vector A[O..n i 1], s51 se géseasci doi indec$i 2', j astfel incémt suma elementelor
+A[i..j] sé fie maximé).
+
+3. Sumé maximé in triunghi. Pornind de la o conﬁguratie de numere ”in triunghi”7 precum
+cea de mai jos, descrieti un algoritm care s51 determine 0 parcurgere a numerelor de sumé
+maximé. O parcurgere include céte un singur numér de pe ﬁecare nivel7 pornind de la
+singurul numér de pe primul nivel. Pentru orice nivel urméttor7 se include doar numérul de
+sub numérul de pe nivelul curent, ﬁe din stétnga, ﬁe din dreapta. De exemplu pentru:
+
+3
+7 4
+2 4 6
+8 5 9 3
+Suma maximé este 23 I 3 + 7 + 4 + 9.
+
+4. Algoritmi in 0(n3):
+
+(a) O matrice A<n7m) poate ﬁ inmultité cu 0 matrice BMW) fécénd n >< m >< k: inmultiri;
+
+obtinem 0 matrice C(nﬁ). inmultirea matricilor este asociativé. Dacé avem trei
+matrici AUOOOOJOOOO):B(1OOOO,1O)7C(1O,1OO)7 facem mai millte inmultlrl dacé CELlClllém
+A >< (B >< C) (céte?) deceit dacé calculém (A >< B) >< C (céte inmultiri7).
+Déndu-se dimensiuniie (n0,m0), (n1,m1),...,(nl_1,ml_1) unei secvente de matrici
+140,141, . . . , Al_1 (atentie: se dau doar dimensiunile, nu $i matricile)7 s5 se determine
+numérul minim de inmultiri de scalari necesare pentru calculul produsului matricilor.
+Hint. Subproblemele sunt: m[i.j] I numérul minim de inmultiri necesare pentru a
+calcula AZ- >< Ai+1 >< >< Aj.
+
+(b) Fie a0, . . . ,an_1 o secventé de chei 0rd0nate crescétor care sunt foiosite pentru a
+construi un arbore binar de céutare. Déindu-se:
+
+0 pi (O g i g n — 1)7 probabilitatea de céuta elementul ai;
+0 qi (O g i g n)7 probabilitatea de a céuta un element mai mic decét ai (dacé existé
+ai) $i mai mare decétt ainl (dacé existé ainl),
+15
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:16**************
+s52 se calculeze arborele binar care asiguré timpul mediu de céutare minim.
+Hint. Subproblemele sunt: x[2'.j] I arborele binar de céutare optim pentru numerele
+621562141, . . . ,aj. Atenfuie: datele de intrare nu sunt a0,...,ani1,cipi (O g 2' g n — 1)
+$1112 (OSan)-
+
+16
+
+***************Ending Page***************
+

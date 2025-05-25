@@ -1,0 +1,1194 @@
+***************Beginning Page***************
+***************page number:1**************
+Sist6m€ d€ Op6rar6
+Administrarea m6m0ri6i
+partéa a III-a
+Cristian Vidragcu
+https://pr0fs.inf0.uaic.r0/~vidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+
+> Mﬁmoria virtualéi (continuare)
+
+— Paginarea la cererﬁ
+
+— MMU
+
+— Algoritmi de inlocuire a paginilor
+
+— Fenomanul de trashing
+
+— Segmentarea la cererﬁ
+> Concluzii lﬁgatﬁ d6 tﬁhnicilﬁ d6 administram a
+
+m6m0riei
+> Tehnici rﬁcente pentru administrarea memoriei
+> Administrarea memoriﬁi in Linux §i Windows
+2/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Paginarea la eerere /1
+> Paginarea (cu incﬁreare) la eerere
+
+I paginarea eombinaté cu tehniea de swapping
+
+— Ideea: adueerea paginilor de pe disc in memorie doar
+in momentul eénd sunt referite (“05nd e nevoie de ele”)
+
+— Astfel se eliminé restriegia ea programul $5 ﬁe prezent
+in intregime in memorie pentru a putea ﬁ executat
+
+— Motive de eliminare a aeestei restriegii:
+
+' programele eongin zone de eod ee trateazé eazuri mutual-exclusive
+(in funegie de datele de intrare), sau zone care se executé la
+momente de timp mutual-exclusive
+
+' unele programe eongin zone de date f. mari (e. g. compilatoarele)
+
+' Programele pot avea multe rutine de tratare a unor erori posibile,
+ee vor ﬁ apelate in timpul exeeugiei doar daeé apar aeele erori
+
+3/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Paglnarea 1a cerere: /2
+> Paginarea la cerere (c0nt.)
+— Avantajn:
+' pro gramul este prezent doar pargial in memorie
+' mai purine Qperagii I/O decat la transferul procesalor in
+intr€gim6 (de 1a schama d6: administrara cu swapping pur)
+' mai purina mnmorie: nncesara la un moment dat
+' mai multe procese 1a un moment dat
+(cragte gradul de multi-programare)
+' nu mai 6 n6v0ie de tehnica de programare a overlay-urilor,
+efortul programatorului ﬁind prnluat de S.O.
+— Dezavantajn:
+' complexitatea hardware §i software a acerstui mecanism de
+gastiune a memoriei 4/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Paginarea 1a cerere: /3
+> Paginarea la cerere (cont.)
+— C'and este referité 0 paginé, tmbuiﬁ veriﬁcat dacé:
+' Este: 0 referinﬁi validé?
+Cu alte cuvinte, procesul are dreptul de a accesa
+acaa adresé?
+' Pagina mferitéi 6ste in m6m0rie?
+Dacﬁ nu, cauté un cadru de paginé libﬁr §i incarcé
+pagina d6 pe disc in el.
+5/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Paginarea 1a cerere: /4
+> Paginarea la cerere (cont.)
+
+— Pentru a péstra evidenga paginilor aﬂate: in nmmorie,
+s6 asociazé, pentru ﬁacare paginé, un bit validé sau
+invalidé in tabela de mapare a paginilor
+
+Pagina Numérul cadrului Bit (in)valid21
+i—-
+6/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Paginarea 1a cerere: /5
+> Erori de paginii
+— Sermniﬁcagia bitului: 1 — pagina esta prezenté in
+mﬁmoria; O — pagina nu ﬁste in memorie
+— Eroare: de paginéi (page fault): atunci cénd s6 incearcéi
+acc6sar6a unai pagini marcate ca invalidéi (bitul aste O);
+pagina nu esta in mamori6 gi va trebui adusé d6 pe disc
+— Se genm'eazé 0 intrerupere de paginé (PFIIpage fault
+interrupt), de tip sincron, cam este transparernté pﬁntru
+utilizator §i am 0 prioritate: superioaré celorlalt6
+intrerupﬁri; 6a va intrerupﬁ ﬁxecugia programului §i
+S.O.-ul va exﬁtcuta handler-ul asociat acersteri intrerupmi
+7/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Paglnarca 1a ccrcrc / 6
+> Erori de pagini (cont.)
+— Rutina dc tratarc a intrcrupcrii dc paginé cxccuté:
+' Sc cxamincazé adrcsa solicitaté pcntru a vcdca dacé cstc 0
+adrcsé pcrmisé; dacé nu cstc, proccsul va ﬁ tcrminat anormal
+' Sc cautéi un cadru dc paginé libcr in memoria principalé §i sc
+solicitéi 0 opcragic I/O carc va aducc pagina dc pc disc in cadrul
+libcr gésit; pcntru accasta sc mai foloscgtc §i 0 tabeld de
+mapare pe disc, cc conﬁne adrcsa dc pc disc a ﬁccérci pagini
+virtualc
+' Dupé incércarca paginii, sc actualizcazé tabela de mapare a
+paginilor pcntru a indica faptul c5 pagina cstc validé
+' Apoi cstc rcluaté execugia proccsului — instrucgiunca oprité cstc
+rcstartaté (toaté accastéi prcccduré cstc transparenté pcntru prcccs)
+8/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Paglnarea 1a cerere: /7
+> Erori de paginz'l (c0nt.)
+
+— Est6 posibil s51 aparé mai multe 6r0ri de paginé la execugia unei
+singure instrucgiuni — cazul extrem: codul instrucgiunii “célare”
+pe 2 pagini, cu 2 operanzi ﬁcacam “ciilare” p6 2 pagini, cu
+adresare indirecté/indexaté — pot apam 3 intmruperi PFI
+
+— Inconvenientul acéstei metode: overhead-ul implicat in cazul
+erorilor de paginé (necesité accese la disc, plus folosirea CPU
+pentru ajustarea tabdelor)
+
+— O mﬁmoriﬁ ﬁzicéi micéi §i pma multe procese in sistﬁm, ori cu 0
+localitate proasté a datelor gi/sau codului, pot conduce la un
+numéir f. mare de intmruperi PFI, deci 1a aparigia f6n0menului
+d6 trashing (Le. fernomenul de sufocare a SC-ului cu mzolvarea erorilor
+de paginé, in loc de a-§i f010sir6sursel€ pentru execugia j 0b-urilor utile)
+
+9/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Paglnarea 1a cerere / 8
+> Paginarea la cerere (c0nt.)
+— O altéi probleméi: la 0 eroare de paginé, ce facem dacéi nu gésim
+nici un cadru ﬁzic liber?
+— Sclulzia: sacriﬁcarea unei pagini din memorie — mutarea ei pe
+disc pentru a elibera spagiu in memorie pt. pagina ce se incarcé
+— Cum alegem Victima pentru page swapping?
+Existé mai multe criterii de alegere, mai mulgi algoritmi pe
+care-i vcm discuta pugin mai térziu
+— Ideea: folosirea unui algoritm de inlccuire a paginilcr care sé
+minimizeze numérul de erori de paginé (i.e., de intreruperi PFI)
+— in plus, se poate preveni supra-alocarea de memorie unui
+anumit proces — rutina de tratare a PFI poate decide s5 facéi
+ni§te inlocuiri chiar dacé mai sunt cadre ﬁzice libere
+10/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Paglnarea 1a cerere: /9
+> Paginarea la cerere (c0nt.)
+
+— O alté problemé: pe léngé bitul d6 paginé (in)va1idé, mai este
+nevoie de un bit de “tranzit” care $51 indice starea de paginé in
+curs de incércare de pe disc in n16m0ri6
+
+— Motivul: transferul de pe disc dureazé f. mult, timp in care CPU
+executéi alt proces, §i este posibil ca acesta sé aleagé ca victiméi
+pentru sacriﬁciu tocmai pagina in curs de incércare
+
+— Regulé: cénd aleg victima, avit paginile aﬂata in starea de tranzit
+
+— Observaﬁe: tabela de mapare a paginilor unui proces estﬁ pistraté §i
+ea in memoria acelui proces; pagina ce conﬁne tabela nu trebuie:
+evacuaté din memorie de c'thre alg. de page swapping, i.e. ea aste:
+“incuiaté” pe toatéi durata execugiei pr006su1ui, pe 05nd paginile in
+tranzit sunt “incuiate” doar temporar, pe durata incércérii
+
+11/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Paginarba 1a cerem /10
+> Paginarea la cerere (cont)
+
+— O alté optimizare: ﬁecérei pagini i $6 asociazé in tabbla de
+mapare a paginilor un a1 3-1621 bit, bitul dirty, care dbtbrminéi
+dacé pagina a fost vreodaté modiﬁcaté de 1a ultima incércare
+d6 pe disc
+
+— Initial, 1a incéircare, bitul dirty est6 pus pe zero, iar apoi orice
+scriere in acea paginé il seteazé p6 1 (se face bit :2 bit or 1)
+
+— Rostul acestui bit dirty — optimizarea oparatiilor I/O: dacé
+pagina nu a fost modiﬁcaté de 1a ultima incércare de pe disc,
+atunci 6a nu mai trebui6 transferaté pe disc atunci cﬁnd este
+aleaséi drapt victiméi de céitre algoritmul de page swapping
+
+12/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Paglnama la cerem /11
+> Concluzii — intrebiiri legate de paginarea la cerere:
+
+— Cum impiedicém utilizatorii $5 acceseze datele protej ate‘?
+
+' drepturi de acces speciﬁcate la nivel de paginé
+— Dacéi 0 paginé aste prezenté in memorie, cum 0 géisim?
+
+' tabela de mapare a paginilor (in memoria ﬁzicé)
+— Dacé 0 paginé nu ﬁste prezenté in mamorie, cum 0 gésim?
+
+' tabela de mapare (a paginilor) pe disc
+— Cénd 6ste adusé 0 paginé in mamorie?
+
+' politici de incércare — 1a cerere (atunci cénd este: nevoie de ea)
+— Dacé 0 paginé este adusé in memorie, unde 0 punem?
+
+' politici de plasara
+— Dacé 0 paginé @ste 6vacuaté din memorie, unde 0 punem?
+— Cum decidem care pagini s51 ﬁn evacuate din memorie?
+
+' politici de inlocuire — algoritmi de page swapping
+
+13/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Paglnama la cerem /12
+> Mecanisme — pentru suportul paginﬁrii la cerere:
+
+— Suportul hardwarﬁ: — pe léngé translatama dinamicé a
+adraselor nﬁcﬁsaré p6ntru suportul paginérii sau
+S€gm€nt5rii (e. g. tabelﬁle de mapare):
+
+' Mecanism de g6nerare a erorilor d6 paginé (i.e. PFI) in
+situayia acceséirii paginilor absante din memorie
+' Instruclziuni mstartabilﬁ
+— Suportul software):
+' Structuri de data pentru suportul politicilor de inlocuire,
+incércare §i plasare a paginilor in memorie
+' Structuri de date pentru localizarea in memoria secundaré
+(i.e., pe disc) a paginii dorite
+14/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+MMU /1
+> MMU (= Memory Management Unit, located in the CPU)
+— Input: adrese virtuale
+— Output: adresele ﬁzice asoeiate, sau diverse situatii
+exeeptionale, de vielare a aceesului (diverse exceptii, care
+intrerup procesorul, i.e. executia instructiunii ce cauzeaza aeea exeeptie)
+— Situatii (tipuri de exceptii) de violare a aceesului:
+' pagina absenta din memorie (exeeptie PFI)
+' aeces in mod utilizator vs. mod kernel
+' lipsa dreptului de read a memoriei
+' lipsa dreptului de write a memoriei
+' lipsa dreptului de execute a memoriei (pt. paginile de cod)
+' alte 6XC€ptii, e. g. guard page §i COW page (Copy-On-Write)
+15/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+MMU /2
+> MMU (cont)
+— SO-ul controlﬁazé operarea MMU pﬁntru a selﬁcta:
+1. Submulgimea de posibila adrese virtuale ce sunt valide pentru
+ﬁecare proces (i.e., spagiul virtual de adrese a1 pr006sului)
+2. Traslatérilﬁ: (mapérile) ﬁzice pentru acele adrese Virtuale
+3. Modurile de acces permis 1a acele adrase virtuale
+(read/write/execut6)
+4. Setul speciﬁc de translatéri valabil la un moment dat (este:
+necesar un context-switch rapid de la un spagiu de admse 1a altul)
+— MMU ﬁnalizﬁazé un acces 1a mamoria numai dacé SO-ul spune
+cé “referima e OK” (altfel, MMU producﬁ: 0 excep§i6)
+16/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+> MMU — ﬁnalizarea unui acces la memorie:
+pmtl-E lead $351355
+IIETE? memory
+k- prcrhu raise
+
+TLE uxccptmn
+fetch nllucate n0 signal i
+frum disk yes frun'n: pmcuss i
+
+17/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Alg. d6 page: swapping /1
+
+> Algoritmi de inlocuire a paginilor
+
+— Alg. d6 inlocuim a un6i pagini nﬁutilizate
+recent: NRU
+
+— Alg. de inlocuim in ordinea incércérii: FIFO
+
+— Alg. d6 inlocuire a celei mai pugin utilizatﬁ
+T€C6Ilt pagini: LRU
+
+— Aproximéiri LRU p6ntru implementéri
+
+— Altﬁ abordéiri
+
+— Impl6m6nt€1ri realﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Alg. d6 pagn swapping /2
+> Politica de inlocuire a paginilor
+— Cénd nu mai sunt disponibile cadm d6 paginé libem,
+SO-ul tmbuiﬁ s51 inlocuiascé 0 paginé (victima),
+inléturénd-o din memoria pentru a réméner mzidanté
+doar pe disc (dapozitul pentru copia de: sigurangé) §i
+scriindu-i conginutul inapoi p6 disc dacﬁ fusese
+modiﬁcaté dupéi incércama in memorie (pagina dirty)
+— Algoritmul d6 inlocuire: — am dmpt scop alegﬁrea 6616i
+mai bune victime, metrica utilizaté de obicei pentru
+“06a mai buné” ﬁind reducerea ratni 6r0ri10r de paginé
+(i.e., se unnére§te minimizarea numérului de intmruperi PFI)
+19/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Alg. de pag6 swapplng / 3
+V O A O O
+> Intrarlle 1n tabela de mapare a paglnllor
+l'ﬂfid M1: 11:1 "~'.."|.‘-i|]'li"~|.U1I."|||"l-H'+"I
+Hui; ThQTl'.5|]:-|.'1l,'|4.‘||] 1; 1.;'||||.1.
+IL'rffF'HHﬁIHHI Hr-i Tall-chm: ’r|1|~~ Tn armhlg m‘
+1l|-..||1|L; ~.1.|'|1c."r||.;a:l:~:r~ ILH l|||~:|11;|[1|:||||5__*.
+rﬁ"|“1'_l‘ﬁ-fi: r101 WHEN :l iTﬁl'lE- i- -_'n||1|"-|u|c|.| In Ihc-
+pagm [lugs |~i |11n~|1|T1m1L
+riﬂil'iﬂ'mc'vbﬁf: m when :1 rur'crcl'nx i-
+Illil'ilil lhl-uuuh lln: lﬂilf'JT-ﬂlhl.
+'“ " 20/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Alg. de pag6 swapplng /4
+> Problema caching-ului paginilor (pOIitica de inlocuire)
+— Fiecare thread/procas “producﬁ” un ﬂux d6 ref¢rin§e 1a paginile
+virtual6 din propriul spagiu d6 admsare
+' Vom modela execugia ca 0 secvengé de referinge la pagini:
+e.g. “1,2,3,1,2,3,4,2,3,5,...”
+— S.O. incearcé sé minimizﬁze numérul de 6r0ri de paginé produse
+' Mulgimw d6 lucru (working set) I mulyimea de pagini folosite
+efectiv de ﬁacare proces, se modiﬁcé in timp relativ inmt
+' SO-ul inmarcé $51 “aranj 626” mulgimea de pagini rezidente in
+memorie a ﬁecérui proces activ astfel incét s5 aproximﬁze cét mai
+bine mulgimea sa de lucru
+— Factorul determinant pt. succes aste politica de inlocuire folosité
+' Aceasta dﬁterminé mulyinma de pagini rezidente in memorie
+21/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Alg. de pag6 swapplng /5
+> Algoritmul optim (inutilizabil)
+— Réspunsul optim 1a intrebaraa care paginé 0 aleg drept victimé?
+6ste simplu, dar imposibil de realizat:
+se alege acea pagind care vaﬁ solicitatd cel mai tdrziu in viitor
+— Inutilizabil deoarece réspunsul nu poate ﬁ prevézut in avans —
+6v01u§ia unui program nu este previzibilé, ea dapinde de datela
+concrﬁtﬁ asupra cérora opemazé
+— Au existat incarcéri, dar nu 6rau practica:
+'66 L.A. Belady — un model de evidengé statisticé prin care se putﬁa
+prevesdea cu 0 oarecare probabilitate care 6ste pagina ce va ﬁ
+solicitaté cel mai térziu
+22/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Alg. de paga swapping / 6
+> Algoritmi practici
+— Metode folosite: NRU, FIFO, LRU §i alte variante
+— Observayie: indiferent de alg. de decizia folosit, trebuie avut
+in vedare faptul ca, pentru implﬁmantam, gastiunaa unai
+structuri de date care sa permita decizia, trebuie facuta la
+ﬁecare acces la memorie
+— Prin unnare, nu 6ste permisa nici macar gastiunaa unei liste
+liniare simplu inlanlzuita (!), ci aste nevoia de macanisme mult
+mai u§0r de gestionat
+— De multe ori acﬁsta metoda se implementaaza prin hardware,
+facandu-s6 uneori anumite compromisuri
+23/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Alg. de page swapping / 7
+> Algoritmul NRU (= Not Recently Used)
+— Ideea: inlocuirea unei pagini care nu a fost utilizatéi recent
+— Fiecare paginé ﬁzicé are asociagi doi bigi in tabela de
+paginare, folosigi pentru a decide ce paginé se va evacua
+— Bitul de referire este resetat (pus pe O) la incércarea paginii
+§i este setat (pus pe 1) 1a ﬁecare acces (referire) 1a paginé
+— Periodic (de obicei la 20ms) se face operagia de clearing bits,
+prin care bigii de referire ai tututor paginilor sunt resetagi
+— A1 doilea bit este bitul de m0diﬁcare (bitul dirty), ce este
+resetat 1a incéircarea paginii §i setat la scrierea in paginéi
+24/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Alg. de pagn swapplng / 8
+> Algoritmul NRU
+— Paginile se impart la ﬁecare moment in patru 012156, pe baza
+acestor bigi:
+° Clasa O — bigii:(0,0) : pagini nemfarita §i namodiﬁcate
+' Clasa 1 — bigii:(0,l) : pagini nereferite (de la ultimul clear-
+ing), dar modiﬁcate (de 1a incércama lor)
+' Clasa 2 — bigii:(1,0) : pagini rnferite, dar nemodiﬁcate
+' Clasa 3 — bigii:(1,l) : pagini referite §i modiﬁcatn
+— Pagina “victimé” se alege din prima clasé nevidé (se cauté intéi
+in clasa O, apoi in clasa 1, $.a.m.d.); dacé pagina aleasé esta din
+clasa 1 sau 3, 6a va ﬁ salvatéi pe disc inainte de a ﬁ inlocuité
+— Avantaje: alg. f. simplu; nu-i optimal, dar 6 eﬁcient in practicél
+25/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Alg. de pags swapping / 9
+> Algoritmul FIFO (= First In First ()ut)
+
+— Ideaa: inlocuirea in ordinea incércérii paginilor
+
+— Implementarea este simplé: s6 gestioneazé 0 listé FIFO cu
+paginile rezidente in mamorin; actualizarea ei se face la
+ﬁecare incdrcare de paginii (nu la ﬁecarﬁ accﬁs 1a memorie!)
+
+— Alegerea “victimei”: prima paginé din listé (is. se va evacua
+cea mai veche paginé din memorin)
+
+— Bineingelns, si aici se foloseste bitul de modiﬁcare (bitul dirty),
+pentru a sti dacé pagina aleasé trebuis salvaté pe disc inainte
+d6 a ﬁ inlocuitéi
+
+26/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Alg. da page swapping / 10
+> Algoritmul FIFO
+— Exemplu: un program cu 5 pagini virtuale, cu secvenra de refarire
+“1,2,3,4,1,2,5,1,2,3,4,5”, iar memoria ﬁzica: 3 cadre de pagina
+Pagina solicitata 1 2 3 4 1 2 5 1 2 3 4 5
+Pagina cea mairecenta — 1 2 3 4 1 2 5 5 5 3 4 4 timp
+ListaFIFO: l__12341222533
+Paginaceamaivecha — — — 1 2 3 4 1 1 1 2 5 5
+inlOCllifﬁ d6 pagina (PFI)I Da Da Da Da Da Da Da Nu Nu Da Da Nu
+_Frame0—111444555555
+lemf'a Framel __22211111333
+FrameZ ———3332222244
+Rata arorilor d6 pagina: PFI_rati0 I 9/12 I 75% 2 /61
+7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Alg. da page‘ swapping / 11
+> Algoritmul FIFO
+— Exemplu: acelagi program cu 5 pagini Virtuale, cu aceeagi secven§51
+d6 raferira “1,2,3,4,1,2,5,1,2,3,4,5”, dar m6m0ria ﬁzicé: 4 cadre
+Pagina solicitaté 1 2 3 4 1 2 5 1 2 3 4 5
+Pagina cea rnairecenté — 1 2 3 4 4 4 5 1 2 3 4 5 timp
+——12333451234
+ListaFIF0= ———1222345123
+Paginaceamaivﬁche — — — — 1 1 1 2 3 4 5 1 2
+Tnlowim d6 paginMPFI): Da Da Da Da Nu Nu Da Da Da Da Da Da
+Memoria RAM: T emd pentru acasd: completagi diagrama timp pt. m6m0ria RAM!
+Rata erorilor d6 paginé: PFI_rati0 I 10/ 12 I 83,33%
+28/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Alg. de page swapping / 12
+> Algoritmul FIFO
+—An0malia lui Belady: degi bunul sirn; ne spune ca §ansa ea
+0 pagina sa ﬁe inloeuita scade pe rnasura ce cragte
+nurnarul de cadre ﬁziee, t0tu§i nu se intampla a§a in cazul
+alg. FIFO, dupa eurn rezulta §i din exemplul anterior
+— Alt dezavantaj : (spre deosebire de LRU) algoritmul FIFO
+dezavantajeaza paginile “esen§ia1e” (i.e. utilizate frecvent),
+ce vor ﬁ in mod periodic evacuate pe disc §i reincarcate
+eurand dupa evacuare
+29/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Alg. de page swapprng /13
+> Algoritmul LRU (= Least Recently Used)
+
+— Ideea: inlocuirea paginii eel mai purin folosite in ultimul timp
+
+— Cum? Se va folosi localitatea temporala/spariala a programului
+pentru a inloeui pagina eel mai purin utilizata recent
+[principiul localitagii: 0 pagina ee a fost accesata des (rar) de catre
+ultimele instrueriuni, probabil va ﬁ aceesata des (rar) §i in continuare]
+
+— Pentru implementare este nevoie sa se rina evidenga utilizarilor
+paginilor, adica sa 0rd0nam paginile dupa timpul eelei rnai
+recente referinre 1a ele — necesita deei gestiunea inforrnagiei la
+ﬁecare acces la mem0rie §i hardware f. costisitor
+
+— Teoretie, gestionarea informariei referitoare la utilizarea paginilor se
+poate face cu 0 eoada FIFO, cu observagia ea la aceesarea unei pagini, ea
+este seoasa din eoada §i mutata in varful eozii, dar nu-i eﬁeient practigo/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Alg. de pag6 swapping / 14
+> Algoritmul LRU
+— Examplu: acala§i program cu 5 pagini Virtuale, cu aceaagi
+secvengé de raferire “1,2,3,4,1,2,5,1,2,3,4,5”
+mﬁmoria ﬁzicé: 3 cadm d6 paginé
+Pagina solicitaté 1 2 3 4 1 2 5 1 2 3 4 5
+Pagina cu cel mai recent acces — 1 2 3 4 1 2 5 1 2 3 4 5 timp
+CoadaLRUzl __12341251234
+Paginacucelmaivechiaccas — — — 1 2 3 4 1 2 5 1 2 3
+Tnlocuire d6 paginéQFI): Da Da Da Da Da Da Da Nu Nu Da Da Da
+Memoria RAM: T emd pentru acasd: completagi diagrama timp pt. memoria RAM!
+Rata 6r0ri10r de paginé: PFI_rati0 I 10/12 I 83,33%
+31/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Alg. d6 page‘ swapping / 15
+> Algoritmul LRU
+— Examplu: acala§i program cu 5 pagini Virtuale, cu aceaagi
+secvenré de raferire “1,2,3,4,1,2,5,1,2,3,4,5”
+dar memoria ﬁzicé: 4 cadre de paginé
+Pagina solicitatéi 1 2 3 4 1 2 5 1 2 3 4 5
+Pagina cu cel mai recent acces — 1 2 3 4 1 2 5 1 2 3 4 5 timp
+——12341251234
+madam“ ___1234125123
+Paginacucelrnaivechiacces — — — — 1 2 3 4 4 4 5 1 2
+inlocuire depagin51(PFI): Da Da Da Da Nu Nu Da Nu Nu Da Da Da
+Memoria RAM: T emd pentru acasd: completayi diagrama timp pt. memoria RAM!
+Rata 6r0ri10r de paginé: PFI_rati0 I 8/ 12 I 66%
+32/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Alg. do pago swapping /16
+> Algoritmul LRU
+— Modalitéigi do implomontaro a alg. LRU:
+' LRU cu oontor do aocoso
+' LRU cu stivé
+' LRU cu matrioo do roforinlzo
+— Multo SC-uri folososo pontru paginaro o aproximare a LRU
+— Avantajo:
+' Nu prozinté anomalia lui Belady (so poato domonstra matomatic
+(:51 alg. LRU cu stivé aro propriotatoa do monotonio — nu funolzionoazé
+mai réu daoé oro§to numérul do oadro do paginé alo mornorioi ﬁzico)
+' spro doosobiro do alg. FIFO, alg. LRU avantajoazé paginilo
+“osonﬁalo” (utilizato frocvont), oo vor ﬁ péistrato in momorio
+33/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Alg. d6 pag€ swapplng /17
+> LRU cu contor de accese
+— $6 implementeazé hard. CPU are un registru (de obicei pe 64 bigi)
+numit cantor cu r01 de ceas logic — ﬁste incrementat la ﬁﬁcare
+instrucgiune, sau acces 1a memoriﬁ
+— in tabela de pagini existé un cémp rezervat pantru a pistra
+valoarea acestui contor — la ﬁacare acces la 0 paginé, contorul
+esta memorat in spagiul coraspunzétor acelei pagini
+— Cu ajutorul acestor valori salvate, putem §ti dacé 0 paginé a fost
+sau nu utilizaté d6 1a ultimul clear-ing a1 bigilor de referingé,
+precum §i in ce ordine (aproximativéi) au fost acwsate paginile
+— Alegarea “victimei” pentru evacuate consté in céiutarea in
+tabela de pagini a paginii cu cea mai micé valoam a contorului
+34/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Alg. de page swapping /18
+> LRU cu stivii
+— Se folosegte 0 stivé cu numerele de paginé
+— Cénd este referité 0 paginé, ea este seoasé din stivé (dear daeé
+exista deja in stivé) §i apoi este pusé in vérful stivei
+— In oriee moment, pagina de 1a baza stivei este pagina eea mai
+pugin utilizaté recent
+— Alegerea “vietimei” pentru evacuate este simplé — pagina de
+la baza stivei, nu presupune 0 céutare, dar in sehimb la ﬁeeare
+aeees este nevoie de céutarea paginii dorite in stivé pentru a 0
+muta in vérful stivei
+35/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Alg. d6 paga swapp1ng/19
+> LRU cu matrice de referinge
+— Se folosagte 0 matrice binara (cu O §i 1) d6 dimensiuna n *n,
+unde n este numarul d6 pagini ﬁzica ale memoriei SC-ului
+—Ini§ia1t0at€ elemantela matricii $6 pun pe O
+— 1n momentul cand se: refera pagina k, se pune mai intai 1 peste
+tot pe linia k, iar apoi se pune O pasta tot pe coloana k
+— 1n orice moment numarul de cifre 1 de pe 0 linie: l n6 arata
+ordinea de referire a paginii l — ultima pagina referita va avea
+n-1 cifre de 1, panultima n-Z, $.a.m.d.
+— Alegerea “Victimei” pentru avacuara $6 face cautand linia din
+matrica cu cale mai pugina cifre de 1 (cu cele mai multe zero-uri)
+— Implementaraa matricei de referinge se faca prin hard
+36/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Alg. de page swapplng /20
+> Algoritmul LFU (=Least Frequently Used)
+
+— Ideea: inlocuirea paginii eel mai pugin folosite (per total, nu
+doar in ultimul timp)
+
+— Alg. actualizeazé la ﬁecare aeees de paginé un contor a1
+numérului de accese, pistrat in tabela de pagini (contor ce nu
+este resetat periodic ca 1a LRU cu contor de accese)
+
+— “Vietima”: se alege pagina cu eel mai mic contor
+
+— Dezavantaj: dacé 0 paginé este utilizaté f. des in faza inigialé
+a unui proces, iar apoi nu mai este utilizatéi deloc, ea réirnﬁne
+t0tu§i in memorie pentru eéi are 0 valoare f. mare a contorului
+
+> Algoritmul MFU (=M0st Frequently Used)
+
+— dualul alg. LFU; se alege pagina cu eel mai mare contor
+
+37/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Alg. d6 pag€ swapplng /21
+> Alte abordiiri:
+— NRU combinat cu FIFO
+' Ideea: se aplicé intéi NRU, iar 1a nivelul ﬁecéirai clase se aplicé FIFO
+— Metoda celei d6-a doua §anse (e.g. Mach OS)
+
+' Ideaa: se aplicé FIFO cu urmétoarea modiﬁcare: dacé pagina cea mai
+veche am bitul d€ ref6rin§51 pus pe 1, atunci i se mai d5 0 §ans€1 — bitul
+estﬁ: pus pe O §i pagina este mutatéi la sférgitul listei (astfel devine cea
+mai recenté paginé); céutarea s6 reia cu noua listé, pﬁné se gésa§te 0
+paginé cu bitul pus pe 0 — acea paginé aste s6lactat'21 pentru inlocuim
+
+— Algoritmi de inlocuire a paginilor bazagi pe prioritatea
+procaselor
+— Algoritmi de inlocuire cu pagini de dimensiuni variabile
+38/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Alg. de page swapplng /22
+> Implementz'lri reale: paged daemon
+— Maj oritatea SO-urilor au unul sau mai multe procese de
+sistem responsabile cu implementarea politicii de inlocuire a
+paginilor pentru memoria virtualé
+' Un demon (daemon) este un proces de sistem autonom care executé
+periodic o anumitéi sarciné de administrare a SC-ului
+— Demonul de paginare pregétegte sistemul pentru evacuarea de
+pagini inainte ca s51 aparé nevoia de evacuate
+' Demonul se “treze§te” cénd cantitatea de memorie liberé devine micé
+' “Curélgé” paginile dirty prin scrierea lor pe disc — prewrite sau pageout
+' Administreazé liste ordonate cu candidagii pentru evacuate
+' Decide cét de multé memorie s51 aloce pentru memoria virtualé
+39/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Memoria virtuala / 5
+> Fenomenul de trashing
+
+— Trashing I fanomenul de “sufocara” a sistamului atunci cand
+comportamantul swapping devina excasiv
+(sistemul asta ocupat predominant cu tratarea arorilor de pagina,
+in 100 de a-§i folosi timpul pentru execugia job-urilor utila)
+
+— Paginaraa 1a cerere funcgioneaza datorita localitagii
+(temporale §i spagiale) manifestata d6 programa, dar atunci
+cand ceringele minimale de mamorie nu pot ﬁ satisfacute,
+apar numeroase operagii de swapping a paginilor
+
+— Aceasta duce: la 0 proasta utilizare a CPU §i 1a f. multe
+operagii I/O —> SO-ul poate incerca sa imbunatageasca
+utilizaraa CPU prin méirirea numarului de procese
+
+40/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Memorie: virtualéi / 6
+> Fenomenul de trashing
+
+— Multimile de lucru (working sets) — sunt 0 modalitam utilé
+pﬁntru controlul fen0m6nului de trashing
+
+— O multime de lucru este multimw d6 pagini folosite de un
+proces 1a un m0n16nt dat (luénd in calcul localitatea)
+
+— Fenomenul de trashing va apam dacéi suma dimensiunilor
+multimilor de lucru 2116 tuturor procﬁselor din sistﬁm
+d6pése§te limita impusé d6 cantitataa de memorie ﬁzicﬁ din
+acel sistem
+
+— in caz de nevoie, se pot suspenda unele procese pentru a se
+coboré sub aceasté limité
+
+41/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Mérmorie virtualé / 7
+> Alte mecanisme de memorie virtualﬁ
+— Segmentarea (cu inciircare) la cerere
+= Sﬁgmentama combinaté cu tehnica de swapping
+' Ideea: aducerea s6gmente10r d6 pe disc in memorie doar
+in momentul cénd sunt referite (“cénd e nevoie de ele”)
+' Ridicé probleme aseménétoare: cu cele de 1a paginarea 1a
+carem
+— Segmentarea paginatﬁ (cu inciircare) la cerere
+I Sagmentarea paginatéi combinatéi cu tehnica de swapping
+42/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+C0ncluzii / 1
+> Planiﬁcarea schimburilor cu memoria
+— intrebiirile gestiunii memoriei: indiferent d6 metoda de alocare
+folosité, SO-ul trebuie s51 rezolve 0 serie de probleme cum ar ﬁt
+' Cét? — problﬁma cantitégii de memorie alocaté:
++Alocare staticé — toaté memoria la inceput (e. g. alocaraa p6 partigii)
+‘)Alocare dinamicé — doar necesarul curent (e. g. paginarea la c6rere)
+° Unde? — problema locului lib6r p6 care va f1 plasat programul
+(apare 1a, e.g., alocarﬁsa cu partigii variabile) —> Politici de plasare:
+' Cénd‘? — problmna momentului d6 incircare a paginilor in cadre
+ﬁZiC6 (apare: 1a alocarea cu paginare) —> Politici d6 incércare (fetch)
+— problema m0m6ntului d6 compactare (apare 1a, e.g.,
+alocarea cu partigii variabil6, sau la segmentarea n6paginat51)
+° Care? — problema alegerii victimei 1a incércarea paginilor (apare
+1a, e. g., alocarea cu paginare: 1a cerem) —> Politici de inlocuire 43/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+C0ncluzii /2
+> Planiﬁcarea schimburilor cu memoria (c0nt.)
+— Politici de schimb utilizate de gestiunea memoriei:
+' POlitiCi d€ plasare — utilizate de SO-uri $i/sau programe (maIIOC/free)
+> algoritmii FFA, BFA, WFA
+> Alocarea cu camarazi (a se vedea studiul de caz: Linux), G00g16’s algorithm
+PartitionAlloc (d6talii: aici), $.21.
+' Politici de incércare (fetch)
+> incércarea 1a incaputul 6xecu§i6i
+> incércarea 1a cerare (i.6., pe parcursul exacugiei), cu varianta:
+incércarea in avans (pe baza principiului localitéitji)
+' Politici d6 inlocuire (swapping)
+> alg. NRU, FIFO, LRU, §.a.
+44/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Concluzii / 3
+
+> Planlﬁcarea schlmburllor cu mem0r1a(cont.)
+
+— Tehnici de alocare utilizate:
+
+Alocare contiguﬁ Alocare nacontigué Tip alocara
+Alocarea unicé Pa inarea ( uréi)
+Memorie Alocarea cu partigii S g p v
+realﬁ _ f egrnentarea (pura)
+1X6 Segmentarea paginaté (puré)
+— variabila
+
+Memoria
+
+virtualé
+Tip memorit 45/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Tehniei mai reeente /1
+' SC au evoluat pe parcursul anilor
+— Au aparut noi arhiteeturi hardware / noi vederi ale
+“ierarhiei” de memorii
+' Memorie la distant?!
+— NUMA (Non-Uniform Memory Access)
+' Implementata pe AMD Opteron — 2003, Intel X86 — 2008
+(https ://en.wikipedia. org/Wiki/Non-uniform_memory_aceess)
+— DSM (Distributed Shared Memory)
+— GMS (Global Memory Systems)
+' Implementata pe Digital UNIX si FreeBSD ('98)
+46/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Tﬁhnici mai recﬁnm /2
+' Distributed Shared Memory (DSM)
+— Permite utilizarea modalului de programam cu
+m€m0ri€ partaj até (spagiu de adresare partaj at)
+intr-un SiSt6In distribuit (pr066soare dotate doar cu
+memorie localé §i 0 regea d6 comunicagie)
+mum [11%| I k O mum
+| I 1 | . 1 '
+i plm. ( IT'IUL ,ﬂ
+\_ _/ '
+:- "7 EEK network ,ff .Fj
+.\ “I; 1'1]ng- 111151;:
+X mmu mmu
+47/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Administrarna mermoriei in Linux /1
+' Planiﬁcarea memoriei
+— Subsistnmul d6 administrarn a memoriei ﬁzice
+din Linux am ca sarciné alocarea §i alibnraraa
+paginilor (ﬁzicn), a grupurilor d6 pagini §i a
+blocurilor mici de mermorie
+— Linux-ul are macanismn suplimnntare perntru
+gnstionarea memoriei virtuale, i.e. a mamorini
+mapata in spagiile d6 adrese logice ale procnselor
+aﬂate in curs de execugie in sistem
+48/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Administrarna mnmoriei in Linux /2
+' Administrarea memoriei ﬁzice
+
+— Alocatorul d6 pagini 2110051 §i alibnraazé toate paginile ﬁzica;
+poate aloca la cerere intervale contigun de pagini ﬁzice (i.e.
+grupuri contigue de pagini), dar numai pentru cereri realizate:
+in kernel-mode (pentru nacesitégile nuclnului).
+
+— Practic, se alocé memorie ﬁzicé in avans, sistnmul menginénd astfel
+free-memmy pools (Le. intervala contigue d6 pagini ﬁzicn), din care
+poate satisface rapid cerari de alocare de diferite dimensiuni, cereri
+fécute d6 nucleu perntru a stoca structuri de date de diferite dimensiuni,
+sau pentru zone tampon folosite pentru I/O prin DMA
+
+— Politici de plasare utilizate pentru cererile nuclﬁului:
+
+' AlocatOVulpower-Of-Z —imp16menteazél alg. alocarea cu camarazi
+' Alocatorul SLAB — cu diversﬁ variante d6 implﬁmentare
+49/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Admlnlstrama m6m0r161 1n LlnuX /3
+' Administrarea memoriei ﬁzice (c0nt.)
+— Alocatorul buddy-syst6m (alocarea cu camarazi)
+' Fiecare regiune de memorie
+alocabilé este asociaté cu 0
+regiune parteneré adiacenté
+5W ' Ori de céte ori doué regiuni
+partcanem alocate sunt eliberatﬁ,
+1mm ele sunt combinate intr-o
+singuré regiune libﬁré, dublé
+' Dacé 0 cerere micé de memorie
+$5 nu poate f1 satisfélcuté prin
+alocarea unei regiuni libere
+mici, 0 regiune liberé mai mare
+s6 imparte in 2 regiuni partenare
+pentru a satisface cererea
+50/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Adnnnlstraraa 111611101161 1n L1nuX / 4
+' Administrarea memorlel ﬁllce (cont)
+— Alocatorul SLAB, cu variantele SLOB §i SLUB
+kernel Emits Lama g ' Un slab I un interval contiguu de
+l=l — pagini ﬁzice
+3H5 I I=l_=] ° Un cache I format din una sau mai
+ﬁmwh I _ multe unltatl slab, este f01051t pentru
+I] a stoca toate instantela unui tip de
+"'----._ @2131;le? date utilizat de nucleu — obiecte
+I — PHQHB marcate dreptfree sau used
+- — . A - . ' ~ - - ~ d -
+- '— vantaJe. nu ex1sta r1s1pa e spatlu
+ml: I |=| ‘- prin fragmentare interna (precum la
+I=I — paginare, utilizata pentru user-mode);
+I '_l — satisfacerea rapida a cererilor de
+alocare, din slab-urile prealocate
+Note)’: pentru detalii suplinientare, cititi §10.8.2 din [OSCIO]. 51/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Administrarea memoriei in Linux /5
+' Administrarea memoriei virtuale
+— Nucleul Linux rezervé o zoné de lungime eonstantii,
+dependenté de arhiteotura SC, din spayiul virtual de
+adresare a1 ﬁeoérui prooes, pt. propriul séu uZ intern
+— Aeeasté zoné rezervaté de nuoleu eongine 2 regiuni:
+
+' O zoné statieé ee eongine o tabelé de pagini eu referinge 1a
+ﬁeeare paginé ﬁzieé disponibilé in sistem, astfel ineét s51
+existe o translagie simpléi de 1a adrese ﬁziee 1a adrese
+virtuale atunei eénd se ruleazéi eodul nueleului
+
+' Restul seegiunii rezervate nu este rezervaté pentru un seop
+anume; intrérile sale din tabela paginilor pot ﬁ modiﬁeate
+pentru a indiea spre oriee alte zone din memorie
+
+52/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Administrama m6m0ri6i in Linux / 6
+m m
+‘
+' Componente: ‘
+Linn-ill " :
+‘ HmrlatterEFBmln —d$:ﬁry+ 5
+I" " " " " 53/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Administrarea memoriai in Windows /1
+' Administrarea memoriei - Windows NT (mm/"110)
+— Administratorul de memorie lucreaza cu procesa, nu cu threads
+— Spagiul d6 adresare virtual este paginat cu incarcare 1a carera,
+cu pagini de dimensiune ﬁxa — 4 KB (max 64 KB pt. Itanium)
+— SO-ul poate folosi si pagini mari (cu dimensiunea d6 4 MB)
+pentru a reduce spagiul ocupat de tabelele de paginara
+— Fiecare pagina virtuala poate ﬁ: libera (“neutilizata”), rezervata
+sau “angaj ata” (committed)
+— Paginile libere si cele rezarvate au pagini shadow pe disc, iar
+referirile (accesul) 1a ele provoaca intotdeauna aroare de pagina
+— Se pot folosi maxim 16 ﬁsiere de swap
+— Sagmentaraa nu este suportata
+— Tabelele de paginara sunt pe 2 nivale (1a Windows pe 32 bigi)
+54/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Administraroa momorioi in Windows /2
+' Administraroa momorioi (cont. — Windows po 32 bits)
+— Adrosolo virtualo sunt po 32 do biti (—> spatiu virtual do 4 GB)
+— Varful (primii 64 KB) §i baza (ultimii 64 KB) spatiului do
+adroso virtual al ﬁooarui prooos, in mod normal nu sunt mapato
+— lnoopand do la 64 KB do la baza spatiului gi pana aproapo do
+jumatato (2 GB) osto zona utilizator privata — oontino codul §i
+datolo programului
+— Ultima portiuno din jumatatoa do jos oontino date do sistom
+(contoaro §i timer-o) partaj ato road-only do toti utilizatorii
+— Jumatatoa do sus (2 GB) a spatiului Virtual oontino SO-ul,
+inolusiv oodul sau, zona do dato §i divorso rogiuni (pools),
+paginato §i nopaginato (oontiguo), utilizato pontru obiootolo
+sistomului; aooasta portiuno nu poato ﬁ sorisa $i, in ooa mai
+maro parto, nioi oitita, do oatro prooosolo utilizator 55/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Bibliograﬁe
+' Bibliograﬁe obligatorie
+
+capitolele desprﬁ gestiunea memoriet' din
+— Silberschatz : “Operating System Concepts”
+
+(cap.10, prima part6: §10.1—6, din [OSCIOD
+S8111
+— Tanenbauni : “Modern Operating Systems”
+
+(cap.3, §3.4-6, din [MOS4])
+Suplimentar: capitolele studii de caz (despre Unix/Linux si
+respectiv Windows NT) din cele doué cérti de mai sus
+
+56/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Exereigii de seminar
+> Aplloapl la: Alocarea pagmata la oerere
+— EX. 1) Enunt: Consideram un sistem cu paginare 1a cerere, cu strategia de
+swapping LRU, §i un program ce trebuie rulat pe acest sistem, caruia SO-ul ii
+acorda 4 cadre (pagini ﬁzice) pe toata durata execugiei sale.
+Spagiul virtual a1 programului are 5 pagini, iar secvenga de acoes la ele pe
+pareursul exeeugiei sale este urmatoarea: 1,2,3,4,2,3,5,1,2,3,4,5.
+Care este rata intreruperilor de pagina obrinuta 1a exeeugia aoestui program?
+Justiﬁcagi raspunsul, desenand diagrama timp a evolugiei oozii LRU pentru
+acest program, preeum §i cea a ocuparii cadrelor alocate aoestui program, pe
+parcursul execugziei sale.
+— Rezolvare: ?
+Pagina solicitata 1 2 3 4 2 3 5 1 2 3 4 5
+Pagina cu cel mai recent acees timp
+Coada LRU: i
+Pagina cu eel mai veehi aeees
+inlocuire de pagina (PFI): ? ‘? ‘.7 57/61
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Exarcigii d6 seminar
+> Aplicagii 1a: Alocarea paginata 1a carere
+— EX.2) Enun§1 Consideram un sistem cu paginare 1a cerere, cu strategia de
+swapping LRU. Fie fragmentul de program alaturat, care inigializeaza
+elementele unei matrici A de dimensiune 1000 >< 1000.
+Spagiul virtual a1 programului are 1001 pagini: Cate 1 pagina virtuala pentru
+ﬁecare 1ir1ie a matricii A, plus 1 pagina pentru instruc§iuni si variabilele i si j.
+La un moment dat memoria disponibila este de 101 pagini ﬁzice.
+Cate PFI (intreruperi de pagina) vor ﬁ necesara pentru execugia acastui
+program, in cele doua variante a) si, respectiv, b) ?
+Justiﬁcagi raspunsurile.
+a) b)
+for(i=0; i<1000; ++i) for(j=0; j<1000; ++j)
+for(j=0; j<1000; ++j) for(i=0; i<1000; ++i)
+A[i][j] = 0; A[i][j] = 0
+— Rezolvare: ‘.7
+59/61
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Sumar
+> Memoria virtualé
+— Principiul localitétii
+— Paginarea la cerare
+— MMU
+— Algoritmi de inlocuire a paginilor
+— Fenomenul de trashing
+— Segmentarea 1a cerere
+> Concluzii
+> Tehnici mai recente pﬁrntru administraraa memoriei
+> Administrarea mermoriﬁi in Linux §i Windows
+intrebéri ‘.7
+61/61
+
+***************Ending Page***************
+

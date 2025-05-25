@@ -1,0 +1,902 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+\eciures by Ferucio Laurentiu Tiplea
+Cryptography Ba5|cs
+Symmetric Key Cryptography
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of lagi
+|a$i 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Symmetric encryption
+Symmetric encryption
+Stream ciphers
+Block ciphers and modes of operation
+Hash functions
+Message integrity
+Authenticated encryption
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Symmetric cryptography
+Symmetric cryptography includes:
+0 Symmetric encryption;
+0 Hash functions;
+o Message authentication codes;
+o Authenticated encryption.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 2 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Symmetric encryption
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Symmetric encryption
+Two main goals:
+1- —
+o protects data in motion;
+o IPsec and SSL&TLS use it;
+2- —
+o protects data at rest;
+0 cloud storage tools use it.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 3 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Symmetric cipher: S I (Q,€,D)
+m _ c:S(K,m) m:D(K,c)
+Allce . Bob
+message ciphertext
+5 (enc alg) (dec alg) D
+F\ /W
+\ \ \ \key distribution/ / / /
+(key gen) Q()\) —> K
+lsec param (e.g., key size)
+0 Alice and Bob meet and get K, or
+o Alice and Bob use a dedicated mechanism/protocol.
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 4 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Security models for symmetric encryption
+Recall that a security model is a pair consisting of a security goal X and
+an attack model Y, usually written as X-Y.
+1. Semantic security (SS);
+2. lndistinguishability (IND);
+3. Non-malleability (NM).
+1. Chosen plaintext attack (CPA);
+2. Non-adaptive chosen ciphertext attack (CCAl);
+3. Adaptive chosen ciphertext attack (CCAZ).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 5/50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Security goals
+1. Semantic security
+
+1.1 Proposed by Goldwasser and l\/|ica|i (1984), it was the first definition
+of security for encryption;
+
+1.2 It formalizes the fact that no adversary can obtain any partial
+information about the message of a given ciphertext (whatever can
+efficiently be computed about a message from its ciphertext can also
+be computed without the ciphertext);
+
+1.3 It is a “polynomially bounded" version of the concept of perfect
+secrecy introduced by Shannon (1949);
+
+1.4 It is complex and difficult to work with;
+
+2. lndistinquishability is an equivalent definition to semantic security
+which is somewhat simpler;
+3. Non-malleability means that, given a ciphertext c of some message
+m, no efficient adversary can construct another ciphertext c’ of
+some message m’ meaningfully related to m.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 6 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Attack models
+1. Passive attacks:
+1.1 Cipher-only attack (COA): A has access to the ciphertext;
+1.2 Known plaintext attack (KPA): A knows pairs (plaintext,ciphertext);
+2. Active attacks:
+
+2.1 Chosen plaintext attack (CPA): A has access to the encryption
+oracle (this is for free for PKE);
+
+2.2 Non-adaptive chosen ciphertext attack (CCAl): A has, in addition
+to the ability of a CPA adversary, access to a decryption oracle
+before the challenge phase;
+
+2.3 Adaptive chosen ciphertext attack (CCAZ): A has, in addition to the
+ability of a CCAl adversary, access to a decryption oracle after the
+challenge phase. However, no decryption query is allowed involving
+the challenge ciphertext.
+
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 7 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Proving security by indistinguishability
+lndistinguishability, as a security model, requires that an adversary from a
+specific class of adversaries interact with the cryptographic scheme under
+the security study, as follows:
+Training The adversary trains with the scheme according to his
+type;
+
+Challenge At a given moment, the adversary will choose 2 (different)
+messages of equal length and will receive the ciphertext of
+one of them (chosen randomly uniformly);
+
+Training Depending on the class to which the adversary belongs, he
+can still train with the scheme;
+Guess The adversary will have to decide from which of the two
+
+messages the ciphertext comes.
+
+lf the guessing probability is non-negligible greater than 1/2, then the
+
+adversary wins the game, which means that the scheme is not secure for
+
+adversaries in this class.
+
+Prof.dr. F.L. Tiplea, UAIC, R0 Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 s / so
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Relationships among security models
+
+1. lND-COA (also called indistinguishability in the presence of an
+eavesdropper) is the weakest form of security where the adversary
+can only eavesdrop on ciphertexts;
+
+2. lND-KPA (also called indistinguishability under multiple encryption
+attack) is stronger than lND-COA;
+
+3. The diagram below only aims to create an image on the
+relationships between the other security models (some of these
+relationships are far from trivial).
+
+NM-CPA TIM-COM i NM-CCA2
+IND-CPA <— IND-CCAl <— lND-CCA2
+SS-CPA <— SS_CCA1 <— SS-CCA2
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 9 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Stream ciphers
+
+0 The message is viewed as a sequence of blocks (also called
+characters) of a very limited size, that can efficiently be enumerated
+in practice (e.g., bits or bytes);
+
+o The secret key is expanded to a keystream of the same size as the
+message block size by a keystream generator initially seeded with the
+secret key;
+
+0 The encryption is block-driven ;
+
+0 One-time pad (OTP) may be regarded as a stream cipher, but a
+quite impractical one.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 10/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Stream ciphers
+K keystream
+key generator G
+O
+O
+0 keystream G(K)
+1
+1
+0 1 0 1 1 m e G(K)
+e encryptor _—)
+message m Clphertext
+Theorem 1
+The SKE scheme above is lND-COA, provided that G is a PRG.
+Prof.d1. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 11 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Stream ciphers: using the same key twice
+
+0 lf c1 I m1 EB G(K) and c2 I m2 69 G(K), then c1 G9 c2 I m1 63 m2;
+
+0 Natural language text contains enough redundancy to allow the
+adversary to recover m1 and m2 from c1 EB c2 .
+
+o Microsoft implementation of PPTP in Windows NT uses RC4. lts
+original implementation uses the same key to encrypt messages from
+A to B and from B to A (see Scl\/lu1998.pdf on the course site);
+
+o Microsoft have used RC4 to protect Word and Excel document.
+When encrypted documents were modified and saved, the same key
+was used (see Wu2005.pdf on the course site).
+
+Never use the same key to encrypt more than one message with stream
+ciphers !
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 12/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Stream ciphers: malleability
+0 From an encryption c : m 69 G(K) of m one can simply obtain an
+encryption of m 65 m’ by c’ : c ® m’.
+o Assume that the adversary knows a preﬁx m1 of m (m1 might be a
+standard header filled with someone's address, name, etc.);
+0 The adversary wants to replace m1 by m2 (m2 might be a header
+filled with information up to his desire);
+o The adversary may compute c 69 (m1 69 m2)0 - - - 0 to obtain what he
+wants.
+Stream ciphers do not guarantee integrity !
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 13/50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+The stream cipher RC4
+1. RC4 was proposed by Ronald Rivest in 1987 as a trade secret but
+posted anonymously in September 1994 on a mailing list;
+2. RC4 was used in a large variety of applications: SSL/TLS, WEP,
+WPA, MS-PPTP etc.;
+3. Recent results have shown that the RC41gen output is biased (see
+AlFardan et al. (2013)):
+1
+3.1 (Mantin&Shamir, 2001) P(Z2 : 0X00) w m;
+32 G | 2012 PZ 000 1 c’ f 3< <255
+.(uptaeta., )(rix )Nﬁ4-Eor _r_ ,
+Where C3 I 0.351089 and 0.242811 g c, g 1.337057 for r Z 4;
+4. Several other variants of RC4 have been proposed: RC4A, VMPC,
+RC4+, Spritz.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Informatlon Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 14/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Other practical stream ciphers
+1. CSS (Content Scrambling System)
+o Designed in 1980's for preventing unauthorized duplication of DVDs;
+o Can be brute-force attacked in time 240 (the seed space size). /-\
+faster attack to recover the seed (time 216) was proposed by Frank
+Stevenson in 1999;
+2. A5/1, A5/2, A5/3 stream ciphers for GSM encryption
+o All have been cryptanalysed (see Barkan et al. (2003));
+3. E0 stream cipher for Bluetooth encryption
+o The most efficient cryptanalysis requires the first 24 bits of 223‘8
+frames (a frame is 2745 bits long) and 238 computations to recover
+the key (see Lu et al. (2005));
+4. Salsa, designed by Bernstein in 2005 (see Bernstein (2008b));
+5. ChaCha, designed by Bernstein in 2008 (see Bernstein (2008a)).
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 15 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Block ciphers
+l-\n intensively used method to encrypt a message is the next one:
+l. View the message as a sequence of blocks of a larger size so that the
+enumeration of all blocks is infeasible in practice;
+2. lteratively encrypt each message block by another block.
+Remark 2
+1. The encryption of a message block by another block is done by
+families of permutations (i.e., block ciphers) or families of functions;
+2. The iteration method is crucial and it is called mode of operation;
+3. In the encryption process of a message block, the encryption key is
+expanded to a fixed number of round keys.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 16 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Block ciphers
+Key expansion algorithm
+o T,- is an initial transformation, and Tf is a final transformation;
+0 TK; is a transformation induced by Ki, 1 g i g n
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 17/50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+DES and AES block cipher
+1- -
+0 M I C I {0,1}64;
+o 1C I {O7 1}56;
+0 The number of rounds is 16;
+2- -
+o M I C I M4Xm(Z§), where m G {4,6,8};
+- 1c : M4Xk(Z§), Where k e {4,6,8};
+o The number of rounds varies on the key and message block length
+---
+k : 4 10 12 14
+k : 6 12 12 14
+k I 8 14 14 14
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 18 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Pseudo-random functions
+A pseudo-random function (PRF) is a family J: of functions with the
+following properties:
+
+1. Efficiently computable: Each function f G J: can be computed by a
+deterministic poly-time algorithm;
+
+2. Pseudo-randomness: If we randomly choose a function from this
+family then its input-output behavior is computationally
+indistinguishable from that of a random function.
+
+The adversary is allowed to train with f G .7 to establish the
+pseudo-randomness of f (see “indistinguishability”)l
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 19/50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Pseudo-random permutations
+Pseudo-random permutations (PRPs) are special cases of PRFs.
+Content Efficient com-
+]: ,_ Pseudo-randomness
+type putablllty
+I weak PRP each f and fil A trains with f I
+_ A trains with f and
+I strong PRP permutations each f and fil f4
+Remark 3
+1. Strong PRP are simply referred to as PRP,‘
+2. PRP are sometimes cal/ed block ciphers.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 20 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+PRP candidates
+DESK ; {0,1}“ a {0,1}“
+3055K ; {0,1}“ —> {0,1}“
+AESK ; {0,1}128 a {0,1}128
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 21 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Electronic Code Block (ECB)
+message: . . .
+"I
+Theorem 4
+ECB is not lND-KPA.
+Prof.d1. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 22 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+n
+ECB Illustrated
+Original image ECB encryption
+Proﬁdr‘ F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 23 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Cipher Block Chaining (CBC)
+Theorem 5
+lfF I (FK)K is a PRP, then CBC with F is IND-CPA.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 24 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+CBC versus ECB
+Original image ECB encryption CBC encryption
+Prof.dri F.L. Tiplea, UAIC. R0 | Lectures on Information Security —Fal| 2022 25 / so
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Deterministic counter mode (DCTR)
+EB EB 69
+ciphertextl
+The scheme works like a stream cipher with the PRG G given by
+G(K) : FK(1) || FK(2) || H FK(@)
+
+Theorem 6
+
+lfF : (FK)K is a PRF, then DCTR with F is lND-KPA but not
+
+IND-CPA.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 26/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Counter mode (CTR)
+EB 69 69
+The scheme works like a stream cipher with the PRG G given by
+G(K) : FK(r) ii FK(r+ 1) ii || FK(r+4— 1)
+Theorem 7
+lfF : (FK)K is a PRF, then CTR with F is IND-CPA.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 27/50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Output feedback (OFB) and cipher feedback (CFB)
+1. The key stream in CTR mode is
+FK(r) il FK(r+ 1) H FK(r+2) Ii
+Where r <— {0,1}”
+2. The OFB and CFB modes are defined as the CTR mode but with a
+different key stream generation :
+2.1 The key stream in OFB mode is
+FKU) Ii FK(FK(r)) || FK(FK(FK(r))) il
+where r <— {0,1}"
+2.2 The key stream in CFB mode is
+FKU) il FK(¢1) H FK(¢2) H
+where r P {O,1}”
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 28/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Hash functions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Hash functions
+/-\ hash function outputs a fixed-length bitstring (e.g., 128 or 160) when
+applied to an arbitrary-length bitstring.
+o signing messages, in connection with digital signatures (signing a
+document should be a fast operation and the signature should be
+small so that it can be put on a smart card);
+o identifying files on peer-to-peer file sharing networks;
+o ensuring security of micro-payment schemes (e.g., PayWord);
+0 etc.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 29/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Hash functions
+(Keyed) hash function: H : (Q, H)
+When no key is used, H is called a hash function.
+m H c : H(K, m)
+message (DPT) message digest
+(key gen) gm —> K
+Isec param (e.g., key size)
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 30/50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Collision-resistant hash functions
+m0
+H
+l If m0 7Q m1 then
+Q()\) —> K H(K7 m0) : H(K, m1) (m07 m1) is a collision
+m1
+H
+A keyed hash function H is collision-resistant (CRHF) if no adversary,
+given a randomly generated key K, can compute a collision (m0, m1) for
+H under K with a higher than negligible probability.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 31 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+One-way hash functions
+H’1(K7 c) H C
+l
+y l
+l
+4‘ l
+7l QM) —> K l
+. i l
+/-\ keyed hash function H is one-way (OWHF) if no adversary, given a
+randomly generated key K and a message digest c obtained with K, can
+compute m G H_1(K., c) with a higher than negligible probability.
+Theorem 8
+Any CRHF is also a OWHF, as long as the domain of the hash function
+is signiﬁcantly larger than its range.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 32/50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Looking for collisions
+Theorem 9
+Let m be the number of possible message digests of a hash function H
+under some key K. If we compute message digests for r messages
+chosen uniform/y at random and
+Lx/2cmj < r < m
+for some real constant c > 0, then the probability to get a collision is
+higher than 1 — e_C (e is Euler's number, e : 2.71828 - - -.)
+Example 10
+Let m : 240 and r such that 1.200.000 z L220\/2 In 2] < r < 24°.
+The probability of getting a collision is greater than 1/2. Therefore,
+40-bit message digests do not ensure security.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 33 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Construction of CRH Fs
+1. The MerkIe-Damgard (MD) transform;
+2. The sponge construction.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 34 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+The MD transform
+size E —l— k size é
+with the following properties:
+
+1. m is a prefix of pad(m)
+
+2. if |m1| : lm2| then |pad(m1)| : |pad(m2)|;
+
+3. if m1 75 m2, then the last block of pad(m1); is different than the last
+
+block of pad(m2);
+
+Profdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 35 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+The MD transform
+1. pad(m) I m1 || H mn with imri I k for all i;
+2. v ;: IV, where IV <- {0,1}?
+3. for i :: 1 to n do V :2 h(K,m,- || V);
+4. return V;
+message digest
+Theorem 11
+If h is collision-resistant, then the MD-transform based on h is so.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 36 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+The MD transform in practice
+Practical hash functions based on the MD-transform:
+0 MD4 — developed by Rivest in 1990. lt was the starting point for the
+development of a series of similar hash functions;
+o SHA (Secure Hash Algorithm) or SHA-0 — developed by NSA in
+1993 (Withdrawn shortly after publication because of some flaw);
+0 MD5 — the strengthened successor of MD4 (Rivest 1995);
+0 SHA-1 — developed by NSA in 1995; not longer approved after 2010;
+o SHA-2 family includes 6 hash functions, SHA-224, SHA-256,
+SHA-384, SHA-512, SHA-512/224, SHA-512/256 (the last two are
+truncated versions of SHA-512).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 37/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+The sponge construction
+. — 7r ; {071}! -> {071}! (7T has no keyl); and
+write Z : r + c (r is the rate and c is the capacity);
+- _ m1...mn;
+- —-
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 38 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+The sponge construction
+' _
+7T 7r 7r
+i i i i i i
+message igest
+
+Theorem 12
+
+lfo is a random permutation and 26 and 2C are super-poly, then the
+
+sponge construction yields a CRHF.
+
+The sponge construction is the basis of SHA-3 standard.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 39 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Message integrity
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Message authentication codes
+Message authentication codes (IVIACs) : used to prove message integrity
+based on a shared secret key between parties
+MAC system: S : (Q,Tg,V)
+Alice
+Dear Tom,
+linforme you i i i ii
+l Tom
+i Accept?
+| informe you ‘
+n Q‘ i Yes/No
+i
+Tg l I
+‘ i
+Q(/\) —> K
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 4O / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+MACs
+A MAC system S is secure if no adversary, who has been allowed to train
+with the MAC system, can generate valid tags for messages of his choice,
+except with negligible probability.
+MAC systems can be obtained from:
+1. PRFs;
+2. Hash functions.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 41 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+MACs from PRFs: CMAC
+If F is a PRF 0n messages of length £, define the following MAC scheme,
+called Cipher-based IVIAC (CMAC) (see Dworkin (2005)):
+1. Generate three keys KO, K1, and K2 of length Z from K;
+2. Break the message m into m : (m1, . . . , mk_1, mk);
+3. Randomize the last block:
+o If Imkl I K then replace mk by mk 69 K1;
+o If |mk| < € then replace mk by (mk || l l| Oj) EB K2;
+4. Apply F with K0 in the CBC mode and —
+as the message tag.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 42/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+MACs from PRFs: CMAC
+Theorem 13
+CMAC is secure, provided that F is a PRF.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 43 / 50
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+MACs from CRHFs: HMAC
+Let H be a hash function defined by the MD transform from a
+compression function h(K,m). Define FH by
+
+FH((K1,K2)7m) I H(K2 ll H(K1 ll ml)
+
+Theorem 14
+lfh and h’ given by h’(K, m) : h(m7 K) are PRFs, then FH is a PRF.
+For a proof of this theorem please see Boneh and Shoup (2020).
+The HMAC construction uses one single key K from which two keys are
+derived: K1 : K QB ipad and K2 : K G9 opad.
+HMAC-SHAl and HMAC-SHA256 are instances of the above
+construction, with H : SHAl and H : SHA256, respectively.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 44/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Authenticated encryption
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+The need for authenticated encryption
+Combining secure encryption schemes with secure MACs may lead to
+error-prone systems (see Krawczyk (2001), Bernstein (2013))
+Definition 15
+Let S be a cipher.
+1. S provides ciphertext integrity (Cl) if no adversary can output valid
+ciphertexts, except with negligible probability.
+2. S provides authenticated encryption (AE) if:
+2.1 S is IND-CPA secure
+2.2 S provides Cl.
+Theorem 16
+If S is AE secure then it is IND-C CA secure.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 45/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Constructing AE secure ciphers
+One popular way to construct AE secure ciphers is to combine an
+IND-CPA secure cipher with a secure MAC. There are two main variants:
+1. Encrypt-then-MAC (Ethl)
+1.1 c <— 5(K, m), t <— Tg(K’, c), output (c, t);
+1.2 Used in lPsec, TLS 1.2 and later versions, and in the NIST standard
+GClVl;
+2. MAC-then-Encrypt (IVItE)
+2.1 t <— 7ﬂg(K’7 m), c <- S(K, (m7 t)), output c;
+2.2 Used in SSL 3.0, TLS 1.0, and in 802.11i WiFi encryption protocol.
+The keys K and K’ are chosen independently!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 46/50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:52**************
+Encrypt-then-MAC
+Theorem 17
+lfS is an IND-CPA secure cipher and S’ is a secure MAC, then the
+Et/VI construction is a secure AE.
+Common mistakes in implementing the Ethl construction:
+l. Use the same key for the cipher and the MAC;
+2. Apply the MAC only to part of the ciphertext (we may loose
+ciphertext integrity) — discovered in 2013 at RNCryptor facility in
+Apple's iOS.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 47 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+MAC-then-Encrypt
+MtE is not generally secure:
+1. The attack POODLE on SSL 3.0;
+2. Padding oracle timing attack in TLS 1.0;
+3. Informative error messages in TLS 1.0.
+1. The randomized counter mode of the cipher assures AE security.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 48 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:54**************
+References
+References
+
+AlFardan, N., Bernstein, D. J., Paterson, K. G., Poettering, B., and Schuldt, J. C. N. (2013). On
+the security of rc4 in TLS. In 22nd USENIX Security Symposium (USENIX Security 13), pages
+305-320, Washington, D.C. USENIX Association.
+
+Barkan, E., Biham, E., and Keller, N. (2003). Instant ciphertext-only cryptanalysis of gsm
+encrypted communication. In Boneh, D., editor, Advances in Cryptology - CRYPTO 2003,
+pages 600-616, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+Bernstein, D. J. (2008a). ChaCha, a variant of Salsa20. Technical report, The University of Illinois
+at Chicago.
+
+Bernstein, D. J. (2008b). The salsa20 family of stream ciphers. In Robshaw, M. and Billet, 0.,
+editors, New Stream Cipher Designs: The eSTREAM Finalists, pages 84-97, Berlin, Heidelberg.
+Springer Berlin Heidelberg.
+
+Bernstein, D. J. (2013). Failures of secret-key cryptography. Invited talk to the 20th International
+Workshop on Fast Software Encryption 2013.
+
+Boneh, D. and Shoup, V. (2020). A Graduate Course in Applied Cryptography. Authors’ website,
+Version 0.5.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 49 / 50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+References (cont.)
+
+Dworkin, M. (2005). Recommendation for block cipher modes of operation: The CIVIAC mode for
+authentication. NIST Pubs 800-3OB, NIST. Updated, 2016.
+
+Goldwasser, S. and Micali, S. (1984). Probabilistic encryption. Journal of Computer and System
+Sciences, 28:270-299.
+
+Krawczyk, H. (2001). The order of encryption and authentication for protecting communications
+(or: How secure is SSL7). In Kilian, J., editor, Advances in Cryptology — CRYPTO 2001,
+pages 310-331, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+Lu, Y., Meier, W., and Vaudenay, S. (2005). The conditional correlation attack: A practical attack
+on bluetooth encryption. ln Shoup, V., editor, Advances in Cryptology — CRYPTO 2005, pages
+97-117, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+Shannon, C. E. (1949). Communication theory of secrecy systems. The Bell System Technical
+Journal, 28(4):656—715.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Symmetric Key Cryptography Fall 2022 50 / 50
+
+***************Ending Page***************
+

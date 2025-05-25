@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AWSS3Service {
@@ -204,6 +206,63 @@ public class AWSS3Service {
             } while (continuationToken != null);
 
             return pdfFiles;
+
+        } catch (IOException | S3Exception e) {
+            logger.error("Error fetching PDF files from S3", e);
+            throw new RuntimeException("Failed to fetch PDF files from S3: " + e.getMessage(), e);
+        }
+    }
+
+
+    public Map<String, File> getPdfFilesWithKeys(String bucketName) {
+        if (bucketName == null || bucketName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Bucket name cannot be null or empty");
+        }
+
+        Map<String, File> pdfFilesMap = new HashMap<>();
+        String continuationToken = null;
+
+        try {
+            do {
+                ListObjectsV2Request.Builder listRequestBuilder = ListObjectsV2Request.builder()
+                        .bucket(bucketName)
+                        .maxKeys(1000);
+
+                if (continuationToken != null) {
+                    listRequestBuilder.continuationToken(continuationToken);
+                }
+
+                ListObjectsV2Response listResponse = s3Client.listObjectsV2(listRequestBuilder.build());
+
+                for (S3Object s3Object : listResponse.contents()) {
+                    String key = s3Object.key();
+                    //System.out.println(key);
+
+                    if (!key.toLowerCase().endsWith(".pdf")) {
+                        continue;
+                    }
+
+                    GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                            .bucket(bucketName)
+                            .key(key)
+                            .build();
+
+                    try (ResponseInputStream<GetObjectResponse> inputStream = s3Client.getObject(getObjectRequest)) {
+                        File tempFile = Files.createTempFile("s3-pdf-", ".pdf").toFile();
+                        try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                            inputStream.transferTo(outputStream);
+                        }
+
+                        pdfFilesMap.put(key, tempFile);
+                        logger.info("Downloaded PDF from S3: {} -> {}", key, tempFile.getAbsolutePath());
+                    }
+                }
+
+                continuationToken = listResponse.nextContinuationToken();
+
+            } while (continuationToken != null);
+
+            return pdfFilesMap;
 
         } catch (IOException | S3Exception e) {
             logger.error("Error fetching PDF files from S3", e);

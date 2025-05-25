@@ -1,0 +1,311 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Internationalization
+LooaHzaﬁon
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+i18n & l1 On
+
+- Internationalization (i18n) is the process of
+designing an application so that it can be
+adapted to various languages and regions
+without engineering changes.
+
+— Most applications should be designed for international use right
+from the start of the development.
+
+- Localization (l10n) is the process of adapting
+software for a specific region or language by
+adding locale-specific components and
+translating text.
+
+— Country-specific data should be added without changing the code!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Considerations
+
+- With the addition of localized data, the same
+executable can run worldwide —> adding support for
+new languages should not require recompilation.
+
+- Textual elements, such as status messages and the
+GUI component labels, are not hardcoded in the
+program. Instead they are stored outside the source
+code and retrieved dynamically.
+
+- Culturally-dependent data, such as dates, numbers
+and currencies, appear in formats that conform to the
+end user's region and language.
+
+- Sorting collections of strings should take into
+consideration the alphabet specific to a language.
+
+- The direction of writing, etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+The Locale Class
+- A Locale object represents a specific
+geographical, political, or cultural region.
+— Language: ISO 639 alpha-2 or alpha-3 language code
+“en” —> english, “ja” —> japanese, “ro” —> romana
+— Country: ISO 3166 alpha-2 country code
+“US” —> United States, “UK” —> United Kingdom, “R0” —> Romania
+— Locale usLocale = Locale.US;
+Locale roLocale I new Locale("ro", "RO");
+- An operation that requires a Locale to perform
+its task is called locale-sensitive
+— NumberFormat . getNumberInstance (roLocale) . format (12345 . 99)
+_> 12 . 345, 99
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+. . . Default locale:
+import java.utll.Locale; English United States
+. Available locales:
+public class TestLocale { Albaniashgip
+public static VOid main(String args[]) { Algeria cbyﬂl
+System.out.println("Default localez"); Argentnmlespaﬁol
+localelnfo (Locale.getDefault() ) ; AUStralia English
+Austria.Deutsch
+. . Bahraindg |
+System.out.pr1ntln("Available locales:")l "Jﬂ
+I BelaruscenapyCKl
+Locale available[] I Belgium francais
+Locale . getAvailableLocales () ; B81911?“ Nederlands
+BoliViaespaﬁol
+Bulgaria @EHPapCKM
+for(Locale locale : available) { Canada frangais
+_ Canada English
+locale.getD:|.splayCountry() + "\t" + Chile espaﬁol
+locale .getDisplayLanguage (locale) ) ; China :sz
+} Romania romana
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Where Are Locale Data Stored?
+
+- Resource bundles contain locale-specific objects
+When your program needs a locale-specific resource, a String for
+example, your program can load it from the resource bundle that is
+appropriate for the current user's locale.
+
+ResourceBundle resources =
+ResourceBundle.getBundle("MyResources", someLocale);
+
+- Resource bundles belong to families whose members
+share a common base name, but Whose names also
+have additional components that identify their locales.
+
+- MyResources
+- MyResources_ro
+- MyResources_en_US
+
+- A resource bundle can be a .class or a .properties file
+
+- rt.jar —> sun.util.resources.
+
+LocaleData, LocaleNames, CurrencyNames, TimeZoneNames,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Properties
+- A .properties file is a text file containing pairs
+of type: key = value
+config.properties
+driver I com.mysql.jdbc.Driver
+url = jdbczmysql://localhost/test
+user I dba
+password I sql
+- The Properties class represents a persistent
+set of properties. The Properties can be saved
+to a stream or loaded from a stream.
+Properties props = new Properties();
+props.load(new FileReader(path + "/database.properties"));
+System.out.println(props.getProperty("driver"));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+ResourceBundles
+
+- MyResources_ro.properties
+
+hellQISalut
+
+byeILa revedere
+
+welcomeIUtilizatorul {0} s-a conectat la {1}
+- MyResources_fr.properties
+
+hello=Bonjour
+
+bye=Au Revoir
+
+welcome=Utilisateur {0} est connecté é {1}
+- MyResources.properties (default)
+
+hellozHello
+
+byezGoodbye
+
+welcome=User {0} logged in at {1}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Translatlng the User Interface
+public static void displayMessages(Locale locale) {
+String baseName = "com.example.MyResources";
+ResourceBundle messages =
+ResourceBundle.getBundle(baseName, locale);
+System.out.println(messages.getString("hello"));
+String pattern = messages.getString("welcome");
+0bject[] arguments I {"Duke", LocalDate.now()};
+String welcome I new MessageFormat(pattern).format(arguments);
+System.out.println(welcome);
+System.out.println(messages.getString("bye"));
+}
+public static void main(String args[]) throws IOException {
+displayMessages(Locale.forLanguageTag("ro"));
+//-> Salut, Utilizatorul Duke s-a conectat la 2016-05-03, La revedere
+displayMessages(Locale.getDefault());
+//—> Hello, User Duke logged in at 2016-05-03, Goodbye
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+ListResourceBundle
+- Usmg a class Instead of a .properties file
+package com.example;
+import java.util.ListResourceBundle;
+public class MyResources_ro extends ListResourceBundle {
+private static final Object[][] contents I {
+{"hello", "Salut"},
+{"welcome", "Utilizatorul {O} s-a conectat la {1}",
+{"bye", "La revedere"}
+};
+@Override
+public Object[][] getContents() {
+return contents;
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Formattlng Numbers
+
+- NumberFormat helps you to format and parse
+numbers for any locale.
+
+' Your code can be completely independent of the
+locale conventions for decimal points or thousands-
+separators.
+double number I 12345.99;
+NumberFormat.getNumberInstance(Locale.US).format(number));
+
+s 12,345.99
+NumberFormat.getNumberInstance(Locale.GERMANY).format(number));
+s 12.345,99
+
+- Formatting currency
+double salary I l_OOO_OOOd;
+
+Locale roLocale = Locale.forLanguageTag("ro-RO");
+NumberFormat.getCurrencyInstance(roLocale).format(salary));
+s 1.000.000,00 LEI
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:12**************
+Formattlng Dates
+- java.time.f0rmat.DateTimeFormatter
+LocalDateTime today = LocalDateTime.now();
+DateTimeFormatter formatter I DateTimeFormatter
+.ofLocalizedDate(FormatStyle.FULL)
+.withLocale(roLocale);
+System.out.println("Datez " + today.format(formatter));
+// % Date: 03 mai 2016
+- Format Styles:
+-) SHORT
+-) MEDIUM
+-) LONG
+-) FULL
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+- The Collator class performs locale-senSItlve
+Strlng comparlson.
+String words[] I
+
+{"ramuré", "rémuricé", "rétuscé", "repede", "riu"};
+
+Arrays.sort(words);
+System.out.println(Arrays.toString(words));
+//[ramuré, repede, riu, rémuricé, rétuscé]
+Locale roLocale I Locale.forLanguageTag("r0");
+Collator collator = Collator.getInstance(roLocale);
+Arrays.sort(words, (w1,w2) -> collator.compare(w1, w2));
+System.out.println(Arrays.toString(words));
+//[ramuré, rémuricé, rétuscé, repede, riu]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:14**************
+Internationalization Layer
+- Separate the internationalization code from the
+rest of the application
+—> encapsulate your i18n code
+- You may want to use the default Java I18N
+features, or you may use another API.
+- Every input from the user should be parsed
+according to the rules defined by the I18N layer
+- Every output to the user should be formatted
+according to the rules defined by the I18N layer
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Bibliography
+- Java Tutorial
+https://docs.0rac|e.com/javase/tutoriaI/i18n/TOC.htm|
+
+***************Ending Page***************
+

@@ -20,7 +20,7 @@ public interface FlashcardRepository extends JpaRepository<Flashcard, Long> {
     List<Flashcard> findDueFlashcards(@Param("date") Date date, @Param("userId") Integer userId);
 
     @Query("SELECT f FROM Flashcard f WHERE f.level = :level AND f.user.id = :userId")
-    List<Flashcard> findByLevelAndUserId(@Param("level") int level, @Param("userId") Integer userId);
+    List<Flashcard> findByLevelAndUserId(@Param("level") Integer level, @Param("userId") Integer userId);
 
     @Query("SELECT f FROM Flashcard f WHERE f.material.course.id = :courseId AND f.user.id = :userId")
     List<Flashcard> findByCourseIdAndUserId(@Param("courseId") Long courseId, @Param("userId") Integer userId);
@@ -43,4 +43,7 @@ public interface FlashcardRepository extends JpaRepository<Flashcard, Long> {
     List<Flashcard> findByPageIndexAndMaterialId(
             @Param("pageIndex") Integer pageIndex, 
             @Param("materialId") Long materialId);
+
+    @Query("SELECT COUNT(f) FROM Flashcard f WHERE f.material.course.id = :courseId")
+    Long countByCourseId(@Param("courseId") Long courseId);
 }

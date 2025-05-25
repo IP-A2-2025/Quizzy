@@ -1,0 +1,3028 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 11
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Agenda for today
+1. Macros
+2. Procedural macros
+3. Procedural derive macros
+4. Function-like procedural macros
+5. File operations
+6. File System operations
+7. Execution Environment
+8. FFI /
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Macros
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+',® Macros
+
+IVIacros are a kind of metaprogramming designed to extend the capabilities of a
+program in regard to problems like the following ones:
+
+' DRY (won't Eepeat Iourself) 9 for cases where similar code must be repeated in your program
+
+' DSL (Eomain gpecific languages) 9 for cases where you need a special syntax within your own
+
+code
+
+' Variadic parameters or repetitions 9 keep in mind that Rust does not have variadic
+
+parameters (like with the case of. in C/C++). Instead, it uses macros to achieve similar results.
+Rust macros don't work like C/C++ ones (by performing some sort of replacement in
+the precompile phase). The work directly with the compiled AST and their output is
+also integrated in the AST (ibstract Iyntax Iree). As such, their parameters have a
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+',® Macros
+A macro in Rust is defined in the following way:
+macr0_rules! name{ where - is defined as (S ) => {$ };
+ru:e1;_ where a pattern_matcher is a sequence of tokens (as they are
+$221 defined in the Rust AST) including some regular expression like
+3' operators such as I, I orl, and “i” in rulei is in [1..n]
+rulen; The process that matches some parameters and converts them
+} into rust code is also called transcribing.
+This is very similar to how the match construct works (with at least one rule needed
+to be present). _
+To use a macro just use the name define in the macro_rules definition followed by
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Let's start with a very simple example where a macro translates to a number
+(similar to how a simple macro works in C/C++).
+Rust C/C++
+() :> {l5M§f—\/ALUE { m #define MAX_VALUE 5
+} void main() {
+main() { ' ' _ .
+y = MAX-VALUE![]3 auto = MAX_VALUE:
+z = MAX_VALUE!{}; . 0- o .. ’ _
+println!(" x ’ y ’ z ")3 } pr1ntf( Ad,Ad,Ad , , , ),
+}
+OBS: Notice that you can use I or I or .with a macro in Rust, as specified in the
+macro rules.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+é?“
+Not using I or or. with a macro in Rust will trigger a compiler error. Similar, you
+have to add the sign after the macro in order for the syntax to be correct.
+Rust
+y = MAX_VALUE();
+error: expected one of ‘(‘, ‘[‘, or ‘{‘, found ‘;‘
+--> src\main.rs:5:23
+5 i let x = MAX_VALUE!;
+| A expected one of ‘(‘, ‘[‘, or ‘{‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+a
+Rust however adds more context to a macro (in the sense that any variable that is
+being used must exists in the macro context). Let's analyze the following scenario:
+Rust C/C++
+! PRINT_INDEX { . . .. .
+() => { println!("{}",i); }; #deflne PRINT_INDEX pr1ntF( Ad\n ,1);
+} . .
+. v01d ma1n() {
+mi;:(i in 9_.5 { for (auto = 9; <5; ++) {
+PRINT_INDEX! (); PRINT_INDEX;
+} }
+} }
+error E9425 : cannot find value ‘i‘ in this sco e
+--> £rc\main.rs:2:27 P O
+l 1
+2 | () => { Println!("{}",i); };
+| A not found in this scope 2
+é'i PRINT_INDEX!(); 3
+| -----—-------- in this macro invocation 4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Rust however adds more context to a macro (in the sense that any variable that is
+being used must exists in the macro context). Let's analyze the following scenario:
+Rust C/C++
+! PRINT_INDEX { . . .. .
+() => { pnintln!("{}",i); }; #deflne PRINT_INDEX pnlntf( Ad\n ,1);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+"® Macros
+Let's see an even more complex example where we use macro parameters. In Rust,
+each parameter is defined using the I (dollar sign) followed by a name, and a type
+(with the mention that the type refers to how that variable is referred to by the AST.
+Format: where type can be one of the following:
+expr An expression in the AST pat A pattern
+ident An identifier (including Rust specific keywords) pat_params A pattern (backwards compatibility with
+block A block of either statements and/or expression 2018 edition)
+surrounded by {..} (braces) lifetime A lifetime
+item A function, struct , module, path A path to a module (e.g. mod1::mod2::...)
+literal A constant value (e.g. 100, "some string", true, ’a') vis A visibility keyword (e.g. pub)
+tt A single token tree meta A meta item #[...]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+"® Macros
+Each one of these constructs (—) can be followed by:
+expr => , ;
+ident No restrictions
+block No restrictions
+item No restrictions
+literal No restrictions
+tt No restrictions
+ty =>,=|;:>>>[{aswhere
+meta No restrictions
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Let see how a function like macro that adds two number looks like:
+Rust C/C++
+! sum {
+(SB $ expr$, $ ; expr‘) => { #define SUM(x,y) x+y
+} }; void main() {
+. auto = SUM(1,2);
+ma1n())( i sum!“ , 2); m printf("%d\n", )3 m
+pnintln!(" ",X); }
+}
+So our macro sum has two parameters:
+' - 9 of type expr (meaning it can be any type of expression)
+' - 9 of type expr
+But why do we actually need to explain each parameter (metavariable) type ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+i?‘
+Let's consider the following macro:
+Rust C/C++
+! multiply {
+($ é EXZP$’ $ ; QXpP) => { #define MULTIPLY(X,y) x*y
+} }; void main() {
+main() { auto = MULTIPLY(16,26);
+X = multiply!(19 26), auto = MULTIPLY(1.2,1.5);
+y = multiply!(1.2 , 1.5); auico TOMUL'TIFLI(1+2’3+%)3
+z = multiply!(1+2 , 3+1); prlntﬂ Ad,Ad,Ad ’ ’ ’ )’
+println!(" x , y , z ")3 }
+}
+200,1.7999999999999998 200,1.799999999999999 Z [a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+‘1 Macros
+Let's consider the following macro:
+C/C++
+spa spﬁ -
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Let's consider the following macro:
+Rust
+auto = MULTIPLY(1+2,3+1);
+- aUtO z “mm
+200'1.7999999999999998'12
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Let's see a sllghtly more complex example:
+I Output I
+trait { fn (&self); } 5
+macro_ru1es! implement_print_me { true
+($ = ty) => {
+impl For $ {
+fn (&se1F) {
+("{Z?}",Self);
+}
+}
+};
+} ..;
+implement_print_me!( )3 ,eﬁ
+implement_print_me!( )3 ﬂﬁﬁﬁﬁ
+5- ()3 §ﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Let's see a sllghtly more complex example:
+Rm M
+: block =>
+X = $ 3 45
+println!("{x}");
+};
+}
+main() {
+eva1!({1+3+4});
+eva1!({
+sum = 0;
+for i in 9..19 { eva|!({“"})
+sum+=1;
+}
+sum
+});
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+é?‘
+Let's see another example, but this time we will use multiple rules to create a
+simple calculator that gets a command followed by a two values and then applies
+that command over the two numbers/expressions.
+Rust
+! eval { m
+(add $ : expn, $ : expn) => { pnintln!("{}",$ +$ )3 }3 5
+(mul $ : expn, $ : expn) => { pnintln!("{}",$ *$ )3 }5 -10
+(sub $ : expn, $ : expn) => { pnintln!("{}",$ -$ )3 }; 2
+(div $ : expn, $ : expn) => { pnintln!("{}",$ /$ )3 }; O
+} 33
+main() {
+eva1!(add 2,3);
+eva1!(sub 19,29);
+eva1!(mu1 5,4);
+eva1!(div 199,3);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+,’ M acros
+But 9 what if we want to have a variable number of expression instead of two) for
+the previous example: e.g. to be able to write something like: eva1!(add 1,2,3),-
+To create a loop in a Rust macro use the following format:
+(... ) separator
+Where:
+' I is a list of tokens, parameters that need to be repeated
+' - is an optional parameter that describes a separator between (...)
+' — is a parameter that explains how repetition is being performed:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+é?‘
+Let's see an example that uses repetition:
+Rust
+! eval {
+(add $ : expr, $($ : expr),+) => {
+result = $ ;
+$< M
+result += $ 3 6
+)+
+println!("{}", result); :4
+l;
+}
+main() {
+eval!(add 1,2,3);
+eval!(add 1,2,3,4,5,6,7,8,s,19);
+eva1!(add 1,2);
+}
+Let's analyze this macro :
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+a Macros
+Let's see an example that uses repetition:
+Rust
+m
+M 6
+34
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Let's see an example that uses repetition:
+Rust
+I
+result = $ g .
+$< - '
+result += $ ; result
+)+
+println!("{}", result);
+};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Let's see an example that uses repetition:
+Rust Rust (translated)
+let result = 1;
+result += 2;
+result += 3;
+result += 4;
+result += 5;
+result += 6;
+result += 7;
+result += 8;
+result += 8;
+rust-analyzer: Expand macro recursively Eesurc += 193
+8‘[1,
+&[$ ::fmt:: ::new(
+&(result),
+Scmne $ ::fmt:: ::fmt,
+)1,
+));
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+t?‘
+Macros
+A macro can call another macro (including the same macro thus creating a
+recursive call). There are some limitations on how man such calls the compiler will
+do, but they can be overwritten by the use of“ (with
+different values).
+Rust
+! count { m
+() => {Gusize};
+($ : ) => {lusize};
+lusize + count!($($ ),*)
+}
+}
+main() {
+x = count!(1,2,3,4,5);
+pnintln!(" x ")3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+"® Macros
+Rust also has several system macros that can be used in different scenarios:
+M—
+print, println, write, writeln String formatting
+stringify Converts argument(s) to a string
+concat Concatenates multiple strings/literals into a static string
+line, column, file Information about current file, current line and current column
+compile_error Triggers a compiler error
+include, include_str, Allows loading an external file directly into the code as an expression, as an
+include_bytes UTF-8 string or as a sequence of bytes
+env A macro to access environment variables
+unimplemented A macro to trigger a panic if unimplemented code is reached
+assert, assert_eq, assert_ne, Used in tests function to evaluate an expression. These macros will panic if
+debug_assert, the evaluation is false. The difference between the debug_xxx version and
+debug_assert_eq,... the rest of the macros is that debug_xxx are removed from release build.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Igﬁt.. z;-
+
+' stringify! Has singular tokens as parameters 9 meaning it can be used with
+everything (including keywords, items, etc). It also adds an extra space after a
+token (except for comma). OBS: Its output might change in future versions
+
+' concat! has literals as parameters (so it can be used with numbers, strings, etc)
+
+M M
+fn main() {
+let x = stningify!(1,2,3,4,5); 1'2'3'4'5
+let y = stningify!(1+2+3+4+5); 1-r2-r3-r4-r5
+let z = concat!("abc", 19, true, 1.54); abC1OtnﬁiL54
+let t = stringify!( a>b then a=a—b a=a+b); ifa>bthena=a-belsea=a+b
+pnintln!("{x}");
+pnintln!("{y}");
+pnintln!("{z}");
+pnintln!("{t}");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+§$@__:rx
+Macros
+line()! , column()! and file()! return literals. As such, they can be used with concat()!
+t°geta'°g"‘kest"“gi M
+Rust
+.
+Fn ma1n() {
+let x = c0ncat!("We are at line ",line!()," in file ", file!());
+println!("{x}");
+}
+Similarly, env(<system_variable>)! can be used to read the value of a system
+variable:
+R” M
+println!("{x}");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+— can be used to trigger an error if some parameters are incorrect
+(in our case we can not sum up O or 1 values).
+macro_nules! sum {
+() => { ("Expecting at least two values to sum up"); };
+($ : ) => { ("Expecting at least two values to sum up, only one was provided"); };
+{
+let mut result = $ ;
+$(
+result+:$ 3
+)+
+result
+let X = sum! (1,2,3,4,5) ; OUtpUt
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+— can be used to trigger an error if some parameters are incorrect
+(in our case we can not sum up O or 1 values).
+($ : ) => { ("Expecting at least two values to sum up, only one was provided"); };
+--> src\main.rs:3:22
+|
+3 | ($onezexpr) => { compile_error!("Expecting at least two values to sum up, only one was provided"); }; j;
+| ------- in this macro invocation 5%???
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Let's consider that we have a C++ file (called temp.cpp) that contains the following
+code and it is located in the src file where the main.rs is located as well.
+C++
+#define MULTIPLY(x,y) x*y
+void main() {
+auto X = MULTIPLY(1,2);
+auto y = MULTIPLY(1.2,1.5);
+printf("%d,%d",x,y);
+}
+Then , the execution of the following code in Rust will produce the following output:
+Rust M
+fn main() { #define MULTIPLY(x,y)X*y
+let x = include_str‘!("temp.cpp"); void main(){
+PPintln! ("{X}"); autox= MULTIPLY(1,2);
+} autoy= MULTIPLY(1.2,1.5);
+printf("%d,%d",x,y);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Procedural macros
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+V? Proced ural macros
+There are cases where a simple macro will not suffice , as it implies a more complex
+logic on the transformation that needs to be made before compiling the code (e.g.
+for example converting a code written in a different language in a Rust language).
+The general approach here is to use procedural macros.
+A procedural macro can be used in the following way
+or
+#[ ( )l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+To create a procedural macro, the following steps must be performed:
+
+1. Create a separate library where the procedural macro will be defined.
+
+2. In that library define an export with the name of the procedural macro
+
+3. Modify — to explain that the new library is to be used by the compiler
+as a procedural macro
+
+4. Compile the new library and linked it to a new project (where you want to use
+it) via dependencies from — (you can either uploaded to crates.io , or
+use it directly from the loco/folder or a git repo).
+
+5. Rust compiler will load the library and whenever the procedural macro is being
+called it will execute your exported function with a list of tokens from the code
+(not an AST — but sufficient to build one) that needs to be translated into Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+t?‘
+
+Let's discuss an actual example. Rust does not have the concept of a bit flag enum
+(an enum Where each variant is a flag: 1,2,4,8,16,32,64, ).
+The reason for this is that bitflags can be combined and since an - must have a
+value from the specified list, this can be tricky to evaluate.
+For example — lets consider the following snippet:
+Rust
+
+V1 == 1f errongEgiiii;igopimgéeggntation for ‘Test | Test‘
+
+v2 = 2, |
+
+V3 I: 4 99 | let t = Test::V1 | Test::V2;
+} i l——————— A ———————— Test
+
+main() { | Test
+
+t = ::V1 | ::V2; |
+
+} note: an implementation of ‘Bit0r<_>‘ might be missing for ‘Test‘
+The code will not work as - trait is not implemented !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Procedural macros
+But this is not enough 9 to have a proper bitflag enum the following operations
+should exist:
+BitOr Test::V1 | Test::V2 | Test::V3
+BitAnd Test::V1 & Test::V2
+BitOrAssign flags |= Test::V1;
+BitAndAssign flags &= Test::V1;
+PartialEq The possibility to compare two values and see if they are equal or not
+Display If we want to print an enum value
+Empty variant The case where no bits are set up (the memory value is O)
+Representation A bit-flag enum is ultimately an unsigned value of type u8,u16,u32,u64 or u128.
+Methods Various method (e.g. contains, clear, set, ....)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+'5 Proced u ral macros
+Obviously, all of the precedent requirements can be written manually. But this
+implies a lot of work for a very simple enum.
+ln particular, if we are to compare this with other languages (like C/C++ where this
+kind of feature is already there), having to write the same code over and over for
+each bit flag enum can be frustrating.
+So let's see how we can build a procedural macro that can do this for us
+automatically» I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+ﬁtqz l-
+’ PFOCEd ural macros
+Step 1: Create a separate library where the procedural macro will be defined.
+- let's call the new library —
+- To create it run the following command : cargo new EnumBitFlags --lib
+The procedural macro will also be called EnumBitFIags, and ultimately, we will
+need to be able to write something like this:
+Rust
+EnumBitFlags
+{
+V1 = 1,
+vz = 2,
+V3 = 4
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+i;§ﬁilq_
+jTi‘ f
+
+*' PFOCEd ural macros
+M: Modify |ib.rs to export this function
+Rust /ib.rs
+use pnoc_macno::*;
+extenn crate pnoc_macno;
+
+< >
+
+pub fn EnumBitFlags(angs: TokenStPeam, input: TokenStneam) —> TokenStPeam {
+Notice the — attribute and the pub visibility specifier (this tells
+Rust that this function should be called whenever something like #[EnumBitFlags] is
+found in another Rust program.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+M: Modify |ib.rs to export this function
+(angs: , input: i —> {...}
+Assuming W6 have the following COdEI This part will be sent as the input parameter for the
+EnumBitFIags method. In reality this is seen more like
+( =16 = ) a tree (AST). In this case it will receive the following
+{
+V1 = 1,
+} V1
+enum z
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+M: Modify |ib.rs to export this function
+(args: J input: ) —> {...}
+Assuming W6 have the following COdEI This part will be sent as the args parameter for the
+EnumBitFIags method. This is useful if you want to
+< =16 = . control the way the code is being generated.
+{
+} Bits
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+“V P roced u ral m a c ros
+M: Modify |ib.rs to export this function
+EnumBitFlags(angs: , input: ) —> {m}
+Assuming we have the fOIIQWing code; This part represents the output stream (the new code
+Rust that will be inserted instead of the old one).
+EnumBitFlags( =16, = )
+{
+V1 = 1,
+vz = 2 For complex code changes, usually the new code is
+} being built in a String variable and then converted into a
+TokenStream using : :fnom_str‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+i?‘
+PFOCEd ural macros
+M: Modify |ib.rs to export this function
+Let's see a very simple example:
+Rust lib.rs
+pnoc_macro::*;
+pr0c_macro;
+( )
+MyPPocMacno(angs: , input: ) -> {
+s = "fn sum(x:132,y:132)->132 { x+y }";
+return ::fnom_stn( ).expect("Failed to parse parse Rust code");
+}
+ln this code we replace the existing code with a function that sums up two integer
+variables.
+OBS: If an error occurs during processing the token stream from input or args, a
+must be thrown. This will be intercepted by the compiler and used to show
+the error (e.g. very useful in lDEs like Visual Studio Code)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Procedural macros
+M: Modify |ib.rs to export this function
+Let's see a very simple example:
+Rust lib.rs
+}
+In ms up two integer
+va
+O : an error occurs ourlng processmg e o en s ream rom input or args, you
+should !. This will be intercepted by the compiler and used to should the error.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+M: Modify — to explain that the new library should be used as a
+procedural macro.
+
+Carao.t0ml
+
+[packa1e
+
+version = "1.6.7"
+
+edition = "2921"
+
+authors = ["..."]
+
+description = "EnumBitFlags is an implementation of Flags support for enums"
+license = "MIT"
+
+keywords = [m]
+
+categoies = ["development-tools :procedural-macro-helpers"]
+
+repository = "https://github.com/gdt059579/EnumBitFlags/"
+
+readme = "README.md"
+
+11b [lib]
+
+proc-macro m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+V? Procedural macros
+M: Publish the new library (or store it locally or into a git repository).
+In particular for our example, — was published to crates.io:
+' Git repo: httpszﬂgithub.com[gdt050579[EnumBitFlagsZ
+' Crates: httpszﬂcrates.ichratesZEnumBitFlags
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+t?“
+To use proc-macro, add the following in your dependencies section from cargotoml:
+Caro.toml
+[dependencies]
+EnumBitFlags =
+Then, you can write the following in your Rust programs:
+Rust
+EnumBitFlags::EnumBitFlags;
+EnumBitFlags
+{
+V1 = 1,
+V2 = 2,
+V3 = 4
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+1é§§$i;;>
+e» .-
+Upon compllatlon, the followmg code W||| be converted Into:
+Rust Rust (lib.rs)
+EnumBitFlag5< =16 depive( , , )
+pub enum TGSt_16bit { pub str'uct Test_16Bits { value: u16 }
+V1 = 1’ impl Test_16Bits {
+pub const V1: Test_16Bits = Test_16Bits { value: 0X1u16 };
+V2 = 2’ pub const v2; Test_16Bits = Test_16Bits { value: 0x2u16 },-
+V3 == 4, pub const V3: Test_16Bits = Test_16Bits { value: @x4u16 };
+v4 = ngggg pub const V4: Test_16Bits = Test_16Bits { value: 6x89®®u16 },'
+} pub const None: Test_16Bits = Test_16Bits { value: G };
+pub fn contains(&self, obj: Test_16Bits) —> bool {m}
+pub fn contains_one(&self, obj: Test_16Bits) —> bool {m}
+pub fn is_empty(&self) —> bool {m}
+pub fn clear(&mut self) {m}
+pub fn remove(&mut self, obj: Test_16Bits) {m}
+pub fn set(&mut self, obj: Test_16Bits) {m}
+pub fn get_value(&self) —> u16 {m}
+}
+impl std::opszzBitOP for Test_16Bits {m}
+impl std::opszzBitOPAssign for Test_16Bits {m}
+impl std::opszzBitAnd for Test_16Bits {m}
+impl std::opszzBitAndAssign for Test_16Bits {m}
+impl std::cmpzzPaPtialEq for Test_16Bits {m}
+impl std::defaultzzDefault for Test_16Bits {m}
+impl std::fmt::Display for Test_16Bits {m}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+é?‘
+Once this is done, you can write a code like this:
+Rust
+EnumBitFlags( : 8)
+{
+V1 = 1,
+vz = 2,
+V3 = 128,
+}
+test
+test_bit_or_assign()
+{
+t = ::V1;
+t |= ::V1;
+t |= ::VZ;
+assert!(t.contains( ::V1));
+assert!(t.contains( ::V2));
+assert!(t.contains( ::V3)== )3
+t = ::None;
+assert!(t.is_empty()== )3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Derive procedural macros
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+'5 i De rive p roced u ra l m a c ros
+Derive procedural macros are ver similar to procedural macros, except that they
+provide additional input for the hm attribute.
+Just like any procedural macro, you need to create a separate library and mark it as
+a procedural macro from cargo.toml file.
+As a general rule, a derive procedural macro will implement a trait and its
+additional method for a structure or enum. It is a common practice that larger
+application create a library that exposes a trait and another library that allows
+deriving out of that trait via #[derive(...)] attribute.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+VJQEﬁ§*‘;
+The difference (from how a standard proc-macro looks) lies in the how the entry
+point function looks like (notice that there is no arguments in this case 9 as it is
+not required by the way #[derive(name)] works:
+Rust lib.rs
+use pnoc_macno::*;
+extenn crate pnoc_macro;
+(<DeriveName>)
+pub fn name_of_derive_function(input: TokenStneam) -> TokenStneam {
+The usage will be something like this:
+Rust
+denive(<DeriveName>)
+stnuct MyData {
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Another difference between a proc-macro and a derive proc-macro is how the
+output is being used.
+A) In case of proc-macro
+
+I I
+
+Token Proc-macro New Token Stream
+- - - Stream Function - - - that reg/aces the source
+
+| Reglaces |
+
+B) In case of derive proc-macro
+Token Derive-macro |—|—| New Token Stream Wl|| be ..I1;2525252525252525252525252
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+vs i De rive p roced u ra l m a c ros
+Another observation is that a derive procedural macros don't have an way to
+customize them (keep in mind that deriving is done via I-iﬂ with not
+specific customizations.
+However, there might be cases where such a customization is required. For such
+cases, Rust has a helper attributes system, with the following format:
+( ( , ,---))
+(input: ) -> { m }
+To use this helper attributes: #[Attri] or #[Attri=value]
+These attributes (if used) will be present in the - parameter from the macro
+derive function and can be used to change how the deriving will be implemented.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Let's see an example:
+A) At the library (crate) source
+Rust ﬁbJs
+(Convertor, (ConvehtToValue))
+
+pub Fn conventor_Function(input: TokenStream) -> TokenStPeam { m }
+B) At another rust source that uses this custom derive
+Rust
+
+denive(Convehtor)
+
+ConvePtToValue = "Some information related to convention"
+struct MyData {
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Function-like procedural macros
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Function-like procedural macros
+Function-like procedural macros are procedural macros, that can be called like a
+normal macro. However, they workjust like a procedural macro 9 they receive a
+stream of tokens and must return an output (a new code that will be inserted in the
+program AST).
+Just like any procedural macro, you need to create a separate library and mark it as
+a procedural macro from cargo.toml file.
+You will also need to mark the function that will be called with a specific attribute:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+a
+Function-like procedural macros
+Let's see an example:
+A) The library should have something like this:
+Rust (lib.rs)
+P _ phoclmacro;
+my_macro(input: ) —> {
+B) The application that uses this will use it like this:
+Rust
+::my_macro;
+my_macro!(<tokens>);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+V5 i F u n ct | o n -| | ke p roced u ral m a c ros
+This type of macros are very suited for different type of optimizations and
+automatizations:
+- Computing best hashes
+- Generating code from another language (maybe something that is received as a
+string parameter)
+- Generating tables with data (e.g. an automaton)
+- Generating code based on the data from a file or multiple files
+- Etc.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+File operations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Rust supports file operations via a specific type called File (located in stdzzfszzFile).
+A file object can be created in the following way:
+m_—
+create (path: & ) —> < > Creates a new file. If the file already exists, the ﬁle will
+be truncated.
+open (path: & ) —> < > Opens a file that already exists. If the file is missing or
+in case of other system errors, it returns Error.
+options() -> Returns an 0pen0ption object that can be used to
+decide how a file should be opened.
+Notice that the Error result is part of the namespace (std::io::Error). 1'
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+aﬁﬁi@q
+
+Let's see a simple example:
+Rm m
+
+main() —> <(), stdzziozz > {
+
+f = ;;Cpeate("a.txt")?3 FHeaIxthasbeencnﬁned!
+f.write("Hello world".as_bytes())?;
+println!("File a.txt has been created l");
+
+0k(())
+}
+Let's analyze this code:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+i?‘
+F||e operatlons
+Let's see a simple example:
+Rust
+m
+Let's analyze this code:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+. .
+Flle operatlons
+Let's see a simple example:
+Ru“ m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+i?‘
+Flle operatlons
+Let's see a simple example:
+Ru“ m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+F||e operations
+If you don't want to used the ”?" operator, the previous code can be written in a
+different way:
+Rm m
+std::{1cs:: , 10:: };
+main() {
+if Ok( F) = ::cneate("a.txt") {
+if Ok(_) = f.wnite("Hello world".as_bytes()) {
+pnintln!("Fi1e a.txt has been created l");
+}
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+File operations
+Or in a more classical way, by checking the results each time:
+
+use std::{fs:: , 10:: }; [6;5;Hf______________1
+
+fn 0 { File a.txt has been created !
+let f_res = :: ("a.txt");
+if f_Pes. () {
+
+return;
+
+}
+let mut f = f_res. ()3
+let f_write_result = f. ("Hello world". ());
+if f_write_result. () { _£ﬁ
+peintln!<"F11e e txt hes been ceeeted l"); Eeﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+i?‘
+File operations
+Notice that there is no - method in type File. This is because it is not needed.
+When "f" scope is over, any handle to the file object will be closed.
+If you need to control when file is being close, you can open/create it into its own
+scope. When its scope has ended, any handle that a File might have will be closed.
+Rust
+{ i
+f = ::cneate("a.txt")?;
+1c.wr‘ite("Hello wonld".as_bytes())?; ' _
+} i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+File operations
+Alternatively, you can force dropping the variable (via function -). This function
+moves the object (takes the ownership of the memory the object has). Under the
+hood, if the Drop trait is implemented, it acts as a destructor and it is called. For an
+object of type File, the immediate result is that its handle is closed.
+Rust
+stdzzfszz ;
+5131:1101; ; m
+Prepare to create a file...
+main() -> <(), stdzziozz >{
+println!("PPepaPe to create a file...");
+f = ::create("a.txt")?;
+F.wnite "Hello world".as_bytes())?;
+println!("File a.txt has been created l");
+OW” _
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+But what if we want to open a file in a different way (for example, create it if it does
+not exist, but if it does, just open it and move the file position at the end of the file
+so that we can add data at its end). For this we have the - method that
+returns an — type with the following methods:
+@(81 , valuei ) -> & Specifies that Read mode should be used when opening
+a file.
+mm , valuei ) -> & Specifies that Write mode should be used when opening
+a file.
+mm , valuei ) -> & Specifies that the file pointer will be position at the end
+of the file.
+Specifies that the file (if exists) should be truncated.
+mm , value: ) -> & Specifies that the file should be created if it does not
+exist.
+Opens a file using the specific open file options specified.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+. .
+Flle operatlons
+Let's see how - can be used:
+Rust
+main() —> <(), std::io:: >{ M
+.write( )
+.append( )
+.create( )
+.open("a.txt")?;
+F.write("123\n".as_bytes())?;
+println!("File written l");
+OI<(())
+} 123
+123
+123
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Once a file has been opened / created, there are a set of method that can be used:
+
+Lad“ , MI & [ 1) -> < > Reads the content of the file into the buffer. Returns the
+number of bytes read, or an error.
+
+w“ , MI & < >) -> < > Reads the content of the file (from the current position to the
+file ends) into a vector.
+
+was , Mi & ) -> < > Reads the content of a string into a string. The content must be
+a valid UTF-8 text.
+
+mm , & [ 1) -> <() > Reads the exact size ofthe buffer or returns an Err otherwise.
+
+mm J M1 &[ 1) -> < > Writes the content of buf into the file. The result, if Ok
+represents the number of bytes written.
+
+MW , MI &[ 1) -> <() > Writes the entire content of buf into the file. If it can not write
+the content of buf into a file, it returns an error.
+
+mm ) - > < ( ) , > Flushes the content of the file to disk.
+
+set_1en(& , size! ) - > < ( ) , > Sets the length of the file. Truncates the file if needed or adds
+O until the new size.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+',® File operations
+
+In terms of Read/Write operations, there are two scenarios:
+
+1. You either want to write an entire buffer/data to a file, or you want to read a
+content of a s ecific fix-sized buffer from a file. If this is the case, you should
+use the or methods. This is usually one of the most
+common case, where you write/read binary data that reflects a certain
+structure into a file and writing/reading partial data is consider an error.
+
+2. It is ossible to read/write partial data. ln this case, you should use - and
+a methods. This is a less common case, but it is useful in certain
+situations. For example, writing data to a log (even if the disk space does is not
+enough, it is still important to write as mush information as you can).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Let's see an example:
+
+Rust
+
+Fn main() -> Resu1t<(), std: :io: ZEPPOP> { Output (possible)
+let mut f = File::open("a.txt")?; _
+
+_ _ . _ . Content Slze: 8
+
+let mut content = Vec..<u8>..new(), C t t[49 50 51 10 49 50 51 10]
+f.seek(Seeanom::Start(6))?; onen. ' ' ' ' ' ' '
+f.read_to_end(&mut content)?;
+pnintln!("Content size: {}", content.1en());
+pnintln!("Content: {:?}", content);
+0k(())
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+vs Fl le o pe rations
+You might have notice that there is no equivalent for a tell/ftell methods. This is
+because it is not needed 9 we can use seek.
+The SeekFrom enum is defined as follows:
+{
+
+Stant( ),
+
+End( ),
+
+Cunnent( ),
+}
+This means that we can use _ and get the same result as
+a ftell/tell method. Similarl if we want to obtained the size of a file, we can use
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+File operations
+Every file has a set of meta data information associated with it (such as permission,
+times (created, modified, last accessed), attributes, etc).
+metadata(& ) -> ‘ > Returns an instance of type Metadata.
+
+Return the last access time for the current file.
+Return the time when the file was created.
+Return the time when the file was last modified.
+True if current object is a directory, false otherwise
+True if current object is a file, false otherwise
+True if current object is a symlink, false otherwise
+Return the associated permissions with the open file.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+t?
+Let's see an example:
+Rust
+main() {
+meta = ::0pen("a.txt").unwrap().metadata().unwnap();
+pnintln!("Created: ",meta.cneated().unwrap());
+println!("Modified: ",meta.modified().unwnap());
+pnintln!("Last access: ",meta.accessed().unwnap());
+println!("Len: ",meta.1en());
+println!("IsFile: ",meta.is_file());
+pnintln!("Penmission: ",meta.permissions());
+}
+Created: SystemTime { intervals: 133121473875242934 }
+Modified: SystemTime { intervals: 133121474894848321 }
+Last access: SystemTime { intervals: 133121589503343172 }
+Len: 8
+lsFile: true
+Permission: Permissions(FilePermissions { attrs: 32 })
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Every file operation, if it fails returns an Error object with details. In the next
+example, let's assume that file "blablabla.txt” does not exist. In this case, opening
+that file will return an error as follows:
+Rust
+fn main() {
+let f = File::open("b1ab1abla.txt");
+if f.is_enn() {
+pnintln!("{z?}",F.enn().unwnap());
+1: 1’
+Os
+{
+code: 2,
+kind: NotFound,
+message: "The system cannot find the file specified."
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+. .
+File operations
+For simplicity, the file system namespace (stdzzfs) has two methods that can read
+and write the entire content of a file.
+Reads the content of a file into a vector.
+Reads the content of a file into a string.
+Writes the content of a buffer into a file.
+and an example:
+Rust
+main() {
+content_binany = std::fs::nead("a.txt").unwnap();
+content_stning = std::Fs::Pead_to_stning("a.txt").unwnap();
+println!("Bin = ", content_binany); t
+pnintln! ("Str = ", content_stning);
+}
+Str- 123\n123\n
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+Keep in mind that File type does not have any caching mechanism. As such,
+
+multiple small 0 erations (e.g. read file byte by byte) will be slow. However, Rust
+has two types: and - that can be used for caching.
+
+Method (for BufReader/BufWritter)
+new(inner: ) -> < > Creates a new buffered reader/writer over the
+new(inner‘: ) '> < > inner object (the inner object hasto have the
+
+Read/Write trait). The default cache size is used
+
+(for most OS-es is 8k)
+With_capaCitY(CaDaCit)/i s iFmEPI ) -> < > Createsa new buffered reader/writer, but ifa
+with_capacity(capacity: , inner: ) -> < > specified cache size.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Once a BufReader/BufWriter object has been created, the following methods are
+available:
+
+EU?‘ , M1 & [ l) -> < > Similarto what File type provides (the only difference is that
+
+w“ ) M: 8‘ < >> '> < > the data is cached first).
+
+nead to string(& , MI & ) —> < >
+
+WW , & [ 1) -> <0 >
+
+Mm , MI &[ 1) -> < > Similarto what File type provides.
+
+f1ush(& ) -> <(), >
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+e
+7'4’: l l
+F||e operations
+Let's see an example that reads a file line by line and prints all lines that have a
+specific text:
+Rust
+main() —> <(), stdzziozz > { _
+—F = :zopen("10g.txt")?;
+for item in P.lines() {
+if Ok(line) = item {
+if line.contains("[ERROR]") {
+println!(" line ")3
+}
+}
+}
+0k(())
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+Keep in mind that .Iines() iterator builds a new string for each line. If you want to
+reuse an existing one, use the .read_|ine() method. Keep in mind that if .read_|ine()
+method returns Ok(0) then the end of file (reader) has been reached.
+Rust
+Fn main() -> Result<(), stdzziozzEnnon> {
+let f = File::open("log.txt")?;
+let mut P = BufReaden::with_capacity(@x19999, f);
+let mut line = String::with_capacity(1@24);
+let Ok(bytes_read) = P.nead_line(&mut line) {
+bytes_nead == 9 { 3 }
+line.contains("[ERROR]") {
+} Wu“ > {1m} >’
+}
+0k(())
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+i?“
+Keep in mind that once a BufReader/BufWriter has been created, the ownership for
+the file object is transferred to this object and as such, the original File object can
+not be used anymore:
+Rust
+main() —> <(), stdzziozz > {
+f = ::open("1og.txt")?;
+r = ::with_capacity(6x19999, f);
+text = ::new();
+F.read_to_string(& text);
+Ok< ( )) error[E6382]: borrow of moved value: ‘F
+} --> src\main.rs:7:5
+|
+4 | let f = File::open("log.txt")?;
+| - move occurs because ‘f‘ has type ‘File‘, which does not
+| implement the ‘Copy‘ trait
+5 | let mut r = BufReader::with_capacity(0x10000, f);
+| - value moved here
+6 | let mut text = String::new();
+7 | f.read_to_string(&mut text);
+| AAAAAAAAAAAAAAAAAAAAAAAAAAA value borrowed here after move
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+However, if for some reason, access to the original object is required, there are two
+method .get_ref() and .get_mut() that can be used with BufReader/BufWriter to
+get a reference to the original object:
+Rust
+fn main() —> Result<(), stdzziozzEnnoP> {
+let f = File::open("log.txt")?;
+let P = BufReadeP::with_capacity(6x19999, F);
+let mut text = String::new();
+let mut ‘F_PE‘F = r‘.get_r‘e1c();
+f_ref.Pead_to_string(&mut text); Up“ mus e
+pnintln!("{}", text); iii
+Ok(()) 123
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Rust implementation of file operations is based on 3 traits (Write, Read and Seek),
+defined as follows:
+Rust (Write trait — from mod. rs)
+pub trait Write {
+fn write(&mut self, buf: &[u8]) -> Result<usize>;
+fn flush(&mut self) —> Result<()>;
+fn write_vectored(&mut self, bufs: &[IoSlice<'_>]) —> Result<usize> { ... }
+fn write_all(&mut self, mut buf: &[u8]) —> Result<()> { ... }
+fn write_fmt(&mut self, fmt: fmt::Arguments<'_>) -> Result<()> { ... }
+}
+Rust (Seek trait — from mod. rs)
+pub trait Seek {
+fn seek(&mut self, pos: SeekFrom) —> Result<u64>;
+fn rewind(&mut self) —> Result<()> { ... }
+fn stream_position(&mut self) —> Result<u64> { ... }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+. i F'Ie operat'ons
+Rust implementation of file operations is based on 3 traits (Write, Read and Seek),
+defined as follows:
+
+Rust (Write trait — from mod. rs)
+pub trait Read {
+fn read(&mut self, buf: &mut [u8]) —> Result<usize>;
+fn read_vectored(&mut self, bufs: &mut [IoSliceMut<'_>]) —> Result<usize> { ... }
+fn read_to_end(&mut self, buf: &mut Vec<u8>) —> Result<usize> { ... }
+fn read_to_string(&mut self, buf: &mut String) —> Result<usize> { ... }
+fn read_exact(&mut self, buf: &mut [u8]) —> Result<()> { ... }
+fn bytes(self) —> Bytes<Self> where Self: Sized { ... }
+fn chain<R: Read>(self, next: R) —> Chain<Self, R> where Self: Sized { ... }
+fn take(self, limit: u64) —> Take<Self> where Self: Sized { ... }
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+," F l I e O p E rat l O n S
+The logic behind the implementation of these traits is that you can perform
+agnostic operation on every type that implements these traits, such as:
+~ File
+' TcpStream
+' Sink (just Write)
+' Stdin (just Read) and Stdout/Stderr (just Write)
+' ChildStdin (just Read), ChildStdout/Childstderr (just Write) 9 for stream related to child
+processes
+' and many more
+These traits can be used to perform generic operation (for example you can provide
+to a function a file or a TCP stream and it will behave in a similar manner as they
+both implement-trait).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+File system operations
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+Rust library (stdzzfs) provides a series of methods that can be used for file system
+operations:
+copy (FPOmi & , ‘£01 & ) -> < > Copies the content of one file into another. If the
+destination file exists, it will be overwritten. The function
+returns the number of bytes copied.
+create_din (path: & ) —> < > Creates a directory (simple or recursively) if a full path is
+create_dir‘_all (path: & ) —> < > provided.
+hard_1ink (from: & , to: & ) —> < > Creates a hard or a soft link.
+soft_1ink (from: & , to: & ) —> < >
+remove_din (path: & ) —> < > Removes a directory (empty or recursively).
+remove_dir‘_all (path: & ) —> < >
+Remmsaﬁ's
+read_dir (pathi & ) - > < > Returns an iterator that allows enumerating the content
+of a directory
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+In the next example we will do the following:
+' Create a new folder (called temp)
+' Write a file (named a.txt) in folder temp
+' Rename that file from a.txt to b.txt
+' Delete folder temp and all of its content
+Rust
+fn main() —> Result<(), Er‘r‘or‘> { Output (possible)
+std::fs::cneate_din("temp")?;
+std: :fs: :wnite("temp/a.txt", "Rust" .as_bytes())?;
+std::fs::Pename("temp/a.txt", "temp/b.txt")?;
+std::fs::remove_din_all("temp")?;
+pnintln!("A11 ok");
+0k( ( ))
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+std::fs::read_dir(...) method returns an iterator that can be used to enumerate the files
+and subdirectories from a given folder. The iterator yells a structure for type DirEntry
+for each file, with the following properties:
+' file_name 9 the name of the file (as represented in the OS you are running).
+' path 9 the path of the file (as represented in the OS you are running). Output (possible)
+' metadata 9 access to a entry metadata (times, type, permission, etc). Name = ".git"
+RUSt Full path: ".\\.git"
+F 1d : t
+fn main() { f"??------I:L-J?-------------
+let Ok(dir‘_it) = std::Fs::r‘ead_dir‘(".") { Name : ".gitignore"
+dir‘_entr‘y_r‘esult dir‘_it { Fun path‘ "'\\-gitign°'“e"
+let Ok(dir‘_entr‘y) = dir‘_entr‘y_r‘esult { f?%??i___i_1_c?%??____________
+println!("Name : {:?}", dir‘_entr‘y.file_name()); Name z ".vscode"
+println!("Full path: {:?}", dir‘_entr‘y.path()); Full path: ".\\.vscode"
+pnintln!("Folder‘ : {:?}", dir‘_entr‘y.metadata().unwnap().is_dir‘()); Folder‘ : true
+pnintln!("-—----——----—--—-------—-----—-—-----—--—-------—--"); ----------------------------
+} Name : "a.txt"
+} Full path: ".\\a.txt"
+} Folder‘ : false
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+,’I F l I e SVSte m O p e rat l O n S
+Every operating system has a different way of storing strings.
+' API from - has to be generic, the methods that return a string (such as
+) return a string in the OS format. To simplify, these methods store a vector of
+bytes u8) that represent how a specific string is store in the OS the code is running.
+Examples:
+' Windows stores paths as WTF-16 (followed by a I char) or ASCIIZ
+' IVIAC/OSC uses UTF-8 (also followed by a I char)
+' Linux work well UTF-8 but in reality, Linux is encoding agnostic.
+Rust does not have the I char as a concept (all strings are UTF-8 and have a size). As
+such it has to store the OS result in a buffer and converted in a string that has follow
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+The following code iterates through all files and subdirectories from the current folder
+and converts their name into a Rust String object (via the .into_string() method).
+Rust
+use std: :io: :Ennon; Output (possible)
+fn main() —> Result<(), Ennon> { name: ~8it_
+let dir‘ = std: :fs: :nead_dir‘(" . ") P; name: -8ltl8n0l’e
+dir'_entr*y_r\esult din { name: .vscode
+let dir*_entr‘y = dir‘_entr*y_r‘esult?; name: a.txt
+let Ok(fname) = dir*_entr‘y.file_name() .into_stning() { name: Cargo.|ock
+pnintln! ("name: {}", fname); name: Cargotoml
+} name: src
+} name: target
+Ok(())
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Let's see how we can use — to recursively traverse a folder:
+Output (possible)
+use std: :{10: : , path: : }; File: ".\\.git\\config"
+File: ".\\.git\\description"
+fn (path: & ) —> < (), > { File: ".\\.git\\HEAD"
+let dir‘ = Std: 2‘FS: 2 (path) P; File: ".\\.git\\hooks\\applypatch-msg.sample"
+{Op dip_entpy_pesu1t in dip { File: ".\\.git\\hooks\\c0mmit-msg.sample"
+let File_path = dir_entry_resu1t?. ()3 File: ".\\.git\\hooks\\fsmonit0r-watchman.sample"
+if File_path ' O { File: ".\\.vscode\\launch.json"
+(&F11e_path) P; File: ".\\a.txt"
+} Else { File: ".\\Carg0.lock"
+println! ("File: {:?}", Fi1e_path); File;"_\\Carg0_t0m|"
+} File: ".\\target\\release\\first.exe"
+Ok( ( ) ) File: ".\\target\\release\\first.pdb"
+} Result = Ok(())
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+Let's see how we can use — to recursively traverse a folder:
+
+Output (possible)
+
+File: ".\\.git\\config"
+
+File: ".\\.git\\description"
+
+File: ".\\.git\\H EAD"
+
+File: ".\\.git\\hooks\\applypatch-msg.sample"
+
+File: ".\\.git\\hooks\\commit-msg.sample"
+
+P _ File: ".\\.git\\hooks\\fsmonitor-watchman.sample"
+
+File: ".\\.vscode\\launch.json"
+
+File: ".\\a.txt"
+Notice the usage of ”?."; this translates in the following way:
+' If the left-most expression results in an error, then return the error 5;
+' Else, grab the object returned by the left-most expression and call member e\\ﬁrst_exe"
+
+operator (’.') on it e\\1‘ir-°»t-|I><1"I>"
+
+' In our case -) if dir_entry_result is not an error, then call method .path() from
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+We can also use a callback so that we can externalize what we do with the file name:
+fn < >(path: & , cbk: &mut ) -> <(), >
+where
+: (& ), Output (possible)
+{ let dir‘ = std: :Fs:: (path)?,' Path: .\target\debug\first.d
+for‘ dir‘ entry result in dir‘ { Path:.\target\debug\first.exe
+1et_file_5ath = dih_entry_resu1t?. (); Path: -\target\debug\first.pdb
+if file_path. () {
+(&1cile_path, cbk) P; Path: .\target\release\.cargo-l0ck
+} else { _
+if let Some(1cile_path_str‘ing) = File_path. () { Path:.\target\release\deps\flrst.d
+cbk(&1cile path string); Path:.\target\release\deps\f|rst.exe
+} _ _ Path: .\target\release\deps\first.pdb
+} } Path: .\target\release\first.d
+Ok( ( )) Path: .\target\release\first.exe
+} Path: .\target\release\first.pdb
+<Path:= ("-">, &mut lpathl { println!<"Path= {path}">; }>: aaaaaaaa
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+i Fl le Syste m o pe ratlons
+We can also use a closure to store some data locally and then process them
+afterwards:
+fn < >(path: & , cbk: &mut ) —> <(), >
+where
+
+I (& ),
+{ I Output (possible) I
+} ' ' ' Items in s: 18
+tn () {
+let mut s = ::< >:: ()3
+(Pathzz ("."), &mut |path| { j
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Execution environment
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+Every program upon execution has an execution context / environment that
+
+consists of command line arguments, current directory, home directory,
+
+environment variables, etc. All of these can be obtained via - namespace.
+ansO -> Returns an iterator over command line arguments. All arguments
+"$2050 '> must be valid Unicode strings. Use args_os if youre program can
+
+receive non valid UTF-8 characters.
+
+var (key: & ) -> < , > Return the value of a system variable. The name of the variable
+van_os (key: 8‘ ) '> < > must be provided via an OsStr object.
+vaPSO - > Returns an iterator that can be used to iterate over the existing OS
+vans_os() -> variables.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+t?‘
+EXECUthn EHVI ron ment
+Let's see an example:
+Rust
+main() {
+println!("CuPPent path: ", std::env::curnent_dir());
+println!("CuPPent exe : ", std::env::curnent_exe());
+println!("Home folder : ", std::env::home_din());
+println!("Temp folder : ", std::env::temp_din());
+}
+Current path: Ok("E:\\Lucru\\Rust\\first")
+Current exe : Ok("E:\\Lucru\\Rust\\ﬁrst\\target\\debug\\first.exe")
+Home folder : Some("C:\\Users\\<USER>")
+Temp folder : "C:\\Users\\<USER>\\AppData\\Local\\Temp\\"
+OBS: Keep in mind that the result of this snipped might vary depending on the OS.
+Furthermore, .home_dir() is considered deprecated.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+i?‘
+EXGCUthn EHVeranHt
+Let's consider that we run our executable (first.exe) with 3 arguments (”Rust”, "1" and
+"true”). Then this script should output the following:
+Rust
+main() {
+for ang in std::env::angs() {
+pnintln!("ang: ", ang);
+}
+}
+argzﬁrstexe
+arngust
+mgzl
+arngrue
+OBS: If arguments order is required, consider using enumerate
+(std::env::args::enumerdte)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+é?‘
+Similarly, the following code lists all system variables available upon execution of a
+Rust program (specific to Windows environ ment):
+Rust
+main() {
+for van in std::env::vans() {
+pnintln!("var: —> ", van.9, van.1);
+} } Output (possible)
+var: ALLUSERSPROFILE -> C:\ProgramData
+var: CARGO_HO|\/IE -> C:\Users\<User>\.cargo
+var: COLORTERIVI -> truecolor
+var: CommonProgramFiles -> C:\Program Files\Common Files
+var: HOMEPATH -> \Users\<USER>
+var: LANG -> en_US.UTF-8
+var: OS -> Windows_NT
+var: PROCESSOR_|DENT|FIER -> lntel64 Family 6 Model 140 Stepping 1, Genuinelntel
+var: RUSTUP_TOOLCHA|N -> stable-x86_64-pc-windows-msvc
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+FFI
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+FFI (Ioreign Iunction Interface) is used for interoperability between different
+programming languages and interfacing with system-level APIs. In particular for
+Rust, we will discuss C/C++ and Rust interoperability.
+FFI can be divided into two major categories:
+A) Access from Rust code written in a different language
+' Functions
+° Classes / structs
+B) Access from another language code written in Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+I Accessing a function from an external library
+
+We also have two scenarios in this case:
+
+1. We want to link the external library statically
+
+2. We want to dynamically load an external library and then load the function
+Scenario no. 2 is more suitable for building a — application Where each
+plugin is a library that is loaded dynamically.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+I Accessing a function from an external library (—)
+The general format in this case is as follows:
+extern “ ”
+{
+// other attributes
+// functions
+}
+Where:
+' - attribute provides information on the library that needs to be linked
+' _ provides information on the calling conversion
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+I Accessing a function from an external library (—)
+The #[link(...)] attribute is defined in the following way:
+[ ( = )1
+Where:
+name No Name of the library to link
+kind Yes Type of library: could be one of- , - , —, -. If this parameter
+is not provided, its value will be defaulted to dylib.
+modifiers Yes How the linkage has to be performed: values like -, —, -
+Some specifier can be used only with a certain type of linkage.
+|\/|ore details on: httpsﬂdoc.rust-lang.org[refe renceZitemsZexternal-blocks.html
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+'9 FFI
+I Accessing a function from an external library (—)
+The ABI type can be one of the following:
+Rust The default calling conversion used by Rust
+C The default calling conversion used by C/C++ compiler
+system Default calling conversion used by the OS. Usually, the same as the one used by C/C++ compiler
+except for Win32 where is stdcall
+cdecl Default for C code (X86_32)
+stdcall Default for win32
+fastcall In IVIS C compiler (_fastcall), in GCC or C-Lang (_attribute_((fastcall))
+vectorcall In MS C compiler (_vectorcall ), in GCC or C-Lang (_attribute_((vectorcall))
+thiscall In MS C compiler (_thiscall ), in GCC or C-Lang (_attribute_((thiscall))
+There are other ABIs available (for various systems).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+I Accessing a function from an external library (—)
+
+Let's assume the following simple function in C++ and see how the assembly looks
+
+like if we call it with different specifiers:
+
+int (int x, int y) { x + y; }
+
+AB' Tvpe -> Mmm
+
+Funcﬂon push ebp push ebp mov eax, ecx // x
+
+Code mov ebp, esp mov ebp, esp add eax, edx // y
+mov eax, [ebp+8] // X mov eax, [ebp+8] // X ret
+add eax, [ebp+12] // y add eax, [ebp+12] // y 5
+mov esp, ebp mov esp, ebp eﬁﬁ
+pop ebp P0P ebp
+
+CaMng push y push y mov 96X, X 2:322:32
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+I Accessing a function from an external library (—)
+There are also some scenarios where:
+' We don't want to use the same name for the imported function (e.g. the imported function
+does not use snake case formatting — GetTickCount is the name of a Windows API function,
+but it is written in camel case 9 the similar name in Rust should have been get_tick_count)
+' When the name of the exported function is mangled.
+' The function we want to import is exported via an ordinal (instead of a name)
+ln these cases, we can use other attributes directly when describing the imported __
+function:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+1. Accessing a function from an external library (static linkage)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+< = ""emelgz“)
+
+extePn "system" {
+
+{n GetTickCount()->u32;
+}
+tn main() {
+
+let result = unsafe { GetTickCount() };
+
+println!("{}",result);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+FFI
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+FFI
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+if‘
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+Rust dyHb
+( = "kenne132", ="dylib")
+"system" {
+GetTickCount()-> 3
+} 0
+malHO { mov nax, qwond ptr‘ [_imp_GetTickCount]
+result = { GetTickCount() }; ca11 PaX
+println! (" , Pesu 3 mov dword ptr‘ [result],eax
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+56-5011" l
+an
+I Accessing a function from an external library (—)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+RUSt When using static, a direct
+( = "|<er*ne132" , ="stat1c") call to the API is being used.
+"system" {
+GetTickCount()-> 3
+}
+main() { _
+println! (. ",Pesuit); mov won p r [PGSU ],eax
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+1. Accessing a function from an external library (static linkage)
+In this example we import GetTickCount function from Windows API (located in
+library kernel32.dll):
+extehn "system" {
+
+Fn GetTickCount()->u32;
+}
+Fn main() {
+
+let result = unsafe { GetTickCount() };
+
+println!("{}",result);
+}
+OBS: Notice that we have removed the #[link(...)] attribute. In this case, Rust will
+search for the imported function in the libraries normally loaded by the current
+application (and as kernel32.dll is loaded in every user mode program in Windows
+the code will work as expected).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+.ﬁﬁw__'2_x
+
+I Accessing a function from an external library (—)
+It is important to highlight that the more complex an exported function is, the more
+complicated the code that calls that function will be. Let's analyze how the code the
+calls the following function defined in Win32 API (GetSystemTime) should look like:
+Definition: void GetSystemTime( [out] LPSYSTEMTIME lpSystemTime);
+Wlth. struct {
+
+WORD wYeaP;
+
+WORD wMonth;
+
+WORD wDayOfWeek;
+
+WORD wDay;
+
+WORD wHouP;
+
+WORD wMinute;
+
+WORD wSecond;
+
+WORD wMilliseconds;
+
+} , * , * ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+aﬁﬁi@q
+1. Accessing a function from an external library (static linkage)
+Rust (SYSTEMTIME library) Where;
+c
+depisei > ' #[repr(C)] 9 we don't want Rust to reorder data
+( ) members order (we want to keep them exactly
+struct SYSTEMTIME { how C language will align them in memory)
+wYeaP: u16, _ _
+wMonth; L116, ' #[derlve(Default)] 9 Rust Wl|| not allow us to
+wDayOfl/leek: u16, create an uninitialized data object. As such we
+wDayr L116, need a default way to initialize all fields.
+wHour‘: u16, _
+minute; L116, ' #[allow(non_snake_case)] 9 By default W|n32
+wSecond: u16, APls are camel case. If we don't want Rust to yield
+WMilliSECOMS‘ “16 a warning in this case, we have to tell him that
+} this is in fact how we want the structure to be
+named.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+FFI
+I Accessing a function from an external library (—)
+Rust (SYSTEMT/ME library) Rust (linking the function)
+< ) ( ="kePne132")
+derive( ) "system" {
+( ) = "GetSystemTime"
+{ get_date_time(lpSystemTime: )3
+wYeaP: , }
+wMonth: ,
+wDayOfWeek: ,
+wDay: ,
+WHOUPZ ,
+wMinute: ,
+wSecond: ,
+wMilliseconds:
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+1. Accessing a function from an external library (—)
+( ) ( ="kerne132")
+( ) extern "system" {
+( ) = "GetSystemTime"
+StPUCt { fn (lpSystemTime: *mut )3
+wYeaP: , }
+wMonth: ,
+wDayOH/deek: : l0utput(possible) I
+WDay'_ ’ tn () { 20:27:15.134
+WHOUP' , let mut dt = z: ()3
+wMinute: J unsafe { (&mut dt) };
+wSecond: , println!( ﬁﬁﬁ
+wMillisecondS: "Current time: {}:{}:{}.{}",
+} dt.wHour, dt.wMinute, dt.wSecond, dt.wMilliseconds
+>3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+I Accessing a function from an external library (—)
+
+Notice that the more complex a function is (in terms of parameters) the more code
+
+and structures we need to create to accommodate.
+
+Up to this point, all of the examples used data types that were compatible with the
+
+ones from Rust (such as WORD that is an u16 in Rust, or DWORD that is a u32 in
+
+Rust). But what if there are some data types that Rust does not support ? (for
+
+example, an ASCIIZ string ?)
+
+For this case, Rust has a special module (stdzszi) that helps make the transion more
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+I Accessing a function from an external library (—)
+The following types are available via std::ffi:
+C/C++ type Rust type (aprox) W C/C++ type Rust type (aprox) W
+char i8 c_char void ? c_void
+unsigned char u8 c_uchar 0
+short i16 c short VOid* ? *mUt C—V0id
+unsigned short u16 c_ushort const VOid* ? *const C—V0id
+int i32 c int char* (ASCIIZ) ? CString
+unsigned int U32 c_uint const char* &[u8]+\0 char CStr
+_ *const c_char
+long i32 or i64 c_long __:
+unsigned long u32 or u64 c_ulong
+long long i64 c_longlong
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+1. Accessing a function from an external library (static linkage)
+Let's try to create a file and write a text into it, by using Windows API. The C/C++
+code will look like the following:
+C++
+#include "Windows.h"
+#include <stPing.h>
+void main() {
+HANDLE h = CreateFileA("test.txt", GENERIC_WRITE, FILE_SHARE_WRITE, NULL,
+CREATE_ALWAYS, o, NULL);
+(h != INVALID_HANDLE_VALUE) {
+const char* content = "some text";
+DWORD bytesWPitten;
+WriteFile(h, content, strlen(content), &bytesWritten, NULL);
+CloseHand1e(h);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+I Accessmg a functlon from an external llbrary (—)
+To translate the preVIous code |nto Rust, we ﬁrst need to look on how the APls used
+|n that code look l|ke:
+m Definition Documentation
+Fll HANDLE CreateFileA( . https://lear*n.micr‘osoft.com/en-
+create e [1"] l-PCSTR lpFileName, us/windows/win32/api/fileapi/n-F-fileapi-
+[in] DWORD deesiPedAccess, cpeatepilea
+[in] DWORD dehaPeMode,
+[in, optional] LPSECURITY_ATTRIBUTES lpSecurityAttPibutes,
+[in] DWORD dwCreationDisposition,
+[in] DWORD dwFlagsAndAttPibutes,
+[in, optional] HANDLE hTemplateFile
+);
+- ll BOOt WriteFile( . https://lear‘n.micr"osoft.com/en- “1:5
+WHtEF e [1n] HANDLE hFlle, us/windows/win32/api/fileapi/n-F-fileapi- __:;;;§§§§§§§
+[i n] LPCVOID 1 pButfer ’ wr it e-F i l e .-;:55§§§§§§§§§§§§§§§
+[in] DWORD nNumberOfotesToWrite, igﬁﬁﬁﬁﬁﬁ
+[out, optional] LPDWORD leumberOFBytesWritten, ﬁgﬁﬁﬁﬁﬁﬁﬁﬁ
+[in, out, optional] LPOVERLAPPED lvaerlapped Eﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+BOOL CloseHand1e( [in] HANDLE hObject )3 https://lear‘n.micr‘osoft.com/en-
+CIOSEHand'e us/windows/winBZ/api/handleapi/nf-handleapi-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+1. Accessing a function from an external library (static linkage)
+First, let's define some constants and a type for HANDLE. We will also need stdzszi
+to convert a string to ASCIIZ and stdzzptr to get the NULL value.
+Rust (constants and modules)
+
+use std::ffi::*;
+
+use stdzzptP;
+
+type HANDLE = isize;
+
+const GENERIC_WRITE: u32 = 9x49999999;
+
+const FILE_SHARE_WRITE: u32 = 9x2;
+
+const CREATE_ALWAYS: u32 = 2;
+
+const INVALID_HANDLE_VALUE: HANDLE = -1;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+1. Accessing a function from an external library (static linkage)
+Secondly, let's import the 3 APls (since all of them are located in kernel32.dll) we
+don't have to explicitly link it via #[link(name=”kernel32”)]
+Rust (API inports)
+extern "system" {
+fn CreateFileA( Fn WriteFile(
+lpFileName: >|‘const c_char, hFile: HANDLE,
+deesiPedAccess: u32, 1pBuFfeP: *const c_void,
+dehaPeMode: u32, nNumberOfotesToWPite: u32,
+lpSecuPityAttributes: *mut c_void, 1pNumbePOFBytesWPitten: *mut u32,
+dwCPeationDisposition: u32, lvaerlapped: >|‘mut c_void,
+dwFlagsAndAttributes: u32, ) —> 132;
+hTemplateFile: *mut c_void,
+) —> HANDLE; Fn CloseHandle(hObject: HANDLE) —> 132;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+1. Accessing a function from an external library (static linkage)
+Finaly, let's write the main function. Notice that we can use fi|e_name.as_ptr() to
+get an ASCIIZ pointer as required by CreateFiIeA ABI.
+Rust (main function)
+handle != INVALID_HANDLE_VALUE {
+Fn main() { let content = "some text";
+let File_name = CString::new("test.txt").unwrap(); let mut bytes_written: u32 = 9;
+let handle = unsafe { unsafe {
+CreateFileA( WriteFile(
+file_name.as_ptr(), handle,
+GENERIC_WRITE, content.as_ptr() as *const c_void,
+FILE_SHARE_WRITE, content.len() as u32,
+ptr::null_mut(), &mut bytes_written,
+CREATE_ALWAYS, ptr::null_mut(),
+9, )s
+ptr::null_mut(), CloseHandle(hand1e);
+) }
+}; }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+I Accessing a class/object from an external library (—)
+Let's analyze a more complex scenario. Let's assume that we want to access an
+object or class via FFI (for example, can we use a C++ class in Rust)?
+There are also two solutions here:
+1. Build a C-language wrapper and access the elements from that class via that
+wrapper
+2. Call the methods (ctor, dtor, other methods) directly.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:129**************
+1. Accessing a class/object from an external library (static linkage)
+Let's assume the following C++ class:
+C++
+#include <string.h>
+class Point {
+char* name;
+public:
+int X, y;
+Point(const char* n) {
+X = y = 9;
+name = new char[strlen(n) + 1];
+memcpy(name, n, strlen(n) + 1);
+}
+~Point() { delete []name; }
+bool is_origin() { (x == 9) && (y == 9); }
+const char"l< get_name() { name; }
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+jé§é$i;g_
+1. Accessing a class/object from an external library (static linkage)
+To export the class via a C wrapper we also need to add the following code. Notice
+that we need to create a method for ctor, dtor, and some methods to access public
+data members x and y.
+C++
+extehn "C"
+{
+__declspec(d11export) void* new_Point(const char *name) { new Point(name); }
+__declspec(d11export) void delete_Point(void *instance) { delete ((Point *)instance); }
+__declspec(d11export) bool point_is_ohigin(void *instance)
+{
+((Point *)instance)->is_origin();
+}
+__declspec(d11export) int point_get_x(void *instance) { ((Point *)instance)->x; }
+__declspec(d11export) int point_get_y(void *instance) { ((Point *)instance)->y; }
+__declspec(d11export) const char *point_get_name(void *instance)
+{
+((Point *)instance)->get_name();
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:131**************
+I Accessing a class/object from an external library (—)
+To export the class via a C wrapper we also need to add the following code. Notice
+that we need to create a method for ctor, dtor, and some methods to access public
+data members x and y.
+C++
+__declspec( )
+__declspec( )
+__declspec( )
+__declspec( )
+__declspec( )
+__declspec( )
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+jé§é$i;g_
+1. Accessing a class/object from an external library (static linkage)
+Now for the Rust part 9 first we need to import the exported method. We will
+assume that the C++ code results in a DLL file called mydllfile.d||
+Rust
+use std::FFi::*;
+use stdzzptr;
+( ="mydllfile")
+extehn "C" {
+fn new_Point(name: >|‘const c_chaP)->*mut c_void;
+fn delete_Point(instance: *mut c_void);
+fn point_is_origin(instance: >‘<mut c_void)->bool;
+fn point_get_x(instance: >‘<mut c_void)->132;
+fn point_get_y(instance: >‘<mut c_void)->132;
+fn point_get_name(instance: >‘<mut c_void)->&str;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:133**************
+1. Accessing a class/object from an external library (—)
+Secondly, we need t0 write a Rust class that will resemble the C++ one.
+pub struct {
+instance: *mut
+}
+impl {
+fn (name: & )->Self {
+let c_name = z: (name). ();
+Self { instance : unsafe { (c_name. ())} }
+}
+fn (&self)—> { unsafe { (self.instance) } }
+fn (&self)—> { unsafe { (self.instance) } } igﬁ
+fn (&self)—> { unsafe { (self.instance) } } _¢ﬁﬁﬁ
+tn (&mut self) { unsafe { (self-instance); } }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+I Accessing a class/object from an external library (—)
+Secondly, we need to write a Rust class that will resemble the C++ one.
+Rust
+—-
+drop(& ) { { delete_Point( .instance); } }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:135**************
+1. Accessing a class/object from an external library (—)
+Secondly, we need to write a Rust class that will resemble the C++ one.
+fn (&selF)->& {
+unsafe {
+let c_str = (self.instance); a
+if c_str. () { panic!("... some error ..."); } Hﬁ%ﬁ
+panic!("Conversion From const char"< to &str Failed I"); @ﬁEﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+I Accessing a class/object from an external library (—)
+This method comes with pros and cons:
+PROS:
+' Every type of object can be exported in this way
+' Virtual methods can be called as the call is being performed in the C wrapper
+CONS:
+' You need to write a lot of code and wrappers to make this work
+' Slower (you can not call the method from a class directly; you need to go through a wrapper)
+° You can not access public data members; instead, getters and setters need to be created.
+° You can not create such an object directly on the stack. The wrapper forces you to create every object on the heap.
+For smaller object this could be a disadvantage.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:137**************
+I Accessing a class/object from an external library (—)
+
+The second option is to try to create a class with the same memory layout as the on
+from C/C++ and when a method is being called, call the exported method from C++
+code. Since Rust optimizes the calls that perform one single call within their code,
+this will achieve the same level of performance as with C/C++.
+
+On the other hand, it is more complicated to link.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+I Accessing a class/object from an external library (—)
+
+First, lets export the Point class (notice that we no longer use the extern "C") format;
+
+The _declspec(dllexport) are still required for IVIS compiler to export this class.
+class ( ) { }3
+
+The resulted DLL will have the symbols mangled as follows:
+Symbol (method) Exported name (mangled) for MS cl.exe compiler
+Point::Point(char const*) ??0Point@@QEAA@PEBD@Z
+Point::"Point() ??1Point@@QEAA@XZ
+Point& Point::operator=(Point const&) ??4Point@@QEAAAEAVO@AEBVO@@Z
+void Point::_autoclassinit2(unsigned long long) ?_autoclassinit2@Point@@QEAAX_K@Z
+bool Point==is_origin0 ?is_origin@Point@@QEAA_N><Z
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:139**************
+I Accessing a class/object from an external library (—)
+First, lets export the Point class (notice that we no longer use the extern "C") format;
+The _declspec(dllexport) are still required for MS compiler to export this class.
+class ( ) { };
+The resulted DLL will have the symbols mangled as follows:
+Symbol (method) Exported name (mangled) for MS cl.exe compiler
+This is a copy constructor that was automatically generated by the
+compiler. Since it was automatically generated, it performs bitwise
+copy over the content of the object.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+I Accessing a class/object from an external library (—)
+First, lets export the Point class (notice that we no longer use the extern "C") format;
+The _declspec(dllexport) are still required for MS compiler to export this class.
+
+class ( ) { };
+The resulted DLL will have the symbols mangled as follows:
+
+Symbol (method) Exported name (mangled) for MS cl.exe compiler
+
+This is a method used to initialized the pointer in the class
+
+Point (for the namE) to a NULL pointer (often used t0
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:141**************
+jé§é$i;g_
+1. Accessing a class/object from an external library (static linkage)
+Just like in the previous case, we need to import the exported files from
+mydllfile.d||. We can skip some of them (for example if we don't want to allow a
+Pointer object to be copied (so only MOVE semantics), we don't really need the
+copy constructor).
+Rust
+use std::ffi::*;
+use stdzzptP;
+( = "mydllFile")
+extePn "C" {
+= "P?@Point@@QEAA@PEBD@Z"
+fn point_ctor(instance: *mut Point, name: *const c_chaP);
+= "??1Point@@QEAA@XZ"
+fn point_dtor(instance: *mut Point);
+= "?is_origin@Point@@QEAA_NXZ"
+fn point_is_origin(instance: *const Point) —> bool;
+= "?get_name@Point@@QEAAPEBDXZ"
+fn point_get_name(instance: *const Point) —> *const c_chaP;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+1. Accessmg a class/object from an external l|brary (—)
+The Rust class |s slmllar (as form) WIth the one from C++:
+( )
+pub struct { impl {OP {
+name: *mut , fn (&mUt 591$) {
+pub X; , unsafe {
+pub y: , (591$);
+} }
+impl { }
+fn (name: & ) -> Self { }
+unsafe {
+let c_name = :: (name). ()3
+let mut memory: < > = std :mem:: :: ()3 1%
+(memory. (), c_name. ())3 lgﬁﬁﬁ
+PQtUP“ mem°ry' (>3 lﬁﬁﬁﬁﬁﬁ
+} .mﬁﬁﬁﬁﬁﬁﬁﬁ
+fn (&self) '> { unsafe { (591?) } } ﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+tn (8691f) -> & {---}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:143**************
+1. Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+( ) This is required so that we are certain that the fields are allocated in
+the same order in memory in Rust and C++ for structure Point.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+1. Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+Allocates an uninialized memory zone
+of the same size of structure Point.
+let mut memory: < > = std: :mem:: :: ()3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:145**************
+I Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+Rust
+—
+point_ctor(memory.as_mut_ptr(), c_name.as_ptr());
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+FFI
+I Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:147**************
+I Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+Rust
+point_is_origin(instance: ) —> 3
+{ point_is_origin( ) } }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+1. Accessing a class/object from an external library (—)
+The Rust class is similar (as form) with the one from C++:
+fn (&self) -> & {
+unsafe {
+let c_str = (591F)}
+it c_str. () {
+panic!("... some error‘ ...");
+}
+return :: (c_str‘) . () . ("Fail to convert"); _
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:149**************
+I Accessing a class/object from an external library (—)
+This second method also comes with some PROS and CONST
+PROS:
+' Faster; it works just like C++ code in terms of calling (no wrappers).
+' You can access public data members just like in C++ case
+' Can be created on the stack
+CONS:
+' Mangling is different between various C++ compilers. As such, you need specific code for cases where OS
+interoperability is required.
+' Calling virtual functions is tricky as you would have to handle calling them directly instead of the C++ wrapper.
+- Adding a copy-ctor that has a different behavior makes things more complicated as you will have to mimic that
+behavior in an environment where COPY semantics means bitwise copy.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+I Accessing a class/object from an external library (—)
+
+What about exceptions ?
+
+Or various un-secure behavior that can be encountered in C++ language (for
+
+example throwing an exception While in constructor body).
+
+As a general note, no exception should be sent to Rust, so we will have to identify
+
+them at the C++ level and treat them accordingly.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:151**************
+. FFI
+I Accessing a class/object from an external library (—)
+Let's analyze the original C++ class Point:
+C++
+#include <string.h>
+class {
+Point( chan* n) {
+x = = 9'
+memcpy(name, n, strlen(n) + 1);
+}
+};
+In this case we have 2 options:
+1. Use - to stop the program at this point. The disadvantage is that we can
+not control the flow in this case
+2. Use — and change the logic in the Rust code.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+I Accessing a class/object from an external library (—)
+The second solution implies the following changes:
+C++
+#include <string.h>
+#include <new>
+class {
+Point( chah* n) {
+X = = 9'
+name = (stdzznothrow) chah[strlen(n) + 1];
+if (name != ) {
+memcpy(name, n, sthlen(n) + 1);
+}
+}
+};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:153**************
+I Accessing a class/object from an external library (—)
+On the Rust side, the Point::new(...) method has to be changed as well to return an
+Option<Point>. This way, if an allocation error is triggered on the C++ side, we can
+handle it on the Rust side by not returning an object.
+Rust
+( )
+{...}
+{
+new(name: & ) —> < > {
+{
+c_name = ::new(name).unwrap();
+memory: < > = stdzzmemzz ::uninit();
+point_ctor(memory.as_mut_ptr(), c_name.as_ptr());
+point = memory.assume_init();
+1 p01nt.name.1s_nu
+return None; NULL
+}
+return Some(point);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:154**************
+I Accessing a class/object from an external library (—)
+
+As a general observation, importing an object from an external library is a tedious
+
+job and implies a lot of knowledge on how compilers work internally.
+
+To make things easier, Rust also provides an internal tool called - that can be
+
+used to automatically generate the code needed to link an external library to a Rust
+program.
+
+l\/|ore details on: httpszﬂrust-lang.github.io[rust-bindgen[ l'
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:155**************
+I Accessing a class/object from an external library (—)
+
+It's also important to notice that polymorphism is quite complicated to achieve
+
+using object generated from another library. The main reason is that the concept of
+
+virtual functions and tables are treated differently in Rust than in C++ (for
+
+example).
+
+It is not without a solution, but the solution implies to actually make the calls
+
+yourself and understand how the virtual table looks like for different C++ compilers
+
+and versions. ll
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:156**************
+I Accessing a function from an external library (—)
+
+The other scenario is when we try to dynamically load a library during runtime (this
+
+is useful for cases where your program supports plugins).
+
+Let's consider the following example:
+
+' We want to create a Rust program that receives integer values two values and the
+name of a plugin that can perform a mathematical operation using those values
+
+' Rust will try to load that plugin and assume that a specific method (let's call it
+perform_op is exported, and if so, calls that method with those two values
+received and prints the result).
+
+' The interesting thing is that the plugin does not have to be written in Rust (but
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:157**************
+I Accessing a function from an external library (—)
+To do this we need to functionalities:
+' A way to load a library given its name / path on the disk
+' A way to identify the location in memory of a function exported by the loaded
+library
+These functionalities are different from one OS to another as presented in the next
+table.
+Loading a library Load Libra ryA or dlopen dlopen
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:158**************
+I Accessing a function from an external library (—)
+Let's see how LoadLibraryA and GetProcAddress are defined in Windows API:
+1. LoadLibraryA
+- Definition: HMODULE LoadLibraryA( [in] LPCSTR 1pLibFileName);
+' Documentation: httgs:[Zlearn.microsoft.com[en-usZwindowsZwinBZZaQIZIibloaderaQiZnf-
+libloaderaQi-Ioadlibrarya
+2. GetProcAddress
+- Definition: FARPROC GetProcAddress( [in] HMODULE hModule,
+[ in 1 LPCSTR 1 PPPOCName> 3
+' Documentation: httgs:[Zlearn.microsoft.com[en-usZWindowsZwin32[aQiZIibloaderaQIan-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:159**************
+a?‘
+I Accessing a function from an external library (dynamic linkage)
+Let's start by creating the import code (for Windows):
+Rust
+std::ffi::*;
+
+( = "kerne132")
+
+"system" {
+
+LoadLibPaPyA(1pFileName: ) —> ;
+
+GetProcAddress(hModule: , 1pPPocName: ) —> ;
+}
+Notice that the result of GetProcAddress is a raw pointer (we will need to convert it
+to a pointer to a function to use it in Rust).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:160**************
+a
+I Accessing a function from an external library (dynamic linkage)
+Secondly, we need a Rust function that can load a plugin and returns a pointer to a
+function (provided that function is ex orted from the loaded plugin). Our function
+will have the following signature:
+Rust
+= "c" < , >-> ;
+load_p1ugin(1ibrary: & , function: & ) -> < >
+{
+{
+library_cstr = stdzszizz ::new(1ibrary).unwrap();
+library_handle = LoadLibraryA(1ibrary_cstr.as_ptr());
+if library_hand1e.is_nu11() { return None; }
+function_cstr = stdzszizz ::new(function).unwrap();
+function_ptr = GetProcAddress(library_handle, function_cstr.as_ptr());
+if function_ptr.is_nu11() { return None; }
+Some(std::mem::transmute_copy(&function_ptr))
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:161**************
+FFI
+I Accessing a function from an external library (dynamic linkage)
+Secondly, we need a Rust function that can load a plugin and returns a pointer to a
+function (provided that function is ex orted from the loaded plugin). Our function
+Wm have the fouowing signature In
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:162**************
+I Accessing a function from an external library (—)
+Now, let's write a plugin (in C++). We will create something that computes the sum
+of two numbers:
+extern "C" {
+int ( ) (int x, int y) {
+X + y;
+}
+}
+The plugin exports one function (operation). Let's also assume that the plugin is
+called mv_plugin-d" i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:163**************
+t?‘
+I Accessing a function from an external library (dynamic linkage)
+And the code from Rust that puts all of this together:
+Ru“ m
+main() {
+if Some(oper*ation) = load_p1ugin("<path to..>\\my_plugin.d11", "operation") {
+result = operation(19,26);
+println!("result = ",hesult)
+} else {
+println!("Fail to load plugin or missing 'operation' export I");
+}
+}
+Keep in mind that this code is designed for Windows. For Linux/MacOSX you will
+need to modify the list of imports (use dlopen instead of LoadLibraryA) and
+recompile the C++ plugin with gcc or clang.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:164**************
+I Accessing a class/object from an external library (—)
+To access an object/class via dynamic linkage, the steps are similar to the ones used
+to access a function.
+
+' You will need to use GetProcAddress / LoadLibrary as well
+
+- However, when using GetProcAddress, you will load a mangles export/symbol instead of a
+
+name for a function
+
+' You will also need to store that raw pointer to be able to access it later.
+The rest of the steps are similar (creating a wrapper class in Rust over the C++
+object) and calling the methods obtained in the previous step. ||
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:165**************
+I Exporting a function to be used by an external library
+To export a library from Rust, there are a couple of things that need to be performed on cargo.toml
+(to explain the Rust compiler that we need to create a library and not an executable).
+[package] The first step is to add a - section and specify that the crate type
+<- [c unamic mam)
+Crate-type supports other types as well:
+' cdylib
+[dependencies] . dylib
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:166**************
+I Exporting a function to be used by an external library
+We will also need to change the way we write our exported functions:
+"C" (X1 , yr ) -> {
+X + y
+}
+
+1. The ”—” attribute is required as Rust mangles symbols and as such
+
+other applications can't use them.
+2. The ’_” specifier is required so that Rust exports that function in a way a
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:167**************
+2. Exporting a function to be used by an external library
+Upon compiling, a .dll or a .so or a .dylib will be created that export the function add.
+That library can be used in a C/C++ program in the following way:
+C/C++ program (for Windows)
+#include <Windows.h>
+#include <stdio.h>
+typedef int32_t (* FNADD)(int32_t,int32_t);
+void main() {
+auto handle = LoadLibraPyA("my_math_1ib.d11")3
+auto add = (FNADD)GetPPocAddPess(handle,"add");
+phintf("%d",add(1,2));
+}
+OBS: We consider my_math_lib.dll the binary result obtain when running cargo build.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:168**************
+I Exporting a function to be used by an external library
+
+The same logic for exporting object can be applied here as well, but we will need an
+equivalent code on the C++ part that loads and manages objects writtin in Rust.
+
+And , just like in the case of C++ to Rust, there is a helper library called cbindgen that
+can help converting Rust structures to C++:
+
+Link: httpszﬂgithub.com[mozilla[cbindgen
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:169**************
+- @@
+
+***************Ending Page***************
+

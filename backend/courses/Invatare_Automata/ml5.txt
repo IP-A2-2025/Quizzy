@@ -1,0 +1,368 @@
+***************Beginning Page***************
+***************page number:1**************
+O.
+Evaluating Hypotheses
+Based 0n “Machine Learning”, T. Mitchell, McGRAW Hill, 1997, ch. 5
+Acknowledgement:
+The present slides are an adaptation of slides drawn by T. Mitchell
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+1.
+Main Questions in Evaluating Hypotheses
+
+1. How can we estimate the accuracy of a learned hypothesis
+h over the whole space of instances D, given its observed
+accuracy over limited data‘?
+
+2. How can we estimate the probability that a hypothesis hl
+performs is more accurate than another hypothesis hg over
+D?
+
+3. If available data is limited, how can we use this data for
+both training and comparing the relative accuracy of two
+learned hypothesis?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+2.
+Statistics Prespective
+(See Appendix for o Details)
+
+Problem: Given a property observed over some random sam-
+ple D of the population X, estimate the proportion of X that
+exhibits that property.
+
+o Sample error, true error
+
+o Estimators
+
+o Binomial distribution, Normal distribution
+
+o Conﬁdence intervals
+
+o Paired t tests
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+1. Two Deﬁnitions of Error 3'
+The sample error of hypothesis h with respect to the target
+function f and data sample S is the proportion of examples
+h misclassiﬁes
+1
+errorsW) E — Z 5W3?) ¢ Ml?)
+77, xQS
+Where 5(f(a:) 73 h(:1c)) is 1 if f(a;) 7£ Mat), and 0 otherwise.
+The true error of hypothesis h with respect to the target
+function f and distribution D is the probability that h will
+misclassify an instance drawn at random according to D.
+(mam) E gm) 7A 11w]
+Question: How well does errorgw) estimate errorﬂh)?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+4.
+Problems in Estimating crrorﬂh)
+bias E E[err0r5(h)] — 67”?“0Tp(h)
+
+1. If S is training set, then €7"7‘07“S(h) is optimistically biased,
+because h was learned using S. Therefore, for unbiased
+estimate, h and S must be chosen independently.
+
+2. Even with unbiased S (i.e., bias I O), the variance of
+error/“5%) — errorﬂh) may be not null.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+. 5.
+Calculatlng Conﬁdence Intervals for errorﬂh) :
+Preview / Example
+
+Question:
+If hypothesis h misclassiﬁes 12 of the 40 examples in S,
+what can we conclude about errorﬂh)?
+
+Answer:
+If the examples are drawn independently of h and of each
+other,
+then with approximately 95% probability, errorﬂh) lies in
+interval 0.30 i (1.96 >< 0.14).
+
+(err0r5(h) I 0.30, 2N z 1.96, and 0.14 a NW)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+6.
+Calculating Conﬁdence Intervals for Discrete-valued
+Hypotheses:
+A general approach
+1. Pick parameter p to estimate
+0 GTTOTp(h)
+2. Choose an estimator for the parameter p
+o err0r5(h)
+3. Determine the probability distribution that governs estimator
+o errorgw) governed by Binomial distribution,
+approximated by Normal when n Z 3O
+4. Find the interval (L, U) such that
+N% of probability mass falls in this interval
+o Use table of zN values
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Calculating Conﬁdence Intervals for errorg(h) : 7'
+Proof Idea
+o we run the experiment with different randomly drawn S
+(of size n), therefore err0r5(h) is a random variable; we will
+use err0r5(h) to estimate erroerL).
+o probability of observing r misclassiﬁed examples follows
+the Binomial distribution:
+n!
+Pr :— error hf 1—err0r h TH“
+<> NWT)! D<>< D< >>
+o for n sufficiently large, the Normal distribution approxi-
+mates the Binomial distribution (see neXt slide);
+a N % of the area deﬁned by the Binomial distribution lies in
+the interval ,u i 2N0,
+with ,u and 0 respectively the mean and the std. deviation.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+8.
+
+Normal Distribution Approximates errorﬂh)
+err0r5(h) follows a Binomial distribution, with
+
+o mean uermrsm) I erroerL)
+
+o standard deviation UQTTOTSW : WWW
+Approximate this by a Normal distribution with
+
+o mean ueworsm) I errorﬂh)
+
+o standard deviation (TWOTSW w MW
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Calculating Conﬁdence Intervals for errorSUL) : 9‘
+Full Proof Details
+If
+o S contains n examples, drawn independently of h and each other
+o n Z 3O
+o errorSUL) is not too close to O or 1
+(recommended: n >< errorSUL) >< (l — err0r3(h)) Z 5)
+then with approximately N% probability, crrorﬂh) lies in the interval
+/ h 1— h
+errorp(h)j:zN errorp( )( errorqﬂ ))
+n
+Equivalently, erroerL) lies in interval 67"?“OTSUL) :l: ZNy/ (MUM
+which is approximately cTTOTSUl) :l: ZNN/ w
+N%: 50% 68% 80% 90% 95% 98% 99%
+ZN: 0.67 1.00 1.28 1.64 1.96 2.33 2.58
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+10.
+2. Estimate the Difference Between Two Hypotheses
+Test hl on sample Sl, test hg on S2
+1. Pick parameter to estimate: d E @TTOTD(h1) — erroerLQ)
+2. Choose an estimator: cl E err0r51(h1) — err0r52(h2)
+3. Determine probability distribution that governs estimator.
+02 is approximately Normally distributed:
+Mg Z d
+err0r51(h1)(l—err0r51(h1)) err0r52(h2)(l—err0r52(h2))
+0'62 Q — + —
+77.1 n2
+4. Find the conﬁdence interval (L, U):
+N% of probability mass falls in the interval [lei :l: ZNO'CZ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+11.
+
+Difference Between Two Hypotheses: An Example
+Suppose errorglml) I .30 and €TTOT52(h2) I .20.
+Question: What is the estimated probability of erroerLl) > errorp(h2) ?
+Answer:
+
+Notation:
+
+cl : errorgl(h1) — err0r52(h2) : 0.10
+
+d : 6TTOT1)(h1) > €TTOTD(}L2)
+
+Calculation:
+
+P(d > 0, d: .10) z P02 < d+ 0.10) z P(¢Z < #62 + 0.10)
+
+062 I 0.001, and 0.10 e 1.64 >< 0:2
+
+Conclusion: (using one-sided conf. interv.) P(d < ud+0.10) : 95%
+
+Therefore, with a 95% conﬁdence, errorp(h1) > errorp(h2)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+12.
+3. Comparing learning algorithms L A and LB
+We would like to estimate the true error between the output of L A and L B:
+ESCp[err0rp(LA(S)) — errorp(LB(S))]
+where L(S) is the hypothesis output by learner L using the training set S
+drawn according to distribution D.
+When only limited data D0 is available, we will produce an estimation of
+ESCDO[err0rp(LA(S)) — errorp(LB(S))]
+o partition D0 into training set S0 and test set T0, and measure
+errorT0(LA(S0)) — errorTO(LB(S0))
+o better, repeat this many times and average the results (next slide)
+o use the t paired test to get an (approximate) conﬁdence interval
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+- . . l3.
+Comparing learnlng algorlthms L A and L B
+1. Partition data D0 into k disjoint test sets T1,T2, . . . ,Tk of equal size,
+where this size is at least 30.
+2. For 2' from 1 to k,
+use T,- for the test set, and the remaining data for training set S,
+o 5,- e errorTi(hA) — errorT,(hB)
+
+3. Return the value 6 E % 2?:1 52'
+
+Note: We’d like to use the paired t test on 5 to obtain a conﬁdence interval.
+This is not really correct, because the training sets in this algorithm
+are not independent (they overlap!).
+
+But even this approximation is better than no comparison.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+14.
+APPENDIX: Statistics Issues
+o Binomial distribution, Normal distribution
+o Conﬁdence intervals
+o Paired t tests
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+l5.
+Binomial Probability Distribution
+0 14 Binomial distribution for n = 40, p =O.3
+Probability PM) of 1“ heads in 0'12
+n coin ﬂips, if p I Pr(heads) 61
+P n! 1 é: 0.08
+z — T‘ — TH" 0.06
+(1“) 74(0 _ T)! p ( P) 0.04
+0.02
+00 5 10 15 20 25 30 35 40
+o Expected, or mean value of X, E[X], is E[X] E 221:0 iP(i) I np
+0 Variance of X is Var(X) E E[(X — E[X])2] : np(1—p)
+0 Standard deviation of X, 0X, is 0X E i/EKX — E[X])2] : i/np(1—p)
+0 For large n, the Normal distribution approximates very closely the
+Binomial distribution.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+16.
+Normal Probability Distribution
+Normal distribution with mean O, standard deviation 1
+0.4 3
+0.35
+0.3
+1 —l(ﬂ)2 0.25
+19(33) : We 2 U 0.2
+0.1
+0.05
+0 I
+-3 _2 -1 0 1 2 3
+o Expected, or mean value of X , is E[X] I ,u
+0 Variance of X is Var(X) I 02
+0 Standard deviation of X is 0X I 0
+o The probability that X falls into the interval (01,0) is f; p(x)da:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+17.
+Normal Probability Distribution (I)
+N% of area (probability) lies in ,u i zNa
+N%Z 50% 68% 80% 90% 95% 98% 99%
+ZN: 0.67 1.00 1.28 1.64 1.96 2.33 2.58
+Example: 80% of area (probability) lies in ,u i 1.280
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+18.
+Normal Probability Distribution (II)
+N% —|— %(100-N%) of area (probability) lies in (—oo;,u—l— zNa)
+N%: 50% 68% 80% 90% 95% 98% 99%
+ZN: 0.67 1.00 1.28 1.64 1.96 2.33 2.58
+Example: 90% of area (probability) lies in the “one-sided”
+interval (—oo; ,u + 1.280)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Paired t test to compare hA, hB 19'
+
+1. Partition data into k disjoint test sets T1, T2, . . . , Tk of equal size, Where
+
+this size is at least 30.
+2. For i from 1 to k, do
+
+51' <— errorTi(hA) — errorTi(hB)
+
+Note: 51- is approximately Normally distributed.
+3. Return the value 5 E iii-‘7:1 62'
+
+N % conﬁdence interval estimate for d I errorp(hA) — errorp(hB) is:
+
+5 i tN7k_1 55
+1 k _
+55 E —k(k _1) g<6i_ (5)2
+
+***************Ending Page***************
+

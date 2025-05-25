@@ -1,0 +1,1707 @@
+***************Beginning Page***************
+***************page number:1**************
+Algorithm Design: Nondeterministic and Randomized
+Algorith ms
+Dorel Lucanu
+Faculty of Computer Science
+Alexandru loan Cuza University, la$i, Romania
+d1ucanu©info.uaic .ro
+PA 2021/2022
+El r5‘ ' _= IE J) Q G
+N—ndeterministic and Randomized Algorithms PA 2021/2022 1/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+a Recap
+a Non-deterministic Algorithms, Generally
+a Non-deterministic Algorithms for Decision Problems
+a Randomized Algorithms
+o Random Variable
+o Example of Monte Carlo Algorithm: Primality Test
+o Las Vegas Algorithms
+o Example of Las Vegas Algorithm: k-median
+cl 51 t E :2 Q10
+N—ndeterministic and Randomized Algorithms PA 2021/2022 2/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Plan
+a Recap
+Q Non-deterministic Algorithms, Generally
+Q Non-deterministic Algorithms for Decision Problems
+o Randomized Algorithms
+o Random Variable
+o Example of lVlonte Carlo Algorithm: Primality Test
+o Las Vegas Algorithms
+0 Example of Las Vegas Algorithm: k-median
+<E1>4§>4i3>4I5> IE QQO
+'\'—"d@te""i"istic and Randomized Algmithm—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Problem solved by an algorithm
+An algorithm A solves a problem P if:
+o the concepts from the problem domain are represented as data
+structures
+0 for any instance p of P, there is an initial conﬁguration <A,0p> such
+that 0p includes data structures describing p (write 0p l: p);
+o the execution starting from the initial conﬁguration <A,0p) ends into
+a ﬁnal conﬁguration <-,0’>, write (A,o> :>* <.,0’>; and
+o a’ includes data structures that describes P(p) (write a’ l: P(p)).
+Formally:
+P is speciﬁed by (inp, out)
+A solves P E (V0), if a l: inp (30’) then <A,U> :>* (.,0’> and a’ l: out
+(total correctness)
+—Nondeterministic and Randomized Algorithms PA 2021/2022 4/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+The execution time for an instance: the deterministic case
+
+Let P be a problem and A a deterministic algorithm that solves P.
+
+For each p G P there is an unique execution path Ep.
+
+The time for computing P(p) is
+
+timed(A, p) I timed(Ep)
+where d E {/og, unif7 lin}.
+El 5' i E :5 ‘)QQ
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 5/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Experiments with Alk interpreter1/4
+isPrime1(x) {
+if (x< 2) return false;
+for (i: 2; i <= x/2; —l—l—i)
+if (x % i I 0) return false;
+return true;
+l
+isPrimelTime(x, timeType) {
+if (x < 2) return timeOpBin("<", timeType, x, 2) ;
+time : O;
+for (i: 2; i <= x/2; -l—l-i){
+time +2 timeOpUn(":", timeType, 2);
+time +: timeOpBin("/", timeType, x, 2);
+time += timeOpBin("<:", timeType, i, x/2);
+time +2 timeOpUn("-l—l-", timeType, i);
+if (x % i I 0) return
+time + timeOpBin("%", timeType, i, X)
++ timeOpbin(":", timeType, x%i, O);
+}
+return time;
+}
+cl 51 t E :2 Qqe
+N—ndeterministic and Randomized Algorithms PA 2021/2022 6/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Experiments with Alk interpreter 2/4
+
+print (isPrimelTime (2017 , "unif ")) ;
+
+print (isPrimelTime (2017 , "10g"));
+
+print(isPrime1Time (2017 , "1in") ) ;
+
+$ time alki —a isPrime.a1k
+
+4028
+
+31212
+
+5587843
+
+El i5] i E :5 Q Q0
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 7/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Experiments with Alk interpreter 3/4
+A minor change could bring major improvements:
+isPrime2(X) {
+if (x < 2) return false;
+for (i2 2; i*i <= x; —l—l—i)
+if (x % i I 0) return false;
+return true;
+}
+isPrime2Time(x, timeType) {
+if (x < 2) return timeOpBin("<", timeType, x, 2) ;
+time 2 0;
+for (i 2 2; i*i <2 X; -l—l—i){
+time +2 timeOpUn("2", timeType, 2);
+time +2 timeOpBin("*"; timeType, i , i);
+time +2 timeOpBin("<2", timeType, i*i, x);
+time +2 timeOpUn("-l—|-", timeType, i);
+if (x % i I 0) return
+time + timeOpBin("%", timeType, i, x)
++ timeOpbin(":", timeType, X%l; O);
+}
+return time;
+l cl 51 2 E :2 QQCV
+N—ndeterministic and Randomized Algorithms PA 2021/2022 8/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Experiments with Alk interpreter 2/4
+
+print(isPrime2Time(2017, "unif"));
+
+print(isPrime2Time(2017, "10g"));
+
+print(isPrime2Time(2017, "1in"));
+
+$ time alki —a isPrime.a1k
+
+172 compare to 4028
+
+1551 compare to 31212
+
+117175 compare to 5587843
+
+El 5' 7 E :5 Q Q0
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 9/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+The size of an instance
+The dimension of a state 0 is
+Sized(a) I ZXHVGU SiZGd(V)
+The dimension of a conﬁguration is
+sized((A, 0)) I sized(a)
+
+where d € {log, unif, lin}.
+
+Let P be a problem, p E P, and A a deterministic algorithm that solves P.
+
+The size of p is the the size of its intial configuration:
+
+sized(p) = sized((A, 0p>) (: size(ap))
+where d G {log, unif, , lin}.
+El r51 i E :5 ‘)th
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 10/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+The worst case time complexity
+
+Let P be a problem and A a determinstic algorithm that solves P and ﬁx
+
+d E {log7 unif7 lin}.
+
+Group the instances p of P into equivalences classes: p and p’ are in the
+
+same equivalence class iff size(p) : size(p’).
+
+A natural numaber n can be seen as the equivalence class of instances p of
+
+size n (sized(p) : n).
+
+The worst case time complexity:
+
+TAG/(n) I max{timed(A, p) | p E P,sized(p) : n}
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 11/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Experiments with big numbers 1/2
+
+A worst case:
+
+print (isPrimel (2147483647)) ;
+
+$ time alki —a isPrime.alk
+
+“C
+
+real 41m3 . 065s
+
+user 40m45 . 849s
+
+sys 011115 . 643s
+
+A more favorable case:
+
+print (isPrimel (2147483647*457241)) ; //457241“2=209069332081
+
+$ time alki —a isPrime . alk
+
+false
+
+real 0m3 . 480s
+
+user 01115.921s
+
+sys 0m0.236s U 51 , E :5 oqe
+N—ndeterministic and Randomized Algorithms PA 2021/2022 12/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Experiments with Alk interpreter 2/2
+
+A minor change could bring major improvements:
+
+print(isPrime2(2147483647));
+
+$ time alki —a isPrime.alk
+
+true
+
+real Om1.6595
+
+user Om3.475s
+
+sys Om0.163s
+
+:l 51 t E :5 QQO
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 13/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Pla n
+a Non-deterministic Algorithms, Generally
+El 5' ' _= :E J) Q9
+N—ndeterministic and Randomized Algorithms PA 2021/2022 14/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+l\/lot|vat|on
+0 abstraction of the state space is useful in analysis
+o non-deterministic algorithms bring an additional abstraction level,
+which combines state abstraction with procedural abstraction
+o ignores details how some data structures are created
+0 useful in complexity analysis
+0 preliminary notion for randomized algorithms
+N—ndeterministic and Randomized Algorithms PA 2021/2022 15/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Non-deterministic Algorithms, Intuitively
+
+o for some configurations there are more than one way to continue the
+execution
+
+0 consequently, for the same input the algorithm may have many
+executions with different results
+
+o angelic version: the algorithm "guesses" the execution that leads to
+the correct result
+
+0 execution time: the time of the execution that leads to the correct
+result
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 16/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Extending the Language
+choose x in S;
+— returns an element from S, arbitrarily chosen
+— execution time (uniform): 0(1)
+choose X in 5 s.t. B;
+— returns an element from S that satisfies B
+— equivalent to
+choose x in S;
+if (o B(x)) failure;
+— execution time: T(B)
+El 5' i E :5 QQQ
+N—ndeterministic and Randomized Algorithms PA 2021/2022 17/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Demo with the new statements
+choose x1 in { 1 .. 5 };
+$ alki —a choose.a1k —m
+X1 |—> 2
+Note that the executed algorithm is nondeterministic.
+$ alki —a choose.a1k —m
+X1 |—> 4
+Note that the executed algorithm is nondeterministic.
+cl 51 t E :2 o q o
+N—ndeterministic and Randomized Algorithms PA 2021/2022 18 /73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Demo WIth the new statements
+odd(x) {
+return X Z 2 == 1;
+}
+choose X1 in { 1 .. 5 } s.t. odd(X1);
+choose x2 in { 1 .. 5 } s.t. !odd(x2);
+$ alki -a choosest.alk -m
+failure
+x1 |-> 5
+x2 l—> 1
+Note that the executed algorithm is nondeterministic.
+$ alki —a choosest.a1k —m
+x1 |—> 5 success
+X2 |—> 2 success
+Note that the executed algorithm is nondeterministic.
+$ alki —a choosest.a1k —m
+failure
+x1 |—> 4
+Note that the executed algorithm is nondeterministic. i i
+El r51 i I 5 Q Q Q
+N—ndeterministic and Randomized Algorithms PA 2021/2022 19/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Demo With the new statements
+odd(x) {
+return X Z 2 == 1;
+}
+L = emptyList;
+for (i = O; i < 8; i = 1+2)
+L.pushBack(i);
+choose X from L s.t. odd(X);
+$ alki —a failure.a1k —m
+failure
+s |—><0, 2, 4,6>
+i |-> 8
+Note that the executed algorithm is nondeterministic.
+Conclusion: an execution of an nondeterministic algorithm may fail!
+cl 51 - '= :5 oqe
+N—ndeterministic and Randomized Algorithms PA 2021/2022 20/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Problem Solved by an Non-deterministic Algorithm
+o a non-deterministic algorithm A has many executions for the same
+input
+o so, what means that A solves a problem P?
+o we say that A solves P if Vx € P
+El a non-failing execution that
+is terminating and
+whose ﬁnal configuration includes P(x)
+El r51 i E :5 QQQ
+—Nondeterministic and Randomized Algorithms PA 2021/2022 21/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Example
+©input A ﬁnite set S of integers.
+@output A subset $1 Q S with ZX€51 x : O, if any; false otherwise.
+sum(S) {
+s : O;
+foreach x from S s +2 x;
+return s;
+}
+subsetSumZero(S) {
+// choose the size of the subset
+choose k from [1..S.size()];
+// choose Sl
+51 I {};
+for(i:0; i< k; -l—l-i){
+choose x from S;
+Sl I Sl U {x};
+S I S \ {x};
+}
+if (sum(Sl) I O)
+return Sl;
+else
+return false;
+l U 51 e E :5 QQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 22/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Example: Demo
+
+z : subsetSumZero({-3, —2, —1, 1, 2, 3});
+
+$a|ki subset-sum-zero.a|k —m
+
+z |—> false
+
+$a|ki subset-sum-zero.alk —m
+
+z |—> {—3, —2, —1, 1, 2, 3}
+
+Exercise Compute the execution for the worst case for subsetSumZero().
+
+cl 51 t E :5 0&0
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 23/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Reduction to Deterministic Algorithms
+Let ~ be an equivalence between states. For instance, o ~ 0’ iff 0 and a’
+encode the same instance p of a problem P or both encode the answer
+P(p)-
+Definition
+We say that an algorithm A is equivalent to an algorithm B (w.r.t. ~) ifF:
+0 <A,01> :>* “01> and 01 ~ 02 implies the existence of cg s.t.
+<B,0'2> :>* <-,0§> sl 0'1~ (IQ, and
+9 reciprocally, (£3,ch :>* <',0§> si 01 ~ 02 the existence of O'i s.t.
+<A,O'1>:>* <-,0/1> silo/1N 05.
+Theorem
+For any non-deterministic algorithm A there is an equivalent deterministic
+algorithm B, which has the worst case execution time TB(n) : O(2TA(”)).
+N—ndeterministic and Randomized Algorithms PA 2021/2022 24/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Example Deterministic
+subsetSumZeroDet(S)
+{
+Sl : S;
+subsetSumZeroDetRec(Sl);
+if (Sl l: {})
+return Sl;
+else
+return false;
+}
+subsetSumZeroDetRec(out S)
+{
+if (5 I {} ll SUNS) I 0){
+return;
+}
+foreach x from S {
+S : S \ {x};
+subsetSumZeroDetRec(S);
+if (S !: {} && sum(S) = O)
+return;
+S I S U {x};
+}
+} , i 1
+El r5] 2 z QQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 25/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Example: Demo
+
+z : subsetSumZeroDet({-7, —3, —1, 2, 4, 9});
+
+$alki subset—sum—zero . alk —m
+
+z \—> {-3, —1, 4}
+
+z : subsetSumZeroDet({-23, —22, —21, 1, 2, 3});
+
+$a|ki subset-sum-zero . alk —m
+
+z \—> false
+
+Exercise Compute the execution for the worst case for
+
+subsetSumZeroDetO and compare with that of subsetSumZero().
+
+cl 51 t E :5 QQO
+
+—Nondeterministic and Randomized Algorithms PA 2021/2022 26/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Pla n
+e Non-deterministic Algorithms for Decision Problems
+El i5‘ ' _= :E J) (KG
+—Nondeterministic and Randomized Algorithms PA 2021/2022 27/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+The Approach
+o there a two main steps:
+o first "guesses" a certain structure S
+o then checks if S satisfies the property requested by the question
+o if yes the the execution finishes with success, otherwise it finishes
+With failure;
+0 Extending the language:
+success; — signals the successful termination of an execution
+failure; — signals the termination of a failing execution
+cl 51 t E :2 Qwv
+—Nondeterministic and Randomized Algorithms PA 2021/2022 28/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Example
+SAT
+@instance A set of n propositional variables and a propositional formula F
+in conjunctive normal form.
+@question ls F satisﬁable?
+// guess
+for (iIO; i<n;—l—l—i){
+choose z in {false , true};
+x[ i] : z;
+}
+// check
+if (f(x)) success;
+else failure;
+m r51 t E i5 QQO
+—Nondeterministic and Randomized Algorithms PA 2021/2022 29/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Example of SAT instance
+n I 4;
+f(X) {
+return (x[O] || x[1]) 8:81.
+(!X[0] || X[3] || X[2]) 84?‘
+(X[2] || !><[3]) 813‘
+(!X[1] || !X[2] || X[3]);
+}
+El 5' _ _= :E @QG
+N—ndeterministic and Randomized Algorithms PA 2021/2022 30/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Dem o
+
+$ alki —a sat.alk
+
+failure
+
+x |—> [false, false, false, true]
+
+i |—> 4
+
+z |—> true
+
+n |—> 4
+
+Note that the executed algorithm is nondeterministic.
+
+$ alki —a sat.a1k
+
+failure
+
+x |—> [true, true, true, false]
+
+i |—> 4
+
+z |—> false
+
+n |—> 4
+
+Note that the executed algorithm is nondeterministic.
+
+m a r E E ~OQO
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 31/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Dem o
+
+$ alki —a sat.alk —m
+
+failure
+
+x |—> [false, true, true, false]
+
+i |—> 4
+
+z |—> false
+
+n |—> 4
+
+Note that the executed algorithm is nondeterministic.
+
+$ alki —a sat.alk
+
+success
+
+X |—> [true, true, true, true]
+
+i |—> 4
+
+z |—> true
+
+n |—> 4
+
+Note that the executed algorithm is nondeterministic.
+
+m ﬁ t E E ~OQG
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 32/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Plan
+Recap
+Non-deterministic Algorithms, Generally
+Non-deterministic Algorithms for Decision Problems
+0 Randomized Algorithms
+o Random Variable
+o Example of Monte Carlo Algorithm: Primality Test
+o Las Vegas Algorithms
+o Example of Las Vegas Algorithm: k-median
+E1 ﬁ ' _= :E ‘)‘KG
+N—ndeterministic and Randomized Algorithms PA 2021/2022 33/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+P | a n
+a Randomized Algorithms
+o Random Variable
+\I' 5' ' _= IE J) Q G
+N—ndeterministic and Randomized Algorithms PA 2021/2022 34/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Deflnltlon
+Deﬁnition
+A random variable is a function X defined over a set of possible outcomes Q of a
+random phenomenon.
+Example (only discrete variables)
+1. D2 (two dice):
+0 random phenomenon: rolling two dice
+0 D2 returns the pair representing the numbers on the two dice
+2. 5D2 (the sum of two dice):
+O random phenomenon: rolling two dice
+O 5D2 returns the sum of numbers on the two dice
+3. CB ("chocolate bar"):
+O random phenomenon: randomly choose a number i in the set {1,27 . . . , n}, n > 1
+i n — i .
+O CB returns max(*, i), I : 1,...,n— 1
+n n
+cl a] 2 E :2 @ov
+N—ndeterministic and Randomized Algorithms PA 2021/2022 35/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Probability Distribution
+X : Q —> V
+X(Q) I X0,X1,X2, . ..
+p,- : Prob(X : xi) (I Prob(w € Q l X(w) : x;))1
+$D2:
+SD2(§2) I {2, 3, 4, . . . , 12}
+1 2 3
+P bSD2:2 :i,P bSD2:3 :i,P bSD2:4 :i,
+I"O( )36r0( )36r0( )36
+X,- 2 3 4 5 - - -
+p’ Q E g Q ...
+1The exact terminology for Prob(X : xi) is "probability mass function". Here
+we use the more general term of probability distribution ( the way the total
+probability of 1 is distributed over all various possible outcomes ).
+—Nondeterministic and Randomized Algorithms PA 2021/2022 36/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Extending the Language: uniform
+
+The instruction
+
+uniform x from S;
+
+assigns to X a value uniformly chosen from the iterable data type S.
+
+Execution time: 0(1)
+
+uniform-testalk:
+
+uniform x from {0..4};
+
+p ri n t (x );
+
+Running uniform-testalk
+
+$alki —a uniform-test.alk
+
+2
+
+Note that the executed algorithm is probabilistic.
+
+The probability for this execution is: 0.2000OOOOOO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 37/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Experiment with uniform
+Executing the algorithm
+a : [0, 0, 0, 0];
+for (i I O; i < 1000; —l-l-i){
+uniform j from {0..3};
+alil I a[11+ 1;
+}
+we get the following final state:
+$ alki —a uniform-approx.alk —In
+a |—> [240, 274, 239, 247]
+i |—> 1000
+j |—> 1
+Note that the executed algorithm is probabilistic.
+The probability for this execution is: 8.70980981621. . .E-603
+a[j] counts how many times j is randomly chosen. We may use it to experimentally
+computed the probabllltIes: e.g. m) |s the experlmental probablllty for] : 0. These
+probabilities are close to the theoretical ones; in fact are approximations of them.
+N—ndeterministic and Randomized Algorithms PA 2021/2022 38/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Random Variables as Algorithms
+mo r
+uniform x from [1..6];
+uniform y from [1..6];
+d I [X.y];
+return d;
+}
+SD20 {
+uniform x from [1..6];
+uniform y from [1..6];
+return x+y;
+}
+CB(n)
+{ CBl(n)
+uniform i from {1..n—1};; {
+sl : float(i) / float(n); uniform i from {1..n-1};
+$2:float(n—i)/float(n); if (i>n—i) return i;
+if (sl > 52 ) return sl; return n — i;
+return s2; }
+}
+El r51 i E :5 QQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 39/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+UniformNat() function
+
+Do not try this:
+
+uniform >< from [0..2147483646];
+
+$ time alki —a uniformNat . alk —m
+
+“C
+
+real Om53.846s
+
+user lm31.780s
+
+sys Om2.666 s
+
+The interpreter tries to build the array [0, 1, . . . , 2147483646].
+
+For such cases use the uniformNatO function:
+
+x = uniformNat<2147483647);
+
+$ time alki —a uniformNat.alk —m
+
+x |—> 249286210
+
+Note that the executed algorithm is probabilistic.
+
+The probability for this execution is: 5E-10
+
+real Om0.452s
+
+user 01110.566s
+
+sys Om0.080$
+
+:l 51 r E i5 0(1va
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 40/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Random Variable: the Expected Value
+
+Consider only discrete random variable X, whose values are real numbers
+
+X17 x2, . . ..
+
+p,- : Pr(X : xi) - probability as X to have the value x,-
+
+Expected Value of X: E(X) : Zix; - p,-
+
+Properties:
+
+E(X+ Y): E(X) + E(Y)
+
+E(X- Y): E(X) - E(Y)
+
+(X si Y independente)
+
+cl 51 i E :2 one
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 41/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Expected value of CB
+a n odd:
+. k n + 1
+— posslble values for CB are F k : n — 1, n — 2, . . . , T , each of them
+with the probability %
+_ ,,_1 k 2 _ 3n — 1 3
+E(CB)_Z":%1 nn—1 _ 4n < 4
+Q n even:
+— possible values for CB are {g l k : n — 1, n — 2, . . . , g —l- 1}, each of them
+with the robabilit i i l cu robabilitatea i
+p ykn_21,$2 1p 3 4,731
+ECB : "111i izn; 2
+( l Z:l‘:§+1nn—1_l_2(n—1) 4n—4<4
+Obs. w = M, which implies that the expected values for n and n — 1
+4n — 4 4(n — 1)
+are the same if n is even.
+Conclusion: E(CB) < Z
+cl 51 t E :5 0(1ch
+N—ndeterministic and Randomized Algorithms PA 2021/2022 42/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Approximating the Expected Value by Successive
+Executions 1/2
+/*
+n : length of the bar
+k : number of samples
+*/
+EXP("1 k) {
+occ : [ O | i from [0..n/2—1] ];
+for (j:0;j<k;—l—l-j){
+i I CBl(n);
+i1 : i — n / 2; // position in occ
+if (n%2: 1) —il;
+occ[i1]: occ[i1]+1;
+}
+exp = 0.0;
+for (i1 = 0; il < n/2; —l—l—il){
+i I i1 + n / 2;
+if (n%2:1)—l—l—i;
+exp : exp + i*occ[i1];
+}
+exp : exp/k;
+return exp;
+} , ,
+El r51 i I 5 QQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 43/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Approximating the Expected Value by Successive
+
+Executions 1/2
+
+print(exp(n,k));
+
+print(3.0 / 4.0 * float(n));
+
+Two executions:
+
+$ alki -a choc-bar.alk -i "n |—> 31 k |—> 100"
+
+22.84
+
+23.25
+
+Note that the executed algorithm is probabilistic.
+
+The probability for this execution is: 0E-10
+
+$ alki —a choc-bar.alk —i "n |—> 31 k |—> 100"
+
+22.74
+
+23.25
+
+Note that the executed algorithm is probabilistic.
+
+The probability for this execution is: OE-lO
+
+cl 51 t E :5 oqo
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 44/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Randomized Algorithms: Deﬁnition
+There are two approaches:
+0 Monte Carlo Algorithms
+— may produce incorrect results with some small probability, but
+whose execution time is deterministic;
+— if run multiple times with independent random choices each time,
+the failure probability can be made arbitrarily small, at the cost of the
+running time.
+9 Las Vegas Algorithms
+— never produce incorrect results, but whose execution time may vary
+from one run to another;
+— random choices made within the algorithm are used to establish an
+expected running time for the algorithm that is, essentially,
+independent of the input.
+N—ndeterministic and Randomized Algorithms PA 2021/2022 45/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Example of Monte Carlo Algorithm: Primality Test
+P | a n
+0 Randomized Algorithms
+o Example of Monte Carlo Algorithm: Primality Test
+El r51 _ _= :E Q Q G
+N—ndeterministic and Randomized Algorithms PA 2021/2022 46/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Example of Monte Carlo Algorithm: Primality Test
+Motivatlon 1/2
+Naive algorithm for primality testing:
+isPrime2(x) {
+if (x < 2) return false;
+for (i: 2; i*i <: x; -l—l-i)
+if (x % i I 0) return false;
+return true;
+}
+El r51 _ _= :E ‘)QO’
+N—ndeterministic and Randomized Algorithms PA 2021/2022 47/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Example of Monte Carlo Algorithm: Primality Test
+
+Motivatlon 2/2
+
+A ﬁrst execution:
+
+print ( isPrime2 (2147483647));
+
+$ time alki —a isPrime.alk
+
+true
+
+real 0m1.4655
+
+user Om3.385$
+
+sys Om0.1555
+
+A second execution:
+
+print ( isPrime2 (2305843009213693951));
+
+$ time alki —a isPrime.alk
+
+AC
+
+real 50m14.4075
+
+user 49m18.198s
+
+sys 0m20.615s
+
+The algorithm was stopped after 50 minutes on a Mac 3,1 GHz Intel Core i5, 2
+
+Cores. e. 51 , E :5 mm»
+N—ndeterministic and Randomized Algorithms PA 2021/2022 48/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Example of Monte Carlo Algorithm: Primality Test
+
+Jacobi Symbol: problem domain
+
+Legendre Symbol:
+
+0 ifaE 0 (mod p),
+(a/p) = 1 if a 7% 0 (mod p) and there is x s.t. a E x2 (mod p),
+—1 if a sé 0 (mod p) and there is NO such an x.
+where p is prime;
+Jacobi Symbol:
+(gin) I (3/P1)a1(a/P2)a2"'(a/Pklak,
+where n is a positive integer and pimp‘;2 - - - pgk its prime factorization.
+cl 51 a E :2 QQG
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 49/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Example of Monte Carlo Algorithm: Primality Test
+Jacobl Symbol: the Algorlthm
+jacobi(a, n)
+@requires n > O, n % 2 : 1
+{
+j = 1;
+while (a != 0) {
+while (a %2: O){ // a is even
+a : a / 2;
+if (n%8=3 || n%8=5) j =0—j;
+}
+swap(a, n);
+if (a%4:3&&n%4:3) j =0—j;
+a : a % n;
+}
+if (n I 1) return j;
+else return 0;
+}
+El r51 ' _= :E QQG
+N—ndeterministic and Randomized Algorithms PA 2021/2022 50/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Example of Monte Carlo Algorithm: Primality Test
+Solovay-Strassen Algorithm: descriptive
+Input: a odd positive integer n,
+Output: "composite" if n is composite, "maybe prime" otherwise
+G uniformly choose a in [2, n — 1]
+9 X I (aln)
+9 if x I: 0 or a(”_1)/2 gé X (mod n) then returns "composite"
+0 otherwise returns "maybe prime"
+El r51 i E :5 ‘)QQ
+N—ndeterministic and Randomized Algorithms PA 2021/2022 51/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Example of Monte Carlo Algorithm: Primality Test
+Solovay-Strassen Algorlthm In Alk
+isComp(n)
+{
+uniform a in [2..n—1];
+if (gcd(a, n) !: 1) return "composite";
+x I jacobi(a, n);
+if (x<O) x:x+n;
+if (x != power(a, (n-1)/2, n)) return "composite";
+return "maybeuprime";
+}
+El 5' ' _= :E ‘)QG
+N—ndeterministic and Randomized Algorithms PA 2021/2022 52/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Example of Monte Carlo Algorithm: Primality Test
+
+Solovay-Strassen Algorith m: demo
+
+m1[0] = 2147483647*457241;
+
+m1[1] = isComp(m1[O]);
+
+m2[0] = 2147483647;
+
+m2[1] = isComp(m2[0]);
+
+Output
+
+$ time alki —a compos.alk
+
+m1 |—> [981917570237927, composite]
+
+m2 |—> [2147483647, may be prime]
+
+The probability for this execution is: OE-lOOO
+
+real Om0.570s
+
+user Om1.085$
+
+sys Om0.101s
+
+cl 51 i E :2 Q ‘1x (‘v
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 53/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Example of Monte Carlo Algorithm: Primality Test
+Solovay-Strassen Algorithm as a Prime Test with a Certain
+Probability
+Input: a positive odd integer n,
+
+a positive integer k representing the accuracy
+Output: "composite" if n is composite, " probably prime" otherwise
+isProbPrime(n, k) {
+
+while (k > O && isComp(n) != "cornposite")
+
+__k;
+
+if (k == O) return "probably prime";
+
+return "composite";
+}
+Failure probability is 2—k.
+(A proof can be found in Richard M. Karp. An introduction to randomized algorithms. Discrete
+Applied Mathematics 34 (1991) 165-201.)
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 54/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Example of Monte Carlo Algorithm: Primality Test
+
+Solovay-Strassen Algorithm as a Prime Test: demo
+
+m4[0] = 2305843009213693951;
+
+m4[1] = isProbPrime(m4[0], 100);
+
+Resuk:
+
+$ time alki —a compos.alk
+
+m4 |—> [2305843009213693951, probably prime]
+
+real Om1.192s
+
+user 0m3.043s
+
+sys 0m0.161s
+
+The test with the naive algorithm:
+
+print(isPrime2(2305843009213693951));
+
+$ time alki —a isPrime.a1k
+
+“C
+
+real 50m14.407s
+
+user 49m18.198s
+
+sys 0m20.615s
+
+a a t E 2 \oae
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 55/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Example of Monte Carlo Algorithm: Primality Test
+Solovay-Strassen Algorithm as a Prime Test: demo
+m3 [O] = 170141183460469231731687303715884105727;
+m8 [1] = isProbPrime (m3 [0] , 100);
+Result:
+$ time alki —a compos.alk
+m3 |—> [170141183460469231781687303715884105727, probably prime]
+real Om1.851s
+user Om4.856s
+sys OmO.262s
+The test with the naive algorithm: an optimistic estimation for terminating
+is the end of the semester ...
+N—ndeterministic and Randomized Algorithms PA 2021/2022 56/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Example of Monte Carlo Algorithm: Primality Test
+An Efficient Algorithm for the Power Function l\/|odu|o
+From the problem domain:
+1 daca n : 07
+n a (mod p) daca n I 17
+d : n n
+a (mo p) (a)E (mod p)) >i< (a5 (mod p)) (mod p) dacé n%2 I: O,
+(3* a"_1) (mod p) daca’ n°/o2 z: 17
+to the algorithm:
+power(a, n, p) {
+x = l;
+while (n > 0)
+if (n % 2 I 0) {
+a : (a * a) % p ;
+n : n / 2;
+}
+else {
+x : (a * x) % p;
+n I n — 1;
+}
+return X;
+}
+cl 51 t E :5 QQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 57/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Example of Monte Carlo Algorithm: Primality Test
+ExerCIses
+1. Find the execution time for power(a, n, p).
+2. Find the execution time for isComp(n).
+3. Find the execution time for isProbPrime (n, k).
+El i5] i E :5 QQG
+N—ndeterministic and Randomized Algorithms PA 2021/2022 58/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+P l a n
+a Randomized Algorithms
+o Las Vegas Algorithms
+El i5] _ _= :E J) Q G
+N—ndeterministic and Randomized Algorithms PA 2021/2022 59/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+The Expected time for the Randomized Algorithms 1/2
+
+— never produce incorrect results, but whose execution time may vary from
+
+one run to another
+
+— random choices made within the algorithm are used to establish an
+
+expected running time for the algorithm that is, essentially, independent of
+
+theinput
+
+Notations:
+
+probA7X(C) : the probability that the algorithm A to execute C for the
+
+input x
+
+timeA,X(C) = the time that A to execute C for the input x (a bit different
+
+from the deterministic case)
+
+El r51 i E :5 QQQ
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 60/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+The Expected time for the Randomized Algorithms 2/2
+
+the expected time of A for the input x is
+
+exp-time(A,x) : E(timeA7X) : 2c probA’X(C) - timeA7X(C).
+
+timeA,X is a random variable.
+
+the expected time of A for the worst case is
+
+exp-time(A, n) = max{exp-time(A,x) l size(x) = n}
+
+If A is understood from the context, we write only exp-time(n)
+
+(exp-time(x)) instead of exp-time(A, n) (resp. exp-time(A,x)).
+
+cl 51 i E :2 Qwv
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 61/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+P l a n
+0 Randomized Algorithms
+o Example of Las Vegas Algorithm: k-median
+El 5' ' _= IE ‘D Q G
+N—ndeterministic and Randomized Algorithms PA 2021/2022 62/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Example of Las Vegas Algorithm: k-median
+k-median: the problem
+Definition
+Let S be a list with n elements from a totally ordered set. The k-median is
+the k-th element from the sorted list S.
+Assume that S is represented by an array.
+Consider the next problem:
+Input an array (a[i] | 0 g i < n) and a number k G {0,1,...,n— 1},
+Output k-median
+El r51 i E :5 QQQ
+N—ndeterministic and Randomized Algorithms PA 2021/2022 63/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Example of Las Vegas Algorithm: k-median
+k-median: description of the algorihtm
+Select a pivote x in a[0..n — 1].
+Partition the array a around x: the elements of the array are permuted
+such that a[j] : x and
+(Vi)(i <j => a[i] g x)/\(i >j => a[i] Z x)
+which is equivalent to:
+(VIM/<1 :> alil S BUDMI' >j :> a[1'12 aiii)
+(I j : k :> the problem is solved
+9 j < k :> search k in a[j+1. .n-l]
+e j > k :> search k in a[O. .j-1]
+cl 51 a E :2 owv
+N—ndeterministic and Randomized Algorithms PA 2021/2022 64/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Partltlonlng Lomuto
+partition(out a, p, q)
+{
+pivot : a[q];
+i I p — 1;
+for (j :P; j<q; ++j)
+if (a[j] < pivot) {
+i : i + 1;
+swap(a, i ,j);
+}
+swap(a, i+1, q);
+return i + 1;
+}
+swap(out a, i, j) {
+if (i != j) {
+temp : a[i];
+a[i] I a[i];
+a[j] = ternp;
+}
+}
+m 51 - '= :E QQG
+N—ndeterministic and Randomized Algorithms PA 2021/2022 65/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Example of Las Vegas Algorithm: k-median
+
+Analysis of the Lomuto Partitioning
+
+Correctness:
+
+The for invariant:
+
+i<j/\ (V£)(p g £ g i 2 a[6] g pivot) /\ (i < E <j 2 a[i] > pivot)
+
+After for:
+
+the invariant and j : q, which implies a[i + 1] > pivot
+
+After the last swap:
+
+a[i + 1] : pivot si
+
+(W)(p g E g i :> a[£] g pivot) /\ (i < E < q :> a[i] > pivot).
+
+The number of comparisons: q — p
+
+El 5' i E :5 QQQ
+
+—Nondeterministic and Randomized Algorithms PA 2021/2022 66/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Randomlzed Partlonlng
+The pivot is randomly chosen from a[p..q]:
+randPartition(out a, p, q) {
+if (P < q) {
+i = p + uniformNat(q — p);
+swap(a, i. q);
+return partition(a, p, q);
+} else if (pzq) return p;
+}
+m a] i E :5 Oqo
+N—ndeterministic and Randomized Algorithms PA 2021/2022 67/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+k-medlan: Las Vegas Algorlthm
+randSelectRec(out a, p, q, k)
+{
+j: randPartition(a, p, q);
+if (j: k) return a[j];
+if (j < k) return randSelectRec(a, j+1, q, k);
+return randSelectRec(a, p, j—1, k);
+}
+randSelect(out a, k)
+{
+return randSelectRec(a, O, a.size()—1, k);
+}
+m 51 * E :5 OQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 68/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+k-medlan: Las Vegas Algorlthm WIth tlme
+time I O;
+randSelectRec(out a, p, q, k) modifies time
+{
+j = randPartition(a, p, q);
+time I time + q—p;
+if (j: k) return a[j];
+if (j < k) return randSelectRec(a, j+1, q, k);
+return randSelectRec(a, p, j—1, k);
+}
+randSelect(out a, k) modifies time
+{
+return randSelectRec(a, O, a.size()—1, k);
+}
+m 51 t E :5 OQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 69/73
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+k-medlan: Las Vegas Algorlthm WIth tlme, demo
+
+a = [3, 2, 5, 4, 7, 1, 8, 6];
+
+k4 = randSelect(a, 4);
+
+$ alki —a randomized-select-wtime.alk —m
+
+a |—> [1, 2, 3, 4, 5, 6, 8, 7]
+
+k4 |—> 5
+
+time |—> 16
+
+The probability for this execution is: 0.1428571429
+
+$ alki —a randomized-select-wtime.alk —m
+
+a |—> [3, 2, 4, 1, 5, 6, 7, 8]
+
+k4 |—> 5
+
+time |—> 13
+
+The probability for this execution is: 0.0285714286
+
+$ alki —a randomized-select-wtime.alk —m
+
+a |—> [1, 2, 3, 4, 5, 6, 7, 8]
+
+k4 |—> 5
+
+time |—> 17
+
+The probability for this execution is: 0.0059523810
+
+m a , E a \OQG
+
+N—ndeterministic and Randomized Algorithms PA 2021/2022 70/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Example of Las Vegas Algorithm: k-median
+randSelect: analysis 1/3
+exp-time(n, k) - the expected time to ﬁnd the k-median in an array of
+length n
+exp-time(n) : maxk exp-time(n, k)
+Since we are interested in the worst case analysis, we assume that the
+recursive call chooses always the longest subarray.
+3
+Recall that E(CB) < Z
+. 3
+It follows that the expected length of the longest subarray IS at most Zn.
+cl 51 t E :2 Q1\Qv
+N—ndeterministic and Randomized Algorithms PA 2021/2022 71/73
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:72**************
+Example of Las Vegas Algorithm: k-median
+randSelect: analysis 2/3
+Lema
+3 i
+The expected length of the array after i call is at most (Z) n.
+Proof
+L,- the random variable that returns the length of the array after i calls.
+PJ- the random variable that returns the fraction of the elements preserved
+at the level j
+)(j the random variable that returns the length of the longest subarray
+at the level j
+We have: L,- z "Hl:1 Pj, PJ- : i,
+Xj-1
+x- E(X-) §E(X,-_1) 3
+EP-IE i1 :fj <i4 :*,assumeX:n
+l ’) (X) E<X1~-1> - E<><,-_1) 4 ( ° l
+P1, . . . , P,1 are independent, .
+i i 3 I
+Em I Eon-:1 Pl) I nHj:1E(PJ-) s (z) n
+Now the lemma is proved.
+cl 51 i E :2 axe
+N—ndeterministic and Randomized Algorithms PA 2021/2022 72/73
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:73**************
+randSelect: analysis 3/3
+At the levell i, the number of operations is liniar, let say g 2X,- + b (recal that X,- is the
+length of the longest subarray).
+Let r g n be the number of recursive calls. The the expected time is:
+I
+exp-time(n) : E (2(aX; —l- b))
+1:1
+I Z E(aX,- + b)
+i=1
+I1
+g Z(aE(X,-) + b)
+1:1
+I1 3 i
+< 2 b
+I ani (El),- + bn
+_ 4
+1:1
+g 3an + bn
+: O(n)
+cl 51 t E :2 OQO
+N—ndeterministic and Randomized Algorithms PA 2021/2022 73/73
+
+***************Ending Page***************
+
+

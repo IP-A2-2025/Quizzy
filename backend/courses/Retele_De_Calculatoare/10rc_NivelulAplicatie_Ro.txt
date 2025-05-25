@@ -1,0 +1,1550 @@
+***************Beginning Page***************
+***************page number:1**************
+Lenuta Alboaie (adria@info.uaic.ro)
+Andrei Panu (andrei.panu@info.uaic.ro)
+Retele de calculatoare — https://www.info.uaic.ro/”computernetworks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cu p r| n s
+' Protocoale la nivelul aplicatie
+— Preliminarii
+— Caracteristici de proiectare
+— Accesul la terminal de la distanta
+— Posta Electronica
+' SMTP (Simple Mail Transfer Protocol)
+' POP (Post Office Protocol)
+— Transferul de fisiere
+' TFTP (Trivial File Transfer Protocol)
+' FTP (File Transfer Protocol)
+— World-Wide Web (HTTP)
+— Privire de ansamblu
+2
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Client Host Web Server
+:___.._T_, Logical Link for HTTP chucst "'f'f"
+APPIICIIUOIII"—-_-——__"'__—______—___________>IAPpllCﬂUOlll
+|_____§ L_____-_} L_______§ L______§
+R3 R2
+O . 0 —
+R1
+| '
+J R4 ¢ 5
+Client HOS‘ >. Web Scrvér
+. R6
+R5
+Comunica re intre doua end-systems [Computerand Communication
+Networks , Nader F. Mir, 2006]
+3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Prellmlnarll
+Application Underlying
+Application layer protocol transport protocol
+e-mail SMTP [RFC 2821] TCP
+remote terminal access Telnet [RFC 854] TCP
+Web H'I'I'P |RFC 2616| TCP
+ﬁle transfer FTP [RFC 959] TCP
+streaming multimedia HTI'P (eg Youtube}, TCP or UDP
+RTP [RFC 1889]
+Internet telephony SIP, RTP, proprietary
+(e.g., Skype} typically UDP
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Preliminarii
+' La nivelul aplicatie sunt puse la dispozitie o serie de servicii :
+— Terminal Ia distanta (TELNET, SSH, ...)
+— Posta electronica (SIVITP, ||\/|AP, POP, ...)
+— Transferul de fisiere (TFTP, FTP si altele)
+— World-Wide Web (HTTP)
+— Conversatii instantanee (ICQ, XIVIPP (din |\/|ai 2014 -> nu mai
+are suport in Google Voice), Hangouts ||\/|, WhatsApp... )
+' Se ofera si protocoale pentru rezolvarea unor sarcini de
+sistem - /etc/services, letc/ protocols
+— Sistemul de fisiere in retea (NFS)
+— Conectivitatea cu alte sisteme de fisiere (SIVI B)
+— Servicii de baze de date (IVIySQL, PostgreSQL, ..., Hive, ...) 5
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Ca racteristici de proiecta re
+' Tipuri de protocoale in functie de natura datelor transferate
+— Fluxuri de caractere generate de utilizator
+
+' Folosite pentru aplicatii interactive la distanta (telnet,
+rlogin, IRC, ...)
+
+' Traficul este in mare masura compus din date
+neinterpretate
+
+' Se pot include secvente de control (i.e. controlul
+terminalului, coduri de culoare) — coduri ANSI
+
+(Exemplu: CSI n E -> numit: CNL- Cursor Next Line
+
+l\/|oves cursor to beginning of the n-th (default 1) following
+line)
+
+6
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Ca ra cteristici de proiecta re
+- Tipuri de protocoale in functie de natura datelor transferate
+— Mesaje intrebare/raspuns ASCII
+' Serverul si clientul vehiculeaza siruri de caractere care pot fi
+citite side utilizatori umani (SIVITP, FTP, HTTP/1.1, XIVIPP, SIP, ...)
+' Uzual, sunt compuse din linii de text
+— Formate binare
+' Utilizate pentru protocoale de nivel inferior (SNIVIP — Simple
+Network Management Protocol) sau de nivel inalt (NFS peste
+RPC, HTTP/2.0)
+° Apar probleme la reprezentarea datelor (de ex. ordinea octetilor)
+— Protocoale ad-hoc folosite de aplicatiile (nestandard) scrise de
+utilizatori
+' Pot adopta unele dintre tipurile anterioare
+7
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Ca racteristici de proiecta re
+' Cerinte referitoare la proiectarea unui protocol
+— Parametri critici: lungimea numelui comenzilor,
+marimea buffer-elor, modul de adresare
+— Definirea operatiilor permise (e.g., creare, citire,
+scriere, stergere, actualizare)
+— Raportarea erorilor: coduri de eroare, mesaje
+— Formatul mesajelor: sursa, destinatie, parametri,
+codificarea datelor, lungime fixa/variabila,
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Ca racteristici de proiecta re
+' Scenariul uzual
+— Serverul — citeste coduri de operatii (opcode-uri) si
+raporteaza starea folosind coduri de eroare
+— Clientul — construieste mesaje folosind opcode-
+urile permise
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Ca racteristici de proiecta re
+' Problema fiabilitatii (engl. Reliability) comunicarii
+— Reteaua poate pierde mesaje
+— Abordari:
+' Posta clasica (post-office)
+— Nu asteapta nici un fel de confirmari
+' Handshaking — toate mesajele sunt confirmate
+' Raspuns confirmat (acknowledged reply)
+—Se asteapta un raspuns, iar expeditorul raspunsului
+asteapta confirmarea primirii lui
+' Cerere/raspuns (request/reply) — expeditorul asteapta
+(un timp) venirea raspunsului (e.g. RPC, SOAP)
+10
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Accesul Ia termlnal
+' Serviciu "antic" standard Internet
+' Folosit prin comenzi precum rlogin, telnet, ssh (varianta
+securizata a telnet)
+' Utilizeaza modelul client/server:
+— Clientul interactioneaza cu utilizatorul
+— Serverul furnizeaza acces la un shell (e.g., bash)
+\‘i
+Ap/icatie de tip
+remote login
+11
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Accesul Ia termlnal
+Internet
+"_
+:41 d
+Figura: lVlecanismul de functionare a unei aplicatii de tip
+remote l0 gin curs £33351; ZZIEFn'aQZgZa-l
+12
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+- lmplementare — mecanism general
+Pentru conectarea la distanta, fiecare client va fi deservit de un proces copil al
+serverului
+Procesul copil va crea un alt proces care va conecta clientul la un pseudo-
+terminal si va executa shell-ul
+II
+client child Wk “Ml
+‘5*fo
+‘II-1;“: rI‘IzIi=i=z55555555552‘ [Retele de calculatoa re —
+curs 2007-2008, Sabin Bujgga]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Accesul Ia terminal
+' Probleme
+— lnitializarea si autentificarea
+' Cum identificam clientul?
+' Cum stim ca serverul este unul oficial?
+
+— Procesarea caracterelor speciale (inclusiv sfarsitul de linie —
+EOL)
+
+— Cine proceseaza actiuni precum editarea liniei, afisarea
+caracterelor tastate (echoing), suspendarea terminalului
+(CTRL + S) etc.?
+
+— Modul de comunicare intre client si server
+
+' lntreruperi din partea utilizatorului
+' Controlul dimensiunii ferestrei de afisare
+14
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Accesul Ia terminal
+' rlogin
+— protocol simplu de acces Ia distanta
+— utilizat exclusiv pentru conectarea de masini UNIX
+— RFC 1258: "The r/ogin facility provides a remote-echoed,
+locally flow-controlled virtual terminal with proper flushing
+of output”
+Functionare:
+— rlogin comunica cu un daemon rlogind de pe gazda remote
+— autentificarea se face prin apelarea la gazde "de incredere”
+(”trusted” hosts)
+' rlogind permite logarea fara parola daca gazda remote
+apare in fisierul /etc/hosts.equiv sau daca utilizatorul are
+un fisier .rlogin in directorul home 15
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Accesul la terminal
+' telnet (terminal network)
+— Protocol standard TCP/IP de acces la distanta (RFC 854,855)
+— Utilizat indiferent de platforma
+— Poate fi utilizat drept client generic fara a sti detalii despre server
+— Autentificarea clientilor nu se face de catre protocol, ci de catre
+aplicatie
+— Protocolul se bazeaza pe:
+
+' Conceptul NVT (Network Virtual Terminal): un dispozitiv
+virtual cu o structura generala comuna cu o gama larga de
+terminale; fiecare host face maparea caracteristicilor
+propriului terminal cu cele ale NVT
+
+' Odata ce a fost stabilita o conexiune prin TELNET, ambele
+capete ale comunicarii sunt tratate simetric
+
+16
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Accesul Ia termlnal
+' telnet (terminal network)
+— Protocolul se bazeaza pe:
+' Ambele parti ale comunicarii pot sa negocieze utilizarea de
+optiuni aditionale care sa reflecte partea hardware utilizata
+— Optiuni pentru : editarea liniei, dimensiunea ferestrei de
+aflsare etc. A “Will X” B
+——>
+l-kntlA HustB <——
+“Do X”
+NW A “Will X” B
+W —>
+(-——
+“Don’t X”
+i',
+Tehet Telnet i‘ _ _ _
+telnet ofera compatlbllltate cu
+terminale
+Manama... ‘1mm 5m vechi (vt52, vt100,...)
+[TCP/IP Tutorial and Technical
+Overview, IBM, 2006] 17
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Accesul Ia terminal
+' telnet (terminal network)
+— Comunicare dintre client si server se realizeaza prin comenzi de
+tipul:
+' lP (Interrupt Process; 244) -> terminarea programului care
+ruleaza
+' A0 (Abort output; 245) -> elibereaza orice buffer de iesire
+' AYT (Are you there; 246) -> permite clientului trimiterea unei
+interogari OOB pentru verificarea faptului ca partea remote
+este activa
+' EC (Erase character; 247) -> stergerea caracterului anterior
+' EL (Erase Line; 248) -> stergerea intregii linii curente
+- (RFC 854)
+— Trimiterea unei comenzi: comanda (1 octet) precedata de un
+octet cu valoarea 255 - IAC (Interpret As Command) 18
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+SSH
+' SSH (secure shell)
+— Fata de telnet, furnizeaza 0 comunicare sigura (bazata pe
+TCP) prin mesaje criptate si mesaje de autentificare
+— SSH foloseste modelul client/server
+' Un program client SSH este utilizat pentru stabilirea unei
+conexiuni cu un daemon SSH
+— Utilizari:
+' logarea pe 0 masina la distanta si executarea de comenzi
+' suport pentru tunneling (curs viitor)
+' permite si transfer de fisiere in asociere cu protocoalele
+SFTP sau SCP
+— Are suport in majoritatea sistemelor de operare moderne
+19
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+E-mail (Electronic Mail)
+' Protocoale bazate pe TCP:
+— SMTP (Simple Mail Transfer Protocol)
+' RFC 821 (specifica modul de schimb a mail-ului intre
+doua host-uri)
+— POP (Post Office Protocol)
+' RFC 1939
+— POPBS — varianta securizata a POP3
+' A se vedea si: RFC 822 (specificatii privind antetul unui
+mail), 2049 (specificatii privind documente diferite ole plain
+text ASCII ce pot fi continute intr-un email), RFC 974
+(standard privind rutarea mailurilor folosind DNS)
+' RFC 822 si 974 -> consolidate in RFC 2821, 2822
+20
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+E- m ail
+' Terminologie
+
+— Agent utilizator (MUA- Mail UserAgent): client (local) pentru posta
+electronica
+Ex: alpine, mutt, IVIozilla Thunderbird, Kmail, Outlook etc.
+
+— Agent de transfer (MTA — Mail Transport Agent)
+responsabil cu comunicarea cu gazdele la distanta si cu
+trimiterea/receptionarea de posta
+(client & server) - sendmail, qmail
+
+— Agent de distributie (MDA - Mail Distribution Agent sau LDA — Local
+Delivery Agent) - directioneaza mesajele primite catre casuta postala a
+utilizatorului; Ex: maildrop, Sieve, procmail
+
+— Mail exchanger (MX) — gazda responsabila cu e-mail-urile unui domeniu
+(masina intermediara)
+
+21
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+E-ma || \ SIVITP
+' Utilizat in schimbul de mesaje de posta intre serverele
+de mail (IVITA-uri)
+Mail Server
+termlnal i mesaje | cllent
+i detrimis |
+emltator _ ' _ ' _ ' _' conexi ne TCP
+(SMTP andshaking)
+_ _ _ _ _Mai| Server Port TCP 25
+terminal | utilizatoruluii server
+t
+recep or Expeditorul SMTP = client (Sender SMTP)
+Destinatarul SMTP = server (Receiver SMTP) 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+' DNS 5| e'mall'UI DNS lookup IVIX record
+.ﬂ pentru axiologic.r0
+- lnregl'strarea'de trp' a; 4' (l
+IVIX dln DNS Identlflca Sendersmp I'm“ ‘
+gazda (IVIX) cu rol de _ _ _ _
+. d ma||.aXIolog|c.ro
+procesare 5|.]|‘0rwq_r_\- Trimiterea mesajului Ia L-
+are a mal ur| or R :5;:
+. stinatia finala sau Ia [5“:
+pentru respectlvul d>e _ _ 5.5:! g
+domeniu un alt MX mal aproplat 31.55;; 1%-
+de destinatie R°°e‘"°'smp
+' IVIecanism general:
+' Serverul SIVITP verifica inregistrarea IVIX a domeniului specificat in
+adresa de email (e.g. axiologic.ro pentru adresa b@axio|ogic.ro) si
+sa zicem ca aceasta inregistrare este mai|.axi0|0gic.ro.
+' Se va trimite acest mail pe serverul SIVITP de pe mai|.axio|0gic.ro.
+23
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+E-m ail
+' Caracteristici
+— Distinctia dintre plic si continut
+' Plicul incapsuleaza mesajul, contine date necesare
+pentru transportul mesajului: destinatar, adresa,
+prioritate, securitate,
+' Plicul este folosit pentru dirijarea mesajului Ia destinatar
+' Mesajul din plic contine un antet (date de control
+pentru IVIUA) si un corp (date pentru utilizator)
+— Fiecare utilizator este identificat printr-o adresa de e-mail:
+cutie_postala@locatie (cont@adresalnternet)
+24
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+E-ma i| \ SIVITP
+' Componente:
+— Plic (envelope)— folosit de IVITA pentru livrare
+Exemplu:
+IVIAIL From: <adria@info.uaic.ro>
+RCPT to: <adria@info.uaic.ro>
+— Anteturi (headers) — folositi de IVIUA
+Exemplu: Received, Message-ID, From, Date, Reply-To,
+Subject,...
+— Continut —u| mesajului (body) -
+' Mecanism: IVIUA preia continutul, adauga anteturi si i|
+transmite Ia IVITA; IVITA adauga anteturi, adauga plicul si i|
+trimite Ia un alt IVITA
+25
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+E-mail \ SIVITP
+' Campuri de antet utilizate in transportul de e-maiI-uri:
+—“
+26
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+E- m all l S IVITP
+' Campuri de antet utilizate in transportul de e-mail-uri:
+
+—“
+The date and time the message was sent
+
+Reply-To: Email address to which replies should be sent
+
+Message-Id: Unique number for referencing this message later
+
+ln-Reply-To: Message-Id of the message to which this is a reply
+Other relevant Message-Ids
+User chosen keywords
+
+Subject: Short summary of the message for the one-line display
+
+27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+E '| \ s IVITP
+Exemplu
+F _____ __ __ .
+'a__ .m
+I
+3n mesaj din univer5:}
+H-UID: 22343
+X-Hevwcrds:
+X-Status:
+Status: R0
+|Tc: undisclcsed-recipient5:;
+Frcm: encnimusﬁspacescme.rc
+Date: ch, E Dec 2313 13:43:53 +3233 iEEI}
+Message-Id: <2313123E331313.3154¢D33C3fenrir.infc.uaic.rc>
+fcr <edrie31nfcia51.rc>; ch, E Dec 2313 13:13:53 +3233 EEEI}
+by fenrir.infc.uaic.rc iPcstfix} with SHIP id 3151CD33C
+Received: frcm fenrir.infc.uaic.rc tfenrir.infc.uaic.rc [12T.3.3.1]}
+Delivered-Tc: adriaﬁinfciasi.rc
+id B2FERCFBE; ch, 5 Dec 2313 13:51:35 +3233 iEET}
+Received: by fenrir.infc.uaic.rc (Pcstfix} I
+fcr {adriaﬁthcr.infc.uaic.rc}: ch, 5 Dec 2313 13:51:3T +3233 tEET}
+by thcr.infc.uaic.rc iPcstfix} with ESHIP id CT1332FC51
+Received: frcm fenrir.infc.uaic.rc ifenrir.infc.uaic.rc [35.122.23.145]} E
+Delivered-Tc: adriaﬁthcr.infc.uaic.rc
+K-Original-Tc: adriaﬁthcr.infc.uaic.rc
+HO_DH3_FOR_FROH shcrtcircuit=nc autclearn=nc versicn=3.2.5
+K-Spenrﬁtatus: Hc, 5ccre=3.1 required=&.5 te5t5=BAYES_&3,HISSIHE_SUBJECT,
+X-Spamrlevel: ***
+X-Spam+Checker—$ersicn: Spaméssassin 3.2.5 (2333-36-13} cn thcr.infc.uaic. t tllli
+H-Spamrhﬁﬁ: A312535 35.122.15.3223
+Return-Path: {ancnimusﬁspacescmeJrc} m
+Frcm ancnimusﬁspacescme.rc I-Ecn Dec E 13:51:3'.-' 2313 S andard
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+E-ma i| \ SIVITP
+' Comunicarea:
+
+— Se realizeaza 0 conexiune TCP intre Sender SMTP si Receiver
+SMTP (intre IVITA-uri). Obs. Receiver SIVITP poate fi
+destinatia finala sau un intermediar (mail gateway)
+
+— Clientul trimite comenzi SIVITP, iar serverul raspunde cu
+coduri de stare
+
+— IVIesajele de stare includ coduri numerice NNN si texte
+explicative
+
+— Ordinea comenzilor este importanta
+
+— Se utilizeaza portul 25
+
+29
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+E-ma il \ SIVITP
+° Comenzi uzuale:
+— HELO: identifica gazda expeditoare
+— MAIL FROM: porneste 0 tranzactie si identifica orginea e-
+mail-ului
+— RCPT T0: identifica recipientii individuali ai mesajului
+(adrese de e-mail); pot exista comenzi RCPT TO: multiple
+— DATA desemneaza 0 serie de linii text terminate cu \r\n,
+ultima linie continind doar ”."
+— QUIT
+30
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+E ' | \ s |\/| TP
+' Exem plu:
+g‘ f-Eﬂl'il'.il'|f-EI malts‘: - I'Ll| I?‘
+~ telnet fanrir.inf:.uai:.r: 25
+Trying 12?.C.E.1...
+C:nn&:t&i t: fanrir.inf:.uai:.r:.
+E5:ap& :hara:t&r ia '“1'.
+22C fanrir.inf:.uai:.r: EEHTP
+HELU fanrir.inf:iaai.r:
+25C fanrir.inf:.uai:.r:
+HAIL frim: an:nimua@5pa:&a:m&.r:
+25C 2.1.C Gk
+RCPT Tﬁ:aﬁria@inf:iaai.r:
+25E 2.1.5 Gk
+DATA
+35% Ent iata with {CE}{LF}.{CE}{LF}
+En maaaj tin univer5:1
+25C 2.E.C Gk: queuat aa CAEEECFEC /
+Retele de calculatoare — https://www.info.uaic.ro/”computernetworks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+E-ma il i SIVITP
+' Alte comenzi:
+
+— VRFY: permite verificarea validitatii unui recipient
+— NOOP: forteaza serverul sa raspunda cu un cod de OK (200)
+— EXPN: expandeaza un grup de adrese (alias)
+— TURN: interschimba destinatarul cu expeditorul fara a fi
+
+necesara crearea unei noi conexiuni TCP
+
+(sendmai/ nu suporta aceasta comanda)
+— RSET abandoneaza tranzactia curenta
+
+32
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+E-ma iI I SIVITP
+' RFC 822: SIVITP este limitat Ia text ASCII pe 7 biti
+' RFC 1521: defineste un standard care sa rezolve limitarile
+anterioa re -> MIME (Multipurpose Internet Mail Extensions)
+— Standard de codificare a continutului mesajelor non-ASCII
+' Limbi cu accente, cu alfabete non-Iatine, fara alfabet,
+mesaje non-textuale
+— Permite atasarea Ia e-mail a fisierelor de orice tip
+— Se foloseste campul:
+Content-Type: tip/subtip
+Exemplu: Mime-Version:1.0
+Content-Type: TEXT/ PLAIN
+3.»,
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+E-ma il i SIVITP
+' Tipuri MIME principale:
+application defineste aplicatiile client
+(application/executable)
+text defineste formatele text
+(text/plain, text/html)
+image specifica formatele grafice
+(image/gif, image/jpeg)
+audio specifica formatele audio (audio/basic)
+video specifica formatele video (video/mpeg)
+multipart utilizat pentru transportul datelor compuse
+(multipart/mixed, multipart/alternative)
+34
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+E-mail \ POP
+' POP (Post Office Protocol) — RFC 1939
+' Utilizat Ia transferul de mesaje de pe un server de
+posta Ia un IVIUA- portul 110
+' Comenzile si raspunsurile sunt mesaje ASCII
+' Raspunsurile incep cu +OK sau -ERR
+Mail POPS
+--—--- Server MUA
+Siggern
+e fisier
+[Retele de calculatoare —
+curs 2007-2008, Sabin Buraga]
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+E-ma il \ PO P
+' Comenzi uzuale:
+— USER specifica numele de cont
+— PASS specifica parola
+— STAT furnizeaza numarul de mesaje din cutia postala
+(mailbox)
+— LIST afiseaza lista de mesaje si lungimea, cate 1 pe linie
+— RETR preia un mesaj
+— DELE reseteaza tranzactia, iar orice marcaj de stergere este
+eliminat
+— QUIT sterge mesajele marcate si inchide conexiunea
+36
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+=11!‘ thcr.|'nf1:|-.uaic.rc — Pu .
+adriaEthcr:~$ telnet thcr 113 E_m a l I PO .
+Trying 55.122.25.1...
+Ccnnected tc thcr.infc.uaic.rc.
+Escape character is 1"] 1. E I
++01‘. F'OF'5 thcr.infc.uaic.rc 233?b.131 server ready xemp u
+user adria
++OH User name acceptedI passwcrd please
++OH Hailpcx cpen, 1133 messages
+stat
++OK 1135 151515532
+retr 1135
++OH 1115 cctets
+Return-Path: {ancnimusﬁspacescme.rc}
+E-SpamrASH: 2512ET5 55.122.15.3f23
+E-SpanvChecker-Yersicn: SpamAssassin 5.2.5 (2335-35-13} cn thcr.inZ? uaic.rc
+K-Spanklevel: ***
+K-SpanvStatus: Hc, sccre=5.1 required=1.5 tests=BI-1YE5_13,HISSIHC-_.51TBJEC'II
+HOLDHS_FOR_FROH shcrtcircuit=nc autclearn=nc versicn=5.2.5
+E-Original-‘Ic: adriaEthcr.inf-:.uaic.rc Par0|a necriptata
+Delivered-Tc: adriaEthcr.infc.uaic.rc
+Received: frcm fenrir.infc.uaic.rc Efenrir.infc.uaic.rc [55.122.25.115]}
+by thcr.infc.uaic.rc tistfix} with ESHIF id C?1552F551
+fcr <adria§thcr.infc.uaic.rc}; ch, E Dec 2313 13:51:5T +3233 cEET}
+Received: by fenrir.infc.uaic.rc (chtfis}
+id 52FE5CFEE; ch, E Dec 2313 13:51:55 +3233 iEET}
+Delivered-Tc: adriaEinfciasi.rc
+Received: frcm fenrir.infc.uaic.rc Efenrir.infc.uaic.rc [12?.3.3.1]}
+by fenrir.infc.uaic.rc i5cstfix} with SHIP id 316155335
+fcr <adria§infciasi.rc}; I-EcnI E Dec 2313 13:15:55 +3233 iEET}
+Message-Id: {23131235351513.3151CD33CEfenrir.infc.uaic.rc>
+Date: ch, E Dec 2313 13:15:55 +3233 tEET}
+Frcm; ancnimusEspacescme.rc
+1c: undisclcsed-recipients:;
+Status: O
+3n mesaj din univers:}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+E- m ail \ PO P
+' POP 3 - caracteristici:
+
+— In general, daca utilizatorul schimba clientul el nu-si mai poate reciti
+mailurile; Obs: Clienti cu optiunea: ‘keep a copy of the email on the
+server’
+
+— Foloseste mecanismul "down/oad-and-keep”: copierea mesajelor pe
+clienti diferiti
+
+— POP3 este fara stare intre sesiuni
+
+' Alte solutii:
+IIVIAP (Interactive IVIail Access Protocol) — RFC 1730
+
+— Pastreaza toate mesajele intr-un singur Ioc: pe server
+
+— Permite utilizatorului sa organizeze mesajele in directoare
+
+— Pastreaza starea "utilizatorului" intre sesiuni
+
+' Numele directoarelor si maparea dintre lD-urile mesajelor si
+numele folderului
+38
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+' TFTP (Trivial File Transfer Protocol) -> ...Cursul 6 & RFC 1350
+Pasii: socket(),
+Sewer bind() la portul
+- well-known 69,
+$60" (W recvfmmﬂ, forkf),
+var’ °
+‘$3 66 ah‘ recvfromﬂ, ...
+égi'éqa
+Client ‘36(“9'
+“mu!
+7'6 {29890980, Pasii:socket(),
+cfféare “are @1688 Server bind() la un port
+01‘ sf s e gran-,8 We; (my 1234, procesarea
+‘Pei- ‘8% Port1234 cereriiclientului
+{re _ ‘
+Schlmbde
+datagrame cu
+_ _ _ clientulprin noul
+— utlllzeaza UDP 5| portul 69 socket
+— utilizat deseori la initializarea statiilor de lucru fara disc sau a
+altor dispozitive
+— nu are mecanisme de autentificare si criptare => este utilizat in
+retele locale
+— RFC 1785, 2347, 2348, 2349
+39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+' TFTP (Trivial File Transfer Protocol)
+lmplementarile TFTP utilizeaza comenzi de tipul:
+
+Connect shuste Speciﬁes the destinaﬁen hes! ID.
+
+Hnde sascﬂ | h1narye Speciﬁes the type of Transfer mode-
+
+Get sreimte f1lenalnee [s'lucnl fi'lennnee]
+
+Retrieves a ﬁle-
+
+Put sreimte f1lenamee [s1 ncal fi'lenanee]
+Stores a ﬁle-
+
+'i'erhnse Toggles VETbDSE' mode, which displays
+eddiﬁenal inlbm'letien during ﬁle ﬁansfer, en er
+eff.
+
+ﬂu1 t Exits TFl'Fi
+
+— RFC 1785, 2347, 2348, 2349 _ _
+[TCP/IP Tutorial and Techmcal
+Overview, IBM, 2006]
+40
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Tra nsferul de fisiere | FTP
+FTP — caracterizare
+' Folosit atat interactiv, cat si de programe
+' Asigura transferul sigur si eficient al fisierelor
+' Se bazeaza pe modelul client/server
+' FTP utilizeaza doua conexiuni TCP pentru transferul fisierelor:
+— Conexiune de control
+' folosita pentru trimiterea comenzilor si receptionarea codurilor de
+stare
+° Conexiunea de control utilizeaza portul 21
+— Conexiunea de date _ Control .
+' folosita pentru transferul efectiv
+' conexiunea de date foloseste portul 20 k
+sau unul aleator (P > 1023)
+' nu este obligatorie intr-o sesiune FTP 41
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Transferul de fisiere l FTP
+FTP — caracterizare
+' Comenzile si raspunsurile sunt linii de text
+' Obs. (FTP->)fi|e transfer != file access (->NFS)
+' Vezi si RFC 956, 1068, 2228, (FTP Security Extensions), 2428 (FTP Extensions
+for IPv6 and NATs)
+' Pentru interactivitate se foloseste protocolul TELN ET
+Tipuri de acces:
+' Anonim (FTP anonymous) — RFC 1635
+— Autentificare cu numele anonymous si drept parola o adresa de
+e-mail
+— Acces public la o serie de resurse (aplicatii, date, multimedia
+etc.)
+' Autentificat
+— Necesita un nume de utilizator existent, insotit de o parola
+valida
+— Pentru transferul de date in/din contul personal 42
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Transferul de f|5|ere \ FTP
+FTP- model
+Chem ' P|= Protocol Interpreter
+' DTP = Data Transfer Protocol
+Utilizatorla u , lnterfata
+terminal ‘ utilizator
+Server
+Utiliz. Pl °;°°°X'°°°° Server Pl
+de control 5
+(comenzi FTE’,
+iRaspunsuri
+Sistem Utiliz_ DTP Conexiuneag Server Sistem
+de de date DTP de
+fisiere fisiere
+~~.IIIIIIIIIIIIIIIIIIIIIIIIIII“. 43
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+T I I
+ransferul de f|5|ere \ FTP
+FTP comenzi (clien
+_ t)
+adriauther:~ ftp
+ftp} help
+Csmmands may be abbreviated. Csmmands are:
+I
+I! dehug mdir ge send
+l$ dir mget sendpsrt site
+aeesunt disesnneet mrdir put size
+append exit mls pwd status
+aseii farm made quit struet
+hell get medtime guete system
+binary glsh mput reev sunigue
+Dye hash newer reget tenen
+lease help nmap rstatus tier
+ed idle nlist rhelp traee
+edup image ntrans rename type F
+.ehmnd led spen reset user =
+elsse ls prempt restart umasr
+er maedef passive rmdir verhese
+delete mdelete preny runigue ?
+lftp} T
+. —
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Transferul de fisiere | FTP
+FTP — comenzi uzuale (client)
+Command Meaning
+Open |[Ireate an l-TP connection between the two hosts.
+RETR weave)
+STOR (store)
+Mget |Get multiple ﬁles using wildcarcls {for example, mget a* fetches all ﬁles
+for programs and tonnatted word processing ﬁles.
+45
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Tra nsferul de fisiere | FTP
+FTP — comenzi (protocol)
+° Comenzi de control al accesului
+— USER username, PASS password, QUIT, ChangeWorkingDir,...
+' Comenzi de transfer a parametrilor
+— PORT, TYPE, MODE
+' Comenzi de realizarea a serviciilor FTP
+— RETRfi/ename, ABOR, STORfi/ename, LIST, PrintWorkingDir
+Raspunsul de stare
+Linie de text continand:
+XYZ un cod de stare (utilizat de software) + un mesaj
+explicativ (destinat oamenilor) 46
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Transferul de fisiere l FTP
+FTP — codul de stare (xyz)
+Prima cifra semnifica:
+1 replica pozitiva preliminara ("am indeplinit, dar
+asteapta”)
+2 replica pozitiva finala ("succes")
+3 replica pozitiva intermediara ("am nevoie si de alte
+informatii”)
+4 replica negativa tranzitorie ("eroare, incerc iar”)
+5 replica negativa finala ("eroare fatala")
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Transferul de fisiere | FTP
+FTP — codul de stare (xyz)
+A doua cifra specifica grupuri de functii:
+0 erori de sintaxa
+1 informare (ajutor, informatii de stare)
+2 referitor Ia conexiuni
+3 privitor Ia autentificarea utilizatorului
+4 nespecificat
+5 referitor Ia sistemul de fisiere
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Transferul de fisiere \ FTP
+FTP — codul de stare (xyz)
+A treia cifra da informatii suplimentare asupra mesajelor de
+eroare
+Exemple:
+125 Conexiune deschisa; transfer pornit
+200 Comanda OK
+226 Transfer complet
+331 Nume utilizator OK, se cere parola
+452 Eroare la scrierea ﬁsierului
+500 Eroare de sintaxa (comanda necunoscuta)
+501 Eroare sintaxa (argumente invalide)
+221 Goodbye /*rezu|tat al comenzii QUIT */ 49
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Transferul de flSlere | FTP
+FTP — Moduri de transfer
+- STREAM
+- Fisierul este trimis ca un flux de octeti; sfarsitul
+transmisiei este indicat de inchiderea normala a
+conexiunii;
+- BLOCK
+- Fisierul este transmis ca o serie de blocuri de date
+precedate de antete continand contoare si descriptori de
+bloc (e.g. End of data block)
+- COMPRESSED
+- Fisierele sunt compresate, conform unui algoritm de
+compresare (e.g., gzip) si sunt trimise ca date binare
+50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Transferul de f|5|ere \ FTP
+Active FTP — exemplu
+- Clientul se conecteaza la un
+server (85.122.23.145z21) de
+EIII El lIIIEE lIIIE'T-I
+- Clientul trimite comanda
+H PORT 85.122.23.142
+(4*256+2=1026) ce indica
+Server-ului sa initieze 0
+conexiune cu clientul Ia portul
+_ P+1
+n - Clientul asculta la P+1 si
+primeste datele trimise de
+server prin portul 20
+Obs. Conexiunea initiata de server poata fi interpretata ca un potential atac de
+firewall-ul clientului 51
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Transferul de flSlere T FTP
+Pasive FTP — exemplu
+- La initierea unei conexiuni FTP
+clientul foloseste doua porturi
+Data ‘:md ‘:md DE“ - Clientul se conecteaza Ia un
+server (85.122.23.145;21) de
+Ia portul P si trimite comanda
+- Serverul deschide un port Ps >
+- 1023 si trimite comanda
+u PORT Ps clientului
+- Clientul va initia o conexiune
+(de Ia portul P+1) cu serverul
+folosind portul primit (PS)
+52
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+HTTP
+' Hyper Text Transfer Protocol
+
+— Protocol utilizat in Internet, bazat pe stiva TCP/IP
+— Sta Ia baza comunicarii dintre serverele si clientii Web
+
+' Client: in mod uzual poate fi un browser
+
+' Server: server Web care trimite raspunsuri la cererile primite
+— HTTP 1.0 - RFC 1945
+— HTTP 1.1 - RFC 2616
+— HTTP 1.1 revised - RFC 723X (https://www.w3.org/Protocols/)
+Protocolul HTTPS — asigura comunicatii "sigure" HTTP via TLS (Transport
+Layer Security):
+— autentificare pe baza certificatelor digitale + criptare bidirectionala
+— RFC 2818 — https://too|s.ietf.org/html/rfc2818
+
+53
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+HTTP
+— Protocolul SPDY — un experiment Google, disponibil ca
+Internet Draft Ia care Google a renuntat in 2016
+
+° Reducerea latentei incarcarii si cresterea securitatii
+
+' https://www.chromium.org/spdy
+
+' lmplementari SPDY existau in : Chrome, l\/|ozi||a
+
+Firefox, Opera, Amazon Silk, Internet Explorer
+
+— Protocolul HTTP/2.0
+
+' RFC 7540
+
+' Extinde ideile SPDY, focalizat asupra performantei
+
+' www.5lideshare.net/mnot/What-htthO-WilI-do-for-you
+
+54
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+HTTP
+' Hyper Text Transfer Protocol
+
+IVlecanism general:
+Clientul initiaza o conexiune TCP cu serverul
+folosind portul 80
+Serverul accepta conexiunea TCP
+Are Ioc schimbul de mesaje HTTP intre
+clientul HTTP (browser) si server-ul Web
+Se inchide conexiunea TCP
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+' HTTP — nu se ocu pa de pa rtea de ruta re sau verifica rea cererilor
+
+— ? Cine: TCP&|P
+
+— HTTP lucreaza cu cereri Ia nivel inalt: Fetch lndexPage al httgsﬂwwwgooglecom
+
+— Live HTTP Headers (Firefox) ->
+httpcff 12T.1].1].1:BIDBDICurs_PrograrnareJSft5t.htrnl httpcff1ET.11.1].1:BﬂﬁIlfCurs_P rogra mareJSIimgsrc-Mpg
+GEI' fCurs_ProgramareiSft5t.htrnl HTI'F'H .1 GEI' fCurs_ProgramareiSfirngsrc.-1.jpg HTI'PH .1
+Host: 12111.1].1ﬂ1ﬁ] Host: 12111.1].1ﬂ1ﬁ]
+User-Ag ent: Mozillaﬁj] Windows NT 6.2; WDWﬁ-l'l; Mllﬂj Geckofzmumm Firef User-Agent: Mozillaﬁﬂ Windows NT 6.2; WDWﬁ-i; m23.1]]| Geckof21111IH11111 Firefoﬂ23.1]
+Accept: teirtrrhtmljpp-Iicationthtrnl+nmLap|olicationfxrn|;q:1].9,*f*;q:1].3 ACCEp-t imagefpng.imagef*:q=113.*f*:q=115
+Accept-Language: en-Uien;q=1].5 Accept-Language: en-U5,en;q:1].5
+Accept-Encoding: gzip, deflate Accept-Encoding: gzip, deflate
+Connection: keep-alive Referer: http:ff12'i'.1].1].1:BﬂﬂﬂfCursjrogra rnareiSftsthtrnl
+
+Connection: keep-alive
+H1_|'P.|"1.1 21]] GK
+Date: Thu, 115 Geo-21113 15:5T:1II GMT HTI'P'H .1 21]] [11C
+Server: Apachefl.4.3 Min32] DpenSSU1 .111 c PHPISAJ Date: Thu, 115 Sep 2111315:5T:1IH] GMT
+Last-Modified: Th u, 115 Sep- E1113 15:51:41 GMT Server: ApacthAB Min32] DpenSSLfi .111 c PHF'HSAJ
+Etag: "95-4e5a4e5efb'9d1" Last-Modiﬁed: Wed, 23 Aug .1111 3 06:23:31 GMT
+Accept-Rangﬁ: bgrtﬁ Etﬂg: "3c9e-4e4fc11T42da1111"
+Content-Len gth: 149 Accept-Hangﬁ: bqlrts
+Keep-Alive: timeout:5, max:11]] Content-Length: 1551B
+Connection: Keep-Alive Keep-Alive: timeout=5, man=99
+Content-Type: tectr'htrnl Connection: Keep-Alive
+Content-Type: imagefjpeg
+
+Detalii asupra portului: https://www.grc.com/p0rt_8080.htm 55 '
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Web Browser | Download
+' Modul cum browserul reda un website este esential in procesul de optimizare
+Exemplu: download resursa http://kernel.org
+0.2 0.4 0.5 U i 1.0 ‘1.2 1.4 1.5 .5 2.0
+1: kernelmrg — H 34? ms
+2: kernelnnr'g — kernelmms —303 ms
+3: kernelmrg — us.png 151 ms
+4: kernelmrg — eu.pr|g -135 ms
+5: kernelnnr'g — downloadarrm_amall.png —235 ms
+6: kernelmrg — eu.pr|g 135 ms -
+T: kernelmrg — hnstedatisc.png 142 ms -
+Ei: kernelnnrg — umu50.png 151 ms -
+9: kernelnnrg - hplngn.giF 144 ms -
+10: kerneljrg - 1Flmgcl-med.png 154 ms -
+11: kernel .nrg - 1:31.an 143 n3 -
+12: kernelnrg - 10g0?0-tran.png- 291 ms
+13: kernemrg - valid-xhtmllﬂ 152 ms -
+14: kernelnzlrg - Faust-mica 28E! m3
+0.2 ‘3.4 0.5 U '= 1.‘:3 1.2 1.4 1.5 .3 2.0
+—-'k—
+—Bﬂﬂdldidt.|"l In (U — 5,450 KIOFIS) r —
+‘ A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Web Browser | Download
+' Pasii realizati de browser:
+— Rezolvarea kernel.org folosind DNS pentru aflarea IP (primul segment)
+— AI doilea segment indica incercarea de a crea o conexiune HTTP catre
+kernel.org
+— La inceputul celui de-al treilea segment, conexiunea TCP a fost creata si
+browserul isi poate primi raspunsul; in cazul nostru poate datorita latentei
+serverului, abia la la inceputul celui de-al patrulea segment serverul web
+trimite continutul
+— Total: 847 milisecunde (ms) — si documentul HTIVIL a fost obtinut
+' Obs. In general paginile web constau din legaturi catre foi de stiluri, imagini,
+JavaScript etc.
+— lmediat ce documentul HTML incepe sa vina, browserul incepe operatia de
+fetch pe alta resursa (kernel.css in cazul nostru)
+' Obs. De data aceasta nu mai sunt intarzieri datorate DNS Iookup,
+deoarece raspunsul anterior a fost plasat in cache-ul browserului
+— Sunt intarzieri datorate initierii conexunii TCP catre server 58
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Web Browserl Download
+' ? De ce exista 0 asa mare intarziere pentru cererea us.png?
+
+— ”|\/|0tiv istoric”: in exemplul nostru browserul downlodeaza
+doar doua resurse in paralel de Ia acelasi host (cum s-a
+terminat kerne|.css, incepe us.png)
+
+— Pentru resursele us.png si cele care urmeaza nu mai exista nici
+un segment de conexiune TCP <i> browserul reutilizeaza
+conexiunea TCP existenta cu serverul => 0 optimizare (salveaza
+0.1 secunde per cerere)
+
+— Obs. Pentru resursele 1,5,12 timpul pentru descarcarea
+resursei e jumatate din intregul timp de fetching a resursei; Ia
+restul timpul de descarcare este insignifiant
+
+59
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Web Browser | Download
+ConeXIunl pers:stente s| Keep-Alive
+— In HTTP 1.0 — comportamentul |mp||c|t era ca dupa flecare obtlnere de
+resursa sa se Inchlda coneXIunea
+Efect => latenta :n prlmlrea raspunsulul, utlllzarea resurselor (CPU, RAM) la
+nlvel de cllent s: server
+.1. 2 3 q 5 E F B
+Ht-t-[IifF11FURtlJR'ICDIW1f1DIIFI3pl'It-ll
+11 llf'lblIIIllIlI-DII-LI'R — [CITISJHIII'II 31-5 I'IE'
+2: ||.r1|.|:-:hm-:.m.|.l-: - pi:H.|:l-'|EE -EGE rl:
+J:1:r1w1::ux.o:|.u-: - mrtalqma - -= n:
+d: 'linLnd:m-:.|:n.|.k — p.pr|g 5'3 I:
+:I: lmwiclox.|:=:|.u< - 5-5.an 15-13 n:-
+ﬁ:1lnwhu1.m.Ll: - qJLJLpI-g -m;r rue
+J‘: llandamc_uc|_Ll-c - Fiﬂﬁt_pl'€ -E]‘I1- rls
+H:1[nwhu1.m.m - sure-name -E-E|3 I3
+‘3:1i.n|.|:\d::::o:.m.|.k — script.“ -EGB I:
+1'3: [Immacuuk - stun-31mm -EE-\ﬂ we:
+11: lime-nx..c|:|.uk — awn-124mg -E=3? r-ra
+12: limit-armchuk — sphrrcimlr-E EBE' I3 -
+13: timbre-20m: - amereZmE E-EH I3 -
+ill: liruxbuxxmuk — Lei-411g EB rI: -
+15: [Immacuuk — temme 511 "a -
+15: l1ﬂJxE-Im.l:|:|.uk - LEELJFTII'Q 53::- rue -
+1?‘: ljrqu-JXJUMIQ - traneFlrrJni EBB n5 -
+1B: limxbnmccwl: - umn-zunmg E-‘Z rue -
+19: liruxbux.i:n.uk — up.pr|g EFEI n: -
+2'3: lmmmmcum: - uwnmuedmne 5;": ma -
+21.: limb-Damon}: — uumng GEE I15 -
+22: l1ﬂJxE-Im.l:|:|.uk - uwldlmng m1 m:
+23: l.1ru::bmr--cn.uk uwle.|-:|-13 EECI ml
+1 2 3 q :l 5 T B
+60
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Web Browser | Download
+Conexiuni persistente si Keep-Alive
+' Problema a fost partial rezolvata prin introducerea Iui Keep-Alive
+— Clientul include in antetul cererii campul: Connection: Keep-Alive
+— Daca serverul suporta acest aspect, trimite inapoi un header cu aceeasi
+valoare
+~ => conexiunea ramine deschisa pana cand una din parti decide
+inchiderea ei
+— ? Dar daca un client nu inchide conexiunea?
+' Serverul este idle si consuma memorie
+— IVlajoritatea serverelor web implementeaza un Keep-Alive timeout
+— De asemenea serverele pot limita numarul de resurse care se cer
+per o coneXIune
+Keep-Alive: timeout = 5, max 100
+' Obs. Keep-Alive nu a fost oficial recunoscuta si nu era suportata de toti
+clientii
+61
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Web Browser | Download
+
+Conexiuni persistente si Keep-Alive
+
+' HTTP/1.1 a formalizat Keep-Alive => conexiuni persistente in mod implicit
+
+' Daca un clientlserver nu doreste atunci poate utiliza un camp in antet:
+
+Connection: close
+
+' ? Cand comportamentul implicit al lui Keep-Alive nu este de dorit?
+
+Download Paralel
+
+' RFC 2616: "Clients that use persistent connections should limit the number of
+simultaneous connections that they maintain to a given server. A single-user
+client should not maintain more than 2 connections with any server or proxy....
+These guidelines are intended to improve HTTP response times and avoid
+congestion.”
+
+' Scopul funi\izjorilor de clienti browser: cresterea gradului de interactiune cu
+utilizatorul
+
+— E problema serverelor web
+62
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Web Browserl Download
+Maximul de conexiuni paralele per host:
+anowsen max PARALLEL oomuecrlous PER HOST
+IE E and 2 2
+IE B 6
+IE 9 '5
+IE ID B
+Flrefox 2 2
+Flrefox 3 E
+Flrefox 4 to 1? E
+Opera 9.63 4
+Opera 1D B
+Opera 11 and 12 E
+Chrome 1 and 2 E
+Chrome 3 4
+Chrome 4 to 23 E
+Safarl 3 and 4 4
+63
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Web Browser | Download
+I
+
+F"Ef°x-
+
+a] U Sta re a l1] ﬂbﬂutcnnﬁg
+
+pa rametrllor ‘1' “We
+
+viza n d Must'ﬁs'rted [I] Getting Started
+
+. . Search: nettwrlchttpl
+
+co n eXI u n | l e
+Preference Name 1* Status Type ‘Value
+
+H TT P network. http.accept—encndi ng defa u lt string gzi p, deflate
+
+. network.http.accept.default default string terrtfhtrnljpplicatidnfxl
+
+V | a S C h e m a network.http.assu-c—reg.enfdrce default buolean false
+network.http.con nection-retry-tirnedut default integer 25l]
+
+U RI network.http.cnnnectidn—tirnedut default integer EH]
+
+, networkhtt .default-su-cket- default strin
+
+a b0 Ut I COnflg network.htt:.diag nustiG we default buolglan false
+network.httpfast-fallbaclc-td-va-Il default buolean true
+netwurk.http.keep—alive.tirneuut default integer 115
+netvm-rlc.http.ma1r—con nectid-ns default integer 2545
+network.http.rna1r— persistent-con nections- per- proxy default integer 32
+network.http.rna1r— persistent-con nectic-ns- per-sewer default integer ﬁ
+network.http.p~acing.reg uslstrrurst default integer 32
+network.http.p~acing.reg uslsena bled default buolean true
+network.http.p~acing.reg uslshz default integer 'llIl
+network.http.p~acing.reg uslsmin-parallelisrn default integer ﬁ
+network.http.pipelining default buolean false
+network.http.pipelining.abt5t default buolean false
+networkhttp.pipelining.aggrasive default buolean false
+network.http.pipeliningmax-dptirnistic- reg usls default integer 4
+network.http.pipelining.rna1treg usls default integer 32
+netwurk.http.pipelining.rna1|size default integer 3mm]
+
+64
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Flrefox —> Flrebug
+"F@|€>|§'cunmh HTML csssmmmuﬁm
+lhl, I Gear Persist Im HTML C55 JavaScript ‘Kl-IR Images Plugins Media Furn5
+El Erﬁ-Mslatplm 2m: or: plum: 35.1KB ﬂammaammu _—
+{i=1 GET usemrefijs . '- - - SEEITiE.phﬁ.|'|ET. III E 69.14T.53.201:SU h-
+EI GEl'jqueryr.min.j5 .:: '- '.: "-.'-' ajaxgoagleapismnm I] B 1?3.194.?D.95:BD J 5&1
+{1:1 GET jquery-utmh'qs . '- - - ajaxguagleapismm D E 1?3.19-4.?G.95:3El l 53.“
+El GEI' us-Emntﬁjs .:: '- -.; -'-.- [15111.net us 59.1415119950 h,-
+u-J GET sitecss . '- --- stahcpmmet DB 69.1-1T.S3.201:SE| h-
+E] G-Fl'pllpnetlsi .-_; -. .-_- -' stampkqmet us 59.14153.2n1.-su _
+[El GET prinLcss . '~ ' -- stahcprqlnet DB 69.1-1?.33.201:3EI -
+El GFI' |1-l1p.l;|if .-: "-- staﬁcd'umnet DB 59.14181201130
+H GET 5ma||_5uhmit_white.gif =- .. '~ - staﬁcpr'qlnet El B 69.1-1?Z33.20113EI
+El GEFcaret—r.gif .' " "
+l-lea l R E I e E l . __ (Ins Request start time since the beginning
+- -
+Request phases start and elapsed hme
+mm“ Hpaﬂp“ I SBms relative to the request start:
+J ssms Bloddng Oms u 228015
+- 4 DNSLookup +228ms | Oms
+_ Waiting +22Bms I zeams
+Receiving +516ms - 641ms 207m
+Event timing relative to the request start: 209ms
+7
+| +1.57; DOMContentoaded "Jams
+| +3.04s load
+65
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+HTTP
+' Hyper Text Transfer Protocol
+Conexiunile HTTP sunt persistente
+:>|nchiderea si deschiderea a mai putine conexiuni TCP=> timp de
+CPU este salvat in rutere si host-uri (clienti, servere, proxy, ...) si
+se economiseste memoria folosita
+:>C|ientii pot face cereri multiple in cadrul aceleiasi conexiuni, fara
+a astepta raspunsul pentru fiecare
+:>Congestia in retea este redusa datorita numarului de pachete
+mal mlc
+:>Cererile se desfasoara mai rapid deoarce nu mai este nevoie de
+un handshake Ia fiecare cerere
+Mai multe I‘ Cursul de Tehnologii Web!
+detalii? _f/ 66
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Rez u m at
+' Protocoale la nivelul aplicatie
+
+— Preliminarii
+— Caracteristici de proiectare
+— Accesul la terminal de la distanta
+— Posta Electronica
+
+' SIVITP (Simple Mail Transfer Protocol)
+
+' POP (Post Office Protocol)
+— Transferul de fisiere
+
+' TFTP (Trivial File Transfer Protocol)
+
+' FTP (File Transfer Protocol)
+— World-Wide Web (HTTP)
+— Privire de ansamblu
+
+67
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Blbllografle
+Content Networking Fundamentals, Silvano Da Ros, Publisher: Cisco Press Pub
+Date: March 30, 2006 Print ISBN-10: 1-58705-240-7 Print ISBN-13: 978-1-
+58705-240-8 Pages: 576
+Computer and Communication Networks, Nader F. l\/|ir, Publisher: Prentice
+Hall Pub Date: November 02, 2006 Print ISBN-10: 0-13-174799-1 Print ISBN-
+13: 978-0-13-174799-9 Pages: 656
+TCP/IP Tutorial and Technical Overview, IBM, 2006
+Network + Guide to Networks, Tamara Dean, 2009
+68
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+I!’
+‘
+69
+
+***************Ending Page***************
+

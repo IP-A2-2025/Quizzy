@@ -1,0 +1,541 @@
+***************Beginning Page***************
+***************page number:1**************
+PROGRAMARE DE SISTEM iN C PENTRU PLATFORMA LINUX (ll)
+Gestiunea fi§ierelor, partea a ll-a:
+Accesul concurent sau exclusiv la fi§iere. Blocaje pe fi§iere
+Cristian Vidra$cu
+vidrascu©info uaic ro
+Martie, 2021
+1/18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+A
+Su mar
+'ntroducere Introduoere
+Modul de acces concurent Ia
+fisiere Modul de acces concurent la fisiere
+MQdUIde accesexdusiv |a Demo (1): Un exemplu ole acces concurent la un fi$ier
+fisiere — Blocaie Qe fisiere
+_ _ _ _ Modul de acces exclusiv la fisiere - Blocaje pe fisiere
+mm I Structure ole date flock pentru blooaje
+Primitiva fontl pentru blooaje
+Caraoteristici ale blooajelor pe fisiere
+Demo (2): Un exemplu ole acces exclusiv Ia un fi$ier
+Demo (3): llustrarea oaraoterului advisory al blooajelor
+Demo (4): Un exemplu ole acces exclusiv optimizat la un fisier
+Referinte bibliografice
+Meniu de navigare Gestiunea fisierelor, partea a ll-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 2/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+~ Q
+
+lntroducere
+
+‘Middldee H Deoarece sistemele de operare din familia UNIX (in particular, $i Linux-ul) sunt
+
+*—— sisteme multi-tasking (i.e., sisteme care suporté execuiia “simultané” a mai multor
+
+Modul de acces exclusiv la
+
+L—B'JJ_*— i programe), in mod uzual este permis accesu/ concurent Ia fi$iere, adicé mai multe
+
+Referinte bibliografice H . H A . . . A . . . . .
+procese pot accesa Simultan |n Citire $i/sau in scnere un ace|a$| f|$|er, sau chiar o
+aceea$i inregistrare dintr-un fi$ier.
+Acest mod de acces concurent (“simultan”) Ia un fi$ier de cétre procese diferite poate avea insé uneori
+$i efecte nedorite (ca, de exemplu, distrugerea integritétii datelor din fisier).
+Din acest motiv, in sistemele din familia UNIX s-au implementat mecanisme care s51
+permité $i un mod de acces exclusiv Ia fi$iere, adicé un mod de acces in care un
+singur proces are, Ia un moment dat, permisiunea de acces Ia un fi$ier, sau chiar Ia o
+anumité inregistrare dintr-un fi$ier.
+
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 3/ 18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+A
+Agenda
+'ntroducere Introduoere
+Modul de acces concurent Ia
+fisiere Modul de acces concurent la fi$iere
+gig: 211103233312; Demo (1): Un exemplu ole acces concurent la un fi$ier
+Mow de acces exdusiv |a Modul de acces exclusiv la fieiere - Blocaje pe fieiere
+W V Structure ole date flock pentru blooaje
+mm Primitiva fontl pentru blooaje
+Caraoteristici ale blocajelor pe fieiere
+Demo (2): Un exemplu ole acces exclusiv Ia un fi$ier
+Demo (3): llustrarea caraoterului advisory al blocajelor
+Demo (4): Un exemplu ole acces exclusiv optimizat la un fi$ier
+Referinte bibliografice
+Meniu de navigare Gestiunea fi$iere|or, partea a ll-a: Acoesul concurent sau exclusiv Ia fi$iere. Blocaje pe fi$iere 4/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+O O
+Demo (1): Un exemplu de acces concurent la un fieier
+'“tmducere Observatie: d.p.d.v. al programatorului, acesta nu trebuie sa utilizeze nicio tehnica suplimentara celor
+ﬁgrlideaccesconcurem'a discutate Tn lectia precedenta despre accesul Ia tieiere, pentru a “beneficia” de accesul Tn mod
+fgggggigcﬁtejﬁﬁttg?er concurent (“simultan”) Ia un tieier. Totul se petrece la momentul executiei: daca utilizatorul ruleaza Tn
+Moduldeaccesexclusivla i acelaei timp doua sau mai multe instante ole programe ce acceseaza Tn mod uzual un ace|a$i tieier,
+isiere- ocaie Q6 isiere . . . H . ,, . . . A . .
+f B' f atun0| accesele Iafleler se vor petrece elmultan (/.e., aprQXImatlv |n acelael tlmp).
+Referinte bibliografice
+lata un exemplu de program ce poate fi utilizat pentru a ilustra efectele accesului
+concurent Ia un fieier: a se vedea programul access_v1.c ([2]).
+Mai Tntai, un demo de executie ce ilustreaza accesul secventia/ la fie/er, i.e. un singur proces doreete sa
+aeceseze fieierul Tntr-un anumit interval de timp.
+Cream un fi$ier fis . dat ce contine urmatoarea linie de text: aaaa#bbbb#cccc#dddd#eeee
+Apoi Iansam Tn executie secventiala mai multe instante ale acestui program, e.g. prin comanda:
+UNIX> ./access_v1 1 ; ./access_v1 2 ; ./access_v1 3
+Care va fi continutul fieierului dupa terminarea executiei acestei comenzi ?
+Dupa executia primei instante, fieierul va arata astfel: aaaalbbbb#cccc#dddd#eeee
+Dupa executia instantei a doua, fi$ieru| va arata astfel: aaaalbbbb2cccc#dddd#eeee
+Dupa executia instantei a treia, rezultatul final va arata astfel: aaaalbbbb2¢ccc3dddd#eeee
+Meniu de navigare Gestiunea fieierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fieiere. Blocaje pe fieiere 5/ 18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+O O
+Demo (1): Un exemplu de acces concurent la un f|$|er (cont)
+lntroducere . . V _ _ _ _
+Modul deaccesconcuremla Iar acum, un demo de executle ce llustreaza aocesul concurent la fie/er. ma| multe prooese (/.e.,
+W instante ale programului) ce doresc sa aoceseze fieierul in aoe|a$i interval de timp.
+accesconcurent'aunﬁsiet “Reinitializam” fi$ieru| fis . dat cu urmatoarea linie de text: aaaa#bbbb#cccc#dddd#eeee
+Modulde acces exclusivla ' . V A . V H . o” o . . .
+ﬁsiere_Bloca-,egeﬁsiere Apol Iansam |n executle paralela ( srmultana ) doua Instante ale aoestw program, prln comanda:
+mm UNIX> ./access_v1 1 85 ./access_v1 2 85
+Care va fi continutul fieierului dupa terminarea executiei acestei oomenzi ?
+Probabil va aeteptati ca dupa executie fieierul sa arate asttel:
+aaaalbbbecccc#dddd#eeee sau aaaa2bbbb1cccc#dddd#eeee
+(in functie de care dintre oele doua prooese a reueit mai intai sa suprasorie primul caracter ’#’ din aoest
+fieier, oeluilalt prooes ramanandu-i al doilea oaracter ’#’ pentru a-I suprasorie.)
+in realitate, repetand de oricate ori executia aoestei oomenzi, Tntotdeauna se va obtine:
+aaaalbbbb#cccc#dddd#eeee sau aaaa2bbbb#cccc#dddd#eeee
+Motivul: datorita apelului sleep (5) care provoaca o asteptare de 5 seounde Tntre momentul depistarii
+primei inregistrari din fieier care este ’#’ $i momentul suprasorierii aoestei anegistrari cu alt caracter.
+Observatie: prin eliminarea apelului s1eep(5) din program, repetand executia aoestei oomenzi de un numar suficient de
+mare de ori, se pot obtine toate oele 4 rezultate de mai sus, cu freovente diferite de observare.
+Demo: pentru explicatii mai detaliate, a se vedea [FirstDemo] prezentat in suportul de Iaborator #7.
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Acoesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 6/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+0 0
+Agenda
+lntroducere I ntrod uce re
+Modul de acces concurent Ia
+fisiere . .
+Moduldeaccesexclusivla Modul de acces concurent la f|$|ere
+isiere- ocaie Qe isiere - -
+fsmwrféedateﬂlckpemm Demo (1): Un exemplu ole acces concurent Ia un f|$|er
+blocaje f
+223311211?52113021351; Modul de acces exclusiv la fieiere — Blocaje pe fieiere
+fisiere I
+Demo (2): Un exemplu de STFUCTUFG. d9 date fIOCk pentrU b|OCaje
+acces exclusivla unfieier _ _ _ _
+Dem3<3>|1uus§rarea I Prlmltlva fontl pentru blocaje
+oarac eru Ul a VISOfya
+bloca'elor ' ' ' ' ' '
+Dem; (4)1“ exemplu d? Caraoterlstlol ale blocajelor pe f|$|ere
+acces exc usiv o timizat aun . . .
+fisier p Demo (2): Un exemplu ole acces exolusw Ia un fleler
+MM; Demo (3): llustrarea oaracterului advisory al blooajelor
+Demo (4): Un exemplu ole acces exclusiv optimizat Ia un fieier
+Referinte bibliografice
+Meniu de navigare Gestiunea fisierelor, partea a ll-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 7/ 18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+~ 9
+Structura de date flock pentru blocaje
+'MtZdldee H Sistemele din familia UNIX furnizeazé programatorilor un meoanism ole blooare (i.e.,
+L— ole punere ole “laoéte”) pe portiuni de fieier pentru aooesul Tn mod exclusiv.
+Modul de acces exclusiv la
+ﬁionth Prin aoest meoanism se defineete o zoné de acces exo/usian fieier. O asemenea
+Z'jjjfjafcnﬂpentmblocaje portiune nu va putea fi aooesaté Tn mod oonourent ole mai multe prooese pe toaté
+Caracerisioiae oca'eor e - v . .
+ﬁsieret t ' b' " p durata de GXISthta a blooajulw.
+Demo (2): Un exemplIuIde
+Zfﬁgilﬁltlririlﬂsler Pentru a specifioa un blooaj (i.e., un “laoét”) pe o portiune olintr-un fieier (sau pe Tntregul fieier), se
+$33321!“ “MSG” a‘ utilizeazé structura ole date flock, definité Tn fieierul header fontl .h Tn felul urmétor:
+Demo (4): Un exem Iu de
+acces exclusiv optirrliljizatla un struct flock
+fi$ier {
+Referintebibliografice Short 1_type; // indica tipul blocarii
+short 1_whence; // indica pozitia relativa (originea)
+long 1_start; // indica pozitia de start, in raport cu originea
+long 1_1en; // indica lungimea portiunii blocate
+int 1_pid;
+}
+Observaiie: dupé oe se oompleteazé oémpurile structurii ole mai sus, ulterior se va apela functia fontl
+pen ru a pune e eo iv “ aoé u ” pe por5iunea respeo ivé in ieier.
+t f t | t | t t ol f
+Meniu de navigare Gestiunea fieierelor, partea a Il-a: Acoesul ooncurent sau exclusiv Ia fieiere. Blocaje pe fi$iere 8/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+O O
+Structura de date flock pentru blocaje (cont)
+'“tmducere Semnificatia cémpurilor structurii flock:
+Modul de acces concurent Ia
+L'S'GFG— I cémpul l_type indicé tipul blocérii, puténd avea ca valoare una dintre constantele:
+Modul de acces exclusiv la
+fisiere-Blocaie Qefisiere _ F RDLCK j b|0caj Tn Citire
+Structura de date flock pentru ' _ _ A _
+blocaje — F_WRLCK : bloca] In scrlere
+Primitivafcntl pentru blocaje _ - - A v v v
+Caracteristicialeblocajelorpe — F_UNLCK . debloca] (/.e., se Inlatura Iacatul)
+ﬁ$iere A . . V . . . v . . . A . A
+Demo (2); Un exemplu de I campul 1_whence |nd|ca pozﬂua relatlva (/.e., orlglnea) In raport cu care este Interpretat campul
+acces exclusiv Ia un fi$ier A . V . .
+06mm); "ustrarea 1_start, putand avea ca valoare una dlntre urmatoarele constante SlmbO|lCeI
+caracterului advisory al _ _ . . .
+blocajelor — SEEK_SET (=0) : orlglnea este BOF (1.6., beg/n of file)
+Demo (4): Un exemplu de _ _ , . . . .
+acces exclusiv optimizatla un — SEEK_CUR (=1) I 0r|g|nea eSte CURR (1.8., current pOSIfIOH In file)
+fisier . . . .
+’ — SEEK_END (=2) : orlglnea este EOF (/.e., end of f/le)
+Referinte bibliografice
+I cémpul l_start indicé pozitia (i.e., offset-ul Tn raport cu originea l_whence) ole Ia care Tncepe
+portiunea blocaté.
+Observafie: 1_start trebuie sé fie negativ pentru 1_whence=SEEK_END.
+I cémpul l_1en indicé lungimea Tn octeti a portiunii blocate.
+I cémpul 1_pid este gestionat ole functia fcntl care pune blocajul, fiind utilizat pentru a memora
+PID-ul procesului proprietar al acelui lacét.
+Observaiie: are sens consultarea acestui cémp doar atunci cénd functia fcntl se apeleazé cu parametrul F_GETLK.
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 9/ 18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+~ Q
+Primitiva fcntl pentru blocaje
+
+'MtddIdee II Interfajta functiei fcntl ([5] — una dintre ele, cea pentru blocaje):
+lsee— int fcntl (int fd, int mod, struct f10ck>l< sfl)
+Modul de acces exclusiv la
+fisiere — Blocaie Qe fisiere
+jigggradedatef'ockpemw * I fd = descriptorul de fi$ier deschis pe care se pune Iacétul
+2221121211‘ glgjgggjgfjepe I sfl = adresa structurii flock ce define$te acel Iacét
+fisiere . . v A - -
+019mm Unexempwde I mod = mdlca modul de punere, putand Iua una dlntre valorlle:
+acces exclusiv Ia un fi$ier
+Sigiéiiu'i'isirZ-Zifyal — F_SETLK : permite punerea unui Iacét pe fi$ier, Tn citire sau Tn scriere, sau
+blocajelor . . . I I I A
+Demo‘4)1U°exer-'“?F scoaterea unwa deja pus (funcjue de tlpul specmcat In structura flock).
+acces GXC USIV 0p lmlza a UH
+"s'er Observafie: Tn caz de e$ec datorité conflictului cu alt Iacét deja pus, se
+Referinte bibliografice v I I
+
+seteaza varlablla errno Ia valoarea EACCES sau EAGAIN.
+
+— F_GETLK : permite extragerea informatiilor despre un Iacét pus pe fi$ier.
+— F_SETLKW : permite punerea Iacételor Tn mod “blocant”, adicé se a$teapté
+(i.e., functia nu returneazé) péné cénd se poate pune Iacétul. Motivul posibil
+de a$teptare: se Tncearcé blocarea unei zone deja blocate de un alt proces.
+I valoarea returnaté este O pentru blocaj reu$it, sau -1 Tn caz ole eroare.
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 10/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+O O
+Primitiva fcntl pentru blocaje (cont)
+'ntmducere ObSGfVél til. I
+Modul de acces concurent Ia ’
+Moduldmexclusivla I Pentru a putea pune un Iaoat |n o|t|re, respeotlv |n sorlere, pe un olesorlptor ole
+fisiere-Blocaie Qefisiere . . . v . . . A . . . A .
+Structuradedateﬂockpemm i flsler, aoesta trebule sa fl fost anter|or olesohls |n o|t|re, respeotlv |n sorlere.
+blocaje _ _ A A _ . _
+Primitivafcmlpentrublocaje I Blocajul este soos automat atunol oanol prooesul oare I-a pus lnohlde acel flsler,
+Caracteristici ale blocajelor pe
+fisiere " ' ' “ '
+Demo (2): Unexempw'de sau Isl termlna executla.
+gfgiig;'ti;tj;;;“ter I Sooaterea (oleblooarea) unui segment dintr-o portiune mai mare anterior blooata
+oaracterului advisory al V
+growl-92:; U I d poate produce oloua segmente blooate.
+emo : nexempu e
+ggiffem'usiv0p”’""za'"a““ I Campul 1_pid din structura flock este aotualizat de funotia fcntl.
+MM; I Laoatele nu se transmit prooeselor fii Tn momentul orearii aoestora ou functia fork.
+Motivul: fieoare laoat are Tn structura flock asooiata PlD-ul prooesului care I-a oreat (si oare este
+oleoi proprietarul Iui), iar procesele fii au, bineTnteles, PID-uri oliferite ole eel a| parintelui.
+I 1n Linux mai exista alte oloua interfete oe ofera Iaoate pe fisiere ([5]):
+— functia flock e pentru oletalii oonsultati olooumentatia: man 2 flock
+— functia lockf e pentru oletalii consultati olooumentatia: man 3 lockf
+I Exista si oloua oomenzi utile pentru Iaoate: flock si 1slocks ([6]).
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Acoesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 11 / 18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+O O
+Caracteristici ale blocajelor pe fieiere
+'MtZdldee H I Important: Iaoatele Tn soriere (i.e., oele cu tipul F_WRLCK) sunt exclusive, iar cele
+L— Tn oitire (i.e., oele cu tipul F_RDLCK) sunt partajate, Tn sensul CREW (“Concurrent
+Modul de acces exclusiv la
+L—B'JJ_t— i Read or Exclusive Write”).
+Structura de date flock pentru
+:ﬁiafcnﬂpentrublocaje Cu alte ouvinte: Tn orice moment, pentru orioe portiune dintr-un fieier, cel mult un prooes poate
+ffsjgjjerisma'eb'male'mpe detine un laoat Tn soriere pe acea portiune (5i atunci nici un proces nu poate detine ooncomitent
+Ziggéilriﬁfm'iiigf vreun laoat Tn citire), sau este posibil ca mai multe procese sa detina laoate Tn oitire pe aoea
+Demo (3); llustrarea ‘ portiune (ei atunoi nioi un prooes nu poate detine oonoomitent vreun lacat Tn soriere).
+oaracterului advisory al
+bloca'elor . v v A - v
+Demiurtmexemprude I Important: funotronarea oorecta a lacatelor |n sorlere se bazeaza pe cooperarea
+acces exclusiv optimizat la un
+trier procese/or pentru asrgurarea aooesului exclusiv la fieiere, i.e. toate procesele care
+Referinte bibliografioe V , . . . . . . .
+vor sa aooeseze mutual exolusrv un f|$|er (sau o portrune d|ntr-un fl$l€l’) vor trebul
+sa foloseasca Iaoate Tn soriere pentru aooesul respectiv.
+Cu alte ouvinte: blooajele puse pe fieiere sunt advisory, nu sunt mandatory!
+Altfel, spre exemplu, daca un prooes scrie direct un fi$ier (sau o portiune dintr-un fisier), apelul sau
+de soriere NU va fi Tmpiedicat de un eventual lacat Tn soriere (sau citire) pus pe acel fi$ier (sau
+acea portiune de fieier) de oatre un alt prooes.
+Meniu de navigare Gestiunea fisierelor, partea a ll-a: Acoesul concurent sau exclusiv la fisiere. Blocaje pe fisiere 12/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+O O
+
+Demo (2): Un exemplu de acces exclusiv la un fieier
+
+'MtZdldee H Putem rescrie programul anterior, adaugand utilizarea ole Iaoate Tn soriere pentru a
+
+L— “inhiba” aooesul concurent Ia fieier: a se vedea programul access_v2 . c ([2]).
+
+Modul de acces exclusiv la
+
+mu a “Reinitializam” fieierul fis . dat cu urmatoarea linie de text: aaaa#bbbb#cccc#dddd#eeee
+
+335,1; ,le pentru blocaje Apoi Iansam Tn executie paralela (“simultana”) doua instante ale acestui program, prin comanda:
+
+ﬁjgigter'swa'eb'maje'orpe UNIX> ./access_v2 1 86 ./access_v2 2 8c
+
+ZZZ: 35,1311“?!ng Care va fi continutul fieierului dupa terminarea executiei acestei oomenzi ?
+
+gaignggfulilﬁrjifyal De data aceasta, oricate executii s-ar face, Tntotdeauna se va obtine rezultatul urmarit:
+
+blocajelor
+
+ZZZZSQJLTVGZZFSZEW aaaalbbbecccc#dddd#eeee sau aaaa2bbbb1cccc#dddd#eeee
+
+fi$ier
+
+Refermtebibuograﬁce Observatie: Tn programul ole mai sus apelul de punere a Iacatului este neblocant (i.e.,
+cu parametrul F_SETLK). Se poate face ei un apel blooant, i.e. functia fcntl nu va
+returna imediat, oi va sta Tn aeteptare pana cand reueeete sa puna Iacatul.
+A se vedea programul access_v2w. c
+Lansanol simultan Tn executie doua instante ale aoestui program, se va oonstata ca obtinem aoe|a$i
+rezultat ca $i Tn cazul variantei neblooante.
+Demo: pentru explicatii mai detaliate, a se veolea [SeoondDemo] prezentat Tn suportul de Iaborator #7.
+
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 13/ 18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+O O
+
+Demo (3): llustrarea caracterului advisory al blocajelor
+
+'Mtddldee H laté o justificare a observatiei anterioare despre caraoterul advisory al blocajelor:
+
+Moduldeaccesexclusivla “Relnlfuallzam fl$l6rU| f1s.dat cu ||n|a ole text: aaaa#bbbb#cccc#dddd#eeee
+
+fisiere — Blocaie Qe fisiere
+
+jigggradeda‘e“°""pe“"u ei apoi rulém urmétoarea oomandé:
+
+Primitivafcntl entru bloca'e .
+
+CaracterisﬁciZeblocajeloipe UNIX> . /access_v2 1 & sleep 2 ; echo "nyyxy" > fls . dat
+
+fisiere
+
+Demo (2): Un exem lu de . . . . . v . . . . .
+
+mexclusivlaunpﬁsier Care va fl oonjunutul f|$|eru|w dupa termlnarea execujuel aoestel comenZI ?
+
+Demo (3): llustrarea
+
+gﬁjzjteelrglrlw adv1$ory al * * *
+
+Demo (4): Un exemplu de
+
+acces exclusivo imiza la un v . . . . . . . . . . .
+
+fisier pt t Raspuns: Ia flnalul execufuel aoestel oomenZI, fl$l9rU| f1s.dat va confune ||n|a de
+
+MM; text: xyxyly , oeea oe ne demonstreazé oé suprasorierea executaté de oomanola
+echo Tn fieier s-a petreout Tn intervalul ole timp al celor 5 secunde Tn care instanta
+access_v2 detinea blooajul pe fieier!
+Demo: pentru explicatii mai detaliate, revedea ultima parte din [SeoondDemo].
+
+Meniu de navigare Gestiunea fieierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 14/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+~ '1
+
+Demo (4): Un exemplu de acces exclusiv optimizat la un fieier
+
+'Mtddldtla Observajie importanté: a doua versiune a programului demonstrativ (ambele variante,
+
+H ei cea neblocanté, ei cea blocanté) nu este Optimé:
+
+ﬁﬁikpi Practic, cele doué procese (i.e., cele doué instante ale programului executate Tn
+
+:ﬁiawpentrubpcaje paralel) Tei fac treaba secvenfial, unul dupé altul, $i nu concurent, deoarece de abia
+
+imt(2)tUlb;mjdlpe dupé ce se terminé acel proces care a reueit primul sé puné Iacét pe fieier, va putea
+
+ijjfgi'ﬁljgtljrigfi$‘er Tncepe $i celélalt proces sé-ei facé treaba (i.e., parcurgerea fieierului ei Tnlocuirea
+
+Eﬁ§§f§|?r'UiadV’sorya' primului caracter ’#’ Tntélnit).
+
+ﬁSier
+
+MM; Aceasté observatie ne sugereazé 051 putem fmbunétéfi timpul total de execulie
+permiténd celor doué procese sé se execute Tntr-adevér concurent, iar pentru aceasta
+trebuie sé punem Iacét doar pe un singur caracter (ei anume pe prima pozitie din fieier
+Ia care Tntélnim caracterul ’#’) ei sé péstrém blocajul doar pe durata minimé necesaré
+pentru a face suprascrierea, Tn Ioc sé blocém tot fieierul, tot timpul — Tncé de Ia Tnceput
+ei péné Ia finalul executiei programului.
+
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fi$iere. Blocaje pe fisiere 15/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:16**************
+O O
+
+Demo (4): Un exemplu de acces exclusiv optimizat la un fi$ier (cont)
+
+'Mtddldee H Versiunea a treia, cu blocaj Ia nivel de caracter $i de duraté minimalé:
+
+——deldeexclusivla lmp/ementarea acestei optimizéri: programul va trebui sa facé urmétorul lucru — cénd
+
+ﬁﬁikpi i Tntélne$te primul caracter ’#’ Tn fi$ier, pune Iacét pe el (i.e., pe exact un caracter) $i
+
+bloca'e . A . A . v
+
+Primiiivafcm.pentrubmaje apol || rescne: a se vedea programul (In vananta blocanta) access_v3 . c ([2]).
+
+Caracteristici ale blocajelor pe A
+
+Eden (2) U | d In acest caz, care credeti cé va fi continutul fisierului dupé terminarea executiei Tn paralel a doué
+
+emo : nexempu e . _ . _ _
+
+accesexclusivlaunﬁsier Instante ale acestel verSIunl a programulul ?
+
+Demo 3 : llustrarea
+
+caracte(ru)|ui advisory al * * *
+
+blocajelor
+
+fgggmvejgﬁjjfaun Observafie: ideea de rezolvare aplicaté Tn programul access_v3 . c nu este Tntrutotul
+
+fisier v A v . A A
+
+Rf _t W f corecta, |n sensul ca nu se va objune Intotdeauna rezultatul scontat, deoarece Intre
+
+eenne l logralce
+momentul depistérii primei pozitii a unui caracter ’#’ Tn fi$ier $i momentul reu$itei
+blocajului existé posibilitatea ca acel ’#’ sé fie suprascris ole cealalté instanté
+executaté Tn paralel !
+Noté: tocmai pentru a forta apariftia unei situatii care cauzeazé producerea unui rezultat nedorit, am
+introdus Tn program acel apel sleep(5) Tntre punerea blocajului pe caracterul ’#’ $i rescrierea Iui.
+Cum se poate remedia acest neajuns al programului access_v3 . c ? % % %
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 16/ 18
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:17**************
+O O
+Demo (4): Un exemplu de acces exclusiv optimizat la un fi$ier (cont)
+'Mtzdldee H % % Acest neajuns al programului access_v3 . c se poate corecta astfel:
+fisiere v , . . . v . v A v s s
+Moduldeaccsexclusivla Dupa punerea blocajulw, se verlflca dln nou daca acel caracter este mtr-adevar #
+fisiere-Blocaie Qefisiere v A . v . . v - v v A
+Structuradedateﬂockpemm (pentru ca Intre tlmp s-ar putea sa fl fost rescrls de cealalta Instanta executata In
+blocaje . V . ’ ’ . . . . v
+:rimmvafcmlplenglwblofaje paralel) $l, daca nu mal este #, atunCI trebwe scos blocajul $| reluata bucla ole
+aracteristici a e ocaje or pe
+$91sz céutare a primului caracter ’#’ Tntélnit Tn fisier.
+emo . nexemplu de ’
+acces exclusiv Ia un fi$ier
+fiZiﬁJiu'i'ZSJZ-Zifyal v4 % Temé: adaugati aceasté corectie Ia programul access_v3 . c.
+blocajelor
+Demo (4): Un exemplu de * * *
+acces exclusiv optimizat la un
+fisier
+MM; Rezolvare: dacé nu reu$ijti sé adéugati singuri aceasté corectie, puteti s51 vé uitati aici:
+access_v4.c.
+* * *
+Demo: pentru explicatii mai detaliate despre aceasté varianté mai eficienté a programului demonstrativ,
+a se vedea [ThirdDemo] prezentat Tn suportul de Iaborator #7.
+Meniu de navigare Gestiunea fisierelor, partea a Il-a: Accesul concurent sau exclusiv Ia fisiere. Blocaje pe fisiere 17/ 18
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:18**************
+O O
+Bibliografie obligatorie
+'“imducere [1] Cap. 3, §3.2 din oartea “Sisteme de operare — manual pentru ID”, autor C. Vidrasou, editura UAIC,
+21$ de acces ooncurent ‘a 2006. Nota: este aooesibila, in format PDF, din pagina disoiplinei “Sisteme de operare”:
+[13326516552gig]? 0 https : //profs . info . uaic . ro/"vidrascu/SO/books/ManualID- SO . pdf
+Referinte bibliografice
+[2] Programele demonstrative amintite pe paroursul aoestei prezentari pot fi desoaroate de la:
+0 https : //profs . info . uaic . ro/Nvidrascu/SO/cursuri/C-programs/lock/
+[3] Suportul online de laborator asooiat aoestei prezentari:
+0 https : //profs . info . uaic . ro/"vidrascu/SO/labs/suport_lab7 . html
+Bibliografie suplimentara:
+[4] Cap. 55 din oartea “The Linux Programming Interface : A Linux and UNIX System Programming
+Handbook”, autor M. Kerrisk, editura No Starch Press, 2010.
+0 https : //profs . info . uaic . ro/Nvidrascu/SO/books/TLPI 1 .pdf
+[5] POSIX API: man 2 fontl, man 2 flock si man 3 lockf.
+[6] Dooumentatia oomenzilor pentru laoate: man 1 flock si man 8 1slocks .
+Meniu de navigare Gestiunea fisierelor, partea a ll-a: Acoesul ooncurent sau exclusiv Ia fisiere. Blocaje pe fisiere 18/ 18
+
+***************Ending Page***************
+

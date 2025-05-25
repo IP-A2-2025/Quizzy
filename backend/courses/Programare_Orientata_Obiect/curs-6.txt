@@ -1,0 +1,2818 @@
+***************Beginning Page***************
+***************page number:1**************
+Gavrilut Dragos
+0 O P Course 6
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+> Casts
+b Macros
+> Macros vs lnline
+> Literals
+summary b Templates
+> Function templates
+> Class templates
+b Template specialization
+> Compile-time assertion checking
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+‘\ > Casts
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Casts
+b Assuming that a class A is derived from a class B, than it is possible for
+an object of type A to be converted to an object of type B.
+b This is a normal behavior (obviously A contains every member defined
+in B).
+> The conversion rules are as follows:
+‘z. lt will always be possible to convert a class to any of the classes that it
+inherits
+‘a lt is not possible to convert from a base class to one of the classes that
+inherits it without an explicit cast
+‘z. If the cast operator is overwritten, none of the above rules apply.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Casts
+b Let’s consider the following code: Offset FiEId/ Var
+App_ cpp 1 00000 C* t
+class A { public: int a1, a2, a3; }; 100004 b*
+class B { public: int b1, b2; };
+class C : public A, public B { public: int c1, c2; }; —
+void main(void) {
+5* E, Z 231.“ c‘) 300000 c.a1 f
+lf 300004 c.a2
+b ssuming t e pointer “c” points to t e o set —
+300000, what do we need to do to obtain a 300008 c.a3
+pointer to an object of type B* ? 300012 C-b1
+300016 c.b2
+300020 c.c3
+300024 c.c4
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Casts
+
+> Let’s consider the following code: Offset Field/ Var
+App. cpp 1 00000 C*
+class A { public: int a1, a2, a3; }; 100004 b* \
+class B { public: int b1, b2; };
+class C : public A, public B { public: int c1, c2; }; —
+void main(void) { D
+
+if‘) 300000 c.a1 4_
+
+}— 300004 c.a2
+
+b Assuming the pointer “c” points to the offset —
+300000, what do we need to do to obtain a 300008 c.a3
+pointer to an object of type B* ?
+
+b The simples way is to add (+12) to the offset a
+where “c” variable points. This will position 300020 ¢,¢3
+the. new pomter to a location of a B type 300024 c.c4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Casts
+class A void main(void)
+{ {
+public: B b;
+int a1,a2,a3; A* a = &b;
+}; }
+glass szublic A ;B b;
+public: lei‘ ES’; [b]
+int b1,b2; Ci '-
+}, ;A a = &b;
+’ lea eax,[b]
+mov dword ptr [a],eax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+class A void main(void) Disasm
+{ { a = &C;
+public: C c; lea eaxic]
+. mov dword ptr [a],eax
+mt a1,a2,a3; A* a; b = &c;
+}. B>|< b‘ lea eax,[c]
+’ " test eax,eax
+je NULL_CAST
+class B * “W
+’ add ecx,9Ch
+{ b = 81C; mov dword ptr‘ [ebp-194h],ecx
+public ; } jmp GOOD_CAST
+. _ NULL_CAST:
+Int b1,b2, mov dword ptr‘ [ebp-104h],@
+}; GOOD_CAST:
+mov edx,dwor‘d ptr‘ [ebp-194h]
+. mov dword ptr‘ [b],edx
+class CIpUbllC A,B —
+public: '
+int c1 ,c2;
+};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+class A void main(void) Disasm
+{ { a = &C;
+public: C c; lea eaxic]
+. mov dword ptr [a],eax
+mt a1,a2,a3; A* a; b = &c;
+}. B>|< b lea eax,[c] 12 =
+’ ’ test eax,eax .
+je NULL_CAST SlZGOf(A)
+class B a = &C’ lea ecx,[c]
+’ add ecx,0Ch (0ch = 12)
+{ mov dword ptr [ebP-194h],ecx
+pUblic’ imp
+. _ NULL_CAST:
+Int b1ib2! mov dword ptr [ebp-104h],0
+}; GOOD_CAST:
+mov edx,dword ptr [ebp-194h]
+_ mov dword ptr [b],edx
+class CIpUbllC A,B — /
+public:
+int c1 ,c2;
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+class A void main(void) Disasm \
+{ { c2 = (C*)b; 12 _
+public: C c; Qmp dwm pt" [hm . _
+. 1 2 3. A* _ 3e NULL_CAST SlZGOf(A)
+Int a ,a ,a , a, mov eax,dword ptr' [b]
+}; B>l< b; sub eax,0Ch (6([Ih = 12) 1
+mov dword ptr ebp-119h ,eax
+(1* c2 ; jmp GOOD_CAST
+ClaSS B = - NULL_CAST:
+a &C’ mov dword ptr [ebp-116h],6
+{ b = &c 3 GOOD_CAST:
+public; mov ecx,dword ptr' [ebp-119h]
+};
+class Czpublic A,B
+{
+public:
+int c1 ,c2;
+};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+b Let’s analyze the following program:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { oublic: int b1. b2: };
+class C : private A, private B { public: int c1, c2; };
+void main(void)
+{
+C c;
+}—
+b This type of cast can be performed only if the inheritance is public.
+b In this example, there is a clear translation from “A*” to “C*”, but, as A is
+inherit using private access modifier, this cast is not allowed.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Whenever we discuss about conversion between classes that share an
+inheritance relationship, there are two notions that need to be mentioned:
+d n —. . . .
+upcast & OW cast C inherits B inherits A
+Let’s assume that we have the following classes: class A { public: int a1, a2, a3; };
+class B : public A { public: int b1, b2; };
+We have the following terminology: class C = Public B f Public int c1, c2; B
+void mainO { : From child to parent ¢> convert to base
+C object; .
+A * base = &object; ' Always posSible and safe
+}
+and
+void main() { : From parent to child
+A object; . - . . ,
+C * child = (c*)(&object); Requires explicit cast or dynamic cast
+} - Unsafe ll!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Upcasting produces an interesting secondary effect called object slicing
+structA{—
+int a1, a2, a3;
+A(int value) : a1(va1ue), a2(va1ue), a3(value) {}
+};
+struct B : public A {
+int b1, b2; °
+B(int value): A(value*value), b1(value), b2(value) {} Dosomethlng has one parameter Of type A
+};
+void DoSomething(A object) {
+printf("a1=%d, a2=%d, a3=%d\n", object.a1, object.a2, object.a3);
+}
+void main(void) {
+B b_object(5); ' ' '
+Bogomethingmobject); DoSomething is called With a parameter of type B
+}
+This code will compile and will print on the screen: a1=25,a2=25,a3=25. Since
+an instance of B can always be casted to its base class, you can slice from an
+object of type B values v1 and v2 and you will obtain an object of type A that
+can ne send to function DoSomething.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Upcasting produces an inten can B: :B :mg
+struct A {
+int a1, a2, a3;
+A(int value) : a1(va1ue), a2(valL
+};
+struct B : public A {
+int b1, b2;
+B(int value): A(value*value), b1(
+};
+void DoSomething(A object) {
+pnintf("a1=%d, a2=%d, a3=%d\n"
+}
+void main(void) {
+B b_object(5);
+DoSomething(b_object);
+}
+This code will compile and V\ . 25. Since
+. call DoSomething
+an instance of B can always bl e from an
+object of type B values v1 and v,_ -_ ,, ,, so ,7 ,- ul typeAthat
+can ne send to function DoSomething.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+> Upcasting produces an interesting secondary effect called object slicing
+APP-CPP
+struct A {
+int a1, a2, a3; - ,
+A(int value) : a1(value), a2(value), a3(valu B b—ObJeCt(5)’
+A(const A& obj) : A(obj.a1) { }
+};
+struct B : public A { C811 B: tB
+int b1,b2; DS ‘th' b b' t _
+B(int value): A(value*value), b1(value), b2( O cnne 111g( -—O :]eC )’
+};
+void DoSomething(A object) {
+printf("a1=%d, a2=%d, a3=%d\n", object.a1
+}
+void main(void) {
+B b_object(5); ‘
+} 0050mething(b_0bject)s call DoSomething
+b However, if we add a copy-constructor to class A, it would be used.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+> Upcasting produces an interesting secondary effect called object slicing
+APP-CPP
+struct A {
+int a1, a2, a3;
+A(int value) : a1(value), a2(value), a3(value) {} B b object(5);
+A(const A& obj) : A(obj.a1) { } '-
+};
+struct B : public A {
+int b1, b2; call B::B
+B(int value): A(value*value), b1(value), b2(value A a object = b object;
+}; _ _
+void main(void) {
+B b_object(5);
+A a_0bject = b_object;
+} call A::A
+b However, if we add a copy-constructor to class A, it would be used. This way
+of creating a object from another object that inherits it, is another usage of
+object slicing.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+b Let’s analyze the following code:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { public: int b1, b2; };
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{
+C c;
+B* b = &c;
+}—
+> What happens when we convert (cast) &c to B* ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Casts
+b Let’s analyze the following code:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { public: int b1, b2; };
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{ lea eax,[c]
+E*CG-&C‘ test eax,eax
+} ’ je NULL_CAST
+lea ecx,[c]
+add ecx,9Ch
+mov dword ptr [ebp-9F8h],ecx
+b What happens Wh- J'mp DONE
+NULL CAST:
+mov dword ptr [ebp-6F8h],9
+DONE:
+mov edx,dword ptr [ebp-9F8h]
+mov dword ptr [b],edx
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Casts
+b Let’s analyze the following code:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { public: int b1, b2; };
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{
+C c;
+B* b = &c;
+}—
+> But — what if we DO NOT WANT to change the address “b” points to when the
+cast is performed ? What if we want “b” to point to the exact same address as
+(6&c” ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Casts
+b Let’s analyze the following code:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { public: int b1, b2; };
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{ .
+> But — what if we DO NOT WANT to change the address “b” points to when the
+cast is performed ? What if we want “b” to point to the exact same address as
+“&c” ‘2
+b One solution is to use a double cast (first cast “&c” to a void*, and the ast
+that void* to a B* )
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Casts
+b Let’s analyze the following code:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { public: int b1, b2; };
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{ .
+}
+> But — what if we DO NOT WANT to change the address “b” points to when the
+cast is performed ? What if we want “b” to point to the exact same address as
+(6&c” ‘Z
+b Another solution is to use reinterpret_cast keyword from C++ to do thi .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+b C++ has several ways / keywords that can be use to specify how a cast should
+behave:
+
+> static_cast
+> reinterpret_cast
+> dynamic_cast
+> const_cast
+
+b All of them have the following syntax:
+static_cast <type to cast t0> (expression)
+const_cast <type to cast to> (expression)
+dynamic_cast <type to cast to> (expression)
+reinterpret_cast <type to cast to> (expression)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+rei nterpret_cast
+
+b reinterpret_cast is the simplest cast mechanism that translates in changing
+the type of a pointer, while maintaining the same address where it points to.
+
+reinterpret_cast <tip*> (ptr) ¢$ ((tip*)((void*) ptr))
+
+> This is the fastest cast possible (it guarantees very few assembly instructions
+that will be used for pointer type translation).
+
+b However, it has a downside as it allows casts between pointers of
+incompatible types. The result may obtain a pointer with a data that has
+weird memory alignment, invalid pointers, etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+b Let’s analyze the following program:
+
+APP-CPD
+
+class A { public: int a1, a2, a3; };
+
+class B { public: int b1. b2: };
+
+class C : private A, private B { public: int c1, c2; };
+
+void main(void)
+
+{
+
+C c;
+}—
+
+> This code will not compile. While there is a valid conversion from a pointer of type
+C* to a pointer of type A* due to the inheritance, as class A is inherit in a private
+way, the conversion (cast) is not possible.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+rei nterpret_cast
+b Let’s analyze the following program:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { IA’ ' ' int b1, b2; };
+class C :“A, private B { public: int c1, c2; };
+void main(void)
+{ .
+}
+> This code will compile. lt is important to understand the reinterpret_cast is
+not bounded by class type or access modifier type.
+b However, the only reason this code works is that “A” class fields (a1 ,a2 and
+a3) are the first fields in an instance of type C (if we want to obtain a point
+to B in this manner, we will only obtain a B* pointer that overlaps over t
+offset of local variable c).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+reinterpret_cast can not be used with constant values or with variable of
+basic type. The following expression will not compile.
+int x = reinterpret_cast <int>(1000);
+int y = 100 error C2449: ‘reinterpret_cast': cannot convert From 'int' to ‘int’
+. _ . , . _ note: Conversion is a valid standard conversion, which can be
+Int X _ reinterpret_cast <1nt>(Y)’ performed implicitly or by use of static_cast, C-style cast or
+function-style cast
+reinterpret_cast can however, copy the value of a pointer to a variable (even
+if that variable is not large enough to hold the entire pointer value).
+int x = reinterpret_cast<int>(“test”); mov dword ptr [x],205858h
+char x = reinterpret_cast<char>(“test”); mov eax, 205858h warning C4392:
+‘reinterpret_cast' :
+mov byte ptr [X]’al truncation from 'const
+char *' to 'char'
+In this case 0x205858 is actually the address/offset where the string “test” is
+located in memory.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+The same logic goes for float data types (float / double). Just like in the case
+of int, they can not be casted in this way.
+error C2449: ‘reinterpret_cast': cannot convert from rfloat‘ to
+— ' - ‘+1 t’
+ﬂoat X _ relnterpret_ca5t<ﬂoat>(1'Zf)’ note-N:1 Conversion is a valid standard conversion, which can be
+double X = reinterpret CHSt<C|OUbl€><1 2). performed implicitly or by use o-F static_cast, C-style cast or
+_ ' ’ function-style cast
+reinterpret_cast can however be used with references to change their values.
+This includes references of a different type that the actual value.
+int number = 10; mov dword ptr [number],20
+reinterpret_cast<int &>(number) = 20;
+int number = 10; mov byte ptr [number],20
+reinterpret_cast<char &>(number) = 20;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+rei nterpret_cast
+> reinterpret_cast can also be used for direct memory access to the actual code
+(in other words, it can be used to convert o pointer to a function, to a pointer
+to a data type).
+APP-CPP
+int addition(int x, int y)
+{ return x + y;
+}
+void main(void)
+{ char* a = reinterpret_cast<char*> (addition);
+}
+b ln this example, “a” pointes to the actual machine code that was generated
+for the addition instruction.
+> This is widely used by obfuscator or pieces of code that modify the beh ior
+of a program during the runtime.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+static_cast
+b static_cast implies a conversion where:
+> Values can be truncated upon assignment
+> ln case of inheritance, the address where a pointer points to can be changed
+b It can also be used with initialization lists
+> It does not check in any way the type of the object (RTTI field from vfptr
+pointer)
+b lt is in particular useful if we want to identify a function with a specific set of
+parameters (especially if we have multiple instances of that
+functions/method and calling it might produce an ambiguity).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+stat1c_cast
+b static_cast can be used with constants. In this case, the conversion and
+assignment are often done in the pre-compiling phase.
+int x = static_cast<int>(1000); mov dword ptr [x],1000
+char x = static_cast<char>(1000); mov byte ptr [x],232 (232=1000 %
+256)
+I char x = static_cast<char>(3.75); mov byte ptr [x],3 (3 = int(3.75) )
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+b Let’s analyze the following program:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B { public: int b1, b2; };
+void main(void)
+{ = . error C2449: 'static_cast': cannot convert from 'B *' to ‘A *’
+note: Types pointed to are unrelated; conversion requires
+} reinterpret_cast, C-style cast or Function-style cast
+b This code will not compile, as there is NO possible conversion from a pointer /
+of type B to a pointer of type A
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+b Let’s analyze the following program:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B
+{
+public:
+operator A* () { return new A(); }
+};
+void main(void)
+{
+B b; error C2446: 'static_cast': cannot convert from ‘B *' to ‘A *’
+A* a = statiC_Cast<A *>(&b); note: Types pointed to are unrelated; conversion requires /
+} reinterpret_cast, C-style cast or function-style cast
+V
+b This code will not compile, even if we add a cast operator. The reason is the
+same, we try to convert a B* to an A* (the cast operator requires an object
+not a pointer lll).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+b Let’s analyze the following program:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B
+{
+public:
+int b1, b2;
+operator A* () { return new A(); }
+};
+void main(void)
+{
+B b;
+A* a = static_cast<A *-
+}
+> Now the code works and a pointer of type A* is obtained by calling the cast
+operator overload from class B.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+b Let’s analyze the following program:
+APP-CPD
+int Add(int x, char y)
+{
+return x + y;
+}
+int Add(char x, int y)
+{
+return x + y;
+}
+\{Ioid main(void) error C2666: ‘Add’: 2 overloads have similar conversions
+note: could be lint Add(char,1nt):
+} note: or int Add(int,char)
+. . . note: while tr in to match the ar ument list ' int, int '
+b This code Will not compile y g g ( )
+due to the ambiguity between two functions.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+static cast
+b Let’s analyze the following program:
+int Add(int X, char y)
+{ return x + y;
+int Add(char x, int y)
+{ return x + y;
+ioid main(void)
+i
+witch one of the two Add function it should use !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+dynamic_cast
+
+b dynamic_cast works by safely convert a pointer/ reference of some type into
+a pointer/ reference of a different type, provided there is an inheritance
+relationship between those two types.
+
+> In this case , the RTTI from the vfptr pointer is used and the evaluation is
+done at the runtime. This means that casting using dynamic_cast is generally
+slower than other type of casts. However, if the cast is done, we are certain
+that we have obtained a pointer to a valid pointer/ reference
+
+b This also implies that RTTI field must be present -) dynamic_cast works on
+classes that have at least one virtual method.
+
+b dynamic_cast also works if there is a clear translation/ cast between classes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+dynamic_cast
+b Let’s anal ze the followin n-roram:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B
+{
+public:
+int b1, b2;
+glass C : public A, public B { public: int c1, c2; };
+void main(void)
+{
+C c;
+}
+> This code will compile - but keep in mind that this is a safe (clear) translation
+as we will always be able to obtain an object of type B from an object of
+type C (that inherits B).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Let’s analyze the following code:
+class A { public: int a1, a2, a3; };
+class B
+{
+public:
+int b1, b2;
+};
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{
+error‘ C2683: 'dynamic_cast': 'B' is not a polymorphic type
+C *c = dynamic-ca5t<c*>(&b)5 note: see declaration of 'B'
+}
+This code will not compile. While there is a possible conversion from B* to C*,
+it’s not a safe one. The only case such a conversion will be safe, is if that B*
+was obtained from a “C” object and then re-casted back to a “C*”. As this
+can be validated only for classes that have virtual methods (polymorphic
+types), the compiler will issue an error.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+b Let’s anal ze the followin code:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B
+{
+public:
+int b1 b2‘
+virtual void f() {};
+};
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{
+B b;
+C *c = dynamic_cast<C*>(&b);
+}
+b This code will compile.
+b However, “c” will be nullptr (as we can not obtain a valid C object from
+object). This is very useful as it allows the programmer to check the r ult of
+the cast and have different actions based on it.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+b Let’s anal ze the followin code:
+APP-CPD
+class A { public: int a1, a2, a3; };
+class B
+{
+public:
+int b1, b2;
+virtual void f() {};
+};
+class C : public A, public B { public: int c1, c2; };
+void main(void)
+{
+B *b = B* &c'
+C *c2 = dynamic_cast<C*>(b);
+}
+b Now, the code compiles and the value of “c2” point to object “c”.
+b In reality, b* is a pointer to the B part of object “c” (this means that we c
+safely convert it to a C*)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+b Let’s anal ze the followin code:
+APP-CPD
+class A {
+public: int a1, a2, a3;
+virtual void f2() {};
+};
+class B {
+public: int b1, b2;
+virtual void f() {};
+};
+class C : public A, public B { public: int c1, c2; };
+void main(void) {
+C c;
+A *a = (A*)&c;
+B *b = dynamic_cast<B*>(a);
+}
+b This code also compiles.
+b While there is no relationship between A and B , since local variable “a”
+points to an object of type C , that contains a “B” component, this co ersion
+is possible.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+const_cast
+
+b const_cast is used to change “const” characteristics for an object. lt can be
+used only on data of the same type (it will not convert from a type to
+another), it will just remove the “const” characteristic of one object.
+
+> It is also important to mention that this type of cast can produce undefined
+behavior depending on the way it is used !!!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+const_cast
+b Let’s anal ze the followin code:
+APP-CPD
+void main(void)
+{
+int x = 100;
+const int * ptr = &x;
+*non_const_pointer = 200;
+printf("%d", x);
+}
+b This code will compile and will convert ptr const pointer to a non-constant
+pointer that can be used to change the value of “x”
+> As a result, the program will print “200” on the screen.
+b lt is important that the variable/ memory zone where “ptr” pointer points
+is NOT located on a READ-ONLY memory page (or simple put, it should a
+constant pointer obtained from a non-constant variable).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+b Let’s anal ze the followin code:
+APP-CPD
+void main(void)
+{
+const char * txt = "C++ exam";
+non_const_pointer[0] = 'c';
+printf("%s", non_const_pointer);
+}
+b This code will compile but it will most likely produce a run-time error.
+> In this case, “C++ exam” is located in a section of the executable that is
+constant (does not have the write permission for the memory page where it is
+located). As a result, event if we convert the const pointer to a non-const
+pointer, when we try to modify it, it will crash !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+c0nst_cast
+b Let’s anal ze the followin code:
+APP-CPD
+void main(void)
+{
+const int x = 100;
+}
+b This code will not compile, as “x” is defined as const, and const variables can
+not be changed !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+const_cast
+
+b Let’s anal ze the followin code:
+APP-CPD
+void main(void)
+{ ' _ '9
+}
+
+b Now , this code will compile (using the const_cast we can remove the const
+attribute of “x”) allowing one to change “x” value.
+
+b The behavior of the program is however , undefined 9 in this context
+undefined means that the actual value of “x” may not be 200 ll!
+
+> A runtime error will not happen because “x” is actually located on the stack
+(this means that it is located on a memory page with the WRITE flag set)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+i ° . n
+b Let s anal ze the followm code. const int X = 199;
+APP~CPP _
+void maimvoid) *(const_cast<1nt*>(&x)) = 200;
+{
+const int x = 100; pPint'F("%d", X);
+*(const_cast<1nt*>(&x)) = 200;
+} Il%dll
+printf
+b
+Caz 1: Debug mode, no optimizations
+> Since “x” is defined as constant, the compiler assumes that whenever “x” is use it
+can replace its value with the constant. This mean, that the following instruction :
+“printf( "%d", x);” is actually translated by the compiler into:
+“pr'intf( "%d", 100) ;”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+_ const int x = 199;
+*(const_cast<int*>(&x)) = 296;
+printf("%d", x);
+b Let’s anal ze the followin code:
+App.cpp ..%d..
+void main(void) print-F
+{
+const int x = 100;
+*(const_cast<int*>(&x)) = 200;
+printf("%d", *(const_cast<int*>(&x))) ;
+}
+b In this case, we force the compiler to use the value of “x” through a
+const_cast -) as a result value 200 is printed.
+b However, keep in mind that this is not a normal usage of “x”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+b Let’s analyze the following code:
+APP-CPD
+class Test
+{
+public:
+const int x;
+Test(int value) : x(value) { }
+void Set(int value) { *(const_cast<int*>(&x)) = value; }
+};
+void main(void)
+{
+Test t(100);
+printf("%d ", t.x);
+t.Set(200);
+printf("%d ", t.x);
+}—
+
+b This is however, a different case. Even if “x” is a constant, every instance of cl
+Test can have a different value for “x”. This means, that the compiler will use
+the value used to construct “x”, but rather the content of memory that
+corresponds to “x”. As a results, this code will print first 100 and th 200.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+‘\ > Macros
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Macros
+
+> Macros are methods that can be used to modify (pre-process) the code in
+C/C++ before compiling
+
+b They are defined using the following sintax:
+
+#define <macro> <value>
+
+> Once defined a macro cand be removed from the definition list using the
+following sintax:
+#undef macro
+
+> Macros work before the compile time in a preprocessor phase.
+
+b One simple way of understanding them is to think that you are within an
+editor and you are applying a replace command (search for a text and
+replace it with another text).
+
+b ln reality macros a far more complex (in terms of how the replacement is
+done, and what king of things can be replaced by them).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Macros
+b Examples (simple macros)
+APP-WP
+#de'Fine BUFFER_SIZE 1624
+char Buffer[BUFFER_SIZE];
+> After the preprocessor phase the code will look like this:
+APP-CPD
+I char Buffer[1024];
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+b Macros work sequentially (are applied immediately after they are defined).
+Also, during the preprocessor phase, there is no notion of identifiers, so
+there can be a variable and a macro that have the same name.
+
+APP-CPP
+void main(void)
+{
+int value = 199;
+int temp;
+temp = value;
+#define value 200
+temp = value;
+}—
+b After preprocessor phase the code will look as follows:
+APP-CPP
+void main(void)
+{
+int value = 199;
+int temp;
+temp = value;
+temp = 299;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+b Macros can be written on more than on line. To do this, the special character ‘\’ is
+used at the end of each line.
+Important 9 after this character there shouldn’t be any other characters (except
+EOL).
+APP-CPP
+#define PRINT\
+if (value > 199) printf(“Greaterl"); \
+else printf(“Smaller!");
+void main(void)
+{
+int value = 199;
+PRINT;
+}—
+b After preprocessor phase the code will look as follows:
+APP-CPD
+void main(void)
+{
+int value = 199;
+if (value > 199) printf(“Greater!");
+else printf(“Smaller!");;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+b Macros can be defined using another macro. In this case the usage of #undef
+and #define can change the value of a macro during preprocessor phase .
+Apncpp
+#define BUFFER_SIZE VALUE
+#define VALUE 1024
+char Temp[BUFFER_SIZE];
+#undef VALUE
+#de'Fine VALUE 2048
+char Temp2[BUFFER_SIZE];
+b After preprocessor phase the code will look as follows:
+APP-CPP
+char Temp[1924];
+char Temp2[2948];
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+b Macros can be defined to look like a function.
+APP-CPP
+#define MAX<X,y> <<X>><y>P<X> = <y>>
+void main(void)
+{
+int v1, v2;
+v1 = 199;
+v2 = 299;
+int v3 = MAX(v1, v2);
+}—
+b After preprocessor phase the code will look as follows:
+APP-CPP
+void main(void)
+{
+int v1, v2;
+v1 = 199;
+v2 = 299;
+int v3 = ((v1)>(v2) ? (v1) : (v2));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+b Macros that are defined to look like a function can have a variable number of
+parameters if the specifier ‘...’ is used.
+APP-CPD
+#define PRINT(foPmat,...) \
+{ \
+pnintf("\nPnint valueSI"); \
+pnintf(fonmat, __VA_ARGS__); \
+}
+void main(void)
+{
+int v1, v2;
+v1 = 190;
+v2 = 299;
+PRINT("%d,%d", v1, v2);
+}
+b After preprocessor phase the code will look as follows:
+APP-CPD
+void main(void)
+{
+int v1, v2;
+v1 = 160;
+v2 = 260;
+printf("\nPrint valuesz");
+printf("%d,%d", v1, v2);
+}
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+b Macros can use the special character ‘#’ to change a parameter into its
+corresponding string:
+APP-CPD
+#define CHECK(condition) { \
+if (!(condition)) { pnintf(“The condition '%s' wasn’t evaluated correctly", #condition);
+};
+void main(void)
+{
+int v1, v2;
+v1 = 190;
+v2 = 290;
+CHECK(vl > v2);
+}—
+b After preprocessor phase the code will look as follows:
+APP-CPD
+void main(void)
+{
+int v1, v2;
+v1 = 160;
+v2 = 260;
+if (!(v1>v2)) { printf(“The condition '%s' wasn’t evaluated correctly", “v1 > v2”); };
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+b Macros can use the special character ‘#’ to change a parameter into its
+corresponding string:
+APP-CPD
+#define CHECK(condition) \
+if (!(condition)) { pnintf(“The condition '%s' wasn’t evaluated correctly", #condition);
+};
+void main(void)
+{
+int v1, v2;
+v1 = 190;
+v2 = 299;
+CHECK(vl > v2);
+}—
+b After preprocessor phase the code will look as follows:
+APP-CPD
+void main(void)
+{
+int v1, v2;
+v1 = 160;
+v2 = 260;
+if (!(v1>v2)) { printf(“The condition '%s' wasn’t evaluated correctly", “v1 > v2” , ,
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+b Macros can use this sequence of characters “##” to concatenate parameters:
+Apprpp
+#define SUM(type) \
+type add_##type(type v1, type v2) { return v1 + v2; }
+SUM(int);
+SUM(doub1e);
+SUM(char);
+void main(void)
+{
+int x = add_int(10, 20);
+}
+b After preprocessor phase the code will look as follows:
+APP-CPD
+int add_int(int v1, int v2) { return v1 + v2; }
+double add_doub1e(doub1e v1, double v2) { return v1 + v2; }
+char add_char(char v1, char v2) { return v1 + v2; }
+void main(void)
+{
+int x = add_int(10, 20);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Macros don’t support overloading (if there are two macors with the same
+name, the last one will replace the other, a warning will be issued in the
+compiler and then the code will be compiled).
+The following code won’t compile because SUM needs 3 parameters (only the
+second macros is used)
+#deﬁne SUM(a’b) a+b warning C4905: 'SUM': macro rede-Finition
+#define SUM(a,b,c) a+b+c . . . . . .
+note: see prev1ous definition of SUM
+void main(void) _
+{ warning C4663: not enough arguments For
+int x = SUM(1, 2); function-like macro invocation ‘SUM’
+} error C2959: syntax error: '3'
+The following code is compiled and works properly
+void main(void)
+{
+#define SUM(a,b) a+b
+int x = SUM(1, 2);
+#define SUM(a,b,c) a+b+c
+x = sum(1, 2, 3);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+b Use round brackets! Macros don’t analyse the expression; they just do a text
+replace 9 the results may be different than expected.
+Incorrect Correct
+#define DIV(x,y) x/y #define DIV(x,y) ((x)/(y))
+void main(void) void main(void)
+{ {
+int x = DIV(19 + 19, 5 + 5),- int x = DIV(19 + 19, 5 + 5);
+} }
+b After precompilation the code will look as follows:
+Incorrect Correct
+void main(void) void main(void)
+{ {
+int x = 10 + 19 / 5 + 5; int x = ((19 + 10) / (5 + 5));
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+b Be careful when they are used in a loop. Whenever possible use ‘{‘ and‘}’ to
+make a complex instruction easier to understand!
+Incorrect Correct
+#define PRINT(x,y) \ #define PRINT(x,y) \
+pnintf("X=%d",x);pnintf("Y=%d",y); { pnintf("X=%d",x);pnintf("Y=%d",y); }
+void main(void) void main(void)
+{ {
+int x = 19, y = 29; int x = 10, y = 20;
+if (x > y) it (x > y)
+PRINT (x, y); PRINT (x, y);
+} }
+b After preprocessor phase the code will look as follows:
+Incorrect Correct
+void main(void) void main(void)
+{ {
+int x = 19, y = 29; int x = 10, y = 20;
+if (X > y) if (X > y)
+printf("X=%d",x);printf("Y=%d",y)3 {printf("X=%d",x)3printf("Y=%d",y);}
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+b Pay attention to operators and functions that modify the parameter of the
+macro. Because of the substitution some calls will be made more than one time.
+Incorrect (res will be 3) Correct
+#define set_min(result,x,y) \ #define set_min(result,x,y) {\
+result = ((x)>(y)?(X)I(y)); int t_1 = (x); \
+void main(void) int t_2 = (y); \
+{ result = ((t_1)>(t_2)?(t_1):(t_2)); \
+int x = 2, y = 1; }
+int res; void main(void)
+set_min(res, x++, y); {
+} int x = 2, y = 1;
+int res;
+set_min(res, x++, y);
+}
+b After preprocessor phase the code will look as follows:
+Incorrect Correct
+void main(void) void main(void)
+{ {
+int x = 2, y = 1; int x = 2, y = 1;
+int res; int res;
+result = ((x++ >(y)?:x++]:(y)); { int t_1 = (x); int t_2 = (y);
+} result = ((t_1)>(t_2)?(t_1):(t_2)); }
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Macros
+
+b There is a list of macros that are predefined for any C/C++ compiler:
+_F|LE_ The current file in which the macro will be substituted
+_LINE_ The line in the current file in which the macro will be
+
+substituted
+
+_DATE_ The date when the code was compiled
+_TIME_ The time when the code was compiled
+_STDC_VERS|ON_ Compiler version(Cx98, Cx03,Cx13,...)
+_cplusplus lt is defined if a C++ compiler is used
+_COUNTER_ A unique identifier (0..n) used for indexing
+
+b Besides these, each compiler defines it’s own specific macros(for compiler
+version, linkage options, etc)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+b The usage of _COUNTER_ is very helpful if we want to create unique
+indexes in our program:
+APP-CPD
+void main(void)
+{ int x = _COUNTER_;
+int y = _COUNTER_;
+int z = _COUNTER_;
+int t = _COUNTER_;
+}
+b After precompilation the code will look as follows:
+APP-CPD
+void main(void)
+{
+int x = O;
+int y = 1;
+int z = 2;
+int t = 3;
+}—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+‘\ > Macros vs lnline
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Macro vs Inline
+b Let’s anal ze the followin code:
+APP-CPD
+int Max(int x, int y)
+{
+return x > y ? x : y;
+}
+int main()
+{
+int x, y;
+x = rand();
+y = rand<>;
+printf("%d", Max(x, y));
+return 0;
+}—
+> OBSERVATION: This code is compiled without any compiler optimizations !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+Macro vs Inline
+b Let’s anal ze the followin code :
+APP-CPD
+int Max(int x, int y)
+{ return x > y ? x : y;
+int main()
+{
+int x, y;
+x = rand();
+= rand '
+re urn 6;
+}—
+> In this case , Max function will be called, with “x” and “y” being pushed 0n
+the stack.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+b So how can we otimize this program:
+APP-CPD
+int Max(int x, int y)
+{
+return x > y ? x : y;
+}
+int main()
+{
+int x, y;
+x = rand();
+y = rand();
+printf("%d", Max(x, y));
+return 0;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+b So how can we otimize this proram :
+App.cpp App.cpp (with macros)
+int Max(int x, int y)
+{ #define Max(x,y) x > y ? x : y
+return x > y ? x : y;
+} int main()
+int main() {
+{ int x, y;
+int X, y; x = rand();
+x = rand(); y = rand();
+y = rand(); printf("%d", Max (x, y));
+printf("%d", Max(x, y)); return 0;
+return 0; }
+}—
+b If we replace Max function with Max macro, then the replacement is done in
+the pre-execution phase. As a result, the piece of code that pushes variabl
+on the stack and Max function assembly stubs are no longer required.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+jle X_IS_SMALLER
+jmp END_IF
+X_IS_SMALLER:
+b So how can we otimize this proram :
+APP~CPP APP-CPI: END_IF
+int Max(int x, int y)
+{ #de-Fine Ma
+return x > y ? x : y;
+} int main() _
+int main() { pr1nt-F
+{ int x, y;
+int x, y; x = rand();
+x = rand(); = rand '
+y = rand(); printf("%d", Max (x, y));
+printf("%d", Max(x, y)); re urn a;
+return 0; }
+}—
+b In this case, the replacement modifies the code from printf
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+b So how can we otimize this proram :
+App.cpp App.cpp (inline)
+int Max(int x, int y) inline int Max(int x, int y)
+{ {
+return x > y ? x : y; return x > y P x : y;
+} }
+int main() int main()
+{ {
+int X’ 3/3 int x, y;
+x = rand(); X = rand();
+y = rand(); y = rand();
+printf("%d", Max(x, y)); printf("%d", Max (x, y));
+return 0; return 0;
+}— }—
+b Another solution is to use inline specifier. This specifier tells the compiler
+that we recommend to insert the code of Max function directly in the cod f
+caller (e.g. in this case main function).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Debug mode
+(no optimizations)
+b So how can we otimize this proram :
+App.cpp App.cpp (inline)
+int Max(int x, int y) inline int Max(int x, int y)
+{ {
+return x > y ? x : y; return x > y ? x : y;
+} }
+int main() int main()
+{ {
+int X’ 3/3 int x, y;
+x = rand(); x = rand();
+y = rand(); = --- '
+return 0; return 0;
+} }
+b Another solution is to use inline specifier. This specifier tells the compiler
+that we recommend to insert the code of Max function directly in the cod f
+caller (e.g. in this case main function).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+cmp edi,eax // edi = x
+eax,edi // eaX = y program I
+push eax —
+push offset string "%d"
+call int Max(int x, int y) Max
+{
+netunnx>y? returnx>y?x:y;
+} }
+int main() int main()
+{ printf
+int x, y; int x, y;
+x = hand ' = Pand();
+= nd '
+cmovg = ompare and e if reater printf<"%d", (x, y»;
+re urn a;
+}— }—
+Another solution is to use inline specifier. This specifier tells the compiler
+that we recommend to insert the code of Max function directly in the code of
+caller (e.g. in this case main function).
+If we use optimizations “x” and “y” are used as registers and the Whole
+process is optimized.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+b Not all functions can be used with inline secifier
+APP-CPD
+inline int Iterativ(int x,int limit)
+{
+int sum = 0;
+for (g limit <= x; limit++, sum += limit);
+return sum;
+}
+int main()
+{
+int x;
+x = rand();
+printf("%d", Iterativ(x,x-5));
+return 0;
+}—
+b If this code is compiled using optimization, the compiler will integrate
+Iterativ function in main (mainly because Iterativ function does not conta'
+any recursive functionalities - in this case).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+b Not all functions can be used with inline s ecifier
+APP-CPD
+inline int Recursiv(int x,int limit)
+{
+if (x == limit)
+return limit;
+else
+return x + Recursiv(x-1,1imit);}
+int main()
+{
+int x;
+x = rand();
+printf("%d", Recursiv(x,x-5));
+return 0;
+}—
+b If we run this code with optimization the compiler is not able to inline the
+code from Recursiv function:
+> /permissive- /GS /GL lanalyze- /W3 /Gy /Zc:wchar_t /Zi /Gm- /02 /sdl /Fd"Release\vc141.pdb“ /Zc:inline /fp:precise /D "WIN32" / ' DEBUG" /D
+“_CONSOLE" / D “_UN|CODE" / D "UNICODE" /err0rReport:prompt /WX- /Zc:forSc0pe /Gd /Oy- /Oi /MD /FC /Fa"Release\" /EHsc /n go /Fo"Release\"
+/ Fp"Release\Testhp.pch" /diagnostics:classic
+b cl.exe 9 19.16.27030.1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Macro vs Inline
+
+b Using MACROS guarantees inline replacement. On the other hand, debugging
+is really tricky, especially if the MACRO is complex in nature (multiple lines).
+
+b Using inline specifier DOES NOT GUARANTEES that inline replacement is going
+to happen (it should be seen more as a suggestion for the compiler). On the
+other hand, debugging is easier and without any bit issues.
+
+> ln case of inline , this is used on in release mode (or to be more exact, if the
+optimizations are enabled (-O1, -OZ, ) at the compiler level.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+Macro vs Inline
+b Class methods (if defined in the definition of the class) are usually considered
+inline as well.
+APP-CPP
+class Test
+{
+int x; // privat
+public:
+void SetX(int value)
+x = value;
+}; ’
+> There is one exception - when the class is exported (in this case the code
+from the header file is usually compiled and linked in the component that
+imports the library). ln many cases, the optimization translates into dire
+access the data member.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Volatile specifier
+> Let’s anal ze the followin code:
+APP-CPD
+int main() u
+{
+int x = rand();
+printf("%d", X);
+return 9;
+}
+> If we compile the code in the release mode (or more exactly, if optimizations
+are in place) the compiler might decide that local variable “x” is not
+necessary (e.g. we ca translate the entire code into “printf(“%d”,rand())”)
+> The solution - if we want to avoid this behavior is to use volatile specifier.
+int main()
+{
+volatile int x = rand();
+printf("%d", x);
+return 9;
+}
+— print-F
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+‘\ > Literals
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+Literals
+b Literals are a way of providing a special meaning to numbers by
+preceding them with a predefined string.
+b Literals can be defined in the following way:
+b Where:
+O <return-type> can be any kind of type
+O <literal_name> has to be a name (form out of characters, underline, ...)
+O parameter_type has to be one of the following: const char *, unsigned
+long long int, long double, char, wchar_t, char8_t, char16_t, char32_t
+O The underline is not required. However, compilers issue an warn‘ if not
+used !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+> Let’s analyze the following code:
+APP-CPD
+int operator"" _baza_3(const char * x)
+{
+int value = 0;
+while ((*x) != 0)
+{
+value = value * 3 + (*x) - ‘9';
+x++;
+}
+return value;
+}
+void main(void)
+{
+int x = 121102_baza_3;
+}
+> What we did in this case was to explain the compiler how to interpr
+if a number is follower by _baza_3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+Literals
+> Let’s analyze the following code:
+APP-CPD
+int operator"" _baza_3(const char * x)
+{
+int value = 0;
+while ((*x) != 0)
+{ value = value * 3 + (*x) — ‘6';
+} x++,
+return value;
+} -=II::::::[:::::::::::::::::::::::::::::::::::::::::::::::::]
+void main(void)
+{
+int x = 121102_baza_3;
+}—
+> Since we define the literal _baza_3 as one that works with strings,
+the compiler will translate 121102 (a number) into “121102” (a ring)
+that can be send to the literal conversion function.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Literals
+> Let’s analyze the following code:
+Appmpp
+int operator"" Mega(unsigned long long int x)
+{ return ((int)x)*1024*1024;
+soid main(void)
+{
+int x = 3Mega;
+}—
+> This code will compile and run just like the previous one.
+b However, the compiler will throw an warning: “warning C4455: ‘operator
+""Mega': literal suffix identifiers that do not start with an underscore are
+reserved”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+> Let’s analyze the following co ' \
+error C3684: ‘operator ""_Mega': declaration of literal
+App,Cpp operator has an invalid parameter list
+int Operator.... Mega(int X) error C3688: invalid literal su-F-Fix '_Mega'; literal operator
+{ _ or literal operator template ‘operator ""_Mega' not -Found
+return ((int)x)*1024*1024; note: Literal operator must have a parameter list of the form
+} _ _ _ ‘unsigned long long‘ or 'const char *'
+v01d ma1n(v01d)
+{
+int x = 3_Mega;
+}—
+> This code will not compile, as we did not use a valid parameter for /
+the defined literal.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+> Let’s analyze the following code:
+APP-CPD
+int operator"" _to_int(unsigned long long int x)
+{
+return (int)x;
+}
+void main(void)
+{
+unsigned long long int a;
+> This code will not compile, as the compiler will consider a_to_int a
+new identifier that was not defined yet.
+b This translates, that we can use this with constant numbers or
+constant string (but not with variables).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Literals
+> Let’s analyze the following code:
+void openator"" _print_dec(unsigned long long int x)
+{ printf("Decimal: %d\n", (int)x);
+ioid operator"" _print_hex(unsigned long long int x)
+{ printf("Hex: 0X%X\n", (unsigned int)x);
+ioid main(void)
+{ 150_pnint_dec;
+150_print_hex;
+}
+
+b A literal does not have to return a value. ln this case we used literals
+to print the value of a number (as a decimal value and as a
+hexadecimal value).
+
+> This code will print 150 and 0x96 on the screen.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+> Let’s analyze the following code:
+APP-CPD
+char* operator"" _reverse(const char *sir, size_t sz)
+{
+char * txt = new chan[sz + 1];
+txt[sz] = 9;
+for (size_t poz = 0; poz < sz; poz++)
+txt[sz - poz - 1] = SiP[pOZ]3
+} PetUPn txt; <i> the length of “c++ test today”
+void main(void)
+{
+char‘ * text = "c++ test today"_r'ever'se; /
+printf("%s\n", text);
+delete[]text; '
+}
+b ln particular for literals that have a const char * parameter (a point , the
+size of the data the pointer points to can also be send if a seco ary
+parameter is added. The secondary parameter must be a si _t.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+“> Templates
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+Tem plates
+
+b Macros bring great power to the code written in C/C++
+
+b Templates can be considered to be derived from the notion of macros 9
+adapted for functions and classes
+
+b The goal is to define a model of a function or class in which the types of data
+we work with can be modified at the precompilation stage (similar to macros)
+
+b For this there is a key word “template”
+
+> Just like macros, the usage of templates generates extra code at compilation
+(code that is specific for the data types for which the templates are made
+for). However, the code is faster and efficient.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+Tem plates
+b The templates defined in C++ are of two types:
+‘z. For classes
+‘a For functions
+> Templates work just like a macro - through substitution
+> The difference is that the template substitution for classes isn’t done where
+the first instance of that class is used, but separately, so that other instances
+that use the same type of data to be able to use the same substituted
+template
+> Important: Because the substitution is made during precompilation, the
+templates must be stored in the files that are exported from a library (files.h)
+otherwise the compiler(in case it is tried the creation of a class from a
+template exported from a library) will not be able to do this.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+b Templates for a function are defined as follows:
+APP-CPD
+template <c1ass T>
+Return_type function_name(parameters)
+or
+template <typename T>
+Return_type function_name(parameters)
+b Atleast one of the “Return_type” or “parameters” must contain a member of
+type T.
+APP-CPD
+template <c1ass T>
+T Sum(T value_1,T value_2)
+{
+return value_1 + value_2;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+‘\ > Function templates
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+b A simple example:
+APP-CPD
+template <class T>
+T Sum(T value_l, T value_2)
+{
+return value_l + value_2;
+}
+void main(void)
+{
+double x = Sum(1.25, 2.5);
+}
+> The code compiles correctly 9 x receives the value 3.75
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+b A simple example: \
+APP-CPD , , _ .
+error C2672: Sum : no matchlng overloaded functlon found
+template <c1ass T> _ I I, I I - -
+‘TSumﬂ'vahm 1,1.Vahm 2) error C2782. T Sum(T,T) . template parameter T 15 amb1guous
+{ _ _ note: see declaration of 'Sum'
+return value_1 + value_2; note; could be 'double'
+} note: or 'int'
+voﬂimaﬂﬂvoﬂb error C2784: ‘T Sum(T,T)': could not deduce template argument for
+{ 'T' from 'double'
+double X =
+}
+b The code will not compile - 1 is converted to int, 2.5 to double, but the Sum /
+function should receive two parameters of the same type.
+b The compiler can’t decide which type to use 9 ambiguous code
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+Tem plates
+b A simple example:
+APP-CPD
+template <class T>
+T Sum(T value_l, T value_2)
+{ return value_l + value_2;
+}
+void main(void)
+{
+int x = Sum(l, 2);
+double d = Sum(1.5, 2.4);
+}
+> In this case 9 x receives the value 3 and the called function will substitute
+class T with int, and d receives 3.9 (in this case the substitution will be made
+with double).
+b In the compiled code there will be two Sum functions(one with parame rs of
+type int and the other one with parameters of type double)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+b Be careful how you put the parameters!!!
+APP-CPD , . ._ . .
+error C2672. Sum . no matching overloaded function found
+tewﬂjle<Ch§s1v error C2783: 'T Sum(int,int)': could not deduce template
+T Sum(1nt x, 1nt y) I -
+{ argument for T
+reuwn n§(X+-yn note: see declaration of 'Sum'
+} error C2672: 'Sum': no matching overloaded function found
+voﬂimahﬂvoﬂb error C2783: 'T Sum(int,int)': could not deduce template
+{ argument for 'T'
+intX =SWM1,2); note: see declaration of 'Sum'
+double d = Sum(1.5, 2.4);
+}
+b The code above can’t be compiled 9 not because the return value is
+different, but because the compiler can’t deduce what type to use for class
+T(what return value is obtained)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+Tem plates
+b Be careful how you put the parameters!!!
+APP-CPD
+template <class T>
+T Sum(int x, int y)
+{
+return (T)(x + y);
+}
+void main(void)
+{
+int x = Sum<int>(1, 2);
+double d = Sum<double>(1.5, 2.4);
+}
+> In this case the code can be compiled (we use <> to specify the type we want
+to use in the template).
+b X will be 3 and d will also be 3 (1.5 and 2.4 are converted to int)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+b Templates can be made for more types
+APP-CPD
+template <class T1, class T2, class T3>
+T1 Sum(T2 x, T3 y)
+{
+return (T1)(x + y);
+}
+void main(void)
+{
+int x = Sum<int>(1, 2);
+double d = Sum<int,double,double>(1.5, 2.4);
+}
+> In the first case (Sum<int>) the compiler converts to Sum<int,int,int> (which
+will match the parameters)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+Tem plates
+b Templates can be made for more types
+APP-CPD
+template <class T1, class T2, class T3>
+T1 Sum(T2 x, T3 y)
+{ return (T1)(x + y);
+}
+void main(void)
+{ int x = Sum<int,char>(1, 10.5);
+double d = Sum<int,double,double>(1.5, 2.4);
+}
+> In the first case (Sum<int>) the compiler converts to Sum<int,int,int> (which
+will match the parameters)
+b The compiler tries to deduce the type based on the parameters, if it is not
+specified. The return type must be specified because the compiler can’
+deduce it from the paramters.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Tem plates
+b Function templates cand receive parameters with default values
+APP-CPD
+template <class T1, class T2, class T3>
+T1 Sum(T2 x, T3 y = T3(5))
+{
+return (T1)(x + y);
+}
+void main(void)
+{
+int x = Sum<int, char, int>(10);
+}—
+> “x” receives the value 15 (10+5 9 the default value for y).
+b The use of default parameters requires the existance of a constructor for the
+type of the used class. Expressions like “T3 y = 10” are not valid unless typ
+T3 accepts equality (or has an explicit assignment operator) with int.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+‘\ > Class templates
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+Tem plates
+b Class templates are defined as follows:
+APP-CPD
+template <class T>
+class MyClass {
+:Zmplate <typename T>
+class MyClass {
+> The T variable can be used to define class members, parameters within
+methods and local variables within methods.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+b Class templates are defined as follows:
+APP-CPD
+template <class T>
+class Stack
+{
+T List[100];
+int count;
+public:
+Stack() : count(0) {}
+void Push(T value) { List[count++] = value; }
+T Pop() { return List[--count]; }
+};
+void main(void)
+{
+Stack<int> s;
+s.Push(1); s.Push(2); s.Push(3);
+printf("%d", s.POp())3
+}
+b The code above prints “3”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+b Be careful what types you use for functions when using templates in a class:
+APP-CPD
+template <c1ass T>
+class Stack
+{
+T List[100];
+int count;
+public:
+Stack E2 : countEQE {}
+.‘d { List[count++] = value; } , I - - .. I.
+“POPO { return List[—-count]; } err'or' C2664. v01d Stack<1nt>..ll>ush€T &).' .
+}’. cannot conver't argument 1 fr'om 1nt to T &
+void main(void) \Mith
+{
+Stack<int> s; [ T-” t
+s.Push(1); s.Push(Z); s.Push(3); -1n l
+pnintf("%d", s.Pop()); 1
+}
+b The code above can’t be compiled. The Pop function is correct, but the P
+function must receive a referenceé s.Push(1) doesn’t give it a refer ce!!!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+b Be careful what types you use for functions when using templates in a class:
+APP-CPD
+template <class T>
+class Stack
+{
+T List[100];
+int count;
+public:
+Stack() : count(0) {}
+void Push(T &value) { List[count++] = value; }
+T& Pop() { return List[--count]; }
+};
+void main(void)
+{
+Stack<int> s-
+s.Push tr '
+printf("%d", s.Pop());
+}
+> The code can be compiled and prints “3”.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+Tem plates
+b The same as function templates, class templates can use multiple types
+APP-CPD
+template <class T1,class T2>
+class Pain
+{
+T1 Key;
+T2 Value;
+public:
+Pair () : Key(T1()), Value(T2()) {}
+void SetKey(const T1 &v) { Key = v; }
+void SetValue(const T2 &v) { Value = v; }
+};
+void main(void) {
+Pair<const char*, int> p;
+p.SetKey(“exam grade");
+p.SetValue(10);
+}—
+b “Pair() : Key(T1()), Value(T2())” 9 calls the default constructor for Key and
+Value (for “p” Key will be nullptr and Value will be 0).
+> lt is important that both T1 and T2 have a default constructor: T1 () ' plies
+creating an object using its default constructor.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+b The same as function templates, class templates can use more types
+APP-CPD
+template <class T1,class T2>
+class Pair
+{
+T1 Key;
+T2 Value;
+public:
+Pair() : Key(T1()), Value(T2()) {}
+Pair(const T1 &vl, const T2& v2) : Key(vl), Value(v2) {}
+void SetKey(const T1 &v) { Key = v; }
+void SetValue(const T2 &v) { Value = v; }
+};
+void main(void)
+{
+Pair<const char*, int> p(“exam_grade",10);
+}
+b An explicit constructor can also be used in a class that uses a template. | e
+example above the constructor receives a string (const char *) and a mber.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+b A more complex example:
+
+APP-CPD
+
+template <class T>
+
+class Stack
+
+{
+void Push(T* value) { List[count++] = (*value); }
+T& Pop() { return List[--count]; }
+
+};
+
+template <class T1,class T2>
+
+class Pair
+
+{
+
+};
+
+void main(void)
+
+{
+Stack<Pair<const char*, int>> s;
+s.Push(new Pair<const char*, int>(“asm_grade", 10));
+s.Push(new Pair<const char*, int>(“oop_grade", 9));
+s.Push(new Pair<const char*, int>("c#_grade", 8));
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+b Macros can be used togheter with templates:
+
+APP-CPD
+
+#define P(k,v) new Pair<const char*, int>(k, v)
+
+#define Stack MyStack<Pair<const char*, int>>
+
+template <class T>
+
+class MyStack
+
+{
+
+};
+
+template <class T1,class T2>
+
+class Pair
+
+{
+
+};
+
+void main(void)
+
+{
+Stack s;
+s.Push(P("asm_grade", 10));
+s.Push(P(“oop_grade", 9));
+s.Push(P("c#_grade", 8));
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+b Class templates can also accept parameters without a type(c0nstant)
+APP-CPP
+C ass 8C
+{
+T List[Size ;
+int count;
+public:
+Stack() : count(0) {}
+void Push(const T& value) { List[count++] = (value); }
+T& Pop() { return List[——count]; }
+};
+void main(void)
+{
+Stack<int, 19> s;
+Stack<int, 199> 52;
+for (int tr = 9; tr < 5; tr++)
+s.Push(tr);
+}—
+b In this scenario, “s” will have 10 elements and “52” 100 elements
+> Two different classes will be created(one with 10 and one with 100 ements)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+b Class templates can also accept parameters without a type(c0nstant)
+APP-CPD
+template <class T
+class Stack
+{
+T List[Size ;
+int count;
+public:
+Stack() : count(0) {}
+void Push(const T& value) { List[count++] = (value); }
+T& Pop() { return List[--count]; }
+};
+void main(void)
+{
+Stack<int, 19> s;
+Stack<int> 52;
+for (int tr = 9; tr < 5; tr++)
+s.Push(tr);
+}—
+b In this scenario, “s” will have 10 elements and “52” 100 elements. In the se
+of sZ the default value for Size will be used.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+b Class templates can accept default values for types
+APP-CPP
+C ass 8C
+{
+T List[100];
+int count;
+public:
+Stack() : count(0) {}
+void Push(const T& value) { List[count++] = (value); }
+T& Pop() { return List[--count]; }
+};
+void main(void)
+{
+. k '0 01'> S}
+}—
+b In this scenario “s” will be a list of 100 doubles and 52 (because we didn’
+specify the type) will be a list of ints.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+b Class templates can accept default values for types
+APP-CPD
+C ass 8C
+{
+T List[100];
+int count;
+pmnic: error C2955: 'Stack': use of class template
+5t?d“) =c°wﬁ(9){} _ requires template argument list
+void Push(const T& value) { List[count++] = (value); } . d 1 t. ‘F 'St k'
+T& P0p() { return List[—-count],' } nOte' SEE EC ara lOn O 25C
+}; error C2133: '52‘: unknown Size
+v0ﬁ1maﬂﬂvonn error C2512: 'Stack': no appropriate default
+{ constructor available
+t-HCk< b1> S; - | |
+note: see declaration of Stack
+}—
+b The above code can’t be compiled - even if the type T is by default int
+> It must be specified that when a variable of type Stack is made, that va 'ble
+(“sZ”) is in fact a template(we must use <>)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+b Classes can use methods with templates
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer() : value(0) {}
+template <class T>
+void SetValue(T v) { value = (int)v; }
+};
+void main(void)
+{
+Integer i;
+i.SetValue<float>(0.5f);
+i.SetValue<double>(1.2);
+i.SetValue<char>(‘a‘);
+}
+b In the scenario above, Integer has 3 methods (with float, double and char
+parameter)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+b Classes can use methods with templates
+APP-CPD
+class Integer
+{
+int value;
+public:
+Integer() : value(0) {}
+template <class T>
+void SetValue(T v) { value = (int)v; }
+};
+void main(void) {
+Integer i;
+i.SetValue(0.5f);
+i.SetValue(‘a‘);
+}
+b Specifying the type in the template is not mandatory.
+b In this scenario, Integer has two method:
+> one with a float parameteré deduced by the compiler from 0.5f
+> one with a char parameter 9 deduced by the compiler from ‘a’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+b Classes that use templates cand also have static members:
+APP-CPD
+template<class T>
+class Number
+{
+T Value;
+public:
+static int Count;
+};
+int Number<int>zzCount = 10;
+int Number<char>zzCount = 20;
+int Number<double>zzCount = 30;
+void main(void)
+{
+Number<int> n1;
+Number<char> n2;
+Number<double> n3;
+printf("%d,%d,%d", n1.Count, n2.Count, n3.Count);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+b Classes that use templates cand also have static members:
+APP-CPD
+template<class T>
+class Number
+{
+T Value;
+public:
+static T Count;
+};
+int Number<int>zzCount = 10;
+char Number<char>zzCount = ‘a’;
+double Number<double>zzCount = 30;
+void main(void)
+{
+Number<int> n1;
+Number<char> n2;
+Number<double> n3;
+printf("%d,%c,%lf", n1.Count, n2.Count, n3.Count);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+b Classes that use templates can also have friend functions:
+APP-CPD
+template<class T>
+class Number
+{
+T Value;
+int IntValue;
+public:
+friend void Test(Number<T> &t);
+};
+void Test(Number<double> &t)
+{
+t.Value = 1.23;
+}
+void Test(Number<char> &t)
+{
+t.Value = 0;
+}
+void main(void)
+{
+Number<char> n1;
+Number<double> n2;
+Test(n1);
+Test(n2);
+%_
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+b Classes that use templates can also have friend functions:
+APP-CPD
+template<class T>
+class Number
+{
+T Value;
+int IntValue;
+public:
+friend void Test(NumbeP<T> &t)
+{
+t.Value = 5;
+}
+};
+void main(void)
+{
+Number<char> n1;
+Number<double> n2;
+Test(n1);
+Test(n2);
+}—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+Template
+> specialization
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+Tem plates
+b Templates have a series of limitations:
+> The biggest limitation is that a method from a class that uses a template has
+exactly the same behaviour (the only thing that differs is the type of the
+parameters)
+> For example, if we define a function Sum with two parameters x and y, in which
+we return x+y, then we can’t change this to another operation (e.g. if x si y are of
+type char return x*y instead x+y)
+b This limitation can be overcome if we use specialized templates
+> Specialized templates represent a way in which for a class we define a
+method that overwrites the initial code from the template with a more
+specific one for parameters of a certain type.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+b An example:
+APP-CPD
+template <class T>
+class Number
+{
+T value;
+public:
+void Set(T t) { value = t; };
+int Get() { return (int)va1ue; }
+};
+void main(void)
+{
+Number<int> n1;
+n1.Set(5);
+Number<char> n2;
+n2.Set(‘7‘);
+printf("n1=%d, n2=%d", n1.Get(), n2.Get());
+}
+b The code runs - but prints “n1=5, n2=55” even though we initialized n2 w'
+‘7’ 9 and we expected to print “n2 = 7”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+> Another example:
+APP-CPD
+template <c1ass T>
+class Number
+{
+T value;
+public:
+void Set(T t) { value = t; };
+int Get() { return (int)value; }
+template <>
+class Number <char>
+{ Template
+. fha" value; specialized for
+public.
+void Set(char t) { value = t-‘0'; }; Char
+int Get() { return (int)value; }
+void main(void)
+{
+Number<int> n1;
+n1.Set(5);
+Number<char> n2;
+n2.Set('7');
+printf("n1=%d, n2=%d", n1.Get(), n2.Get());
+}
+> The code runs properly and prints n1=5, n2=7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+b Specialized templates work for functions the same way:
+APP-CPD
+template <c1ass T>
+int ConvertToInt(T value) { return (int)value; }
+template <>
+int ConvertToInt<char>(char value) { return (int)(value—'9'); }
+void main(void) _ _
+{ Template specialized
+int x = ConvertToInt<doub1e>(1.5);
+int y = ConvertToInt<char>('4'); for Char
+}
+b The code runs - x will be 1 and y will be 4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+Compi le-ti me
+> assertion checking
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+Com pi le-ti me assertion checki ng
+b Templates are a really powerful tool. However, sometimes, one might need to
+add some constrains. Let’s analyze the following example:
+APP-CPP
+template <typename T,int size>
+class Stack
+{
+T E1ements[size];
+public:
+Stack() {
+}
+};
+void main(void)
+{
+Stack<float,299> a;
+}
+b How can we enforce some limits for template parameter size ? (e.g. we do
+not want size to be smaller than 2 or bigger then 100)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:129**************
+Com pi le-time assertion checking
+
+b C++11 standard provides a keyword static_assert that can produce an
+evaluation of an expression during the compile phase and throw a compile
+error:
+
+> Format:
+
+static_assert condition condition
+
+> Example:
+static_assert ( a>10, “’a’ variable should be smaller or equal to 10” );
+This code will fail in the compile phase if “a” can be evaluated at that time
+(this usually means that “a” is a constant) and if its value is bigger than 10.
+
+b Usually, static_assert is used within different class methods (e.g.
+constructor) to check the parameters or with templates to provide s e
+constraints.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+b The previous code can be modify in the following way:
+APP-CPD
+template <typename T,int size>
+class Stack
+{
+T Elements[size];
+public:
+Stack() {
+static_assert (size > 1, "Size for Stack must be bigger than 1");
+static_assert (size < 100 "Size for Stack must be smaller than 190" '
+}
+ioﬂimahﬂvoﬂﬁ note: while compiling class template member Function
+{ 'Stack<Float,290>::Stack(void)'
+gwcksﬁnah299>a; note: see reference to Function template instantiation
+} 'Stack<float,290>::Stack(void)' being compiled
+> NOW the code no longer note: see reference to class template instantiation
+. 'Stack<float,290>' being compiled
+compiles and shows the
+following error:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:131**************
+Com pi le-time assertion checking
+b In particular for templates, static_assert can also be used to allow only a
+couple of types to be used in a template.
+b This is however, a 2-step process. First we define a template that can tell us
+if a type is equal (the same) with another type.
+APP-CPD
+template<typename T1, typename T2>
+struct TypeCompare
+{ static const bool equal = false;
+};
+§$251$t$;;ggjgggie1;m Specialized template for template
+{ _ TypeCompare that has both parameters
+stat1c const bool equal = true;
+}; of the same type
+b The trick here is to use a specialized template where the value of a st 'c
+constant variable is changed.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:132**************
+The previous code can be modify in the following way:
+template <typename T,int size>
+class Stack
+{
+
+T E1ements[size];
+public:
+
+Stack() {
+
+( "Stack can onl be used with t ne int" '
+
+}
+};- - - note: while compiling class template member function
+v01d main(v01d)
+{ 'Stack<float,299>::Stack(void)'
+
+StaX<ﬁDHb299>83 note: see reference to function template instantiation
+} 'Stack<float,209>::Stack(void)' being compiled
+
+note: see reference to class template instantiation
+
+In this case the following 'Stack<float,206>' being compiled
+happen: When TypeCompare<float,int> is called, the compiler choses the first (more
+generic form) of the template that has the value of equal false.
+If we would have create a var using Stack<int,200> then TypeCompare<int,int> would
+have selected the specialized template that has the value of equal
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:133**************
+b Let’s analyze the following code:
+Appxpp
+void main(v0id)
+{
+int x = rand();
+static_assert(x != 0, "X should not be 0 !");
+}
+error C2131: expression did not evaluate to a constant
+note: failure was caused by a read of a variable outside its lifetime
+note: see usage of 'x'
+
+b Keep in mind that static_assert only works with constant value (e.g. values that can
+be deduce during the compile phase). ln this case, the value of “x” is a random one
+(as a result, the compiler can not evaluate if “x” is 0 or not and an error will be
+reported).
+
+***************Ending Page***************
+
+
+ 

@@ -1,0 +1,756 @@
+***************Beginning Page***************
+***************page number:1**************
+1 Algoritmi Greedy
+1.1 Paradigme de proiectare a algoritmilor
+
+Conform DEX, paradigmd inseamna model sau exemplu. O paradigma de proiectare a algo-
+ritmilor este o metoda generala de a rezolva o clasa de probleme. Dintre cele mai importante
+paradigme de proiectare a algoritmilor fac parte divide et impera (vezi cursul Structuri de Date),
+greedy (acest curs), programare dinamica (cursurile urmatoare) $i backtracking.
+
+1.2 Probleme de optimizare
+
+Paradigma greedy este folosita in special pentru a rezolva probleme de optimizare, adica prob-
+lcmc in care datclc dc intrarc au o forma oarccarc, iar ccrinta problcmci prcsupunc maximizarca
+sau minimizarea unei anumite cantitati, respectand anumite constrangeri:
+
+Problema de optimizare:
+Input: . . .
+Output: cel mai mare / cel mai mic numar cu proprietatea ca . . .
+
+Un exemplu de problema de optimizare este gasirea celui mai scurt drum intre doua noduri
+intr-un graf:
+
+Problema celui mai scurt drum intr-un graf:
+Input: Un graf G : (V, E) $1 doua noduri s,t e V.
+Output: Lungimea n a celui mai scurt drum de la s la t in graf.
+
+lntr-o problema de optimizare, este posibil ca datele de iesjre sa contina informatii supli-
+mentare. De exemplu, pentru problema celui mai scurt drum intr-un graf, putem cere $i drumul
+de lungime minima (nu doar lungimea acestuia:
+
+Problema celui mai scurt drum intr-un graf (cu output explicit):
+Input: Un graf G I (V, E) $i doua noduri 5,15 € V.
+Output: '01, . . . ,vn - cel mai scurt drum intre s $i t.
+
+1n contextul acestei probleme, orice drum intre 5 si t se numeete solutie, iar un drum intre 5 $i
+t mai scurt decat toate celelalte drumuri intre s $1 t este solutia optimd.
+
+In general, 0 problema de optimizare cere sa alegem din multimea de solutii posibile (in exem-
+plul de mai sus, multimea de drumuri intre s 5i t) solutia optima (cea de cost minim, sau cea de
+castig maxim 1 in functie de cerinta problemei).
+
+O problema de optimizare este rezolvata corect de un algoritm daca aceasta produce in toate
+cazurile o solutie optima.
+
+Exercitiul 1. Dati alte exemple de probleme de optimizare pe care le-ati intalnit pana acum.
+1.3 Paradigma greedy
+
+Greedy este una dintre cele mai simple paradigme de proiectare a algoritmilor. Multe probleme
+de optimizare pot ﬁ rezolvate eﬁcient folosind algoritmi greedy. Algoritmii greedy sunt de obicei
+foarte simplu de implementat, dar nu neaparat simplu de demonstrat. A
+
+Pentru alte probleme de optimizare, algoritmii greedy nu produc solutia optima. In aceste
+cazuri7 exista doua strategii:
+
+1. Daca se doreete o solutie optima, se cauta o alta metoda de rezolvare decat greedy (folosind,
+
+e.g., backtracking sau programare dinamica);
+
+2. Daca diferenta dintre raspunsul optim gi raspunsul produs de algoritmul greedy este tolera-
+bila in practica, se poate folosi algoritmul greedy (algoritmul produce o solutie aproatimativd,
+in acest caz se numeete algoritm de aproximare).
+
+1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+1.4 Exemple de probleme care pot ﬁ rezolvate prin strategii greedy
+
+Algoritmii de tip greedy (lacom) sunt aplicati deseori in practica, inclusiv in viata de zi cu
+zi. De exemplu, daca plecati intr-o excursie 5i Va pregatiti bagajul, veti introduce intai in bagaj
+lucrurile mari ei apoi cele mici. Aceasta strategie Va ajuta sa folositi spatiul din bagaj in mod
+eﬁcient.
+
+1.4.1 Bin-packing
+
+Problemele computationale in care la intrare se dau un container ei 0 multime de obiecte $i la iesjre
+se cere 0 modalitate de a aranja obiectele in container se numesc probleme de tip bin-packing ei
+apar in diferite domenii.
+
+De exemplu, in contextul jocurilor 2D, mai multe sprite-uri (imagini mici (e.g. 128x128 sau
+64x64) sau serii de imagini mici reprezentand un personaj sau un alt element graﬁc din joc) trebuie
+aeezate fara sa se suprapuna intr-un numar cat mai mic de imagini de dimensiuni mai mari (eg.
+1024x1024) care pot ﬁ incarcate de placa video ca texturi si apoi aﬁeate pe ecran cat mai eﬁcient.
+Folosirea unui numar cat mai mic de texturi creete performanta jocului $i din acest motiv este de
+dorit sa “inghesuim” cat mai multe sprite-uri intr-o singura textura. Cele mai multe framework-uri
+pentru programarea jocurilor contin implementarea unor algoritmi pentru sprite-packing (cantati
+“sprite packer” folosind un motor de cautare).
+
+In cele mai multe cazuri, pentru problemele de tip bin-packing nu se cunoagte 0 rezolvare
+polinomiala $i din acest motiv se prefera un algoritm greedy care calculeaza o solutie aproximativa.
+1.4.2 Plata unei surne folosind numér minim de bancnote
+
+Un alt exemplu de problema unde aplicam un algoritm greedy este plata unei sume de bani
+folosind un numar minim de bancnote. De exemplu, pentru a plati (exact) 86 de lei, folosim 6
+bancnote: una de 5O de lei, trei de 10 lei, una de 5 lei 5i una de 1 leu. Orice alta metoda de a plati
+suma de 86 de lei foloseete mai multe bancnote. Formal, problema poate ﬁ eXprimata astfel:
+
+Problema platii cu numar minim de bancnote.
+Input: un numar natural n 1 suma ce trebuie platita
+DUtPut? numerele "500, "200, n1007 n50, n10, n5, n1
+(n,- - cate bancnote de i RON folosesc), astfel incat
+Ei€{500,200,100,50,10,5,1}”i $5 ﬁe minima $1
+Tl I Eie{500,200,100,50,10,5,1}Z >< ni-
+
+Strategia greedy pe care 0 folosim este sa platim mereu cea mai mare bancnota care este mai
+mica decat suma pe care o avem de achitat. De exemplu, pentru 86 de lei, cea mai mare bancnota
+este de 5O de lei. Raman de achitat 36 de lei. Cea mai mare bancnota este de 10 lei. Raman de
+achitat 26 de lei. (...).
+
+Se poate demonstra ca aceasta strategie conduce la un numar minim de bancnote, pentru
+sistemul de bancnote pe care il avem in tara (bancnote de 500, 200, 100, 50, 10, 5, 1). Pentru alte
+sisteme de bancnote, strategia greedy nu conduce tot timpul la o solutie optima.
+
+1.4.3 Problema selectiei activitatilor
+
+Azi, un student poate participa la una sau mai multe activitati. De exemplu:
+
+curs de la 10 la 12 poate participa la cursul PA;
+codecamp de la 9 la 17 poate participa la CodeCamp;
+teatru de la 18 la 2O poate merge la teatru;
+ﬁlm de la 21 la 22 poate merge la ﬁlm;
+club de la 19 la 24 poate merge in club.
+2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Scopul studentului este sa participe 1a cat mai multe activitapi (dar trebuie sa participe 1a
+ﬁecare de 1a inceput la sfareit $1 nu poate ﬁ in doua locuri in acelaei timp). Ce activitati trebuie
+sa aleaga? In exemplul de mai sus, studentul poate participa 1a maxim 3 activitati: curs, teatru,
+film sau codecamp7 teatru, ﬁlm.
+
+Formal, problema selecpiei activitatilor este urmatoarea:
+
+Input: n — numarul de activitati
+s[0..n i 1] - un tablou care contine timpul de inceput a1 activitatilor
+f [0..n — 1] - un tablou care contine timpul de ﬁnal a1 ﬁecarei activitati
+a.i. 5111 < ﬂi] pentru orice O 5 2' g n — 1 5i
+f este in ordine crescatoare.
+Output: A Q {O,...,n— 1}
+A este 0 multime de activitati care nu se suprapun
+A este de cardinal maxim.
+
+Consideram ca activitatea i incepe exact in momentul s,- $i se termina putin inainte de momen-
+tul f,» Cu alte cuvinte, activitatea i dureaza de la s,- (inclusiv) pana 1a f,- (exclusiv). Astfel, doua
+activitatgi i, j se suprapun daca [5,, f,) O [5], fj) 75 (Z) (remarcati faptul ca intervalele sunt inchise la
+stanga $1 deschise 1a dreapta).
+
+Exercitgiul 2. Aratati ca doua activitati i, j nu se suprapun (sunt compatibile intre ele) daca $1
+numai daca s,- Z tj sau sj Z ti.
+
+De exemplu, pentru n I 5 $1 pentru tablcurile s $1 f date mai jos:
+
+2' 0 1 2 3 4
+
+s[i] 10 9 18 21 19
+
+f[z] 12 17 20 22 24,
+un raspuns corect este: A I {0, 2, 4}.
+
+IDEE 1.
+
+O prima idee de rezolvare a problemei printr-o strategie greedy este s5 aleg activitatile in
+ordinea duratei lor. De exemplu, in exemplul de mai sus, aleg activitatea 4 deoarece dureaza 1
+ora, apoi activitatea 1 $1 activitatea 3, deoarece dureaza amandoua 2 ore. Totuei, aceasta strategie
+nu conduce in general la o solupie optima. De exemplu, pentru urmatoarele activitati:
+
+2' 0 1 2
+
+$111 9 15 17
+
+f [2] 16 18 23,
+strategia descrisa mai sus alege activitatea 1, care are durata de 3 ore. Dar activitatea 1 se
+suprapune atat cu O cat $i cu 2 5i deci nu mai putem alege nicio alta activitate. Solutia {1} nu
+este optima, deoarece solupia {0, 2} contine mai multe activitapi.
+
+IDEE 2.
+
+In continuare, vom vedea 0 strategie greedy pentru problema selectiei activitatilor care conduce
+in toate cazurile la solutia optima.
+
+Strategia pe care 0 vom folosi:
+
+1. incepem cu multimea A I Q];
+
+2. dintrc activitatilc care au ramas, alcgem activitatca 2' care sc terminé cel mai devreme
+
+(intuitiv, deoarece imi lasa timp mai mult pentru urmatoarele activitaci);
+
+3. adaugam i la A;
+
+4. stergem 2' gi toate celelalte activitapi care se suprapun cu i din lista de activitati disponibile;
+
+5. repetam procesul daca mai sunt activita'pi disponibile.
+
+3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+in pseudocod7 strategia de mai sus poate ﬁ descrisa astfel:
+
+o A : (Z) (multimea de activitati selectate)
+
+0 time I O (timpul incepand cu care sunt disponibil)
+
+o for i I O to n i 1 (activitatile sunt deja in ordine descrescatoare a timpului de ﬁnal)
+
+i if s[i] >: time (sunt disponibil pentru activitatea i)
+
+>k A : A U {i} (selectez activitatea i)
+
+>|< time I f [i] (marchez ca nu pot accepta activitati mai devreme de f [2])
+
+intrebare. Strategia de rezolvare IDEE 1 nu produce tot timpul solutia optima. Cum pot
+
+ﬁ sigur ca strategia descrisa in IDEE 2 produce tot timpul solutia optima? Raspuns. Putem
+demonstra acest lucru.
+
+In primul rand7 vom arata ca, pentru orice multime S de activitati, exista 0 submultime S’ de
+activitati care:
+
+0 contine doar activitati compatibile intre ele (care nu se suprapun),
+
+o este de cardinal maxim si
+
+0 contine activitatea care se termina cel mai devreme din S.
+
+Cu alte cuvinte7 fara a pierde din generalitate, intr-o multime de cardinal maxim de activitati
+compatibile intre ele se poate alege activitatea care se termina cel mai devreme:
+
+Lema 1 (Lema de alegere lacoma). Fie S Q {0, 1, . . . ,n i 1} 0 multime nevidci de activitdti (nu
+neapdmt compatibile intre ele).
+
+Fie a; activitatea din S care se termind cel mai dew'eme.
+
+Existd 0 submultime S’ Q S a multimii S care:
+
+0 contine doai' activitciti compatibile intre ele;
+
+0 este d6 cardinal maxim (dintre toate submultimile lui S de activitdti compatibile intre ele);
+
+o contine activitatea :17: m E S’.
+
+Proof. Fie S” 0 submultime oarecare a lui S de activitati compatibile intre ele de cardinal maxim.
+Nu $tim daca 1: € S”.
+
+Fie y activitatea din S” care se termina cel mai devreme.
+
+Alegem S’ I (S” \ {y}) U {at}.
+
+Observam ca:
+
+0 S’ are acela$i cardinal cu S”;
+
+o S’ contine m.
+
+Mai avem de aratat ca S’ contine doar activitati compatibile intre ele:
+
+Cum y este activitatea care se termina cel mai devreme din S” $i cum S” contine doar activitati
+compatibile intre ele, rezulta ca V2 E S” \ {y},f[y] g 5M. Dar y E S”, S” Q S si x € S este
+activitatea din S care se termina cel mai devreme. Deci l’ se termina inaintea lui y: f [m] g f [y]
+Rezulta ca Vz G S” \ {y}, ﬁx] g slz], ceea ce inseamna ca :r este compatibila cu toate activitatile
+din S” \ {y}, deci S’ contine doar activitati compatibile intre ele. l1
+
+Am aratat ca, fara a pierde optimalitatea, putem alege activitatea care se termina cel mai
+devreme.
+
+Pentru a arata ca algoritmul7 in intregimea sa, produce 0 solutie optima7 a mai ramas de aratat:
+combinarea activitatii care se termina cel mai devreme cu restul activitatilor alese de algoritm este
+0 solutie optima. Pentru a formaliza acest lucru, avem nevoie de notiunea de subproblema:
+
+4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Deﬁnigie 1. in contextul problemei 5616615262 actioitdtz'lor, 0 subproblerné este 0 submultz'me d6
+(26152212222232.
+Example 1. Pentru instanta n : 5 $1 pentru tablourile s 5i f date Inai jos:
+
+2 0 1 2 3 4
+
+s[2'] 10 9 18 21 19
+
+f[2'] 12 17 20 22 24,
+subproblernele sunt in nurnér de 25 I 32 gi includ: (Zl, {0, 2, 3,4}, {1, 2, 3, 4}, {0, 2,4}, {0, 1, 2, 3,4}.
+Lernéi 2 (Proprietatea de substructurﬁ optimé). F26 S 0 subproblemd nevidd $2 x G S activitatea
+aleasd prin strategia greedy (cea care se termind eel ma2' devrerne). F26 A Q S 0 submulgﬁz'me d6
+act2'v2'tdgfz' compabilite intre ele d6 cardinal marim care confine a" (w € A 1 pr222 lerna de alegere
+greedy, aceastd multime A 6125156).
+
+F26 B I A \ {:0}. Atuncz' B este o 501222326 0pt2md pentru S\ {z | z 56 suprapune peste x}.
+Proof Presupunern (prin reducere la absurd) (:51 existé 0 solupie C rnai buné deceit B pentru
+subproblerna S\ {m}. Atunci CU {ac} ar ﬁ o solutie pentru S rnai buné deeét A, ceea ce contraziee
+optimalitatea lui A.
+
+[I
+
+Demonstratia proprietétii de substructuré optimal este in general foarte sirnplé. ln general,
+proprietatea de substructuré optirnﬁ indicé faptul c5 subsolutiile unei solutii optirne sunt la réndul
+lor soluﬁii optirne pentru subproblerne.
+
+Prin inductie, folosindu-ne de cele dour; lerne de mai sus, este u$0r de demonstrat corectitudinea
+algoritrnului:
+
+Teoremé 1. Strategia greedy d6 ma2' sus produce 0 50112226 0pt2md.
+Proof. Vorn proceda prin inductie dupé multimea S de activitétj disponibile.
+
+Prin lerna de alegere greedy, existi 0 solutie optimé A pentru S astfel incét a" E A. Prin ipoteza
+de inductie, algoritrnul géseete 0 solutie optimé B pentru subproblerna T I {2' G S \ s[2'] Z f [32]}
+(T este strict inclusé in S). Prin lerna de substructure optimé, {x} U A este 0 solutie optimé (cea
+gésité de algoritrn).
+
+[I
+
+O demonstratie alternative, care poate ﬁ mai sirnplu de inteles ﬁindcé pasul inductiv este
+explicitat:
+
+Proof. Fie 51, . . . , sk- lista de activitéti selectaté de algoritrnul greedy. Presupunénd (:5 nu e optirné,
+céutérn eel rnai rnic nurnér j 6 {1, 2, 3, . . .} astfel incét s5 existe 0 listé optimé de activitéﬁi care
+conﬁne prirnele j — 1 activitéﬁi din $1, . . . , 5n $1 apoi alte activitéﬁi:
+
+81, . . .,$j11,tj,. . . atm~(tj $é Sj)
+
+Presupunern cé activitéﬁile din solutia optima $1, . . . , 53-11, tj, . . . ,tm sunt 0rd0nate creseétor
+(ﬁind compatibile intre ele, nu conteazé dacé dupé timpul de inceput sau dupé cel de sférsit 1
+obtinern aceeaei ordine).
+
+Prin deﬁnipie, sj este compatibilé cu $1,...,sj_1 ei incepe rnai devrerne decét tj. Deci
+51, . . . , sj_1, sj, tj+1, . . . ,tm ar ﬁ $1 ea 0 solupie optimé, contrazicénd rninirnalitatea lui j. [j
+1.4.4 Algoritmii greedy
+Algoritrnii greedy
+
+1. Algoritrnii greedy I secventé de alegeri locale, alegeri care par a ﬁ cele rnai bune in rnornentul
+
+respectiv;
+5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+2. Odatﬁ fécuté o allegere7 nu ne putem rizgéndi.
+
+3. Céteodatﬁ aceasté solutie conduce la un optim global (e.g. problema selectiei activitétilor);
+alteori nu (eg. problema discreté a rucsacului).
+
+Algoritrnii greedy - proces de proiectare
+
+1. Identifioém subprobleme ale problemei de optimizare (e.g. Stiwm I {i l sh] Z time} astfel
+incﬁt o alegere greedy intr-o subproblemﬁ Si conducé la o altzi subproblemé).
+
+2. (greedy-choice property) Arétém cit eXisté o solutie optimé a problemei initiale care foloseete
+alegerea greedy.
+
+3. (optimal substructure property) Arﬁtém 0:1 dacé facem o alegere greedy, combinatia dintre
+alegerea greedy ei o solutie optimé pentru subproblema rezultaté. este o solutie optimé. pentru
+problema initialé.
+
+1.4.5 Problema rucsacului - varianta continué
+Problema rucsacului - varianta continué
+Un hot a spart un magazin ei a gésit n bunuri. Al i-lea bun valoreazé vi lei ei céntéreete wi
+kilograme. Hotul are un rucsac care poate s51 ducé cel mult W kilograme de bunuri. Orice bun
+poate ﬁ sectionat iar valoarea unei pérti este proportionalé cu dimensiunea aeesteia (eg. jumétate
+dintr-un obiect cu vi I 10 ei wl- I 6 céntéreete 3 kg $i valoreazi 5 lei). Hotul vrea $5 maximizeze
+valorea obiectelor pe care le va pune in rucsac.
+Problema rucsacului - formalizare varianta continuéi
+Input: n, v[0..n — 1]7 w[0..n — 1], W, toate numere naturale
+Output: p[0..n — 1], p[i] G [0,1] astfel incét:
+1. Elp[i]w[i] g W (partile alese ale obiectele incap in rucsac)
+2. Zipmvh'] este maxim (valoarea pértilor este maximé)
+Problema rucsacului - exemplu instanté
+Avem n I 3 obiecte:
+2' 0 1 2
+w[z'] 1 2 3
+UH] 10 15 20
+Rucsacul are capacitate de W I 5 kg.
+O solutie optimé pentru varianta continué:
+
+1. iau 100% din primul obiect (deci p[0] I 1). Cémetig: 1 >< 10 I 10, capacitate rémasé: 5- 1 I 4
+kg.
+
+2. iau 100% din al doilea obiect (deci p[1] I 1). Czietig: 10 + 1 >< 15 I 25, capacitate remasé:
+4 — 2 I 2 kg.
+
+3. iau 2/3 din al treilea obiect (deci p[2] I 0.66...) Cé$tigz 25 + 2/3 >< 20 I 38.33....
+
+O abordare greedy care conduoe la solutia optimé este sé alegem cétt mai mult din obiectul cu
+céetig unitar (cémetig / kilogram) eel mai mare.
+Exercitiul 3. Identiﬁeati subproblemele pentru problema ruosacului - varianta continua.
+
+Enuntati $1 demonstrati lema de alegere greedy.
+
+Enuntati proprietatea de substructuri optimé (ei demonstrati-o, dar demonstratia va ﬁ sur-
+
+prinzétor de simplé).
+6
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Problema rucsacului - varianta discreté
+Un hot a spart un magazin $i a gésit n bunuri. Al i-lea bun valoreazé vi lei 5i cémtéreete w,
+kilograine. Hotul are un rucsac care poate sé dueé cel Inuit W kilograine de bunuri. Niciun
+bun nu poate ﬁ sectionat - obiectul i trebuie furat integral sau deloc. Hotul vrea Si
+maximizeze valorea obiectelor pe care 1e va pune in rucsac.
+Problema rucsacului - formalizare varianta discreté
+Input: n, 11[O..n — 1], w[0..n — 1], W, toate numere naturale
+Output: p[0..n i 1], pm G {0,1} astfel inset:
+1. E,p[i]w[i] g W (obiectele incap in rucsac)
+2. Eip[i]v[i] este maxim (valoarea obiectelor este maximé)
+Problema rucsacului - exemplu instanté
+Avern n I 3 obiecte:
+2' 0 1 2
+w[i] 1 2 3
+v[i] 10 15 20
+Rucsacul are capacitate de W I 5 kg.
+O solutie optimé pentru varianta discreté:
+1. nu iau primul obiect (p[0] I 0);
+2. iau a1 doilea obiect (p[1] I 1);
+3. iau a1 treilea obiect (p[2] I 2).
+Abordérile greedy nu produc solutii optime pentru varianta discreté (vezi capitolele urrnétoare:
+programare dinamicé, backtracking).
+1.4.6 Problema codurilor Huffman
+Motivatie
+Sit presupunem (:5 avem un ﬁeier care contine 100 de caractere. Caracterul a apare de 45 de
+ori, b de 3O de ori, c de 10 0ri 5i d de 15 ori.
+Fisierul initial ocupé 100 >(< 8 I 800 de biti.
+Deoarece in ﬁeier apar doar caracterele (1,1), c, d, putem comprima ﬁeierul inlocuind ﬁecare
+aparitie a lui a cu secvenfua de biti 00, b cu 01, c cu 10 ei d cu 11.
+Obtinem in aeest fel 100 >k 2 I 200 de biti.
+Se poate obtine 0 compresie mai buné? Da, folosind coduri de lungiine variabilé: a I 1, b I 01,
+c I OOO7 d I 001. Fieierul comprimat este reprezentat acum prin 1 *45+2>k30+3* 10+3>|< 15 I 180
+de biti (90% din dimensiunea obpinuté folosind prima codare).
+Coduri preﬁx
+Orice astfel de cod se poate reprezenta in mod unic printr-un arbore binar cu n frunze:
+7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+O l
+0 1
+O 1
+Formalizarea problemei
+Input: n - numérul de caractere distincte; c[0..n I 1] - numérul de aparitii ale ﬁecérui caracter.
+Output: un arbore binar care reprezinté codul preﬁx optim.
+Exemplu: dacé n I 4 $1 c I [45,30,15,10], atunci arborele precedent este un réspuns corect
+(a I 1, b I 017 c I 000, d I 001).
+Ideea: combiné caracterele cu frecventele cele mai reduse (pe tabla).
+Algoritrnul greedy pentru coduri preﬁx
+1. Q I (Z) (coadé cu prioritate)
+2. forz'IOton—1
+Q.z'nsert(z'nf0 : i,frec : cm, left : null, right: null)
+3. foriIOtonIZ
+a: I newo
+min f 0 I —1
+x.left I Q. extractmlno
+alright I Q. eattmctmmo
+mfrec I axleftfrec + wrightfrec
+Qinserﬂm)
+4. return Q.e:vtmctmln()
+Corectitudinea 5i analiza algoritmului
+
+1. (Proprietatea de alegere greedy) Existé un cod optirn in care ultimele douﬁ caractere dpdv
+a1 frecventei an aceea$i lungime $1 diferé doar in ultimul bit.
+
+2. (Proprietatea de substructuré optima) Fie x, y cele doué caractere cu frecventa cea mai micé.
+Fie z un nou caracter astfel incét (:[z] I ch] + c[y]. Fie T arborele binar care determiné
+codul optim pentru E \ {a2, y} U {z} si T’ arborele binar obtinut din T prin inlocuirea lui z
+cu un nou nod avénd copiii a: gi y. Atunci T’ este optim pentru E.
+
+3. Timp de rulare: O(nlogn), dacé coada cu prioritate este implementaté printr-un heap binar.
+
+8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+1.4.7 Matroizi
+Matroid
+Multi algoritmi de tip greedy pot ﬁ demonstrapi folosind teoria matroizilor.
+Deﬁnitie 2. Un matroid este 0 pereche M I (S, I) cu proprietdtile:
+1. S este 0 multime ﬁnitd
+2. (ereditate) I este 0 multime nevidd de submuliimi ale lui S (numite multimi independente)
+5i
+dacriB GI §iA§ B, atunciA E I.
+5’. (interschimbare) dacd A € I, B € I 5i |A| < |B|, atunci emistd :c € B \ A astfel incdt
+A U {90} E I.
+Exercigiul 4. Demonstrati c5 (7) € I (Hint: folositi proprietatea de ereditate).
+Matroid - exemplu
+Fie G I (V, E) un graf $i MG I (SQ,Ig) deﬁnit astfel:
+1. SG I E, muchiile grafului
+2. A Q E € I ddacé A nu contine ciclu.
+Exerciigiul 5. Arétapi (:21 MG este matroid.
+Exercigiul 6. Arétatj (3:1, dacé 1a itemul 2 cerern ca A six ﬁe arbore7 MG nu este matroid.
+Exerciigiul 7. Arétapi 05, orice multime maximalai (dpdv a1 ineluziunii) din I are acelasj cardinal.
+Matroid ponderat
+Fie M I (S, I )
+Fie w : S H N 0 functie care asociazé ﬁecérui element 1L‘ din S o pondere w(:v).
+Functia w se extinde la multimi A Q S astfel: w(A) I ExeAw(x).
+Teoremé 2. Dacd M este matroid, atimci emistd un algoritm greedy pentru gcisirea unei multimi
+independente d6 pondere maximd.
+Algoritrnul greedy (general pentru matroizi)
+1. A I @ (incep cu multimea vidéi)
+2. sorteazé M .S in ordine descrescétoare a ponderilor
+3. for each 5r € M.S (in ordine descrescétoare)
+0 if A U {32} E I
+A I A U {w}
+Teorernﬁ 3. Algoritmul gdseste 0 multime independentd de pondere mamimd.
+Pentru a demonstra teorema de Inai sus, este suﬁcient s5 arétém c5 matroizii defuin cele doué
+proprietéfui prin care am demonstrat corectitudinea algoritniilor greedy:
+Lemé 3 (Proprietatea de alegere greedy pentru matroizi poriderati). Fie M I (S, I ) un matroid.
+Fie w : S —> N funciia de pondemre. Fie x cel mai mare (dpdv al funciiei de ponderare) element
+din S astfel incdt {ac} E I (multimea singleton alcduitd doar din ac este independentd).
+Atunci emistd 0 submultime optimd (dpdv al funciiei de pondemre) A Q S astfel inccit x G A.
+9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Lemé 4 (Proprietatea de substructurﬁ optima). Fie m primul element ales d6 algoritm pentm
+matroz'dul M I (SJ).
+
+Fie matroz'dul M/ I (S/7 I’), deﬁnit astfel:
+
+' S’:{y€5| {w,y}€1};
+
+o I’:{B§S\{x}\BU{x}€I}.
+
+Fie A solutia optimd gdsz'td de algoritm pentru matroidul M (ac € A). Atunci A \ {I} este
+solutie optimd pentru M’.
+1.4.8 Problema APM
+Problema arborelui partial de cost minim
+
+Input: un graf G I (V, E) conex, ﬁecare muchie e G E avénd un cost [(6)
+
+Output: un arbore G I (V, A)7 astfel incét suma muchiilor arborelui s5 ﬁe de cost minim.
+
+Algoritmul lui Kruskal, pe care l-ati discutat 1a liceu, incepe cu multimea vidé de muchii $i
+proceseazé muchiile in ordin crescétoare a costurilor. Dacia adéugarea unei muchii nu produce
+ciclu, atunci aceasta este adéugaté la solutie. La ﬁnal, multimea de Inuchii selectate va forma un
+arbore. Iaté 0 posibilé executie a algoritmului lui Kruskal pentru graful ce urmeazé:
+Algoritmul lui Kruskal - instanta
+
+Q 1° G
+O
+20
+4O
+O
+Algoritrnul lui Kruskal - pasul 1
+10
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+9 1° 9 G) (9
+9"0 (9 CD
+4O
+O
+9 G)
+Algoritrnul lui Kruskal - pasul 2
+a 10 a C 10 C
+9"9 (9 GD
+4O
+0
+9 (9
+Algoritmul lui Kruskal - pasul 3
+a 10 e c 10 c
+9'9 (3) 0
+4O O O
+9 9
+Algoritmul lui Kruskal - pasul 4
+11
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:12**************
+G 1° 9 1°
+0 2
+20 M
+9‘ 0 0
+40
+O O
+Algoritmul lui Kruskal - pasul 5
+9 1° 9 9 1° 9
+l 2.
+20 M 3O
+9'9 9 0
+4O
+O O
+Algoritrnul lui Kruskal ca instanté a unui matroid
+Fie G I (V, E) graful pentru care apliczirn algoritrnul lui Kruskal.
+Deﬁnim MG : (SC, 1G) ca rnai sus (am arétat 05L este matroid):
+1. SC; I E7 muchiile grafului
+2. A Q E € I ddacé A nu conﬁne ciclu.
+Exerciﬁul 8. Arétapi (:51 multimile maximale din I sunt arbori.
+
+Dacé deﬁnirn 10(6) I M i [(6) (unde M este un nurnér suﬁcient de mare)7 atunci algoritrnul
+lui Kruskal este 0 instanté a algoritrnului general pentru rnatroizi.
+Concluzii
+
+1. Greedy este 0 paradigmé importanté de proiectare a algoritrnilor.
+
+2. De obicei algoritrnii greedy sunt u$0r de implementat (nu neapérat $i de demonstrat). Pen-
+tru a demonstra corectitudinea unui algoritm greedy, arétérn c5 problema are proprietatea
+de alegere greedy Si proprietatea de substructuré optirné (trebuie identiﬁcate convenabil
+subproblernele).
+
+12
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+3. Multe probleme de optimizare au solutii optime ce pot ﬁ gésite cu greedy (eg. problema
+continué a rucsacului). Pentru alte problerne (e. g. problema discreté a rucsacului), algoritrnii
+greedy nu produc solutia optirnﬁi
+
+4. Matroidul este structuré rnaternaticé cu ajutorul oéreia putern rnodela diverse problerne de
+optimizare. Dacé problema se poate modela cu ajutorul unui matroid (ponderat)7 atunci
+algoritrnul greedy produce solutia optima. Avantajul este oi nu mai avern de demonstrat
+algoritrnul7 deoarece am arétat deja c5 este corect pentru orice matroid. Este suﬁcient s5
+arétérn (:5 puteni rnodela problema ca un matroid.
+
+1 Exerciigii seminar
+1.1 Problema selectiei activitétilor
+
+1. Arétati c5 strategiile greedy care urrneazé nu conduc intotdeauna 1a solutia optirné:
+
+0 selecteazé activitatea cea Inai sourté (care nu se suprapune cu activitétile deja alese);
+>pentru activitétile: [1,5), [4, 7), [6,10) se alege cea mai scurté’ [4, 7) 5i ulterior nu se mai
+poate adé'uga nicio activitate. Solutia optimé' e [1,5), [6,10).<
+
+0 selecteazé activitatea care se suprapune cu cét rnai purine alte activitéti (si care nu
+se suprapune cu activitétile deja alese). >11 activitati: in solutia optima? sunt 4
+activité'ti: [1,7) [9,15), [17, 22), [24,29). Singura activitate care se suprapune cu doar alte doué’
+activitati este [12, 18). Doué' grupuri a céte trei activité'ti identice cresc num5rul de suprapuneri
+peste cele 4 din solutia optimé’, astfel ele nu vor fi alese Tn prima etap§ 5i nici nu vor putea fi alese
+ulterior din cauza suprapunerii cu [12,18). Din cele doua" grupuri de céte trei putem selecta doar
+céte una. Activitatea [- -x- -) incepe la pozitia caracterului [, se termina la ) si se suprapune cu x
+alte activitatiA
+00000000011111111112222222222 cifra zecilor
+12345678901234567890123456789 cifra unitatilor ale capetelor
+["3") #4") ["‘H [131)
+
+[14") [112") [14")
+[114") [11411)
+[114") ["4")
+
+2. Scrieti in Alk algoritniul greedy care rezolvé problema.
+
+1.2 Problema plétii unei surne cu numér cét mai mic de bancnote
+
+1. Imaginati-vé (:5 tréiti intr-o {sari in care sunt disponibile bancnote de 1 leu, de 7 lei si de 8
+lei. Dati exemplu de o surné de bani pentru care strategia greedy descrisé in notele de curs
+nu produce solutia optirné.
+>Pentru suma 14 de exemplu, algoritmul greedy alege prima monedé' de valoare 8, §i este nevoit
+ulterior s5 mai foloseasci aloce inci 6 bancnote de valoare 1, ajungénd la 7 bancnote in total. Optim e
+7 + 7 I 14 deci doué' bancnote.<
+(in continuare presupunern c5 avern la dispozitie bancnotele standard)
+
+2. Sorieti in Alk algoritrnul greedy pentru plata unei surne de bani folosind nurnér minirn de
+bancnote.
+
+3. Identificati subproblernele pe care 1e rezolvé algoritrnul greedy.
+
+4. Demonstrati proprietatea de alegere greedy: Fie b valoarea celei mai rnari bancnote care este
+mai rniczi decét surna s de achitat. Atunci existé o solutie optirné de a pléti s care incepe
+cu b.
+
+13
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:14**************
+5. Enuntepi $i demonstrati proprietatea de substructuré optimé (demonstratia in sine este
+
+foarte ugoarzi).
+1.3 Matroizi
+
+1. Fie M I (S, I) un matroid. Aritafui cé Q) 6 I.
+
+2. Fie M : (S, I ) un matroid. Arétaci (:21 orice multime maximalé (dpdv a1 incluziunii) din I
+are acelagi cardinal.
+
+3. Arétati cé matroidul MG asociat grafului G (deﬁnit in notele de curs) este intr-adevér
+matroid.
+
+2 Exerciigii suplimentare
+
+1. Demonstrapi (:21 algoritmul greedy produce solutia optimzi daci bancnotele disponibile sunt
+puteri ale unui numér (eg. 1, 2, 4, 8, ....)
+
+2. Arétati c5 problema selectgiei activitéfuilor in care vectorul f este ordonat ei problema selectiei
+activitétilor in care vectorul f nu este neapérat 0rd0nat se reduc una la cealalté (formalizati-
+le intéxi ca pereche input-output).
+
+3. Gésiti incé 0 strategie greedy pentru problema selectiei activitétilor care s21 conducé la solutia
+optimzi.
+
+4. Gésipi un algoritm care primeste n puncte 5171, . . . ,xn de pe dreapta Oat $i gése$te numzirul
+minim de intervale-um'tate ([a,b] este interval-unitate dacé b I a + 1) care acoperé toate
+punctele.
+
+5. Gésipi codul Huffman corespunzitor urmétoarelor frecvenﬁe: 1, 1, 2, 3, 5, 8, etc.
+>Consider§nd caracterele a, b, c, d, e, f cu frecvenpele 1, 1, 2, 3, 5 51' respect/v 8, coduri/e
+asociate caracterelor vor fi: f 1 0, e *10, d 1 110, c 1 1111, b 111101, a 1 11100.
+referinre calculator, generator arbore, algoritm §i descriere<
+
+6. Arétati 021 (S, 1k) este matroid, dacé S este 0 multime ﬁnité $i Ik este multimea tuturor
+submulpimilor lui S de cardinal g k.
+
+7. Céutati algoritmul lui Prim in literaturé $1 arétati cé produce solupia optimﬁ. Poate ﬁ
+exprimat cu ajutorul matroizilor?
+
+8. Fie S un §ir de caractere deﬁnit peste alfabetul binar {0, 1}. Peste acest §ir se poate aplica
+urmétoarea operagie: se alege 0 pozigie S,» astfel inceit S,» I 1 §i se atribuie elementului
+respectiv valoarea 0. Care este numzirul minim de opera§ii ce trebuie aplicate lui S astfel incét
+§iru1 s5 nu continzi cuvéntul 101 ca substring (factor). De exemplu, pentru S : 1101101010,
+numérul minim de opera§ii este 2, 0 posibilitate fiind aplicarea operagiei peste pozitiile
+subliniate: 1101101010 i 1001100010. Descrieti un algoritm greedy de complexitate liniarii
+§i argulentatj corectitudinea algoritmului.
+>Se parcurge $irul de la sténga la dreapta, atunci cénd fnté/nim o valoare Si I 1 precedate? de
+10, forméndu-se astfe/ un 10 + 1 I 101, se aplica operaria peste Si. Deoarece prefixu/ péné’ la poziﬂa
+i— 1 este deja rezolvat, liber de 101, nu are sens s5 aplicé'm operatia peste S14, iar pozitia i e prefrabilé'
+pentru c5 poate elimina 0 eventualé' aparipie 101 ulterioaré', dac5 urm5t0ate/e caractere de la pozijfii/e i
+5i i + 1 sunt 01. sursé', tutorial — Tn Eartea dreaeta a gaginii, la Contest materials.<
+
+14
+
+***************Ending Page***************
+
+

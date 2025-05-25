@@ -1,0 +1,419 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Excepﬁons
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+What ls an Exceptlcn?
+An "abnormal event" that occurs during the execution
+public class Example {
+public static void main(String args[]) {
+int v[] = new int[lO];
+v[lO] I O; //Ocps... l
+System.out.println("Hello world ...?!");
+}
+
+}
+
+"Exception in thread "main"
+java.lang.ArrayIndexOutOfBoundsException :10
+at Example.main (Example.java:4)"
+
+"throw an exception "
+
+"catch the exception "
+
+"exception handler"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+try {
+// Block of instructions
+methodX()
+methodY() 4) A new exception is born
+methed%++
+}
+catch (ExceptionTypel variable) {
+// Handling exceptions of type l
+}
+catch (ExceptionTypeZ variable) {
+// Handling exceptions of type 2
+}
+catch (ExceptionType3 | ExceptionType4 variable) {
+// Handling exceptions of type 3 or 4
+}
+finally {
+// Cleanup code: executes whether or not an exception is thrown
+}
+...execution continues
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Example — Reading a File
+public static void readFile(String filename) {
+FileReader f = null;
+// Open the file
+f = new FileReader(filenam );
+// Read the file character b haracter
+int c;
+while ( (c = f.read()) l= —l) {
+System.out.print((char)c);
+}
+// Close the file
+f.close();
+}
+unreported exception FileNotFoundException;
+must be caught or declared to be thrown
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+“Catching” l/O Exceptions
+public static void readFile(String filename) {
+FileReader f I null;
+try {
+f I new FileReader(filename); // Open the file
+int c; // Read the file
+while ( (c=f.read()) != —l) {
+System.out.print((char)c);
+}
+} catch (FileNotFoundException e) {
+System.err.println("The file " + filename + "is missingl");
+} catch (IOException e) {
+System.out.println("Unexpected error reading the filel");
+e.printStackTrace();
+} finally {
+if (f l: null) { // Close the file
+try {
+f.close();
+} catch (IOException e) {
+System.err.println("Error closing the file!");
+}
+}
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+“Throwing” exceptions
+[modifiers] ReturnedType method([arguments])
+throws ExceptionTypel, ExceptionTypeZ, m { }
+public class FileReadExample {
+public static void readFile(String filename)
+throws FileNotFoundException, IOException {
+FileReader f I new FileReader(filename);
+int c;
+while ( (c I f.read()) l: —l)
+System.out.print((char)c);
+f.close();
+}
+public static void main(String args[]) {
+try {
+readFile(args[0]);
+} catch (FileNotFoundEXception e) {
+System.err.println("File not found...");
+} catch (IOException e) {
+System.out.println("I/O Error");
+} catch (Exception e){
+System.out.println("Something is wrong..." + e);
+}
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+try - ﬁnally
+public static void readFile(String filename)
+throws FileNotFoundException, IOException {
+FileReader f = null;
+try {
+f = new FileReader(filename);
+int c;
+while ( (c=f.read()) != —l)
+System.out.print((char)c);
+}
+finally {
+if (f!=null)
+f.close();
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+try- With -resouroes
+Resource - objects that must be closed after using
+them; they are of type AutoC/oseable
+try(FileReader f = new FileReader(filename)) {
+int c;
+while ( (C I f _ read() ) 1: _1) The exception thrown when the
+System . out . print < (char) C) ; FileReaderwas closed IS suppressed
+}
+try (Connection con = createConnection();
+Statement stmt = con.createStatement();
+ResultSet rs = stmt.executeQuery(query)) {
+return (rs.neXt() ? rs.getObject(1) : null);
+} catch (SQLException e) {
+} SySt€m ' €rr ' println (€) ; The resources will be closed in reverse order
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Exceptions Class Hierarchy
+B @
+—
+— —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Checked versus Unchecked
+- Checked Exceptions
+— Abnormal situations that can not be controlled at the time of
+writing the code (design-time): ﬁle system errors, network
+communications errors, etc.
+— Must be handled (“caught” or “thrown”)
+— Extend Except/0n: IOException, SQLException, etc.
+- Unchecked Exceptions
+— Errors caused by situations out of which the application can
+not recover, usually programming mistakes.
+— Do not need to be handled (but it is possible)
+— Extend either Error or RuntimeException:
+NullPointerEception, IllegalArgumentException,
+ArithmeticException, ArrayIndeXOutOfBoundsException, etc.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Error
+- Indicates a serious problem that a reasonable
+application should not try to catch. Most such
+errors are abnormal conditions.
+- Unchecked
+- Examples:
+— VirtualMachineError
+(Thrown to indicate that the Java Virtual Machine is broken or has run out of
+resources necessary for it to continue operating.)
+— InternalError, UnknownError,
+— OutOfMemoryError, StackOverflowError
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Who Creates the Exceptions?
+The throw Statement
+- The author of a method will signal exceptional
+situations creating and throwing exceptions.
+public class Stack {
+.H //throws is mandatory for checked exceptions
+public Object peek() throws EmptyStackException {
+int len = size();
+if (len == O) throw new EmptyStackException();
+return elementAt(len — l);
+}
+}
+- The Virtual Machine,
+for “standard” RuntimeExceptions
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+class Person {
+private String name;
+private int age;
+public void setNamegString name) j
+if (name == null || name.trim().equals("")) {
+throw new IllegalArgumentException(
+"Name should not be empty.");
+}
+if (lname.matches("[a-zA-Z]+")) {
+throw new IllegalArgumentException(
+"Name should only contain characters: " + name);
+}
+this.name I name;
+}
+ublic void setA e int a e
+if (age < O) {
+throw new IllegalArgumentException(
+"Age should be a positive number: " + age);
+}
+this.age I age;
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Reusing Validation Rules
+
+- Verifying data integrity is a repetitve work
+
+- Error messages may also vary by locale
+
+- Consider creating your own “validation
+framework” or use an existing one, such as
+Apache Commons Validator (or other)
+
+- Example: implement a class for validating
+emails:
+
+public void setEmailgString email) l
+
+new EmailValidationRule().validate(email);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Creatlng Custom Exceptlons
+- Extend a proper subclass of Throwable
+- Checked vs. Unchecked:
+If a client can reasonably be expected to recover from an exception,
+make it a checked exception. If a client cannot do anything to recover
+from the exception, make it an unchecked exception.
+public class MyOwnException extends Exception {
+MRuntimeException
+//Usually, define custom properties and constructors
+public MyOwnException(String message) {
+super(message);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Example
+- Define your custom exception
+public class InvalidAgeExeption extends RuntimeException {
+public lnvalidAgeExeption(String message) {
+super(message);
+}
+public InvalidAgeExeption(int age) {
+super("Invalid age: " + age);
+}
+}
+~ Use your custom exceptlon
+public void setAge(int age) {
+if (age < O) throw new InvalidAgeException(age);
+if (age > l8) throw new InvalidAgeException("Sorry, too old");
+this.age I age;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+try {
+Person person =
+database.readPerson(personId);
+} catch (SQLException sqlException) {
+// catch the original exception
+System.err.println(sqlException);
+// create a new, custom exception
+// wrapping the original exception
+MyException myException =
+new MyException("Database Error", sqlException);
+myException.setDetail("Invalid person id " + personId);
+// throw the custom exception
+throw myException;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+I
+“Code Separatlon
+"Spaghetti" Code (tangled, unstructured)
+int readFile() {
+int readFile() { try {
+int codEroare = O; open the file;
+open the file; determine its size;
+if (the file has opened) { allocate memory;
+determine its size; read the file into memory;
+if (the size was determined ) { close the file;
+allocate memory;
+if (the memory was allocated) { } catch(file didn't Open){
+read the file into memory; handle this exception
+if (cannot read from file){ } catch (cannot determine size){
+errorCode = —1; handle this exception
+} } catch (not enough memory) {
+} else { handle this exception
+errorCode = —2; } catch (file read failed) {
+} handle this exception
+} } catch (cannot close the file) {
+... handle this exception
+}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}} }
+return errorCode;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+“GFOUQIHQ and leferentlatlng Error
+try {
+String driverName = new String(
+Files.readAllBytes(Paths.get("driver.txt")));
+Class.forName(driverName).newInstance();
+} catch (IOException ex) {
+// problems with the file
+} catch (ClassNotFoundException ex) {
+// problem with the driver class
+} catch (IllegalAccessException ex) {
+// cannot acces the class
+} catch (InstantiationException ex) {
+// cannot instantiate the class
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+v Propagatlng Errors
+int methodl() {
+try {
+method2();
+} catch (ExceptionType e) {
+//handle the exception
+}
+}
+int method2() throws ExceptionType
+method3();
+}
+int method3() throws ExceptionType {
+throw new ExceptionType();
+}
+
+***************Ending Page***************
+

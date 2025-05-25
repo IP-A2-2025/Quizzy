@@ -27,6 +27,9 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Enrollme
     @Query("SELECT COUNT(e) FROM Enrollment e WHERE e.course.id = :courseId")
     Long countEnrollmentsByCourseId(@Param("courseId") Long courseId);
 
+    @Query("SELECT COUNT(e) FROM Enrollment e WHERE e.user.id = :userId")
+    Long countEnrollmentsByUserId(@Param("userId") Integer userId);
+
     @Modifying
     @Query(value = "INSERT INTO Enrollment (userId, courseId, enrollmentdate) VALUES ( :userId, :courseId, CURRENT_TIMESTAMP)", nativeQuery = true)
     void insertEnrollment(@Param("userId") Integer userId, @Param("courseId") Long courseId);

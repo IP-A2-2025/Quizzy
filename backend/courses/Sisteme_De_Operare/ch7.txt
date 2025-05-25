@@ -1,0 +1,787 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 7: Synchronization
+Examples
+— —
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+W“? Chapter 7: Synchronlzatlon Examples
+I Explain the bounded-buffer, readers-writers, and
+dining philosophers synchronization problems.
+I Describe the tools used by Linux and Windows to
+solve synchronization problems.
+I Illustrate how POSIX and Java can be used to solve
+process synchronization problems.
+| Operating System Concepts-10th Edition 7.2 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+“KY? Classlcal Problems of Synchronlzatlon
+I Classical problems used to test newly-proposed synchronization
+schemes
+' Bounded-Buffer Problem
+' Readers and Writers Problem
+P Dining-Philosophers Problem
+| Operating System Concepts-10th Edition 7.3 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+@"ﬁ Bounded-Buffer Problem
+I n buffers, each can hold one item
+I Semaphore mutex initialized to the value 1
+I Semaphore full initialized to the value 0
+I Semaphore empty initialized to the value n
+| Operating System Concepts-10th Edition 7.4 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+41$ if”? Bounded Buffer Problem (Cont.)
+we ”
+I The structure of the producer process
+while (true) {
+/* produce an item in next_produced */
+wait(empty);
+wait(mutex);
+/* add next produced to the buffer */
+signal(mutex);
+signal(full);
+}
+Operating System Concepts — 10th Edition 7.5 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+t;?:§r§ ( )
+I The structure of the consumer process
+while (true) {
+
+wait(full);
+
+wait(mutex);
+/* remove an item from buffer to next_consumed */
+
+signal(mutex);
+
+signal(empty);
+/* consume the item in next consumed */
+
+}
+
+Operating System Concepts — 10th Edition 7.6 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+twp} Readers-Write rs Problem
+I A data set is shared among a number of concurrent processes
+' Readers — only read the data set; they do not perform any updates
+' Writers — can both read and write
+I Problem — allow multiple readers to read at the same time
+' Only one single writer can access the shared data at the same time
+I Several variations of how readers and writers are considered — all
+involve some form of priorities
+I Shared Data
+. Data set
+' Semaphore rw_mutex initialized to 1
+' Semaphore mutex initialized to 1
+' Integer read_count initialized to 0
+Operating System Concepts -1oth Edition 7.7 Silberschatz, Galvin and Gash: ©2512:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+‘It? V; Readers-erters Problem (Cont.)
+we ”
+I The structure of a writer process
+while (true) {
+wait(rw_mutex);
+/* writing is performed */
+signal(rw_mutex);
+}
+| Operating System Concepts — 10th Edition 7.8 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+‘j f; '- I
+WV Readers-erters Problem (Cont)
+m3 "
+I The structure of a reader process
+while (true){
+wait(mutex);
+read_count++;
+if (read_eount == 1)
+wait(rw_mutex);
+signal(mutex);
+/* reading is performed */
+wait(mutex);
+read count——;
+if (read_eount == 0)
+signal(rw_mutex);
+signal(mutex);
+}
+Operating System Concepts _ 10th Edition 7_9 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+@th Readers-erters Problem Varlatlons
+I First variation — no reader kept waiting unless writer has
+permission to use shared object
+I Second variation — once writer is ready, it performs the
+write ASAP
+I Both may have starvation leading to even more variations
+I Problem is solved on some systems by kernel providing
+reader-writer locks
+| Operating System Concepts —10‘h Edition 7.10 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+W Dlnlng-Phllosophers Problem
+gym “
+\o u Q,
+O 0
+O @ <>
+I / Q \ \
+I Philosophers spend their lives alternating thinking and eating
+I Don’t interact with their neighbors, occasionally try to pick up 2
+chopsticks (one at a time) to eat from bowl
+. Need both to eat, then release both when done
+I In the case of 5 philosophers
+' Shared data
+> Bowl of rice (data set)
+> Semaphore chopstick [5] initialized to 1
+Operating System Concepts — 10th Edition 7.11 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+if??? Dining-Philosophers Problem Algorithm
+I Semaphore Solution
+I The structure of Philosopher i:
+while (true){
+wait (chopstick[i] );
+wait (chopStick[ (i + l) % 5] );
+/* eat for awhile */
+signal (chopstick[i] );
+signal (chopStick[ (i + 1) % 5] );
+/* think for awhile */
+}
+I What is the problem with this algorithm?
+Operating System Concepts — 10‘h Edition 7.12 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+a??? Monitor Solution to Dining Philosophers
+it“ “
+monitor DiningPhilosophers
+{
+enum { THINKING; HUNGRY, EATING) state [5] ;
+condition self [5];
+void pickup (int i) {
+state[i] = HUNGRY;
+test(i);
+if (state[i] != EATING) self[i].wait;
+}
+void putdown (int i) {
+state[i] = THINKING;
+// test left and right neighbors
+test((i + 4) % 5);
+test((i + 1) % 5);
+}
+Operating System Concepts -1oth Edition 7.13 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+‘133$? Solutlon to Dlnlng Phllosophers (Cont.)
+M“ h
+void test (int i) {
+if ((state[(i + 4) % 5] != EATING) &&
+(state[i] == HUNGRY) &&
+(state[(i + 1) % 5] != EATING) ) {
+state[i] = EATING ;
+self[i].signal () ;
+}
+}
+initialization_code() {
+for (int i = 0; i < 5; i++)
+state[i] = THINKING;
+}
+}
+Operating System Concepts — 10‘h Edition 7.14 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+G‘i="-:§.j\>~":§‘8olutlon to Dlnlng Ph|losophers (Cont.)
+I Each philosopher i invokes the operations pickup () and
+putdown () in the following sequence:
+DiningPhilosophers.pickup(i);
+/** EAT **/
+DiningPhilosophers.putdown(i);
+I No deadlock, but starvation is possible
+| Operating System Concepts-10th Edition 7.15 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+t6»??? Kernel Synchronization - Windows
+I Uses interrupt masks to protect access to global resources on
+uniprocessor systems
+I Uses spinlocks on multiprocessor systems
+' Spinlocking-thread will never be preempted
+I Also provides dispatcher objects user-land which may act
+mutexes, semaphores, events, and timers
+' Events
+> An event acts much like a condition variable
+. Timers notify one or more thread when time expired
+. Dispatcher objects either signaled-state (object available)
+or non-signaled state (thread will block)
+A
+I Operating System Concepts-10‘h Edition 7.16 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+he‘??? Kernel Synchronlzatlon - Wmdows
+mm “
+I Mutex dispatcher object
+owner thread releases mutex lock
+thread acquires mutex lock
+| Operating System Concepts-10th Edition 7.17 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+‘Q19? Linux Synchronization
+I Linux:
+' Prior to kernel Version 2.6, disables interrupts to
+implement short critical sections
+' Version 2.6 and later, fully preemptive
+I Linux provides:
+' Semaphores
+' atomic integers
+' spinlocks
+. reader-writer versions of both
+I On single-cpu system, spinlocks replaced by enabling and
+disabling kernel preemption
+Jail
+I Operating System Concepts-10‘h Edition 7.18 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+/= We'd \ I I I
+L|nux Synchronlzatlon
+I Atomic variables
+atomic_t is the type for atomic integer
+I Consider the variables
+atomio_t counter;
+int value;
+Atomic Operation Eﬁect
+atomic_set(&counter,5); counter = 5
+at0mic_add(10,&counter); counter = counter + 10
+at0mic_sub(4,8zcounter); counter = counter - 4
+at0mic_inc(&counter); counter = counter + 1
+value = atomicn-eadWcounter); value = 12
+Operating System Concepts _ 10th Edition 7_19 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+‘if; y; POSIX Synchronlzatlon
+rigs “
+I POSIX API provides
+' mutex locks
+' semaphores
+. condition variable
+I Widely used on UNIX, Linux, and macOS
+| Operating System Concepts-10th Edition 7.20 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+“g :J’; POSIX Mutex Locks
+I Creating and initializing the lock
+#include <pthread.h>
+pthreachuteiLt mutex;
+/* create and initialize the mutex lock */
+pthreadlnutexjnit (8zmut ex , NULL) ;
+I Acquiring and releasing the lock
+/* acquire the mutex lock */
+pthreadmutexlock (mut ex) ;
+/* critical section */
+/* release the mutex lock */
+pthreadmutex_unlock(&mut ex) ;
+Operating System Concepts _ 10th Edition 721 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+<8??? POSIX Semaphores
+
+I POSIX provides two versions — named and unnamed.
+
+I Named semaphores can be used by unrelated processes, unnamed cannot.
+| Operating System Concepts — 10th Edition 7.22 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+W; POSIX Named Semaphores
+I Creating an initializing the semaphore:
+#include <semaphore.h>
+sem_t *sem;
+/* Create the semaphore and initialize it to 1 */
+sem = sem_0pen("SEM", [J_CREAT, 0666, 1);
+I Another process can access the semaphore by referring to its name SEM.
+I Acquiring and releasing the semaphore:
+/* acquire the semaphore */
+semrwaiﬂsem) ;
+/* critical section */
+/* release the semaphore */
+sem_post ( s em) ;
+Operating System Concepts _ 10th Edition 723 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+g‘? l POSIX Unnamed Semaphores
+I Creating an initializing the semaphore:
+#include <semaphore.h>
+semrt sem;
+/* Create the semaphore and initialize it to 1 */
+seminiﬂksem, 0, 1);
+I Acquiring and releasing the semaphore:
+/* acquire the semaphore */
+sem_wait (8zsem) ;
+/* critical section */
+/* release the semaphore */
+sem_post (Sasem) ;
+Operating System Concepts _ 10th Edition 724 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+“*Z POSIX Condltlon Varlables
+I Since POSIX is typically used in C/C++ and these languages do not provide
+a monitor, POSIX condition variables are associated With a POSIX mutex
+lock to provide mutual exclusion: Creating and initializing the condition
+variable:
+pthreadlnutexj mutex;
+pthread_cond_t cond_var;
+pthreadmutexinit (kmuteleULL) ;
+pthread_cond_init (kcond _var , NULL) ;
+| Operating System Concepts-10th Edition 7.25 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+‘*Q? POSIX Condltlon Varlables
+I Thread waiting for the condition a == b to become true:
+pthreadmutex_1ock(&mutex) ;
+while (a != b)
+pﬂlread_cond_wait(Eccondjrar, huntex) ;
+pthreadmutex_mlock (Samutex) ;
+I Thread signaling another thread waiting on the condition variable:
+pthreadmutex_1ock(&mutex) ;
+a = b;
+pthread_cond_signal (&cond_var) ;
+pthreadmutexmnlock(kmutex) ;
+Operating System Concepts _10th Edition 726 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+‘*‘f? k? Java Synchronlzatlon
+I Java provides rich set of synchronization features:
+> Java monitors
+> Reentrant locks
+> Semaphores
+> Condition variables
+| Operating System Concepts — 10th Edition 7.27 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+‘@Z Java Mon |to rs
+I Every Java object has associated with it a single lock.
+I If a method is declared as synchronized, a calling thread must own the
+lock for the object.
+I If the lock is owned by another thread, the calling thread must wait for the
+lock until it is released.
+I Locks are released when the owning thread exits the synchronized
+method.
+Operating System Concepts — 10‘h Edition 7.28 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+/ .M-m'“
+\3-1 unded Buffer — Java Synchronlzatlon
+public class BoundedBuffer<E>
+{
+private static final int BUFFERBIZE = 5;
+private int count, in, out;
+private E[] buffer;
+public BoundedBufferO {
+count = 0;
+in = 0;
+out = 0;
+buffer = (EU) new Object [BUFFEILSIZE];
+}
+/* Producers call this method */
+public synchronized void insert(E item) {
+/* See Figure 7.11 */
+}
+/* Consumers call this method */
+public synchronized E removeO {
+/* See Figure 7.11 */
+}
+}
+Operating System Concepts _ 10m Edition 729 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+“>Z Java Synch ron |zat|on
+I A thread that tries to acquire an unavailable lock is placed in the object’s
+entry set:
+acquire lock —> _
+object
+3 3 3 3 lock
+BOWHGY
+entry set
+| Operating System Concepts — 10th Edition 7.30 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+@Z Java Synchronlzatlon
+I Similarly, each object also has a wait set.
+I When a thread calls wait():
+1. lt releases the lock for the object
+2. The state of the thread is set to blocked
+3. The thread is placed in the wait set for the object
+acquire lock —> _ wait
+object
+Bowner
+|—|—| |—|—|
+entry set wait set
+Operating System Concepts — 10th Edition 7.31 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+(‘65' Java Synchronization
+
+I A thread typically calls wait() when it is waiting for a condition to become
+
+true.
+
+I How does a thread get notified?
+
+I When a thread calls notify () :
+
+1. An arbitrary thread T is selected from the wait set
+
+2. T is moved from the wait set to the entry set
+
+3. Set the state of T from blocked to runnable.
+
+I T can now compete for the lock to check if the condition it was waiting for is
+
+now true.
+
+A
+
+I Operating System concepts -1oth Edition 7.32 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+/ .M'w'
+L‘7ffnded Buffer — Java Synchronlzatlon
+/* Producers call this method */
+public synchronized void insert (E item) {
+while (count == BU'FFEPLSIZE) {
+try {
+waitO;
+}
+catch (InterruptedException ie) { }
+}
+buffer[in] = item;
+in = (in + 1) ‘K BUFFERBIZE;
+count++;
+notifyO;
+}
+Operating System Concepts — 10"1 Edition 7.33 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+/ mm ' v
+L‘7ffnded Buffer — Java Synchronlzatlon
+/* Consumers call this method *l
+public synchronized E removeO {
+E item;
+while (count == O) {
+try {
+waitO;
+}
+catch (InterruptedException ie) { }
+}
+item = buffer[out];
+out = (0111: + 1) ‘Z BUFFEFLSIZE;
+count——;
+notifyO;
+return item;
+}
+Operating System Concepts — 10"1 Edition 7.34 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+‘if? é Java Reentrant Locks
+I Similar to mutex locks
+I The finally clause ensures the lock will be released in case an exception
+occurs in the try block.
+Lock key = new ReentrantLock();
+key.lock();
+try {
+/* critical section *l
+}
+finally {
+key. unlockO ;
+}
+| Operating System Concepts- 10"1 Edition 7.35 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+“\b >1; Java Semaphores
+I Constructor:
+Semaphore(int value);
+I Usage:
+Semaphore sem = new Semaphore(1);
+try {
+sem . acquireO ;
+/* critical section */
+}
+catch (InterruptedException ie) { }
+finally {
+s em . release O ;
+}
+Operating System Concepts — 10‘I1 Edition 7.36 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+‘@Z Java Condltlon Varlables
+I Condition variables are associated with an ReentrantLock.
+I Creating a condition variable using newCondition () method of
+ReentrantLock:
+Lock key = new ReentrantLock();
+Condition condVar = key.newCondition();
+I A thread waits by calling the await() method, and signals by calling the
+signal () methOd.
+| Operating System Concepts-10th Edition 7.37 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+“at?” Java Condition Variables
+I Example:
+I Five threads numbered O .. 4
+I Shared variable turn indicating which thread’s turn it is.
+I Thread calls doWork () when it wishes to do some work. (But it may only
+do work if it is their turn.
+I If not their turn, wait
+I If their turn, do some work for awhile
+I When completed, notify the thread whose turn is next.
+I Necessary data structures:
+Lock lock = new ReentrantLock();
+Condition[] condVars = new Condition[5];
+I for (int i = 0; i < 5; i++)
+condVars[i] = lock.newCondition();
+A
+Operating System concepts -1oth Edition 7.38 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+{I Java Condltlon Varlables
+/* threadNumber is the thread that wishes to do some work *l
+public void doWork(int threadNumber)
+
+{
+lock.lock();
+try {
+/**
+* If it’s not my turn, then wait
+* until I’m signaled.
+*/
+if (threadNumber != turn)
+condVars [threadNumber] . awaitO;
+/**
+* Do some work for awhile ...
+*/
+/**
+* Now signal to the next thread.
+*/
+turn = (turn + 1) Z 5;
+condVars [turn] .signalO;
+}
+catch (InterruptedException ie) { }
+finally {
+lock.unlock();
+}
+}
+Operating System Concepts - 10"1 Edition 7.39 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Q53}? Alternatlve Approaches
+mm "
+I Transactional Memory
+I OpenMP
+I Functional Programming Languages
+| Operating System Concepts-10th Edition 7.40 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+My)’ Transactlonal Memory
+I Consider a function update() that must be called atomically. One
+option is to use mutex locks:
+void update ()
+{
+acquire();
+/* modify shared data */
+release();
+}
+I A memory transaction is a sequence of read-write operations
+to memory that are performed atomically. A transaction can be
+completed by adding atomic{S} which ensure statements in s
+are executed atomicallv
+void update ()
+{
+atomic {
+/* modify shared data */
+}
+} _
+\
+Operating System Concepts — 10th Edition 7.41 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:42**************
+t4)?’ Open M P
+I OpenMP is a set of compiler directives and API that support
+parallel progamming.
+void update(int value)
+{
+#pragma omp critical
+{
+count += value
+}
+}
+The code contained within the #pragma omp critical directive
+is treated as a critical section and performed atomically.
+Operating System Concepts — 10th Edition 7.42 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+QM Functlonal Programmlng Languages
+I Functional programming languages offer a different paradigm
+than procedural languages in that they do not maintain state.
+I Variables are treated as immutable and cannot change state
+once they have been assigned a value.
+I There is increasing interest in functional languages such as
+Erlang and Scala for their approach in handling data races.
+| Operating System Concepts-10th Edition 7.43 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:44**************
+Operating System Concepts - 10th Edition Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+

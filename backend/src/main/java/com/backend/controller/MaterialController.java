@@ -2,6 +2,7 @@ package com.backend.controller;
 
 
 import com.backend.model.Course;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.backend.dto.MaterialDTO;
@@ -17,9 +18,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.HandlerMapping;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -97,10 +101,35 @@ public class MaterialController {
         return ResponseEntity.ok(materials);
     }
 
-    @GetMapping("/path/cursuri/{courseTitle}/{courseName}")
-    public ResponseEntity<Resource> getPDF(@PathVariable String courseTitle, @PathVariable String courseName) {
-        logger.info("Received request to get PDF for course: '{}' with name: {}", courseTitle, courseName);
+    @GetMapping("/path/**")
+    public ResponseEntity<Resource> getPDF(HttpServletRequest request) {
         try {
+
+            String fullPath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+            String bestMatchPattern = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+            String remainingPath = new AntPathMatcher().extractPathWithinPattern(bestMatchPattern, fullPath);
+
+            List<String> path = Arrays.stream(remainingPath.split("/")).toList();
+
+            if (path.get(0) == null || !path.get(0).equals("cursuri")) {
+                logger.error("Invalid path. First word should be cursuri");
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            String courseTitle = path.get(1);
+            if (courseTitle == null) {
+                logger.error("Invalid path. Second word should be a course title!");
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            String courseName = path.get(path.size() - 1);
+            if (courseName == null || !courseName.endsWith(".pdf")) {
+                logger.error("Invalid path. Last word should be a course name with \".pdf\" at the end!");
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            logger.info("---Successful---{} and {}",courseName,courseTitle);
+
             Course course = courseService.findByTitle(courseTitle);
             if(course == null) {
                 logger.error("Course '{}' not found", courseTitle);
@@ -135,7 +164,6 @@ public class MaterialController {
                     .body(pdfResource);
 
         } catch (Exception e) {
-            logger.error("Unexpected error while retrieving PDF for course '{}' with name '{}': {}", courseTitle, courseName, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
