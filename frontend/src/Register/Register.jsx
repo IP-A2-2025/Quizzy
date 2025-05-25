@@ -10,7 +10,8 @@ function Register() {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'student' // Default role
+        role: 'student', // Default role
+        professorSecret: ''
     });
     const [showPassword, setShowPassword] = useState(false);
     const [mesaj, setMesaj] = useState('');
@@ -188,6 +189,27 @@ function Register() {
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
                     />
+
+                    <select
+                        name="role"
+                        value={formData.role}
+                        onChange={handleInputChange}
+                        className="role-select"
+                    >
+                        <option value="student">Student</option>
+                        <option value="profesor">Profesor</option>
+                    </select>
+
+                    {formData.role === "profesor" && (
+                        <input
+                            type="text"
+                            name="professorSecret"
+                            placeholder="Professor secret"
+                            value={formData.professorSecret || ''}
+                            onChange={handleInputChange}
+                            className="professor-secret-input"
+                        />
+                    )}
 
                     <div className="register-buttons">
                         <button
