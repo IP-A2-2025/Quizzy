@@ -6,6 +6,7 @@
 - **macOS**: Instalează [Docker Desktop](https://www.docker.com/products/docker-desktop) și pornește-l.
 - **Linux**: Instalează Docker Engine și Docker Compose ([ghid aici](https://docs.docker.com/engine/install/)).
 
+
 ## Cum rulezi proiectul
 
 1. Asigură-te că Docker este pornit.
