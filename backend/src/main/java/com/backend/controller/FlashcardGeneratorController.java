@@ -16,9 +16,9 @@ public class FlashcardGeneratorController {
     public ResponseEntity<String> generateFlashcards() {
         try {
             flashcardBatchGenerator.generateAllFlashcards();
-            return ResponseEntity.ok("✅ Generarea flashcard-urilor s-a încheiat cu succes!");
+            return ResponseEntity.ok("Generarea flashcard-urilor s-a încheiat cu succes!");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("❌ Eroare la generarea flashcard-urilor: " + e.getMessage());
+            return ResponseEntity.status(500).body("Eroare la generarea flashcard-urilor: " + e.getMessage());
         }
     }
 }
