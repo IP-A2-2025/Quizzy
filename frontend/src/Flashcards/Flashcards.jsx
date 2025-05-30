@@ -7,6 +7,8 @@ const Flashcards = () => {
     const navigate = useNavigate();
     const { courseId, materialId } = useParams();
 
+    const userId = localStorage.getItem('userId');
+
     // State pentru flashcards - removed loading state
     const [flashcards, setFlashcards] = useState([]);
     const [error, setError] = useState(null);
@@ -207,11 +209,14 @@ const Flashcards = () => {
             officialAnswer: current.answer,
             usersAnswer: inputText
         });
+
         try {
             const res = await api.post('/api/gemini/compare-users-answer-to-the-official-answer', {
                 question: current.question,
                 officialAnswer: current.answer,
-                usersAnswer: inputText
+                usersAnswer: inputText,
+                flashcardId: current.id,
+                userId: userId
             });
             setScore(res.data);
         } catch (err) {
