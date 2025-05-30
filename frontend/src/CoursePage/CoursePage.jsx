@@ -149,7 +149,8 @@ function CoursePage() {
   }
   const handleStartLearning = () => {
     if (materials.length > 0 && materials[0].id) {
-      navigate(`/flashcards/${materials[0].id}`)
+      // CHANGED: Pass courseId (which is 'id' from useParams) to the flashcards route
+      navigate(`/flashcards/${id}/${materials[0].id}`)
     } else {
       setNotification("Nu există materiale cu flashcard-uri disponibile.")
     }

@@ -5,17 +5,16 @@ import { api } from '../utils/api';
 
 const Flashcards = () => {
     const navigate = useNavigate();
-    const { materialId } = useParams(); // dacă dorești să preiei flashcards după materialId din URL
+    const { courseId, materialId } = useParams();
 
-    // State pentru flashcards
+    // State pentru flashcards - removed loading state
     const [flashcards, setFlashcards] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Statele existente
+    // Statele existente - UPDATED for multi-select
     const [index, setIndex] = useState(0);
     const [showAnswer, setShowAnswer] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOptions, setSelectedOptions] = useState([]); // Changed from selectedOption to array
     const [feedbackMessage, setFeedbackMessage] = useState(null);
     const [ratings, setRatings] = useState([]);
     const [showKeyboardInput, setShowKeyboardInput] = useState(false);
@@ -30,25 +29,19 @@ const Flashcards = () => {
         "-1": "#CCCCCC" // Default - Gray (not rated)
     };
 
-    // Preluăm flashcards de la API
+    // UPDATED: Enhanced data processing for multi-select support
     useEffect(() => {
         const fetchFlashcards = async () => {
             try {
-                setLoading(true);
                 let response;
 
-                // Verificăm dacă avem materialId pentru a face cererea corespunzătoare
                 if (materialId) {
                     response = await api.get(`/Flashcard/material/${materialId}`);
                 } else {
-                    // Dacă nu avem materialId, luăm toate flashcards-urile
-                    // Sau poți înlocui cu userId dacă vrei să le filtrezi după user
                     response = await api.get('/Flashcard');
                 }
 
-                // Procesăm datele primite pentru a le face compatibile cu componenta
                 const processedFlashcards = response.data.map(card => {
-                    // Procesăm răspunsurile
                     const processedCard = {
                         id: card.id,
                         question: card.question,
@@ -57,13 +50,26 @@ const Flashcards = () => {
                         questionType: card.questionType
                     };
 
-                    if (card.questionType === 'Multiple') {
+                    if (card.questionType === 'Multiple' || card.questionType === 'MultipleSelect') {
                         const options = card.answers.map(answer => answer.optionText);
-                        const correctAnswer = card.answers.find(answer => answer.correct)?.optionText;
+
+                        // For multi-select, get all correct answers as an array
+                        if (card.questionType === 'MultipleSelect') {
+                            const correctAnswers = card.answers
+                                .filter(answer => answer.correct)
+                                .map(answer => answer.optionText);
+                            processedCard.correctAnswers = correctAnswers;
+                            processedCard.isMultiSelect = true;
+                        } else {
+                            // For single select, keep existing logic
+                            const correctAnswer = card.answers.find(answer => answer.correct)?.optionText;
+                            processedCard.correctAnswer = correctAnswer;
+                            processedCard.correctAnswers = [correctAnswer]; // Also store as array for consistency
+                            processedCard.isMultiSelect = false;
+                        }
+
                         processedCard.options = options;
-                        processedCard.correctAnswer = correctAnswer;
                     } else {
-                        // Caută fie .text, fie .optionText
                         processedCard.answer = card.answers.find(answer => answer.correct)?.text ||
                             card.answers.find(answer => answer.correct)?.optionText ||
                             card.answers[0]?.text ||
@@ -76,18 +82,15 @@ const Flashcards = () => {
 
                 setFlashcards(processedFlashcards);
                 setRatings(Array(processedFlashcards.length).fill(-1));
-                setLoading(false);
             } catch (err) {
                 console.error('Error fetching flashcards:', err);
                 setError('Failed to load flashcards. Please try again later.');
-                setLoading(false);
             }
         };
 
         fetchFlashcards();
     }, [materialId]);
 
-    // Detectăm dispozitivul mobil (cod existent)
     useEffect(() => {
         const checkScreenSize = () => {
             setIsMobile(window.innerWidth <= 480);
@@ -107,7 +110,7 @@ const Flashcards = () => {
         if (index < flashcards.length - 1) {
             setIndex(index + 1);
             setShowAnswer(false);
-            setSelectedOption(null);
+            setSelectedOptions([]); // Reset to empty array
             setFeedbackMessage(null);
             setShowKeyboardInput(false);
             setScore(null);
@@ -119,7 +122,7 @@ const Flashcards = () => {
         if (index > 0) {
             setIndex(index - 1);
             setShowAnswer(false);
-            setSelectedOption(null);
+            setSelectedOptions([]); // Reset to empty array
             setFeedbackMessage(null);
             setShowKeyboardInput(false);
             setScore(null);
@@ -127,13 +130,40 @@ const Flashcards = () => {
         }
     };
 
+    // UPDATED: Handle both single and multi-select
     const handleOptionSelect = (option) => {
         if (showAnswer) return;
 
-        setSelectedOption(option);
+        if (current.isMultiSelect) {
+            // Multi-select logic
+            const newSelectedOptions = selectedOptions.includes(option)
+                ? selectedOptions.filter(opt => opt !== option)
+                : [...selectedOptions, option];
+            setSelectedOptions(newSelectedOptions);
+        } else {
+            // Single select logic (existing behavior)
+            setSelectedOptions([option]);
+            setShowAnswer(true);
+
+            if (option === current.correctAnswer) {
+                setFeedbackMessage("Correct!");
+            } else {
+                setFeedbackMessage("Wrong!");
+            }
+        }
+    };
+
+    // NEW: Submit multi-select answers
+    const handleMultiSelectSubmit = () => {
+        if (selectedOptions.length === 0) return;
+
         setShowAnswer(true);
 
-        if (option === current.correctAnswer) {
+        // Check if selected answers match correct answers exactly
+        const isCorrect = selectedOptions.length === current.correctAnswers.length &&
+            selectedOptions.every(option => current.correctAnswers.includes(option));
+
+        if (isCorrect) {
             setFeedbackMessage("Correct!");
         } else {
             setFeedbackMessage("Wrong!");
@@ -150,7 +180,7 @@ const Flashcards = () => {
         setRatings(Array(flashcards.length).fill(-1));
         setIndex(0);
         setShowAnswer(false);
-        setSelectedOption(null);
+        setSelectedOptions([]); // Reset to empty array
         setFeedbackMessage(null);
         setShowKeyboardInput(false);
         setScore(null);
@@ -174,18 +204,14 @@ const Flashcards = () => {
         setShowAnswer(true);
         console.log('Sending:', {
             question: current.question,
-            //officialAnswer: "Coada functioneaza pe principiul first-in-first-out, pe cand stiva merge pe principiul last-in-first-out",
             officialAnswer: current.answer,
             usersAnswer: inputText
         });
         try {
-            const res = await api.post('/api/gemini/compare-users-answer-to-the-official-answer',  {
-
-                    question: current.question,
-                    //officialAnswer: "Coada functioneaza pe principiul first-in-first-out, pe cand stiva merge pe principiul last-in-first-out",
-                    officialAnswer: current.answer,
-                    usersAnswer: inputText
-
+            const res = await api.post('/api/gemini/compare-users-answer-to-the-official-answer', {
+                question: current.question,
+                officialAnswer: current.answer,
+                usersAnswer: inputText
             });
             setScore(res.data);
         } catch (err) {
@@ -195,10 +221,9 @@ const Flashcards = () => {
     };
 
     const navigateBack = () => {
-        navigate('/graph-algorithms');
+        navigate(`/course/${courseId}`);
     };
 
-    if (loading) return <div className="flashcard-app"><div className="loading">Loading flashcards...</div></div>;
     if (error) return <div className="flashcard-app"><div className="error">{error}</div></div>;
     if (flashcards.length === 0) return <div className="flashcard-app"><div className="no-flashcards">No flashcards available.</div></div>;
 
@@ -231,24 +256,47 @@ const Flashcards = () => {
 
                     {current.options ? (
                         <div className="flashcard-options-container">
-                            <div className="instruction-text">Select 1 correct answer</div>
+                            <div className="instruction-text">
+                                {current.isMultiSelect
+                                    ? `Select ${current.correctAnswers.length} correct answers`
+                                    : "Select 1 correct answer"
+                                }
+                            </div>
 
-                            <div className="flashcard-options">
+                            <div className={`flashcard-options ${current.isMultiSelect ? 'multi-select' : ''}`}>
                                 {current.options.map((option, i) => {
-                                    const isCorrect = showAnswer && option === current.correctAnswer;
-                                    const isWrong = showAnswer && option !== current.correctAnswer;
+                                    const isCorrect = showAnswer && current.correctAnswers.includes(option);
+                                    const isWrong = showAnswer && !current.correctAnswers.includes(option) && selectedOptions.includes(option);
+                                    const isSelected = selectedOptions.includes(option);
 
                                     return (
                                         <div
                                             key={i}
                                             onClick={() => handleOptionSelect(option)}
-                                            className={`option-card ${isCorrect ? 'correct' : ''} ${isWrong && showAnswer ? 'incorrect' : ''} ${selectedOption === option && !showAnswer ? 'selected' : ''}`}
+                                            className={`option-card ${current.isMultiSelect ? 'multi-select-option' : 'single-select-option'} ${isCorrect ? 'correct' : ''} ${isWrong ? 'incorrect' : ''} ${isSelected && !showAnswer ? 'selected' : ''}`}
                                         >
-                                            {option}
+                                            {current.isMultiSelect && (
+                                                <div className={`checkbox ${isSelected ? 'checked' : ''}`}>
+                                                    {isSelected && '✓'}
+                                                </div>
+                                            )}
+                                            <span className="option-text">{option}</span>
                                         </div>
                                     );
                                 })}
                             </div>
+
+                            {/* Submit button for multi-select questions */}
+                            {current.isMultiSelect && !showAnswer && selectedOptions.length > 0 && (
+                                <div className="submit-multiselect-container">
+                                    <button
+                                        className="submit-multiselect-btn"
+                                        onClick={handleMultiSelectSubmit}
+                                    >
+                                        Submit ({selectedOptions.length} selected)
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <>
