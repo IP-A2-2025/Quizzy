@@ -1,0 +1,429 @@
+***************Beginning Page***************
+***************page number:1**************
+Designing and Understanding Sorting Algorithms I
+
+Dorel Lucanu
+
+Faculty of Computer Science
+Alexandru loan Cuza University, lasi, Romania
+dlucaaninfo.uaic.ro
+
+PA 2021/2022
+m 51 - '= :E J) q O
+Designing and Understanding Sorting Algorit PA 2021/2022 1/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+0 B u bbleSort
+e insertSort
+a H ea pSort
+El r51 _ _= :E J) Q G
+Designing and Understanding Sorting Algorit PA 2021/2022 2/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+P | a n
+a B u bbleSort
+insertSort
+H ea pSort
+El r51 _ _= :E J) q G
+Designing and Understanding Sorting Algorit PA 2021/2022 3/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+BubbleSort 1/2
+A possible deﬁnition for SORTED(a)
+SORTED(a) (:> Vi.(0 g i < n — 1) :> a[i] g a[i + 1]
+where n : a.size(). (This is a part of the problem domain.)
+From the problem domain to the algorithm:
+for (i=0; i < n-l; ++i) {
+if (a[i] > a[i+1]) {
+swap (a, i, 1+1);
+(a[i] > a[i+1]) is called inversion
+El 5' i E :5 ‘)QQ
+Designing and Understanding Sorting Algorit PA 2021/2022 4/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+BubbleSort 2/2
+The process from the previous slide must be repeated until no more
+inversions exist:
+while (there are possible more inversions) {
+for (i=0; i < n-1; ++i) {
+if (a[i] > a[i+1]) {
+swap (a, i, 1+1);
+}
+El r51 i E :5 QQQ
+Designing and Understanding Sorting Algorit PA 2021/2022 5/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+BubbleSort: the algorithm
+bubbleSort(out a) {
+last = a.size()—1; .
+while (last > 0) :SkIthwut a’ 1)
+{ . . .
+>
+oldLast = last; 1f (a[1] a[i+1]) {
+_ temp = a[1];
+1 = O; a[i] = a[i+1]'
+while (i < oldLast) , ’
+{ a[1+1] = temp;
+last = askIth(a, i); } return 1;
+i = i + 1;
+} return 0;
+} }
+}
+m a , E 2 \oqo
+Designing and Understanding Sorting Algorit PA 2021/2022 6/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Understanding the algorithm BubbleSort 1/4
+A full specification of askIthO
+askIth(out a:array<int>, izint) : int
+@requires a.size() > O && O <= i && i < a.size()—1
+@ensures a[i] <= a[i+1]
+@ensures \result > O ==> \result == i
+if (a[i] > a[i+1])
+temp = a[i];
+a[i] = a[i+1];
+a[i+1] = temp;
+return i;
+return 0;
+El 5' ' _= :E ‘)QG
+Designing and Understanding Sorting Algorit PA 2021/2022 7/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Understanding the algorithm BubbleSort 2/4
+An invariant of the inner while:
+bubbleSort(out a: array<int>) {
+last = a.size()—1;
+while (last > O)
+{
+oldLast = last;
+i = O;
+while (i < oldLast)
+©invariant forall jzint :z
+O <=j < i ==> a[j] <= a[i];
+{
+last = askIth(a, i);
+i = i + 1;
+1'
+@assert forall jzint ::
+O <= j < oldLast ==> a[j] <= aoldLast];
+}
+1'
+cl a] - '= :5 QQO
+Designing and Understanding Sorting Algorit PA 2021/2022 8/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Understanding the algorithm BubbleSort 3/4
+An invariant of the outer while:
+bubbleSort(out a: array<int>) {
+last = a.size()—1;
+while (last > 0)
+@invariant forall jzint :2 forall kzint z:
+0 <= j <= last < k < a.size() ==> a[j] <= aEk];
+{
+oldLast = last;
+i = O;
+while (i < oldLast)
+{
+last = askIth(a, i);
+i = i + 1;
+1-
+}
+1-
+:l 51 - '= I: QQO
+Designing and Understanding Sorting Algorit PA 2021/2022 9/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Understanding the algorithm BubbleSort 4/4
+An invariant of the outer while:
+bubbleSort(out a: array<int>) {
+last = a.size()—1;
+while (last > 0)
+@invariant forall jzint :2 forall kzint z:
+last <= j < k < a.size() ==> a[j] <= aEk];
+{
+oldLast = last;
+i = O;
+while (i < oldLast)
+{
+last = askIth(a, i);
+i = i + 1;
+1-
+}
+1-
+:l 51 - '= I: QQO
+Designing and Understanding Sorting Algorit PA 2021/2022 10/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+P | a n
+B u b bl eSOrt
+a insertSort
+H ea pSort
+El 5' _ _= :E J) q G
+Designing and Understanding Sorting Algorit PA 2021/2022 11/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+InsertSort 1/2
+Basic principle
+for j from [1..n-1]
+insert a[j] in a[0..j—1] s.t. SORTED(a[O..j])
+(This is pseudo-code!)
+:l a] - -= :5 mu»
+Designing and Understanding Sorting Algorit PA 2021/2022 12/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+InsertSort 2/2
+Problem domain analysis
+The position i where a[i] to be inserted:
+o i:jifa[j]Za[/'—1];
+o i= 0 if a[i] < a[O];
+o 0<i<jand a[i-1]§a[i]<a[i]
+:> a[i..j—1] must be moved to right one position!
+— the condition for moving to right: i Z 0 /\ a[i] > a[i]
+Algorithmically:
+i = j - 1;
+temp = a[j];
+While ((i >= O) 8686 (a[i] > temp)) {
+a[i+1] = a[i];
+i = i -1;
+}
+cl 51 t E :2 qu
+Designing and Understanding Sorting Algorit PA 2021/2022 13/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+InsertSort: the algorithm
+insertSort(0ut a, n) {
+for (j=1;j<n; j=j+1){
+i = j - 1;
+temp = a[j];
+while ((i >= 0) && (temp < a[i])) {
+a[i+1] = aEi];
+i = i - 1;
+}
+if (i != j-l) a[i+1] = temp;
+}
+}
+Note. It requires short-circuit evaluation for boolean expressions.
+cl 51 , E :2 oqo
+Designing and Understanding Sorting Algorit PA 2021/2022 14/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Understandlng the algorlthm InsertSort
+insertSort(out a: array<float>) {
+J' = 1;
+while (j < a.size())
+@invariant forall k: int :: forall 1: int z:
+0 <= k && k <= 1 && 1 <j-1 ==> a[k] <= a[l]
+{
+i = j — 1;
+temp = a[j];
+while ((i >= 0) && (temp < a[i]))
+@invariant forall k: int z:
+i < k && k <= j ==> a[k] >= temp;
+{
+a[i+1] = a[i];
+i = i — 1;
+}
+if (i != j-1) a[i+1] = temp;
+j = 3+1;
+}
+}
+m a - E E *OQG
+Designing and Understanding Sorting Algorit PA 2021/2022 15/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+P | a n
+B u b bl eSOrt
+insertSort
+e H ea pSort
+\I' 5' ' _= :E J) R G
+Designing and Understanding Sorting Algorit PA 2021/2022 16/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+HeapSort
+Problem domain analysis The property MAXHEAP(a):
+(Vi Z O)2i + 1 < n :> a[i] Z a[2i + 1)/\
+2(i + 1) < n :> a[i] Z a[2(i + 1))
+
+ll/IAXHEAP(a) 2 maxa I a[O]
+The main idea of the algorithm:
+
+o establish MAXHEAP(a);
+
+o if we do the interchange swap(a,0,n—1), the new value a[n — 1] is
+
+on its final position and the remained array to be sorted is a[O..n i 2];
+o a[O..n — 2] is sorted in the same manner.
+Designing and Understanding Sorting Algorit PA 2021/2022 17/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+More algorithmically
+heapSort(out a, n) {
+establish MAXHEAP( a)
+for (r = n-1; r > O; ——r) {
+swap(a, O, r);
+re-establish MAXHEAP( a[0..r — 1])
+}
+(This is pseudocode!)
+El 5' i E :5 QQG
+Designing and Understanding Sorting Algorit PA 2021/2022 18/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Establishing the max-heap property
+Problem domain
+o MAXHEAP(a,£):
+Vi Z £.2i+ 1 < n :> a[i] Z a[2i+ 1)/\
+2(i + 1) < n :> a[i] Z a[2(i+ 1))
+0 Z Z n/2 :> MAXHEAP(a,£)
+0 if MAXHEAP(a,£ — 1) the we obtain MAXHEAP(a,£) inserting
+a[£ — 1] in a[£..n — 1]
+Algorithmically:
+j = E;
+while (exists children 0f j) {
+k = the index of the child with the maximum value;
+if (a[j] < a[k]) swap(a, j, k);
+J' = k;
+} , ,
+U 5' ’ I 5 QQG
+Designing and Understanding Sorting Algorit PA 2021/2022 19/22
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+HeapSort: the algorlthm
+insertInHeap(out a, n, K) {
+isHeap = false; j = E;
+while (2*j+1 <= n-1 && ! isHeap) {
+k = 2*j +1;
+if ((k < n-1) && (a[k] < a[k+1])) k = k+1;
+if (a[j] < a[k]) swap(a, j, k); else isHeap = true;
+J' = k;
+}
+}
+Note. It requires short-circuit evaluation for boolean expressions.
+heapSort(out a, n) {
+for (l = (n-1)/2; l >= O; l = l-l)
+insertInHeap(a, n, l);
+r = n-l;
+while (r >= 1) {
+swap(a, 0, r);
+insertInHeap(a, r, 0);
+r = r — 1;
+}
+} m a r E 2 \oqe
+Designing and Understanding Sorting Algorit PA 2021/2022 20/22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Understanding HeapSort 1/2
+Understanding lnsertlnHeap:
+nsertInHeap(out a, n, E) {
+©requires: MAXHEAP(a,€ + 1)
+@ensures MAXHEAP( 21,5)
+isHeap = false; j = E;
+while (2*j+1 <= n-l && ! isHeap)
+@invariant V i. E g i< n /\ 1'73]? MAXHEAP(a., i);
+{
+k = 2*j +1;
+if ((k < 11-1) 8686 (a[k] < a[k+1])) k = k+1;
+if (a[j] < a[k]) swap(a, j, k); else isHeap = true;
+j = k;
+}
+}
+cl a] , E :5 eqe
+Designing and Understanding Sorting Algorit PA 2021/2022 21/22
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:22**************
+Understanding HeapSort 1/2
+heapSort(out a, n) {
+for (l = (n-1)/2; 1 >= 0; l = l—1)
+(Qinvariant MAXHEAP(a, / + 1);
+insertInHeap(a, n, l);
+r = n-l;
+while (r >= 1)
+@invariant MAXHEAP(a[O..r])/\ SORTED(a[r..n]);
+(Qinvariant V i,j.0§i§r/\r <j < n :> a[i] < 2U];
+{
+swap(a, O, r);
+insertInHeap(a, r, O);
+r = r — 1;
+}
+}
+:I a] - '= I: mu»
+Designing and Understanding Sorting Algorit PA 2021/2022 22/22
+
+***************Ending Page***************
+
+
+

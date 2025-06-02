@@ -1,0 +1,3291 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 3
+Gavrilut Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+1. Enums
+2. Error management
+1. Panic
+2. Option
+3. Result
+3. if let/ let else / While let
+4. Question mark operator
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Enums
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+“whﬁ -.
+
+*- En u ms
+Enums in Rust are quite different that a classical concept of enums
+from C/C++.
+
+The format (in terms of keywords) is however similar:
+Rust
+< {
+}
+Similarly, to access a value from the enumeration use
+<enum_name>::value
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+t?‘
+E n u m s
+Let's see some examples:
+Rust
+{ error[E9369]: binary operation ‘==‘ cannot be applied to type ‘Color‘
+--> src\main.rs:7:10
+Red,Green,Blue,White,Black, |
+7 | if c == Color::Red {
+
+} | - AA ---------- Color
+
+main() { | |
+
+c = ::Red; l CMDP
+i-F C == 1 :Red { note: an implementation o-F ‘PartialEq<_>‘ might be missing -For ‘Color‘
+println!("Color is red"); ']>SM“M1WP$21
+} 2 | enum Color {
+| AAAAAAAAAA must implement ‘PartialEq<_>‘
+} help: consider annotating ‘Color‘ with ‘#[derive(PartialEq)]‘
+I _ 2 l #[derive(PartialEq)]
+
+The code won t compile I
+because unlike C/C++ an enum is not implicitly associated with an int
+value, and as such can not be compared with another type !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+t?‘
+En u rns
+While initially the tendency is to consider these two pieces of code as
+equivalents, in reality, their behavior is quite different.
+Rust C/C++
+{
+
+Red,GPeen,Blue,White,Black, {
+} J J J J
+
+. };
+
+maln<> { c = ::Red; main() {
+
+if c =f ::Red {. if (Ccz: 2; 3
+
+} pr1nt1n!( Color lS red )3 printf("Color is Red");
+} }
+
+—w
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Enums
+This is because in Rust, an enum is more similar to a C++ class than to
+C/C++ enum type.
+
+Rust C/C++
+enum Color { class Color
+Red,Green,Blue,White,Black, {
+} int value;
+public:
+
+- - - - constexph static int Red = 6;
+This IS a better apprOXImation of constexpp static int Gpeen = 1;
+hOW RUSt enums work. constexpr‘ static int Blue = 2;
+
+constexph static int White = 3;
+constexph static int Black = 4;
+Color(int v) : value(v) {}
+
+};
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+t?‘
+E n u rn s
+Let's see how the new example in C/C++ compiles.
+C/C++
+{ gest.cpp(;32,8): Error‘ C2676: binary '==': 'Colon'
+oes not e ine t is o enator‘ or‘ a conversion to a
+value; type acceptable to theppnedefined operator‘
+Red = @s So What happened ?
+Green = 1;
+Blue = 2;
+White = 3;
+Black = 4;
+Colon( v) : value(v) {}
+};
+main() {
+c = ::Red;
+if (c == ::Red)
+pnintf("Colon is Red");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Let's see how the new example in C/C++ compiles.
+C/C++
+{ Test.cpp(13@,8): error C2676: binary '==': 'Color'
+does not define this operator or a conversion to a
+value; type acceptable to the predefined operator
+Red = 9; So What happened ?
+Green = 1;
+Blue = 2;
+White = 3;
+Black = 4;
+= value<v> {}
+};
+main
+if (c == ::Red) Color c(Color::Red);
+printf("Color is Red");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+E n u rn s
+Let's see how the new example in C/C++ compiles.
+C/C++
+{
+does not define this operator or a conversion to a
+value; type acceptable to the predefined operator
+Red = 9; So What happened ?
+Green = 1;
+Blue = 2;
+White = 3;
+Black = 4;
+Color( v) : value(v) {}
+};
+main() {
+c = ::Red'
+it
+printf("Color is Red");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+t?‘
+En u ms
+Let's see how the new example in C/C++ compiles.
+C/C++
+{ Now the code
+value; m COmpliES and
+Red = a; produces the
+Green = 1; expected output.
+Blue = 2;
+White = 3;
+Black = 4;
+Color v : value v
+};
+main() {
+c = ::Red;
+if (c == ::Red) printf("Color is Red");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+t?‘
+En u ms
+So, what does the previous example means for our Rust code:
+Rust
+{
+Red,GPeen,Blue,White,Black,
+}
+main() {
+c = ::Red;
+if c == ::Red {
+println!("ColoP is red");
+}
+}
+It means that we need to add a way to compare two Color objects, if
+we want this program to compile and run as expected.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+t?‘
+En u ms
+So, What does the previous example means for our Rust code:
+Rust
+M
+{
+}
+main() {
+c = ::Red;
+if c == ::Red {
+println!("ColoP is red");
+}
+}
+Now the code runs and works as expected.
+But what is that - formula on top of the enum declaration ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+,,Eii E ii U rn S
+The pound sign (I) followed by I is the way Rust adds attributes for:
+' Various declarations (structures, enums, etc)
+' Methods orfunctions
+' The entire program
+Attributes will be studied in another course, but they can be used for
+several things:
+' To provide metadata about an object (version, name, docs, etc)
+' To set up the configuration the compiler/linker should use when building an
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+a» -.
+*- En u ms
+# derive(-)] means automatically implementing a trait called
+into a structure / class / enum / etc. Automatically in this
+context means different things based on the trait.
+In particular for an enum, we have used — 9
+meaning that we will implement the PartiaIEq trait for that enum.
+For a type (let's call it SomeType) a PartiaIEq implementation means
+adding to functions (eq ¢> equality) and (ne <i> not equal)
+Rust
+{
+eq(& , other: & ) —> { m }
+ne(& , other: & ) —> { m }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+- '- En u ms
+The C++ approximation is using operator overloading to do the exact
+same thing:
+
+Rust
+
+impl PartialEq for SomeType {
+Fn eq(&self, other: &SomeType) —> bool { m }
+Fn ne(&self, other: &SomeType) —> bool { m }
+
+}
+
+C++
+
+class SomeType
+
+{
+
+public:
+bool operator == (const SomeType& other) {...}
+bool operator != (const SomeType& other) {...}
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+So why PartiaIEQ and not just EQ ?
+
+Well -> lets start with what equality means (or more precisely equivalence).
+We define a binary relation I as an equivalence relation, if and only if it is:
+
+a) Reflexive 9-
+
+b) Symmetric -) -if and only if-
+
+c) Transitive -) if-qnd-then- __
+ln practice, not all binary relations reflect an equivalence relation (main due to the
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+"® E n u m s
+For example, if we are to look on 32 bytes floating value, and in particular
+to how NaN is represented on IEEE 754 format, then we can deduce the
+followings:
+?11111111???????????????????????
+' In reality, there are 224 possibilities to write a NaN
+' So if you compare two NaN(s) via a bit check, they may be different, but they are
+both NaN
+' As such, a bit-by-bit comparison between two numbers will not be reflexive (for
+' While there are solutions (such as compare only some bits), adding this type of lo
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+it»- .-_
+*- En u ms
+Let's see how a simple enum looks like in memory ?
+Rust
+enum Color { _
+Ree, eee,e1ee, White, eleek
+}
+fn main() {
+println!("size of Color = {}",std::mem::size_of::<Color>());
+}
+So one difference from C/C++ is that outside any other specifications,
+a simple/small enum looks more like an u8/i8 value than an int (the
+way it is treated in C/C++).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+'® Enums
+Let's see how a simple enum looks like in memory ?
+< >
+{ Red, Green, Blue, lea ch,[c]
+White, Black } lea de,[offset to a Color::White object]
+() { call Partialquzeq
+c = ::Red; mov byte ptr [temp_value],al
+c == ::White { mov al,byte ptr [temp_value]
+println!("Color is white"); test al,1
+} jne print_something
+} jmp end_program A
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+V? En u ms
+Let's see how a simple enum looks like in memory ?
+( ) mov b te ntr c 9
+{ Red, Green, Blue, lea ch,[c]
+White, Black } lea de,[offset to a Color::White object]
+() { call Partialquzeq
+c = ::Red; mov b te ntr temn value al
+c == ::White { mov al,byte ptr [temp_value]
+pnintln!("Colon is white"); test al,1
+} jne pnint_something
+} jmp end_prognam A
+' Next we need to call eq method from Pa rtialEQ with two parameters
+(se't - denOted by RCX register that hO'dS the address 0t "5’) and a
+reference (offset of another object of type Color to compare a galn
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+® Enums
+Offset Value
+Let's see how a simple enum looks like in memory ?
+( ) mov byte ptr [c],9
+{ Red, Green, Blue, lea PCX, c
+White, Black } lea hdx,[offset to a Color::White object]
+() { call Partla qzzeq
+c = ::Red; mov byte ptr [temp_value],al
+c == ::White { mov al,byte ptP [temp_value]
+pPintln!("COlOP is white"); test al,1
+} jne phint_something
+} jmp end_progham A
+' This offset points to a static address where the value "3” (u8) is
+located. Why 3? Well 9 Red = 0, Green = 1, Blue = 2, —White = 3 an
+since we compare "c" with Color::White, the object has to be a "3’_'
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Let's see how a simple enum looks like in memory ?
+sub PSp,28h
+mov qword ptr [PSp+8],l"CX // sel-F mov byte ptp [c119
+mov qword ptr [Psp+10h],r‘dx // other 1
+movzx eax,byte ptr‘ [ch] E8 PCX’ [C] _ .
+mov qwopd ptp [P5p+18h]’r\a)( 1E8 PdX, O‘F‘FSEt t0 a COlOr‘! ZWhltE ObJECt]
+movzx ecx,byte ptl" [PdX] call PartialE : :e
+‘23V girﬁcxt'" [PSFHZGhLPCX mov byte ptr‘ [temp_va1ue],a1
+-je—if_fchen_part mov a1,byte ptr" [temp_va1ue]
+mov byte ptr‘ [return_va1ue],0 // false ‘tESt 81,1
+'f thjmp t end-if-labﬂ jne print_something
+1 _ en_par : .
+mov byte ptr [return_va1ue],1 // true jmp end_pr‘0gr‘am 5:5;
+end_i-F_1abe1 =
+:3: :Lly e p P [re urn-‘Ia ue] AS WE can WEE all thlS functlon IS
+add mm do'ng 'S to comp9re the f'rSt byt
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+I I I I
+Let s see how a Slmple enum looks llke |n memory ?
+sub r“sp,28h sub PSp,68l’1
+mov qwond ptl" [Psp+8],r‘cx // sel1c mOV byte ptr‘ [CLG
+mov qwond ptl" [PSp+1@h],l"ClX // other‘ 1 [ ]
+movzx eax,byte ptr [rcx] ea PCX’ C . .
+mov qword ptr‘ [P5p+18h],r\a)( lea de offset to a Colon::Wh1te object]
+movzx ecx,byte ptr [rdX] call Par'tialE : :e
+‘2;; ﬁgirﬁcit'" [PSFHZGhLPCX mov byte ptn [temp_va1ue],al
+je if_,’chen_part mov al,byte ptr~ [temp_va1ue]
+mov byte ptr [return_va1ue],0 // false test 81,1
+ij end-if-label jne print something
+if_then_part: . Cl F Pam
+mov byte ptr [r'etur'n_va1ue],1 // true Jmp en —p 0g
+end if label: aﬁﬁ
+_ mg‘, a1 b te ptp [r'eturn_va1ue] Notice that "and al,1". This instruction makes sure that the value
+of al is either 1 or O. This is a clear indicator that the result of this
+movzx eaxﬂ'll function is a bool value (with 1=true and O=false).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+V? En u ms
+Let's see how a simple enum looks like in memory ?
+( ) mov byte ptr [c],9
+{ Red, Green, Blue, lea PCX,[C]
+White, Black } lea hdx,[offset to a Coloh::White object]
+() { call Partialquzeq
+c = ::Red; mov b te ltP temn value al
+c == ::White { mov al,byte ptP [temp_value]
+pnintln!("Colon is white"); test al,1
+} jne pnint_something
+} jmp end_progham A
+' Finally, we check the bool value returned from the previous step to
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+E n U m S
+Thls means that a proper C++ code that reflects thls Rust code ls:
+
+class Color {
+uint8_t value;
+Color(uint8_t v) : value(v) {}
+
+public:
+static const Color Red,Green,Blue,White,Black;
+bool operator==(const Color& v) { return value == v.value; }
+
+};
+
+const Color ColorzzRed (9);
+
+const Color Color::Green(1);
+
+const Color Color :Blue (2);
+
+const Color Color::White(3); jg
+
+const Color Color::Black(4); _£ﬁﬁﬁ
+color c = c010r==Red3 ﬁﬁﬁeﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+'® Enum
+So why are Rust enums build like this ? ls there a specific advantage
+they get by doing this ?
+
+Well yes 9 but first, let's see some examples (Rust/C++)
+1. Enum with just some variants
+( ) {
+{ Red, Green, Blue, , , , ,
+White, Black } };
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Enurns
+So why are Rust enums build like this ? ls there a specific advantage
+they get by doing this ?
+
+Well yes 9 but first, let's see some examples (Rust/C++)
+2. Enum with just some variants with specific values
+Rust C++
+derive( ) enum class Colon {
+
+enum Colon { Red = 2,
+
+Red = 2, Green = 19,
+
+Green = 19, Blue,
+
+Blue, White,
+
+White, Black Black
+} };
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Enums
+So why are Rust enums build like this ? ls there a specific advantage
+they get by doing this ?
+
+Well yes 9 but first, let's see some examples (Rust/C++)
+3. Enum with a specific type (e.g. int)
+Rust C++
+derive( ) enum class Color : int {
+(132) Red = 2,
+
+enum Color { Green = 19,
+
+Red = 2, Blue,
+
+Green = 16, White,
+
+Blue, White, Black Black
+} };
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+En u ms
+So why are Rust enums build like this ? ls there a specific advantage
+they get by doing this ?
+Well yes 9 but first, let's see some examples (Rust/C++)
+3. Enum with a specific type (e.g. int)
+Rust
+derive {
+
+mm
+
+Red = 2, ,
+
+Green = 16, ,
+
+Blue, White, Black
+} };
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+a? :3 -. . .
+So why are Rust enums build like this ? ls there a specific advantage
+they get by doing this ?
+Well yes 9 but first, let's see some examples (Rust/C++)
+3. Enum with a specific type (e.g. int)
+Rust
+( ) error[E9552]: unrecognized representation hint
+{ —l> src\main.rs:1:8
+RGd, 1 i #[repr(hooi)]
+GPGGI'], = help: valid reprs are ‘C‘, ‘align‘, ‘packed‘, ‘transparent‘, ‘simd‘, ‘i8‘, ‘u8‘,
+} ‘i16‘, ‘u16‘, ‘i32‘, ‘u32‘, ‘i64‘, ‘u64‘, ‘i128‘, ‘u128‘, ‘isize‘, ‘usize‘
+Not all representation are allowed ! Only
+numerical (integer) representation can
+be used for an enum discriminant.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+En u ms
+So why are Rust enums build like this ? ls there a specific advantage
+they get by doing this ?
+Well yes 9 but first, let's see some examples (Rust/C++)
+3. Enum with a specific type (e.g. int)
+Rust
+< >
+{
+Red = 1,Gheen = 3,Blue = 15
+}
+main() {
+= ::Gheen;
+phintln!("i= i ");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+,’I E n U m S
+
+So why are Rust enums build like this ? ls there a specific advantage
+
+they get by doing this ?
+
+Well yes 9 but first, let's see some examples (Rust/C++)
+
+4. Bitflags
+' Bitflags are NOT possible in Rust (with the standard library and functionality)
+' There are however different crates (e.g — , -) that provides
+this functionality through some Rust macros
+' ln C++ bitflags over enums are easily implemented via friend functions that
+implement operators like I, I, I, etc. l'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+,’ E n U m S
+
+So why are Rust enums build like this ? ls there a specific advantage
+
+they get by doing this ?
+
+This is the main case why enums are build like this (flexibility).
+
+5. Multiple data member types enums
+' Since an enum in Rust is more like a class than a classical enum from C, there
+is no reason to limit the variants to a specific type
+' In C/C++, all variants from an enum have the same type (usually I if
+something else is not provided). This limitation can be overcome if we use __
+classes with static const values instead of
+enums. (We),
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Ove rVIew (Rust enums vs C/C++ enums)
+—m—
+
+Simple enums Yes Yes
+
+Simple enums mapped to a specific type Yes Yes
+
+Simple enums with different values (of the same Yes Yes
+
+type) associated to each variant
+
+Enums that work as a bitflag No* Yes**
+
+Enums with value of different types Yes N0***
+
+* There are some crates such as EnumBitFIags, bitflags that solves this problem via macros
+** Requires the usage of friend keyword do overwrite operators such as | | , && , etc
+*** Can not be done with classical enums, but fully supported through std::variant
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Let's see some example of enums with variant of multiple types.
+Rust
+denive( , )
+Integer‘(132), Integer(10),Float(1.2),Character('a')
+Float(f32),
+Chanacten(chah)
+}
+fn main() {
+let i = Values::Integer(19);
+let f = Values::Float(1.2);
+let c = Values::Character('a');
+pnintln!("{:?},{:P},{:?}",i,f,c);
+}
+The reason for the Debug derivation is to provide print/n! macro some
+sort of reflection that can be used to print enum values.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Enums
+Let's see some example of enums with variant of multiple types.
+Rust
+enum Values {
+Integeﬂim
+Float(‘F32), error[E9695]: non-primitive cast: ‘Values‘ as ‘i32‘
+Character‘(char‘), —l> snc\main.r*s:15:25
+} 15 | pnintln!("i is {}", i as i32);
+fn main() { | "mom-‘MA an ‘as‘ expression can only
+_ be used to convert between plelthE types or‘ to coerce to a
+let 1 = Values::Integen(19); Smxuuctmitomea
+pnintln!("i is {}", i as 132);
+}
+So if this is not possible:
+How can we tell if "i" is a Valueszzlnteger, ValueszzFloat or
+ValueszzCharacter ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+En u ms
+Let's see some example of enums with variant of multiple types.
+{
+
+Integen( ),
+
+Float( ),
+
+Chanacten< ),
+}
+When we are trying to find the underline type of one of the variants
+from an enum, we often use the term discriminant. The discriminant is
+often a numerical value that specifies the type (for example in this
+example the discriminant could be I for Integer, I for Float and I for
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+1}..- Enums
+The solution is to use match to validate the type of an object from Values:
+Rust
+enum Values {
+
+Integeh(132), m
+Float(1c32),
+Characteh(char),
+}
+Fn extract_integeh(v: &Va1ues) —> 132 {
+v {
+Values::Integer(ivalue) => *ivalue,
+_ => '1)
+}
+}
+Fn main() {
+let i = Values::Integer(19);
+phintln!("i is {}", extract_integer(&i));
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+En u ms
+
+The same can be obtalned by Implementlng a method Into an enum:
+enum {
+
+Integer‘( ), I OUtPUt I
+
+FlOat( ) , i iS 10
+
+Character( ),
+}
+impl {
+
+fn (&self) —> {
+
+match self {
+::Integeh(ivalue) => Peturn *ivalue,
+_ => return —1,
+
+let i = ::Integeh(19); iﬂﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+
+} gﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+E n u rn s
+Alternatively, we can use _ to check if two values
+from the same enum have the same discriminant.
+use std: :mem; OUtPUt
+enum { 'a' and 'b' are of the same variant type !
+
+Integer( ), 'a' and 'c' are not the same variant type !
+Real( ),
+}
+1c" () {
+let a = ::Integen(19);
+let b = ::Integen(29);
+let c = ::Real(1.2);
+if mem:: (&a) == mem:: (&b) { _5ﬁ
+println!("'a' and 'b' are of the same variant type I"); Aﬁﬁﬁﬁ
+println!("'a' and 'c' are not the same variant type l"); ﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+- » En u ms
+The previous example can be adjusted to find out if a value of an enum is
+of a specific type. Keep in mind that this method, while it works implies
+creating a temporary object to be used for comparison !
+
+Rm m
+enum Values {
+Integer‘(132),
+Float(f32),
+Character(chah),
+}
+impl Values {
+fn is_int(&self) —> bool {
+std::mem::discpiminant(self) == std::mem::discpiminant(&Values::Integeh(9))
+}
+}
+fn main() {
+let i = Values::Integer(19);
+println!("i is int: {}", i.is_int());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+§$@__:rx
+A variant from an enum can also be a set of values. The next example
+creates two version of an lpAddress (v4 and v6).
+Rust
+denive( )
+enum lpAddress {
+m8, Us, Us, Us), U
+v6<u16, U16, u16, u16, u16, U16), v4(192, 168, 0, 1), v6(8208, 4660, 255, 0, 0, 6529s)
+}
+fn main() {
+let ip_1 = IpAddPesszzv4(192, 168, 0, 1);
+let ip_2 = IpAddPesszzv6(0x2919, 0x1234, GXQGFF, 9x9999, GXGGGG, 9xFF12);
+pnintln!("{:?}, {:?}", ip_1, ip_2);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+é?‘
+En u ms
+Let's see some example of enums with variant of multiple types.
+Rust
+denive( , )
+{ M
+Integen( ),
+}
+main() {
+il = ::Integen(19);
+12 = ::Integen(26);
+if il == 12 {
+println!("Equal integers")
+} else {
+println!("Diffenent integers");
+}
+}
+When comparing two enum variants, Rust will compare both thelr
+types and their value (i1c present).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+é?‘
+En u ms
+Let's see some example of enums with variant of multiple types.
+Rust
+denive( , )
+{ M
+Integen( ),
+}
+main() {
+il = ::Integen 19 3
+12 = ::Integeri,
+if il == 12 {
+println!("Equal integers")
+} else {
+println!("Diffenent integers");
+}
+}
+When comparing two enum variants, Rust will compare both thelr
+types and their value (i1c present).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+i?‘
+En u ms
+Let's see some example of enums with variant of multiple types.
+Rust
+denive( , )
+{ M
+Integen( ),
+}
+main() {
+il = ::Inte;en(19);
+12 = :Iiliiik2.9)g
+if il == 12 {
+println!("Equal integers")
+} else {
+println!("Diffenent integers");
+}
+}
+When comparing two enum variants, Rust will compare both thelr
+types and their value (i1c present).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+t?‘
+En u rns
+Let's see some example of enums with variant of multiple types.
+Rust
+denive( , )
+{ M
+Integen( ),
+}
+main() {
+il = ::Integen 19 '
+12 = ::Floai:
+if il == 12 {
+println!("Equal integers")
+} else {
+println!("Diffenent integers");
+}
+}
+Even if the value is the same (10) since there are different types
+(Integer and Float) they will not be equal.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+a?‘
+E n u rn s
+Let's see some example of enums with variant of multiple types.
+Rust
+denive( , )
+{ M
+325$?“ Q’
+Rea1( ),
+}
+main() {
+println!("Size of Values = ", std::mem::size_of::< >());
+}
+So why is the size of Values 16 bytes ?
+- an Integer is 4 bytes
+- a bool is one bytes
+- a float64 is 8 bytes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Enums
+Let's see some example of enums with variant of multiple types.
+Rust
+
+derive( , )
+enum Values {
+Integer(132),
+Bool(bool),
+Real(F64),
+}
+fn main() {
+let i = Values::Integer(19);
+let b = Values::Bool(tPue);
+let P = Values::Real(1.234);
+}
+Let's see how i, b, or r look in memory.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+. E n u m s
+Let's see some example of enums with variant of multiple types.
+Rust
+derive( , )
+{
+Integer( ),
+BOO].( )) +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +10 +11 +12 +13 +14 +15
+Rea1( ), o 1o 0 o o
+}
+main
+b = ::Bool( )3
+P = ::Rea1(1.234);
+}
+Let's see howl, I, orl look in memory.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+. E n u m s
+Let's see some example of enums with variant of multiple types.
+Rust
+derive( , )
+{
+Integer( ),
+BOO].( )’ +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +10 +11 +12 +13 +14 +15
+Rea1( ), 1 1
+}
+main() {
+i = ::Inte;er 19 '
+P = ::Rea1(1.234);
+}
+Let's see howl, I, orl look in memory.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+. E n u m s
+Let's see some example of enums with variant of multiple types.
+Rust
+derive( , )
+{
+Integer( ),
+BOO].( )’ +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +10 +11 +12 +13 +14 +15
+Rea1( ), 2 58 39 B4 cs 76 BE F3 3F
+}
+main() {
+i = ::Integer(19);
+b = ::Bool '
+}
+Let's see howl, I, orl look in memory.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+. En u ms
+This means that in reality, this is more like a union than multiple data
+members within the same class..
+
+C++ aproximation C++ (2017 and beyond)
+{ "’
+index;
+{
+{
+index;
+value;
+}, { 0
+index; 1
+value;
+}; 2
+{
+index;
+value;
+};
+};
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Error management
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+For every program (regardless of the language it is written in) there are
+three situations that require error management:
+Compile Error Usually when some semantics of the language are Repair the error and compile again
+incorrect.
+Run-time Error An error that can be managed by the program (e.g. we In this case, we need to have a logic
+(manageable) are trying to connect to a database but the internet within the program that treats this
+connection is unavailable) error (e.g. pops up a message and
+then wait for the internet
+connection to be available)
+Run-time Error An error that by its nature stops the execution of the Nothing. These are the cases where
+(critical) program (e.g. a game can not start if the graphical the program just stops.
+driver is not working)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+,’I E r FO r m a n a ge m € Ht
+
+In reality, run-time errors can be:
+
+1. Treated -) meaning that there is a specific code that treats an error
+(a specific execution flow that takes into consideration various cases
+where errors might occur)
+
+2. Un-treated -) these are dangerous situation that might lead to
+program crashing or undefined behavior
+
+A well written program falls into category 1 (meaning that the
+
+programmers of that program were very careful about various situation
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+*- Error management
+Let's see a C/C++ example and discuss how an error might be treated:
+C
+diV( n1) n2) {
+return atoi(n1)/atoi(n2);
+}
+main( anV, anC) {
+printf("Result is: %d",div(angv[1],ahgv[2]));
+}
+We will focus on I function, and not on the problems from the main
+function (e.g. not enough parameters).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+'5 E r ro r m a n a ge m e nt
+
+What potential problems can we spot on I function ?
+diV( n1) n2) {
+netunn atoi(n1)/atoi(n2);
+
+}
+
+1. - or - can be null pointers (e.g. for example if the command
+line arguments are less than 2)
+
+2. - or - can be invalid numbers (we are working with string, so
+there is no guarantee that either n1 or n2 respect a valid numerical
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Error management
+So how can we change function "div" to treat errors ?
+1. Change the signature of function "div" to return either - (if the
+division was successful) or otherwise and put the actual result
+in a reference or pointer.
+div( n1, n2, result) { m }
+div( n1, n2, result) { m } ,ﬁ
+It is recommended to use a reference as we don't need to add an extra
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+a
+Error management
+
+So how can we change function "div" to treat errors ?
+
+1. Change the signature of function "div" to return either - (if the
+division was successful) or otherwise and put the actual result
+in a reference or pointer.
+
+The usage of such a function will be as follows:
+C
+main( anV, anC) {
+result;
+if (div(ahgv[1],ahgv[2],result)== ) {
+phintf("Resu1t is: %d",resu1t);
+} else {
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+So how can we change function "div" to treat errors ?
+1. Change the signature of function "div" to return either - (if the
+division was successful) or false otherwise and put the actual result
+in a reference or pointer.
+m——
+' Easy to write (regardless of the language) ' We need references (this means that every
+function call should be preceded by a
+variable definition where the result will be
+put)
+' Bool type is not necessarily associated with
+errors and as such some results might be
+- We don't know the actual error (Just that
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+V? Error management
+
+So how can we change function "div" to treat errors ?
+
+2. Change the signature of function "div" to return an — (an
+int value that if set to O (or other constant) means no error, and
+otherwise means an error code). Similar to precedent case, the
+actual result should be put in a reference or pointer.
+
+div( n1, n2, result) { m }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+V¥§€g§£'1
+Error management
+
+So how can we change function "div" to treat errors ?
+
+2. Change the signature of function "div" to return an error code (an
+int value that if set to O (or other constant) means no error, and
+otherwise means an error code). One possible usage:
+
+C
+void main(char** argv, int argc) {
+int result;
+int error = div(argv[1],argv[2],result);
+if (error == 9) {
+printf("Result is: %d",result);
+} else {
+switch (error) {
+case 1: printf("First parameter is null l"); break;
+case 2: printf("Second parameter is null l"); break;
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+',® Error management
+So how can we change function "div" to treat errors ?
+2. Change the signature of function "div" to return an — (an
+int value that if set to O (or other constant) means no error, and
+otherwise means an error code). One possible usage:
+m——
+' Easy to write (regardless of the language) ' We need references (this means that every
+' We know the error and we can act on it function call should be preceded by a
+variable definition where the result will be
+put)
+' Int (or numerical) types are not necessary
+associated with errors and as such some
+results might be misleading.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+V? Error management
+
+So how can we change function "div" to treat errors ?
+
+3. Use - (meaning that div function signature will not be
+changed). Instead, Whenever an error occurs, an exception will be
+thrown.
+
+div( n1, n2) { m }
+
+This is a different approach that starts from the assumption that a
+function signature should reflect its purpose and not its error
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+V¥§€g§£'1
+Error management
+
+So how can we change function "div" to treat errors ?
+
+3. Use exception (meaning that div function signature will not be
+changed). Instead, whenever an error occurs, an exception will be
+thrown. Possible usage:
+
+C
+void main(char** anV, int anC) {
+try {
+printf("Result is: %d",div(argv[1],anv[2]));
+}
+catch (DivisionByGError)
+{
+printf("Division by 9");
+}
+catch (...)
+{
+printf("othen error")
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+',® Error management
+
+So how can we change function "div" to treat errors ?
+
+3. Use - (meaning that div function signature will not be
+changed). Instead, whenever an error occurs, an exception will be
+thrown.
+m——
+
+' Easy to write (regardless of the language) ' Not really linear in terms of code execution
+' We know the error and we can act on it ' Memory allocation might not be cleared
+' Can't really be enforced (someone can
+decide not to use it, because a try...catch
+block is not necessary to read the result of a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+,’I E r r0 r m a n a g€ m € nt
+So how can we change function "div" to treat errors ?
+4. Use an error specific type that holds both the value and the
+error/error code. This is a more modern approach of the error
+management problem. A definition (for C++ language) looks like
+this:
+This type was introduced in C++ with the 2017 standard. l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+.§§N]_I2_Z
+Error ma nagement
+
+So how can we change function "div" to treat errors ?
+
+4. Use an error specific type that holds both the value and the
+error/error code. This is a more modern approach of the error
+management problem. A possible usage:
+
+C++ 2017+ standard
+main( anV, anC) {
+res = div(angv[1],angv[2]);
+if (nes.has_va1ue()){
+printf("Resu1t is: %d",nes.value());
+} else {
+}
+}
+
+Notice that the code is quite small and the I variable incapsulates
+
+both the value and the error.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+',® Error management
+So how can we change function "div" to treat errors ?
+4. Use an error specific type that holds both the value and the
+error/error code. This is a more modern approach of the error
+management problem.
+m——
+' Easy to write (regardless of the language) ' Might require some adjustments in how
+' We know the error and we can act on it someone programs if he/she are used with
+' Linear programming an error management similar to cases 1,2 or
+' Enforceable (you can not get the result 3
+without knowing the error as well)
+' This is a type designed for error
+management so it has no double
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+"® E rro r m a n a ge m e nt
+A general observation on these four cases:
+- Older languages (e.g. C) usually use cases 1 or 2 (e.g. Windows API
+(case 1), Linux API (case 2))
+- Newer languages (C++, Java, C#, Python, etc) usually support cases 1
+to 3. The potential risk here is that none of these cases are
+enforceable (meaning that someone might write a program and use
+all 3 techniques to propagate errors)
+- |\/|odern languages (e.g. C++17/C++20, Rust) support the 4th method
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+',®' E r ro r rn a n a ge rn e nt
+———m
+Case 1 (return True/False) Yes Yes Yes
+Case 2 (return error code) Yes Yes Yes
+Case 3 (exceptions) - Yes -
+Case 4 (return True+va|ue for success, False otherwise) - stdzzoptional Option
+Case 4 (return value for success, error information - stdzexpected Result
+otherwise) stdzzvariant
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+"® E rro r m a n a ge m e nt
+' What differentiate Rust from the rest of the languages that
+implement the 4th method is that Rust does not implement
+exceptions.
+' This means that a programmer can decide to use either case 1,2 or 4
+in Rust if he/she wants to return an error.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+"® E rrO r m a n a ge m e ﬁt
+Error management in Rust is done via:
+1. - macro (if we want to immediately exit a program)
+2. - template/generic type (if we want to return a value or
+nothing — the latter meaning that an error has occurred)
+3. - template/generic type (if we want to return a value or an
+error that explains what happened).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Error management (panic)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+"E E r ro r m a n a ge m e nt (p a n ic)
+A "panic" is a critical runtime-error that you can not recover from.
+In Rust, these situation can be encountered in two scenarios:
+1. The execution flow reach a point where the outcome cannot be
+computed in a deterministic way (e.g. a possible undefined
+behavior). Stopping the execution at this point will provide more
+information for a developer to fix the actual issue (e.g. a heap
+overflow). In Rust this is done at thread level (meaning it will stop
+the current thread, not the entire process).
+2. The logic of the problem / its purpose can not be served anymore,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+a
+Rust provides a macro called - ) that can be used to abord a
+program immediately. macro has two forms:
+- Rust
+anlc! '
+panic! (message); "1 = 293
+P2 = 19;
+if P1 > P2 {
+panic!("Expecting P1= P1 to be smalleP than P2= P2 ")3
+}
+}
+thPead ‘main' panicked at ‘Expecting P1=29 to be smalleP than P2=19‘, 5Pc\main.Ps:7:9
+stack backtPace:
+6: std::panicking::begin_panic_handleP
+at /Pustc/fe5b13d681f25ee6474be29d748c65adcd91f69e\/libPaPy\std\5Pc\panicking.Ps:584
+1: c0Pe::panicking::panic_fmt
+at /Pustc/fe5b13d681f25ee6474be29d748c65adcd91f69e\/libPaPy\c0Pe\5Pc\panicking.Ps:143
+2: fiPst::main
+at .\5Pc\main.Ps:7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+f‘
+Error management (panIc)
+Panic errors can also be triggered if the programmer is trying to
+perform an operation with an undefined result:
+Rust
+main() { thread 'main‘ panicked at ‘index out of bounds: the len is 3 but the index is 16‘, sr‘c\main.r‘s:3:13
+stack backtrace:
+V = [19’2@’3@]; 0: std::panicking::begin_panic_handler‘ _ _ _
+X = V[V[@]]; 1. core..pzﬁié‘:5rs];(1;:aa):Biriilﬂ5ee6474be29d748c65adcd91f69e\/11br‘ar‘y\std\sr‘c\pan1cking.P52584
+println!("x= X ")3 - H at /r‘ustc)fe5blgd681f25ee6474be29d748c65adcd91f69e\/1ibr‘ar‘y\cor‘e\sr‘c\panicking.r*s:143
+} 2: core::panicking::panic_bounds_check
+In this case, there is an attempt to read a value from a vector outside
+its bounds. While it is possible that the memory from the offset "10”
+(the value of.) is accessible (e.g. a value on the stack) the outcome
+is undetermined and it is better to cause an abort at this oint that try
+to understand an error thrown by an incorrect value of later.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+"® Error management (panlc)
+Its also important to notice that Rust tries to identify this kind of error
+from the compile phase. Let's compare the next three cases:
+<> {
+v = [19,29,39];
+x = v[19];
+println!( x )3
+}
+error: this operation will panic Jig;
+3 | let x = V[1@]; ,aaaaaaaaaaa;
+| AAAAA index out iaﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁi
+or bounds: the length is 3 but Hﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+t?‘
+Error management (panic)
+Its also important to notice that Rust tries to identify this kind of error
+from the compile phase. Let's compare the next three cases:
+Rust Rust (1.61.0)
+main() { main() {
+v = [19,29,39]; v = [19,29,39];
+X = v[10]; X = V[V[@]];
+println!("x= x ")3 println!("x= x ")3
+} }
+error: this operation will panic
+an'ZUZETEainmSSIB thread 'main' panicked at Iil'iCiEX
+| out of bounds: the len is 3 but v[\/[O]] : v[]_O]
+3 | let x = v[19]; the index lS 10‘,
+| AAAAA index out src\main.rs:3:13
+of bounds: the length is 3 but
+the index is 19
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+. Error management (panic)
+Its also important to notice that Rust tries to identify this kind of error
+from the compile phase. Let's compare the next three cases:
+
+Rust Rust (1.61.0) Rust (1.71.0)
+main() { main() { main() {
+v = [19,20,39]; v = [19,29,550]; v = [19,29,39];
+X = V[1@]; X = V[V[@]]; X = V[V[@]];
+phintln!("x= x "); println!("x= x ")3 phintln!("x= x ")3
+} } }
+at Puntime
+——> src\main.rs:3:13
+l
+3 | let X = v[v[9]];
+| AAAAAAA index out
+01c bounds: the length is 3 but
+the index is iv the index is 19
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+Va Error management (Damc)
+Rust 1.71.0 seems to be able to identify even more complicated cases
+(for example when we use more complex equations)
+<> {
+v = [19, 20, so];
+X = v[v[@1*v[@1/v[111;
+println!( x )3
+}
+error: this operation will panic at runtime ﬁﬁﬁggg
+‘f S"C\mai"""5‘3‘13 The compile makes the correct inference (v[0] = 10,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+i?‘
+I (I i I, I I
+A solutlon to trlck rust compller and make |t not detect an out of
+boundary case is the following:
+Rust (1.71.0)
+std::{time::{ , }, thread::sleep};
+main() {
+start = ::now();
+sleep( :1Fhom_secs(5));
+dif = start.e1apsed().unwrap().as_secs();
+v = [19, 29, so];
+x = v[dif ];
+phintln!("x= x ")3 , . , . ,. . . . .
+thread maln panlcked at 1ndex out of bounds: the 1en 15 3 but the 1ndex 15 5 ,
+} src\main.hs:7:13
+stack backtrace:
+0: std::panicking::begin_panic_hand1er
+t
+/Pustc/8ede3a2e28fe6e4d52b38157d7bfe9d3bceef225/library\std\5Pc\panicking.Psz593
+1: core::panicking::panic_fmt
+t
+/Pustc/8ede3age28fe6e4d52b38157d7bfe9d3bceef225/1ibrary\core\sPc\panicking.P5267
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+.
+
+Error management (panlc)
+
+A solution to "trick" rust compiler and make it not detect an out of
+
+boundary case is the following:
+
+Rust (1.71.0)
+dif = start.e1apsed().unwrap().as_secs();
+
+Keep in mind that this solution was tested with Rust 1.71.0
+
+It is possible that future version of Rust might detect this behavior from
+
+the compile time and trigger a compile error instead of runtime panic.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+"g " E r r0 r m a n a g e m e nt (p a n i C)
+Rust also has a method (catch_unwind) that can be used to capture a
+panic (similar to What try...catch mechanism is doing).
+
+However, it is not recommended and if used with C++ exceptions from
+an exported function, the behavior is undefined.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+é?‘ a
+Rust also has a method (catch_unwmd) that can be used to capture a
+panlc (slmllar to What try...catch mechanlsm |s domg).
+Rust
+
+std::{
+
+threadzzsleep,
+
+time::{ , },
+
+l;
+
+SOmefunCtiono —> {
+start = ::now(); src\main.rs:4:13
+
+sleep( ::fnom_secs(5)); stack backtrace:
+dif = stant.elapsed().unwnap(). ..H
+v = [19, 29, 39]; Function failed with panic
+x = v[dit 1;
+
+pnintln!("x= x ");
+
+netunn x ;
+
+}
+
+main() {
+n = std::panic::catch_unwind(some_function);
+
+if n.is_ok() {
+pnintln!("Function was successful -> netunn value is: ", n.unwnap());
+
+} else {
+pnintln!("Function failed with panic");
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+t?‘
+Error management (panIc)
+Rust also has a method (catch_unwind) that can be used to capture a
+panic (similar to What try...catch mechanism is doing).
+Rust
+println!("x= x 1); Function was successfu|-> return value is:2
+return x ;
+}
+main() {
+r = std::panic::catch_unwind(some_function)3
+if r.is_ok() {
+println!("Function was successful —> return value is: ", r.unwrap());
+} else {
+println!("Function failed with panic");
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Error management (Option type)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+Error management (Opt|on type)
+
+Rust Option type allows a function to return two scenarios:
+
+' A m case (something is not OK) 9 and no value associated
+
+' A true case 9 the requested value is returned.
+
+Rust (Source: 0ption.rs from core library) Simplified view
+
+pub enum Option<T> {
+#[1ang = "None"]
+#[stable(feature = "rustl", since = "1.9.9")] pub enum Option <T>
+None, {
+
+None,
+
+#[1ang = "Some"] Some(T),
+#[stable(feature = "rustl", since = "1.9.9")] }
+Some(#[stable(featune = "rustl", since = "1.9.9")] T),
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+a
+Error management (Optlon type)
+Let's consider the following problem 9 we would like to write a
+function that returns a number only if the parameter is odd, or no
+number if the parameters is even.
+Rust Rust
+validate_odd(n: ) —> < > validate_odd(n: ) —> < >
+{ {
+ifn%2==1{ ifn%2==1{
+return Some(n); Some(n)
+} else { Oi’ } else {
+return None; None
+} }
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+Option type has the following methods:
+unwrap( ) — > Returns the value if no error is present or panics
+otherwise
+expect( , msg: & ) - > Returns the value if no error is present or panics
+with a specific message otherwise
+True if no error is present, false otherwise
+unwrap_or‘( , default: ) - > Returns the value if no error is present or a default
+value in case of error
+unwrap_or~_else< >( , f: ) — > Returns the value if no error is present or the
+result of a function in case of error
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+*- Error management (Optlon type)
+Let's see some possible usage of validateOdd(...) function:
+Rust
+Fn validate_0dd(n: 132) —> Option<132> { ... }
+Fn main() {
+let r‘ = validate_0dd(5); m
+println!("Number is odd: {}", r.unwrap());
+} {
+println!("EPror");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Error management (Optlon type)
+The same example can be written using the match keyword in the
+following way (this is actual recommended way to check the value of an
+Opﬂony
+Rust
+fn validate_odd(n: 132) —> Option<132> { m }
+rn maino { mm-
+
+let r‘ = validate_odd(S);
+P {
+Some(va1ue) => println!("0dd value: {value}"),
+None => println!("Not an odd number"),
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Error management (Optlon type)
+Let's see some possible usage of —function:
+Rust
+validate_odd(n: ) —> < > { m }
+main() {
+P = validate_odd(S).unwrap(); m
+println!("NumbeP is odd: ",r‘);
+}
+In this case we expect — function to work correctly.
+Variable I is of type i32.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+e
+Error management (Optlon type)
+Let's see some possible usage of —function:
+Rust
+validate_odd(n: ) —> < > { m }
+main() {
+P = validate_odd..unwrap();
+println!("Number is odd: ",r);
+}
+In this case, since 4 is not odd, a panic (runtime) error will be triggered.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+f’
+Error management (Optlon type)
+Let's see some possible usage of —function:
+Rust
+validate_odd(n: ) —> < > { m }
+main() {
+r = validate_oddI-Xpec');
+println!("Number is odd: ",r);
+}
+In this case, since 4 is not odd, a panic (runtime) error will be triggered.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+Error management (Optlon type)
+Let's see some possible usage of —function:
+Rust
+validate_odd(n: ) —> < > { m }
+main() {
+P = validate_oddr4).unwrap_or‘(—1); m
+println!("Number‘ is odd: ",r‘);
+}
+In this case since we have used method, the Option<i32>
+value is evaluated. Since, 4 is not an odd number, the error case will be
+triggered and the default value will be returned (in this case, it is I)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+*- Error management (Optlon type)
+Let's see some possible usage of validateOdd(...) function:
+Rust
+fn validate_0dd(n: 132) —> Option<132> { m }
+fn response_function() —> 132 {
+println!("There is an error l"); m
+—1; There is an error!
+} Number is odd: -1
+Fn main() {
+let r = validate_0dd(4).unwrap_or_else(response_functioni;
+println!("Number is odd: {}",r);
+}
+Similarl a function that returns the value in case of error can be used
+via .unwrap_or_e|se method.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+.
+Error management (Opt|on type)
+Let's consider the following code:
+Rust
+Fn main() {
+let mut x: Option<String> = Some(String::fPom("my string"));
+let mut y: Option<String> = None;
+println!("x={:?}, y:{:?}"JXJy);
+y = X3
+println!("x={:?}, y:{:?}"JXJy);
+}
+What is the issue with this piece of code ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+i?‘
+Let's consider the following code:
+Rust
+y = X3
+println!("X= J y: "JXJy);
+error[E0382]: borrow of moved value: ‘x‘
+-—> src\main.rs:7:31
+l
+3 | let mut x: Option<StPing> = Some(String::from("my string"));
+| ————— move occurs because ‘x‘ has type ‘Option<String>‘, which does not implement the ‘Copy‘ trait
+é'i y = X;
+| — value moved here
+7 | println!("X={=?}, y={:?}",x,y);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+,’ E F FO F m a n a 8e m € Ht (O pt I O n ty p €)
+Assignments between enums follow the same rules as for other data types. In
+particular for Option, since String does not implement the Copy trait the ownership
+of that string is transferred entirely to variable "y" making variable "x" useful.
+But what if want to transfer just the String (not the entire variable) and keep the
+variable "x" but with the variant "None" ? This feature is in particular useful is an
+Option<T> is part of a structure from where its more complicated to remove it?
+The solution is to use the method defined as following: lets assume
+variable "s" is of type Option<T>; then will have the following effect:
+' If s is of type Some(T), then make 52 of type Some(T) and move the T value from s to 52. Then
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Error management (Optlon type)
+Let's consider the following code:
+Rust
+Fn main() {
+let mut x: Option<StPing> = Some(Sthing::fhom("my string"));
+let mut y: Option<StPing> = None;
+print“! <-'X={=.>}, y={=.>}--,X,y>; M
+y = x.take(); x=Some("my string"), y=None
+println!("x={:?}, y={:?}",x,y); x=None,y=SonmﬂWnysUingU
+}
+Notice that after the call y = x.take(), x becomes None, and the String
+from x is transferred to y.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+Error management (Optlon type)
+
+Let's consider the following code:
+
+Rust
+
+fn main() {
+let mut x: Option<Sthing> = Some(String::fhom("my string"));
+let mut y: Option<Sthing> = None;
+printlnuwaa}, y={=.>}-',X,y>; M
+y = X.take(); x=Some("my string"), y=None
+phintln!("x={:?}, y={1?}",X,Y)3 x=None,y=SonmﬂWnysUﬁngU
+y = x.take(); x=None,y=None
+Println!("X={=?}, y={=?}",X,y);
+
+}
+
+In this case:
+' First moves "my string" from "x" to "y" and makes "x" None
+' Second y = x.take( )3 has nothing to move from "x" (as it is already None) and as such
+
+becomes None as well.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+"E E r ro r m a n a ge m e nt (O pt | o n ty p e)
+How does an 0pti0n<T> looks in memory ?
+The simplest way is to consider it as a structure with two fields (a bool
+one and one of type T):
+m_—
+ok bool (or an aligned number) If this field is 1 (true) than the field value is
+correct and available, otherwise it is not
+value T (the type from the template/generics) The actual value (only if field ok is 1 (true) )
+However, for some cases this template only contains the value. Since a
+reference is never null, an Option<reference> in Rust does not need the
+I field, and as such it is guaranteed to be of the same size as the size
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+Error management (Option type)
+Let's see the sizes of an Otion in memory. For that we will use the following
+standard command (—) , that is an equivalent of sizeof keyword
+from C/C++.
+
+Rust
+Fn main() {
+println!("Size of Option<usize> = {}", std::mem::size_of::<usize>());
+println!("Size of Option<132> = {}", std::mem::size_of::<Option<132>>());
+println!("Size of Option<i64> = {}", std::mem::size_of::<Option<i64>>());
+println!("Size of Option<&str> = {}", std::mem::size_of::<Option<&str>>());
+println!("Size of Option<Box<132>> = {}", std::mem::size_of::<Box<132>>());
+} M
+Size of Option<usize> = 8
+Size of Option<i32> = 8
+Size of Option<i64> = 16
+SheofOpﬂon<&mI>=16
+Size of Option<Box<i32>> = 8
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+Let's discuss the previous results.
+—w—
+usize 8 lt can be either 2,4 or 8 (depending on the architecture). In this case it is a x64
+architecture (meaning the size of 8).
+Option<i32> 8 Two field member (first field 9 4 bytes (with alignment) is the ok part, second
+field is an actual i32 value)
+Option<i64> 16 Two field member (first field 9 8 bytes (with alignment) is the ok part, second
+field is an actual i64 value)
+Option<&str> 16 One field (the actual str value). If null than None value is considered.
+Keep in mind that size_of(str) = 16 (pointer+size), both 8 bytes
+Option<Box<i32>> 8 One field (the pointer to an i32 value). If null, than None value is considered. ||
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+if”
+Error management (Optlon type)
+Now let's see how Option handles memory for an enumeration:
+Ru“ m
+{ .
+Red, Green, Blue Sueodeor =1.
+} Size of Option<Co|or> = 1
+main() {
+println!("Size of Color = ", std::mem::size_of::< >());
+println!("Size of Option<ColoP> = ", std::mem::size_of::< < >>());
+}
+Notice that 0ption<CoIor> and Color have the same memory size.
+Let's see why this happens.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+,’I E F l'O F m a ll a 8e m € Ht (O pt I O n ty p €)
+Let's evaluate how memory looks like in the following cases:
+Variable Type Value Memory
+{ (Hex)
+Red = 2, Green = 4, Blue = 19
+}
+() {
+c = ::Red;
+ol = Some( ::Gneen);
+02: < > = None;
+02 = Some( ::Blue);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Error management (Opt|on type)
+Let's evaluate how memory looks like in the following cases:
+Rust
+c Color ColorzzRed 02
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+.
+Error management (OptIon type)
+Let's evaluate how memory looks like in the following cases:
+Rust
+c Color ColorzzRed 02
+01 Option<Color> Some(Color::Green) O4
+Some(Color::Green)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+.
+Error management (OptIon type)
+Let's evaluate how memory looks like in the following cases:
+Rust
+c Color ColorzzRed 02
+01 Option<Color> Some(Color::Green) O4
+02 Option<Color> None 01
+None
+1 (Hex: 01)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+.
+Error management (OptIQn type)
+The same logic applies for enums with multiple types:
+Ru“ m
+derive( )
+{ HWegeﬂlOLDouMeCLSLNone
+Integer( ),
+F10at( ),
+Bool( ),
+D0ub1e( )
+}
+main() {
+i = ::Integer(1@);
+d = ::Doub1e(1.5);
+n: < > = None; I,”
+println!(" , , ",i,d,n);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+a?‘
+Error management (Optlon type)
+There are some exception cases to this type of optimization:
+Rm M
+dEPive( ) Size of IVIuItiVaIueEnum = 1
+{ Size of Option<|\/|ultiValueEnum> = 1
+Value_9,
+Value_253,
+Value_254,
+}
+main() {
+println!("Size of MultiValueEnum = ", std::mem::size_of::< >());
+println!("Size of Option<MultiVa1ueEnum> = ", std::mem::size_of::< < >>());
+}
+ln this case, IVIuItiVaIueEnum has 254 values. As such it is still possible for Rust to
+find an invalid value (255) to be used for cases. As such the size of the
+enum and Option<...> are the same (one byte).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+a?‘
+Error management (Optlon type)
+There are some exception cases to this type of optimization:
+Rm M
+derive( ) . .
+{ Size of l\/lult|ValueEnum = 1
+Value_253,
+Value 254
+}
+main() {
+println!("Size of MultiValueEnum = ", std::mem::size_of::< >());
+println!("Size of Option<MultiVa1ueEnum> = ", std::mem::size_of::< < >>());
+}
+However, if an enum fills up the entire space of possible value, this will force the
+Option to use an additional byte to represent the discriminant. As such, the size of
+the Option<...> will be higher.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+Error management (Optlon tyne)
+
+It is also worth mention that Rust has several types that have similar optimization if
+
+used with an Option:
+
+' NonNull (a raw pointer that can not be Null). In this case, the value Null (since it
+is an impossible value) will be used to describe the None case from an Option
+
+' NonZero{numeric type} (an integer that can not be O). The following types are
+allowed: NonZeroI8, NonZeroIl6, NonZeroI32, NonZeroI64, NonZero|128,
+NonZeroIsize, NonZeroU8, NonZeroU16, NonZeroU32, NonZeroU64,
+NonZeroU 128, NonZeroUsize. These types are in fact wrappers around the basic
+integer types that make sure that the value is not O. As such, they can be used _
+within an Option and keep the same size in memory. l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+Error management (Option type)
+Now let's see how a C++ representation of a Rust Option looks like.
+We will try to represent an Option<i32> in Rust.
+
+C++ (possible representation for Option<i32>)
+class OptionalInt {
+bool ok;
+int value;
+public:
+OptionalInt(): ok(false), value(6) {}
+OptionalInt(int v): ok(true), value(v) {}
+inline bool has_value() const { return ok; }
+inline int value() const { if (lok) throw "error"; return value; }
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+l?‘
+Error management (Optlon type)
+And the usage Within our function for odd numbers will look like this:
+C++
+{
+ok;
+value;
+} mmmmmmmmmmmm
+OptionalInt validateOdd( value) {
+if (value % 2 == 1)
+return OptionalInt(value);
+else
+return OptionalInt();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+Error management (Opt|on type)
+Similarly, for the case of a reference (denoted by a non-null pointer in
+C++), consider the following possible implementation:
+
+C++
+class OptionalReFerenceToInt
+{
+int *value;
+public:
+OptionalReferenceToInt() : value(nullptr) {}
+OptionalReferenceToInt(int *v) : value(v) {}
+inline bool has_value() const { value != nullptr; }
+inline int& value() const
+{
+(value == nullptr) "error";
+*value;
+}
+};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+. Error management (Opt|on type)
+C++ comparison:
+unwrap_or( , default: ) —> value_or( && default)
+unwrap_or‘_else< >( , f: ) -> or_e|se( && function) [from C++23]
+and_then< >( , 1c: ) —> Option< > and_then( && function) [from C++23]
+Obs: method is the opposite of— (so it is not necessary).
+C++ also supports a lot of operators on top of std::optiona/. For example (.has_value() method is also
+cal/ed via a cast operator to bool).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+E r r0 r rn a n a ge rn e nt (O pt | 0 n ty p e)
+C++ comparison:
+_ stdzzoptional<int> validateOdd(int value) {
+‘cn .f y 2 lni ) '> < >{ if (value % 2 == 1)
+l n ° __ { _ return value;
+return Some(n), else
+} else { . return stdzznullopt;
+return None, }
+} } void main() {
+f () { auto r = validateOdd(5);
+n 1 t _ (5). if (r.has_va1ue())
+ii PP _ () { ’ printf( %d , r.va1ue());
+println!("Number is odd: {}", e _ _ {ﬁﬁﬁ
+} else { uﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+V? Error management (Optlon type)
+As a general overview, use Option in the following cases:
+1. You have a function that might or might not return a value of some type (one
+good example will be something like a —function that might be
+able to convert a arameter into a valid number or it might be not).
+< > StringToNumber(s: & )
+instead of
+StringToNumbeP(s: & , result: & )
+2. You need to return an error code from a function (e.g., use the Option<T> to
+include the error code, or None for no error code). This a less utilized case, but
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+Error management (Reswt type)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+Error management (Result type)
+Rust has a special generics/template type (declared as an enum)
+named Result that is used for these cases:
+
+Rust (Source: result.rs from core library) Simplified view
+pub enum Result<T, E> {
+pub enum Resu1t<T, E>
+Ok( T), {
+Ok(T),
+EPP(E),
+}
+EPP( E),
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+Error management (Result type)
+Let's see some examples:
+Rust
+division(n1: , n2: ) —> < , & > {
+if n2 == 9 {
+return Err‘("Division by zero"); m
+} else {
+}
+}
+main() {
+P1 = division(5, 0);
+r2 = division(5, 1);
+print!(" , ", r1, r2);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+Error management (Result type)
+Note that division function can be simplified by removing the return
+keyword and the final semicolon:
+
+Rust
+fn division(n1: 132, n2: 132) -> Resu1t<i32, &'stat1c str> {
+n2 == 9 {
+EPP("DiViSiOn by zero")
+} {
+Ok(n1 / n2)
+}
+}
+. Rust
+TO PrOVIde even more fn division(n1: 132, n2: 132) —> Result<132, &'stat1c str‘> {
+clarlty, and Ok can n2 =19 { ( b )
+Resu tzzEPP "Division y zero"
+be preceded by the } {
+enum name: Result::0k(n1 / n2)
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+i?‘
+Error management (Result type)
+To check if a Result contains an or an I value, use the methods:
+----///
+Rust
+division(n1: , n2: ) —> < , & > { ... }
+main() {
+r = division(S, 9);
+if r.is_enr() {
+pnintln!("Error Found: ", r.err().unwnap());
+} else {
+println!("Success, result is ", P.ok().unwrap());
+}
+} m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+t?‘
+Error management (Result type)
+To check if a Result contains an or an I value, use the methods:
+--// -/
+Rust
+division(n1: , n2: ) —> < , & > { ... }
+main() {
+r = division(5,.;
+if r.is_enr() {
+pnintln!("Error Found: ", r.err().unwnap());
+} else {
+println!("Success, result is ", P.ok().unwrap());
+}
+} m
+and a success case (e.g. a division between 5 and 2)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+t?‘
+Error management (Result type)
+Why do we need that .unwrap() to get the or I value ?
+Rust
+division(n1: , n2: ) —> < , & > { ... }
+main() {
+P = division(5, 2);
+if P.iS_ePP() {
+println!("Er‘r‘or‘ found: ", r‘.er‘r‘()-;
+} else {
+println!("Success, result is ", P.ok().unwrap());
+}
+}
+That's because both .err and .ok methods return an O tion and not the actual
+value= and ji-
+Where T and E are template/generics < ’ > {
+types define in Result enum. (8;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:129**************
+Error management (Result type)
+
+Result type has the following methods:
+
+Returns the value if no error is present or panics otherwise
+
+Returns the value if no error is present or panics with a specific
+message otherwise
+
+Returns the error if present, else panics with a specific message
+
+True if no error is present, false otherwise
+
+True if error is present, false otherwise
+
+Returns the value if no error is present or a default value in case of
+error
+
+Returns the value if no error is present or the result of a function in
+case of error
+
+Returns an Option over an error
+
+Returns an Option over the value
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+a?‘
+Error management (Result type)
+Let's see how Rust result type is stored in memory:
+Rust
+132_0r_i8(value: ) —> < , >
+{
+if value < 255 {
+EPP(va1ue )
+} else {
+Ok(va1ue )
+}
+}
+main() {
+r = i32_or_18(1@);
+r = 132_or_i8(1999);
+1r r.is_ok()
+{
+println!("value = ", r.unwrap());
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:131**************
+. Error management (Result type)
+Let's see how Rust result type is stored in memory:
+Rust
+132_0P_i8(value: ) —> < , >
+{
+if value < 255 {
+EPP<Va1ue > +0 +1 +2 +3 +4 +5 +6 +7
+} else {
+Ok(value ) 01 OA OO OO OO OO OO OO
+}
+r = 132_on_18 1aaa ;
+if r.is_ok()
+{ Possible structure lC regresentationl
+println!("va1ue = ", r.unwrap()); struct ErrorCase{
+} unsigned char index;
+} signed char value;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+. Error management (Result type)
+Let's see how Rust result type is stored in memory:
+Rust
+132_0P_i8(value: ) —> < , >
+{
+if value < 255 {
+EPP<Va1ue > +0 +1 +2 +3 +4 +5 +6 +7
+} else {
+Ok(value ) OO 0A 00 00 E8 O3 OO 00
+}
+}
+main() { E8 03 00 00 (hex) = 1000 (OxE8+Ox03*256)
+r = i32 or 18 19 '
+{ 0 _ Possible structure lC regresentationl
+println!("value = ", r.unwrap()); struct OkCase{
+} unsigned char index;
+} unsigned int value;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:133**************
+a?
+Error management (Result type)
+Let's see how Rust result type is stored in memory:
+Rust Possible structure (C regresentationl
+132_0r*_i8(value: ) —> < , >
+{ _ union Result_i32_i8{
+11c value < 255 { unsigned charindex;
+EPP(va1ue )
+} else {
+Ok(va1ue ) struct{
+} unsigned char index;
+} unsigned int value;
+main() { }Ok;
+r = i32_or_18(1@);
+r = 132_on_i8(1999); struct{
+if P'15—Ok() unsigned charindex;
+println!("value = ", r.unwrap()); Slgnedchar value;
+} } Err;
+} }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+{a
+Error management (Result type)
+Let's see how Rust result type is stored in memory:
+RUSt Caller:
+132_or_18(value: ) —> < , > lea rchr]
+if value < 255 { call Result..|s_ok
+} Elggrévalue > Notice that RCX holds the address of. !!!
+Ok(va1ue )
+}
+}
+main() {
+P = 132_0P_18(1@);
+P = 132 or 18(1999);
+{
+println!("value = ", P.unwrap());
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:135**************
+iiiiiiiii
+Error management (Result type)
+Let's see how Rust result type is stored in memory:
+Rust
+132_0P_i8(value: ) —> < , >
+{
+if value < 255 {
+Err(value ) (1”
+} else {
+Ok(va1ue )
+}
+}
+main() { end_if
+r = 132_0P_18(19);
+r = 132 or 18(1999);
+if end_if:
+{
+println!("value = ", r.unwrap());
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+Error management (Result type)
+Rust - type has two similarities in C++:
+1. std::variant (available from C++17) 9 more generic, and can be
+adjusted to reflect a Result
+2. std::expected (available from C++23) 9 this is the closest template
+that mimics the way Rust Result works.
+Note that std::variant is not designed for error management (but it can
+be used for this purpose). std::variant can contain multiple different
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:137**************
+. Error management (Result type)
+C++ comparison:
+Obs: method is the opposite of- (so an equivalent is not necessary).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+Error management (Result tyne)
+C++ comparison:
+fn (value: ) —> < , >
+{ std::variant<int32_t,int8_t> 132_or_i8(int value)
+if value < 255 { {
+Err(value as ) if (value < 255)
+} else { return (int8_t)value;
+Ok(value as ) else
+} return (int32_t)value;
+} }
+fn () { void main()
+let mut r = (19); {
+r = (1906); auto r = 132_0r_18(16); é
+if r. () r = 132_or_18(1@6@);
+{ if (std::holds_alternative<int32_t>(r)) @ﬁﬁﬁ
+println!("value = {}", r. ()); printf( %d ,std::get<int32_t>(r)); ggﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:139**************
+E r r0 r m a n a ge m e nt ( Re s u It ty p e)
+C++ comparlson:
+fn (value: ) —> < , >
+{ std::expected<int32_t,int8_t> i32_or_18(int value)
+if value < 255 { {
+Err(value as ) if (value < 255)
+} else { return (int8_t)value;
+Ok(value as ) else
+} return (int32_t)value;
+} }
+fn () { void main()
+let mut r = (19); {
+r = (1906); auto r = 132_0r_18(16); é
+if r. () r = 132_or_18(1@6@);
+{ if (P has_va1ue<>> 2%;
+println!("value = {}", r. ()); printf( %d , r.value()); iii
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+,’ E FFO l' I'Tl a ll a ge m € ﬁt (R€S Ll lt typ €)
+It is worth mention that - can be used as a returned type for -
+function, Option however can not. In order to use a - as a return
+type for the main function, the I type has to implement a special trait
+called Termination. For example, the following types implement this
+trait:
+
+' std::process::ExitCode
+' Unit type ”()" or void
+' Never type ”!"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:141**************
+Error management (Result type)
+Let's see some examples:
+Rust
+fn main() -> Result<(), 132> { m
+println!("x = {:?}", x);
+0k(())
+}
+or with
+Rust
+use std::pr0cess::ExitCode; m
+Fn main() —> Result<ExitCode, 132> {
+let x = 19;
+println!("x = {:?}", x);
+Ok(ExitCode::SUCCESS)
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+a?“
+Error management (Result type)
+Let's see some examples:
+Rust
+main() -> < , > {
+x = 19;
+println!("x = ", X);
+Ok(16)
+} error[E9277]: the trait bound ‘i32: Termination‘ is not satisfied
+--> src\main.rs:1:14
+1 l -Fn main() -> Resu1t<i32, bool> {
+| MMMMAMMMM the trait ‘Termination‘ is not implemented for ‘i32‘
+l note: required -For ‘Resu1t<i32, bool>‘ to implement Termination‘
+Since "i32" does not implement the trait Termination, it can not be
+used as valid type for the Ok variant of an Result from main function.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:143**************
+\f \et
+\et e\se
+vvhHe \et
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+"® ltlet/let else/whlle let
+
+When used with enums, - and - have a special syntax that
+
+allows de-structuring the enum and copy the value associated with it
+
+into a variable that will further be used in the next expression block.
+
+Format:
+' if let EnumVariant(variable) = Expression { }
+' while let Enum Variant( variable) = Expression { }
+
+Where:
+- Expression returns an Enum object. One of the variants of that Enum has to
+be of type EnumVariant
+- If variable is of type EnumVariant, the variable is initialized and the if
+oondiiion io oonoidorod io ioo inio “
+- This also mean that while in complex expression from if let or while let form,
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:145**************
+*- If let/ let else / vvhlle let
+Let's see a simple example:
+Rust
+
+Bool(bool),
+
+Integemm
+
+Float(t32),
+
+in main() {
+
+let i = Values::Integer(16);
+let Values::Integer(v) = i {
+println!("i is Integer and has value: {v}");
+
+}
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+-
+If let / let else / vvhlle let
+Let's see a simple example:
+Rust
+{
+Bool( ),
+Integer( ),
+Float( ),
+}
+main() {
+i = ::Integer(16);
+i—{
+println!("i is Integer and has va
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:147**************
+. .
+If let/ let else / vvhlle let
+Let's see a simple example:
+Rust
+{
+Bool( ),
+Integer< ),
+Float( ),
+}
+main() {
+i = ::Inte_er‘(16);
+1+ —{
+println!("i is Integer am
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+If let/ let else / vvhlle let
+Let's see a simple example:
+Rust
+enum Values {
+BOOl<bOOl),
+Integer<132), iishnegerandhasvmuele
+}
+use Values::*;
+fn main() {
+let i = Values::Integer(16);
+let f = Values::Float(1.2);
+let (Integer(v1),Float(v2)) = (i,f) {
+println!("i is Integer and has value: {v1}");
+println!("f is Float and has value : {v2}");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:149**************
+. lflet/ let else/vvhlle let
+Let's see a simple example:
+Rust
+If "I" is of type Integer and "f" is of type Float then
+copy the value of "I" into “v1” and the value of "f" into "v2"
+if (Integer(v1),Float(v2)) = (i,F)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+If let/ let else / vvhlle let
+Let's see a simple example:
+Rust
+enum Values { Bool(bool), Integer(132), Float(1c32) } m
+use Values::*;
+tn maino {
+let i = Values::Integer(1@);
+let f = Values::Bool(tPue);
+let (Integer(v1),Float(v2)) = (i,f) {
+println!("i is Integer and has value: {v1}");
+println!("f is Float and has value : {v2}");
+} {
+println!("No match");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:151**************
+' ' If let/ let else / vvhile let
+Let's see a simple example:
+Rust
+if (Integer(v1),Float(v2)) = (i,F)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+If let/ let else / vvhlle let
+This feature is in particular useful for usage with Option. For example:
+Rust
+smaller_than_5(value: ) —> < > {
+1+ value < 5 { M
+Some(value) x=()
+} else { x=1
+None x=2
+} x=3
+} x==4
+main()
+{
+x = 9;
+while Some(i) = smaller_than_5(x) {
+println!("x = i ")3
+x += 1;
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:153**************
+It let / let else / W h | l e let
+The same logic with multiple variants can be used for - as well:
+fn (x: , value: ) —> < > { I I
+if x < value { 9Utp9t
+Some(x) lig'lig
+} else { !j 'lj
+None "2'l_6
+}
+}
+tn () {
+let mut x = 9; ,
+while let <50me<i>, Some<j>> = < (x, 5), (x * 3, 8)) { ﬁg;
+pPintln!("i = {i}, j = {j}">; la???
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:154**************
+® lflet/ let else/whlle let
+The same logic with multiple variants can be used for - as well:
+This translate as follows: while (x, 5) returns a variant type of Some,
+and (x * 3, 8) also return a variant type of Some, copy the resulted
+values into variable "i" and "j" and enter the while loop.
+while let (Some(i), Some(j)) = < (X, 5), (X * 3, 8>)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:155**************
+- is also a special syntax that allows direct initialization of a
+variable from an expression that results in an enum (for example an
+Option)
+Format:
+' let Enum Variant( variable) = Expression else { <error code> }
+The error code is usually a panic macro , or a return values (if this is
+called from a function). It should be noticed that this is a sugar syntax
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:156**************
+lflet/ let else/Whlle let
+Example:
+Rust
+fn smaller_than(x: i32, value: i32) —> Option<i32> {
+} {
+None
+}
+}
+fn main() {
+let Some(x) = smaller_than(2, 3) { panic!("Fail to initialize x"); };
+println!("x={x}");
+}
+Notice that "x" is of type i32 ! (and not Option<i32>)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:157**************
+Example:
+Rust
+thread 'main' panicked at ‘Fail to initialize x‘, sr‘c\main.r‘s:9:44
+smaller‘ than(x: , value stack backtPaw
+. _ 9: stdzzpanicking::begin_panic_handler‘
+1f x < value { at
+Some(x) /nustc/8ede3aae281ce6e4d52b38157d7b1ce9d3bceef225/libnany\std\sr‘c\panicking.Psz593
+1: cone: :panicking: :panic_1cmt
+} else { at
+None /nustc/8ede3aae281ce6e4d52b38157d7b1ce9d3bceef225/libnany\cor‘e\sr‘c\panicking.nsz67
+main() {
+Some(x) = smaller‘_than- 3) else { panic!("Fail to initialize x"); };
+println!("x= x ")3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:158**************
+® lflet/ let else/vvhlle let
+You can also use - syntax to return something from a function:
+fn (x: , value: ) —> < > {
+if x < value { IOUtPUt I
+Some(x) get_x(2)=4
+} else { get_x(4)=-1
+None
+}
+}
+fn (value: )—> {
+let Some(x) = (value, 3) else { return —1; };
+p Pi "t 1 n ! ( " get} ( 2 ) ={ } " l (2) ) 3
+p Pint 1 n ! ( " get_>< ( 4) ={ } " , (4) > s
+} ﬁﬁﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:159**************
+Question mark operator (?)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:160**************
+® - u 1/
+" Qu est I 0 n m a rk 0 p e rate r ( ? )
+Rust has a special unary operator "I" that works with Option and
+Result generics in the following way:
+' Let's consider these ex ression: "-", where ‘I’ is of type
+— or i
+' The ”?” performs the following actions:
+1. If the value of ‘I’ is Some (for O tion) or Ok (for Result), then "I" gets
+unwrapped and assigned it to "if
+2. If the value of ‘I’ is None (for Option) or Err (for Result) and the function
+where ”-” operation is located returns an Option or Result, then the
+function returns immediately the value of "I" 9 a None or Err
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:161**************
+§$@__:rx
+3-j;LF_r - L< ((1)1)
+Questlon mar operat0r( . )
+Let's see some examples:
+Rust
+fn sum(v1: Option<132>, v2: Option<132>) —> Option<132> {
+Some(x + y) Some(25)
+}
+fn main() {
+let Pesult = sum(Some(19), Some(15));
+println!("{:?}", result);
+}
+In this case since both Some(10) and Some(15) are valid, the result
+returns the expected sum.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:162**************
+a»- .-_
+l-j;LF~l - L< ((1)1)
+Question rnar operator( . )
+If however, we change one of the parameters to None, the sum is not
+possible anymore, but we don't need to change the code as the
+execution will stop when evaluating "y".
+Rust
+fn sum(v1: Option<132>, v2: Option<132>) —> Option<132> {
+let X = m; M
+Some(X + y)
+}
+fn main() {
+let result = sum(Some(16), None);
+pnintln!("{:?}", result);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:163**************
+ﬁ
+Questlon rnar operator ( . )
+In reality, sum function can be written in two ways:
+A) Using question mark operator ?
+Rust
+sum(v1: < >, v2: < >) -> < > {
+x = v1?;
+y = v2?;
+Some(x + y)
+}
+B) Using if expressions Equivalent
+Rust code
+sum(v1: < >, v2: < >) —> < > {
+x = 9;
+if v1.is_none() { return None; } else { x = v1.unwrap(); }
+y = 93
+if v2.is_none() { return None; } else { y = v2.unwrap(); }
+Some(x + y)
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:164**************
+t?‘
+Question mark operator ( . )
+Its important to notice that the operator ”?” does not require the same
+type to be used (but rather the same type for the error case).
+Rust
+return None
+}
+goo()—> < > {
+x = foo()?;
+Some(1.234)
+}
+main() {
+X = goo<>;
+println!("x = ",X)3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:165**************
+.
+Question mark operator (”?”)
+Its important to notice that the operator ”?” does not require the same
+type to be used (but rather the same type for the error case).
+Rust
+x = foo()?;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:166**************
+.
+Question mark operator (”?”)
+Its important to notice that the operator ”?” does not require the same
+type to be used (but rather the same type for the error case).
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:167**************
+t?‘
+Question mark operator ( . )
+The same logic applies for Result as well. In this case it is important for
+a conversion between the error type of different Results to be possible.
+Rust
+foo()—> < , > {
+}
+goo()—> < , > {
+x = foo()?;
+Ok(1.234)
+}
+main() {
+X = goo<>;
+pnintln!("x = ",X)3
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:168**************
+.
+Question mark operator (”?”)
+The same logic applies for Result as well. In this case it is important for
+a conversion between the error type of different Results to be possible.
+Rust
+x = foo()?;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:169**************
+' (I I)
+Question mark operator ( ? )
+The same logic applies for Result as well. In this case it is important for
+a conversion between the error type of different Results to be possible.
+Rust
+foo()— 1
+return Enr‘(1;) .
+}
+goo()-> < - x Err(10)
+x = foo()?;
+Ok(1.234)
+}
+main() {
+X = goo<>;
+pnintln!("x = ",X)3
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:170**************
+é?‘
+' ‘ ' (I I)
+Question mark operator ( ? )
+The same logic applies for Result as well. In this case it is important for
+a conversion between the error type of different Results to be possible.
+Rust
+foo()—> <
+return Err(19.2) ‘ ‘ -. -
+} errorgﬁgizglr: r‘2.5crigldn't convert the error to 132
+goo<>-> < I’ | ' ' '
+X = {000?} 4 l in g°°‘>'>l??‘_‘l‘fff?i‘f??i { .t d ~32 b C . th-
+Ok(1'234) 5 | let x = foo()?; EXPE e l e ause o 15
+} | A the trait ‘From<f64>‘ is not implemented -For ‘i32‘
+' I
+ma1n())( i goo() ' = note: tEe questionlmark operaEion (‘.P‘) implicitly performs a conversion on
+’ t e error va ue usin t e ‘From‘ trait
+println!("x = ",X); = help: the following other iypes implement trait ‘From<T>‘:
+}
+In this case, Err(f64) can not be converted to Err(i32) so this type of
+error can not be propagated.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:171**************
+- @@
+
+***************Ending Page***************
+
+
+
+
+

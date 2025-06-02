@@ -1,0 +1,1070 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Graphical User Interface
+
+(GUI)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Human-Machine Interfaces
+The ways in which a software system
+interacts with its users.
+i Command Line
+i Graphical User Interface - GUI
+i Touch User Interface - TUI
+i Multimedia (voice, animation, etc.)
+i Inteligent (gesture recognition, conversational,
+etc.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Graphical User Interfaces
+
+Visual communication between software and users.
+0 AWT(Abstract Windowing Toolkit)
+i Swing — part of JFC (Java Foundation Classes) _
+‘ SWT (‘B M) llllcE'llElll-Illie-Illiﬂlﬁllll
+‘ Java FX
+
+_ at ‘
+
+i XUL l
+- Java 2D /
+- Java 3D -- i g
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+The Stages of Creating a GUI
+Application
+-‘- Design
+— Create the containers 8
+— Create and arrange the components
+-‘- Functionality
+— Define the user-components interaction Q
+— Attach actions to components
+— Create the action handlers p
+-‘- Considerations
+— Programatic — Declarative — Visual I
+— Separation between the GUI and application logic‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+AWT Ll bra ry
+import java.awt.*;
+public class AWTExample {
+public static void main (String args [1) {
+// Create the window (frame)
+Frame f = new Frame("0 fereastra");
+// Set the layout of the frame
+f.setLayout (new FlowLayout()); ANVTStheoﬂgnm
+Java GUI llbrary.
+// Create the components
+Button b1 = new Button("OK");
+Button b2 = new Button("Cancel");
+// Add the components to the frame
+f.add(b1);
+f . add (b2) ; E x
+f.pack();
+// Show the frame
+f.setVisible(true);
+}
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+AWT Components
+r Button v List
+v Canvas : iecxggergponent
+r Checkbox , TextField
+v CheokBoxGroup “ TextArea
+v Choice _
+r Container a
+v Label
+AWT Components are platform-depended,
+eaoh of them having an underlying native peer.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+lnfrastru ctu re
+' Components: Button, CheckBox, etc.
+
+— A component is an object having a graphical representation that
+can be displayed on the screen and that can interact with the
+user. Properties common to all components are:
+location, x, y, size, height, Width, bounds, foreground, background,
+font, visible, enabled, . ..
+
+' Containers: Window, Frame, Dialog, Panel, etc.
+
+— A generic component containing other components.
+' LayoutManagers: FlowLayout, GridLayout, etc.
+
+— The interface for classes that know how to lay out Containers.
+' EventObjects: ActionEvent, TextEvent, etc.
+
+— An event indicates that a component-defined action occurred.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+La youtManager
+Relative positioning
+A layout manager is an object that controls the size and
+arrangement (position) of components inside a container.
+Each Container object has a layout manager.
+All classes that instantiate objects for managing
+positioning implements LayoutManager interface.
+Upon instantiation of a container it is created an implicit
+layout manager associated with it:
+-) frames: BorderLayout
+-) panels: FlowLayout
+Absolute positioning
+container.setLayout(null);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+import java.awt.*;
+pUbllc Static ‘mid main < String args H» iIIIIIIIIIIIIIIIEQiiiiiIiIIIIIIIIIIIIE E
+Frame f = new Frame("Grid Layout"); HmmnE me¢medemn4
+f.setLayout (new GridLayout (3, 2)); Emmnﬁ
+Button bl = new Button (" Button l");
+Button b2 = new Button ("2");
+Button b3 = new Button (" Button 3");
+Button b4 = new Button ("Long — Named Button 4");
+Button b5 = new Button (" Button 5");
+f.add(bl); f.add (b2); f. add(b3); f.add(b4); f.add(b5);
+mack <>,- M
+f.setVisible(true); rmmmm
+@Emmn1; 2 EMMHE ljngNamedEmmn4 Emmnﬁ
+}
+_L_l- B El
+Frame f = new Frame("Flow Layout"); me¢mnmd5mmn4| Emmnﬁl
+f.setLayout (new FlowLayout ());
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+import java.awt .*;
+public class TestBorderLayout {
+public static void main ( String args [1) {
+
+Frame f I new Frame (" Border Layout ");
+// This is the default for frames
+f.setLayout (new BorderLayout());
+f.add(new Button(" North "), BorderLayout.NORTH );
+f.add(new Button(" South"), BorderLayout.SOUTH );
+f.add(new Button(" East"), BorderLayout.EAST );
+f.add(new Button(" West "), BorderLayout.WEST );
+f.add(new Button(" Center "), BorderLavout.CENTER );
+f-PaCk (); a: Border La'fuut _ IEIIEI
+f.setVisible(true); memmmmmmmmmmmmmmmmmmmmﬁ
+
+}
+
+‘Jest Centru Est
+Bud
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+User Interactions
+_
+Event: clicking a button, altering the text, checking an
+option, closing a frame, etc.
+Source: the component that generates an event.
+Listener: the responsible for receiving and handling
+(consuming) events.
+7W ‘ ¢ ‘ Q , ‘ V H W’
+—_L__;___g_ -____;____;_l_—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+class MyFrame extends Frame {
+public MyFrame ( String title ) {
+button.addActionListener( new ActionListener() {
+@Override
+public void actionPerformed(ActionEvent e) {
+MyFrame.this.setTitle(
+"You pressed the button " + e.getActionCommand());
+}
+});
+}
+}
+Usmg Lambda Expressmns
+button.addActionListener( (ActionEvent e) —> {
+MyFrame.this.setTitle(
+"You pressed the button " + e.getActionCommand());
+});
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+class MyFrame extends Frame {
+public MyFrame ( String title ) {
+button.addActionListener( this::onButtonPressed );
+checkbox.addItemListener( this::onItemChanged );
+}
+//Your own, suggestively called, methods
+private void onButtonPressed(ActionEvent e) {
+this.setTitle("You pressed the button");
+}
+private void onItemChanged(ItemEvent e) {
+this.setTitle("Checkbox state: " + check.getState());
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Swing
+
+i Extends the core concepts and mechanisms of AWT;
+we still have components, containers, layout
+managers, events and event listeners.
+
+i Replaces completely the AWT componet set,
+providing a new set of components, capable of sorting,
+printing, drag and drop and other “cool” features.
+
+i Brings portability to the GUI level; no more native
+peers, all components are “pure”.
+
+i Based on Separable Model-and-View design pattern.
+
+i "Component Oriented Programming"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+SWIng Components
+
+O Atomic Components
+JLabel, JButton, JCheckBox, JRadioButton, JToggleButton,
+JScrollBar, JSlider, JProgressBar, JSeparator
+
+C Complex Components
+JTable, JTree, JComboBox, JSpinner, JList, JFileChooser,
+JColorChooser, JOptionPane
+
+D Text Editing Components -
+JTeXtField, JFormattedTextField, JPasswordField, JTextArea,
+JEditorPane, JTeXtPane
+
+i Menus
+JMenuBar, JMenu, JPopupMenu, JMenuItem,
+JCheckboxMenuItem, JRadioButtonMenuItem
+
+O Intermediate Containers
+JPanel, JScrollPane, JSplitPane, JTabbedPane, JDesktopPane,
+JToolBar
+
+O High-Level Containers
+JFrame, JDialog, JWindow, JInternalFrame, JApplet
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+"J" Convention
+
+java.awt.Frame — javax.swing.JFrame
+
+java.awt.Button — javax.swing.JButton
+
+java.awt.Label — javax.swing.JLabel
+
+New Layout Managers
+
+BoxLayout, SpringLayout, GroupLayout, OverlayLayout, etc.
+
+HTML Aware Components
+
+JButton simple = new JButton("Dull text");
+
+JButton html = new JButton("<html><u>Cool</u> <i>text</i></html>");
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+J Component
+JComponent is the base class for all Swing components,
+except top-level containers: JFrame, JDialog, JApplet.
+JComponent extends Container
+i Support for tool tips - setToolTip
+1k Support for borders - setBoroler
+t Enhanced support for sizing and positioning
+setPreferredSize, ...
+‘k Opacitiy control - setOpaque
+t Keyboard bindings
+i “Pluggable” look and feel
+t Double-Buffering, Support for accessibility, etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Swing Architecture
+Swing architecture is “rooted” in the MVC design:
+i Model- the data for the application
+i View- the visual representation of the data
+i Controller- takes user input on the view and
+translates that to changes in the model.
+Separable Model Architecture
+Model + (Presentation, Control)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+class MyTableModel extends AbstractTableModel {
+private String[] columns I {"Nume", "Varsta", "Student"};
+private Object[][] elements I {
+{"Ionescu", new Integer(20), Boolean.TRUE},
+{"Popescu", new Integer(80), Boolean.FALSE}};
+public int getColumnCount() { ‘Jarsta z Student
+—- ED .true
+return columns.length; - - = - -
+} Pupescu .BU fame
+public int getRowCount() {
+return elements.length;
+}
+public Object getValueAt(int row, int col) {
+return elements[row][col];
+}
+public String getColumnName(int col) {
+return columns[col];
+}
+public boolean isCellEditable(int row, int col) {
+// Doar numele este editabil
+return (col I: O);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+C llRenderes and CellEditors
+_=- SwingS-E-u l'- ll'EIll'Xl
+Elle l=eeH&Feel Inernee Ogtiene Multiecreen
+ééééée-n agﬁﬂ Hﬁ" @wi
+.3- I’ {é} g :El EEI -! JILEI ﬁlming ii; LE-
+We Um
+Reerclering allewed Raw eelectien Seleetlen r'necle PnntIng
+' ' ' l'u1ulti le ran ee n Header
+Herlz. Llnee |:| lilelurnn eelectlen F3 El .JTable Printing I
+.‘x-“ert. Linea Autereeize r'nede Feeter
+IF'age{lIl} |
+Inter-CB“ gpacingj :3‘:
+Subsequent celurnne H FitWidtn
+ROW height: II:
+Firet Marne Laet Marne Faverite Celer Faverite Mex-'ie Faverite Number Faverite Feed
+I—' ‘L
+l'ulll-{e Albere Elrazll 44 h I
+I-w
+-— - . q‘-
+— ——- 1'"-
+P'reee Shift-F1 III te activate pepup r'nenu
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+I I
+IntGFl I llSSlOl I...
+File [lotions
+I’ JuwZD I _i_tce_Cu.tTes I Clipping I Cole-1's. I Composite I Fonte I Lnages I Linea. I 11o: _ Paint I Paths I Transforms
+Global Controls
+Increment: I51] I EI'HPIIEEIELIEI I BCEIE Shear Rotate IE1 ‘amt-‘Liming
+Rotate ,.—._ Sheer _|
+rt g |_5Te:itu.1'e
+Mil-""5 I: I: ‘- -_
+‘H HIM/I..- J5 |_| Alphanmpoeite
+‘.w ---:-'- '—-—-.Lh,__\\ I_i_uto5oreen Ti
+u_.-'“""' r-""“-'--._...J _ .:
+L." SF-UEIEISFUD Textu re Elloos er
+1+1- Ehapu '
+i.‘ 1 5mg} tl'lem onr Monitor
+21mg“ -
+. _. —i Performance
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+The “Drawing” Concept
+- Graphical interfaces are built using components.
+The “system” draws the components automatically:
+— when they are displayed for the first time,
+— at minimize, maximize operations,
+— when resizing the display area;
+- The support methods for defining the graphical
+representation of a Component are:
+— void paint(Graphics g)
+— void update(Graphics g)
+— void repaint()
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Java 2D
+- Two-dimensional graphics, text, and imaging
+- A uniform rendering model for display devices and printers
+- Geometric primitives: any geometric shape
+' Hit detection on shapes, text, and images
+- Ccontrol over how overlapping objects are rendered
+- Enhanced color support that facilitates color management
+- Support for printing complex documents
+' Control of the quality of the rendering (hints)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+This method is called when the contents of the component should
+be painted; such as when the component is first being shown or is
+damaged and in need of repair. The clip rectangle in the Graphics
+parameter is set to the area which needs to be painted.
+public class MyFrame extends Frame {
+public MyFrame(String title) {
+super(title);
+setSize(200, lOO);
+}
+public void paint(Graphics g) {
+super.paint(g);
+// Apelam metoda paint a clasei Frame
+g.setFont(new Font("Arial", Font.BOLD, 11));
+g.setColor(Color.red);
+g.drawString("DEMO Version", 5, 35);
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+' JComponent.paint delegates the work of painting to three
+protected methods: paintComponent, paintBorder, and
+paintChildren. They're called in the order listed to ensure that
+children appear on top of component itself.
+
+~ Swing components should iust override paintComponent.
+
+/* Creating a custom component */
+class MyCustomComponent extends JPanel {
+// Define the representation of the component
+public void paintComponent(Graphics g) {
+super.paintComponent(g);
+GraphicsZD g2d = (GraphicsZD) g;
+}
+// Methods used by the layout managers
+public Dimension getPreferredSize() { return ... };
+public Dimension getMinimumSize() { return ... }
+public Dimension getMaXimumSize() { return ... }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Creatlng a Custom Component
+public class MyComponent extends JPanel {
+private int X, y, radius;
+public MyComponent() {
+init();
+}
+private void init() {
+setPreferredSize(new Dimension(400, 400));
+this.addMouseListener(new MouseAdapter() {
+public void mousePressed(MouseEvent e) {
+X I e.getX(); y I e.getY();
+radius I 50 + (int) (100 * Math.random());
+repaint();
+}
+});
+@Override
+public void paintComponent(Graphics g) {
+super.paintComponent(g);
+g.drawOval(X — radius / 2, y — radius / 2, radius, radius);
+} JFrame frame = new JFrame("demo");
+} frame.add(new MyComponent());
+frame.pack();
+frame.setVisible(true);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Graphics, GraphicsZD
+
+- Graphics is the base class for all graphics contexts that
+allow an application to draw onto components realized on
+various devices, as well as onto off-screen images.
+
+- GraphicsZD class extends the Graphics class to provide
+more sophisticated control over geometry, coordinate
+transformations, color management, and text layout.
+
+- A graphic context offers:
+
+— Methods for configuring the drawing properties:
+color, paintMode, font, stroke, clip, renderingH/nts,
+
+— Geometric primitives
+
+— Support for working with texts and images
+
+— Support for printing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Geometric Primitives
+- Coordinates
+
+— User space — in which graphics primitives are specified
+
+— Device space — screen, window, or a printer m
+
+— The origin of user space is the upper-left corner E
+
+- Primitives:
+
+— drawLine, drawPolyline, drawOval, fillOval,
+drawPolygon, fillPolygon, drawRect, fillRect, m
+
+— draw(Shape), fill(Shape)
+
+— The Shape interface provides definitions for objects that represent some form of
+geometric shape. The Shape is described by a Pathlterator object, which can
+express the outline of the Shape as well as a rule for determining how the outline
+divides the 2D plane into interior and exterior points.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Working WIth Texts
+- Font - A collection of glyphs (unique marks that collectively
+add up to the spelling of a word) —> name, style, size
+Label label I new Label("Some text");
+label.setFont(new Font("Dialog", Font.PLAIN, 12));
+void paint(Graphics g) {
+g.setFont(new Font("Courier", Font.BOLD, 10));
+g.drawString("Another text", 10, 20); }
+- FontMetrics - encapsulates information about the
+rendering of a particular font on a particular screen.
+Font f I new Font("Arial", Font.BOLD, ll); ammﬂﬂm
+FontMetrics fm = g.getFontMetrics();
+int height I fm.getHeight();
+int width I fm.stringWidth("frog"); wmh hﬁﬂm
+int XWidth = fm.charl/\liolth ('g’ ); advance descenderline
+' TGXtLayOUt - highlighting, strings with mixed fonts, mixed languages, bidirectional text.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Uslng Colors
+
+- Paint interface defines how color patterns can be
+generated for Graphics2D operations.
+
+- Color encapsulates colors in the sRGB space
+Color standardRed I Color RED- Red Green BIueA/pha
+Color plainWhite I new Color (l . O, l . O, l . O); (0 _ 255’ 0'0 _1'O)
+Color translucentRed I new Color(255, O, O, 128);
+
+' SystemColor encapsulate symbolic colors representing
+the color of native GUI objects on a system.
+SystemColor.desktop
+
+- GradientColor provides a way to fill a Shape with a linear
+color gradient pattern. —
+
+- TexturePaint provides a way to fill a Shape with a texture
+that is specified as a Buffered/mage.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Using Images
+- Image is the superclass of all classes that
+represent graphical images. ___-...._,.
+- Bufferedlmage i-I-I t
+— Loadincl from a file '
+Bufferedlmage image I ImageIO.read(new File("hello.jpg"))
+— Creating in memory (off-screen)
+Bufferedlmage image I new Bufferedlmage(w, h, type);
+Graphics g I image.getGraphics();
+— Drawing using a graphic context
+graphics.drawImage(image);
+— Saving in a file (GIF, PNG, JPEG, etc.)
+ImageIO.write(image, "png", new File("drawing.png"));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Bufferedlmage img I ImageIO.read( 7 :9 ' r i 7%Mirrr
+new URL("httpz//www.remoteServer.com/hugelmage.jpg"));
+public void paint(Graphics g) { 1:,
+g.drawImage(img, 0, 0, this); .
+}
+' lmageObserver - an asynchronous update interface for
+receiving notifications about information as the Image is constructed.
+public boolean imageUpdate(Image image, int flags, int x, int y,
+int width, int height) {
+// If the image has finished loading, repaint the window.
+if ((flags & ALLBITS) l: O) {
+repaint();
+return false; // finished, no further notification.
+}
+return true; //not finished loading, need further notification.
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+I I I
+lltGl'l I IISSIOI l...
+
+E Javarxza - Ensemble Iilﬂlil
+J —
+{- G fi I} dcivvniclad.c:racie.ccim_.-"c|tnc1clc5-’:3l'c-c-ucts_-fa-.-af‘=<_.-'E.2_-"5a-r :11 es_.-"E'15e-r::| e_-""1ce><.ht'r- =.—.TJ—_EG—_5 ‘Tl? d m ‘K
+- f'—"|——
+
+l. J - r‘ a
+JavaFX Ensemble W “H”! We” We‘? m
+THlCiHLlCiHlE- H HIGHLIGHTS n
+1Al'eb 1v'ie'vv
+H l I'v1 L tditclr
+Cube . 5
+Cube Svstern H :2:- E ‘7-: html P‘ -._
+leclphclne _ *2/11th a‘
+I‘
+Advanced Media
+Digital Clclck
+. "IA'eb vie-.v H T l'vl L Editcrr Cube Cube Sv'zten'l Hvlcrphcrne
+|_'.l||s.|:|la]|.r Shelf ‘ ‘
+AdvArea Audicl Chart -
+Adv BarAudicI Chart .'. -- - ' .- 1] I H
+Advanced Stclck Line Chart ‘m. "1 I _|--1. i I q i —l
+.1. I _ nu
+Adv Candle Stick Chart \y "' - '
+Advanced Scatter Chart ’ — I . ii" 8
+I-NtW!
+_ Advanced lvledia Digital ClCHCl'i: Dizplav Shell Adv Area Audici Ch... Adv Bar Audici Chart
+‘SLAMPLIIS i
+1"Anirnaticln . .,.
+I'- Tirnelines _ ‘91:55:? fic-
+l" Transitions ‘i ; _ _ ﬂw - £1
+mm: n it“ M ..u .|| '. -'-'=1.-. r u
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+JavaFX
+
+- A set of graphics and media packages that
+enables developers to design, create, test,
+debug, and deploy rich client applications.
+
+- High-performance, modern user interface that
+features audio, video, graphics, and animation.
+
+' Deployed across multiple platforms: desktop,
+browsers, mobile, etc.
+
+' Coexists with Swing — however, it may replace
+Swing as the standard GUI library;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Java FX Key Features
+
+- FXML —> MVC Pattern Support
+- WebView (embed web pages within a JavaFX application)
+- Built-in Ul controls, CSS and Themes (Modena, Caspian, etc.)
+- 3D Graphics Features (Shape3D)
+- Multi-touch Support, Hi-DPI support, Rich Text Support
+- Hardware-accelerated graphics (uses optimally the GPU)
+~ High-performance media engine (playback of web multimedia content)
+- Self-contained application deployment model
+' lDEs offer tools for rapid application development
+
+—> JavaFX Scene Builder
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Hello World
+//The main class extends Application
+public class HelloWorld extends Application {
+@Override
+public void start(Stage primaryStage) { //The main entry point
+Button helloBtn = new Button();
+helloBtn.setTeXt("Hello Worldl");
+FlowPane root = new FlowPane();
+root.getChildren().add(helloBtn);
+Theater Metaphor
+Scene scene = new Scene(root, 300, 250);
+//The UI is defined by a stage and a scene.
+//Stage class is the top-level JavaFX container.
+//The Scene class is the container for all content.
+primaryStage.setTitle("Hello World Application");
+primaryStage.setScene(scene);
+primaryStage.show();
+}
+public static void main(String[] args) {
+launch(args); //not required for JavaFX applications...
+}
+l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+The JavaFX scene graph is a retained mode API
+HUDT NUDE Greup
+LEAF NUDE LEAF NUDE BRANCH NUDE Circle Rectangle Hegien
+LEAF weeE LEAF NUDE _ TB“ _ _ “'9'in
+Group group I new Group();
+Rectangle blueSquare I new Rectangle(50, 50);
+blueSquare.setFill(Color.BLUE);
+group.getChildren().add(blueSquare);
+Circle redCircle I new Circle(50, new Color(1,0,0,0.5f));
+group.getChildren().add(redCircle);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+javafx.scene.Node
+Base class for scene graph nodes.
+javafx.scene.Parent
+ShHPEBD Parent Shape The base class for all nodes that
+,,_ + have children in the scene graph
+I . ' javafx.scene.Region
+9951' On The base class for all JavaFX
+Node-based Ul Controls, and all
+|—T T—| layout containers.
+1‘ T Base class for layout panes
+:il I'll. O javafx.scene. Control
+_ Base class for all user interface
+Each item in the scene graph is called a Node. controls.
+Each node in the scene graph can be given a unique id.
+Each node has a bounding rectangle and a style.
+Any Node can have transformations applied to it: translation, rotation, scaling, or shearing.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Layout Management
+Setting the position and size for Ul element.
+' A “combo” of a Swing JPanel + LayoutManager
+' javafx.scene.layout.Pane - Base class for layout
+panes; used directly in cases where absolute
+positioning of children is required.
+- Uses preffered, minimum and maximum properties
+' FloWPane, BorderPane, Mm“ E'E
+AnchorPane, StackPane,
+TilePane, GridPane,
+TextF/ovv, HBox, VBox, etc.
+- borderPane.setCenter(
+new ListView());
+borderPane.setBottom(
+new Label("Hello"));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Addlng Functlonallty
+public class HelloWorld extends Application {
+@Override
+public void start(Stage primaryStage) {
+Button helloBtn = new Button();
+helloBtn.setTeXt("Hello Worldl");
+helloBtn.setOnAction(new EventHandler<ActionEvent>() {
+@Override
+public void handle(ActionEvent event) {
+System.out.println("Hello Button was clickedl");
+}
+});
+//The anonymous inner class
+//can be turned into a lambda expression
+Button ciaoBtn I new Button("Ciao Mondol");
+ciaoBtn.setOnAction((ActionEvent event) -> {
+System.out.println("Ciao Mondo e stato cliccatol");
+});
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Java FX Events
+An event represents an occurrence of something of interest to the application
+javafx.event.Event - Base class for FX events.
+— source —> origin of the event
+— target —> the path through which the event will
+travel when posted.
+lrputEventAN'f HayEvenLAH? HajEvant.HEY_HELEAEED
+HayEvant.HET_T‘fPED
+I Eventﬁhh" AdhnEventAGTlDH MouseEvenLAHY MutuaEvant.lulDLI5E_PHESSED
+Mum-aEvantMDLEEJiELEAEED
+thquvmt.H~.lY HmEanLWIHD-CIW_SHDWIHG
+H HnttmEanLWlHDCIWTBHDVIM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Event Delivery Process
+
+' Target Selection ,
+— the node that has focus, Hull i}:
+— the node location of the cursor, etc. l Sim
+
+- Route Construction l Group x
+— the event dispatch chain _> bi
+
+- Event Capturing Pm Rectangle
+— passed down to the target . —|; —
+— filters are invoked _ {limit l Triangle
+
+- Event Bubbling
+— the event returns up from the target to the root
+— handlers are invoked
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Intercepting Filter Design Pattern
+
+- EventHand/er functlonal Interface
+
+- F|lters (90mg down...)
+redCircle.addEventFilter(
+
+MouseEvent.MOUSE_CLICKED, (MouseEvent e) —> {
+System.out.println("Clickz going down");
+//e.consume();
+
+});
+
+- Handlers (golng up...)
+redCircle.addEventHandler(
+
+MouseEvent.MOUSE_CLICKED, (MouseEvent e) —> {
+System.out.println("Clickz going up");
+
+});
+
+- Convenlence methods
+setOnEvent-type(EventHandler<? super event-class> value)
+helloBtn.setOnAction(new EventHandler<ActionEvent>() { });
+redCircle.setOnMouseEntered(new EventHandler<MouseEvent>() { });
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+TranslateTransition translate =
+new TranslateTransition(Duration.millis(750));
+translate.setToX(300); translate.setToY(250);
+FillTransition fill I new FillTransition(Duration.millis(750));
+fill.setToValue(Color.RED);
+RotateTransition rotate = new u x
+RotateTransition(Duration.millis(750));
+rotate.setToAngle(360);
+ScaleTransition scale I
+new ScaleTransition(Duration.millis(750));
+scale.setToX(O.1); scale.setToY(O.1);
+ParallelTransition transition =
+new ParallelTransition(blueSquare,
+translate, fill, rotate, scale);
+transition.setCycleCount(Timeline.INDEFINITE);
+transition.setAutoReverse(true);
+transition.play();
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Pulse
+
+- A pulse is an event that indicates to the JavaFX scene graph
+that it is time to synchronize the state of the elements on the
+scene graph with Prism.
+
+- A pulse is throttled at 60 frames per seconds (fps) maximum
+and is fired whenever animations are running or when
+something in the scene graph is changed. For example, if a
+position of a button is changed, a pulse is scheduled.
+
+- When a pulse is fired, the state of the elements on the scene
+graph is synchronized down to the rendering layer.
+
+- A pulse enables application developers a way to handle events
+asynchronously. This important feature allows the system to
+batch and execute events on the pulse.
+
+~ The Glass Windowing Toolkit is responsible for executing the
+pulse events. lt uses the high-resolution native timers to make
+the execution.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Styllng Wlths CSS
+Cascading Style Sheets
+- Define Style Sheets Files
+.root {
+—fX-background—image: url("background.jpg");
+}
+.label {
+—fx—font—size: 12px;
+—fx—font—weight: bold;
+—fX-text—fill: #333333;
+i
+' Specify the CSS
+scene.getStylesheets().add("path/stylesheet.css");
+- lnline
+helloBtn.setStyle(
+"—fx—background—color: slateblue; " +
+"—fx—text—fill: white;");
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+- XML-based language that provides the structure for
+building a user interface separate from the
+application logic of your code.
+
+' Java (Programatic)
+
+BorderPane border I new BorderPane();
+Label helloLabel = new Label("Hello");
+border.setTop(helloLabel);
+
+Label worldLabel = new Label ("World");
+border.setCenter(worldLabel);
+
+- FXML (Declarative)
+<BorderPane>
+
+<top> .
+<Label text:"Hello"/> JavaFX Scene Bullder
+</top>
+<center>
+<Label text:"World"/>
+</center>
+</BorderPane>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+- FXML Loader
+Parent root = FXMLLoader.load(
+getClass().getResource("example.fxml"));
+Scene scene = new Scene(root, 300, 275);
+- Create the ||nk between Vlew and control
+<GridPane fx:controller:"FXMLExampleController">
+<Button text="Sign In"
+onAction="#handleSubmitButtonAction"/>
+<Text fx:id="actiontarget" />
+</GridPane>
+- Deﬁne the code to handle events
+public class FXMLExampleController {
+@FXML
+private Text actiontarget;
+@FXML
+protected void handleSubmitButtonAction(ActionEvent event) {
+actiontarget.setTeXt("Sign in button pressed");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Swing or JavaFX?
+- Swing
+> Maturity, Stability
+> Component Libraries and Frameworks
+> Large amount of resources
+' JavaFX
+> Modern, MVC friendly, CSS, FXML
+> Spectacular (3D, Animations, etc.)
+> May not be “rock-solid” in production, yet
+> Not so many resources
+
+***************Ending Page***************
+

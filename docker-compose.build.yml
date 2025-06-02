@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: quizzy-backend
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    ports:
+      - "3000:3000"
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_BACKEND_URL: http://52.28.16.232
+    image: quizzy-frontend
+    environment:
+      VITE_BACKEND_URL: http://52.28.16.232
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

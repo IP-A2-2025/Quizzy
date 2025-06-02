@@ -1,0 +1,411 @@
+[{content={parts=[{text=--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is a key advantage of using lambda expressions in C++?
+--InteriorSeparator--
+They allow you to write comparison logic inline, directly within the call to a function like `Sort`.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which of the following are valid ways to define a lambda expression?
+--InteriorSeparator--
+(right) `[captures] (parameters) { body }`
+(wrong) `(parameters) -> return type { body }`
+(right) `[captures] { body }`
+(wrong) `{ body } [captures]`
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+13
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which capture modes capture variables "a" and "b" by reference?
+--InteriorSeparator--
+(right) `[&a,&b]`
+(wrong) `[a, b]`
+(right) `[&]`
+(wrong) `[=]`
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+14
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+If a lambda captures a variable by value, does changing the original variable after the lambda is defined affect the value used within the lambda?
+--InteriorSeparator--
+No, the lambda captures a copy of the variable.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+16
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+If a lambda captures a variable by reference, what happens to the variable inside the lambda if we change the variable after the lambda is defined?
+--InteriorSeparator--
+The variable inside the lambda will reflect the changes to the original variable.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+18
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+When using the capture `[=]`, which of the following is true?
+--InteriorSeparator--
+(right) All variables used in the lambda body are captured by copy.
+(wrong) All variables are captured by reference.
+(right) If "this" is available, it is captured by reference.
+(wrong) 'this' is captured by copy
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+14
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens if you try to capture the same variable twice in a lambda capture list (e.g., `[=, &a]` where 'a' is used in the body)?
+--InteriorSeparator--
+The code will usually fail to compile, as a variable cannot be captured twice.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+29
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which of the following is correct regarding lambdas and `decltype`?
+--InteriorSeparator--
+(right) `decltype` can be used to re-utilize lambdas with no capture.
+(wrong) Copy constructor is not supported by compilers
+(wrong) Copy constructor not valid for GCC
+(right) Copy constructor is used with captured values
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+46
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+If a lambda captures variables `a` and `b` by value, what is the typical impact on the `sizeof` the lambda object?
+--InteriorSeparator--
+The `sizeof` the lambda object will increase by the size of the captured variables.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+48
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+In a class, which capture modes are valid for accessing the class's member variables from within a lambda expression defined in a class method?
+--InteriorSeparator--
+(right) `[this]`
+(right) `[&]`
+(right) `[=]`
+(wrong) `[]`
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+60
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the key requirement for a lambda to be implicitly convertible to a function pointer?
+--InteriorSeparator--
+It must not have any captures.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+66
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+If a lambda captures all variables by copy (`[=]`) but doesn't actually *use* any of those captured variables in its body, is it implicitly convertible to a function pointer?
+--InteriorSeparator--
+Yes, because even though it *captures* variables, it doesn't *use* them, so the compiler treats it as if it has no captures.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+68
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Explain the difference between `std::function` and function pointers when using lambdas.
+--InteriorSeparator--
+`std::function` can store any callable object with a compatible signature, including lambdas with captures, but it might incur a slight performance overhead compared to function pointers. Function pointers can only store functions (or lambdas without captures) that have a specific signature, but offer better performance.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+84
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which standard library component can be used to describe a function and store a lambda expression (even with captures)?
+--InteriorSeparator--
+(right) `std::function`
+(wrong) `std::bind`
+(wrong) `std::ref`
+(wrong) `std::mem_fn`
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+82
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What potential issue arises when using `std::function` with a lambda that captures a local variable by reference, especially if the lambda is used outside the scope where the local variable was defined?
+--InteriorSeparator--
+Dangling reference: The lambda might attempt to access a variable that no longer exists, leading to undefined behavior.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+87
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What C++ standard introduced generic lambdas?
+--InteriorSeparator--
+C++14
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+94
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+In C++20, can you explicitly specify the template parameters when calling a generic lambda defined with `<typename T>`? For example, if you have `auto f = []<typename T>(T x){ /* ... */ };`, can you call it like `f<int>(5)`?
+--InteriorSeparator--
+No, explicit template parameters are not supported when calling lambdas.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+98
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What keyword allows a lambda to modify captured variables by value?
+--InteriorSeparator--
+`mutable`
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+105
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Why does marking a lambda as `mutable` enable modification of captured variables by value?
+--InteriorSeparator--
+Without `mutable`, the `operator()` method in the generated lambda class is implicitly `const`, preventing modification of member variables (the captured variables). `mutable` removes this `const` qualifier.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+103
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which C++ standard allowed initialization of lambda captures?
+--InteriorSeparator--
+(right) C++14
+(wrong) C++11
+(wrong) C++17
+(wrong) C++20
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+109
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+If you initialize a lambda capture with `[counter = 0]`, what is the data type of `counter`?
+--InteriorSeparator--
+The data type of counter is deduced based on the value assigned to it (in this case, `int`).
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+111
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+In C++17, what does capturing `(*this)` do?
+--InteriorSeparator--
+It captures a copy of the object.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+117
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+In C++17, how can we ensure that a lambda expression is evaluated at compile time?
+--InteriorSeparator--
+Mark the lambda as `constexpr` and ensure all its operations are also `constexpr` and that it's used in a context that requires compile-time evaluation (e.g., a `static_assert`).
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+118
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which of the following best describes lambda expressions?
+--InteriorSeparator--
+(right) Anonymous functions that can capture variables from their surrounding scope
+(wrong) A form of macro substitution
+(wrong) Function declared as friend functions
+(wrong) a Class definition that can overwrite operators.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+3
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Before Lambda Expressions, how would you typically pass comparison logic to a sort algorithm?
+--InteriorSeparator--
+Using a pointer to a function.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+5
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+If you have a `Student` struct and want to sort a list of students by grade using a lambda, what would be a correct lambda expression to use in the sort function?
+--InteriorSeparator--
+`[](Student &s1, Student &s2) { return s1.Grade > s2.Grade; }`
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What term describes a lambda expression's ability to capture state (variables) and use it within the function?
+--InteriorSeparator--
+Closure
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+8
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the general syntax for a lambda expression in C++?
+--InteriorSeparator--
+`[capture list](parameter list) -> return type { function body }` or variations without return type or parameter list.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+13
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+What does `[=, &a]` mean in a lambda capture list?
+--InteriorSeparator--
+(right) Capture all variables used in the body of the lambda by making a copy of them, except for 'a'.
+(right) Variable 'a' is captured by reference.
+(wrong) All used local variables are by reference
+(wrong) Capture ‘a’ by making a copy
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+14
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What will the following code print?
+```cpp
+int main() {
+  int value = 100;
+  auto f = [value](int x, int y) { return x + y + value; };
+  value = 200;
+  printf("%d\n", f(10, 20));
+  return 0;
+}
+```
+--InteriorSeparator--
+130
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+16
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+In which of the following situations are lambda expressions particularly useful?
+--InteriorSeparator--
+(right) When you need a short, self-contained function for a specific task.
+(right) When you want to avoid creating a named function for a simple operation.
+(wrong) When you need a very long and complex function with many branches.
+(wrong) when you need to perform code injection at runtime
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+79
+--FlashCardSeparator--
+}], role=model}, finishReason=STOP, avgLogprobs=-0.23488995333477755}]

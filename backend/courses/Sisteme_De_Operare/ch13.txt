@@ -1,0 +1,793 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 13:
+File-System Interface
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+‘as? Chapter 13. F|le-System Interface
+I File Concept
+I Access Methods
+I Disk and Directory Structure
+I File-System Mounting
+I File Sharing
+I Protection
+| Operating System Concepts — 10th Edition 13.2 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+My? Ob jectlves
+I To explain the function of file systems
+I To describe the interfaces to file systems
+I To discuss file-system design tradeoffs, including access
+methods, file sharing, file locking, and directory structures
+I To explore file-system protection
+"“J 4L‘
+Operating System Concepts — 10th Edition 13.3 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Md‘ File Concept
+I Contiguous logical address space
+I Types:
+. Data
+> numeric
+> character
+> binary
+' Program
+I Contents defined by file’s creator
+' Many types
+> Consider text file, source file, executable file
+| Operating System Concepts _ 10th Edition 13_4 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Re
+tee?‘ File Attributes
+I Name — only information kept in human-readable form
+I Identifier — unique tag (number) identifies file within file system
+I Type — needed for systems that support different types
+I Location — pointer to file location on device
+I Size — current file size
+I Protection — controls who can do reading, writing, executing
+I Time, date, and user identification — data for protection, security,
+and usage monitoring
+I Information about files are kept in the directory structure, which is
+maintained on the disk
+I Many variations, including extended file attributes such as file
+checksum
+I Information kept in the directory structure
+Operating System Concepts -10th Edition 13.5 Silberschatz, Galvin and Gagri: ©2512;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+f‘ K I I I
+Flle Info Wlndow on Mac OS X
+TEX 1m 111m
+‘.5 m'rmzmm
+m
+VGeriu-li:
+Kindﬂcﬂlhnm
+Sillzllulillﬂumiﬂnnllkh
+mumrmmwm
+G'IIIIII:T£IIIyI.:46'III
+mmnuu-yzroom
+“MEI I I u a I I I
+Dillﬂnmnrnll
+Um
+I'll-slink:
+mmmmmnu
+W
+IE
+[:Il'lideuumion
+W
+m“:
+thallilsmplluﬂnnmnpmﬂdnm
+Ihnllsone.
+mum]
+ham
+vmam
+Youcmrudmlllll'll
+J. Imam §$lludim '
+a and!‘ 3MB!"
+everyone gthlnlmess .
+Operating System Concepts _ 10m Edition 135 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Ml File Operations
+I File is an abstract data type
+I Create
+I Write — at write pointer location
+I Read — at read pointer location
+I Reposition within file - seek
+I Delete
+I Truncate
+I Open(F,) — search the directory structure on disk for entry F,-,
+and move the content of entry to memory
+I Close (F,-) — move the content of entry F,- in memory to
+directory structure on disk
+Operating System Concepts _10m Edition 13;, Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+My’ Open F|les
+I Several pieces of data are needed to manage open files:
+' Open-file table: tracks open files
+. File pointer: pointer to last read/write location, per
+process that has the file open
+' File-open count: counter of number of times a file is
+open — to allow removal of data from open-file table when
+last processes closes it
+. Disk location of the file: cache of data access information
+' Access rights: per-process access mode information
+Operating System Concepts — 10th Edition 13.8 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+“1:23?” I I
+My’ Open F|le Locking
+I Provided by some operating systems and file systems
+. Similar to reader-writer locks
+' Shared lock similar to reader lock — several processes can
+acquire concurrently
+' Exclusive lock similar to writer lock
+I Mediates access to a file
+I Mandatory or advisory:
+' Mandatory — access is denied depending on locks held and
+requested
+' Advisory — processes can find status of locks and decide
+what to do
+Operating System Concepts — 10th Edition 13.9 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+W F|le Locklng Example — Java APl
+\a ,
+importjava.io.*;
+importjava.nio.channe|s.*;
+public class LockingExample {
+public static final boolean EXCLUSIVE = false;
+public static final boolean SHARED = true;
+public static void main(String arsg[]) throws lOException {
+FileLock sharedLock = null;
+FileLock exclusiveLock = null;
+try{
+RandomAccessFile raf = new RandomAccessFile("file.txt", "n/v");
+// get the channel for the file
+FiIeChannel ch = raf.getChanne|();
+// this locks the first half of the file - exclusive
+exclusiveLock = ch.|ock(0, raf.|ength()l2, EXCLUSIVE);
+/** Now modify the data . . . */
+// release the lock
+exclusiveLock.re|ease();
+Operating System Concepts — 10th Edition 13.10 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+t??? F|le Locklng Example — Java APl (Cont)
+\, H
+// this locks the second half of the file - shared
+sharedLock = ch.|ock(raf.|ength()/2+1, raf.|ength(),
+SHARED;
+/** Now read the data . . . */
+// release the lock
+sharedLock.release();
+} catch (java.io.lOException ioe) {
+System.err.print|n(ioe);
+}finally {
+if (exclusiveLock != null)
+exclusiveLock.release();
+if (sharedLock != null)
+sharedLock.release();
+}
+}
+}
+Operating System Concepts — 10th Edition 13.11 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+We’ File Types — Name, Extensmn
+executable exe, com, bin ready-to-run machine-
+or none language program
+object compiled, machine
+language, not linked
+source code c, cc, java, pas, source code in various
+asm, a languages
+batch bat, sh commands to the command
+interpreter
+word processor wp, tex, rtf, various word-processor
+doc formats
+library lib, a, so, dll libraries of routines for
+programmers
+print orview ps, pdf, jpg ASCII or binaryfile in a
+format for printing or
+viewing
+archive arc, zip, tar related files grouped into
+one file, sometimes com-
+pressed, for archiving
+or storage
+multimedia mpeg, mov, rm, binaryfile containing
+mp3, avi audio or AN information
+Operating System Concepts -10th Edition 13.12 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+“at? File Structure
+I None - sequence of words, bytes
+I Simple record structure
+' Lines
+. Fixed length
+' Variable length
+I Complex Structures
+' Formatted document
+' Relocatable load file
+I Can simulate last two with first method by inserting
+appropriate control characters
+I Who decides:
+. Operating system
+I . Program
+Operating System Concepts -10th Edition 13.13 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+‘ﬂair 5 Sequential-access File
+. . current osition
+beglnnrng p end
+<— rewind :l _
+read or wrlte i
+| Operating System Concepts — 10th Edition 13.14 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+, Fab
+“lg Access Methods
+I Sequential Access
+read next
+write next
+reset
+no read after last write
+(rewrite)
+I Direct Access — file is fixed length logical records
+read n
+write n
+position to n
+read next
+write next
+rewrite n
+n = relative block number
+I Relative block numbers allow OS to decide where file should be placed
+' See allocation problem in Ch 12
+4n QR
+Operating System Concepts — 10th Edition 13.15 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+gag}; Simulation of Sequential Access on Direct-access File
+implementation for direct access
+read next read cp;
+cp = cp + 1;
+write next write cp;
+cp I cp + 1;
+| Operating System Concepts —10th Edition 13.16 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+['1W’*l
+My’ Other Access Methods
+I Can be built on top of base methods
+I General involve creation of an index for the file
+I Keep index in memory for fast determination of location of
+data to be operated on (consider UPC code plus record of
+data about that item)
+I If too large, index (in memory) of the index (on disk)
+I IBM indexed sequential-access method (ISAM)
+' Small master index, points to disk blocks of secondary
+index
+. File kept sorted on a defined key
+' All done by the OS
+I VMS operating system provides index and relative files as
+another example (see next slide)
+Operating System Concepts — 10th Edition 13.17 Silberschatz, Galvin and Gagn: @253
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+by; Example of Index and Relative Files
+logical record
+last name number
+--
+--
+-- “a:
+-d -
+index ﬁle relative file
+Operating System Concepts — 10th Edition 13.18 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+kw) D|rectory Structure
+I A collection of nodes containing information about all files
+mwcccc.
+Files
+F 4
+F 3
+Both the directory structure and the files reside on disk
+44 QR
+Operating System Concepts — 10th Edition 13.19 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+My? Dlsk Structure
+I Disk can be subdivided into partitions
+I Disks or partitions can be RAID protected against failure
+I Disk or partition can be used raw — without a file system, or
+formatted with a file system
+I Partitions also known as minidisks, slices
+I Entity containing file system known as a volume
+I Each volume containing file system also tracks that file system’s
+info in device directory or volume table of contents
+I As well as general-purpose file systems there are many
+special-purpose file systems, frequently all within the same
+operating system or computer
+Operating System Concepts — 10th Edition 13.20 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+‘wv A Typical File-system Organization
+partition A disk 2
+disk 1
+partition C _
+flies
+partltlon B files
+disk 3
+| Operating System Concepts — 10th Edition 13.21 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+A
+MW Types of File Systems
+I We mostly talk of general-purpose file systems
+I But systems frequently have may file systems, some general- and
+some special- purpose
+I Consider Solaris has
+' tmpfs — memory-based volatile FS for fast, temporary l/O
+' objfs — interface into kernel memory to get kernel symbols for
+debugging
+. ctfs — contract file system for managing daemons
+' Iofs — loopback file system allows one FS to be accessed in
+place of another
+' procfs — kernel interface to process structures
+' ufs, zfs — general purpose file systems
+Operating System Concepts _10m Edition 1312 Silberschatz, Galvin and Gagn: @253
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+My Operatlons Performed on D|rectory
+I Search for a file
+I Create a file
+I Delete a file
+I List a directory
+I Rename a file
+I Traverse the file system
+| Operating System Concepts _10th Edition 1323 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+MW Dlrectory Organlzatlon
+The directory is organized logically to obtain
+I Efficiency — locating a file quickly
+I Naming — convenient to users
+' Two users can have same name for different files
+' The same file can have several different names
+I Grouping — logical grouping of files by properties, (e.g., all
+Java programs, all games, ...)
+Operating System Concepts — 10th Edition 13.24 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+M Slngle-Level Dlrectory
+I A single directory for all users
+m¢11£§ﬂkﬂn
+I Naming problem
+I Grouping problem
+Operating System Concepts — 10th Edition 13.25 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+I Separate directory for each user
+ﬁt!‘ E". Hﬁ HI IE
+
+I Path name
+
+I Can have the same file name for different user
+
+I Efficient searching
+
+I No grouping capability
+
+44 QR
+
+Operating System Concepts — 10th Edition 13.26 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Tree-Structured Dlrectorles
+"ﬁ Emmi Illlm
+I" I‘ I I I‘ i I
+Imum "E -ﬁ
+‘I i 1.‘ II‘
+i IE
+u
+I I? i if i" i
+Operating System Concepts — 10th Edition 13.27 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+‘Asia-7"? ' '
+it.” Tree-Structu red Dlrectorles (Cont.)
+I Efficient searching
+I Grouping Capability
+I Current directory (working directory)
+. cd /spell/mail/prog
+' type list
+| Operating System Concepts — 10th Edition 13.28 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+\ A 9M‘!A I I
+ﬂyw"
+We” Tree-Structu red D|rector|es (Cont)
+I Absolute or relative path name
+I Creating a new file is done in current directory
+I Delete a file
+rm <file-name>
+I Creating a new subdirectory is done in current directory
+mkdir <dir-name>
+Example: if in current directory /mail
+mkdir count
+Deleting “mail” :> deleting the entire subtree rooted by “mail”
+Operating System Concepts — 10th Edition 13.29 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+My}; Acycllc-Graph Dlrectorles
+I Have shared subdirectories and files
+I.‘
+Operating System Concepts — 10th Edition 13.30 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+“$111 Acycl ic-G raph Directories (Cont.)
+I Two different names (aliasing)
+I If dict deletes list :> dangling pointer
+Solutions:
+' Backpointers, so we can delete all pointers
+Variable size records a problem
+' Backpointers using a daisy chain organization
+' Entry-hold-count solution
+I New directory entry type
+. Link — another name (pointer) to an existing file
+' Resolve the link — follow pointer to locate the file
+I A
+Operating System Concepts _10m Edition 1331 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+I 44W”? I
+‘aw General Graph Dlrectory
+Operating System Concepts — 10th Edition 13.32 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+‘w’ ll General Graph D|rectory (Cont.)
+I How do we guarantee no cycles?
+' Allow only links to file not subdirectories
+' Garbage collection
+' Every time a new link is added use a cycle detection
+algorithm to determine whether it is OK
+| Operating System Concepts-10th Edition 13.33 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+MW F|le System Mountlng
+
+I A file system must be mounted before it can be accessed
+
+I A unmounted file system (i.e., Fig. 11-11(b)) is mounted at a
+
+mount point
+/
+Q
+Q users
+bill 0 o fred sue jane
+prog
+(a) (b)
+
+Operating System Concepts — 10th Edition 13.34 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+my? Mount Point
+
+:il ‘i f’
+
+b \e
+
+/
+users
+sue jane
+doc
+prog
+
+Operating System Concepts -1oth Edition 13.35 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+rm
+,q. Pal I I
+Mp F|le Sharlng
+I Sharing of files on multi-user systems is desirable
+I Sharing may be done through a protection scheme
+I On distributed systems, files may be shared across a network
+I Network File System (NFS) is a common distributed file-sharing
+method
+I If multi-user system
+. User IDs identify users, allowing permissions and
+protections to be per-user
+Group IDs allow users to be in groups, permitting group
+access rights
+' Owner of a file / directory
+' Group of a file / directory
+Operating System Concepts — 10th Edition 13.36 Silberschatz, Galvin and Gagne @253
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+A
+Mi} File Sharing — Remote File Systems
+I Uses networking to allow file system access between systems
+' Manually via programs like FTP
+. Automatically, seamlessly using distributed file systems
+' Semi automatically via the world wide web
+I Client-server model allows clients to mount remote file systems from
+servers
+' Server can sen/e multiple clients
+' Client and user-on-client identification is insecure or complicated
+' NFS is standard UNIX client-server file sharing protocol
+' CIFS is standard Windows protocol
+' Standard operating system file calls are translated into remote calls
+I Distributed Information Systems (distributed naming services) such
+as LDAP, DNS, NIS, Active Directory implement unified access to
+information needed for remote computing I‘
+Operating System Concepts _10rh Edition 1337 Silberschatz, Galvin and Gagn: @251:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+\ F“ 11A I I I
+MW F|le Sharlng — Fallure Modes
+I All file systems have failure modes
+' For example corruption of directory structures or other non-
+user data, called metadata
+I Remote file systems add new failure modes, due to network
+failure, server failure
+I Recovery from failure can involve state information about
+status of each remote request
+I Stateless protocols such as NFS v3 include all information in
+each request, allowing easy recovery but less security
+Operating System Concepts — 10th Edition 13.38 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+A
+411'?” I I I I
+MW F|le Sharlng — Conslstency Semantlcs
+I Specify how multiple users are to access a shared file
+simultaneously
+' Similar to Ch 5 process synchronization algorithms
+> Tend to be less complex due to disk l/O and network
+latency (for remote file systems
+' Andrew File System (AFS) implemented complex remote file
+sharing semantics
+' Unix file system (UFS) implements:
+> Writes to an open file visible immediately to other users of
+the same open file
+> Sharing file pointer to allow multiple users to read and write
+concurrently
+' AFS has session semantics
+> Writes only visible to sessions starting after the file is
+closed
+Operating System Concepts — 10th Edition 13.39 Silberschatz, Galvin and Gagne @253
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+‘My? Protectlon
+I File owner/creator should be able to control:
+. What can be done
+. by whom
+I Types of access
+' Read
+. Write
+' Execute
+' Append
+' Delete
+' List
+I 4t
+Operating System Concepts _ 10"1 Edition 13,40 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+- .l'f‘ .
+111*?" "
+My)’ Access L|sts and Groups
+I Mode of access: read, write, execute
+I Three classes of users on Unix/ Linux
+RWX
+a) owner access 7 :> 1 1 1
+RWX
+b) group access 6 2 1 1 0
+RWX
+c) public access 1 :> O 0 1
+I Ask manager to create a group (unique name), say G, and add
+some users to the group.
+I For a particular file (say game) or subdirectory, define an
+appropriate access.
+owigrovblic
+chmod 761 game
+Attach a group to a file
+chgrp G game A
+Operating System Concepts — 10th Edition 13.41 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:42**************
+‘7 l ' A c t | |_' t M t
+ﬂ Wmdows 7 ccess- on r0 IS anagemen
+Semi’
+Object name: HiDATMPattems MatenalXSrcl'tletPaneliava
+Gmup er user names:
+ELSYSTEM
+l Grecian].r G. Gagne {ggagneﬁihwcusersint}
+'. .- Guest NIELISEHSHGUEH}
+35!, Fileﬁdmms M'CLIS EHSHFIIeMmms}
+HJMmhistlatcrs {FlLESWmhistratcrs}
+Tc change pennissicns, click Edit.
+F'enTlissicns for IGuest Allow Eleni‘r
+Full ccntrcl Q"
+Modify y"
+Head l: execute q"
+Head J
+1llll'rite J
+Special pen'nissicns
+For special pennissicns cr advanced settings, —d1'an “d
+click Mvanced.
+Lean-I about access central and gem-lissicns
+| a _|
+Operating System Concepts — 10th Edition 13.42 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+4,9"? A Sample u NIX Directory Listing
+-rw-rw-r-- 1 pbg staff 31200 Sap 3 08:30 intr0.ps
+dnvx------ 5 pbg staff 512 Jul 8 09.33 private/
+drwxrwxr-x 2 pbg staff 512 Jul 8 09:35 doc/
+dnvanx--- 2 pbg student 512 Aug 3 14:13 student-proj/
+-rw-r--r-- 1 pbg staff 9423 Feb 24 2003 programc
+-rwxr-xr-x 1 pbg staff 20471 Feb 24 2003 program
+drwx--x--x 4 pbg faculty 512 Jul 31 10:31 lib/
+dnvx------ 3 pbg staff 1024 Aug 29 06:52 mail!
+drwxmxfwx 3 pbg staff 512 Jul 8 09:35 test/
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:44**************
+Operating System Concepts - 10th Edition Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+

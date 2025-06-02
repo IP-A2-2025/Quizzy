@@ -1,0 +1,1291 @@
+***************Beginning Page***************
+***************page number:1**************
+.J
+i BAZE_D E_DATE
+IN DECSI
+Mihaela Elena Breabén
+© FII 2020-2021
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Proiectarea Bazelor de date Relajcionale
+Metodologie
+l. Analiza cerintelor
+SpeCIcatii
+2. Modelarea conceptualé
+Diagrame E/A (UML) indePendem de
+i conSIderente
+ﬁzice
+3. Modelare logicé
+Normalizare
+Schem relationalé
+4. Modelare fizicé Specific dezvoltatorului
+4 Calibrare/optimizare D SGBDR
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Cuprins
+> Stocare ﬁzica 5i acces
+> lndexare — motivatie 5i concepte de baza
+> Structuri ordonate
+lndec§i secventiali
+B+-arbori
+lndec$i multi-cheie
+> Hashing
+Hashing static
+Hashing dinamic
+> Acces multi-cheie 5i lndec§i bitmap
+> Suportul SQL pentru indexare
+> lndexarea in Oracle
+3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Stocarea datelor $1 acces
+t -
+20 loana 9 5 59C or yaw cap cle citire/scriere
+4O Andrei 8.66 | ‘o, ———..__—-_-
+l0 Tudor 8.55 platzne é A!
+58L] ISCUFI ' '-_
+30 Maria 8.33 VA-
+70 Alex 9.33 V
+b Timpul necesar pentru a aduce un bloc de date Tn memorie este determinat de:
+b Timpul de Iocalizare (timpul necesar pozitionérii capului de citire pe pisté)
+> Latenta rotationald (timpul de rotatie a pistei/discului sub capul de citire)
+> Timpul de transfer (timpul necesar transferului datelor citre memoria de lucru)
+b Pentru a optimiza timpul de acces, o bazﬁ de date relationalé stocheazé datele Tn
+mod secvential, anegistrare dupﬁ anegistrare
+4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Indexare — Motivapie ( 1)
+b De obicei, SGBD-ul petrece majoritatea timpului rezolvﬁnd interogiri
+(cﬁutﬁnd)
+SELECT * FROM Student Cheie de sortare
+WHERE "3% Cheie de cﬁutare
+Cum gésim ﬁnregistrérile dorite?
+a) Ordonare aleatorie b) Ord are crescétoare dupi ID
+Em- DIME
+20 loana 9.5 l0 Tudor 8.55
+40 Andrei 8.66 20 loana 9.5
+l0 Tudor 8.55 30 Maria 8.33
+30 Maria 8.33 40 Andrei 8.66
+70 Alex 9.33 7O Alex 9.33
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Indexare — Motivapie (2)
+> Cﬁnd datele sunt sortate dupé cheia de cﬁutare devine posibili cﬁutarea binaré
+
+> Complexitate timp: O(|og2(N))
+
+(log2(|00 000)=|7)
+
+SELECT * FROM student
+WHERE prenume=‘|oana’;
+Cum putem rezolva interogarea de mai sus eficient (datele nu sunt sortate dupi prenume)?
+Solutia: construim un fi$ier index
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Concepte de baza 1n 1ndexare
+
+> Fi§ier de date — secventa de blocuri ce contin anegistrarile unui tabel
+
+b Cheie de cautare — un atribut (sau o multime de atribute) care constituie criteriu de
+selctie/cautare
+
+b Cheie de sortare — un atribut care decide oridonarea anegistrarilor Tn fi$ieru| cu date
+
+> Fi§ier index- este asociat unei chei de cautare Tntr-un fi$ier cu date 5i contine inregistrari
+index de forma
+
+Valoare a cheii de cautare ‘-
+
+> Index dens — stocheaza cate o intrare pentru fiecare valoare existenta in fi$iseru| cu date a
+cheii de cautare
+
+b Index rar — nu stocheaza toate valorile cheii de cautare
+
+Observatii:
+
+> Un fi$ier cu date poate avea asociate mai multe fi$iere index
+
+> Fi$iere|e index sunt de obicei de dimensiuni mai mici comparativ cu fi$ieru| de date
+
+7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+De reﬂectat asupra. ..
+> CATI indecsi ar trebui sa folosim Tn practicé ?
+> CAND trebuie creati indecsi 5i cénd nu trebuie creati indec5i?
+> CUM ar trebui s5 indexﬁm (ca structuri de date utilizate)?
+> Considerente:
+Spatiul de stocare necesar
+Timpul de acces
+Timpul de inserare
+Timpul de §tergere
+Tipul interogérilor adresate
+8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+T1pur1 de 1ndec§1
+> lndec$i ordonati: valorile cheii de céutare sunt ordonate
+|ndec$i secventiali
+B+-arbori
+> |ndec$i hashzvalorile cheii de céutare sunt uniform distribuite in grupuri denumite buckets cu ajutorul
+unei functii hash
+Bucket: unitate de stocare ce poate conﬁne una sau mai multe anegistréri
+Functie hash = functie de dispersie — mapeazé date de dimensiune variabilé Ia o multime fixé de valori
+b lndec$i bitmap: asociati atributelor categoriale/discrete, codificé distributia valorilor ca o matrice
+binaré
+9
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Indecgi ordonajci:
+figiere secvenlziale
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Indec§1 S€CV€I1§16111
+> lntrérile index sunt sortate pe baza cheii de céutare
+Ex: catalogul cu autori dintr-o biblioteci
+> lndex primar: cheia de céutare (chiea indexului) este 5i cheie de sortare a ﬁ$ieru|ui cu
+date
+Cheia de céutare/sortare Tn acest caz constituie de obicei (nu obligatoriu) chiar cheia
+primaré a tabelului
+Un tabel poate avea cel mult un index primar. DE CE?
+> Index secundar: cheia de céutare d5 o alté ordonare a anegistrﬁrilor decét cea din
+fi$ieru| de date
+| |
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Indec§1 den§1
+> Index dens: conﬁne intréri pentru fiecare valoare a cheii de céutare existenté ?n ﬁ§ieru| cu date.
+> Dacé indexul este primar, conﬁne un singur pointer pentru toate inregistrérile cu aceeagi valoare a
+cheii de cz'lutare (un pointer citre prima anegistrare din serie). DE CE?
+> Daci indexul este secundar, mai multe intréri pot fi necesare pentru o aceea§i valoare. DE CE?
+_E —————
+—= —m———
+—= —m———
+—= —————
+_= —————
+—— —m———
+—— —m———
+Index dens primar — cheia de céutare este aceea$i cu cheia
+de sortare a fi$ieru|ui cu date
+I2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Indec§1 ran
+b lndec$ii rari NU contin ca intréri toate valorile cheii de céutare
+Aplicabili doar pentru inregistrﬁri care sunt ordonate pe baza cheii de ciutare (cénd atributul cheie de cﬁutare este 5i cheie
+de sortare a fi$ierului cu date)
+De obicei o intrare in index trimite citre un bloc din fi§ieru| cu date
+b Pentru a localiza 0 intrare cu valoarea k a cheii de céutare in fi§ieru| cu date:
+Gisim intrarea din index care corespunde Ia cea mai mare valoare mai micé decﬁt k
+Ne uitim secvential in fi$ieru| cu date incepﬁnd cu inregistrarea Ia care ne trimite indexul
+—M
+—E ———__
+—E —MBI
+opescu
+— —muuw
+“I:
+—- ———uu
+——HIM
+mun!
+—WHIM
+Index rar: cheia de cﬁutare este intotdeauna 5i cheie de sortare a
+figierului cu date
+I3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Ind6X s6cundar
+> Interogare: Gdsiti toti studentii care Iocuiesc Tn Cluj (ﬁ,sierul cu date este sortat pe
+baza numelor studentilor!)
+> Solutia: indexul secundar (dens!)
+> Pentru a implementa eﬁcient asocierea de tip unu-Ia-multi dintre index 5i
+fi$ieru| cu date, blocuri cu pointeri sunt utilizate
+———uu
+——muu
+In‘
+—E g‘ —MII
+—-= g.“ ——muu
+—= —E ‘I
+—— -=:--~ ———uu
+—-= En’ ———uu
+g‘ ———uu
+—MII
+I4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Indec§1 multl-nlvel
+> Index multi-nivel: un index poate ﬁ asociat aItui index 5i nu direct fi$ieru|ui de date; acesta este un
+index rar
+Necesar cand fi$ieru| index asociat figierului cu date are dimensiuni considerabile sau nu incape in
+memoria de Iucru
+Index intern — indexul construit peste fisierul de date
+Index extern — indexul rar construit peste indexul intern
+> Cand indexul extern este prea mare un aIt index rar poate fi construit peste acesta, etc...
+> lndec$ii de pe toate niveIeIe trebuie actualizati cand ﬁ$ierul cu date sufera modificari prin operatii
+DML
+|5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Indec§1 multl-nlvel
+Exémplu
+In dex rar Index dens Figier de date
+—=_—IIII
+=E —IIII
+—g —I=\IIII
+—
+—- We I: IIIII
+== —g —IIII
+—B IIIII
+II
+—— —IIII
+—- —WIIM
+I6
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Actuahzarea 1ndec§110r secvenjuah
+$terger1 1n date
+I. Se gasegte inregistrarea ce trebuie $tearsé — se poate apela la index;
+2. Se $terge inregistrarea din fi$ieru| cu date;
+3. Se actualizeazé indec§ii asociati tabelului:
+Dacé mai existﬁ 5i alte inregistréri cu aceea$i valoare a cheii de cﬁutare, se ,sterge doar pointerul
+Daci inregistrarea $tears€1 este singura cu valoarea cheii k, aceasta trebuie $tears5 din index
+$tergerea din indexul dens: e similaré $tergerii dintr-un ﬁ$ieru| de date
+$tergerea dintr-un index rar:
+III Dacé existﬁ intrarea k in index, aceasta este inlocuité de urmétoarea valoare a cheii de cﬁutare (din ordonarea
+valorilor cheii de cﬁutare existente in fi$ieru| cu date)
+III Dacé urmitoare valoare existz'l deja in index, intrarea corespunzz'ltoare lui k este $tearsz'1.
+|7
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Actuahzarea 1ndec§110r secventlah
+Inserarl
+I. Se insereaza tuplul in fi$ieru| cu date
+2. Se cauta in index valoarea cheii de cautare corespunzatoare noului tuplu 5i se actualizeaza indexul
+astfel:
+Indexul dens: daca valoarea nu apare in index, va fi inserata; altfel, daca indexul este secundar se adauga doar
+pointerul
+Indexul rar: daca indexul men$ine o intrare pentru fiecare bloc a fi$ieru|ui cu date, doar cand un nou bloc este creat
+in fi$ierul cu date, o noua intrare va fi adaugata in index, trimitand Ia prima inregistrare a blocului.
+> Inserarile in figierul cu date $i in fi$ieru| index poate necesita crearea unor blocuri de exces ->
+structura secventiala degenereaza
+> lnserarea 5i gtergerea in indectii multi-nivel sunt extensii simple ale cazurilor discutate
+I8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Indecgi ordonajci:
+B+-arb0ri
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Indecgi bazajci pe structuri B+-arb0ri
+
+Motivatie:
+
+> Structurile secventiale ordonate se degradeazé dupa multe operatii DML
+
+> Reconstruirea indec$i|or este necesaré dar costisitoare
+
+> B+-arborii
+Miresc viteza de gisire a datelor 5i eliminp necesitatea de reorganizare continui
+Sunt utilizati extensiv pentru indexarea datelor Tn SGBD-urile relationale
+
+20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+' +
+Structura unul B —arb0r6 ( 1)
+> Un arbore echilibrat a.i.toate frunzele sunt pe ace|a$i nivel
+> Structura unui nod:
+—---|m|:m-
+Ki — valori a cheii de céutare
+Pi pointeri citre
+Noduri de pe nivelul imediat inferior
+Dacé nodul este frunzé, citre o inregistrare din fi§ierul cu date sau citre blocuri de pointeri citre anegistrﬁri
+> Arborele este caracterizat de o constanté m ce specificé numérul maxim de valori ce pot fi
+stocate Tntr-un nod (numérul maxim de pointeri sau descendeti ai nodului este m+I)
+De regulé m este calculat a.i. dimensiunea unui nod $51 fie egalé cu cea a unui bloc de date
+> Valorile cheii de céutare sunt ordonate crescétor Tn cadrul ﬁecérui nod
+K| < K2< K3< ...< Km
+2|
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+° +
+Structura unul B -arb0re (2)
+“um
+> Pentru un nod cu m+| pointeri:
+> Toate valorile cheii de cﬁutare ce apar Tn subarborele citre care trimite P| sunt mai mici decét K,
+> Pentru pointerul Pi, 2 é i é m, toate valorile cheii de céutare din subarborele spre care acesta trimite sunt mai
+mari decTt sau egale cu Ki_| 5i mai mici decﬁt K,-
+> Toate valorile cheii de céutare din subarborele spre care trimite Pm+, sunt mai mari decﬁt sau egale cu Km
+y 22
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Réguh p6ntru ocupama nodurllor
+> Nu e obligatoriu ca nodurile $5 fie complet ocupate:
+Ridicina are cel putin 2 $i cel mult m + I pointeri/descendenti (respectiv, cel putin | 5i cel mult m valori, ordonate
+crescétor)
+Fiecare nod de pe un nivel intern are cel putin [(m+I)/2] 5i cel mult m + I pointeri/descendenti (echivalent, cel
+putin [m/Z] 5i cel mult m valori ordonate crescétor)
+Fiecare nod frunzi are cel putin [m/Z] 5i cel mult m valori; toti pointerii trimit citre fi$ieru| de date, exceptﬁnd
+ultimul pointer care trimite citre urmétorul nod frunzé (cu valori mai mari).
+I_I—I—I—I-I
+l—--—IIII-I I—-—III_I-I
+_ ——MII
+ii‘—mnnm
+———II
+- ——lnw
+IMMII—
+23 “I!”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
++ O
+B -arb0r1 — parametrul m
+Exemplu
+> Presupunﬁnd c5
+> | bloc de memorie = |O24 octeti
+> Cheia de céutare = un $ir de maxim 20 caractere (I caracter = | octet)
+> lpointer = 8 octeti
+> Care este constanta arborelui, adici numérul maxim de valori intr-un nod?
+> Réspuns
+> ldentificﬁm cea mai mare valoare m care satisface 20m + 8(m + I) <= I024.
+> m=36
+> Structura arborelui
+> Rﬁdﬁcina: cel putin 2 pointeri,ce| mult 36 pointeri (echivalent: intre una Ii 36 valori)
+> Nod intern: cel putinl9, cel mult 37 pointeri
+> Nod frunzé: cel putinl8, cel mult 36 valori echivalent pointeri citre figierul cu date)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
++ .
+B -arb0r1
+Observajcu
+> Pentru c5 nodurile sunt conectate prin pointeri, blocuri apropiate logic nu trebuie 55 fie neapérat 5i
+apropiate ﬁzic
+> Toate nivelele exceptﬁnd nivelul frunzﬁ formeazé o ierarhie de indec§i rari externi peste nivelul frunzé
+> Nivelul frunzé formeazi un index secvential dens peste fi§ieru| cu date
+> B+-arbore|e contine un numér relativ mic de niveluri
+Cel mult |—|og((m+,),21(l<)_| pentru K valori a cheii de céutare
+Nivelul 2: cel putin 2 noduri
+Nivelul 3:ce| putin 2* Y(m+|)/21 noduri
+Nivelul 4:ce putin 2*Rm+|)/21*F(m+|)/21 noduri
+etc...
+> lnserérile 5i §tergerile sunt procesate eficient: restructurarea indexului necesiti timp logaritmic
+25
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Int6rogéri p6 B+- arbori
+Scop: determinati toate anegistrérile din fi§ieru| de date care corespund valorii k a cheii de céutare
+l. N = rédﬁcina
+2. Repeté
+
+ldentificé Tn N cea mai micﬁ valoare a cheii de cﬁutare care e mai mare decﬁt k
+
+Dacﬁ o astfel de valoare K,- existé, atunci N = P,-
+
+altfel N = Pn (k z Kn_|)
+pﬁné cﬁnd N este frunzi
+3. Daci existé K,- = k Tn frunza N, pointerul Pi trimite citre anegistrarea dorité
+Altfel, nu existi nici o anegistrare cu valoarea k a cheii de céutare
+26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Intérogan
+EX€II1p16
+Cheia de céutare stocheazﬁ toate valorile impare intre l- | 9
+Reprezentati posibil arbori pentru m=3 5i efectuati o interogare pentru cheia l5
+III-II!
+IIIIIII IIIEIIII IIIIIII IIIIIII
+EDIE-II
+W IIIIIQI
+IIIIIII IIIIIII IEIIIIII IIIIIII IIIIIII
+27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Interogéri pe B+-arb0ri
+
+Exercijciu
+
+b Dat m=|00 (ﬁecare nod are dimensiunea unui bloc!)
+
+> Pentru I milion de valori a cheii de cdutare, cét de multe noduri (echivalent blocuri pe disc) sunt accesate Ia o
+cdutare Tn B+-arbore? (R: 4)
+
+b Dar dacé e utilizat un index secvential? (R:20)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+. v . A + .
+Actuahzarl 1n B -arb0r1
+Insérama
+Dupi inserarea unei anegistréri Tn fi$ierul de date cu valoarea k a cheii de céutare, Ia care
+trimite pointerul p:
+I. Gise$te nodul frunzé care ar trebui $5 continé k
+2. Dacé valoarea existé in nodul frunzé:
+Adaugﬁ pointerul p Tn bucketul corespunzétor valorii k a cheii
+3. Dacé valoare nu existé
+Dacé este loc Tn nodul frunzé, insereazé perechea (p, k)
+Altfel, divide nodul frunzé ->
+29
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+O v I A + U
+Actuahzarl 1n B -arb0r1
+Inserare: d1V1zarea unul nod
+b Divizarea unui nod frunzﬁ la inserarea unei perechi noi (pi, ki):
+
+I. Se iau cele n perechi ordonate, inclusiv cea nou creati (pi, ki). Se pistreazé primele |—n/2_| perechi in nodul
+
+frunzﬁ existent 5i creazé unul nou, P, care $5 continé restul perechilor
+
+2. Fie k cea mai mici valoare din P. lnsereazﬁ perechea (k,p) in nodul pﬁrinte a frunzei care s-a divizat — unde p
+este pointerul citre noua frunzﬁ P.
+
+3. Dacé nodul pﬁrinte este plin, acesta trebuie $5 se dividi, propagénd in sus divizarea péné cﬁnd se ajunge Ia un
+nod care nu e complet ocupat. In cel mai réu caz, nodul rﬁdécinﬁ este divizat, caz care cregte adﬁncimea
+arborelul.
+
+> Divizarea unui nod intern N la inserarea unei perechi (k,p)
+
+I. Se creeazé un nod temporar M care stocheazé m+2 pointeri 5i m+l valori; se insereazﬁ perechile din N
+impreuni cu perechea (k,p), ordonate
+
+4. Se insereazé (K((m+|)/21,pN’) in pirintele nodului N
+
+y 3o
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+. v . A + .
+Actuahzarl 1n B -arb0r1
+Ins6rar6: EX6IIlp1L1 (1)
+lnserém valorile l4 5i l6
+- - Hills-II
+Paslzcautam l4
+W IIIIIII
+IIIIIII IIIIIII IEIIIIII IIIIIII IIIIIII
+Pas2: inserém (P,|4) Tn frunzﬁ IBIS-II
+III-III III-III
+III-III III-III IEIIIIII III-III IIIIIII
+Pas 3zcﬁutam l6
+Pas 4: divizém frunza 5i ‘III-I-
+rearanjém toate
+Perechile (p,k) W IIIIII
+IIIIIII III-III IEIIIIII IIIIIII IIIIIII
+Pas 5: inserﬁm (l 5,P) in nodul pﬁrinte IIIII-Il
+3|
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+0 v 0 A + 0
+Actuahzarl 1n B -arb0r1
+Ins6rar6: EX€II1p1L1 (2)
+lnserém valorile 8 5i l 0 III-Ill!
+IIIIIII IIIEIIII III-III III-III
+III-III
+IIIIIII IIIEIIEII III-III I-IIIII
+III-III
+IIIIIEI IIIEIIII III-III I-IIIII
+null-Ir- {:3 :9
+IIIEII I!
+IIIIIII IIIEIIII III-III III-III I-IIIII
+III-III
+IIIEII-I III-III
+32 IIIBIBI IIIIEIIII III-III III-III I-IIIII
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+0 v 0 A + 0
+Actuahzarl 1n B -arb0r1
+Stergerea
+J
+I. Se $ter'ge inregistrarea din fi$ieru| cu date; fie k valoarea cheii 5i p pointerul ce ne conduce citre aceasté
+inregistrare
+2. Se identifici in index frunza care contine valoarea k
+3. Dacé pointerul p citre inregistrarea $tears€1 face parte dintr-un bucket in index, p este $ters din bucket. Altfel
+(sau daczi bucketul devine gol) se $terge din nodul frunzé perechea (p, k)
+4. Dacé nodul frunzﬁ réméne cu prea putine intréri 5i dacﬁ existé loc pentru acestea intr-o frunzé aléturaté, un nod
+frunzé este eters:
+lnsereazé toate intrérile in frunza stingﬁ 5i gterge frunza dreapté
+Sterge perechea (KH, Pi), unde Pi este pointerul citre nodul frunzé gters din nodul périnte. Dacé este
+necesar, se propagé in sus $tergerea. Dacé nodul rédéciné rémﬁne cu uns ingur pointer, acesta este $ters 5i
+adﬁncimea arborelui scade.
+5. Altfel, dacii nu este suficient spatiu intr-o frunzz'l vecinii, perechile (pointer, key_va|ue) sunt
+redistibuite intre nodul curent 5i o frunzé veciné:
+Astfel incﬁt minimul este statisfﬁcut in ambele
+Se actualizeazé o pereche (key_va|ue, pointer) in nodul perinte daci este necesar
+33
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Actualizéri in B+-arb0ri
+Stergezrerz Exemplu (1)
+Stergerea valorilor'l7 5i l9
+I-EII-I
+'
+ll__I-I
+Egm
+34
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Actualizéri in B+-arb0ri
+Stergezrerz Exemplu (2)
+$ter'gerea valorilor' 5 5i 7
+III-I”
+35
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+B+-arb0r1
+
+EfflClenta
+
+> C'Zlutare: cel mult |—|ogHm+,),21(K)_| blocuri transferate
+
+> Deoarece nivelul frunzé este conectat formﬁnd un index secvential dens, interogérile de tip
+interval sunt de asemenea rezolvate efficient
+
+> lnserarea, stergerea: cel mult 2 |_|og{(m+,),21(K)_| blocuri transferate
+36
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Indecgi ordonajci:
+B-arbori
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+B-arborl
+> Similari arborilor B+ dar permit o singuré aparitie a unei valori a cheii
+> Nu toate valorile cheii apar astfel pe nivelul frunzé
+Fiecare valoare vine cu un pointer Tn plus
+--------
+----------
+(a) Nod Tntr-un B+-arbore; (b) nod Tntr-un B-arbore
+> Pointerii Bi conduc citre anegistréri din fi$ieru| cu date sau buckets de pointeri citre
+anegistréri
+38
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Exemp1u*
+I-I-I
+I-III IIIII
+IIIII II III III|I IIIII I%III
+VII-III
+Brighton Cleawiew Mianus Perryridge Round Hill
+bucket bucket bucket bucket bucket
+39 >|<Avi Silberschatz Henry F. Korth S. Sudarshan. “Database System Concepts”.
+McGraw-Hill Science/Engineering/Math; 6 edition (january 27, ZOIO)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Indec§1 B-arbore
+Obscervapl
+> Avantaje
+Devine posibil ca anegistrarea céutaté $51 fie localizaté Tnainte de ajunge Ia nivelul frunzé
+> Dezavantaje
+Nodurile interne contin mai multé informatie (dar mai putine chei) rezulténd Tn arbori cu adﬁncime mai mare
+lnseréirile 5i gtergerile sunt mai complicate -> implementarea este mai dificilé
+Nu este posibil sé scaném un tabel pe baza nivelului frunzﬁ
+> Avantajele nu cﬁntéresc mai mult decét dezavantajele: B+-arborii sunt preferati Tn detrimentul B-
+arborilor de citre dezvoltatorii SGBD-urilor relationale
+4O
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Indecgi ordonajci:
+Indecgi multi-cheie
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+A0068 mult1-ch616
+SELECT *
+FROM student
+WHERE judet= 'Bihor' AND an> ZOIO;
+> Sunt posibile mai multe strategii pentru a rezolva interogéri cu mai multe chei de céutare:
+Utilizarea unui index asociat atributuluijudet
+Utilizarea unui index asociat atributului an
+Utilizarea ambilor indec$i de mai sus urmaté de operatia de intersectie a multimilor de pointeri
+Dar dacﬁ doar una dintre conditii este satisfécuté de un numér mare de anegistréri?
+42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Indec§1 multl-chele
+> Cheia de céutare este compusé din mai mult de un atribut
+> Ordinea lexicograficz'l este utilizatﬁz (al, a2) < (bl, b2) dacz'l
+a| < blsau
+a|=b| 5i a2 < b2
+Ex. Consideréim indexul multi-cheie (judet, an)
+Rezolvﬁ acesta la fel de eficient ambele interogéri de mai jos?
+where judet = 'Bihor' AND an > ZOIO
+where judet > 'Bihor' AND an = ZOIO
+Figier de date
+“dexmmkhm'e Mull
+——E —-—-H
+——El
+——Elh —Mun
+——‘IFi —MBH
+———"’
+——EII’ —-—-H
+——‘
+——I: mun
+—MBH
+—-—-H
+43
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Eficienya
+> Ordinea atributelor Tntr-un index multi-cheie conteazi!
+> Eficienta depinde de selectivitatea atributelor
+
+44
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Indec§i ordonajci multi-cheie:
+kd-arbori
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+kd-arborl
+> Nu sunt utilizati de reguléi Tn bazele de date relationale dar Ti mentioném fiind o structuri de cz'lutare
+utilizaté frecvent Tn bazele de date spatiale/geograﬁce;
+> Generalizare a arborelui binar de céutare:
+|<= numéirul de atribute a cheii de céutare multi-atribut
+Fiecare nivel din arbore corespunde unuia dintre atribute
+Succesiunea de nivele reprezintﬁ iteratii peste multimea de atribute
+Pentru a obtine arbori echilibrati, de obicei mediana este utilizaté ca valoare Tn noduri interne
+46
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Organizarea de tip hash $1
+Indecgi hash
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Organlzarea hash a f1s1erulu1 cu date
+> in organizarea de tip hash a fisierului cu dateﬁnregistrarile nu sunt ordonate pe baza valorilor unui
+atribut ci sunt grupate Tn bucketuri cu ajutorul unei functii hash (dimensiunea unui bucket de regula
+corspunde unui bloc de memorie)
+Bucket: unitate de stocare ce poate contine una sau mai multe anegistrari
+Functie hash = functie de dispersie — mapeaza valori dintr-o multime de dimensiune variabila Ia o multime fixa
+de valori
+> Functia hash h:K->B este Tn acest caz o functie ce mapeaza valori ale cheii de cautare la o multime
+fixata de bucketuri
+> inregistrarile cu valori diferite ale cheii de cautare pot ﬁ mapate la acelasi bucket
+Gautarea implica parcurgerea scventiala a bucketului
+48
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Func§11 hash
+> Cerinte
+Distributie uniformé
+Asignéri aleatorii (spre deosebire de locality sensitive hashing)
+> Functiile hash tipice utilizeazé operatii pe reprezentarea binaré (interné) a cheii de céutare
+> Pot sé aparé situatii in care dimensiunea bucketului e prea micé pentru a stoca toate inregistrérile
+mapate -> blocuri de exces sunt utilizate
+49
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Organizarea de tip hash a figierului cu date
+Ex6mp1u
+Buckefﬁ Bios de exces penfru buckefuf U
+—M__ —-—__
+—m- ——--—
+Buckefi _ BJ'oc de exces penfru hue-I
+M- _—
+———__ ——--—
+BucketZ
+—m-
+———__
+BucketB
+Atributul prenume este cheia de cﬁutare iar numérul de bucketur'i este fixat Ia 4:
+Functia hash: h:Dom(nume)->{0, I ,2,3} — calculeazd suma reprezentdrii binare modulo 4
+Ex:
+'Acatrinei‘:
+'IOOOOOI llOOOll IIOOOOI lllOlOO lllOOlO IIOIOOI ||0| | l0 IIOOIOI IIOIOOI'
+h('Acatrinei') = 34%4 = 2.
+50
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Indec§1 de t1p hash
+
+> Organizeazé valorile cheii de céutare cu pointerii asociati Tntr-o tabelé hash
+Burkerﬁ
+—I:
+—I ———II
+—I I'M-III
+m=|\'(———m——
+“MP - M —MII
+— \
+—- \ ———II
+——L ———-
+—E " ———II
+—- —M
+—-
+—-
+
+5|
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Indec§1 hash
+Opcerajcu
+BurkerO
+
+—E
+
+—= F|§|E| d9 dare
+
+—- ———--
+
+—- ‘mu-
+
+m=|\'(———m——
+
+—MII
+
+—- ———-
+
+——1 ———-
+
+—E " ———--
+
+—- —M
+
+—- Ciutare:
+
+—- ‘Sandu’:0|0|00l| 0| |0000| 0| |0| | |0 0| |00|00 0| | |0|0|
+h(‘Sandu’) =20%4=O -> scaneazﬁ bucketul O
+lnserare:
+‘lonescu’:0|00|00l 0| |0| | || 0| |0| | |0 0| |00|0| 0| | |00|| 0| |000||
+0| | |0|0|
+H(lonescu)=32%4=0 -> insereazﬁ mai Tntﬁi anegistrarea Tn fisierul de date
+5i apoi intrarea index Tn bucketul O
+
+52 $tergere: calculeazﬁ hashul, scaneazé bucketul, sterge
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Indecsl hash
+Ef1C1enta
+> in cautarea unei singure valoriﬁn absenta coliziunilongasirea unei anegistrari necesita citirea unui
+singur bloc (O(l))
+> Pentru interogari de tip interval, indecsii hash nu sunt eficienti. DE CE?
+> in practica:
+Postgres si SQLServer implementeaza indecsii hash
+Oracle implementeaza organizarea de tip hash a fisierului cu date dar nu si indecsii hash
+53
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Hash dlnamlc
+
+Motlvatle
+
+> Functia h mapeaza valorile cheii de cautare la o multime fixa de adrese de buckets.
+Daca dimensiunea figierului cu date cre$te, blocuri de exces sunt generate
+Daca dimensiunea ﬁ$ieru|ui se mictoreaza, spatiu este alocat inutil
+
+> Solutii:
+Reorganizari periodice cu o noua func$ie hash (costisitor, necesita Tntreruperea operatiilor bazei de date)
+Modificarea dinamica, dupa necesitati, a numarului de bucketuri
+
+> Din a doua categorie, Hashul extensibil modifica functia hash astfel:
+Genereaza valori Tntr-o multime mare, de regula Tntregi pe 32 biti
+La un anumit moment utilizeaza doar' un prefix (cloar primii i biti) a carui dimensiune cre,ste sau descre$te
+dupa necesitati
+
+54
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Organizarsa d6 tip Hash 6Xt6nsibil
+Structura gsnsralé
+\ ash prefix
+---
+00 .. - —--
+01 ‘ ‘ - bucket 1
+12
+I bucketZ
+_--
+—--
+bucket'3
+bucket address table
+i=2,i2 = i3 = i,i| = i—|
+55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Hash 6Xt6ns1b11
+Imp16m6ntare
+> Fiecare bucket] are asociaté o valoare i]- care specificé lungimea prefixului
+Toate intrérile din bucketul j au aceleasi valoare pe primii ij biti
+> Pentru a cz'luta o valoare cu cheia Kj:
+Calculeazé MK) = X
+Utilizeazé doar primii i biti ai X, scaneazé tabela de adrese 5i umére$te pointerul citre bucket
+> Pentru a insera o inregistrare cu cheia de céutare Kj:
+Gise$te bucketul j ca mai sus
+Dacé este Ioc in bucket insereazé inregistrarea
+Altfel, divide bucketul 5i reincearcé inserarea ->
+56
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Hash extensibil
+Divizarea bucketului 1a inserare
+Pemtru a diviza bucketul j la inserarea unei noi valori Kj:
+> Dacﬁ i > ij
+Aloci un nou bucket z 5i initializeazﬁ ij = iZ = (ij + I)
+Actualizeazi a doua jumétate a tabelei de adrese ca sé trimité citre bucketul z
+Eliminé inregistrérile din j 5i reinsereaza-Ie in j sau z conform prefixului
+Recalculeazé adresa bucketului pentru Kj 5i executé inserarea
+l. Dacﬁ i = ij
+Daci din anumite motive existi o limiti pentru i 5i aceasta este atinsi, se utilizeazé blocuri de
+exces
+Altfel
+lncrementeazé i 5i dubleazé dimensiunea tabelei de adrese
+inlocuie$te fiecare intrare din tabel cu alte doui intriri, ambele trimitﬁnd la ace|a§i bucket
+Recalculeazﬁ adresa bucketului pentru Kj 5i realizeazéi inserarea (acum i > ij)
+57
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Hash extens1b11
+
+$terg6re
+
+b Pentru a §terge o inregistrare
+> Gise$te bucketul 5i $terge anegistrarea din acesta
+> Dacé bucketul devine gol se efectueazé modificérile necesare Tn tabela de adrese
+> Bucketurile care au aceeagi valoare pentru i] 5i ace|a§i prefix ii —| sunt contopite
+> Descregte dimensiunea (i) a tabelei de adrese dacé este posibil
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Hash sxtsnsibil
+
+Exsmplu*
+W0 110111011112 h(bmnch_110me)
+'righton 0010 1101 1111 1011 0010 1100 00110000
+Downtown 1010 0011 1010 0000 1100 0110 10011111
+| ianus 1100 0111 11101101 10111111 00111010
+| erryridge 1111 0001 0010 0100 1001 0011 01101101
+l edWOOd 00110101 1010 0110 11001001 11101011
+| ound H111 1101 10000011 1111 1001 1100 00000001
+
+hash prefix IE‘
+bucket address table bucket 1
+59 >|<Avi Silberschatz Henry F. Korth S. Sudarshan. “Database System Concepts”.
+
+McGraw-Hill Science/Engineering/Math; 6 edition (january 27, ZOIO)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Hash extens1b11
+Exemp1u*
+> Dupé inserarea unei inregistriri Brighton 5i a doui inregistriri Downtown
+-
+hash preﬁx
+-*
+bucket address table A-101
+60 >|<Avi Silberschatz Henry F. Korth S. Sudarshan. “Database System Concepts”.
+McGraw-Hill Science/Engineering/Math; 6 edition (january 27, ZOIO)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Hash extens1b11
+Examphf
+> Dupé inserarea unei Tn registréri Mianus
+hash prefix
+-b
+- A-nO-m
+bucket address table A215
+6| >‘<Avi Silberschatz Henry F. Korth S. Sudarshan. “Database System Concepts”.
+McGraw-Hill Science/Engineering/Math; 6 edition (january 27, ZOIO)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Hash extens1b11
+Exemp1u*
+> Dupa inserarea a trei anegistréri Perryridge
+‘
+hash preﬁx ‘I
+r
+-/
+-
+- “an
+-
+=
+A-lOZ Perryridge 400
+ﬂucket address table A-ZOl QO
+62 >‘<Avi Silberschatz Henry F. Korth S. Sudarshan. “Database System Concepts”.
+McGraw-Hill Science/Engineering/Math; 6 edition (january 27, ZOIO)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Hash extens1b11
+Exemp1u*
+> Dupé inserarea anegistrérilor Redwood 5i Round Hill
+*
+hash preﬁx ‘I
+—
+-
+-
+=
+-
+-
+-
+ucket address table
+I-m |---
+63 >‘<Avi Silberschatz Henry F. Korth S. Sudarshan. “Database System Concepts”.
+McGraw-Hill Science/Engineering/Math; 6 edition (january 27, ZOIO)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Hash 6Xt6ns1b11
+Ef1016n§a
+> Avantaje
+> Performanta nu scade la cre$terea dimensiunii ﬁ$ieru|ui
+> Minimizeazé alocarea de spatiu de stocare
+> Dezavantaje
+> Tabela de adrese poate deveni foarte mare
+Solutia: utilizarea unui B+-arbore pentru o ciutare eficienté in tabela cu adrese
+> Modificarea dimensiunii tabelei de adrese este costisitoare
+> In functie de tipul interogﬁrii:
+> Ca 5i hashingul static, este eficient pentru interogéri punctuale dar nu 5i de tip interval
+> 64
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Indecgi bitmap
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Indec§1 bltmap
+
+> Proiectati pentru a trata eficient interogpri cu mai multe chei de céutare
+
+> Aplicabili pentru atributece iau un numér mic de valori distincte
+
+> Tuplele relatiei sunt considerate a ﬁ numerotate
+
+> Structura:
+
+Pentru fiecare valoare a cheii un $ir binar de lungime egalé cu numérul de anegistréri
+Valoarea l Tn §ir indicé faptul c5 anegistrea de la pozitia daté ia valoarea la care esta ata,sat $iru|
++————————————+———————————+——————————————————————————+—————————————+—————————————+
+lnume lprenume | str | 101: | judet l
++____________+___________+__________________________+_____________+_____________+ Arad lo 0 0 0 0 0 1 0
+lAlexa lHarian IStrada Florilor |Cluj Hapoca |Cluj l _T______+________________
+lPopescu Walentin IStrada Unirii lDej |Cluj l Fit..f___l?_?_?j_Liii
+lAndrici lIoana lBulevardul Republicii Waslui Waslui l Cluj l1 1 0 0 0 0 0 0
+lAcatrinei IHarcel | lPutna | Suceava l ________+________________
+lPopescu Wasile lBulevardul Independentei IDradea lBihor l Suceava |0 0 0 1 0 0 0 0
+lCostache lloan IStrada Teiului IHucet. lBihor | ________+________________
+lUngureanu lDaniel lhleea Amara IArad lhrad l ‘Jaslui l0 0 1 0 0 0 0 1
+lSandu lHaria IStrada "Jictoriei lBarlad I'laslui l
++————————————+———————————+——————————————————————————+—————————————+—————————————+
+66
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Indecgi bitmap
+Observajcii
+> lnterogiirile cu mai multe selectii (chei de cﬁutare) pot ﬁ rezolvate c operatori pe biti:
+> lntersectia —AND
+> Reuniunea — OR
+> Complementarierea — NOT Ti?____:_i_ijfjjj_
+SELECT* 2011 lﬁﬁﬁl 1000
+WHERE county IN ('Arad', 'Cluj') AND year <> 20I0;
+> (Arad OR Cluj) AND NOT(20 | 0) f??____|?_?_?j_?_?_ij_
+B11101‘ IUDODIIDD
+> lmplementare eficienté: (EL-1;“:‘jg-53?;-
+> La $tergere un $ir binar de existenti este utilizat "“““+““““““““
+Suceava IODOIOODD
+> Structurile Bitmap sunt Tmpachetate sub tipul word —-------+----------------
+'Jaslui IODIDOOI'Jl
+pe 32 sau 64 biti (operatorul AND necesitﬁ o instructiune CPU)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Definirea indecgilor in SQL
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+Declararea indecgilor in SQL
+b Standardul nu reglementeazii mecanismele de indexare (tin de nivelul fizic), dar in practici
+dezvoltatorii au cizut de acord asupra sintaxei:
+> Creare:
+create index <index-name> on <relation-name>
+(<attribute-list>)
+E.g.: create index c-index on studentQ'udet)
+> $tergere:
+drop index <index-name>
+> Cele mai multe SGBD-uri permit specificarea structurii pentru indexare
+b Cele mai multe SGBD-uri creeazé implicit indec$i la declararea constréngerii unique
+> Uneori indec$i sunt generati 5i la declararea constréngerilor referentiale
+69
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+Indexarea in Oracle
+
+> lndec$i pot fi creati pe:
+
+Atribute 5i liste de atribute
+
+Rezultatele unei functii peste atribute
+> Oracle offera suport implicit pentru B+-arbori
+> lndec$ii bitmap sunt creati cu sintaxa
+
+create bitmap index <index-name> on <relation-name> (<attribute-list>)
+b Oracle nu ofera suport pentru indec$ii hash dar implementeaza organizarea fi§ierului de date
+de tip hash
+
+70
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Indexaraa in Oraclé
+Cénd $1 cum?
+> Este recomandat ca crearea indec$ilor sa aiba loc dupa inserarea datelor in tabel (dar e posibil sa
+cream indexul in orice moment)
+b Se aleg coloanele potrivite:
+Care iau (majoritar) valori distincte
+Pentru care selectia filtreaza un numar mic de tuple dintr-un tabel de dimensiuni mari (selectivitate ridicata ~
+l5%)
+Care sunt utilizate in join
+> Se alege structura de date potrivita pentru indexare:
+Coloanele au un numar redus de valori distincte 5i avem conditii compuse -> bitmap
+lnterogarea este de tip interval -> B+arbori
+lnterogarile punctuale sunt frecvente: -> organizarea hash
+Selectie cu functii -> indecgi definiti peste functii
+7|
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:72**************
+Bibliograﬁe:
+
+> Capitolul | | Tn Avi Silberschatz Henry F. Korth S. Sudarshan. “Database System Concepts”. McGraw-Hill
+Science/Engineering/Math; 6 edition (january 27, 2O | O)
+
+> Se executi scriptul I2. Icreate 5i apoi comenzile din IZ.Zindexes cu inspectarea planurilor de executie
+72
+
+***************Ending Page***************
+
+
+

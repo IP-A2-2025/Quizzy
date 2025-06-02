@@ -1,0 +1,1209 @@
+***************Beginning Page***************
+***************page number:1**************
+1.
+Bayesian Learning
+Based 0n “Machine Learning”, T. Mitchell, McGRAW Hill, 1997, ch. 6
+Acknowledgement:
+The present slides are an adaptation 0f slides drawn by T. Mitchell
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2.
+Two Roles for the Bayesian Methods in Learning
+1. Provides practical learning algorithms
+by combining prior knowledge / probabilities with observed data:
+0 Naive Bayes learning algorithm
+0 Expectation Maximization (EM) learning algorithm (scheme):
+learning in the presence of unobserved variables
+o Bayesian Belief Network learning
+2. Provides a useful conceptual framework
+0 Serves for evaluating other learning algorithms, e.g.
+concept learning through general-to-speciﬁc hypotheses ordering
+(FINDS, and CANDIDATEELIMINATION),
+neural networks, liniar regression
+o Provides additional insight into Occam’s razor
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+PLAN 3.
+1. Basic Notions
+Bayes’ Theorem
+Deﬁning classes of hypotheses:
+Maximum A posteriori Probability (MAP) hypotheses
+Maximum Likelihood (ML) hypotheses
+2. Learning MAP hypotheses
+2.1 The brute force MAP hypotheses learning algorithm
+2.2 The Bayes optimal classiﬁer;
+2.3 The Gibbs classiﬁer;
+2.4 The Naive Bayes and the Joint Bayes classiﬁers.
+Example: Learning over text data using Naive Bayes
+2.5 The Minimum Description Length (MDL) Principle;
+MDL hypotheses
+3. Learning ML hypotheses
+3.1 ML hypotheses in learning real-valued functions
+3.2 ML hypotheses in learning to predict probabilities
+3.3 The Expectation Maximization (EM) algorithm
+4. Bayesian Belief Networks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+4.
+Basic Notions
+o Product Rule:
+probability of a conjunction of two events A and B:
+P(A /\ B) I P(AIB)P(B) I P(BIA)P(A)
+o Bayes’ Theorem:
+P(B|A)P(A)
+P A B I —
+< | > MB)
+o Theorem of total probability:
+if events A1, . . . , An are mutually exclusive,
+with 2?:1 P(AZ-) I 1, then
+1:1
+in particular
+P(B) I P(B|A)P(A) + P(B\—|A)P(—IA)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+5.
+Using Bayes’ Theorem for Hypothesis Learning
+P(Dlh)P(h)
+P h D I —
+< \ > 13(1))
+o P(D) I the (prior) probability of training data D
+o P(h) : the (prior) probability of the hypothesis h
+o P(D|h) = the (a posteriori) probability of D given h
+o P(h|D) = the (a posteriori) probability of h given D
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+6.
+Classes of Hypotheses
+
+Maximum Likelihood (ML) hypothesis:
+
+the hypothesis that best explains the training data
+
+hML : argmaxP(D|hZ-)
+hiQH
+
+Maximum A posteriori Probability (MAP) hypothesis:
+
+the most probable hypothesis given the training data
+
+hMAP = argmaxP(th) = argmax w = argmaxP(D|h)P(h)
+h€H heH P(D) heH
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+Exemplifying MAP Hypotheses
+Suppose the following data characterize the lab result for cancer-suspect
+people.
+P(ccmcer) I 0.008 Phoancer) I 0.992 hl I cancer, hg I Iccmcefr
+P(+|ccmcer) I 0.98 P(—|cancer) I 0.02 D I {+, —}, P(D | hl), P(D | 122)
+P(+|—\ccmcer) I 0.03 P(—|Icancer) I 0.97
+Question: Should we diagnoze a patient a; whose lab result is positive as
+having cancer?
+Answer: No.
+Indeed, we have to ﬁnd argmaX{P(cancerl+), P(—|ccmcerl+)}.
+Applying Bayes theorem (for D I {-l-}):
+P(+ | cancer)P(cancer) I 0.98 >< 0.008 I 0.0078 j h _
+P(+ | Icancer)P(Icancer) I 0.03 >< 0.992 I 0.0298 MAP _ cancer
+(We can infer P(CCLTLC€’I“ l +) I $1M I 21%)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+Learning MAP Hypothesis
+2.1 The Brute Force MAP Hypothesis Learning Algorithm
+
+Training:
+
+Choose the hypothesis with the highest posterior proba-
+
+bility
+
+hMAp I argmaXP(h|D) I argmaXP(D\h)P(h)
+heH heH
+
+Testing:
+
+Given x, compute hMAp(a:)
+Drawback:
+
+Requires to compute all probabilities P(D|h) and P(h).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+2.2 The Bayes Optimal Classiﬁer: 9'
+The Most Probable Classiﬁcation of New Instances
+
+So far we’ve sought hMAP, the most probable hypothesis given
+the data D.
+
+Question: Given new instance a — the classiﬁcation of which
+can take any value vj in some set V —, what is its most
+probable classiﬁcation?
+
+Therefore, the Bayes optimal classiﬁcation of a; is:
+argmax Z P(vj|hi)P(hZ-]D)
+'UjQV hZ'EH
+
+Remark: hMAp(w) is not the most probable classiﬁcation of at!
+
+(See the next example.)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10.
+The Bayes Optimal Classiﬁer: An Example
+Let us consider three possible hypotheses:
+P(h1\D) : 0.4, P(h2\D) I 0.3, P(h3\D) I 0.3
+Obviously, hMAP I hl.
+Let’s consider an instance a: such that
+Question: What is the most probable classiﬁcation of :13?
+Answer:
+P(—|h1): 07 P(+|h1) :1
+P(—|h2) I 17 P(+|h2) z 0
+P(—|h3) I 17 P(+|h3) I 0
+Z P(+\hZ-)P(hZ-\D) I 0.4 and Z P(—|hZ-)P(hZ-\D) I 0.6
+hiEH hiGH
+therefore
+argmax Z P(vj|hZ-)P(hi|D) I —
+'UJ'EV hiGH
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+ll.
+2.3 The Gibbs Classiﬁer
+[Opper and Haussler, 1991]
+Note: The Bayes optimal classiﬁer provides the best result, but it can be
+expensive if there are many hypotheses.
+Gibbs algorithm:
+1. Choose one hypothesis at random, according to P(h|D)
+2. Use this to classify new instance
+Surprising fact [Haussler et al. 1994]:
+If the target concept is selected randomly according to the PULID)
+distribution, then the expected error of Gibbs Classiﬁer is no worse
+than twice the expected error of the Bayes optimal classiﬁer!
+E'leTTOTGibbs] g 2Ele7nTOTBayesOptimal]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12.
+2.4 The Nalve Bayes Class1ﬁer
+When to use it:
+0 The target function f takes value from a ﬁnite set V I {111, . . . ,ok}
+0 Moderate or large training data set is available
+0 The attributes < a1, . . . ,an > that describe instances are conditionally independent
+w.r.t. to the given classiﬁcation:
+P(a1,a2...an\11j) I Hmaiwj)
+z'
+The most probable value of f (x) is:
+Pa a ...a U'PU'
+UMAP I argmaXP(vj]a1, a2 . . . an) I argmax M
+"UjQV UjGV P(a’17a2 ' ' ' an)
+not.
+I argmaXP(a1, a2 . . . anlvj)P(vJ-) I argmaXH P(aZ-\vj)P(vj) I UNB
+Uj€v UjGV i
+This is the so-called (16611871077, rule of the Naive Bayes classiﬁer.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+13.
+The Joint Bayes Classiﬁer
+UMAP I argmaXP(vJ-]a1,a2...an) I ...
+vaV
+not.
+z argmaXP(a1, a2 . . . an|vj)P(vj) : argmaXP(a1, a2 . . .an, 129-) I UJB
+Uj€V 'UjGV
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14.
+The Naive Bayes Classiﬁcation Algorithm
+NAIVE_BAYES_LEARN(examples)
+for each value '09- 0f the output attribute
+P(vj) e estimate P(vj)
+for each value az- of each input attribute a
+f’(aZ-|vj) e estimate P(aZ-\’uj)
+CLASSIFY_NEW_INSTANCE(£U)
+UNB I argmaXUJ-ev 15W) Hal-Em 15(az'lvj)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+15.
+The Naive Bayes Classiﬁer: Remarks
+
+1. Along with decision trees, neural networks, k-nearest neigh-
+bours, the Naive Bayes Classiﬁer is one of the most prac-
+tical learning methods.
+
+2. Compared to the previously presented learning algorithms,
+the Naive Bayes Classiﬁer does no search through the hy-
+pothesis space;
+the output hypothesis is simply formed by estimating the
+parameters P(vj), Pkg-[11]).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+16.
+The Naive Bayes: An Example
+Consider again the Flag/Tennis example, and new instance
+(Outlook I sun, Temp I cool, Humidity I high, Wind I strong>
+
+We compute:
+
+@NB I argmaijev P (v.1) HZ-P (@001)
+
+P(yes) I 1971 I 0.64 P(n0) I 1571 I 0.36
+
+P(str0ng|yes) I g I 0.33 P(str0ng|n0) I g I 0.60
+
+P(yes) P(sun|yes) P(cool\yes) P(high]yes) P(str0ng|yes) I 0.0053
+
+P(n0) P(sun]n0) P(000l]n0) P(high\n0) P(st1"0ng]n0) I 0.0206
+
+—> UNB I n0
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+17.
+A Note on The Conditional Independence
+Assumption of Attributes
+P(a1, a2 . . .anwj) I H Pom)
+
+It is often violated in practice ...but it works surprisingly well
+anyway.
+Note that we don’t need estimated posteriors Fwy-Ix) to be
+correct; we only need that
+
+argmax 15(0)) H 15(ailvj) I argmaXP(vj)P(a1...,an\vj)
+
+Uj€v 7; vjeV
+
+[Domingos 85 Pazzani, 1996] analyses this phenomenon.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+18.
+Naive Bayes Classiﬁcation:
+The problem of unseen data
+What if none of the training instances with target value vj have the at-
+tribute value of?
+It follows that P(aZ-|vj) = 0, and 15041) HiPwZ-yvj) z 0
+The typical solution is to (re)deﬁne P(aZ-|vj), for each value vj of a1:
+A . . w
+P<CLZlUJ) k n+m , Where
+0 n is number of training examples for Which v : 119-,
+o no number of examples for which v = 213- and a = az-
+o p is a prior estimate for P(aZ-|vj)
+(for instance, if the attribute a has k values, then p I i)
+0 m is a weight given to that prior estimate
+(i.e. number of “virtual” examples)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+19.
+Using the Naive Bayes Learner:
+Learning to Classify Text
+
+o Learn which news articles are of interest
+
+Target concept Interesting? : Document e {+, —}
+0 Learn to classify web pages by topic
+
+Target concept Category : Document —> {01, . . . , on}
+
+Naive Bayes is among most effective algorithms
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Learning to Classify Text: Main Design Issues 20'
+1. Represent each document by a vector of words
+0 one attribute per word position in document
+2. Learning:
+o use training examples to estimate P(+), P(—), P(doc\+), P(doc|—)
+0 Naive Bayes conditional independence assumption:
+length(doc)
+P(d0c|vj) I H P(a2- I wklvj)
+1:1
+where P(az- I wk|vj) is probability that word in position 7L is wk, given v]-
+0 Make one more assumption:
+‘vim P(az- I wk|vj) I P(am I wkIUj) I P(wk|vj)
+i.e. attributes are (not only indep. but) also identically distributed
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+21.
+LEARN_NAIVE_BAYES_TEXT(Ewamples, Vocabulary)
+1. Collect all words and other tokens that occur in Examples
+Vocabulary e all distinct words and other tokens in Examples
+2. Calculate the required P(Uj) and P(wklvj) probability terms
+For each target value vj in V
+docsj <— the subset of Examples for which the target value is v]-
+. Idocst
+P013) P |E$amplesl
+Teyctj e a single doc. created by concat. all members of docs]-
+n e the total number of words in Textj
+For each word wk in Vocabulary
+nk <— the number of times word wk occurs in Text]-
+n +1 .
+P(wklvj) P m (here we use the m-estlmate)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+CLASSIFY_NAIVE_BAYES_TEXT(Doc)
+positions k all word positions in Doc that contain tokens from Vocabulary
+Return UNB I argmaxvjev P(vj) HEPOSZ-mns P(ai I wklvj)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Applicatlon: Learnlng to Class1fy Usenet News Artlcles
+Given 1000 training documents from each of the 20 newsgroups, learn to
+classify new documents according to which newsgroup it came from
+
+comp.graphics misc.forsale
+comp.os.ms-windows.misc rec.autos
+comp.sys.ibm.pc.hardware rec.motorcycles
+comp.sys.mac.hardware rec.sport.baseball
+comp.windows.x rec.sport.hockey
+alt.atheism sci.space
+soc.religion.christian sci.crypt
+talk.religion.misc sci.electronics
+talk.politics.mideast sci.med
+talk.politics.misc
+talk.politics.guns
+Naive Bayes: 89% classiﬁcation accuracy (having used 2 / 3 of each group
+for training; eliminated rare words, and the 100 most freq. words)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+. 24.
+Learnmg Curve for 20 Newsgroups
+20News
+70 ,/;;>'>”Bayes+
+3O
+100 1000 10000
+Accuracy vs. Training set size
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+25.
+2.5 The Minimum Description Length Principle
+Occam’s razor: prefer the shortest hypothesis
+Bayes analysis: prefer the hypothesis hMAP
+hMAP I argmaXP(Dlh)P(h) I argmaxﬂog2 P(D|h) —|— log2 P(h))
+heH heH
+I argmin(— log2 P(D|h) — log2 P(h))
+heH
+Interesting fact from the Information Theory:
+The optimal (shortest expected coding length) code for an event
+with probability p is the one using — log2 p bits.
+So we can interpret:
+— log2 P(h): the length of h under the optimal code
+— log2 P(D|h): the length of D given h under the optimal code
+Therefore we prefer the hypothesis h that minimizes...
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+Bayes Analysis and the MDL Principle
+We saw that a MAP learner prefers the hypothesis h that minimizes
+L01(h) + L02(D|h), Where LC(x) is the description length of a: under
+encoding C
+heH
+Example: H : decision trees, D : training data labels
+0 LCl(h) is the number of bits to describe tree h
+o LC2(D|h) is the number of bits to describe D given h
+In literature, the application of MDL to practical problems often include
+arguments justifying the choice of the encodings Cl and CQ.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+
+For instance:
+
+LC2(D]h) I O if examples are classiﬁed perfectly by h,
+
+and both the transmitter and the receiver know h.
+
+Therefore, in this situation we need only to describe exceptions. So:
+
+hMDL I argmin(length(h) —|— length(misclassifications))
+heH
+
+In general, MDL trades off hypothesis size for training errors:
+
+it might select a shorter hypothesis that makes few errors over a longer
+
+hypothesis that perfectly classiﬁes the data!
+Consequence: In learning (for instance) decision trees, (using) the MDL
+
+principle can work as an alternative to pruning.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+28.
+The MDL Principle: Back to Occam’s Rasor
+lVlDL hypotheses are not necessarily also the
+best / MAP ones.
+(For that, we should know all the probabilities P(D\h)
+and P(h).)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+29.
+Learning Maximum Likelihood (ML) Hypothesis
+3.1 Learning Real Valued Functions:
+
+ML Hypotheses as Least Suquered Error Hypotheses
+Problem: Consider learning a real-valued
+y target function f : X —> R from D, a training
+set consisting of examples (xi, dz‘), 2' I 1, . . . ,m
+
+~ j/ / ’ with
+. / / I; ’ / hML 90¢, assumed ﬁxed (to simplify)
+f/ / ’ ' dz- noisy training value dz- I f (90%) + el-
+ez- is random variable (noise) drawn inde-
+pendently for each 5132-, according to some
+x Gaussian distribution With mean:0.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+30.
+Proposition
+
+Considering H, a certain class of functions h : X —> R such that
+
+h(x7;) I f (51:1) and assuming that $1- are mutually independent given
+
+h,
+
+the maximum likelihood hypothesis hML is the one that minimizes
+
+the sum of squared errors:
+
+def. . m 2
+h :armaXPthar mln di—hxi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Proof 31'
+Note: We will use the probability density function:
+e. . 1
+p(x0) dIf 11m€_>0—P($0 g 95 < 560 —|— e)
+e
+hML I argmaxP(D|h) I argmaxHMdZ-VL) MIIW) argmaxHMeZ-Vz)
+h€H hEH 7;:1 heH 1;:1
+_ m hat-Ema m
+— argmaXHMdi — f (rm-)Ih) — argmaXHMdi — Min->111)
+th 1:1 hGH 1-:1
+m 1 _1 drhm) 2 m 1 1 d- — h<513))2
+— ( ) _ z z
+_ ar max —e 2 U _ar max 1n——— —
+gEH [[1 \/ 27T0'2 geH (g \/ 27T0'2 2 ( U )
+I ar max —— — Iar max — d7;—ha:¢
+geH 2:21 2 ( U fgLeH 1:21 ( ( D
+I armin di—h:13i2
+56H Z< < >>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+32.
+Generalisations. . .
+1. Similar derivations can be performed starting with other assumed
+noise distributions (than Gaussians), producing different results.
+2. It was assumed that
+a. the noise affects only f (x2), and
+b. no noise was recorded in the attribute values for the given ex-
+amples 552-.
+Otherwise, the analysis becomes signiﬁcantly more complex.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+33.
+3.2 ML hypotheses for Learning Probability Functions
+Let us consider a non-deterministic function (i.e. one-to-many relation)
+f : X —> {0, 1}.
+Given a set of independently drawn examples
+D I {< x1,d1 >, . . . , < atmdm >} where d,- : f(:U,-) € {0,1},
+we would like to learn a ML hypothesis for the probability function 9(x) dgf'
+P (f (f1?) I 1)-
+For example, h(x,-) I 0.92 if P({< xi, d,- > Id,- : 1}) I 0.92.
+Proposition: In this setting, hML I argmaacheH P(D I h) maximizes the sum
+Proof:
+P(D | h) I HfllPWwdi | h) I H211P(di | 512,-,h) ‘13(5131' | h)
+It can be assumed that x,- is independent of h, therefore:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+Proof (continued):
+What we wanted to compute is M13) I P(dl- I 1 | xi, h).
+In a more general form:
+In a more convenient mathematical form: P(d7; | xi, h) I h(.:1:Z-)di(1— h(a;Z-))1_di.
+:> hML I arymawheH HZJMZUOZZU — h(i1?¢))1_diP(iv@-)l
+
+I argmawth HZWWUCZZ'U — h(111@))1_di 'H21P($1)
+
+I a'rgmazchGH H£1h(a:i)di(l — h(552-))1_di
+
+I argmawh€H 2M 1mm) + (1 _ d¢)ln(1— Min-D]
+
+1:1
+
+Note: The quantity — 2211M- lnh(a:z) + (1 — di) ln(1 — h(5131))] is called cross-
+entropy; the above hML minimizes this quantity.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+3.3 The Expectation Maximization (EM) Algorithm
+[Dempster et al, 1977]
+Find (local) Maximum Likelihood hypotheses when
+data is only partially observable:
+o Unsupervised learning (i.e., clustering):
+the target value is unobservable
+o Supervised learning:
+some instance attributes are unobservable
+Some applications:
+o Non-hierarchical clustering:
+Estimate the means of k Gausseans
+o Learn Hidden Markov Models
+0 Learn Probabilistic Context Free Grammars
+o Train Radial Basis Function Networks
+o Train Bayesian Belief Networks
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+36.
+The General EM Problem
+Given
+o observed data X : {51:1, . . . , £13m}
+independently generated using the parameterized
+distributions / hypotheses hl, . . . , hm
+o unobserved data Z I {211, . . . , zm}
+determine
+it that (locally) maximizes P(X|h).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+37.
+The Essence of the EM Approach
+Start with hm), an arbitrarily/ conveniently chosen value of h.
+Repeatedly
+
+1. Use the observed data X and the current hypothesis
+h“) to estimate [the probabilities associated to the
+values of] the unobserved variables Z, and further
+on compute their expectations, E [Z]
+
+2. The expected values of the unobserved variables Z
+are used to calculate an improved hypothesis h(t+1),
+based on maximizing the mean of a log-likelihood
+function: E[lnP(Ylh)|X,h(t)], where Y I {311, . . .,ym}
+is the complete (observed and unobserved) data, i.e.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+The General EM Algorithm 38
+
+Repeat the following two steps until convergence is reached:
+Estimation (E) step:
+
+Calculate the log likelihood function
+
+Q(hlh(t)) "it EHHPWWX, W]
+
+where Y : X U Z.
+Maximization (M) step:
+
+Replace hypothesis ha) by the hypothesis h<t+1> that maxi-
+
+mizes this Q function.
+
+h<t+1> e argrlnaXleHw)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+39.
+The EM algor1thm1c Schema
+o idea: replace missing
+values by estimated t=0
+values ¢
+0 initialize parameters (t) (t)
+with arbitrary values h —> Elz l X, h 1
+0 estimate missing 'val-
+'aes based 0n current
+parameter 'val'aes
+0 re-estimate param- ++t In P(th)
+eters using the
+complete data
+0 repeat the previous (t+1)_
+two steps until con'ver- h _ argnlzax EP(Z|X; hm) [In P(X’ZIh)]
+gence
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+40.
+Methodology: How to apply an instance of the EM schema
+W
+90¢???’ i=0
+- e
+Wﬁwg ¢
+h“) —> E[Z l X, hm]
+E Step: apply
+updating rules (1 )
+++t
+M Step: apply updating rules (2)
+h(t+1)= _
+h I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+41.
+Methodology: How to derive an instance of the EM schema
+Mm (s "unobservable" / latent
+wt e (3) a l Ba es ormula '
+\' befowe‘ with theltlglal, prolghbilér formula vanables
+‘~60’ a?“ t=0 (and sometimes the exponentiation trick) "observable"
+006$ \U-g' .
+‘6&0 < i \ variables / data
+t
+h“) E[Z | x, hm]
+w log-likelihood of the hypothesis /
+"observable" data parameters
+A
+++t In P(X|h) "auxiliary"
+function
+Q hl h") )
+(t+1) _
+h _ argnhwax EP(Z|X; h(t)) [In P(X,Zlh ]
+(1) compute the log-likelihood
+(4) solve this optimization problem of "complete" data
+(usually using partial derivatives, (2) apply expectation linearity
+and sometimes Lagrange’s method)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+42.
+Baum-Welch Theorem
+When Q is continuous, it can be shown that EM con-
+verges to a stationary point (local maximum) of the
+likelihood function P(X \h).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+43.
+Two [particular] mixtures of Bernoulli distributions
+Z~Bernoulli Z~Bern0ulli
+1 0 1 0
+X~Bern0ulll 1 X~Bern0ulll 0 X~Bern0ulli1 X~ B em ou lli 0
+1-111 p2 1-0 26
+MP2 W149
+H / 1 T / 0
+1 0
+X B ll' 1 1 B ll‘ 1
+NW ernou 7' 5 +< —7T) ernou Z § X ~77Bern0ullz'(¢9)—l—(1—7T)Bern0ullz'(2(9)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+44.
+EM algorithm for solving [the general form of]
+a mixture of two Bernoulli distributions
+lnitializare:
+atribuie valori arbitrare (7T(O),p(0) , q(0) Tn intervalul (0,1))
+pentru parametrii 7T, p si respectiv q;
+Z~Bern0ulli Corpul iterativ:
+pentru t : 0, . . . ,T — 1 (cu T fixat Tn avans)
+TC 1_ TC (sau: pﬁnﬁ cénd log-verosimilitatea datelor observabile nu mai creste semnificativ),
+(sau: pﬁnﬁ cénd hr“) — 7T<t+1)| < s, |p<t> — p(t+1)| < s, |q(t) — q<t+1>| < a,
+cu a fixat Tn avans)
+1 0 executé
+X~Bern0ullil X~Bern0ulli 0 Pasul E: pentru i I 1, . . . ,n, calculeazé
+(t) (p(t))mi.(1_p(t))l—miWU)
+p I’ —q "L <p<t>>w1-<1_p<t>>1 w1~w<t>+<q<t>>w1-<1—q<t>>1 $1414”) '
+Pasul |\/|:
+p(t+1) z 221:1 ngxi.
+1 0 221:1 Hit) ,
+(t+1) _ 2?:1(1—M§t))wi.
+. q — 21.1 (115”) ’
+X ~ WBernoullz(p)—l— 1:1 (1:)
+. t+1 _ l n .
+(1 — 7T)Be’rn0ullz (q) 7T< ) _ n 21:1 #1‘ 1
+Returneazé 7r<t+l> , p(t+l) , q<t+1);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+EM algorithm for solving 45'
+A mixture of 'vectors of independent and identically distributed (i.i.d.)
+Bernoulli variables
+Expectation maximization
+e Z~Bern0ulli
+a 1-at
+| r | .--! r --1' | r‘! D. 5 U55 '-'-2.2 H, 212T -= 2.8 H123 T A B
+‘FH-HHHM' 4 2° 2Q? m m
+---"i-li-'-Hi-ll—i'>—i|-i 0.8 0.29 -7.2l-i, 0.8T -=1.Bi-I,O_2T ¥ ¥
+i-‘H-liii-ii-‘li 0x9 x9
+.Hi-Hi-HIJTH {12320 0.2229 =5.9H,1L5T =21 H.051‘ X1 )lgi X10 X1 )lgi X10
+I 0.3520 0.55 X g =1.4|-|_ 2.1 T =25 Ham ~Bern0ulli (6A) ~Bernoulli (6B)
+gill-@050 0.65 x o 0.352 g 14.5 H,1.9T 12.5 H, 1.1T
+éi::|=050 - - == 21.3H.8-6T == ll-T H.841-
+B .
+-._W_j 5'11; 11-? ﬂ- U 58 . :-. éumﬁn BO
+E ~11.?+ 8.4 B ‘ A _ x1 xi x10
+f o/W
+X : ($1,...,:c10) ~ 7T — Bernoulli(ac1; 6A) ' . . . ~ Bernoulli ($10; 6A) + (1 — 7r) ~ Bernoulli (:01; OB) ~ . .. ~ Bernoulli (5010; QB).
+Cf. “What is the expectation maximization algorithm?”, Chuong B. Do, Seraﬁm Batzoglou,
+Nature Biotechnology, vol. 26, no. 8, 2008, pag. 897-899
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+46.
+Initializare:
+atribuie valori arbitrare (69,6530) Tn intervalul (0,1))
+pentru parametrii 9A 5i respectiv GB;
+Corpul iterativ:
+pentru t : O, . . . ,T — 1 (cu T fixat Tn avans)
+(sau: péné' cénd log-verosimilitatea datelor observabile nu mai cre$te semnificativ),
+(sau: péné’ cénd ‘61(2- GET-1)] < 6, ‘6%) — 6g+D| < 6,
+cu a fixat Tn avans)
+executé’
+Pasul E:
+pentru 2' : 1, . . . , 5 calculeazé
+t (1:2- t —;1;,L-
+ZEA _ t , t _m, t 9;‘ t _m‘
+<62>>$1<1—@53>10 1+<Qg>>1<1—@§;>10 1
+1 1
+ME):1—¢§%
+Pasul M:
+5 g (_t+1) 5 E (_t+1)
+95$“) I 21:1 10 pH‘ 5i 958m) I 21:1 10 p13 .
+5 t-l-l ’ 5 t-l-l '
+21:1 p§,A ) Zizl 115,3 )
+V t+1 (t+1 _
+Returneaza 654 ),9B ),
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+47.
+A mixture of 'vecto'r's 0f independent Bernoulli distributions,
+applied t0 clustering of hand-written digits (MNIST)
+Z~Categ0rical
+&/€7\\% H7762
+1 2 K ' J
+I] q $0!
+X1,1 X1; X1,D X2,1 X2; X2,1) XK,1 X K,i XK,D 1 a z 3 9
+~B (p 1,9 ~B (p 2,9 ~B(p Kn) '
+x
+CMU, 2015f, A. Smola, B. Poczos,
+x1 xi xD
+X I (£131, . . . ,acD) ~ 7T1 -Bev"n0ulli(:131;p1,1)-...-Bern0ulli(wD;p17D)+7rK~Bern0ulli(m1;pK71)-. ..-Be7"n0ulli(:13D;pK7D).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+48.
+The EM algorithm for solving this problem
+Initializare:
+atribuie o valori arbitrare Tn intervalul (0,1) pentru parametrii 7T1, . . . ,7TK 5i WU), . . . ,7T(K);
+Corpul iterativ:
+pentru t I 0,... ,T — 1 (cu T fixat Tn avans)
+(sau: péné’ cénd log-verosimilitatea datelor observabile nu mai creste semnificativ),
+(sau...)
+executé’
+Pasul E: pentru i : 1, . . . ,n 5i k : 1, . . . , K calculeazé
+D k <1‘) k _ (i)
+MM) _ Jk 1112100; W <1 —p§ >>1 a, .
+k: — K D ' (i) ' — (i) '
+23:1 7T2‘ Hd:1(pgij))xd (1 — pgzj))1 xd
+Pasul M: calculeazé’
+n (i) (1')
+._ z 93 '
+250(5) I %, cu N;g I 221:1 M2120), pentru k : 1,. ..,K;
+k
+Nk
+in, : —, pentru k : 1,...,K;
+21¢ Nkr’
+7T1, <—7_T;,, pentru k : 1,...,K;
+119(k) +150“), pentru k : 1, . . . ,K;
+Returneazé’ 7T1, . . . ,7TK 5i 7T(1),. . . mm);
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+49.
+Bayesian Belief Networks
+(also called Bayes Nets)
+Interesting because:
+
+o The Naive Bayes assumption of conditional independence
+of attributes is too restrictive.
+(But it’s intractable without some such assumptions...)
+
+o Bayesian Belief networks describe conditional indepen-
+dence among subsets of variables.
+
+o It allows the combination of prior knowledge about
+(in)dependencies among variables with observed training
+data.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Conditional Independence 50.
+Deﬁnition: X is conditionally independent of Y given Z if the
+probability distribution governing X is independent of the
+value of Y given a value of Z:
+(Vail-,yj, zk) P(X I MY I yj, Z I zk) I P(X I sci-‘Z I 2k)
+More compactly, we write P(X|Y, Z) I P(X\Z)
+Note: Naive Bayes uses conditional independence to justify
+P(A1,A2\V) I P(A1|A2,V)P(A2|V) I P(A1|V)P(A2|V)
+Generalizing the above deﬁnition:
+P(X1...XZ\Y1...Ym,Z1...Zn) I P(X1...XZIZ1...Zn)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+51.
+w
+S,B S,-|B -|S,B -|S,-IB
+. . C 0.4 0.1 0.8 0.2
+A Bayes Net w ac 0.6 0.9 0.2 0.8
+The network is deﬁned by
+0 A directed acyclic graph, represening a set of conditional independence
+assertions:
+Each node — representing a random variable — is asserted to be
+conditionally independent of its nondescendants, given its immediate
+predecessors.
+Example: P(Thunder|F0restFirc, Lightning) I P(Thunderle'ghtning)
+o A table of local conditional probabilities for each node/ variable.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+52.
+
+A Bayes Net (Cont’d)
+represents the joint probability distribution over all
+variables Y1, Y2, . . . , Yn:
+This joint distribution is fully deﬁned by the graph,
+plus the conditional probabilities:
+P(y1, - - wig”) I P(Y1 I 91, - - -,Yn I yn) I HPMPamntSQ/O)
+
+1:1
+
+where ParentsQ/i) denotes immediate predecessors of Y2-
+in the graph.
+In our example: P(St0rm, BusTourGroup, . . . , ForestFire)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+53.
+Inference in Bayesian Nets
+
+Question: Given a Bayes net, can one infer the probabilities of
+values of one or more network variables, given the observed
+values of (some) others?
+
+Example:
+Given the Bayes net P(L)=0-4 CL) P(F)=0.6
+compute: \ P(S|L,F)=O.8
+
+P(S|~L,F)=O.5
+(a) HS) (S) P(S|L,~F)=O.6
+(b) PM, S) / P<S|~L,~F)=O.3
+(b) PM) P(A|S)=O.7 ® P(G|S)=O.8
+P(A|~S)=O.3 P(G|~S)=O.2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+54.
+Inference in Bayesian Nets (Cont’d)
+Answer(s):
+
+o If only one variable is of unknown (probability) value,
+then it is easy to infer it
+
+o In the general case, we can compute the probability dis-
+tribution for any subset of network variables, given the
+distribution for any subset of the remaining variables.
+But...
+
+0 The exact inference of probabilities for an arbitrary
+Bayes net is an NP-hard problem!!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+55.
+Inference in Bayesian Nets (Cont’d)
+In practice, we can succeed in many cases:
+
+o Exact inference methods work well for some net structures.
+
+o Monte Carlo methods “simulate” the network randomly
+to calculate approximate solutions [Pradham 85 Dagum,
+1996f
+(In theory even approximate inference of probabilities in
+Bayes Nets can be NP-hard!! [ Dagum 85 Luby, 1993])
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+56.
+Learning Bayes Nets (I)
+There are several variants of this learning task
+o The network structure might be either known or unknown
+(i.e., it has to be inferred from the training data).
+o The training examples might provide values of all network
+variables, or just for some of them.
+The simplest case:
+If the structure is known and we can observe the values
+of all variables,
+then it is easy to estimate the conditional probability table
+entries (analogous to training a Naive Bayes classiﬁer).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+57.
+Learning Bayes Nets (II)
+When
+o the structure of the Bayes Net is known, and
+o the variables are only partially observable in the training
+data
+learning the entries in the conditional probabilities tables is
+similar to (learning the weights of hidden units in) training a
+neural network with hidden units:
+— We can learn the net’s conditional probability tables using
+the gradient ascent!
+— Converge to the network h that (locally) maximizes P(Dlh).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Gradient Ascent for Bayes Nets 58-
+Let wig-k denote one entry in the conditional probability table
+for the variable Y; in the network
+wijk I P(Y7; I yiijarentSQ/Q) : the list Um of values)
+It can be shown (see the next two slides) that
+@wzjk CED wijk:
+therefore perform gradient ascent by repeatedly
+1. update all wZ-jk using the 2. renormalize the wijk to as-
+training data D sure
+wijk e wijk+772 My] kl ) wak 1 and O g wwk g1
+(ED wijk J
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+59.
+Gradient Ascent for Bayes Nets: Calculus
+
+(91112-316 Elwijk deD h deD (‘91013-116 deD Ph(d) @wZ-jk
+
+Summing over all values yij/ 0f Y2. and um’ 0f UZ- I ParentsQ/Z'):
+— I —— Ph(d|yz'"7uik’)Ph(yi">uz'kr’)
+1 6
+I —— sz'"7i’P wa z"
+J
+
+Note that wZ-jk E Ph(yZ-j\u7;k), therefore...
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+60.
+Gradient Ascent for Bayes Nets: Calculus (Cont’d)
+81m Ph(D) 1 (9
+_ 1 o
+I Z Ph(d|yijvuik)Ph(ui/k) (applymg Bayes th.)
+deD Ph<d>
+deD Ph(d) Ph(yij> um)
+deD Phwijv um) deD Ph(%j|um)
+I 2M
+deD wijk
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+61.
+Learning Bayes Nets (II, Cont’d)
+The EM algorithm can also be used.
+Repeatedly:
+1. Calculate/estimate from data the probabilities of unob-
+served variables wijk,
+assuming that the hypothesis h holds
+2. Calculate a new h (i.e. new values of wijk) so to maximize
+Eunwan,
+where D now includes both the observed and the unob-
+served variables.
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:62**************
+62.
+
+Learning Bayes Nets (III)
+When the structure is unknown, algorithms usually use
+greedy search to trade off network complexity (add / substract
+edges / nodes) against degree of ﬁt to the data.
+Example: [Cooper 85 Herscovitz, 1992] the K2 algorithm:
+When data is fully observable, use a score metric to choose
+among alternative networks.
+They report an experiment on (re-learning) a network with 37
+nodes and 46 arcs describing anesthesia problems in a hospital
+operating room. Using 3000 examples, the program succeeds
+almost perfectly: it misses one arc and adds an arc which is
+not in the original net.
+
+***************Ending Page***************
+
+
+

@@ -1,0 +1,547 @@
+***************Beginning Page***************
+***************page number:1**************
+ALGEBRAIc FOUNDATIONS
+of COMPUTER SCIENCE
+\eciures by Ferucio Laurentiu Tiplea
+Computatlonal Introductlon to Number
+Theory
+Part ||
+Prof.dr. Ferucio Laurentiu Tiplea
+Spring 2022
+Department of Computer Science
+“Alexandru loan Cuza" University of lasi
+|a$i 700506, Romania
+e-mail: feruciortipleaQuaicmo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Linear congruential equations
+The Chinese remainder theorem
+Quadratic residues
+The Legendre symbol
+The Jacobi symbol
+Reading and exercise guide
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Linear congruential equations
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Linear congruential equations
+Theorem 1
+Let a, b, m € Z With m Z 1. Then, the equation
+ax E b mod m
+
+is solvable in Z iff (a, m)|b. Moreover, if it is solvable, then it has
+exactly (a, m) solutions in Zm which are of the form
+
+_ m
+
+x0 —|— /— mod m ,
+
+(a7 m)
+where x0 is an arbitrary integer solution and 0 g i < (a, m).
+Proof.
+See textbook [1], page 179. U
+
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 2 / 26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Linear congruential equations
+Example 2
+The equation
+5x E 25 mod 10
+has (5,10): 5 solutions in Z10: 1, 3, 5, 7, 9.
+Example 3
+The equation
+3x E 27 mod 6
+has (3,6): 3 solutions in Z6: 1, 3, 5.
+Example 4
+The equation
+3X E 26 mod 6
+is not solvabe in Z.
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 3/26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Linear congruential equations
+Algorithm 1: Solving linear congruential equations
+input : m Z 1 and a,b€ Z;
+output: all solutions modulo m of ax E b mod m;
+1 begin
+2 compute gcd(a, m) :: aa + 5m;
+3 if gcd(a, m)|b then
+4 b’ :: b/gcd(a, m);
+5 X0 :: ab’;
+6 for i :: O to gcd(a7 m) — 1 do
+7 L print ((Xg + im/gcd(a, m)) mod m)
+8 else
+9 L “no integer solutions"
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 4/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+The Chinese remainder theorem
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+The Chinese remainder theorem
+The rudiments of the Chinese remainder theorem were ﬁrst discovered in
+a third-century Chinese mathematical treatise entitled Sun Zi Suanjing
+(The Mathematical Classics ofSun Tzu) of which the author was
+unknown. Problem 6 from Chapter 3 is:
+There are certain things whose number is unknown. Repeated/y
+divided by 3, the remainder is 2; by 5, the remainder is 3; and by
+7, the remainder is 2. What will be the number?
+The mathematical form of this problem is:
+x E 2 mod 3
+x E 3 mod 5
+x E 2 mod 7
+This system of equations has a least integer solution which is x : 23.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 5/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+The Chinese remainder theorem
+Theorem 5 (Chinese Remainder Theorem)
+Let k Z 1 and m17 . . . , mk be pairwise co-prime integers. Then, for any
+b1, . . . , bk E Z, the following system (S) of equations has a unique
+solution modulo m1 ~ - - mk
+X E b1 mod m1
+( 5) ...
+x E bk mod mk
+Proof.
+See textbook [1] pages 182-183. U
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 6 / 26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+The Chinese remainder theorem: algorithm
+The unique solution to (5) can be obtained as follows:
+k
+1. Compute c,- : szl’ #1- mj;
+2. Compute an integer solution x,- of the equation c,-x E b,- mod m;, for
+any i;
+3. x I (clxl + - - - + ckxk) mod (m1---mk) is the unique solution
+modulo m1---mk of the system.
+There are other methods too for calculating the unique solution of the
+system (S) such as Garner's method.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 7/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+The Chinese remainder theorem: example
+Example 6
+Let (S) be the system
+X E 2 mod 3
+(5) x E 3 mod 5
+x E 2 mod 7
+Then:
+0 c1 : 35, c2 : 21, and C3 : 15;
+0 x1 : 1 is a solution of 35x E 2 mod 3;
+o x2 : 3 is a solution of 21x E 3 mod 5;
+o X3 I 2 is a solution of15x E 2 mod 7;
+0 x:(35-1+21-3+15~2) mod 105:128 mod 105:23 isthe
+unique solution modulo 105 of the system (S).
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 S / 26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+The Chinese remainder theorem: application
+Theorem 7
+Let f(x) be a polynomial with integer coefficients, and m17 . . . , mk be
+pairwise co-prime integers. Then, a G Z is a solution to the equation
+f(x)EOmod m1-~-mk (1)
+if and only if a is a solution to each of the equations
+f(x)EOmod m,-, 1§i§k. (2)
+Moreover, the number of solutions in Zmrmk of the equation (l) is the
+product of the numbers of solutions in Zmy. of the equations (2).
+Proof.
+See textbook [1] pages 184-185. U
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 9 / 26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+The Chinese remainder theorem: application
+Example 8
+1. The equation
+x2 E 1 mod p7
+where p > 2 is a prime number, has exactly 2 solutions in Zp,
+namelyx:1 andx:p—1.
+2. The equation
+x2 E 1 mod p1---pk,
+where p1, . . . , pk are distinct odd primes (k Z 2), has exactly 2k
+solutions in ZP1"'PI<'
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 10/26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Quadratic residues
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Quadratic residues - motivation
+Proposition 9 (Solving quadratic congruences)
+Let p > 2 be a prime and a, b7 c € Z such that (a, p) I 1. Then, the
+quadratic congruence ax2 + bx + c E O mod p has
+1. two roots in Zp, ifA E y2 mod p for some y 6 Z with p Xy;
+2. one root in Zp, ifA E O mod p;
+3. no roots, otherwise,
+where A : b2 — 4ac.
+Proof.
+See textbook [1] pages 186-187. U
+How hard is to decide whether A E y2 mod p for some y € Z?
+Profdr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 11 / 26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Quadratic residues and non-residues
+Definition 10
+Let p > 2 be a prime and a G Z non-divisible by p. a is called a
+quadratic residue modulo p if a E x2 mod p for some integer x.
+If a is neither divisible by p nor a quadratic residue modulo p then a is
+called a quadratic non-residue modulo p.
+Remark 11
+An integer a non-divisible by a prime p > 2 is a quadratic (non-)residue
+modulo p if and only ifa mod p is a quadratic (non-)residue modulo p.
+Denote:
+o QRP : {a E ZZla is a quadratic residue modulo p}
+o QNRP I {a E ZZIa is a quadratic non-residue modulo p}
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 12/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Quadratic residues: some basic properties
+
+Proposition 12
+
+. p — 1
+
+Let p > 2 be a prime. Then, |QRP| : |QNRP| : T .
+
+Proof.
+
+See textbook [1] page 189. D
+
+Proposition 13
+
+Let p > 2 be a prime. Then:
+
+1. a,b G QRp :> (ab mod p) G QRP;
+
+2. a E QRP /\ b € QNRP z» (ab mod p) G QNRP;
+
+3. a, b E QNRp :> (ab mod p) G QRP.
+
+Proof.
+
+See textbook [1] page 189. U
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 13/26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Quadratic residues: Euler's criterion
+Theorem 14 (Euler's Criterion)
+Let p > 2 be a prime and a G Z2‘). Then,
+1. a € QRp ifand only [2(3pr1 E 1 mod p;
+2. a € QNRp ifand only #11pr1 E —1 mod p.
+Proof.
+See textbook [1], pages 190-191. U
+Euler's criterion is a handy mathematical tool. Its complexity is cubic in
+the size of the binary representation of the data. We will establish more
+effective methods to decide the quadratic residuosity in the following.
+Prof.dr. F.L. Tiplea, UAIC. RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 14/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+The Legendre symbol
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+The Legendre symbol
+Introduced by Adrien-Marie Legendre in 1798 when trying to prove the
+law of quadratic reciprocity.
+Definition 15
+Let p > 2 be a prime. The Legendre symbol ofa € Z, denoted (g), is
+defined by
+O, ifp|a
+a
+(p) : 1, ifp [a and a is a quadratic residue modulo p
+—1, ifp [a and a is a quadratic non-residue modulo p
+Remark that the Legendre symbol is only defined for primes p > 2. For
+p I 2, all even integers are divisible by p and all odd integers are
+quadratic residues modulo p.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 15/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+The Legendre symbol
+Prove the following properties!
+Proposition 16
+Let p > 2 be a prime and a,b€ Z. lfaE b mod p then (g) : (g).
+Therefore, (i) I (m) .
+P P
+Proposition 17
+a i
+Let p > 2 be a prime. Then, for any a G Z, (—) E apT1 mod p.
+p
+Proposition 18
+ab a b
+Let p > 2 be a prime. Then, for any a,b 6 Z, <—) I <—> (—> .
+P P P
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 16/26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+The Legendre symbol
+According to the above properties, computing the Legendre symbol
+modulo p comes down to computing (*7? and (g), for any prime q
+with 2 g q < p.
+The following property follows easily from Euler's criterion. Prove it!
+Proposition 19
+Let p > 2 be a prime. Then,
+_1 L 1, if E 1 mod 4
+<_> :(_1)%1 I p
+P —17 ipr3mod4
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 17/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+The Legendre symbol
+Theorem 20 (Gauss' Criterion)
+Let p > 2 be a prime and a G Z non-divisible by p. Then,
+a
+<73) : (—1)’ , where r : |{i Q {1, . . .,(p— 1)/2}|ia mod p > p/2}|.
+Proof.
+See textbook [1] page 192. U
+Proposition 21
+Let p > 2 be a prime. Then,
+2 p2_ 17 if E :|:1 mod 8
+(_> = (_1)T1 : p
+P —17 ifpzziz?) mod8
+Proof.
+See textbook [1] page 192. D
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 18 / 26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+The Legendre symbol
+Theorem 22 (Quadratic reciprocity law)
+Let p, q > 2 be distinct primes. Then,
+q P [Ll/Ll
+— — : _]_ 2 2 _
+(p) (q) < >
+Equivalently,
+i E ' I
+(q)_ (q), |fp,q_3mod4
+p (g) , otherwise
+Example 23
+l _ 2 _ 5 _ z _ 1 _ 1
+59 _ 7 _ 7 _ 3 _ 3 _
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science-Computational Introduction to Number Theory Spring 2022 19/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+The Legendre symbol
+Basic rules for computing the Legendre symbol (review):
+1. if a E b mod p then (i) : (g)
+2 (Lb) I (i) (Q)
+' P P P
+1 _
+3. (5) _ 1
+4I<;1):1’ ifp21m0d4
+P -1, ipr3mod4
+5. (g): 17 ipril m0d8
+p —17 ipri3 mod8
+(B), ifp51m0d4orq21mod4
+6. (Q) I q
+p —(§), iprqE3mod4
+for any distinct primes p7 q > 2 and a, b G Z.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 20/26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+The Jacobi symbol
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+The Jacobi symbol
+Introduced by Carl Gustav Jacob Jacobi in 1837 as a generalization of
+the Legendre symbol.
+Definition 24
+Let n > O be an odd integer. The Jacobi symbol ofa € Z, denoted
+(%) is defined by
+i I 81 6k
+n (i) --- (i) , otherwise
+P1 Pk
+Where n : p? - - - pzk is the prime factorization ofn.
+Remark 25
+1. The Jacobi symbol is defined only for odd integers n > O.
+2. (a, n) : 1 if and only if (g) 75 0, for all a G Z and n > 0 odd.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 21 / 26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+The Jacobi symbol
+Theorem 26
+The fol/owing properties hold:
+1. ifa E b mod n then G) : (g)
+b i b
+2- (aw) — (i) (z)
+3- e) : 1
+1, ifn E 1 mod 4
+4- (*71) I
+—17 ian3 mod4
+1, ifn E :izl mod 8
+5- (%) I
+—17 ifn E i3 mod 8
+6 ("vi (%), ianlmod4orm51mod4
+I n i(%), ifn2m23mod4
+for any distinct odd integers n, m > 0 and a7 b E Z.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 22/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+The Jacobi symbol
+Algorithm 2: Computing the Jacobi symbol
+input : integer a and odd integer n > O;
+output: (i)
+1 begin
+2 b::amodn;c::n;s::1;
+3 while b 2 2 do
+4 while 4|b do b :: b/4;
+5 if 2|b then
+6 if c mod 8 € {3, 5} then s :: is;
+7 b :: b/2;
+a if b : 1 then quit;
+9 ifbmod4:3:cm0d4then
+10 s :: —s;
+11 (b, c) :: (c mod b, b);
+12 return s ~ b.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 23/26
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Quadratic residues modulo composite integers
+The Legendre symbol characterizes the quadratic residuosity modulo a
+prime integer, but the Jacobi symbol does not characterize the quadratic
+residuosity modulo a composite integer.
+Theorem 27
+Let n > 0 be an odd integer and n I p1el ~ - - ka be its prime
+factorization. Then, a € Z: is a quadratic residue modulo n if and only
+ifa is a quadratic residue modulo Pi, for all 1 g i g k.
+Proof.
+See textbook [1] page 195. U
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 24/26
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Reading and exercise guide
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:32**************
+Reading and exercise guide
+lt is highly recommended that you do all the exercises marked in red from
+the slides.
+Also, it is highly recommended to prove Theorem 26.
+Course readings:
+1. Pages 178-196 from textbook [1].
+Profodr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 25/26
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:33**************
+References
+[1] Ferucio Laurentiu Tiplea. Algebraic Foundations of Computer Science. “Alexandru loan Cuza"
+University Publishing House, lasi, Romania, second edition, 2021.
+[2] Melvyn B‘ Nathanson. Elementary Methods in Number Theory, volume 195 of Graduate Texts
+in Mathematics. Springer-Verlag, New York, 2000.
+Prof_dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Computational Introduction to Number Theory Spring 2022 26 / 26
+
+***************Ending Page***************
+
+

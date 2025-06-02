@@ -1,0 +1,845 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+leciures by Ferucio Laurentiu Tiplea
+Access Control
+Mandatory Access Control
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of lasi
+lasi 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Introduction to MAC
+Information flow models
+Conﬁdentiality-based mandatory policies: the Bell-LaPadula model
+Integrity-based mandatory policies: the Biba model
+Combining the BLP and Biba models
+Separation of duty: the Chinese wall model
+MAC implementations
+MAC and covert channels
+Concluding remarks on MAC models
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introduction to MAC
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Mandatory access control
+o MAC enforces access control based on regulations mandated by a
+central authority;
+o No concept of ownership in MAC;
+o MAC makes distinction between users and subjects:
+0 Users are trusted (must be trusted) not to disclose secret information
+outside of the computer system;
+o Subjects are not trusted (they may have Trojan horses embedded
+into the code they execute).
+0 The Bell-LaPadula model (confidentiality);
+o The Biba model (integrity);
+o The Chinese wall model (separation of duty).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIMAC Fall 2022 2 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Information flow models
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Information flow models
+Information flow (IF) models were introduced by Denning (1976).
+o IF models are concerned with the flow of information from one
+security class to another;
+0 Object : viewed as a container of information;
+0 Examples of objects: files or directories in an operating system, or
+relations and tuples in a database;
+o Information flow is controlled by assigning every object a security
+class or security label.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 3/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Information flow models: definition
+Definition 1
+An information flow model is a triple (SC,%,EB), Where:
+
+o SC is a set of elements called security classes (or access classes or
+security labels);
+
+0 —>§ SC >< SC is a binary relation called may-flow;
+
+0 69 : SC >< SC —> SC is a commutative and associative operator
+called the class combiner operator.
+
+Meaning:
+
+0 The semantics of a security class is varied and depends on the
+purpose of use (e.g., for confidentiality, integrity, categories or
+compartments of objects and subjects, etc.);
+
+0 A e B : the information may flow from A to B;
+
+o A Q9 B : if information from A and B are combined, the result
+belongs to A 63 B.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 4/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Information flow models: Denning’s axioms
+Denning's axioms:
+Axiom 1: SC is finite;
+Axiom 2: The may-flow relation —> is a partial order;
+Axiom 3: 5C has a least element W.r.t. —>;
+wilhreferenceto
+Axiom 4: G9 is a least upper bound operator.
+Proposition 2
+Any information flow model that satisﬁes the Denning's axioms is a
+lattice.
+In what follows, all IF models we consider satisfy the Denning's axioms!
+Profdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 5/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Information flow models: dominance
+Definition 3
+Let (SC,—>,69) be an information flow model and A, B € 5C. We say
+that A dominates B, denoted A Z B, if B —> A.
+Notation and terminology:
+o A > B (A strictly dominates B) if A dominates B and A 75 B;
+0 A and B are comparable if A Z B or B Z A;
+0 A and B are incomparable if A and B are not comparable.
+Prof.dr. F.L.Tip|ea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 6/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Information flow models: examples
+A security class may be precisely a tag/label that specifies the sensitivity
+degree once attached to an object or subject.
+H ‘0T5
+H
+l A1 . ' ' ' .An l
+. \ / .C
+L . ‘
+L ou
+For example, if an object has the L label attached (see the first two
+lattices), it is considered an object with lovv sensitivity.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 7 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Information flow models: examples
+A security class may also specify a security label and a set of categories
+(of objects or subjects). The security label then specifies the degree of
+sensitivity of all elements of one of the categories thus specified.
+(TS, {Army7 Nuclear}) .
+/ \ {A, B} {A C ‘{5. C}
+(57 {Army}). .(S, {Nuclear}) I><I><‘
+\ / {A} o {B} .{C}
+00 l /
+(U. ) ,
+{l5}
+(S, {Army}) specifies that all items in the Army
+category have a degree of sensitivity S, as do This lattice does "0t specify the degrees 0f
+items in the Nuclear category. However, sensitivity of its security classes, these being
+(57 {Army}) and (57 {Nuclear}) are different irrelevant as long as we have their lattice
+security classes. structure.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 8 / 39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Confidentiality-based mandatory
+policies: the Bell-LaPadula
+model
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Confidentiality-based mandatory policies
+_; ﬂuxul informational: de jos in sus (de la elementul oel mai mic din latice la oel mai mare)
+0 Aim: control the direct and indirect flows of information by
+preventing leakages to unauthorized subjects;
+o Subjects and objects are assigned security levels (security classes);
+o The security level of an object, also called security classification,
+reflects the sensitivity of the information contained in the object;
+o The security level of a subject, also called security clearance, reflects
+the user's trustworthiness;
+0 Requests of subjects to access objects are regulated by means of
+their security classes.
+Each user with a security class assigned to it can connect to the system
+(as a principal) at any security class dominated by its security class.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 9 / 39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+The Bell-LaPadula model: a minimalist approach
+Proposed by Bell and LaPadula (1973) to formalize the multilevel
+security policy of the U.S. Department of Defense.
+— of the Bell-LaPadula (BLP) model:
+o Key idea: augment DAC with MAC to enforce information flow
+policies;
+0 Two-step approach:
+1. First, a discretionary access control matrix D is established;
+2. Second, operations must be authorized by the mandatory access
+control policy;
+o The model was initially defined for a fixed set of rights R : {r, w}.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 10/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+The Bell-LaPadula model: a minimalist approach
+The MAC in the BLP model:
+o Assign labels to subjects and objects by some labelling function A;
+0 Rules (N0 Read Up — N0 Write Down):
+1. Simple security (ss-) property —
+sis allowed to read o only if Ms) Z Mo)
+2. *-property — s is allowed to write o only if /\(s) g /\(o)
+Initially, the BLP model assumed that the labels of subjects and objects,
+once assigned, could not be changed (unless a security administrator
+resets them). This property has been called the tranquility principle.
+However, it can be relaxed without losing security (Sandhu (1993)).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 11 / 39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+On the *-property
+Remark 4
+The *-property avoids Trojan horse attacks because subjects cannot
+transfer information to a security class with lower sensitivity than their
+security clearance.
+Through the simple security property, any subject can transmit
+information (e.g., emails) to a higher (dominant) security class.
+Users are not restricted by the *-property, as they can connect to the
+system ( as principals) at any security class dominated by their security
+clearance.
+Remark 5
+The *-property allows secret data be destroyed or damaged by
+unclassified subjects. To prevent this the *-property is sometimes used
+in the form
+Strong *-property — s is allowed to write o only if /\(s) : /\(o)
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 12 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+The Bell-LaPadula model: remarks
+
+0 In some approaches, write access means “read and write", with
+append access provided for “write only";
+
+o The BLP model is stated in terms of read and write operations
+(which suffices to illustrate the main points). Other operations may
+be added, such as create and destroy objects, constrained by the
+*-property because they modify the state of the object in question;
+
+o Mandatory controls in BLP are coupled with discretionary control: if
+the access control matrix does not authorizes the operation, there is
+no need to check the mandatory controls since the operation will be
+rejected anyway;
+
+0 A user can login (create a subject) with any label dominated by the
+user's clearance.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 13/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Integrity-based mandatory
+policies: the Biba model
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Integrity-based mandatory policies
+-I ﬂuxul informational: de sus in jos (de la elementul cel mai mare din latioe la oel mai mic)
+0 Aim: control the flows of information and prevent subjects to
+indirectly modify information they cannot write;
+o Subjects and objects are assigned integrity levels (integrity classes);
+o The integrity level of an object reflects both the degree of trust of
+the information stored in the object and the potential damage
+resulting from unauthorized modifications of the information;
+o The integrity level of a subject reflects the user's trustworthiness for
+inserting, modifying, or deleting information;
+0 Requests of subjects to access objects are regulated by means of
+their integrity classes.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 14/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+The Biba model
+Proposed by Biba (1977).
+The MAC in the Biba model:
+0 associate labels to subjects and objects by some function w;
+o Rules (No Read Down — No Write Up):
+l. Simple integrity (si-) property —
+sis allowed to read o only if w(s) g 01(0)
+2. Integrity *-property — s is allowed to write o only if w(s) Z w(o)
+Remark 6
+The Biba model's rules are the dual of the BLP model's rules.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 15/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Combining the BLP and Biba
+models
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Combining the BLP and Biba Models
+o There is no fundamental difference between the BLP and Biba
+models: both are concerned with information flow in a lattice of
+security classes;
+o ln the BLP model, the information flows upward;
+o In the Biba model, the information flows downward;
+o The direction is irrelevant: it is a matter of convention in
+representing the highest security class (in our case, in both the BLP
+and Biba models the highest security class on top of the lattice).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 16/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Case 1: smgle label
+—: use a single label for both confidentiality and integrity.
+o s can read or write o only if s ancl o have the same security class!
+o No information flow between security classes!
+o Irrelevant model.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 17/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Case 2: independent labels, same directions
+—: use independent labels for conﬁdentiality (A) and
+integrity (w) under the assumption that both lattices have the highest
+security class on top.
+0 Rules:
+1. sis allowed to read o only if Ms) Z Mo) and w(s) g w(o)
+2. sis allowed to write o only if Ms) g Mo) and w(s) Z (0(0)
+o The model uses two lattices with information flow going in opposite
+directions;
+0 Implemented in several operating system, database, and network
+products.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 18 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Case 3: independent labels, opposite directions
+—: use independent labels for conﬁdentiality (A) and
+integrity (w) under the assumption that the lattices have the highest
+security classes on opposite directions.
+
+0 Rules:
+1. sis allowed to read o only if Ms) Z Mo) and w(s) Z w(o)
+2. sis allowed to write o only if Ms) g Mo) and w(s) g (0(0)
+o The two lattices can be combined in just one lattice (see next slide);
+0 In this lattice, the entity with highest confidentiality has lowest
+integrity, and vice versa.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 19 / 39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Case 3: example
+. . . . AH 0.1L
+hlghest c0nf|dent|a||ty O O
+Oi Oi hi hest inte rit
+/\L wH g g y
+. . . . . _ AHWL
+hlghest confldentlallty, lowest Integrlty/O\
+AHwH .\ /.)\LwL
+I lowest confidentiality, highest integrity
+ALWH
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIMAC Fall 2022 20 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Separation of duty: the Chinese
+wall model
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Conflict of interest
+The Chinese wall model was proposed by Brewer and Nash (1989).
+0 In the commercial sector that provides consulting services t0 other
+companies.
+o Prevent information flows that result in a conflict of interest and
+inadvertent disclosure of information by a consultant or contractor;
+o Example of conflict of interest: lawyer providing consultancy services
+for two airline companies.
+o Combines commercial discretion with legally enforceable mandatory
+controls.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIMAC Fall 2022 21 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Conflict of interest and the Chinese wall
+o Object I item of information concerning a single company;
+0 Company dataset : all objects which concern the same company;
+o Conflict of interest class (CIC) I all datasets of the companies that
+are in competition;
+o Subject : user or program that might act on behalf of a user.
+o In the first instance, each subject has complete freedom to access
+anything he cares;
+o Once an object in a dataset D of some C/C is chosen, a Chinese
+Wall is created around D and n0 other dataset in CIC can be chosen
+by the same subject.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 22/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+The Chinese wall model
+Rules:
+o (Chinese Wall) Simple Security Rule: a subject s can be granted
+read access to an object 0 only if the object:
+1. is in the same company datasets as the objects already accessed by
+s, that is, “within the Wall", or
+2. belongs to an entirely different conflict of interest class.
+o (Chinese Wall) *-property: a subject s can be granted write access
+to an object o only if:
+1. s can read o by the simple security rule, and
+2. no object can be read which is in a different company dataset to the
+one for which write access is requested
+*-property implies that either s cannot write at all or s is limited to
+reading from and writing to just one company dataset!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 23 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Reason for the >x<-property
+CIC: “Banks”
+W l
+r r
+- l/QGZA‘
+Allce ' r ‘é, Bob
+Alice's Wall: Banlq, Oi/CI a r Bob's Wall: Bankl, Oi/Cz
+Bob can read
+from Oi/C1 and
+CIC: “Oil Companies" OiICQl
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 24 / 39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Criticisms of the model
+The *-property of the Chinese wall model protects against Trojan
+horse-like attacks. However, the price is unacceptable:
+1. A user that reads two company datasets cannot write at all;
+2. A user that is allowed to read just one company dataset can write
+only to that dataset.
+A typical activity of a user requires reading and writing operations. The
+Chinese wall model thus limits the activity of users only to working with a
+single company. Sandhu (1992) highlighted this.
+This anomaly occurs because the model does not distinguish between
+rules applied to users and subjects (see the concept of subject in this
+model).
+Proﬁdr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIMAC Fall 2022 25 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+A variation of the model: user-principal-subject distinction
+w
+Alice.Bank1 r
+1b‘?
+19%“ ’
+r
+r
+84/
+Alice \ .
+é,
+A
+Alice.(Bank1, Oi/Cl) r w
+Bob
+r
+CIC: “Oil Companies" @
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 26 / 39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+A lattice representation: object labeling
+The security labels are represented in the lattice bellow (Sandhu (1992)).
+I I z. T \ \
+(Bankl, oucl) , (Bankl, 01/62) (Bankz, 01/61) \(Bankg, 01/62)
+Bankl Ol/Cl ol'lc2 Bank;
+Publicelnfo
+0 First level: public information;
+o Second level: companies datasets;
+0 Third level: allowed combinations of companies datasets;
+o Top level: combinations not allowed (this level might be empty).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 27/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+A lattice representation: user, principal, and subject labeling
+o Each user U may have associated any security label, except for T;
+o Each user U with the security label X has associated the principals
+U.Y, for any Y dominated by X;
+o Each principal U.Y has associated the fixed security label Y. Each
+subject created by the principal inherits this label.
+Example 7
+If Alice has the security label Bankl, then she has associated two
+principals, Alice.Pub/ic,lnfo and Alice.Bank1. So, she can read from
+Pub/icslnfo and Ban/<1, and write to (Ban/<1, Oi/Cl) and (Ban/<1, Oi/CZ).
+The conflict of interest is thus avoided.
+This new model behaves as the BLP model!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 28/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+MAC implementations
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+MAC early implementations
+Early implementations (started out in the eighties, military-oriented):
+o Honeywell Secure Communications Processor (SCOIVIP);
+0 Strategic Air Command Dlgital Network (SACDIN) of the US Air
+Force (USAF);
+
+0 Boeing Multi-level Secure Local Area Network;
+
+0 etc.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 29/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+MAC recent implementations: SELinux
+Security-Enhanced Linux (SELinux):
+
+o Linux kernel security module that provides a mechanism for
+supporting access control security policies, including MAC;
+
+o The key concepts can be found in some earlier projects by United
+States National Security Agency (NSA)
+https://Www.nsa.gov/selinuX/.
+
+Subjects and objects:
+
+0 Subject security level I domain;
+
+o Object security level : type;
+
+o Type of an object I class.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 30/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+MAC recent implementations: SELinux
+SELinux has two types of rules: access rules and labeling rules:
+0 Access rules:
+o Example: allow sshd.t shell.exec.t:file execute
+o Meaning: when a subject of sshd.t accesses an object of
+shell.exec.t of class file, it has the execute permission;
+o Rules for the type of a new object (labeling rules):
+o Example: type.transiti0n sshd.t tmp.t: devfile.class.set
+cardmsg.dev.t
+o Meaning: when sshd daemon creates a device ﬁle in the tmp
+directory, the new file is labeled with cardmsg.dev.t.
+More on SELinux: Kuliamin et al. (2019); Vermeulen (2020).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 31 / 39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+MAC recent implementations: AppArmor
+Application Armor (AppArmor):
+0 Linux kernel security module that supplements the traditional Unix
+DAC model by providing MAC;
+o Originally developed by Immunix (1998-2005), then by SUSE
+(2005-2009), and currently by Canonical from 2009;
+o Included in the mainline Linux kernel since version 2.6.36 (Oct
+2010);
+0 A set of MAC rules in AppArmor is known as a profile;
+o SELinux labels the ﬁles (according to the main theory on MAC),
+while AppArmor works with file paths;
+o Two types of rules:
+0 path entries: what files an application can access in the ﬁle system;
+o capability entries: privileges that are allowed to use.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 32/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+MAC recent implementations: MIC
+Mandatory Integrity Control in Windows operating systems:
+
+o Starting with Windows Vista and Windows Server 2008, Microsoft
+adds a Mandatory Integrity Control (MIC) (Microsoft (2021));
+
+o MIC is a form of the Biba model ensuring integrity to writes and
+deletions: to write to 0r delete an object, the subject's integrity level
+must be greater than or equal to the object’ integrity level;
+
+o There are six integrity levels: Untrusted, Low (everyone), Medium
+(standard and authenticated users), High (local or network services,
+elevated users), System (system services), and Trusted Installer;
+
+o Subjects’ integrity level: when a user logs on, Windows Vista assigns
+an integrity SID to the user's access token;
+
+o Objects’ integrity level: ﬁles, pipes, threads, registry keys, printers
+etc., are assigned an integrity SID which is stored in the System
+Access Control List (SACL).
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 33/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+MAC recent implementations: MAC and MIC in IBM AIX 7.2
+IBM AIX 7.2. Security:
+“Mandatory Access Control is enforced any time a process attempts to
+open a file system object, retrieve the attributes of a file system object,
+send a signal to a process, transfer data through a STREAM, or send or
+receive a packet through a network interface. Access to any file system
+object is only possible if both MAC and DAC criteria are met. When a
+user attempts to access a file, MAC restrictions are enforced before DAC
+restrictions, such as permission bits or ACLs, are checked."
+“Trusted AIX uses a system of labels to enforce MIC. On a Trusted AIX
+system, all named objects have integrity labels (TLs) to identify the
+object's integrity level. Processes also have TLs. Process TLs indicate
+which level of information integrity the process is allowed to access. The
+higher the TL, the more trustworthy the object or process is."
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 34/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+MAC and covert channels
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Covert channels
+Definition 8 (From NIST SP 800-53 Rev.5)
+A covert channel is an unintended or unauthorized intra-system channel
+that enables two cooperating entities to transfer information in a way
+that violates the system's security policy but does not exceed the
+entities’ access authorizations.
+
+0 They were signaled by Lampson (1973);
+
+o Trusted Computer System Evaluation Criteria (TCSEC), also called
+the Orange Book, defines two kinds of covert channels:
+
+o Storage channels — modify storage location to communicate;
+o Timing channels — use a delay between packets transmitted over a
+network;
+
+0 Covert channels require a cooperating sender and receiver, are hard
+to detect and control, and can exist in any MAC system. MAC
+cannot protect against them!
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 35 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Concluding remarks on MAC
+models
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Concluding remarks
+
+o MAC enforces access control on the basis of regulations mandated
+by a central authority;
+
+o MAC makes clear distinction between users and subjects;
+
+o Lattice-based access control (LBAC), also called label-based access
+control or rule-based access control or multilevel access control, is a
+form of MAC;
+
+o In LBAC, a lattice is used to define levels of security an object or
+subject may have;
+
+o Mandatory policies protect the flow of information over overt
+channels (i.e., legitimate channels) but not over covert channels.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 36/39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Readings
+In addition to the materials indicated so far, l recommend:
+0 Chapters 6 and 7 of Conrad et al. (2016);
+o Chapters 3 and 4 of Andress (2014);
+o Chapter 11 of Collins (2014);
+o Chapter 23 of Bertino (2012);
+0 Samarati and de Capitani di Vimercati (2001).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 37/39
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+References
+References
+
+Andress, J. (2014). The Basics of Information Security. Understanding the Fundamentals of
+lnfosec in Theory and Practice. Syngress, Elsevier, Boston, 2nd edition.
+
+Bell, D. E. and LaPadula, L. J. (1973). Secure computer systems: Mathematical foundations.
+Technical Report 2547, MITRE Corporation.
+
+Bertino, E. (2012). Chapter 23 - Policies, access control, and formal methods. ln Das, S. K.,
+Kant, K., and Zhang, N., editors, Handbook on Securing Cyber-Physica/ Critical Infrastructure,
+pages 573-594. Morgan Kaufmann, Boston.
+
+Biba, K. (1977). Integrity considerations for secure computer systems.
+
+Brewer, D. and Nash, M. (1989). The Chinese wall security policy. In Proceedings of the IEEE
+Symposium on Security and Privacy, pages 206-214.
+
+Collins, L. (2014). Chapter 11 - Access controls. In Vacca, J. R., editor, Cyber Security and IT
+Infrastructure Protection, pages 269-280. Syngress, Boston.
+
+Conrad, E., Misenar, S., and Feldman, J. (2016). CISSP Study Guide. Singress, Elsevier, 3rd
+edition.
+
+Denning, D. E. (1976). A lattice model of secure information flow. Commun. ACM,
+19(5);236-243.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControlMAC Fall 2022 38 / 39
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+References (cont.)
+
+IBM (2021). IBM AIX 7.2. Security. Technical report, IBM Corp.
+
+Kuliamin, V., Khoroshilov, A., and Medveded, D. (2019). Formal modeling of multi»level security
+and integrity control implemented with SELinux. ln 2019 Actual Problems ofSystems and
+Software Engineering (APSSE), pages 131-136.
+
+Lampson, B. W. (1973). A note on the confinement problem. Commun. ACM, 16(10):613—615.
+
+Microsoft (2021). Windows security. Technical report, Microsoft.
+
+Samarati, P. and de Capitani di Vimercati, S. (2001). Access control: Policies, models, and
+mechanisms. In Focardi, R. and Gorrieri, R., editors, Foundations of Security Analysis and
+Design, pages 137-196, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+Sandhu, R. (1993). Lattice-based access control models. Computer, 26(11):9—19.
+
+Sandhu, R. S. (1992). A lattice interpretation of the chinese wall policy. ln Proc. of the 15th
+NIST-NCSC National Computer Security Conference, pages 329-339, Baltimore, MD.
+
+Vermeulen, S. (2020). SELinux System Administration. Packt Publishing, third edition.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Access ControIMAC Fall 2022 39 / 39
+
+***************Ending Page***************
+

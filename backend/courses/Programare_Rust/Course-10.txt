@@ -1,0 +1,3249 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 10
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Agenda for today
+I 1. Unsafe blocks
+
+2. NonNull pointers
+
+3. Interior IVIutability
+
+4. Reference Count
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Unsafe Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+',® U nsafe Rust
+
+Unsafe Rust is a mechanism that one can use to enable a set of features / behavior
+
+of the program that have the potential to trigger a problem / bug in your program if
+
+not treated correctly. For this type of behavior, Rust uses a special keyword: unsafe
+
+that can be used to declare a block or a function where the safety rules don't apply.
+
+Cases where unsafe can be used:
+' To work with regular pointers (just like C/C++)
+' To modify mutable global variables
+' To run a method from an external module that was not compiled with Rust (e.g. a module __
+compiled in C/C++, a system API, etc)
+' To access a field of a union (similar to the concept of union from C/C++)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+A pointer in rust can be defined in the following way:
+' *const <type> 9 for constant pointers (equivalent to — from C/C++)
+' *mut <type> 9 for non-constant (mutable) pointers (equivalent to - from C/C++)
+In Rust, pointers are not limited by any ownership / borrowing rules. As such, they are considered
+unsafe. Let's analyze the following code:
+Rust
+. error[E6133]: dereference of raw pointer is unsafe and requires unsafe function or block
+rna1r1() { --> src\main.rs:4:26
+x = 18; |
+y = &X 3 4 | println!("{}", *y )3
+pPintln' (u u -) . | M dereference of raw pointer
+' J J I
+} = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules
+and cause data races: all of
+these are undefined behavior
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+A pointer in rust can be defined in the following way:
+' *const <type> 9 for constant pointers (equivalent to — from C/C++)
+' *mut <type> 9 for non-constant (mutable) pointers (equivalent to - from C/C++)
+In Rust, pointers are not limited by any ownership / borrowing rules. As such, they are considered
+unsafe. Let's analyze the following code:
+() { () {
+X = 1e; X = 19;
+y = &>< ; y = &>< 3
+println!(" {*y } )3 {println!(" *y )3 }
+} }
+The solution in this case is to use the unsafe keyword to enable reading a value from a pointer.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+- a ‘
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+Convert a const pointer to a mutable pointer
+Rust
+mam) { m
+{
+y = (&>< ) s
+*y = 11;
+};
+pnintln!(" ",x);
+}
+In this example, even if "I" is defined as immutable, we can create a mutable
+pointer towards it and change its value. In reality, this technique is quite dangerous
+as "I" might be located on a read-only memory page and trying to write something
+at that location might crash the program.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Accessing a memory allocated to a type with a pointer of another type
+Rust
+mam) { m
+{
+y = (&>< ) s
+*y = 11;
+};
+}
+In this example, "I" is a pointer of type i32, but we are going to access its memory
+via "I" (a pointer of type i8 ). This is considered to be unsafe as you can write data
+outside allocated memory space/breaking invariants.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+i;§ﬁilq_
+jTi‘ f
+I Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Apply pointer arithmetic 's
+Rust
+mam) { m
+y = (&X ) S
+*(y.add(1)) = 11;
+};
+pnintln!(" ",x);
+}
+We can also apply pointer arithmetic's via specialized functions such as - or
+-. ln our case, we will set the next 8 bytes of. to value 11, making the total
+value of. to be 10 + 11 * 256 = 2826. The main risk here is that using pointer
+arithmetic's might move a pointer to an unallocated memory space.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+"® U nsafe Rust
+One can use pointers to avoid various safety protocols:
+u Create a variable that points to a hardcoded memory location
+(i f
+X = { &*(@X123458 ) }; er'r'or': pr'ocess didn't exit successfully:
+} _ _
+In this case I is a immutable reference (&i32) that points to an invalid address
+(0x123458i
+As a result, when trying to read the value of I a runtime error (crash) will happen.
+Keep in mind that these error rely on the fact that on most system there should be
+no memory allocated around 0x123458. However, this is an undefined behavior
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+t?‘
+One can use pointers to avoid various safety protocols:
+a Cast between different structures / types
+Rust m C++ (equivalent code)
+( ) struct {
+{ values: [ g 4], } unsigned char‘ value[4],'
+main() { };
+i = {
+values: [127, 9, 9, 1], void main() {
+- = {127,o,o,1};
+pnintln!(" ", n); stdzzcout << 3
+} }
+In this case, we convert the address of structure IP to a pointer of type *const u32
+and then we read the value from there. This means that the value read (on little
+endian) architecture will be: 127 + O x 28 + O x 216 + 1 x 224 = 16777343
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+i Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Cast between different structures / types
+Rust #[repr(C)]
+In this case, we convert the address of structure IP to a pointer of type *const u32
+and then we read the value from there. This means that the value read (on little
+endian) architecture will be: 127 + O x 28 + O x 216 + 1 x 224 = 16777343
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+JéﬁgiiQQI
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+Rust
+main() {
+s = ::From("ABC");
+52 = { ::From_raw_parts((& s).as_mut_ptP(),s.1en(),s.capacity()) };
+52.c1eaP();
+52.push_str("123");
+println!(" , ", 5,52);
+}
+So, let's see what happens in this case:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+Rust
+52 = { ::Fnom_naw_pants((& s).as_mut_ptn(),s.1en(),s.capacity()) };
+So, let's see what happens in this case:
+1. We create I from a raw pointer 9 this translates that both I as I use the same memory
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+i;§ﬁilq_
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+Rust
+52.c1ean();
+52.pushistn("123");
+So, let's see what happens in this case:
+1. We create I from a raw pointer 9 this translates that both I as I use the same memory
+2. We clear the memory allocated for I (and we replace it with another string "123"). Notice that the
+new string has the same size as the previous one 9 this way we make sure that the pointer will not
+change, and the values from s will remain valid (length & capacity)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+if“
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+Rust m
+123, 123
+So, let's see what happens in this case:
+1. We create I from a raw pointer 9 this translates that both I as I use the same memory
+2. We clear the memory allocated for I (and we replace it with another string "123"). Notice that the
+new string has the same size as the previous one 9 this way we make sure that the pointer will not
+change, and the values from s will remain valid (length & capacity)
+3. Print both I and I (as they have the same pointer 9 they will have the same value: 123)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+f‘
+One can use pointers to avoid various safety protocols:
+a Evade ownership rules
+Rust m
+123, 123
+‘target\debug\nust_tester.exe‘ (exit code: ch0090374,
+So, let's see what happens |n this case: STATUS-HEAP—C°RRUPTI°“>
+1. We create I from a raw pointer 9 this translates that both I as I use the same memory
+2. We clear the memory allocated for I (and we replace it with another string "123"). Notice that the
+new string has the same size as the previous one 9 this way we make sure that the pointer will not
+change, and the values from s will remain valid (length & capacity)
+3. Print both s and s2 (as they have the same pointer 9 they will have the same value: 123)
+4. Deallocate memory for s and $2 (since they have the same pointer, a runtime error will occur)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+One can use pointers to avoid various safety protocols:
+Evade borrowing rules
+Rust
+dam > m
+StPUCt MyData} MyData {textz "abc123", value: 10 },|V|yData {textz "abc123", value: 10}
+text: Str1ng,
+value: 132,
+}
+tn main() {
+let i = MyData {
+text: "abc".to_string(),
+value: 5,
+};
+let ref_i = &i;
+let ref_mut_i = unsafe { &mut *((&i) as (*const MyData) as (*mut MyData)) };
+ref_mut_i.value = 19;
+ref_mut_i.text.push_str("123");
+println!("{:?},{:?}", ref_i, ref_mut_i);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+One can use pointers to avoid various safety protocols:
+Evade borrowing rules
+M“ m
+MyData {textz "abc123", value: 10 },|V|yData {text "abc123", value: 10}
+ref_i = &i; |
+re+_mut_i = { & *<<&i> < > < >> };
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+a Unsafe Rust
+One can use pointers to avoid various safety protocols:
+Evade borrowin . rules
+' M
+l
+value: 10}
+};
+Peimuti =
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+JéﬁgiiQQI
+One can use pointers to avoid various safety protocols:
+Evade borrowing rules
+
+We can even create generic function that creates a mutable reference:
+
+Rust
+
+fn get_r‘ef_mut<T>(r‘ef_to_T: &T) —> &mut T { m
+unsafe { abc12,abc12
+
+let ptP = ref_to_T as *const T;
+let mut_ptn = ptr as *mut T;
+&mut *mut_ptP3
+
+}
+
+}
+
+fn main() {
+let s = String::fnom("abc");
+let ref_mut_1 = get_nef_mut(&s);
+let ref_mut_2 = get_nef_mut(&s);
+ref_mut_1.push('1');
+ref_mut_2.push('2');
+pnintln!("{},{}", ref_mut_1, ref_mut_2);
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+t?
+Unsafe Rust
+One can use pointers to avoid various safety protocols:
+Evade borrowing rules
+We can even create generic function that creates a mutable reference:
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+i Unsafe Rust
+One can use pointers to avoid various safety protocols:
+Evade borrowing rules
+We can even create generic function that creates a mutable reference:
+Ru“ m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+l Unsafe Rust
+One can use pointers to avoid various safety protocols:
+Evade borrowing rules
+We can even create generic function that creates a mutable reference:
+Ru“ m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods / functions
+Rust
+get_ref_mut< >(Pef_to_T: & ) -> & {
+{
+ptr = Pef_to_T ;
+mut_ptr = ptr ;
+return & *mut_ptr‘; m
+}
+main() {
+s = ::from("abc");
+Pef_mut_1 = get_ref_mut(&s);
+Pef_mut_2 = get_ref_mut(&s);
+Pef_mut_1.push( '1' );
+ref_mut_2.push('2');
+println!(" , ", Pef_mut_1, PeF_mut_2);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+One can use polnters to avold varlous safety protocols:
+a Create unsafe methods / functions
+Rust Rust (unsafe function)
+fn get_Pef_mut<T>(Pef_to_T: &T) -> &mut T { unsafe fn get_ref_mut<T>(ref_to_T: &T) -> &mut T {
+unsafe { let ptr = Pef_to_T as >‘<const T;
+let ptr = Pef_to_T as >‘<const T; let mut_ptr = ptr as *mut T;
+let mut_ptr = ptr as *mut T; &mut *mut_ptr;
+&mut *mut_ptr; }
+}
+}
+fn main() { fn main() {
+let s = String::from("abc"); let s = String::from("abc");
+let ref_mut_1 = get_nef_mut(&s); let Pef_mut_1 = unsafe { get_nef_mut(&s) };
+let ref_mut_2 = get_nef_mut(&s); let Pef_mut_2 = unsafe { get_nef_mut(&s) };
+ref_mut_1.push('1'); Pef_mut_1.push('1');
+ref_mut_2.push('2'); Pef_mut_2.push('2');
+println!("{},{}", nef_mut_1, nef_mut_2); println!("{},{}", ref_mut_1, ref_mut_2);
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods / functions
+Rust Rust (unsafe function)
+et ref mut< > ref to T: & -> & { - get_reF_mut< >(re1c_to_T: & ) -> & {
+{ ptr = reF_to_T 3
+ptr = re¥_to_T ; mut_ptr = ptr 3
+mut_ptr = ptr ; return & *mut_ptr;
+return & *mut ptr;
+}
+} ME
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods / functions
+Ru“
+Penc_mut_2 = get_r‘e1c_mut(&s); ref_mut_2 = { get_r‘e1c_mut(&s) };
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+One can use pointers to avoid various safety protocols:
+a Create unsafe methods / functions
+Rust Rust (unsafe function) W
+t0 {} t0 {}
+go o _ go o
+ma1n
+ptPI () = t; ptPi () = t;
+ptr‘! () = 83 pr‘1nt n. OK ,-
+} 1 }
+ennor[E0368]: mismatched types
+--> snc\main.ns:6:21
+6 i let ptr: fn() = g;
+| ---- A expected normal fn, found unsafe fn
+i ixpected due to this
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+i Unsafe Rust
+One can use pointers to avoid various safety protocols:
+a Unsafe traits
+Rust
+{ W
+{}
+{
+foo(& ) {
+println!("foo");
+}
+}
+main() {
+}
+But what if we know that the code we are going to add, adheres to Rust safety
+grincigals but for is in order to write it we need to use unsafe block ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+a?
+One can use pointers to avoid various safety protocols:
+a Unsafe traits
+The solution in this case is to use an unsafe trait.
+Rust
+— W
+}
+{}
+—
+Foo(& ) {
+println!("foo");
+}
+}
+main() {
+a = {};
+a.foo();
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+t?“
+One can use pointers to avoid various safety protocols:
+Modify/change global variables
+Rust
+global_x: = 9; m
+maino {
+for _ in 9..3 { 2
+{
+globa1_x = global_x + 1; 3
+pnintln!(" ",global_x);
+}
+}
+}
+Global variable can only be immutable (this avoid various problems that could appear if multiple
+threads access and modify the same global variable). However, using unsafe, this behavior can be
+avoided like in this snippet.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+1§§3E19_
+One can use pointers to avoid various safety protocols:
+Access APIs / ABIs
+Rust
+extern "system" { m
+tn GetTickCountO -> u32; Current tick: 448103187
+}
+tn get_tick_count() -> u32 {
+unsafe { GetTickCount() }
+}
+tn main() {
+pnintln!("CuhPent tick: {}",get_tick_count());
+}
+Rust can not guarantee the safeness of an API (including the ones of the operating system). For
+example, in this example, we try to access the method GetTickCount (available in Windows). We can
+get a reference to that method (via extern keyword), but if we want to use it , we can only use it
+using unsafe keyword.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+i;§ﬁilq_
+One can use pointers to avoid various safety protocols:
+Access the fields of a union
+Rust
+int: u32,
+ﬂoat: {32 8.625 <-> 410A0000
+} 1.25 <-> 3FAOOOOO
+fn main() {
+let mut x = FloatToInt { float: 8.625 };
+unsafe { pnintln!("{} <-> {:X}",x.float, x.int); }
+x.int = 9x3FA06909;
+unsafe { pnintln!("{} <-> {:X}",x.float, x.int); }
+}
+Rust support unions (just like C/C++). The only difference being that accessing union fields might
+result in unsafe operations (for example if one field is a heap allocated object and another one is a
+value). As such, accessing a value (e.g. for reading) must be done in an unsafe block
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+"§ U nsafe Rust
+
+Finally, a word of advice:
+
+' Using unsafe is m recommended (if you want to code in Rust, you should first
+try to solve a problem using the safe functions)
+
+' When using unsafe (and especially when using pointers) make sure that you
+consider all scenarios Where the memory where a pointer points to might be
+moved, changed or deallocated (the memory management in this case become
+the programmer'sjob)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+NonNuII pointer
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+,’ N O n N U II p0‘ nte r
+One potential security issue with raw pointers is that they can have a special value
+(called -) that implies an invalid memory address that, if read or write will
+produce a crash.
+As such, Rust has a special wrapper around a raw ointer (called —) that
+guarantees that the inner pointer will never be i (even if the pointer is
+dereferenced . This features allows some optimizations for compounds such as
+where the impossible value (-) is used as a discriminant
+( means None in this case and any other value is associated with Some).
+pointer: , .5ﬁﬁEﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Let's see an example:
+M W
+use stdzzptrzzNonNull;
+8
+fn main() { 8
+pnintln!("{}",std::mem::size_of::<NonNull<i32>>());
+pnintln!("{}",std::mem::size_of::<Option<NonNull<i32>>>())5 8
+pnintln!("{}",std::mem::size_of::<*const 132>())3 16
+println!("{}",std::mem::size_of::<0ption<*const i32>>());
+}
+In this case, we can see that a NonNull wrapper and a raw pointer have the same
+size in memory (8 bytes for a 64 architecture), but an Option<NonNu||<...>> is
+smaller (only 8 bytes) than an Option<*c0nst ...>. This is because in case of
+NonNull, the Option enum can use the value as a discriminant to reflect the
+None option. In case of raw pointers, it has to add an additional member for the
+discriminant 9 hence the size of 16 bytes.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+NonNull implements the following traits:
+' COPY
+' Clone
+' Debug
+. Eq
+' PartialEq
+' 0rd
+' PartialOrd
+' Hash
+' !Size (meaning you can not transfer it between multiple threads — multithread safety)
+' From (with different parameters). 'l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Keep in mind that does not allocate memor on creation (you need a valid
+pointer to create a wrapper). To create a use one of the following:
+M—
+Check ptr, if null returns None, otherwise returns Some
+(PtP! )-> Sets the inner value to ptr, without checking it. Use this
+only when you are sure that ptr is not null. Because of
+this, this function is unsafe.
+()-> Creates an initialized (not NULL) pointer an invalid
+memory address. Don't try to read/write its value as it
+will result in a UB.
+or one of the following From<T> implementations:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+NonNull polnter
+Notice that — method creates a NonNull (non-initialized pointer).
+One guestion here is why this method is NOT unsafe ? The reason for this is that
+you can not access the inner raw ointer without an unsafe block, and as such it is
+no problem when using *method. It is important to mention
+that NonNull::dangling() method will never create an inner pointer equal to Null.
+This method is useful for:
+' Lazy initialization cases (such as for a Vector)
+' Structures where you need to initialize a pointer later , but after initialization you know that _
+that pointer will never be Null l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+- wrapper has the following (stable) methods (there are also several
+unstable method that will not be discuss here).
+as_ptr‘( ) — > Returns the inner pointer, while consuming the NonNuIl object
+as_r‘ef(& ) — > & Returns an immutable reference to the object where the inner
+pointer points to. This method is unsafe (meaning you can only
+call it from within an unsafe block)
+as_mut(& ) — > & Returns an mutable reference to the object where the inner
+pointer points to. This method is unsafe (meaning you can only
+call it from within an unsafe block)
+Converts current NonNull pointer from type "T" to type "U"
+add( , delta: ) — > Performs a pointer addition over the inner pointer and returns
+a new NonNull wrapper, consuming the original one.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+i;§ﬁilq_
+;_I‘ 2-3
+In the next example we create a NonNull structure over i32 and change its value via
+as_mut() method:
+use std: :ptr‘: :NonNull; use std: :ptr‘: :NonNull; m
+fn main() { fn main() {
+let mut y = 19; let mut y = 19;
+let x = N0nNull::new(&mut y as *mut i32); let mut x = NonNull::fP0m(&mut y);
+let Some(mut p_x) = x { unsafe { *x.as_mut() = 29 };
+unsafe { *p_x.as_mut() = 29 }; pnintln!("{}",y);
+} }
+println!("{}",y);
+}
+Notice that in both cases, we still need to use an unsafe block to access the value
+where the inner pointer points to.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+NonNull::dangling() to create a valid NonNull wrapper. Its purpose is to create an
+object that will be later initialized.
+std::ptr:: ;
+error: process didn't exit successfully:
+() { _. __ _ ‘target\debug\rust_tester.exe‘ (exit code:
+
+X = "< >" ()’ excoooooos, STATUS_ACCESS_VIOLATION)
+
+{ *X- <> = 2Q },-
+}
+In this example, "x" will have an inner pointer (non-null, correctly align) that points
+to a possible invalid memory address. The result of accessing or modifying the data
+from the inner pointer is an undefined behavior (in most cases, it will translate into
+a crash during the runtime execution of the code).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+i;§ﬁilq_
+NonNull::dangling() can however be used to create a structure where you only
+need to initialize a NonNull member later. These scenarios are useful when you
+know that the NonNull pointer will be valid from the moment of its initialization
+and until the end of its lifetime. It's also up to the programmer to make sure that
+between initialization of the structure and the actual initialization of the NonNull
+wrapper, the inner pointer will not be accessed.
+Rust
+use stdzzptnzzNonNull; m
+struct MyData { ptn: NonNu11<132> }
+Fn main() {
+let mut y = 19;
+let mut m = MyData { ptn: NonNu11::dangling() };
+m.ptn = NonNull::Fnom(&mut y);
+unsafe { *m.ptr.as_mut() = 26; };
+println!("{}",y);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+However, if a data member of a structure can be either NULL or a valid pointer, it is
+best to use it with an Option.
+use std: :ptnz: 3 I OUtPUt I
+struct { 20
+ptn: < < >>,
+}
+tn () {
+let mut y = 19;
+let mut m = { ptn: None };
+m.ptn = Some( :: (&mut y));
+if let Some(p_x) = m.ptn. () {
+unsafe { .e
+*p_><- O = 29;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+JéﬁgiiQQI
+f. NonNull polnter
+
+Let's analyze the following example:
+Rust
+use std::ptr*::NonNull; m
+tn main() {
+
+let mut y = 1924u32;
+
+let p_y = NonNull::from(&mut y);
+
+let mut p_byte_y: NonNull<u8> = p_y.cast();
+
+unsafe {
+
+*p_byte_y.as_mut() = 1;
+
+}
+
+println!<"{}", y);
+}
+"y" is initialized with 1024 -) meaning the layout of “y” in memory for LE
+architecture is: “nun => y = + 4 x 28 + + = 1024
+"p_byte_y” is a u8 pointer that points towards the first byte of "y". Setting the
+value 1 at that byte means a change the memory layout of "y" for LE as follows:
+.uun that implies that y = 1 + 4 x 28 + + = 1025
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Interior Mutability
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+pg l nte r| o r M uta b| l |ty
+
+Sometimes, you need to create an object that even if from the outside does not
+
+have to change, internally you have to change a state/data members. In Rust this
+
+ability is called interior mutability.
+
+Interior mutability is often used for cases where normal ownership and borrowing
+
+rules can not be applied due to the nature of the algorithm that is being used, such
+
+as:
+' Graphs
+' Double linked list _
+' Trees (if a child needs to keep a handle towards its parent) ll
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Let's consider the following scenario:
+- We want to create a pseudo-random object that retrieves random values between O and a
+maximum number
+- One simple algorithm will be to start with a fix seed
+- Then whenever a new number is requested, we use the following algorithm:
+return seed % maximum_value
+- Notice that on any step we need to change the seed , so that the next time we will generate
+another number.
+This algorithm can be written in various ways using either unsafe or cell. A cell in Rust is a type of __
+wrapper around a given type that provides interior mutability. |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+V? Interior Mutablllty
+
+Before we start discussing about implementation scenarios, let's set up some
+
+evaluation criteria that we can use:
+
+1. Multi thread protection 9 means that there is no scenario where accessing a
+resource from multiple threads can lead to an undefined behavior
+
+2. Use of unsafe block 9 means that the program must use "unsafe" when using
+a specific approach
+
+3. Works with references 9 means that a described scenario can be utilized with
+references or not
+
+4. Global variable protections 9 means that there is a protection against
+changing a global variable from multiple threads
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+r§§%§‘93
+Write this just like a regular Rust program
+Rust
+mod random { m
+pub struct Random {
+seed: u32, 5
+}
+impl Random { 0
+pub const fn new() —> Self { Self { seed: 1 } }
+pub fn get_value(&mut self, max_value: u32) —> u32 {
+self.seed = self.seed.overflowing_mul(22695477u32).0 + 1u32;
+self.seed % max_value;
+}
+}
+}
+fn main() {
+let mut P = PandomzzRandomzznew();
+_ 0..3 {
+println!("{}", P.get_value(10));
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+. . .
+Interlor M utablllty
+Write this just like a regular Rust program
+Rm W
+s
+5
+0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Interlor Mutablllty
+Write this just like a regular Rust program
+Rust
+random { OUtpUt
+{
+}
+new()
+get_va1ue(& , max_va1ue: )
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Interlor Mutablllty
+Write this just like a regular Rust program
+Rust
+
+random { OUtpUt
+
+{
+}
+
+new()
+
+get_va1ue(& , max_va1ue: ) l
+
+—
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+f. Interlor IVI uta bl I lty
+So thinking about the previous algorithm, how can we make variable r
+immutable, and still generate (use the same algorithm) to generate a pseudo-
+random number (just like in the next snippet).
+
+Rust (desired behavior)
+mod random { } W
+tn main() {
+let r‘ = PandomzzRandom: :new(); 5
+_ a. .3 { 9
+println!("{}", r.get_value(19));
+}
+}
+So how can we rewrite module random so that we get this behavior ?
+(the solution to this requirement is called interior mutability)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+jé§é$i;g_
+a Use unsafe to change the mutability of data member seed
+Rust
+mod Pandom { W
+pub struct Random {
+seed: u32, 5
+}
+impl Random { 0
+pub const Fn new() -> Self {
+Self { seed: 1u32 }
+}
+pub fn get_value(&self, max_value: u32) —> u32 {
+let new_seed = self.seed.overflowing_mul(22695477u32).0 + 1u32 3
+unsafe {
+let p_to_me = (&selF.seed as *const u32) as *mut u32;
+*p_to_me = new_seed;
+}
+new_seed % max_value ;
+}
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+. . .
+Interlor M utablllty
+a Use unsafe to change the mutability 0 data member seed
+-i Pandomzz ::new();
+for _ in 9..3 {
+println!(" ", P.get_va1ue(19));
+}
+
+}
+get_va1u-max_value: ) —> {
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+. I Q
+Interlor M utablllty
+a Use unsafe to change the mutability of data member seed
+Rm W
+
+s
+5
+0
+
+new_seed = .seed.over‘1c1c|ingmu1(22695477u32).0 + 1u32 3
+
+'p_to_me = new_seed;
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+0 0 0
+Interior Mutablllty
+So .. is this a good approach (using unsafe), in terms of Rust safety principles ?
+Let's evaluate a couple of cases:
+A. Dangling l invalid pointer
+Assuming we create multiple references to the same variable, is there a
+possibility of accessing an invalid memory address through a pointer ? The
+answer to this question is I.
+Rust
+get_va1ue(& , max_value: ) -> {
+p_to_me = (& .seed ) ,'
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+"g | nte r| Q r M uta b| | |ty
+
+So .. is this a good approach (using unsafe), in terms of Rust safety principles ?
+
+Let's evaluate a couple of cases:
+
+B. Single thread soundness
+Assuming we run our code in a single thread scenario, are the results
+consistent. The answer is - 9 the results are not only consistent, but
+deterministic for the current pseudo-random code generator.
+
+C. Multi thread soundness
+ln this case there is a possibility that two threads might call the -
+method at the same time. If this is the case, the result for each thread will be
+—. However , we should still mention that no runtime crash will
+happen as even if we access the same memory from multiple threads, its still
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+',® Interior M uta bl I |ty
+
+So .. is this a good approach (using unsafe), in terms of Rust safety principles ?
+
+Let's evaluate a couple of cases:
+
+D. Code optimizations
+An immutable variable might be optimized by Rust. One special case is if that
+variable is declared as a global variable. ln such cases, Rust might decide to
+allocate space for that variable into a non-writeable page (for example in a
+section like .rdata in case of PE executable for Windows). This could be
+problematic when trying to write data through a pointer.
+
+{ If p_to_me points to a memory located in a read-only page (such as
+
+} *p_t0_me = nemseed; .rdata section) this operation will crash the application with a
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+So .. is this a good approach (using unsafe), in terms of Rust safety principles ?
+Let's evaluate a couple of cases:
+D. Code optimizations
+Let's consider the following scenario:
+Rust
+random { } error‘: process didn't exit successfully:
+‘target\debug\nust_testen.exe‘ (exit code: 0xc0000005,
+main() {
+for _ in 0..3 {
+pnintln!(" ", P.get_value(19));
+}
+}
+rustc 1.71.0 (8ede3aae2 2023-07-12)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+So .. is this a good approach (using unsafe), in terms of Rust safety principles ?
+Overview:
+
+Use of unsafe block Multi thread Global Variable Working with
+
+protection protection references
+
+Raw pointers Yes No No Yes (unsafe)
+As a result, the approach is correct (safe and sound), but only for a single thread
+scenario.
+So the next question is 9 can we enforce a code like the similar one to run only
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+V¥§g$§£'1
+a Use UnsafeCeII
+Rust has a special structure (called UnsafeCell) defined in the following way:
+Rust (from cell.rs)
+= "unsafe_ce11"
+( = "rustl", = "1.6.9")
+( )
+pub struct UnsafeCell<Tz PSized> {
+value: T,
+}
+with a method .get(...) defined in the following way:
+Rust (from cell.rs)
+pub const fn get(&se1f) -> *mut T {
+self as *const UnsafeCe11<T> as *const T as *mut T
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+. . .
+Interior Mutablllty
+a Use UnsafeCeII
+Rust has a special structure (called UnsafeCell) defined in the following way:
+Rust (from cell.rs)
+with a method defined in the following way:
+Rust (from cell.rs)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+. I Q
+Interlor Mutablllty
+a Use UnsafeCeII
+Rust has a special structure (called UnsafeCell) defined in the following way:
+Rust (from ce/I.rs)
+with a method i
+Rust (from cell.rs)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+jggﬁieep
+- Interlor Mutablllty
+a Use UnsafeCeII
+mod random {
+pub struct Random { seed: UnsaFeCell<u32> } 8
+impl Random {
+pub const Fn new() —> Self { Self { seed: UnsafeCell::new(1) } }
+pub fn get_value(&self, max_value: u32) —> u32 { 0
+let seed = self.seed.get();
+unsafe {
+*seed = (*seed).ovenflowing_mul(22695477u32).9 + 1u32;
+*seed % max_value;
+}
+}
+}
+}
+Fn main() {
+let mut P = PandomzzRandom::new();
+_ o..3 {
+println!("{}", P.get_value(19));
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+Interlor Mutablllty
+a Use UnsafeCeII
+Rm W
+8
+5
+O
+IIIIIIIiIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+*seed = (*seed).overflowing_mu1(22695477u32).9 + 1u32;
+return *seed % max_value;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+é?“
+a Use UnsafeCeII
+Now let's see if we create a global variable using this code base on UnsafeCell
+and we test it to see the effects of a possible optimization what happens).
+Rust
+random { } error[E9277]: ‘UnsafeCell<u32>‘ cannot be shared between threads
+safely
+r: random: : = random: : ::new(),' -l> SI"C\mai"-'"-<'198111
+_ 98 | static r: randomzzRandom = random::Random::new();
+malﬁO { | MMMMMMM ‘Unsa-FeCe11<u32>‘ cannot be shared
+1cOr‘ _ in 9. .3 { | between threads safely
+println! (H ‘I’ P'get_value(19)); l help: within ‘Random‘, the trait ‘Sync‘ is not implemented
+} } for ‘UnsafeCe11<u32>‘
+Notice that the behavior is different than us usin a raw ointer (in the sense that
+we can not create a static variable using ). This error and other
+checks are likel to be employed by the compiler due to the special trait that was
+added to : !Sync
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+',® Interior M uta bl I lty
+Let's see an overview of using UnsafeCell for our previous problem:
+Overview:
+Use of unsafe block Multi thread Global Variable Working with
+
+protection protection references
+UnsafeCell Yes Yes (Will not Yes (Will not Yes (unsafe)
+
+compile) compile)
+As a result, this approach is better than the previous one. Furthermore, since
+UnsafeCelI is part of the standard in Rust, we should expect that even if some
+things change in terms of raw pointer casting in Rust, UnsafeCelI will maintain its
+However, we still have to use an block 9 can we do something about this
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+t?‘
+a Use Cell
+On top of UnsafeCell, Rust has another structure called Cell defined as follows:
+Rust (from ce/I.rs)
+< : ? > {
+value: < >,
+}
+with two methods - and - deﬁned in the following way:
+Rust (from cell.rs)
+set(& ) -> {
+{ * .value.get() }
+}
+replace(& , val: ) -> {
+set(& , val: ) {
+drop(old); mem::replace( { & * .value.get() }, val)
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Interior Mutability
+a Use Cell
+The - struct in Rust implements the following traits:
+
+' Copy trait
+
+' Clone trait
+
+' PartialEq
+
+' PartialOrd
+
+0 Eq
+
+' Ord
+
+' -) meaning that a Ce|l<T> can not be used in a multi-thread scenario
+Since - implements - and -, an object of this type is used with data types that
+implement Copy / Clone. Furthermore, method get(...) returns an object and not a reference
+(transferring the ownership). Similar, set(...) receives an object (thus transferring the ownership) an
+not a reference. I‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+é?‘
+a Use Cell
+Let's see how Cell get(...) method works.
+Rust (example 1) Rust (example 2)
+main() { main() {
+s: < > = ::new(19); s: < > = ::new( :zfrom("abc"));
+obj = s.get(); obj = s.get();
+println!(" ",obj); println!(" ",obj);
+} W }
+_ _ Ennon[E6599]: the method ‘get‘ exists For stnuct ‘Cell<Stning>‘,
+In the ﬁrst example, we use Cell WIth an u32, but}? “jitbwmljlﬁi not satisﬁed
+and as such, method .get(...) can copy the |
+112 | let obj = s.get();
+\IEHILJGE' 365 l b t t 5t ' AA;
+_ _ pu s nuc Ping
+In the second case, we use Cell WIth Strlng, l doesn't satisﬂ ‘String: copy‘
+and methOd .get(...) IS nOt avallable as Strlng = note: the following trait bounds were not satisfied:
+. ‘Strin : Co ‘
+does not have the Copy tralt. g py
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+r§§%§‘93
+a Use Cell
+mod Pandom {
+pub struct Random { seed: Cell<u32> } 8
+impl Random { 5
+pub const Fn new() —> Self { Self {seed: Cell::new(1) } }
+pub fn get_value(&self, max_value: u32) -> u32 { 0
+let mut seed = self.seed.get();
+seed = seed.overflowing_mul(22695477u32).6 + 1u32;
+self.seed.set(seed);
+seed % max_value;
+}
+}
+}
+Fn main() {
+let mut r = PandomzzRandomzznew();
+_ 9..3 {
+println!("{}", r.get_value(10));
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+. . .
+Interlor Mutablllty
+a Use Cell
+Ru“ W
+8
+5
+""""11"‘1"1‘1"""‘1"‘1‘“““““““““““‘\ O
+seed = .seed.get();
+seed = seed.overflowing_mul(22695477u32).6 + 1u32;
+.seed.set(seed);
+return seed % max_value;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+vs l nte r| o r M uta b| I lty
+Let's see an overview of using Cell for our previous problem:
+Overview:
+Use of unsafe block Multi thread Global Variable Working with
+
+protection protection references
+Cell No Yes (Will not Yes (Will not No (Will not
+
+compile) compile) compile)
+As a result, this approach is better than the previous one. We don't need to use
+unsafe block, but this code works only types that have Copy/Clone trait.
+So .. What if we want to do the same thing, but for types that don't support Copy
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+u Use RefCeII
+On top of Cell and UnsafeCell, Rust has a structure called RefCell:
+< : ? > {
+borrow: < >,
+}
+The idea on top of RefCell is that it enforces the ownership & borrowing rules of
+Rust at runtime (more exactly, it panics if one of those rules are being broken.
+This is done via using a BorrowFIag (an isize) where Rust keeps count on how many
+immutable reference are and if there is one mutable reference. Based on these
+information it can enforce the ownership & borrowing rules at runtime, as follows:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+u Use RefCeII
++m——
+Returns a mutable reference to an object
+Returns an immutable reference to an object
+
+Each one of this methods have a special logic in place:
+
+' borrow_mut -) if at least one mutable or immutable reference was made then a panic is
+thrown. Otherwise, an internal flag that marks that an immutable reference was made will be
+set and then a reference is returned
+
+' borrow -) if at least one mutable reference was made then a panic is thrown. Otherwise, an
+internal flag that
+
+This is why the return value of those methods are objects of type ReflVIut and Ref,
+
+that when drepped will update a flag in a RefCeII that Stores the active
+
+immutable/mutable count.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+é?“
+u Use RefCeIl
+The logic of RefCell is that it upholds the safety (ownership & borrowing) rules
+that Rust enforces, only during execution (runtime) and not at compile time.
+Let's analyze some examples:
+Rust (example 1) Rust (example 2)
+main() { W main() {
+X = ::new(1); X = “mm/N1); thread ‘main' panicked at ‘already
+y = x.borrow_mut(); y = x.borrow_mut(); mutably borrowed: BorrowError
+println! (" ",y); z = x.borrow();
+} }
+Rust (example 3) Rust (example 4)
+main() { W main() {
+X = ::new(1); X = ::new(1); thread ‘main' panicked at ‘already
+y = x.borrow(); y = x.borrow_mut(); mutably borrowed. BorrowError
+z = x.borrow(); z = x.borrow_mut();
+println!(" , ",y,z); println!(" , ",y,z),'
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+jggﬁiegp
+u Use RefCeII
+Rust
+mod random { m
+pub struct Random { seed: RefCell<u32> } 8
+impl Random {
+pub const fn new() -> Self { Self {seedz ReFCell::new(1) } } 5
+pub fn get_value(&self, max_value: u32) -> u32 { O
+let mut seed = self.seed.borpow_mut();
+*seed = (*seed).overflowing_mul(22695477u32).0 + 1u32;
+(*seed) % max_value;
+}
+}
+}
+Fn main() {
+let mut P = randomzzRandom::new();
+_ 9..3 {
+println!("{}", r.get_value(10));
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+Interior Mutability
+Overall status:
+m
+Use of unsafe block Yes Yes No No
+Multi thread No Won't compile Won't compile Won't compile
+protection
+Global variable Unsafe Won't compile Won't compile Won't compile
+protection
+Working with ref Unsafe Unsafe Won't compile Safe
+As a general observation, use:
+
+' Ce||<T> if you work with basic types / data with Copy traits
+' RefCe||<T> for Mutable data
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+Reference Count
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+V5 Reference Co u nt
+The way Rust safety measures are designed, certain type of algorithms are hard
+(complicated) to write. Let's take for example a double linked list:
+Elem A Elem B Elem C
+This type of construct is relatively simple to create in languages like C/C++ (as we
+just need some pointers to the next and previous elements). However, in Rust we
+need to think about this problem in a different way.
+For example, both elements A and C have either an ownership or a reference to
+element B (through Next and Prec links). But the ownership rules state that there
+could be only one owner for a memory zone (meaning that we will need to think
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Let's explore some ideas for solving this problem in Rust:
+C/C++ I. Try to write Node struct using Option<Node>
+struct { RUSt
+* next; {
+* prec; next: < >,
+int value; ppec; < >’
+}3 value:
+* add( * left, int value)
+{
+* = ();
+—>value = value; error[E9972]: recursive type ‘Node‘ has inFinite size
+if (left->next) { -l> src\main.rs:1:1
+} left->next->prec = 3 1 Istmmt mme {
+I AAAAAAAAAAA
+—>next = left->next; 2 | next: Option<Node>,
+—>pl"EC = left‘ | ---- recursive without indirection
+f l
+left->next = ’ help: insert some indirection (e.g., a ‘Box‘, ‘Rc‘, or ‘&‘) to break the cycle
+return n; |
+} 2 | next: Option<Box<Node>>,
+| ++++ +
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+Let's explore some Ideas for solvmg thls problem In Rust:
+E. Try to wrlte Node struct usmg Optlon<Box<Node>>
+struct {
+* next;
+* prec; struct {
+int value; next: < < >>,
+}; prec: < < >>,
+* ( * left, int value) value:
+{ }
+* = new ();
+->value = value; fn (left: &mut < >, value: ) —> & {
+
+if (left->next) { let mut n = :: ( {nextz None, prec: None, value: value});
+
+left->next->prec = ; if let Some(left_next) = left.next. () {
+
+} left_next.prec = Some(n); 15%
+->next = left->next; } iﬁﬁ
+—>prec = left; n.next = left.next; @ﬁﬁ
+
+left->next = ; n.prec = Some(*left); @ﬁﬁ
+
+return n; return &n; @ﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+I I I I I -
+Let s explore some Ideas for solvmg th|s problem |n Rust.
+error[E9382]: assign to part of moved value: ‘*n‘
+——> src\main.rs:12:5
+|
+8 | let mut n = Box::new(Node{next: None, prec: None, value: value});
+| ————— move occurs because ‘n‘ has type ‘Box<Node>‘, which does not implement the ‘Copy‘ trait
+9 | it let Some(left_next) = left.next.as_mut() {
+19 | left_next.prec = Some(n);
+| — value moved here
+11 | }
+12 | n.next = leFt.next;
+| AAAAAA value partially assigned here atter move
+ThlS can not work, as from the-mornlen't we if let Some(le1ct_next) = left_next. () { _
+llnk left_next to our current object ( n ), we left_nextppec = 50me(n);
+transfer the ownership and as such we can }
+not use our object ("n") anymore. n'neXt = left'neXU
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+Let's explore some Ideas for solvmg thls problem |n Rust:
+E. Try to wrlte Node struct usmg references
+struct {
+* next;
+* prec; struct <'a> {
+int value; next: <&'a mut <'a>>,
+}; pPec: <&'a mut <'a>>,
+* ( * left, int value) value:
+{ }
+* = new ();
+—>value = value; Fn <'a>(left: &'a mut <'a>, value: ) —> &'a mut <'a> {
+
+if (left->next) { let mut n = {nextz None, pnec: None, value: value};
+
+left->next->pnec = ; if let Some(1eft_next) = left.next. () {
+
+} left_next.pnec = Some(&mut n); 15%
+—>next = left->next; } iﬁﬁ
+—>pnec = left; n.next = left.next; @ﬁﬁ
+
+left->next = ; n.pnec = Some(left); @ﬁﬁ
+
+return n; netunn &mut n; @ﬁﬁ
+} } ﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+I I I _ ' _
+Lee e exe'ere eeme leeee fer ee'v'ee—
+error[E0506]: cannot assign to ‘n.next‘ because it is borrowed
+E_ Try --> src\main.rs:12:5
+|
+7 | fn add<'a>(left: &'a mut Node<'a>, value: i32) -> &'a mut Node<‘a> {
+| -- lifetime "a‘ defined here
+ié'I left_next.prec = Some(&mut n);
+| _____________________________
+| | |
+| | ‘n.next‘ is borrowed here
+| assignment requires that ‘n‘ is borrowed for "a‘
+11 | }
+12 | n.next = left.next;
+| AAAAAAAAAAAAAAAAAA ‘n.next‘ is assigned to here but it was already borrowed
+This is a similar case, when we transfer a
+mutable reference from n to left_next.prec, left_nextppec = 50me(&mut n),-
+we can not access/use the same mutable }
+reference again. n . next = left . next;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+',® Reference Cou nt
+So what are our options for this problem ? (Because any C-like similar solution
+ultimately will try to break the ownership rules and as such it will not compile).
+|\/|ore generically, any problem where two objects have reference one to another
+(just like in the following image) is hard to design in Rust due to ownerships rules.
+As the two links can not be build at the same time (we must first build one of the
+objects and then the other, and as such for the first object, the link to the next one
+can not exist). The solution is to use an Option so that we can link the objects later
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+é?‘
+Let's review a couple of solutions for Objectl and Object2.
+I. Objectl has ownership over Object2 and Object2 has ownership over Objectl
+Rust
+{ error[E9972]: recursive types ‘Object1‘ and ‘Object2‘ have infinite size
+lirﬂ<: -i> src\main.rs:1:1
+} { 1 | struct Objectl {
+| AAAAAAAAAAAAAA
+link: z | link: Objeth
+} | ------- recursive without indirection
+3 | }
+4 | struct Objeth {
+| AAAAAAAAAAAAAA
+. . . . | ------- recursive without indirection
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+jé§é$i;g_
+Let's review a couple of solutions for Objectl and Object2.
+E. Objectl has ownership over Object2 (via Box) and vice versa
+Rust
+struct Objectl {
+link: Option<Box<0bject2>>,
+}
+struct Objeth {
+link: Option<Box<0bject1>>,
+}
+Fn main() {
+let mut 01 = Box::new(0bject1 { link: None });
+let mut 02 = Box::new(0bject2 { link: None });
+01.link = Some(02);
+02.link = Some(01);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Let's review a couple of solutions for Objectl and Object2.
+E. Objectl has ownership over Object2 (via Box) and vice versa
+Rust
+error[E6382]: assign to part of moved value: ‘*02‘
+——> src\main.rs:11:5
+|
+_ 9 | let mut 02 = Box::new(0bject2 { link: None });
+01.|lnk = Some(02) | -—---- move occurs because ‘02‘ has type ‘Box<0bject2>‘,
+| which does not implement the ‘Copy‘ trait
+16 | ol.link = Some(02);
+| -- value moved here
+11 | 02.link = Some(01);
+| AAAAAAA value partially assigned here after move
+ol.link = Some(02);
+02.1ink = Some(ol);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+jé§é$i;g_
+Let's review a couple of solutions for Objectl and Object2.
+E.Object1 has a reference to Object2 and Object2 has a reference to Objectl
+Rust
+struct Object1<'a> {
+link: Option<&'a Object2<'a>>,
+}
+struct Object2<'a> {
+link: Option<&'a Object1<'a>>,
+}
+Fn main() {
+let mut 01 = Objectl { link: None };
+let mut 02 = Objeth { link: None };
+01.link = Some(&02);
+02.link = Some(&ol);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+Let's review a couple of solutions for Objectl and Object2.
+E.Object1 has a reference to Object2 and Object2 has a reference to Objectl
+()2 error[E6566]f cannot assign to ‘02.1ink‘ because it is borrowed
+02.1ink = Some(&01); _i> src\ma1n.rs:24:5
+02||nk 23 | 01.1ink = Some(&02);
+| ——— ‘02.1ink‘ is borrowed here
+24 | 02.1ink = Some(&01);
+I /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+| |
+| ‘02.1ink‘ is assigned to here but it was already borrowed
+| borrow later used here
+01.1ink = Some(&02);
+02.1ink = Some(&ol);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+jé§é$i;g_
+Let's review a couple of solutions for Objectl and Object2.
+E.Object1 has a RefCell to Object2 and Object2 has a RefCeIl to Objectl
+Rust
+use stdzzcellzzReFCell;
+struct Object1<'a> {
+link: Option<RefCell<&'a Object2<'a>>>
+}
+struct Object2<'a> {
+link: Option<RefCell<&'a Object1<'a>>>,
+}
+Fn main() {
+let mut 01 = Objectl { link: None};
+let mut 02 = Object2 { link: None};
+ol.link = Some(ReFCell::new(&oZ));
+02.link = Some(ReFCell::new(&ol));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+Let's review a couple of solutions for Objectl and Object2.
+E.Object1 has a - to Object2 and Object2 has a - to Objectl
+Rust
+error[E6566]: cannot assign to ‘02.1ink‘ because it is borrowed
+——> src\main.rs:26:5
+|
+25 | 01.1ink = Some(ReFCell::new(&02));
+| ——— ‘02.1ink‘ is borrowed here
+26 | 02.1ink = Some(ReFCell::new(&ol));
+I /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+| |
+_ | ‘02.1ink‘ is assigned to here but it was already borrowed
+| borrow later used here
+01.1ink = Some( ::new(&02));
+02.1ink = Some( ::new(&ol));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+JéﬁgiiQQI
+Let's review a couple of solutions for Objectl and Object2.
+E.Object1 has ownership over Object2 and Object2 has a reference to Objectl
+Rust
+struct Object1<'a> {
+link: Object2<'a>
+}
+struct Object2<'a> {
+link: Option<&'a Object1<'a>>,
+}
+Fn main() {
+let mut 01 = Objectl { link: Object2{ link: None} };
+ol.link.link = Some(&01);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+Let's review a couple of solutions for Objectl and Object2.
+E. Objectl has ownership over Object2 and Object2 has a reference to Objectl
+Rust
+error[E9596]: cannot assign to ‘01.1ink.link‘ because it is borrowed
+--> src\main.rs:22:5
+|
+22 | 01.1ink.link = Some(&01);
+: /|\AAAAAAAAAAAAAAAAAAA1__A
+‘o .link.link‘ is borrowed here
+Some(&01) i ‘lol.link.link‘ is assigned to here but it was already borrowed
+| borrow later used here
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+i?‘
+Reference Count
+Let's review a couple of solutions for Objectl and Object2.
+E. Use unsafe: Objectl has ownership over Objeth and Object2 has a reference to
+Objectl (bent the ownership rules by making a copy of the reference to Objectl)
+Rust
+< > { m
+}
+< > {
+link: <& < >>,
+}
+main() {
+ol = { link: { link: None} };
+nef_01 = &01;
+ol.1ink.1ink = Some(copy_of_nef_to_ol);
+println!("OK");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+JéﬁgiiQQI
+Let's review a couple of solutions for Objectl and Object2.
+I. Use raw pointers (just like in C/C++)
+Rm m
+stnuct Objectl {
+link: >"const Objeth
+}
+struct Objeth {
+link: *const Objectl
+}
+Fn main() {
+let mut 01 = Objectl { link: std::ptn::null()};
+let mut 02 = Objeth { link: std::ptn::null()};
+ol.link = &02 as *const Objeth;
+02.link = &01 as *const Objectl;
+println!("OK");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+jé§é$i;g_
+Let's review a couple of solutions for Objectl and Object2.
+E. Use NonNuII wrapper
+Rm m
+use std::ptr::NonNull;
+struct Objectl {
+link: Option<NonNull<Object2>>
+}
+struct Objeth {
+link: Option<NonNull<Object1>>,
+}
+Fn main() {
+let mut ol = Objectl { link: None};
+let mut 02 = Objeth { link: None};
+ol.link = Some(NonNull::fnom(&02));
+02.link = Some(NonNull::fnom(&ol));
+println!("OK");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+V5 Reference Co u nt
+In all of the previous 3 solutions (E, and E) that worked (compiled) all we did was
+to transfer the responsibility of code safety to the programmer (meaning that the
+programmer has to be careful on stuff like dangling pointers, deallocations, etc).
+For example, Rust compiler keeps tracks of all object lifetime (in this case it will try
+to make sure that none of the Object 1 or Object 2 will outlive the other one) —
+meaning that you can not destroy one without destroying the other one. On the
+other hand, using the previous 3 solutions (E, and E) , this check will have to be
+made by the Programme“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+,’ Reference COU nt
+The solution for this problems is a special template(generic) called Rc (Beference gount):
+: ? { . < : P > {
+phantom: < < >>, vgiljé: ’ ’
+1' }
+Rc are heap allocated objects that maintain two counts:
+- A strong count 9 how many objects own (have a reference) towards the current
+object. An object will never be destroyed as long as this count is bigger than O
+- A weak count 9 this works more like a handle (meaning that you refer something, b
+you don't have ownership over it or more precisely you can not control its lifetim
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+v.5 Refe re n ce Co u nt
+Let's see the memory layout for a Rc:
+m
+RcBox
+Strong
+weak
+value
+The size of a Rc<T> will be I or. (size of a pointer, depending on architecture).
+The actual size a Rc<T> in memory is: sizeof(ptr) + sizeof(strong) + sizeof(wea k) +
+sizeof(T). Since ptr, strong and week have the same size(4 or 8), then the actual
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+,’iii Reference CO U nt
+Let's see how a Rc works:
+1. To add a new owner over the data use - or — methods. This
+will increase the strong count, and create a new Rc<T> object with the same ptr
+as the original one
+2. To create a weak reference (a handle —-) use —
+method. This will increase the weak count.
+3. Whenever a - lifetime has ended, the strong count is decreased. If the
+strong count reaches O, the destructor for object T is called.
+4. Whenever a - lifetime has ended, the weak count is decreased.
+5. When both strong and weak counts reach O, the RcBox is actually deallocated
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+Let's see an example — but first lets prepare a struct:
+use std::rc::{ , };
+struct {
+text: ,
+}
+impl {
+fn (text: & ) -> Self {
+Self {text: :: (text) }
+}
+}
+impl for {
+fn (&mut self) { .
+println!("DPopping MyStPing"); “ﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+® Reference Count
+Let's see an example — but first lets prepare a struct:
+Struizxt { Our struct contains a String (so that we have
+} ' ’ another heap allocation).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Let's see an example — but first lets prepare a struct:
+impl for {
+r & t 1f . . .
+n mist?! (ﬁgmgping MyStPing" )3 We Wl|| also lr-nplernent the Drpp tralt (e0 that we
+} Wl|| have a notlflcatlon when th|s object IS dropped)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+a Reference Count
+Let's see an example — but first lets prepare a struct:
+Rust
+print_stats(name: & , obj: & < >) {
+a
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+Let's see an example (mam code):
+Rust
+main() {
+w = ::new();
+{
+owner_1 = ::new( ::new("ABC"));
+print_stats("Single owner",&owner_1);
+owner_2 = owner_1.clone();
+print_stats("Owner-1",&owner_1);
+print_stats("Owner-2",&owner_2);
+w = ::downgrade(&owner_1);
+print_stats("Status",&owner_1);
+if Some(owner_3) = w.upgrade() {
+println!("I have a new owner: ",&owner_3.text); M
+print_stats("Owner-3",&owner_3)3
+}
+println!("--- destroy owners -—-");
+}
+if w.upgrade().is_none() {
+println!("Unab1e to gain ownership !");
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+a Reference Count
+Let's see an example (main code):
+Rust
+Wm" m
+M
+ptr‘: < < >>,
+} '
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+J Reference Count
+Let's see an example (main code):
+Rust
+w.ptr = ??? strong_count=1
+°Wner—1 ‘I g weak—°°““t=° ABC
+1-3 12:0 text.|en=3 |
+D: ‘c
+5 text.a||oc=3
+>.
+E text.ptr
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+Let's see an example (main code):
+Rust
+w.ptr = ??? strong_count=1
+owner_1 I?’ weak_count=0 ABC
+=3 2° text.|en=3
+D: ‘c
+5 text.a||oc=3
+>.
+E text.ptr
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+Let's see an example (main code):
+Rust
+w.ptr = ??? strong_count=2
+owneri IE wecakjounjO ABC
+owner ' on ex .en=
+_ I; é
+{é text.a||oc=3
+E text.ptr
+Rc::c|one(&owner_1) '
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+Let's see an example (main code):
+Rust
+w.ptr = ??? strong_count=2
+owner_1 IE weak_couj1t=0 ABC
+owner_2 162%» text.|en-3
+print_stats("Owner-1",&owner‘_1)g ‘a tEXt-aHOC=3
+print_stats("Owner-2",&owner‘_2)g E text ptr
+Owner-1 -> [S=2,W=0]
+Owner-2 -> [S=2,W=0]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+Reference Count
+Let's see an example (main code):
+Rust
+w.ptr '—|_> strong_count=2
+owner_1 I?’ weak_count=1 ABC
+owner_2 IE’? text.|en=3
+5 text.a||oc=3
+5 |
+text-p"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+. Reference Count
+Let's see an example (main code):
+Rust
+w.ptr .—|_> strong_count=2
+owner_1 IE wecakjoujwfl ABC
+owner_2 10%.? ex .en-
+5 text.a||oc=3
+>.
+E text.ptr——|
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+Let's see an example (main code):
+.upgrade()
+w.ptr .—|_> strong_count=3
+owner_1 .—|_> >< weak_count=1 ABC
+owner_2 1% an text.|en=3
+DC‘:
+owner_3 I {é text.a||oc=3
+E text.ptr
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+Let's see an example (main code):
+Rust
+w.ptr .—|_> strong_count=3
+owner_1 IE weak_count=1 ABC
+owner_2 .—| 52-? text.|e“n-33 |
+owner 3 .—|_> 3 text.a oc=
+— >~
+E text.ptr
+Pintln!("I have a new owner‘: ",&owner‘_3.text); M
+nrint_stats("Owner-3",&owner_3)3
+l have a new owner: ABC
+Owner-3 -> [S=3,W=1]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+Reference Count
+Let's see an example (main code):
+Rust
+w.ptr .—|_> strong_count=2
+owner_1 I?’ weak_count=1 ABC
+owner_2 IE’? text.|en=3
+ewner§ ‘-‘+ {é text.a||oc=3
+E text.ptr
+'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+Let's see an example (main code):
+Rust
+w.ptr .—|_> strong_count=2
+owner_1 I?’ weak_cou11t=1 ABC
+owner_2 IE? text.|en-3
+{é text.a||oc=3
+E text.ptr
+--- destroy owners ---
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+J Reference Count
+Let's see an example (main code):
+Rust
+w.ptr .—|_> strong_count=0
+ewnert]: 1‘ >< weak_count=1 ABC
+O
+wee-{:2 "Eg text.|en=0 |
+{é text.a||oc=0
+E tEtitr
+'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+Reference Count
+Let's see an example (main code):
+Rust
+w.ptr .—|_> strong_count=0
+>< weak_count=1 ABG
+g? text.|en=0
+‘Z text.a||oc=0
+E text.ptr
+_ —
+Dropping MyString
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+Let's see an example (main code):
+Rust
+w.ptr .—|_> strong_count=0
+>< weak_count=1
+é on text.|en=0
+n: é
+{é text.a||oc=0
+upgra e() E text.ptr=???
+if w.upgrade().is_none() {
+println!("Unab1e to gain ownership l");
+}
+Unable to gain ownership!
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+Reference Count
+Let's see an example (main code):
+Rust
+weptr —'+ stron, count=0
+‘32%,; :0
+E text.ptr=???
+M
+'
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+Reference Count
+Let's overview some of the methods from Rc:
+Use to construct a new Rc object.
+Use to construct a cyclic Rc object
+Creates a new Weak<T> from an existing Rc<T>.
+Returns the number of weak counts
+Returns the number of weak counts
+Returns a mutable reference only if strong count is 1
+and weak count ifO
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+Let's overview some of the methods from Weak:
+
+() -> < > Use to construct a new Weak object with an invalid
+pointer to an RcBox (unlinked). To create a Weak object
+that points to an RcBox use the .downgrade(...) method
+from Rc<T>
+
+(& ) -> < < >> Creates a Rc<T> from an Weak<T> only if the strong
+count of the RcBox Where Weak<T> points to is bigger
+than O.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:129**************
+"® Reference Cou nt
+W:
+
+- Notice that some of these methods does not receive a self object but a
+parameter named of type -. This means that these methods can be
+accessed via i and not directly through the object. This allows
+avoiding a confusion of having the same method defined in the object as well.
+Keep in mind the Rc<T> implements Dereftrait meaning that you could
+access the methods of the T type directly from a Rc<T> object.
+
+' Rc and Weak are sub'ect to further optimizations. Currently, if the number of
+strong count is O, — method will return 0 even if the number of
+weak count is bigger than 0 I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+Implemented traits for Rc<T> and Weak<T>
+Clone Increments strong count Increments weak count
+Drop Decrements strong count. If strong count is O calls Decrements weak count. If both strong
+the destructor of type T. If both strong and weak and weak counts are O, it deallocates
+counts are O, it deallocates the Rc<T> from memory. the Rc<T> from memory.
+Deref Provides access to the T object -
+Eq , PartialEq Provides comparation of Rc<T> based on type T -
+Ord, PartialOrd
+AsRef, Borrow Provides a direct immutable reference to the inner -
+object of type T from an Rc<T>
+Default Creates a new Rc<T> if T supports a default value. Calls Weak::new() — creates a new
+Weak<T> with an invalid pointer to an
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:131**************
+Reference Count
+W:
+
+- There is no trait that allows to access the inner object of type Tfrom a
+-. This is done on purpose, as there is a possibility that a -
+might exists, but the actual inner object of type T doesn't (e.g. if the strong
+count has reached 0). As such, you can only access the inner object via
+— method that checks first to see if the inner object exist. ln a way,
+we can say that - behaves like a - (you have him, but in order to
+access the data you need to check its validity every time).
+
+' Rc<T> implements Dereic ASRef and Borrow but no trait that allows mutable
+access to data (such as _, - or —). This means that
+R¢<T> (as it i5) can be used to read data but not t0 modify it !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+V’ Reference Count
+Let's try to solve the last problem but using I this time. One way of
+trying to write this will be as follows;
+{ link: < < >> } I
+{ link: < < >> }
+() {
+ol = :: ( { link: None });
+02 = :: ( { link: None });
+ol.link = Some(02);
+02.1ink = Some(ol); 5
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:133**************
+i?‘
+Let's try to solve the last problem but using I this time. One way of
+trying to write this will be as follows;
+Rust
+error[E0594]: cannot assign to data in an ‘Rc‘
+-l> src\main.rs:13:5
+13 | 01.1ink = Some(02);
+i AAAAAAA cannot assign
+= help: trait ‘DerefMut‘ is required to modify through a dereference,
+but it is not implemented for ‘Rc<0bject1>‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+iigiiéaigii
+Let's try to solve the last problem but using I this time. One way of
+trying to write this will be as follows;
+error[E0382]: borrow of moved value: ‘02‘
+--> src\main.rs:14:5
+. |
+02-11nk = Some(ol); 12 | let mut 02 = Rc::new(0bject2 { link: None }),'
+| ------ move occurs because ‘02‘ has type ‘Rc<0bject2>‘,
+| which does not implement the ‘Copy‘ trait
+13 | 01.1ink = Some(02);
+| -- value moved here
+14 | 02.1ink = Some(ol);
+| AAAAAAA value borrowed here after move
+|
+= note: borrow occurs due to deref coercion to ‘Object2‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:135**************
+V5 Reference Co u nt
+Since that solution did not work, let's try creating an Rc object directly
+when initializing Objectl or Object2
+
+std: :r‘c:: 3 Object 1 - Object 2
+{ link: < > }
+{ link: < < >> }
+o {
+ol = :: ( {
+link: :: ( { link: None }),
+});
+ol.link.link = Some(ol); i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+Reference Count
+Since that solution did not work, let's try creating an Rc object directly
+when initializing Objectl or Object2
+
+Object 1 Object 2
+{ link: < > }
+Notice that since we constructing the data
+member link directly, we will no longer need
+the Option template for a lazy/late initialization.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:137**************
+i?‘
+Since that solution did not work, let's try creating an Rc object directly
+when initializing Objectl or Object2
+error[E0382]: borrow of moved value: ‘01‘
+--> src\main.rs:14:5
+11 l let mut 01 = Rc::new(0bject1 {
+| ------ move occurs because ‘ol‘ has type ‘Rc<Object1>‘,
+| which does not implement the ‘Copy‘ trait
+id’ | ol.link.link = Some(ol);
+| AAAAAAA -- value moved here
+i lalue borrowed here after move
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+,’I I Refe re n Ce CO U nt
+So why this is not working ? The main problem is that if we have a cycle
+(like in our case where Objectl owns through a I Objeth and Objeth
+owns through a I Objectl), those object will never be deallocated (the
+strong count will always be 2) and we will end up with memory leaks.
+The solution in this case is to make one link of type I and the other
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:139**************
+ﬁ
+Reference Count
+In this case we will try to have a Rc<T> link from Objectl to Object2
+and a Weak<T> link from Objeth to Object 1. Rc<object2>
+Rust
+std::rc::{ , };
+{ S S
+link: < >
+}
+{ Weak<0bject1>
+link: < >
+}
+main() {
+01 = ::new( {
+. link: ::new( { link: ::new() }),
+giilink.link = ::downgnade(&ol);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+é?‘
+However, this solution will not work as an Rc<T> object does not
+implement - trait. Rc<0bjea2>
+Rust
+Weak<0bject1>
+error[E6594]: cannot assign to data in an ‘Rc‘
+--> src\main.rs:15:5
+|
+15 | ol.1ink.1ink = Rc::downgrade(&ol);
+I AAA/\AAAAAAAA cannot assign
+I
+= help: trait ‘DerefMut‘ is required to modify through a dereference,
+| but it is not implemented for ‘Rc<0bject2>‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:141**************
+V'é Reference Count
+The actual solution is to use the — method from Rc<T>. This
+method is defined as follows:
+
+< >(data_Fn: ) -> < > : (& < >) ->
+This method performs the following steps:
+1. It allocates a new RcBox<T> data with strong count = O and weak count = 1
+2. It creates < > object over that RcBox<T>. Since strong count is O,
+any call to method will return None and as such there is no
+possibility to access the inner object of type Tfrom the RcBox<T>
+3. lt calls - callback with the Weak object obtained in step 1, and gets
+4. It copies the memory from the returned object into the value field of the
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+Let's see a graphical representation of how — works:
+1. A new RcBox is create on the heap (strong m m
+count = O, weak count = 1)
+><
+o
+co weak count = 1
+U
+n:
+Value: ???
+At this point the space for
+the inner value within the
+RcBox object is allocated but
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:143**************
+',® Reference Count
+Let's see a graphical representation of how — works:
+1. A new RcBox is create on the heap (strong m D
+count = O, weak count = 1) Week<T>.ptr
+2. Creates a Weak<T> based on the RcBox strong count = 0
+created on step 1 é
+m weak count = 1
+E’
+Value: ???
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+V'Q Reference Count
+
+Let's see a graphical representation of how — works:
+
+1. A new RcBox is create on the heap (strong m D
+count = O, weak count -
+
+2. Creates a Weak<T> ba-d on the RcBox result: Type T strong count = 0
+created on step 1 | é
+
+3. A call to data_fn( &Week<T> ) is performed. 2» weak count = 1
+The result of this call will be an object of type Valuer???
+T that will be
+This object can use the Week<T> object
+internally for its data member initialization.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:145**************
+V® Reference Count
+Let's see a graphical representation of how — works:
+1. A new RcBox is create on the heap (strong m m
+count = O, weak count = 1) Week<T>.ptr
+2. Creates a Weak<T> based on the RcBox strong count = 0
+created on step 1 é
+3. A call to —is performed. 2: weak count = 1
+The result of this call will be an object of type
+T that will be stored on the stack.
+This object can use the Week<T> object
+internally for its data member initialization.
+4. The resulted object is being copied into the A bit-wise copy is performed at this point.
+RcBox From a semantic point of view, we move the
+resulted object of type T into the RcBox,
+meaning that after this operation, the
+resulted object will no longer be available.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+V'Q Reference Count
+Let's see a graphical representation of how — works:
+1. A new RcBox is create on the heap (strong m D
+count = O, weak count = 1) Week<T>.ptr
+2. Creates a Weak<T> based on the RcBox strong count u
+created on step 1 é
+3. A call to —is performed. 2» weak count = 1
+The result of this call will be an object of type Value: result ob
+T that will be stored on the stack.
+This object can use the Week<T> object
+internally for its data member initialization.
+4. The resulted object is being copied into the
+5. We increment the strong count (as we will
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:147**************
+Reference Count
+Let's see a graphical representation of how — works:
+1. A new RcBox is create on the heap (strong m D
+count = 0, weak count = 1) Week<T>.ptr
+2. Creates a Weak<T> based on the RcBox Rc<T> to be returned strong count = 1
+created on step 1 ‘ é
+3. A call to —is performed. 2» weak count = 1
+The result of this call will be an object of type Value: result obj
+T that will be stored on the stack.
+This object can use the Week<T> object
+internally for its data member initialization.
+4. The resulted object is being copied into the
+5. We increment the strong count (as we will
+6. We create a new Rc<T> over the existing
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+VJQ§gi*i;
+While this method is good enough to instantiate an such a construct, in
+reality there will be a need to modify data members that belong to an
+Rc<T>/Weak<T> smart pointer. Let's analyze the following code:
+Rust
+use std::rc::{Rc, Weak}; m
+struct Objectl {
+link: Rc<0bject2>,
+value: i32,
+}
+struct Objeth {
+link: Weak<0bject1>,
+value: i32
+}
+fn main() {
+let 01 = Rc::new_cyclic(|me| {
+Objectl { link: Rc::new(0bject2 { link: me.clone(), value:@ }), value 9 };
+});
+pnintln!("01={}, 02={}",ol.value, ol.link.value);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:149**************
+What If we want to change the fleld .value from both ObjECtl and
+ObjECtZ after we construct them ?
+Rust
+error[E0594]: cannot assign to data in an ‘Rc‘
+--> src\main.rs:19:5
+l
+19 | 01.value = 10;
+l AAA/\AAAAAAAAA cannot assign
+l
+= help: trait ‘DerefMut‘ is required to modify through a dereference,
+RC<T> but it is not implemented for ‘Rc<0bject1>‘
+error[E0594]: cannot assign to data in an ‘Rc‘
+i --> src\main.rs:20:5
+l
+20 | ol.link.value = 20;
+l AAA/\AAAAAAAAAAAAAA cannot assign
+l
+= help: trait ‘DerefMut‘ is required to modify through a dereference,
+o]..va]11e == 19; but it is not implemented for ‘Rc<0bject2>‘
+ol.link.value = 29;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+The solutlon IS to use Interlor mutablllt throuh a :
+use std: :{Pcz :{ , }, cell:: }; I OUtPUt I
+Stmmt { Ol=10,0Z=ZO
+link: < < >>,
+value: ,
+}
+struct {
+link: < < >>,
+value:
+}
+Fn () {
+let 01 = z: (ImeI {
+return z: ( { ,
+link: :: ( :: ( { link: me. (), valuez6 })), 55%
+<*<<*01>. <>>> value = 19; ﬁﬁﬁﬁﬁﬁﬁﬁ
+println!("01={}, 02={}",(*((*01)- ()>)-va1ue, (*(*((*((*01)- ()>>-linl<))- ())-va1ue):
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:151**************
+So lets come back to the original problem (a double linked list) and discuss some
+options in Rust:
+Elem A Elem B Elem C
+Options:
+1. Use raw pointers or NonNull wrapper (similar like with C/C++)
+2. Use a Rc combined with Weak and CellRef for interior mutability
+3. Design the double linked list in a different way (keep all of the elements in a vector and store
+4. Use a handle-like system (keep all of the elements in a vector, but refer to each element
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+,’iii Reference CO U nt
+Each one of these 4 solutions will be embedded in a struct called DoubleLinkedList,
+and for each one of them we will design:
+' Node structure
+' An initialization method -
+' A — method (for this exam le we will assume that each node has a
+numerical value attached to it . The h method iterates from the first to
+the last method (by using the data member from each node to go to the
+next one) and sums up all values.
+' A - method that adds an element at the end of the double linked list and
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:153**************
+vs Reference Co u nt
+I. Using NonNull (Node & DoubleLinkedList structures)
+{ {
+nexti < < >>, head: ,
+}
+Notice that we use a raw pointer in a DoubleLinkedList structure (similar to a C/C++
+implementation). At the same time, - and - are 0ption<NonNuII<Node>>,
+meaning that instead of using null to indicate that there is next or previous link, we _
+can simply use variant from Option. l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:154**************
+1§§%%et
+I. Using NonNull (DoubleLinkedList implementation: .new() & .add() methods)
+Rust (Node structure) Rust (DoubleLinkedList structure)
+—
+Rust (Doub/eLinkedList structure)
+impl DoubleLinkedList {
+pub fn new(_capacity: usize) —> Self {
+let stant_node = Box::into_naw(Box::new(Node { next: None, prec: None, value: 9 }));
+Self { head: start_node, tail: start_node }
+}
+pub fn add(&mut self, value: u64) {
+let new_node = Box::into_naw(Box::new(Node { next: None, prec: None, value }));
+unsafe {
+(*self.tail).next = Some(NonNull::new_unchecked(new_node))3
+(*new_node).prec = Some(NonNull::new_unchecked(self.tail))3
+}
+self.tail = new_n0de;
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:155**************
+E. Using NonNull (DoubleLinked List implementation: .sum_a||() method)
+impl {
+pub fn (&self) —> {
+let mut sum = 0;
+let mut current = self.head;
+loop {
+unsafe { ,ﬁﬁ
+sum += (*current).value; iﬁﬁ
+if let Some(next) = (*current).next { current = next. (); } else { break; } EEE
+sum ﬁﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:156**************
+E. Using Rc (Node & DoubleLinkedList structures)
+{
+value: , ’ tail: < < >>,
+} }
+In this case we will use a - for the .next field and a - for the .prec
+field. The double linked list structure will store a - for the head and for the tail
+(first and last elements in the list). _
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:157**************
+E. Using Rc (DoubleLinked List implementation: .new() & .add() methods)
+Rust (Node structure) Rust (DoubleLinkedList structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+Rust (DoubleLinkedList structure)
+impl DoubleLinkedList {
+pub fn new(_capacity: usize) —> Self {
+let start_node = Rc::new(RefCell::new(Node {next: None, prec: None, value: 9 }));
+Self { head: stant_node.clone(), tail: start_node.clone() }
+}
+pub fn add(&mut self, value: u64) {
+let new_node = Rc::new(RefCell::new(Node {
+next: None,
+prec: Some(Rc::downgrade(&self.tail)),
+value,
+}) );
+(*self.tail.borrow_mut()).next = Some(new_node.clone());
+self.tail = new_node;
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:158**************
+é?‘
+E. Using Rc (DoubleLinked List implementation: .sum_a||() method)
+Rust (Node structure) Rust (DoubleLinkedList structure)
+—
+Rust (DoubleLinkedList structure)
+Rust (DoubleLinkedList structure)
+{
+sum_all(& ) -> {
+sum = 0;
+current = .head.clone();
+loop {
+next_node;
+{
+tmp = current.borrow_mut();
+sum += (*tmp).va1ue;
+next_node = if Some(next) = (*tmp).next.as_ref() { Some(next.clone()) } else { None };
+}
+if next_node.is_none() { break; }
+current = next_node.unwrap();
+}
+sum
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:159**************
+vs Reference Co u nt
+E. Using index in a vector (Node & DoubleLinkedList structures)
+{ {
+next: , data: < < >>,
+prec: , head: ,
+value: , tail: ,
+} }
+In this case we store all elements in a vector (-member from the
+DoubleLinkedList structure). Each element will have the index of next and previous
+element from the vector. _
+will be used to mark an index as invalid (meaning it does not point to another
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:160**************
+E. Using index in a vector (DoubleLinkedList implementation: .new() & .add() methods)
+Rust (Node structure) Rust (Doub/eLinkedList structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+Rust (DoubleLinkedList structure)
+impl DoubleLinkedList {
+pub fn new(capacity: usize) —> Self {
+let mut me = Self { data: Vec::with_capacity(capacity), head: 9, tail: 9 };
+me.data.push(Some(Node { next: , prec: , value: 9 }));
+me
+}
+pub fn add(&mut self, value: u64) {
+let new_node = Node { next: , prec: self.tail, value };
+self.data.push(Some(new_node));
+let 1ast_index = self.data.len() — 1;
+let Some(pnevious_tail) = self.get_node_mut(self.tail) {
+previous_tail.next = 1ast_index;
+}
+self.tail = 1ast_index;
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:161**************
+t?“
+E. Using index in a vector (other methods)
+Rust (Node structure) Rust (Doub/eLinkedList structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+Rust (DOUb/ELin/(Ed get_node_mut(& , index: ) -> <& >
+{
+if index < .data.len() {
+.data[index].as_mut()
+} else {
+None
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:162**************
+E. Using index in a vector (DoubleLinked List implementation: .su m_a||() method)
+Rust (Node structure) Rust (Doub/eLinkedList structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+Rust (DoubleLinkedList structure)
+Rust (Doub/eLinkedList structure)
+impl DoubleLinkedList {
+pub tn sum_all(&selt) —> u64 {
+let mut sum = 9;
+let mut current = self.head;
+let Some(node) = self.get_node(current) {
+sum += node.value;
+current = node.next;
+}
+sum
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:163**************
+t?“
+E. Using index in a vector (other methods)
+Rust (Node structure) Rust (DoubleLinkedList structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+Rust (DoubleLinkedList structure)
+Rust (DoubleLin get_node(& , index: ) —> <& > {
+if index < .data.1en() {
+.data[index].as_nef()
+
+} else {
+None
+
+}
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:164**************
+',® Reference Cou nt
+E. Using a handle (Node , DoubIeLinkedList and Handle structures)
+{ {
+
+next: ’ data: < < >>, . {
+
+prec: , head: 1ndex: ,
+
+value: , tail‘ ’ unique_id: ,
+
+unique_id: , ' ’ }
+
+} }
+
+A handle contains two elements: an index into a vector and a unique identifier. The
+second one is being used to make sure that when you ask for an element, you know
+exactly what element you are referring to. In case of the index approach, one could _
+just manufacture a valid index and would have access to that object. In this case,
+you can not just have the index of that object from the vector, you also need the
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:165**************
+E. Using a handle (DoubleLinked List implementation: .new() method)
+Rust (Node structure) Rust (DoubleLinkedList structure) Rust (Handle structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIII IIIIIIIIIIIIIIIIIIIIIIII
+Rust (DoubleLinkedList structure)
+impl DoubleLinkedList {
+pub tn new(capacity: usize) —> Self {
+let first_element_handle = Handle::new(6);
+let mut me = Self {
+data: Vec::with_capacity(capacity),
+head: First_element_hand1e,
+tail: First_element_hand1e,
+};
+me.data.push(Some(Node {
+next: Handle::INVALID,
+prec: Handle::INVALID,
+value: 9,
+unique_id: first_element_handle.unique_id,
+}) );
+me
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:166**************
+a Reference Count
+E. Using a handle (DoubleLinkedList implementation: .new() method)
+Rust (Node structure) Rust (DoubleLinkedList structure) Rust (Handle structure)
+— —
+Rust (DoubleLinkedList structure)
+::INVALID,
+—
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:167**************
+§g§§3&g>.
+E. Using a handle (DoubleLinkedList implementation: .add() method)
+Rust (Node structure) Rust (DoubleLinkedList structure) Rust (Handle structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIII IIIIIIIIIIIIIIIIIIIIIIII
+Rust (DoubleLinkedList structure)
+impl DoubleLinkedList {
+pub tn add(&mut self, value: u64) {
+let new_elem_index = self.data.len();
+let new_node_handle = Handle::new(new_elem_index as u32);
+let new_node = Node {
+next: Handle::INVALID,
+prec: self.tail,
+value,
+unique_id: new_node_handle.unique_id,
+};
+self.data.push(Some(new_node));
+let Some(pnevious_tail) = self.get_node_mut(self.tail) {
+previous_tail.next = new_n0de_handle;
+}
+self.tail = new_node_handle;
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:168**************
+E. Usmg a handle (DoubIeLlnkedLlst Implementatlon: .add() method)
+fn (&mut self, handle: ) —> <&mut > {
+let index = handle.index as 3
+if index < self.data. () {
+if let Some(obj) = &self.data[index] {
+if obj.unique_id == handle.unique_id {
+self.data[index]. ()
+} else { None }
+} else { None }
+} else { None }
+}
+5e“ ‘self-“11>
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:169**************
+if” ‘,1
+E. Using a handle (DoubleLinked List implementation: .su m_a||() method)
+Rust (Node structure) Rust (DoubleLinkedList structure) Rust (Handle structure)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIII IIIIIIIIIIIIIIIIIIIIIIII
+Rust (DoubleLinkedList structure)
+Rust (DoubleLinkedList structure)
+{
+sum_all(& ) —> {
+sum = 9;
+current = .head;
+while Some(node) = .get_node(current) {
+sum += node.va1ue;
+current = node.next;
+}
+SUm
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:170**************
+,’iii Reference CO U nt
+For all of the 4 existing scenarios, we will compute the time required for:
+1. Create a 10 million nodes double linked list
+2. lterate through all 10 millions of nodes and sums up the values from each
+nodes
+All test were performed 10 times and times were recorded. The tests were
+performed using a release version of the previous snippets of code.
+The test was performed on Window 11, over a laptop with the following
+configuration: 11th Gen lntel(R) Core(Tl\/|) i7-116SG7 @ 2.806Hz.
+A list of all 4 scenarios (and several others) can be found on the following github
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:171**************
+V? Reference Count
+
+Times (milliseconds) for creating a double linked list:
+-mwmwww---wm
+NonNUII 502 496 534 511 493 508 510 500 503 499 505,6
+
+RC 612 624 611 611 601 606 628 605 692 708 629,8
+
+Index 55 54 55 55 56 54 54 56 74 71 58,4
+
+Handle 117 109 108 107 107 108 108 108 173 154 119,9
+Times (milliseconds) for iterating a double linked list:
+
+NonNUIl 62 62 63 62 61 70 62 63 63 65 53,3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:172**************
+The overall results look as follows:
+———-
+NonNull 505.6 63.3 228.88
+Rc 629.8 136.4 457.76
+Index 58.4 31.6 305.18
+Handle 119.9 37.9 381.47
+Some observations:
+' Index and Handle based solutions rely on allocation of a large continuous memory. This
+means that creation time will be lower and as most CPUs cache memory, iteration will be _
+faster
+' Rc solution seems to be generally slower and requires more memory than any other solution
+' NonNull (even if similar cu C/C++) will be slower than Index and Handle based solution due
+to the fact memory is not necessarily cached in their case (as allocation will probably not ba
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:173**************
+jé§é$i;g_
+When dealing with large lists and recursive ownership (either via a Rc<T> or Box<T>
+object) there is one other aspect we need to take into consideration. Let's take a
+close look Rc<T> implementation for a double linked list:
+Rust (DoubleLinkedList structure) Rust (main)
+pub struct Node { fn main() {
+pub next: Option<Rc<ReFCell<Node>>>, let mut d = DoubleLinkedList::new(1_009_999);
+pub prec: Option<Weak<RefCell<Node>>>, i 9_.1 999 999 {
+pub value: u64, d.add(i);_ _
+}
+pub struct DoubleLinkedList { grintln!("OK");
+pub head: Rc<ReFCell<Node>>, }
+pub tail: Rc<ReFCell<Node>>,
+}
+impl DoubleLinkedList { OK
+pUb ‘Fn new(_capacity: USiZG) _> Self {m} thread ‘main’ has overflowed its stack
+pub ‘Fn add(&mut self, value: U64) {...} error: process didn't exit successfully:
+pub ‘Fn sum all(&se11c) —> L164 {...} ‘target\debug\double_linked_list_test-rs.exe‘ (exit code: 0xc00000fd,
+} _' STATUS_STACK_0VERFLOW)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:174**************
+When dealing with large lists and recursive ownership (either via a - or -
+object) there is one other aspect we need to take into consideration. Let's take a
+close look Rc<T> implementation for a double linked list:
+Rust (Doub/eLinkedList structure) Rust (main)
+I!‘
+error: process didn't exit successfully:
+‘ . 2- q-n:: @041 - inked_1ist_test-rs.exe‘ (exit code: 0xc00000fd,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:175**************
+,’ Refe re n ce CO U nt
+When an object of type - or - is being dropped, Rust recursively drops
+any other objects that the current ob'ect owns.
+For example, if we have a let t = Box::new(|\/|yString{...}); , where MyString is a
+structure that contains a String object, when t is being dropped, the String object
+contained in the MyString structure will be dropped as well.
+Rust does this by calling the destructor for each data member of structure
+MyString. While this is perfectly fine, having a list, a tree or graph where the
+ownership of one node expends to multiple children may create a stack overflow as
+when those children have to be dropped a recursive call to drop all of them will be l
+called.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:176**************
+The solution for these cases is to implement a custom Drop that does the same
+thing but instead of doing it recursively, it does it iteratively.
+Rust Rust (Custom drop)
+{ {
+next: < < < >>>, drop( : & ) {
+prec: < < < >>>, loop {
+value: , Some(next) = .next.take() else {
+} return;
+{ };
+head: < < >>, next = next.bonnow_mut().next.take();
+tail: < < >>, .next = next;
+} }
+{ }
+new(_capacity: ) —> {m} }
+add(& , value: ) {m}
+sum_all(& ) —> {m}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:177**************
+- @@
+
+***************Ending Page***************
+

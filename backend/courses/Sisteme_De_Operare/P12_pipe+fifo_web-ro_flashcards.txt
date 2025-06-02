@@ -1,0 +1,396 @@
+[{content={parts=[{text=--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What are the two main types of inter-process communication channels discussed?
+--InteriorSeparator--
+Anonymous and named pipes (FIFOs)
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+3
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which of the following are valid methods for inter-process communication?
+--InteriorSeparator--
+(right) Shared memory
+(right) Message passing
+(wrong) Semaphore signaling
+(wrong) Interrupt handling
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+3
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What data structure does a pipe emulate?
+--InteriorSeparator--
+FIFO (First-In, First-Out) queue
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+4
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the purpose of the `pipe` primitive?
+--InteriorSeparator--
+To create an anonymous pipe.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+6
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which of the following file descriptors are created after executing the pipe primitive in C?
+--InteriorSeparator--
+(right) p[0] for the read end of the pipe
+(right) p[1] for the write end of the pipe
+(wrong) p[2] for error handling
+(wrong) p[3] for standard output
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+6
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+How can processes use an anonymous pipe to communicate?
+--InteriorSeparator--
+By writing information into the pipe and reading information from it.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Why are anonymous pipes restricted to use by related processes?
+--InteriorSeparator--
+Because the file descriptors must be accessible to both processes, usually through inheritance after a `fork` or `exec` call.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens if one process closes one end of an anonymous pipe?
+--InteriorSeparator--
+The process loses the ability to reopen that end of the pipe later.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+9
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What standard library function is used to convert a file descriptor to a FILE pointer?
+--InteriorSeparator--
+`fdopen`
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+11
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the purpose of the `mkfifo` primitive?
+--InteriorSeparator--
+To create a named pipe (FIFO).
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+13
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Does the `mkfifo` primitive automatically open the FIFO for reading and writing?
+--InteriorSeparator--
+No, the FIFO must be explicitly opened for reading and/or writing after creation.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+13
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the key difference in accessibility between named and anonymous pipes?
+--InteriorSeparator--
+Named pipes can be used by any processes that know the name of the FIFO file, whereas anonymous pipes are restricted to related processes.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+14
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does it mean for opening a named pipe to be blocking, and how does the kernel handle the synchronization?
+--InteriorSeparator--
+A blocking open means the function call will wait (block) until another process opens the other end of the pipe. The kernel manages this synchronization, ensuring both ends are open before either process proceeds.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+15
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Where is the data stored in a named pipe, and what determines the retention period?
+--InteriorSeparator--
+The data is stored in memory, not on disk. The retention period lasts from when the data is written until both the writing process and any accessing processes close their ends of the FIFO, provided the data isn't read and consumed before that.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+16
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+Which of the following are differences between named pipes (FIFOs) and anonymous pipes?
+--InteriorSeparator--
+(right) Named pipes can be opened by any process knowing the name, whereas anonymous pipes are restricted to related processes.
+(right) Named pipes need explicit opening, while anonymous pipes are opened automatically upon creation.
+(wrong) Anonymous pipes retain their data even after all processes have closed them.
+(wrong) Named pipes are deleted from the filesystem after all processes have closed them.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+17
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Are pipes bi-directional or uni-directional and what are the implications?
+--InteriorSeparator--
+Pipes are uni-directional. This means data flows in only one direction, from the write end to the read end. To achieve bi-directional communication, two pipes are required, one for each direction.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+19
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the unit of information for pipes, and how can the capacity be configured?
+--InteriorSeparator--
+The unit of information is the octet (byte). The capacity can be configured using the `fcntl` system call with the `F_GETPIPE_SZ` and `F_SETPIPE_SZ` operations.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+19
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Is there a notion of offset in pipes (either anonymous or named)?
+--InteriorSeparator--
+No, pipes operate as a FIFO queue, so there is no concept of offset like in regular files.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+20
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens when reading from an empty pipe with blocking behavior? And what is the exception case?
+--InteriorSeparator--
+The `read` call will block until sufficient data is available. An exception occurs if no process is capable of writing to the pipe (all write ends are closed), in which case `read` returns 0, indicating EOF.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+21
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens when writing to a full pipe with blocking behavior? Also, what is an exception and what signal is generated?
+--InteriorSeparator--
+The `write` call will block until space becomes available in the pipe. An exception occurs if no process is capable of reading from the pipe (all read ends are closed), in which case the system sends the `SIGPIPE` signal, causing the process to terminate.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+22
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the common pitfall regarding buffered I/O with pipes and how to address it?
+--InteriorSeparator--
+Programmers might forget to force the flushing of the buffer into the pipe, with `fflush()`, after writing. This results in readers blocking as the data is still cached and not yet in the pipe.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+23
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+How can the blocking behavior of a pipe be changed to non-blocking?
+--InteriorSeparator--
+By setting the `O_NONBLOCK` flag for the descriptor of the pipe end using either `open` or `fcntl`.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+25
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+How can the O_NONBLOCK attribute be set on a pipe descriptor?
+--InteriorSeparator--
+(right) During the explicit opening of the pipe, using the open function.
+(right) After the pipe has been opened, using the fcntl function.
+(wrong) By setting the attribute directly to the file object.
+(wrong) By using the pipe function.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+25
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What are the four communication patterns (templates) based on the number of sender/receiver processes?
+--InteriorSeparator--
+One-to-one, one-to-many, many-to-one, and many-to-many.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+27
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Which is the simplest communication pattern and why?
+--InteriorSeparator--
+One-to-one is the simplest, because it doesn't face particular problems of implementation.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+28
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What are the two key factors that cause synchronization issues in the one-to-many communication pattern?
+--InteriorSeparator--
+Message length and the destination of the messages.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+29
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is a possible solution for handling variable length messages in a one-to-many communication pattern?
+--InteriorSeparator--
+Using formatted messages with a header containing the length of the message. This approach requires two read calls.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+29
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+How can we ensure that a message is read exactly by the "reader" to whom it was intended in a one-to-many communication pattern?
+--InteriorSeparator--
+By adding an identifier of the destination to the header and if a reader reads a message not directed at him, he writes it back to the pipe.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+30
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+How can problems of synchronizing data integrity in many-to-one communication pattern be generated?
+--InteriorSeparator--
+With messages of variable length, because it must be indicated to the "reader" the length of each message.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+31
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is needed to ensure that a message indicates to the reader which writer sent it?
+--InteriorSeparator--
+Messages are formatted as HEADER + MESSAGE, the header containing an ID of the sender.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+32
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+How should the synchronization issues be solved in a many-to-many communication pattern?
+--InteriorSeparator--
+The issues should be solved by combining the solutions presented in the previous templates.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+33
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+How can a semaphore be implemented using FIFO pipes?
+--InteriorSeparator--
+By creating a FIFO where the initial state of the semaphore is represented by a number of bytes written to the pipe. Waiting involves reading a byte, and signaling involves writing a byte.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+35
+--FlashCardSeparator--
+}], role=model}, finishReason=STOP, avgLogprobs=-0.27474663538350175}]

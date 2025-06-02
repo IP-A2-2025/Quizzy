@@ -1,0 +1,653 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+lectures by Ferucio Laurentiu Tiplea
+Cryptography Ba5|cs
+Public Key Cryptography
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of lagi
+la$i 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+
+Introduction
+
+Public key encryption
+Public key encryption
+Hybrid encryption
+
+Digital signatures
+
+Elliptic curve cryptography
+
+Public key certificates
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introduction
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Need for secure key distribution
+e-commerce by symmetric cipher?!
+m c:S(K,m) m:D(K,c)
+Customer . Vendor
+message Clphertext
+5 (enc alg) (dec alg) D
+l'\ /W
+\ \ \ \key distribution’ , ’ ’
+QM) —> K
+— In e-commerce, it is unrealistic t0 expect initial
+contact between two parties with no prior acquaintance or postpone their
+communication long enough for keys to be transmitted by some physical
+means.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 2 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Need for authentication
+Alice
+Contract no‘ 1X23
+I, the undersigned, _ _ _ _l
+Contract no. 1x23 l TOm
+l Accept?
+I‘ the undersigned, ‘
+n Q‘ Yes/No
+l
+Tg l
+l l
+l _ _ _ _ _ _ _ _ _ _.
+g(/\) —> K
+— Can Alice use MACS t0 authenticate (sign!)
+documents, so that Tom checks them without Alice's authentication key?
+If Tom knew Alice's key, then Tom would be able to authenticate
+documents in place of Alice.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 3 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Why public key cryptography?
+Two main objectives that cannot be achieved by symmetric-key
+cryptography:
+
+o _ — A private conversation between
+two people with no prior acquaintance is a common occurrence in
+business, and it is unrealistic to expect initial business contacts to be
+postponed long enough for keys to be transmitted by some physical
+means;
+
+o — — In current business, the validity of
+contracts is guaranteed by signatures. ls there any purely digital
+replacement of the handwritten signature?
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 4 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+A bit of history
+o 1976: Whitfield Diffie and Martin Hellman, and independently Ralph
+Merkle, invented public key cryptography to address the two
+aforementioned deficiencies;
+o The first concrete realization of a public key cryptosystem is due to
+R.C. Merkle and ME. Hellman in 1978. Unfortunately, this
+cryptosystem, as well as many other variations of it, have been
+proved to be insecure;
+0 Soon after the Merkle-Hellman cryptosystem came the first
+full-fledged public key cryptosystem, RSA (named after its inventors,
+R. Rivest, A. Shamir, and L. Adleman). RSA is by far the easiest to
+understand and implement public key cryptosystem; it gets its
+security from the difficulty of factorization of very large numbers.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 5/31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Public key encryption
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Public key encryption
+(,1""’
+m Alice c:5(K§,m) Bob m:D(Kg,c)
+message 9(A) a (Kj, Kg’) ciphertext Q(>\) a (Kg, Kg)
+<5’ (enc alg) (dec alg) D
+S I (Q,S,D) — public key cipher / public key encryption (PKE) scheme
+1. The public key (Kf) is assumed to be openly and widely distributed
+so that anyone can encrypt messages
+2. The secret-key (Kg) must be kept private
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 6 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Security models for PKE
+We define and use the same security models based on indistinguishability
+and non-malleability as in the case of symmetric encryption. However, we
+draw attention to:
+
+1. No deterministic PKE scheme can be IND-CPA secure — the
+adversary can consult the encryption oracle any time and,therefore,
+it can decide what message was encrypted
+
+2. No PKE scheme can achieve perfect security — given a message m
+and a ciphertext c, and assuming 0 < P(m) < l, and unbounded
+adversary can decide whether c comes from m or not. That is,
+P(m|c) is O or 1. Then, P(mlc) 7£ P(m)
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 7/31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+The RSA PKE scheme
+Rivest et al. (1978) proposed the first public key cryptosystem which is
+still secure and used (it is known as RSA)
+ﬁe“,-
+Bob's certificate
+(ev II) . . .
+n I Pq
+e E Z* n
+at privatefxpl q, d : e—1
+A ..
+was»;
+lwillsenm;
+secret message 7
+RSA encryption and decryption can be done in (9((log n)3)
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 8 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Some security issues
+0 p and q are large numbers randomly generated (512-bit or even
+larger)
+0 e is small (fast encryption) but chosen such that d > (‘m (otherwise,
+an efficient attack can be mounted — details will be provided later)
+o The RSA PKE scheme is not IND-CPA (encrytion is deterministic)
+o If one of p, q, ¢(n), or d can be computed in a reasonable time,
+then the system is completely broken
+o If the same n is used by two different users, any one of them can
+break the other's encryption
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 9/31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Padded RSA
+Public key Cryptography Standard # 1 (PKCS # 1) provides
+recommendations for implementing the RSA algorithms. The current
+version is v.2.2 (Oct 2012):
+
+0X00 |l 0X02 |l r || 0x00 || m
+
+where m is the message and r is a random string (the length of the
+above message must be exactly the length of the modulus n, in bytes).
+Moreover, no byte of r is 0x00. The second byte (0x02) denotes
+"encryption".
+Bleichenbacher (1998) described an attack on PKCS # 1, v.1.5, known
+today as Bleichenbacher's attack. Subsequently, new attacks were found
+Coron et al. (2000); lzu et al. (2007); Bardou et al. (2012); Bock et al.
+(2018).
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 10/31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+ElGamal PKE scheme
+ElGamal (1985) adapted the Diffie-Hellman key-exchange protocol to get
+a PKE scheme and a digital signature
+Bob's certificate
+(P1553) - - -
+p prime
+g of order p
+l‘ private: a
+_ b -
+Dear-Bob:
+lwillsenW
+secret message
+ElGamal encryption and decryption can be done in (9((log n)3)
+The ElGamal encryption is randomized and IND-CPA, provided that the
+decisional DifFie-Hellman problem is hard!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 11 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Facts
+o SKE is significantly faster than PKE
+0 SKE schemes have lower ciphertext expansion
+0 Unfortunately, SKC does not provide an adequate key exchange
+mechanism, but PKC provides!
+Use SKE to encrypt messages and PKE to encrypt the secret key for SKE!
+Proﬁdr‘ F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 12 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Hybrid encryption
+1. S I (Q,5,D) PKE scheme
+2_ 5/:(QQEQ17) SKE scheme Theorem 1
+3. Hybrid encryption with ($75’) lfS is an IND-CPA secure PKE
+3_1 (pk, 5k) <_ g0) scheme and S’ is an lND-COA
+32 To encrypt m do: secure SKE scheme, then the HE
+, K <_ g’(>\) scheme (S,$’) is IND-CPA secure.
+° Cl H £03k’ K) IND-COA security of the scheme S’
+o c2<—6’(K,m) . .. .
+IS sufFICIent because a fresh key |s
+o c : (c17 c2) , .
+chosen each tlme a new message IS
+3.3 To decrypt c do:
+encrypted!
+o K H D’(sk,c1)
+o m <- D(K, c2)
+Hybrid encryption is a PKE scheme because the sender and receiver do
+not share any secret key in advance!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 13 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Digital signatures
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Digital Signatures
+A digital signature scheme is a method of signing a digital message
+There are several differences between digital signatures and handwritten
+signatures:
+o a digital signature is not attached physically to the message it signs;
+o a digital signature depends on the message;
+0 a digital signature is verified by taking into consideration the
+message it signs;
+0 a digital signature scheme should be private, but publicly verifiable.
+A digital signature should be “small” so that it can be used 0n smart
+cards. Therefore, for long messages, a hash function should be applied
+first
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 14/31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+The RSA signature scheme
+Derived from the RSA encryption scheme: sign with the private key and
+verify with the public key
+Bob's certificate
+(e, n) . . .
+n I Pq
+e F 2M") _1
+é prlvate: p, q, d I e
+A
+1 d n
+‘\N rne mo n
+. erld mod
+Dear-Gobi er KanSW
+lwillsenW anSW l
+secret message
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 15 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+ElGamal digital signature
+In 1985, Taher El Gamal (ElGamal, Elgamal) adapted the DifFie-Hellman
+key-exchange protocol to get a PKE scheme and a digital signature
+Bob's certificate
+(P, g, g3) - - -
+p prime
+g of order p
+§ private: a
+ab} A
+14\\ b m . g k <- Zpil
+' \ Kg 7 w I gk mod P
+Pl‘ 53 s I (answer - swirl mod (p - 1)
+~ Werl
+Dear-Golf; 7 anS
+lwillsenW
+secret message
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 16 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Digital Signature Standard
+
+0 Digital Signature Standard (DSS) is the American standard for
+digital signatures;
+
+0 DSS was proposed by NIST in 1991, and adopted in 1994;
+
+o DSS is a variation of the ElGamal digital signature. This variation is
+based on the following remark: the prime p in the ElGamal digital
+signature should be a 512-bit or 1024-bit number in order to ensure
+security. This fact leads to signatures that are too large t0 be used
+on smart cards;
+
+o DSS modiﬁes EIGamal digital signature so that the computations are
+done in a subgroup Zq of Z; by using an element a € Z; of order q.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 17/31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Elliptic curve cryptography
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Elliptic curve cryptography (ECC)
+Born Lenstra (1987); Koblitz (1987); l\/liller (1986)
+Goal reduce the size of encryption keys While maintaining the level of
+security. For instance, a 256-bit key in ECC offers about the same
+security as a 3072-bit RSA public key
+Why Recent research in computational number theory lead to increased
+security requirements which, in turn, require larger public keys
+How Replace the standard group Z: from number theory with groups of
+points with integer coordinates on an elliptic curve
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 18/31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Elliptic curves
+We use elliptic curves (EC) defined
+by a short Weierstrass equation over
+finite fields: y E
+y2 I X3 + Ax —l— B 4
+Example 2
+Lety2:x3+x+1overZ5. It .
+gives rise to the following points:
+X
+x - points *4 2 4
+0 i1 (0,1), (0,4)
+1 _ _
+2 i1 (2,1), (2,4)
+3 i1 (3,1), (3,4) 44
+4 i2 (4, 2), (4, 3)
+oo oo (9
+y2 :x3—3x+5overR
+Prof.dr. F.L. Tiplea, UAIC, R0 Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 19 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Addition of points on an EC
+Q
+Addition of points defines a
+group algebraic structure
+P
+P + Q
+mP:P+P+-~-+P
+\q—/
+m times
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 20 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Discrete logarithm problem on EC
+Elliptic Curve Discrete Logarithm Problem (ECDLP)
+Instance: Elliptic curve E and two points P and mP on E
+Question: Compute m
+Facts:
+1. No sub-exponential algorithms are known to solve general-purpose
+ECDLP (but they are known for DLP over finite fields!)
+2. All ECC schemes are public key and are based on ECDLP. Most of
+them are ECC versions of classical schemes
+3. The absence of sub-exponential algorithms to solve the
+general-purpose ECDLP implies that the ECDLP-based
+cryptographic schemes can use smaller fields than those based on
+DLP on finite fields. As a result, the cryptographic keys have smaller
+sizes
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 21 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Key length comparison
+NIST recommendation for symmetric and public keys (Barker (2020)):
+Symmetric Factoring-based Finite ﬁeld based EC
+(RSA) (DSA, DH, MQV)
+80 1024 1024 160
+112 2048 2048 224
+128 3072 3072 258
+192 7680 7680 384
+256 15360 15360 512
+All key sizes are in bits
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 22 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Public key certificates
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+X.509 certification scheme
+How does Alice obtain Bob's public key?
+In general, how can public keys for encryption or verification of digital
+signatures be distributed in an authenticated way?
+0 Kohnfelder (1978) introduced in his B.Sc. thesis the concepts of
+certificate and certificate revocation list
+0 /-\ certificate binds an identity to a public key
+o X.509 is a standard for defining public key certificates
+o X.509 certificates are used in many Internet protocols
+A public key infrastructure (PKI) is a collection of tools (roles, policies,
+hardware and/or software tools) needed to create, manage, distribute,
+use, store and revoke digital certificates and manage public key
+encryption.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 23/31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+X.509 certificate
+Because a certificate binds an identity to a public key, it must be
+authenticated. This is done through digital signatures of trusted
+authorities, called certificate/certification authorities (CA5).
+X509 certificate v1 / v2 / v3
+signature alg
+validity
+subject PUbliC key info / against reuse of X.500 names
+issuer unique identifier
+subject unique identifier
+_% only in v3
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 24/31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+CA hierarchy
+Many practical reasons lead to the need for more CAs, interconnected
+hierarchically as in the diagram below.
+Root CA
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 25 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Certificate chains
+A certificate chain is a sequence of certificates that corresponds to a path
+in the CAs hierarchy, starting with a leaf but not necessarily going to the
+root. The last certificate in a certificate chain is called a trust anchor for
+the first certificate.
+Root CA
+Root CA signs CA-l's certificate,
+CA-l signs CA-2's certificate,
+(IA-2 signs U-4's certificate.
+The authentlclty verlflcatlon IS |n
+/ \ reverse order.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 26 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Cross certification
+Cross certiﬁcation enables entities in one public key infrastructure (PKI)
+t0 trust entities in another PKI. Cross certiﬁcation requires that each CA
+issue a certificate to the other to establish the relationship in both
+directions. The trust path is not hierarchal (neither of the governing CAs
+is subordinate to the other)
+Root CA
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 27 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+PKI issues
+1. Difficulty in retrieving keys and certificates
+2. Questionable value of certified key representations
+3. Certificate processing complexity
+4. Costly certificates
+5. Problematic cross-domain trust management
+6. Naming semantics
+7. Use with insecure clients
+8. Privacy compromises
+Prof.dr. F.L. Tiplea. UAIC, R0 Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 28 / 31
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+PKI: usability studies
+l. Why Johny Can't Encrypt: A Usability Case Study of PGP 5.0, by
+A. Whitten and J.D. Tyger, 1999
+2. Johny 2: A User Test of Key Continuity Management with S/MIME
+and Outlook Express, by S.|. Garfinkel and R.C. Miller, 2005
+3. Why Johny Still Can't Encrypt: Evaluating the Usability of Email
+Encryption Software, by S. Sheng, L. Broderick, C.A. Koranda, and
+J.L. Hyland, 2006
+4. Why (Special Agent) Johnny (Still) Can't Encrypt: A Security
+Analysis of the APCO Project 25 Two-Way Radio System, by S.
+Clark, T. Goodspeed, P. Metzger, Z. Wasserman, K. Xu, and M.
+Blaze, 2011
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 29/31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+References
+References
+
+Bardou, R., Focardi, R., Kawamoto, Y., Simionato, L., Steel, G., and Tsay, J.-K. (2012). Efficient
+padding oracle attacks on cryptographic hardware. In Safavi-Naini, R. and Canetti, R., editors,
+Advances in Cryptology — CRYPTO 2012, pages 608-625, Berlin, Heidelberg. Springer Berlin
+Heidelberg.
+
+Barker, E. (2020). Recommendation for key management: Part 1 — general. NIST Pubs 800-57
+Rev. 5, NIST.
+
+Bleichenbacher, D. (1998). Chosen ciphertext attacks against protocols based on the rsa
+encryption standard pkcs #1. In Krawczyk, H., editor, Advances in Cryptology — CRYPTO
+'98, pages 1-12, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+Bock, H., Somorovsky, J., and Young, C. (2018). Return of bleichenbacher's oracle threat (robot).
+In Proceedings of the 27th USENIX Conference on Security Symposium, SEC'18, page
+817-832, USA. USENIX Association.
+
+Coron, J.-S., Joye, M., Naccache, D., and Paillier, P. (2000). New attacks on pkcs#1 v1.5
+encryption. In Preneel, B., editor, Advances in Cryptology — EUROCRYPT 2000, pages
+369-381, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 30 / 31
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+References (cont.)
+
+ElGamal, T. (1985). A public key cryptosystem and a signature scheme based on discrete
+logarithms. In Blakley, G. R. and Chaum, D., editors, Advances in Cryptology, pages 10-18,
+Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+lzu, T., Takenaka, M., and Shimoyama, T. (2007). Analysis on bleichenbacher's forgery attack. ln
+The Second International Conference on Availability, Reliability and Security (ARES'07), pages
+1167-1174.
+
+Koblitz, N. (1987). Elliptic curve cryptosystems. Mathematics of Computation, 48(177):203—209.
+
+Kohnfelder, L. (1978). Towards a practical public-key cryptosystem.
+
+Lenstra, H. J. (1987). Fcatoring integers with elliptic curves. The Annals of Mathematics,
+126(3):649—673.
+
+Miller, V. S. (1986). Use of elliptic curves in cryptography. In Williams, H. C., editor, Advances in
+Cryptology — CRYPTO '85 Proceedings, pages 417-426, Berlin, Heidelberg. Springer Berlin
+Heidelberg.
+
+Rivest, R. L., Shamir, A., and Adleman, L. (1978). A method for obtaining digital signatures and
+public-key cryptosystems. Commun. of the ACM, 21(2):120—126.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Cryptography Basics: Public Key Cryptography Fall 2022 31 / 31
+
+***************Ending Page***************
+

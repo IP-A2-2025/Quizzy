@@ -1,0 +1,691 @@
+***************Beginning Page***************
+***************page number:1**************
+\/\/\/\/\/\/\I\
+1W
+‘W
+1W
+‘ﬂ\ﬂ\ﬂ\ﬂ\ﬂ\ﬂ\ﬂ\
+I\I\I\I\l\l\l\l
+PROGRAMMING IN PYTHON | fjuvrf'eﬂgmgos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+| INTEGRATING WITH (/C++
+Python has several ways of integrating with C/C++ bindings. lt can also integrate with
+low-level OS libraries regardless of the language they were written on.
+There are several mechanisms used for binding:
+O struc 9 to pack data in a C/C++ structure (this also include alignment)
+O ctype module 9 to work with C/C++ primitive data types and libraries
+o There is also the possibility of integrating C/C++ with Python (either write a Python library in C/C++
+or use Python to execute code directly from C/C++)
+Details about these modules can be found on:
+‘9 Python 3: https:[ [docs.python.org[3Zlibrarylstruct.html#
+‘9 Python 3: https:[ [docs.python.org[3Zlibrarylctypeshtml
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+struct module provides a way of converting a list of bytes into a C/C++ structure (this
+
+also include alignment and padding bytes).
+
+Functions:
+
+o struct.pack (format, v],v2,...vn) 9 returns a list of bytes organized in a C/C++ structure according to
+thee provided format
+
+o struct.unpack (format, buffer) 9 returns a tuple of values obtained from a buffer that was unpacked
+according to a specific format
+
+O structcalcsize (format) 9 returns the size of the byte buffer that will be obtained using a specific format
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+| STRUCT
+format field contains the following abbreviations with the following meaning:
+o First character provides information about the struct data size and alignment, as follows:
+mmmu
+@ Native (the one used on current Native (the one used on Native (the one used on
+machine) C/C++ compiler) C/C++ compiler)
+= Native (the one used on current - Standard
+machine)
+< Little endian - Standard
+> Big endian - Standard
+! Big endian (for network) - Standard
+o The default character if none is provided is @
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+| STRUCT
+formaT field contains The following abbreviations wiTh The following meaning:
+o The resT of The characTers describe a Type as follows:
+m_
+c char l long
+b signed char L unsigned long
+B unsigned char q long long
+3 bool Q unsigned long long
+h shorT h shorT
+H unsigned shorT f floaT
+i inT d double
+l unsigned inT x padding byTe
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+| STRUCT
+format field contains the following abbreviations with the following meaning:
+o The following characters are used to describe pointer specific data:
+N size_t
+s char[<number of characters>]
+p Pascal string <size><list of characters>
+P void*
+o “P” and “N” are only valid for native sizes
+o struct module is usually required if one interprets in Python a data buffer (network buffer, file content,
+etc) that was written in a binary mode from a C/C++ module.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+IIIIIIIIHHHHIIIIIIIIIIIIIIIIIIII
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@iii",1,2,3)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+12
+01 oo oo 00 02 00 00 00 03 oo oo oo
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+}; int z
+illlllliIIIIIIIIIIIIIIIIIIIIIIII
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@cci",b’A’, b’B’,3)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+8
+41 42 00 00 03 oo oo oo
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+The previous example would be packed in a Python list of bytes as follows:
+
+Python 3.x
+
+import struct
+
+data = struct.pack("@cci",b’A’ a 3)
+
+print (len (data) ) The specification expect a
+
+s = "" as a parameter.
+
+for i in data: lt is important to precede any
+s += "%02X " % i character with pretix
+
+print(s)
+
+Output
+
+8
+
+41 42 OO OO 03 00 00 00
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+}; int t;
+EliiIiiillllllllllllllllllllllll
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@ccci",b’A’, b’B’, b’C’,3)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+8
+41 42 43 00 03 00 00 00
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+}; int t;’
+illlllliiiﬂlllllllllllllllllllll
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@ccchi",b’A’, b’B’, b’C’,3, 4)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+12
+41 42 43 00 03 00 00 00 04 00 00 oo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+}; int t;’
+illlllliiiﬂlllllllllllllllllllll
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@chchi",b’A’,l, b’B’, 2, 3)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+12
+41 00 01 oo 42 00 02 oo 03 oo oo oo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+char x;
+short y;
+double z;
+char s;
+short t;
+int u;
+};
+IIIIIEEEEEHHHHHHEHHEﬂlﬂﬂllllllll
+IIMMIMIMIIIIIHEMIIIIII
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@chdchi",b’A’,l, 1.0, b’B’, 2, 3)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+24
+41 00 01 oo 00 00 00 00 00 oo oo oo oo oo F0 3F 42 00 02 oo 03 00 oo oo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+1’; int z; ’
+illllllllliiiﬂllﬂlllllﬂﬂllllllll
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@cdi",b’A’, 1.0, 3)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+20
+41 00 00 00 00 00 00 00 oo oo oo oo 00 oo F0 3F 03 oo 00 oo
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+The previous example would be packed in a Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@cdi",b’A’, 1.0, 3)
+print(len(data)) j ,c
+S = "n
+for i in data: I To align a structure to a
+s += "%02X I specific type (int/ double/ ‘
+print (s) etc) aold the number O a]
+' followed by the letter that '
+mum“) . required for formatting at the
+‘WV a?" end of the format string !
+4O OO OO OO OO OO OO 00 00 00 00 00 00 F0 3F 03 00 00 OO
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+The previous example would be packed in a Python list of bytes as follows:
+
+Python 3.x
+
+import struct
+
+data = struct.pac "@cdi0_d" b’A’ , 1.0, 3)
+
+print (len (data) ) To align a structure to a specific type (int/
+
+s = n n double/ etc) add the number O followed by
+
+for i in data: the letter that required for formatting at the
+s += "%02X n % i end of the format string!
+
+print(s)
+
+Output
+
+24
+
+41 OO OO OO OO OO OO OO 00 00 00 00 00 OO F0 3F 03 00 00 00 OO OO OO OO
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+}3 Char;T;
+EliiIiiiiiﬂlllllllllllllllllllll
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@chich",b’A’, l, 2, b’B’)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+12
+41 00 01 oo 02 oo oo oo 42 00 00 00
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@chich",b’A’, l, 2, b’B’)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+12
+41 00 01 oo 02 oo oo oo 42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+| OS ARCHITECTURE (MEMORY ALIGNMENT)
+{ charx;
+}; Chara;
+illlllliIIIIIIIIIIIIIIIIIIIIIIII
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("=chic",b’A’, l, 2, b’B’)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+8
+41 01 oo 02 oo oo oo 42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+The previous example would be packed in a Python list of bytes as follows:
+
+Python 3.x
+
+import struct
+
+data = struct.pack(€i ic",b’A’, l, 2, b’B’)
+
+print(len(data))
+
+s = "" Use character to disable
+
+for i in data: alignments and padding for any
+s += "%02X " % i type
+
+print(s)
+
+Output
+
+8
+
+41 01 00 02 00 00 00 42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+| 05 ARCHITECTURE (MEMORY ALIGNMENT)
+tziziiaT::;k<2>
+}; Chara;
+illlllliiillllllllllllllllllllll
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("@chic9§",b’A’, l, 2, b’B’)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+10
+41 00 01 oo 02 oo oo oo 42 00
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+| 05 ARCHITECTURE (MEMORY ALIGNMENT)
+{ char x;
+short y;
+in’r z;
+char ’r;
+};
+IIIIHHHHEHEEEEEEIIIIIIIIIIIIIIII
+illlllllllliiiﬂllllllllllllllllll
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+The previous example would be packed in o Python list of bytes as follows:
+Python 3.x
+import struct
+data = struct.pack("=chicQ§",b’A’, l, 2, b’B’)
+print(len(data))
+S = "n
+for i in data:
+s += "%02X " % i
+print(s)
+()ufpui
+8
+41 01 oo 02 oo oo oo 42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+The previous example would be packed in a Python list of bytes as follows:
+
+Python 3.x
+
+import struct
+
+data = struct.pack("=chim ,b’A’, l, 2, b'B')
+
+print(len(data))
+
+S = "n . .
+
+for i in data: Structuge patddmftznlycwerks. Wl1'h
+s += "%02X H % i c arac era e eglnnlng
+
+print(s)
+
+Output
+
+8
+
+41 01 00 02 00 00 00 42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+The previous example would be packed in a Python list of bytes as follows:
+Python 3.x
+
+import struct
+
+data = struct.pack("=chicxxxxxxxx",b’A’, l, 2, b’B’)
+print(len(data))
+
+S = H n The solution in this case is to adol
+for l 1n data: extra padding with character
+S += "0602X " 06 l manually
+
+print(s)
+
+()utput
+
+16
+
+41 01 00 02 00 00 00 42 00 00 00 00 00 00 00 00
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+The previous example would be packed in o Python list of bytes as follows:
+
+Python 3.x
+
+import struct
+
+data = struct.pack("=chic§§",b’A’, l, 2, b’B’)
+
+print (len (data) ) The.some con be ochleved by
+
+s = "n odollng o |n front of o
+
+for i in data: chorocter (speclfles thot thot
+H O H O . chorocter should be counter for
+
+S += 602X 6 l lt' l f
+
+print (S) mu lpe Imes)
+
+Output
+
+l6
+
+41 01 00 02 00 00 00 42 OO OO OO OO OO OO OO OO
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Pack anol unpack can be used together to convert a set of values into a byte butter. ln
+this case, the structure is form out of 3 integers, a string ot lO characters and one float
+value in this order.
+
+Python 3.x
+
+import struct
+
+data I struct.pack ("@3ilOsf",l,2,3,b"Python",1.5)
+
+print(len(data))
+
+print (struct.unpack("@3i10sf",data))
+
+Output
+
+28
+
+(l, 2, 3, b'Python\xOO\XOO\XOO\XOO', 1.5)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Not specifying the number of characters in a string means only one character. In the
+previous example only the letter ‘P’ will be added.
+
+Python 3.x
+
+import struct
+
+data = struct.pack ("@3isf",l,2,3,b"Python",l.5)
+print(len(data))
+
+print (struct.unpack("@3isf",data))
+
+The null terminated character is not added !!!
+
+Output
+
+20
+
+(1, 2, 3, b'P', 1.5)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Packin also su or’r ascal sf le strin first characters reresents The len’rh
+Python 3.x
+import struct
+data I struct.pack("10p",b’Python’)
+print(len(data))
+S : n"
+for i in data:
+s +2 "%02X " % i
+print(s)
+()ufpui
+10
+06 50 79 74 68 6F 6E 00 00 00
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Using the pascal style strings allows one to truncate a string to its original size when
+unpacking.
+
+Python 3.x
+
+import struct
+
+result I struct.unpack("lOp",struct.pack("lOp",b"Python"))
+
+print (result)
+
+result I struct.unpack("lOs",struct.pack("lOs",b"Python"))
+
+print (result)
+
+ln the second case (using “s” instead of “p”) the string has extra O (zeros) padded at its
+end.
+
+()utput
+
+('Python',)
+
+('Python\XOO\XOO\XOO\XOO',)
+
+***************Ending Page***************
+

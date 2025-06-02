@@ -1,0 +1,379 @@
+***************Beginning Page***************
+***************page number:1**************
+Instructiuni de lucru in
+virgulii mobilii
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Unitatea de virgulé mobiléi
+' Floating Point Unit - FPU
+- initial - separaté de procesor
+— inelusé in procesor ineepénd eu Intel 486
+' luereazé intern eu operanzi in preeizie
+extinsé (80 de biti)
+' oriee operand de tip float sau double
+este convertit la aeeastéi reprezentare
+—126
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+R6gi§trii interni (1)
+' 8 r6gi§tri p6 80 de bigi
+— denumiri: ST(0) ST(7)
+' sunt organizagi intr-o stivé
+— ST(O) este intotdeauna vérful stivei
+— referit §i ca ST
+' Qrice operagie de scriere in stivé schimbé
+ordinea (§i numele) regi§tri10r
+— fostul ST(0) d6vine ST(1) etc.
+127
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+R6gi§trii interni (2)
+- 1a oricﬁ instrucgiunﬁ, ST(O) ﬁste unul dintre
+opﬁranzi
+— sau singurul, 1a oparayiile unare
+' cﬁlélalt 0p€rand poatﬁ ﬁ, dupé caz
+— 0 locagie d6 memorie (valoara intreagﬁ sau in
+virgulé mobilé)
+— un alt registru ST(i)
+— niciodaté 0 constanté
+128
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+R6gi§trii interni (3)
+- introducen'ea in stivé - prin instrucgiuni de
+incércare a unor valori
+— locagii de mamorie
+— unale constanta predaﬁnite
+' scoatﬁrea din stivé
+— multe instrucgiuni de procesare au §i 0 varianté
+care diminé ST(0) din stivé
+— num616 ac€st0r instrucgiuni se terminé cu "p"
+129
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Incarcare: dln memone:
+' sintaxa
+fld adresa
+fild adresa
+' introduce in stivé operandul, care 6st6
+— in primul caz - 0 variabilé in virgulé mobilé
+(float,double)
+— in a1 d0i16a caz - 0 variabilé intmagé (short
+int,int)
+—130
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Exermpler
+
+float f;
+int i;
+_asm {
+
+fld f
+
+fild i
+
+fld dword ptr [€bp+8]
+}
+
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Incéircam constantéi pmdezﬁnité
+' sintaxa
+fldz
+fldl
+fldpi
+~ introduc in stivé, respectiv, valori16 O, 1, 1t
+' 6Xist51 §i alte constante (logaritmice)
+—132
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Scriezre in m€m0ri€
+
+' sintaxa
+fst adresa
+fstp adresa
+
+— scriere ST(O) intr-o variabiléi in virgulé mobilé
+fist adresa
+fistp adresa
+
+— scriem ST(0) intr-o variabilé intraagﬁ
+
+—133
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Exezmplez
+f l O a t f ;
+int i;
+_asm fstp f;
+— copiazéi ST(()) in f §i i1 eliminﬁ din stivé
+— fostul ST(1) devine ST(O) etc.
+_asm fist i;
+— copiazé ST(O) in i, péstréndu-l pe stivé
+—134
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Interschimbare r6gi§tri
+' sintaxa
+fxch st(i)
+' i 6st6 0 valoam constantii intm 1 §i 7
+' schimbé intre: ele valorile: r6gi§trilor ST(O) gi
+ST(i)
+—135
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Adunare ( 1 )
+' unul dintm operanzi aste intotdeauna ST(O)
+— de obicﬁi §i destinagia rezultatului
+' celélalt poatﬁ ﬁ
+— locagie de mamorie (virgulé mobilé sau intreg)
+— alt ragistru din stiva FPU
+~ in ultimul caz, mzultatul poate ﬁ scris in
+cerlélalt registru, in loc d6 ST(O)
+— 6v6ntual cu eliminarea ST(O) din stivé
+136
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Adunare (2)
+' sintaxa
+fadd adresa //Virguléi mobiléi
+fiadd adresa //intreg
+fadd st (O) , st (i) //ST(O)=ST(O)+ST(i)
+fadd st (i) , st (O) //ST(i)=ST(i)+ST(O)
+faddp st (i) , st (O) //cu scoatare ST(O)
+din stivéi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Scéd6re (1 )
+' similar cu adunama
+' ST(O) 6st6 d6 0bic§i descézutul §i rezultatul
+' cﬁlélalt opﬁrand
+— locagie de mamorie (virgulé mobilé sau intreg)
+— alt ragistru din stiva FPU
+' in ultimul caz, cerlélalt ragistru poate ﬁ
+descézutul §i destinagia rezultatului
+— 6v6ntual cu eliminarea ST(O) din stivé
+—138
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Scéd6re (2)
+' sintaxa
+f sub adresa //Virguléi mobiléi
+fi sub adresa //intreg
+fsub st (O) , st (i) //ST(O)=ST(O)-ST(i)
+fsub st (i) , st (O) //ST(i)=ST(i)-ST(O)
+fsubp st (i) , st (O) //cu scoatare ST(O)
+din stivéi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Scadere: 1nv6rsa (1)
+' Ordinaa opﬁranzilor este invﬁrs fagé de
+0p6ra§ia d6 scédﬁm 0bi§nuit€1
+— s6 scada primul operand din a1 doilea
+— dar rezultatul €ste scris tot in primul 0p6rand
+140
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Scédera inverrséi (2)
+' sintaxa
+f subr adresa //virgu1éi mobilé
+fisubr adr€sa //intreg
+fsubr st (O) , st (i) //ST(O)=ST(i)-ST(O)
+fsubr st (i) , st (O ) //ST(i):ST(O)-ST(i)
+fsubrp st (i) , st (O ) //scoate ST(O) din
+stivéi
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Inmulgire:
+' similar cu adunarﬁa
+fmul adresa //Virguléi mobiléi
+fimul adresa //intreg
+fmul st (O) , st (i) //ST(O):ST(O)*ST(i)
+fmul st (i) , st (O) //ST(i):ST(i)*ST(O)
+fmulp st (i) , st (O) //cu scoatare ST(O)
+din stivéi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+imp érgim (1 )
+- impérgim in virgulé mobilé
+' ST(O) - d6 obicei ddmpérﬁtul gi rezultatul
+' cﬁlélalt opﬁrand
+— locagie de mamorie (virgulé mobilé sau intrag)
+— alt ragistru din stiva FPU
+' in ultimul caz, celélalt ragistru poate ﬁ
+deimpérgitul §i d6stina§ia rezultatului
+— 6v6ntual cu eliminarea ST(O) din stivé
+—M3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Impérgire: (2)
+' sintaxa
+f div adresa //Virguléi mobiléi
+fidiv adresa //intreg
+fdiv st (O) , st (i) //ST(O)=ST(O)/ST(i)
+fdiv st (i) , st (O) //ST(i)=ST(i)/ST(O)
+fdivp st (i) , st (O) //cu scoatare ST(O)
+din stivéi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Imparpre: 1nv6rsa (1)
+' similar cu scaderaa inversa
+' a1 doilaa operand este deimparritul, iar
+primul 6ste imparritorul
+' dar rezultatul 6st6 scris tot in primul
+operand
+145
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:22**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Impérgire invezrsé (2)
+' sintaxa
+fdivr adresa //virgu1éi mobilé
+fidivr adr€sa //intreg
+fdivr st (O) , st (i) //ST(O):ST(i)/ST(O)
+fdivr st (i) , st (O ) //ST(i)=ST(O)/ST(i)
+fdivrp st (i) , st (O ) //scoate ST(O) din
+stivéi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Arhitectura calculatoarelor §i sisteme de operare - ASM
+Diverse opﬁralzii unare:
+' ST(O) 6ste singurul oparand (implicit)
+— §i destinayia rezultatului
+fabs
+— calculeazéi valoama absoluté a ST(0)
+fchs
+— schimbé semnul valorii din ST(O)
+fsqrt
+— caculeazé rédécina pétraté din ST(O)
+147
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:24**************
+Arhitectura calculatoarelor 5i sisteme de operare - ASM
+Comparagii
+' comparé ST(O) cu alt mgistru din stiva FPU
+— ST(O) 6ste primul ternmn a1 comparagiai
+' seteazé indicatorii d6 condigii
+' sintaxa
+fcomi st(O),st(i)
+fcomip st(O),st(i)
+— in a doua varianté, ST(O) ﬁste scos din stivé
+—148
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Arhitectura calculatoarelor §i sisteme de operare - ASM
+Valorile indicatorilor de condigii
+ST<<>> > 8T0) I.“
+ST<<>> < ST<i> I.-
+ST(0> I ST<i> —-
+
+***************Ending Page***************
+

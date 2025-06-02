@@ -1,0 +1,366 @@
+[{content={parts=[{text=--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is a memory-mapped file?
+--InteriorSeparator--
+A mechanism where file content is mapped into memory, creating a direct "octet-to-octet" correlation between a process's virtual address space and a portion of a file on disk.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+3
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the function used to map a file into memory?
+--InteriorSeparator--
+mmap()
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+6
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+What are the parameters of the `mmap()` function?
+--InteriorSeparator--
+(right) `addr`: Start address for the new mapping
+(wrong) File size
+(right) `length`: Length of the new mapping
+(wrong) Process ID
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+6
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does the `fd` parameter in `mmap()` represent?
+--InteriorSeparator--
+A file descriptor identifying the file (or other object) associated with the mapping.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+6
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the purpose of the `offset` parameter in `mmap()`?
+--InteriorSeparator--
+Specifies the starting position in the file to map from (must be a multiple of the page size).
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+6
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does the `prot` parameter in `mmap()` specify?
+--InteriorSeparator--
+The type of protection for the memory pages that form the new mapping.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+What are the possible values for the `prot` parameter in `mmap()`?
+--InteriorSeparator--
+(right) `PROT_NONE`: Pages cannot be accessed.
+(right) `PROT_READ`: Pages can be read.
+(wrong) `PROT_CREATE`: Creates a new page.
+(wrong) `PROT_DELETE`: Deletes a page.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+What is the significance of the `flags` parameter in `mmap()`?
+--InteriorSeparator--
+(right) Determines if changes are visible to other processes mapping the same file.
+(wrong) Determines the size of the file.
+(right) Determines if changes are propagated to the file on disk.
+(wrong) Determines the file permissions.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the difference between `MAP_PRIVATE` and `MAP_SHARED` flags in `mmap()`?
+--InteriorSeparator--
+`MAP_PRIVATE` creates a copy-on-write mapping (changes not visible to other processes or propagated to disk), while `MAP_SHARED` creates a shared mapping (changes visible and propagated).
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+7
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Which function is used to unmap a file from memory?
+--InteriorSeparator--
+munmap()
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+8
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+What are the parameters of the `munmap()` function?
+--InteriorSeparator--
+(right) `addr`: Start address of the mapping to unmap.
+(right) `length`: Length of the mapping to unmap.
+(wrong) File descriptor
+(wrong) File path
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+8
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens if a process accesses an address after it has been unmapped using `munmap()`?
+--InteriorSeparator--
+It generates a "Segmentation fault" error (SIGSEGV).
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+8
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+What happens to memory mappings when a process terminates?
+--InteriorSeparator--
+(right) Mappings are automatically unmapped.
+(wrong) Mappings persist until explicitly unmapped by another process.
+(wrong) The system crashes
+(wrong) The mapped file is deleted
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+8
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+If `addr` is NULL in `mmap()`, who chooses the address for the mapping?
+--InteriorSeparator--
+The kernel.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+9
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens if the length parameter in `mmap()` is not a multiple of the page size?
+--InteriorSeparator--
+The effective length is rounded up to the nearest multiple of the page size; extra addresses in the last page are initialized to zero, and writes to these addresses are not propagated to disk.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+9
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens to memory mappings after a `fork()` call?
+--InteriorSeparator--
+The child process inherits the memory mappings of the parent, with the same attributes and associated file.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+10
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Which function can be used to modify the protection of pages within a mapping?
+--InteriorSeparator--
+mprotect()
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+10
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Which function can be used to determine which virtual pages are resident in memory?
+--InteriorSeparator--
+mincore()
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+11
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Which function can be used to "lock" virtual pages in memory, preventing them from being swapped out?
+--InteriorSeparator--
+mlock() or mlockall()
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+11
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What is the purpose of the `msync()` function?
+--InteriorSeparator--
+To synchronize a file with its memory mapping, "propagating" writes from memory to the disk.
+--InteriorSeparator--
+easy
+--InteriorSeparator--
+12
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Multiple
+--InteriorSeparator--
+What are the possible flags for the `msync()` function?
+--InteriorSeparator--
+(right) `MS_SYNC`: Blocking flushing.
+(wrong) `MS_CREATE`: Create a new sync point
+(right) `MS_ASYNC`: Non-blocking flushing.
+(wrong) `MS_DELETE`: Delete sync point
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+12
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does the `MS_INVALIDATE` flag do in `msync()`?
+--InteriorSeparator--
+It invalidates other existing mappings of the same file, updating them with changes on disk.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+12
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+Does `munmap()` implicitly call `msync()` to flush dirty pages?
+--InteriorSeparator--
+No, it does not.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+13
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What happens if you write to a memory location in a mapped file after the declared length of the mapped region, but still within the page boundary?
+--InteriorSeparator--
+The write succeeds without error, but the changes are not propagated to the file on disk.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+13
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+In example mmap_ex1b.c, how are invalid user inputs handled?
+--InteriorSeparator--
+The program "corrects" the invalid input and continues execution with the corrected values.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+15
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does example mmap_ex2f.c demonstrate?
+--InteriorSeparator--
+A shared mapping with read & write permissions, allowing direct memory modifications to be propagated to the file.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+16
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does example mmap_ex3a.c demonstrate?
+--InteriorSeparator--
+What happens when you write to an address outside the mapped region but within the last allocated page.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+17
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does example mmap_ex4c.c demonstrate?
+--InteriorSeparator--
+Creating a new file and writing data directly to it using a shared mapping, without reading existing data.
+--InteriorSeparator--
+medium
+--InteriorSeparator--
+18
+--FlashCardSeparator--
+
+--FlashCardSeparator--
+Single
+--InteriorSeparator--
+What does the `Demo 'data race'_shmem #1` example illustrate?
+--InteriorSeparator--
+The Producer-Consumer pattern using shared memory (mmap), but without synchronization, leading to potential data race conditions.
+--InteriorSeparator--
+hard
+--InteriorSeparator--
+19
+--FlashCardSeparator--
+}], role=model}, finishReason=STOP, avgLogprobs=-0.19550613397926608}]

@@ -1,0 +1,2405 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 5
+Gavrilut Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Agenda for today
+1. Tuples
+2. Arrays
+3. Structures
+4. Newtype idiom
+5. Type alias
+6. Box(heap allocation)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Tumes
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+"§ Tu p | e s
+
+Tuples are un-named structures that can be used to quickly transfer
+multiple values. Similar to other languages (e.g. Python), a tuple is
+defined via the .2
+
+() {
+
+t1: ( J ) = (1: IA‘);
+t2 = (1, 2, 3.5);
+}
+
+ln this example we have two tuples (one with its type specified (i32,char) and
+another one with its type inferred from the value (i32, i32, 1°64).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+V? Tu |O|es
+Let's see an example and look how the assembly code looks like:
+() { mov dword ptr [rsp+40h],1
+t: ( , ) = (1, 'A'); mov dword ptr [rsp+44h],41h
+t.9 = 2;
+t.1 = 'B'; |0utput I mov dword ptr [rsp+46h],2
+println!(" ", t); 2.5.
+} (' ) mov dWOPd ptr [Psp+44h],42h
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+f. Tu |o|es
+Let's see an example and look how the assembly code looks like:
+Rust C++
+fn main() {
+
+let mut t: (132, char) = (1, 'A'); strugzttrelmgﬂ
+
+to = 2; - ’_
+
+pn1nt1n!( {:?}", t); void main() {
+} temp t ={1, 'A' };
+
+t.m_9 = 2;
+
+The same code in C++ will look like the t-m_1 = ‘B’;
+following. A tuple can be considered in Pplntf("%d’%c"’ t-m-Q’ t-m-1)3
+this case a syntax sugar, as you don't need }
+to define the actual structure !
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Tu ples
+Tuples also support destructuring (or structure bindings in C++) 9
+allowing one to assign the values from a tuple to a set of variables.
+Rust Rust
+main() { main<) {
+t1 )= (1, ‘A'); t: = (1, 'A');
+pPintln!(" J J u: t: V1: V2); V1 = 199;
+} m println!(" , , ", t, v1, v2);
+- - 1* m
+5 E
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+t?‘
+Be carefull when destructuring a tuple that contains object that don't
+have the Copy trait.
+Rust
+main() {
+t: ) = (19, ::From("ABC"));
+(v1, v2) = t
+println!(" , , ", t, v1, v2);
+}
+err0r[E9382]: borrow of partially moved value: ‘t‘
+-—> src\main.rs:4:27
+l
+3 | let (v1,v2) = t;
+| -— value partially moved here
+4 | println!("{:?},{},{}",t,v1,v2);
+| A value borrowed here after partial move
+l
+= note: partial move occurs because ‘t.1‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Be carefull when destructuring a tuple that contains object that don't
+have the Copy trait.
+
+O {( ) ( ( )>
+
+t: , = 19, :: "ABC" 3
+
+(v1, v2) = t; OUtPUt
+phintln! (" , , ", t.9_ v1, v2); 10,10,ABC
+}
+
+This only applies for the members of the tuple that have been moved. In this
+example, the first member is an i32 and has the Copy trait, meaning that after the
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+a?‘
+Tu ples
+Tuples (and in particular small tuples) are often use to easily return
+multiple values from a function.
+Rust
+get_min_max(v1: , v2: ) -> ( , ) {
+} 612:2 v2)
+(v2, v1)
+}
+}
+main() {
+(max_value, min_value) = get_min_max(19, 29);
+pnintln!("max = max_value , min= min_value ")3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Arrays
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+'® Arrays
+Arrays in Rust are (just like in C/C++) sequences of data of the same type.
+Arrays have a fix size (that can not be change dynamically) and has to be know at
+compile time. This allows rust to easily check if an index is outside the array
+boundary.
+To create an array, use one of the following forms:
+a)
+b)
+t) — with v1..notthe <type>
+d) _ with v1..n<>ttvpe <type> _.
+e) , where v1 will decide the <type>, and with v2__n must be convertible to
+COnvertible 110 the type 0f v1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+a
+Arrays
+Let's see some examples on how to build an array.
+Rust
+main() {
+alr [ 35] = [9; 5];
+
+a2: [ 3 3] = [29; 3];
+
+a3 = [1, 2, 3];
+
+a4 = [1.5, 2.0, 3.9];
+
+a5 = [199u8, 2, 3];
+
+a6 = ["abc", "cde", "efg"];
+
+a7: [& 3 3] = ["123"; 3];
+}
+Keep in mind that an array must be initialized !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+i?
+I I
+Let s see some examples on how NOT to bulld an array.
+Rust
+——> src\main.rs:2:22
+main() { I
+E:i> 2 | let a1:[132;5] = [934];
+a1: I: 3 5] = [9; 4]; | ———-——— MM" expected an array with a fixed size of 5
+| elements, found one with 4 elements
+} | |
+| expected due to this
+Rust
+——> src\main.rs:2:22
+main() { I
+E:i> 2 | let a1:[i32;5] = [1,2,3];
+al: I: 3 5] = [1)2’3]; | ------- MAMA" expected an array with a fixed size of
+} | 5 elements, found one with 3 elements
+| |
+| expected due to this
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+é?‘
+Let's see some examples on how NOT to build an array.
+Rust
+- error‘[E0308]: mismatched types
+maln<> { :> --> src\main.r‘s:2:16
+a = [1, 2.5, 3]; |
+2| let a = [1,2.5,3];
+} | M" expected integer‘, found floating-point number‘
+Rust
+- error‘[E0398]: mismatched types
+maln<> { :> --> src\main.rs:2:19
+a = [ , 2.5, 3]; |
+2 | let a = [true,2.5,3];
+} | MA expected ‘bool‘, found floating-point number‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+V? Arrays
+Let's see an example and look how the assembly code looks l|ke:
+lea Pax,[rsp+1Ch]
+() lea ch,[rsp+1Ch]
+{ add ch,14h
+a: [ 3 5] = [735]; mov qword ptr [temp_ptr_end],rcx
+a[9] = 1; mov qword ptr [temp_ptr_current],rax
+_ WHILE_LO0P:
+a[3] = 9’ mov ch,qword ptr [temp_ptr_end]
+} mov Pax,qword ptr [temp_ptr_current]
+mov qword ptr [Psp],rax
+cmp Pax,rcx
+je END_WHILE
+mov Pax,qword ptr [PSp] gﬁ
+mov dword ptr [P8X],7 ﬁﬁ
+add Pax,4 ﬁg
+mov qword ptr [temp_ptr_current],rax ﬁﬁ
+jmp WHILE_LOOP iﬁ
+E~D_WHILE= @ﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+. Arrays
+Let's see an example and look how the assembly code looks like:
+Rust C++
+main() main
+{ a[5];
+a: [ 3 5] = [735], * temp_ptr_current = a;
+* temp_ptr_end = a+6x143
+while (temp_ptr_cuPrent<temp_ptr_end) {
+*temp_ptr_current = 7;
+temp_ptr_current++;
+}
+1’
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+'® Arrays
+Let's see an example and look how the assembly code looks like:
+O a[@] = 1;
+{ mov dword ptr [r-sp+1Ch],1
+ar [ s 5] = [735];
+
+a[6] = 1; al3] = 93
+
+al3l = 9; mov dwor'd ptr [rsp+28h],9
+}
+Notice that there is no boundary check (in fact since the size of an array is a
+constant, accessing an array element via a constant index can be check for
+boundary check at compile time. The advantage is the fact that this type of access
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+"® Arrays
+Let's analyze the following example:
+() { error‘: this.oper‘ation will panic at nuntime
+a:[ 351=w3513
+a[199] = 1; 3| a[1oo] = 1;
+
+} i MAM" index out o-F bounds: the length is 5 but the index is 190
+This is because Rust knows that "a" has 5 elements and accessing
+element 100 will mean accessing memory outside array boundaries. I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+{a
+Arrays
+Let's see another example Where the index is not a constant:
+Rust carg0.t0ml
+rand::*; [package]
+name = "first"
+main() { version = "9.1.6"
+a: [ 3 5] = [6; 5]; edition = "2621"
+idx: = rand::random();
+a[idx] = 1; [dependencies]
+} rand = "9.8.5"
+In this case Rust does not know at compile time What is the value of
+idx. This means that it must check this during execution time.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+'® Arrays
+Let's see another example Where the index is not a constant:
+Pandzzphelude::*;
+lea ch,[a]
+(l l xon edx,edx // edx = 6
+a; [ 3 5] = [9; 5]; mov r'8d,14h // 14h = 29 = 5 * 4 (sizeof(132))
+idx: = Pandzz ()3 call memset
+a[idx] = 1;
+}
+In other words, since we are filling the entire array with O, Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+'® Arrays
+Let's see another example Where the index is not a constant:
+Pandzzphelude::*;
+() { call r'and: :random<usize>
+a: l ; 51 = l9; 51; mOV QWOPd ptP [idX],PaX
+idx: = Pandzz ()3
+alidx] = 1;
+}
+Notice that rust deduces the type of random value from the type of idx.
+We will discuss more about this specific behavior for templates /
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+V? Arrays
+Let's see another example where the index is not a constant:
+mov r'ax,qwor*d ptr‘ [idx]
+rand: :phelude: :*; CmP P8X,5
+setb a1
+test a1,1
+() { jne SET_VALUE
+a: [ ; 5] = [9; 5]; jmp PANIC
+idx: = Pandz: ()3 SET_VALUE:
+a[idX] = 1,‘ mov r'ax,qwor*d ptr‘ [idx]
+} mov dwor'd ptr‘ a[r‘ax*4],1
+In other words, Rust checks to see if 55;;
+. . - PANIC:
+Id).( |s smaller than 5 before accessmg mov Pcmwd ptp [idx]
+a[ldx]. If |t IS not, a runtlme error lea P8,[---]
+- mov edx, 5
+WI“ be thl'OWl'l. call panic_bounds_check
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+{a
+Arrays
+Let's see another example where the index is not a constant:
+Rust
+Pand::*; .
+mam, {
+a=[ s51=ws51s
+idx: = handzznandom();
+a[idx] = 1;
+phintln!(" idx , ", a[idx]);
+}
+However, in this case it is clear that idx is a value between O and 4, and
+as such a[idx] will ALWAYS be valid. Rust, however, still performs the
+boundary checks in this case (only on debug mode).
+This is different from C++ (where these cases will be faster !)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+*- -- Arrays
+Let's see another example Where the index is not a constant:
+Rust
+fn main() {
+let mut a: [132; 19999] = [9; 19999]; m
+let mut sum = 0;
+i < 19999 {
+a[i] = ((sum + i % 2) % 100) as 132;
+sum += a[i] as usize;
+i += 1;
+}
+phintln!("{}", sum);
+}
+In this case it is clear that “i” will always be smaller than 10000 but Rust
+will check boundaries, nevertheless.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+A I’ ra VS
+Let's compare the speed of a Rust and C++ program:
+extehn "system" { fn () —> ; } #include
+Fn () —> { unsafe { () } } void main() {
+Fn () { int a[19999] = {};
+let mut a:[ ;19999] = [9;19999]; size_t sum = 9;
+let (mut sum,mut itEP) = (9,9); size_t iteh = 9;
+let start = (); auto start = GetTickCount64();
+while iten<19999 { while (iter < 19999) {
+sum = iteP; sum = iteP;
+let mut i = 9; size_t i = 9;
+while i<19999 { while (i < 19999) {
+a[i] = ((sum+i%2)%199) as ; Output (possible) a[i] = ((sum + i % 2) % 199);
+sum += a[i] as ; sum += a[i]; 6%
+i+=1,- 560058 -> 700 i++;
+iteP+=1 iteP++; ﬁﬁ
+let end = (); auto end = GetTickCount64(); ﬁﬁ
+println!("{} —> {} ms",sum,end—start); printf( %d %d , (int)sum, (int)(end - stant)); ﬁg
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Va Arrays
+
+Let's compare the speed of a Rust and C++ program.
+Both programs were compiled on a 64 bytes architecture, debug and
+release mode. Tests were performed 10 times, and the average was
+computed.
+
+' Rust versions: 1.61.0 and 1.71.0
+
+' cl version: 19.33.31424 for x64
+mumummmmm
+Rust(debug)—1.61 672 672 703 672 688 672 656 672 657 718 678
+
+c++ (debug) 546 562 562 578 562 578 563 563 562 563 563
+Rust(re|ease)—1.61 297 297 312 282 297 313 297 297 297 281 297
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Arrays
+As a general conclusion (related to Arrays):
+- Compiled with debug mode, Rust is slower than C++ (15% - 17%)
+- In release mode, latest version of Rust gets better results. Keep in
+mind that GetTickCount API has a variance of 16ms, and as such we
+can say the on release mode, both C++ and Rust have similar results.
+Keep in mind that on release mode, several optimization will take place
+that include removing boundary checks Where they are not required. l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+,’I I A I’ ra VS
+Let's see an example where an array contains some complex objects
+(such as a String).
+() {
+a = [ :: ("123"), :: ("abc")];
+Println!(" , ", a[@], a[1]);
+} 123456,abc
+If we build the array providing a different value for each element, then
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+t?‘
+Arrays
+
+Let's see an example where an array contains some complex objects
+(such as a String).
+Rust
+
+main() {
+
+a = [ ::from("123"); 5]‘
+
+a a .pus _s r 1 - 3
+
+println!(" , ", a[6], a[1]);
+}
+HOWEVEF, for. these cases, RUSt errorgﬁgizgintlSIeBtggit bound ‘String: Copy‘ is not satisfied
+copies the initialization value into 3 I let mut a = Wing;=Mm<--123-->;51;
+the arra -) hence the need for l iiﬁliliiiedciﬁi it???
+
+. I
+the tralt to be present. = note: the ‘Copy‘ trait is required because the repeated element
+will be copied
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+,’ I A I’ ra V5
+Starting from version 1.63 Rust introduced a new wa of initialin array
+Where elements that don't have a Copy trait, via: H
+<, : ,>(cb:)—>[;]
+I ( ) '> .v
+{...}
+This method iterates from O to the number of elements in the array and calls a
+callback function with that index and the returned value of that callback function is
+then Copied/Moved into the array. This method is in particular suited for cases
+where elements in the array don't have the Copy trait. l'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Let's see an example: M
+RUSt Create string With index: 0
+fn create_string(index: usize) —> String { (IﬁneﬂﬂngWFhUwEK1
+. ,, . . . .. . Create str|ng Wlth Index: 2
+pr1nt1n!( Create sthlng Wlth 1ndex: {} , 1ndex); . . . _
+1 t mut S _ StPin _ "FPOm("S—") _ Create strlng Wlth index.3
+e __ g ' ' ’ Create string with index: 4
+5 - pUSh( ( (1ndex + 65) as u8) as Chap); Create string with index: 5
+53 Create string with index: 6
+} a:[IIS_AI|' "S-Bll' I|S_Cll' "5-D", HS-Ell' ‘IS-F", "S-Gll]
+fn main() {
+let a:[Sthing;7] = std::ahhay::fhom_fn(cheate_string);
+println!("a={:?}",a);
+}
+Notice that function create_string is called 7 times (once for each element in the
+string).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+a?‘
+Arrays
+It is also possible to use closures (in particular if you want to instantiate
+the entire array with the same value):
+Rust
+main() {
+a:[ 37] = std::array::from_¥n(|_| ::fPom("abc"));
+println!("a= ",a);
+
+} M
+You can also use this method to instantiate an array with elements that respect a
+mathematical property:
+
+Ru“ M
+
+main() {
+a:[ ;7] = std::arpayzzfnom_1cn(|idx| idx*2);
+println!("a= ",a);
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+," A I’ ra VS
+Another solution to instantiate an array of elements that don't have
+the Copy trait is to use a constant value. The general format is as
+follows:
+aPPay: [< >; ] = [CONSTANT_VALUE; ];
+Where:
+~ <Type> - is a general type (e.g., String). Usually, it is a type that does not support Copy trait,
+but it is not limited to this
+' N — is a constant representing the number of elements in the array (e.g., 1 or 100 or 12345) |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+,’I I A F ra VS
+Before we go forward with constant instantiation, let's first explain
+what a constant is (from Rust perspective).
+A constant in Rust is an object/value that can be fully computed/known
+at compile time. This means that heap allocation is not possible (as we
+do not know where the allocation pointer will end up). This means that
+in some cases we can build an array using a constant value.
+If an object is constant (meaning all of its data is know at compile time)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Arrays
+Let's see an example:
+Rust
+main() { m
+A_CONSTANT_STRING: = : :new();
+a:[ ;7] = [A_CONSTANT_STRING;7];
+pnintln!("a= ",a);
+}
+Notice that String::new() is also constant. This is because an empty
+string does not have anything allocated (so in a way everything (size,
+capacity and pointer to data) is known at this point).
+new() —> { { vec: ::new() } }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+a?‘
+Arrays
+Let's see another example:
+Rust
+main() {
+A_CONSTANT_STRING: = ::from("abc");
+a:[ ;7] = [A_CONSTANT_STRING;7];
+println!("a= ",a);
+} ePPOP[E0015]: cannot call non-const fn ‘<Str~ing as
+Fr“om<&str*>>::1cr‘om‘ in constants
+_ _ _ _ ——> sr‘c\main.r‘s:2:39
+Strlngzzfrom(...) |mp||es allocatlng I _ _ .. u
+2 | const A_CONSTANT_STRING: Strlng = Str1ng::from( abc )3
+memory and as such, can not I
+provide a constant object.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+f‘
+Arrays
+Let's see an example where an array contains some complex objects
+(such as a String).
+Rust
+. error E9508 : cannot move out of t e ‘ Strin ; 2 ‘, a non-co arra
+ma1n() { -—> £rc\main.rs:4:17 yp [ 8 1 py y
+a = [ ::from("123"), 4| 1 b _ _
+::from("abc")]; i et mUt _ 2&1’
+pPln n‘ J J a[6]: a[1])3 | move occurs because ‘a[_]‘ has type ‘String, which
+} | does not implement the ‘Copy‘ trait
+| help: consider borrowing here: ‘&a[0]‘
+Rust considers the entire Array an object (and as such it can not move part of the
+array, only Copy them. Since String does not have a Copy trait, that operation is
+impossible and will produce a compile error.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+é?‘
+Arrays
+This means that you can not copy element from an array to another,
+you have to explicitly make a copy of themselves (except for the case
+Where Copy trait is present 9 e.g. numbers).
+Rust
+main() {
+a1 = [ ::from("123"), ::From("abc")];
+a2 = ::from("456"), ::From("xyz")];
+.1[9] = a2[9];
+println! " , ", a1[9], a2[1]);
+}
+error[E0508]: cannot move out of type ‘[String; 2]‘, a non-copy array
+--> src\main.rs:5:13
+5 l a1[0] = a2[9];
+I AAAAA
+l l
+| cannot move out of here
+| move occurs because ‘a2[_]‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+*- Arrays
+One solution to the previous case is to use .clone() method that creates
+a clone of the existing object not altering its lifetime.
+
+Rust
+main() {
+a1 = [ ::1cr‘om("123"), ::1cr‘om("abc")]; m
+a2 = [ ::1cr‘om("456"), ::1‘-‘r‘om("xyz")];
+a1[@] = a2[@].clone();
+pnintln!(" , ", allej, a2[1]);
+}
+This is more a generic solution for object that implement the Clone trait, in reality
+any solution that creates a new object from another one will work (e.g.
+String::from(...) for this case).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+$1»,‘ﬁ -.
+
+*- Arrays
+If objects from the array implement the Copy trait, these are not
+necessary.
+
+Rust
+main() {
+a1 = [1, 2]; m
+12 = r11 41;
+a1[@] = a2[@];
+println!(" , ", a1[0], a2[1]);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Arrays
+What about assignments between array ?
+In this case we have 3 cases:
+1. Assignment between arrays with different sizes
+2. Assignment between arrays with the same sizes that implement
+Copy trait for its elements
+3. Assignment between arrays with the same sizes that don't
+implement Copy trait for its elements
+4. Assignment between arrays with the same sizes but different types ||
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+f’
+Arrays
+1. Assignment between arrays with different sizes
+Rust
+main() {
+al = [1) 2];
+a2 = [3’ 4, 5];
+}
+GPPOP[E9398]I mismatched types
+--> src\main.rs:5:10
+llllllllll!llll!!Illllllllllllllllll|||||||||||||||||||||||||||||||||||||||||||||||||||||||
+| “A expected an array with a Fixed size of 2 elements, Found one with 3 elements
+This is NOT possible; arrays must have the same size !
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Arrays
+2. Assignment between arrays with the same size that implement
+Copy trait for its elements
+Rust
+main() {
+a2 = [3, 41s
+a1 = a2;
+println!("a1= , a2= ", a1, a2);
+}
+This works and both "a1" and "a2" are valid after assignment (nothing
+is moved).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+'® Arrays
+2. Assignment between arrays with the same size that implement
+Copy trait for its elements
+let mut a1 = [1,2];
+() { mov dword ptr [a1+9],1
+a1 = [1, 2]; mov dword ptr [a1+4],2
+a1 = a2_a2 = [3’ 4]; let mut a2 = [3,4];
+. 1 1 .. _ _ H _ mov dword ptr [a2+9],3
+} pnlnt r1.( al- ’ 82- ,a1,a2), mov dword ptr [a2+4],4
+a1 = a2;
+mov Pax,qword ptn [a2] A
+_ mov qword ptr [temp],PaX 5%?
+In other words, a memcpy IS performed mov Pax,qwor‘d ptr‘ [temp]
+between I and I mov qword ptr [alLPaX
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+é?‘
+3. Assignment between arrays with the same size that don't
+implement Copy trait for its elements
+Rust
+main() {
+a1 = [ ::From("123"), ::from("456")];
+a2 = [ ::From("AB"), ::from("CD")];
+a1 = a2;
+println!("a1= , a2= ", a1, a2);
+}
+error[E0382]: borrow of moved value: ‘a2‘
+—-> src\main.rs:6:36
+|
+4 | let mut a2 = [String::from("AB"),String::from("CD")];
+| —————— move occurs because ‘a2‘ has type ‘[String; 2]‘, which does not implement the ‘Copy‘ trait
+5 | 1 = 2;
+| a ?— value moved here
+6 | println!("a1={:?}, a2={:?}",a1,a2);
+| AA value borrowed here after move
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Arrays
+3. Assignment between arrays with the same size that don't
+implement Copy trait for its elements
+Rust
+main() {
+a1 = [ ::From("123"), ::from("456")];
+a2 = [ ::FPOm("AB"), ::from("CD")];
+a1 = a2;
+pnintln!("a1= ", a1);
+} M
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+V? Arrays
+3. Assignment between arrays with the same size that don't
+implement Copy trait for its elements
+Stack Heap
+
+() { 100 a1 [0] a1[O].ptr
+a1 = [ .. .. 92 a1[O].|en 3
+Ellj'éz" g ’ 84 a1[O].capacity 3
+
+_ ' ' 76 [1] a1[1].ptr
+
+1’ 68 a1[1].|en 3
+a2 = [ 60 a1[1].capacity 3
+: : ("AB" ) , 52
+: : ("CD") 44
+
+13 36
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Arrays
+I. I I I '
+3. AsSIgnment between arrays WIth the same s|ze that don t
+implement Copy trait for its elements
+( ) { 100 a1 [0] a1[O].ptr
+at _ = [ .. .. 92 a1[O].|en 3
+I ("ZEZH ) ’ 84 a1[O].capacity 3
+1 _ ' ' ( ) 76 [1] a1[1].ptr I.
+’ 68 a1[1].|en 3
+a2 = [ 60 a1[1].capacity 3
+; ; ("AB" ) , 52 a2 [0] a2[0].ptr ..
+: : ("CD") 44 a2[0].|en 2
+1 3 36 a2[0].capacity 2
+a1.= a2 ’ ,, 20 a2[1].|en 2
+prlntln! (" a1= , a1) ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+"® A I" rays
+3. Assignment between arrays with the same size that don't
+implement Copy trait for its elements
+() { 100 a1 [0] a1[O].ptr ? ? ?
+a1 = [ H H 92 a1[O].|en 2
+Edging’ 84 a1[O].capacity 2 ? ? ?
+. 76 [1] al[1].ptr
+1,
+68 a1[1].|en 2
+a2 = [ 60 a1[1].capacity 2
+; ; ("AB" ) , 52 a2 [0] a2[0].ptr N/A _.
+: : ("CD") 44 a2[0].|en N/A
+1 3 36 a2[0].capacity N/A
+28 [1] a2[1].ptr N/A .-1:;525552555;E55zE5EzE5Ezizizizizizizizizizizéé
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+if“
+Arrays
+4. Assignment between arrays with the same size but different types
+Rust
+main() {
+a1 = [1) 2];
+82 = [1.5, 2.5]; --> src\main.rs:5:19
+} | ----- expected due to this value
+4 | let mut a2 = [1.5,2.5],'
+5 | a1 = a2;
+| M expected integer, found floating-point number
+|
+= note: expected array ‘[{integer}; 2]‘
+found array ‘[{float}; 2]‘
+This is NOT possible; array must have the same type.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+l?‘
+Arrays
+4. Assignment between arrays with the same size but different types
+Rust
+main() {
+a1 = ["789", "DEF"];
+a2 = [ ::from("123"), ::from("ABC")];
+} error[E@308]: mismatched types
+--> src\main.rs:5:19
+3 i let mut a1 = ["789","DEF"];
+| -—-—--—-—--—- expected due to this value
+4 | let mut a2 = [Stringz:from("123"),String::from("ABC")];
+5 | a1 = a2;
+| A“ expected ‘&str‘, found struct ‘String‘
+l note: expected array ‘[&str; 2]‘
+found array ‘[String; 2]‘
+This rule applies even if coercion exists between element (e.g. String
+can be coerced to &str).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+"® A I" rays
+As a general rule:
+- Assi nment between arra sis onl allowed when both arrays have
+the hand the b
+- In this case the assignment will be performed by iterating through
+each element from the right side of the expression and assign it to
+the element with the same index from the left side of the expression
+- If elements within an array implement the Copy trait, then the array is
+copied , otherwise it is moved.
+- One can not move one element from an array, only the entire array.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+t?‘
+Arrays
+What if we want to pass an array to a function ? (well in this case the
+behavior is different that the one from C/C++.
+Rust
+W [ 33]) '> { m
+}
+main() {
+a = [1: 2: 3];
+s = sum(a);
+pnintln!(" s , ", a);
+}
+Question: How come "a" is available when calling println!
+(shouldn't have "a" been moved to function sum ?)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+t?‘
+Arrays
+Let's see another example:
+Rust
+maX—1en(a: [ ; 2]) _> { --> src\main.rs:8:25
+if a[6].1en() > a[1].1en() { |
+} else { | which does not implement the ‘Copy‘ trait
+return a[1] .1en()3 7 i let S = max—1en(?)f,alue moved here
+1’; 8 | println!("{s},{:?}",a);
+} | A value borrowed here a-Fter move
+main() {
+a = [ ::from("12"), ::from("abc")];
+s = max_1en(a);
+println!(" s , ", a);
+}
+How come, this example does not work, but the previous one does ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Arrays
+Let's analyze the assembly code of the first example and see how Rust
+compiles it.
+let a = [1,2,3];
+(a: [ . 3]) _> { mov dword ptP [a+9],1
+’ mov dword ptr [a+4],2
+} a[0] + a[1] + a[2] mov dword ptr [a+8],3
+O { let s = sum(a);
+a = [1, 2, 3]; mov r~ax,qw0r‘d ptr‘ [a+9]
+S = (a); mov qword ptr‘ [temp+9],r‘ax
+ppintln!(" 5 ) "’ a); mOV eax,dw0r‘d ptr‘ [3+8]
+} mov dword ptr‘ [temp+8],eax __
+lea rcx, [temp]
+call first: :sum
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+" A r rays
+Let's analyze the assembly code of the first example and see how Rust
+co m pi les it.
+let a = [1,2,3];
+(a: [ . 3]) _> { mov dwond ptn [a+9],1
+’ mov dwond ptr [a+4],2
+} a[6] + a[1] + a[2] mov dwond ptr [a+8],3
+(){ 1ets=suma'
+a = [1, 2, 3]} mov Pax,qw0r‘d ptr‘ [a+9]
+S = (a); mov qword ptr‘ [temp+@],r‘ax
+println!( 5 , a); mov eax,dw0r‘d ptr‘ [a+8]
+} mov dwond ptr‘ [temp+8],eax __
+lea r [temp]
+The code makes a copy of the entire array a (first 8 bytes then
+the rest of 4 bytes that remain) into a temporary space from
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+e
+Arrays
+Let's analyze the assembly code of the first example and see how Rust
+compiles it.
+Rust C/C++
+sum(a: [ 3 3]) —> { sum( P) {
+a[6] + a[1] + a[2] :> return p[@]+r>[1]+r>[2];
+} Approximation }
+main() { main() {
+a=12313 6133:1233‘
+templB];
+pnintln!(" s , ", a); memcpy(temp,a,12);
+} s = sum(&temp[9]);
+printf("Sum = %d",s);
+}
+One observation here is that Rust copies the entire array into stack
+before sending it to the function that will process it.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Arrays
+One observation here is that Rust copies the entire array into stack
+before sending it to the function that will process it.
+Let's see how C/C++ behave in this case:
+C/C++
+sum( p) {
+return p[9]+p[1]+p[2]3
+}
+maino {
+a[3] = {112:3};
+s = sum(a);
+printf("Sum = %d",s);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Arrays
+What about the example with a String array (that one that did not
+work). Let's analyze its assembly code
+Rust
+max_1en(a: [ 3 2]) —> {
+arm-mo > a[1].1en<>{ M
+} else {
+return a[1].1en();
+};
+}
+main() {
+a = [ ::fnom("12"),
+::fnom("abc")];
+s = max_1en(a);
+——
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+iiigiii
+Arrays
+What about the example with a String array (that one that did not
+work). Let's analyze its assembly code
+Rust lea rcx,[temp]
+max_1en(a: [ 3 2]) —> { lea r‘dX’[<'=\]
+if a[9].1en() > a[1].1en() { mov er’39h
+return a[9].1en();
+} else { $221 Tiﬂcllemp]
+return a[11' 19M); call first: :max_1en
+}3 mov qword ptr [s],rax
+}
+main() {
+a = [ ::fnom("12"),
+::1cr‘om("abc")]; m
+pnintln!(" s ")3
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+"® A r rays
+
+So when sending an array as a parameter to a function, Rust
+
+performs the following operations:
+
+1. Create a temporary array of the same size and type on the stack
+
+2. For each element in the array that we want to send, it assigns its
+value to the equivalent element from the temporary array. If the
+type of the array support the Copy trait, then the value is copied,
+otherwise it is moved.
+
+3. The temporary array is then sent to the function (if Copy trait is
+supported by the array type, the original array will still be available
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+,’I I A r Fa VS
+But Rust is designed to be fast. Why chose to copy an entire array when
+there is a faster way (the one that C/C++ is using) that relies on sending
+the pointer to the first element to a function ?
+1. Sending a pointer instead of an array implies you don't need the
+size. This means that boundary checks can not be performed and as
+such several risk.
+2. It is clearer like this 9 in C++ you have to know that an array is send
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+i%$“2-.
+illillii
+*- Arrays
+However, this is not really a problem, as you can send an array via
+reference in Rust (using &[<type>;<size>] as a type)
+Rust
+fn max_len(a: &[Stning;2]) -> usize {
+a[6].1en()>a[1].len() { a[9].len(); } { a[1].1en(); };
+}
+fn main() {
+let a = [Stringz:fnom("12"),StPing::fnom("abc")];
+let s = max_len(&a);
+pnintln!("{s},{:?}",a); m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+. Arrays
+However, this is not reall a roblem as ou can send an array via
+reference in Rust (using as a type)
+
+Rust
+max_1e (a: &[ 32]) —> {
+if a[6].len()>a[1].len() { return a[9].1en(); } else { return a[1].1en(); };
+}
+main() {
+a = [ :ZFPOH lea rcx,[a] ")1;
+5 =— call first::max_len
+println! H 5 ) ",5 mov qword ptr [s],rax M
+} 3":"12", llabcll]
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+t?‘
+Arrays
+Rust checks the types for exact match (meaning that you can not send
+a reference of an array of 2 elements to a function that expects 3
+elements).
+Rust
+max_1en(a: &[ -> {
+if a[@].len()>a[1].len() { return a[6].len(); } else { return a[1].len(); };
+}
+main() {
+a = [ ::from("12"), ::from("abc")];
+s = max_len(&a);
+println! (H S ’ Ilia); error[E9398]: mismatched types
+} —-> src\main.rs:7:21
+7 i let s = max_1en(&a);
+| M expected an array with a fixed size
+| of 3 elements, found one with 2 elements
+l note: expected reference ‘&[String; 3]‘
+found reference ‘&[String; 2]‘
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Arrays
+But what if we want to send a part (slice) of the array. Well range
+operation work on an array as well.
+
+Rust
+main() {
+a = [1: 2: 3: 4: 5].;
+s = &a[1--]; M
+b = &a[2..41.
+pnintln!("s= , b= ", s, b);
+}
+Slices for array work similar to how they work for Strings (in fact we can
+say that a string is an array of u8 values).
+However, since the size of a slice is unknow, the type of the slice from
+an array will be -
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Arrays
+Let's see an example:
+Rust (via index) Rust (using iterators)
+sum(a: &[ ]) -> { sum(a: &[ ]) —> {
+s = 9; 5 = 93
+for i in @..a.len() { for i in a {
+5 += a[i]; s += i;
+} }
+return s; return s;
+} }
+main() { main() {
+a = [1,2,3,4,5,6,7,8,9,19]3 a = [1,2,3,4,5,6,7,8,9,19];
+s = sum(&a[1..3]); s = sum(&a[1..3]);
+println!("s= s ")3 println!("s= s ")3
+} }
+m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+V? Arrays
+Let's see an example:
+mov qword ptr‘ [start_slice],1
+(a: &[ ]) —> { mov qword ptr‘ [end_slice],3
+5 = 9; mov r'dx,qwor*d ptr‘ [start_slice]
+i 9_ .a. O { mov r8,qwor‘d ptr' [end_slice]
+s += an]; lea r'cx,[a]
+} lea r9, [vtable+49h]
+. call make_slice_fr0m_array
+S’ mov qword ptr [slice.ptr],r‘ax
+} mov qword ptr [slice.size],r‘dx
+O { mov de,qword ptr‘ [slice.size]
+a = [1,2,3,4,5,6,7,8,9,19]; mov ch,qword ptr‘ [slice.ptr]
+5 = (&a[1. ,31); call firstzzsum
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+- '- Arrays
+A similar C++ approximation will look like this:
+Rust (via index) C++
+Fn sum(a: &[132]) —> 132 { int sum(const in’c>'< a, size_t count)
+let mut s = 9; {
+i 9..a.len() { int s = 9;
+s += a[i]; for (int i=9;i<count;i++)
+} S+=a[i];
+s; return s;
+} }
+Fn main() { void main() {
+let a = [1,2,3,4,5,6,7,8,9,1o]; int a[] = {1,2,3,4,5,6,7,8,9,1o};
+let s = sum(&a[1..3]); int s = sum(a+1,(3—1));
+println!("s={s}"); printf("Sum = %d",s);
+} }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Arrays
+Let's see how functlon sum looks llke In assembly:
+mov ch,qword ptr [a.1en]
+_ mov Pax,qword ptr [i]
+(a' &[ 1) _> { mov qword ptr [temp_i],rax
+5 == 93 mov qword ptr [Psp+9A9h],rax
+i 9. .a. () { cmp P8X,PCX
+S += a[i]; setb a1
+test al,1
+} jne IN_RANGE
+s 3 jmp PANIC_BAUNDERY
+} IN_RANGE:
+() { mov Pax,qword ptr [a.ptr]
+mov ch,qword ptr [temp_i]
+a = [1,2:3:4,5,6)7)8)9:19]3 mov eax,dwor*d ptr' [r'ax+r‘cx*4]
+S = (&a[1..3]); add emgdwmwiptr[s]
+prj11t111!('lszz S II); mov dword ptr [temp_s],eax
+seto a1
+} test al,1
+jne INT_OVERFLOW
+jmp NEXT_I
+PANIC_BAUNDARY:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+I I I I
+Let s see how functlon sum looks llke |n assembly:
+RUSZ' (via index) mov r~cx,qwor~cl ptr‘ [a.1en]
+_ _ mov r~ax,qwor~cl ptr‘ [i]
+sum(a. &[ 1) > { mov qwond pth [temp_i],nax
+5 = 93 mov qwond ptr‘ [rsp+9A9h],|"ax
+i 9. .a.len() { cmp rax,r‘cx
+S += a [ i]; setb a1
+test a1,1
+}
+s; jmp PANIC_BAUNDERY
+} IN_RANGE:
+main() { mov Pax,c|wor‘d ptr‘ [a.ptr‘]
+mov ch,qwor‘d ptr‘ [temp_i]
+There are two checks Rust performs: ; mov eax,dwor‘d ptr [PaXJrPCXm] // a[i]
+1. Aboundary check (to make sure add eax,dwor‘d ptr‘ [s] // s += a[i]
+that “i” is withing the slice m0: dvlvord ptr‘ [temp_s] ,eax
+. . SE O a
+} 2. An Integer overflow check (thls test a1 1
+check is performed only on debug
+mode) jmp NEXT_I
+PANIC_BAUNDARY:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+,’I I A F ra VS
+Keep in mind that Rust can optimize a lot and will probably optimize
+the way index access is performed.
+
+If possible, try to use iterators or a range that clearly indicates the
+interval you are iterating over (rust can optimize this kind of cases and
+not check for boundary at all).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+la
+Arrays
+
+Another interesting feature is that Rust functions can return an array.
+Rust
+
+create_arnay(value: ) —> [ ; 19] {
+}
+
+main() {
+
+a = create_aPPay(5);
+
+println!(" ", a);
+}
+This is different than what C can do (as you will need to return a
+pointer to a heap allocated array). C++ has a class (std::array) that can
+be used with the same scope (returning an array).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+"® A I" rays
+Let's see how the assembly code looks like:
+(value: ) —> [ ; 1@]{
+[value3 19]
+}
+() {
+a = (5);
+} pr11rtln!( lea r;x,[a]
+mov e x,5
+call create_array
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+V? Arrays
+Let's see how the assembly code looks Ilke:
+mov P8X,PCX
+add rax,28h
+(V81JJG. ) _> [ 3 :19]{ mov qword ptr [end_pointer],rax
+[vaJJJeS 19] mov qword ptr [current_pointer],rcx
+} WHILE!
+() { mov ch,qword ptr [end_pointer]
+mov Pax,qword ptr [current_pointer]
+a :: (5); mov qword ptr [Psp],rax
+ijJTtln!(" II \ cmp P8X,PCX
+} lea "CX’ [a] je END_WHILE
+mov de’5 mov Pax,qword ptr [Psp]
+call create_array mov ecx,dword ptr [value]
+mov dword ptr [Pax],ecx
+add rax,4 sﬁ
+mov qword ptr [current_pointer],rax _£ﬁﬁﬁ
+E~D_WHILE= @ﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+1} Arrays
+A C/C++ code similar to the rust one will look like this:
+RUST C/C++
+{n create_arnay(value: 132) '> [i323 19]{ void create_annay(int* output, int value)
+[value; 19] {
+} _ int* current = output;
+{n main() { int* end = output+193
+1Et a = create_annay(5); while (cunnent<end) {
+pnintln!("{:?}", a); *curnent = value;
+} current++;
+}
+}
+void main() {
+int a[1@];
+create_array(a,5);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+i?‘
+
+Arrays
+lmplicitly, any reference to an array can be coerced into a slice (for the
+entire array). A slice can also be mutable (and elements from the slide
+can be changed). Rust
+
+reverse(a: & [ ]) {
+middle = a.1en() / 2;
+i z a’ —
+In this example we while i <= middieft [5'4'3'2'1]
+aux = a 1 ;
+reverse the content of an] = a[a_1en() _ 1 _ i];
+a mutable slice. ala-len0 - 1 - 11 = aUX;
+i += 1
+}
+}
+main() {
+a = [1, 2, 3, 4, 51;
+reverse(& a);
+println!(" ", a);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+a
+Arrays
+Multi-dimensional arrays are also possible (they need to be properly
+specified in their type):
+Rust
+maino { m
+a: [[ ;31;21=[[1,2,31, [4, 5, 61];
+For y in @..a.1en() { 1156
+For x in 0..a[y].len() {
+print!(" ", a[y][X]);
+}
+println!("");
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+e
+Arrays
+Type does not have to be specified; the previous example works just
+fine event if we don't specify the type.
+Rust
+maino { m
+a =[[1,2,31, [4,5,611;
+For y in @..a.1en() { 1156
+For x in 0..a[y].len() {
+print!(" ", a[y][X]);
+}
+println!("");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+a
+Arrays
+The form where an array is specified via its value for a specific number
+of elements can also be used.
+Rust
+maino { m
+ar [[ 33]; 4] = [[93 3], [1; 3], [2; 3], [3;311; 000
+for‘ y in e..a.1en(){ 111
+For‘ x in 0..a[y].len(){ 222
+print!(" ", a[y][X]); 333
+}
+println!("");
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+é?‘
+Arrays
+The form where an array is specified via its value for a specific number
+of elements can also be used (in this case for all elements in the matrix)
+Rust
+maino { m
+ar [[ s 3];4] = [[8; 3134]; 888
+for‘ y in e..a.1en(){ 888
+For‘ x in 0..a[y].len(){ 338
+print!(" ", a[y][X]); 888
+}
+phintln!("");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+Structures
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+Structures in Rust are a bridge between how structures and class behave in C++. As
+a general notion, a structure only contains data members (and this definition is
+inline with how C/C++ sees a structure). In rust a structure is defined in a similar
+manner, but it can also contain methods and traits (similar to C++) and through this,
+it is more like a class in C++.
+To create a structure, use the following format:
+struct <Name> { <Name> {
+var‘1 : <type1>, var‘1 : <vaLuel>,
+vaPZ I <typez>, With the following vaPz I <W1Luez>,
+var‘3 : <type3>, m var‘3 : <vaLue3>,
+var‘n : <typen> format var‘n : <vaLuen>
+Just like a class, a structure / structure members also have some access modifiers
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+Let's see a very simple example:
+Rust
+struct Point {
+132, m
+y: 132: p1x=3,p1y=5
+} p2.><=10, p2.y=30
+Fn main() {
+let p1: Point = Point { x: 3, y: 5 };
+let p2 = Point { x: 16, y: 36 };
+println!("p1.x={}, p1.y={}", p1.x, p1.y);
+println!("p2.x={}, p2.y={}", p2.x, p2.y);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+i?
+The ownership rules work in a similar manner:
+Rust
+{
+XI ,
+y: )
+}
+main() {
+p1: = { x: 3, y: 5 };
+p2 = p1;
+println!("p1.x= , p1.y= ", p1.x, p1.y);
+println!("p2.x= , p2.y= ", p2.x, p2.y);
+}
+--> src\main.rs:8:39
+|
+6 | let p1: Point = Point{x:3,y:5};
+| —- move occurs because ‘p1‘ has type ‘Point‘, which does not implement the ‘Copy‘ trait
+7 | let p2 = p1;
+| —— value moved here
+8 l println!("p1-X={}, p1.y={}",p1-X, pl-y);
+| “AAA value borrowed here after move
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+"~* Structures
+The same for borrowing:
+Rust
+struct Point {
+132, m
+in set_point(p: &mut Point, x: 132, y: 132) {
+p.x = x;
+P-y = Y3
+}
+Fn main() {
+let mut p: Point = Point { x: 9, y: 9 };
+set_point(&mut p, 3, 5);
+} println!("p-X={}, p y={}", p-X, p y);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+a
+Data members from a structure can be moved. This does not invalidate the
+structure (in the sense that other members can still be accessed, it only invalidates
+that specific data member).
+Rust
+{ --> src\main.rs:9:51
+. |
+X’ ’ 8 | let b = p.name;
+y: , | ——-—-— value moved here
+. 9 l println!("P-X={}, p-y={}, p-namE={}",p-X, P-ym-name);
+name‘ ’ | MAM" value borrowed here after move
+|
+} main() { = note: move occurs because ‘p.name‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+p: = { x: 9, y: 9, name: ::from("A") };
+b = p.name;
+println!("p.x= , p.y= , p.name= ", p.x, p.y, p.name);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+Structures
+Data members from a structure can be moved. This does not invalidate the
+structure (in the sense that other members can still be accessed, it only invalidates
+that specific data member).
+Rust
+{ m
+yi ,
+name: ,
+} —
+main() {
+p: = { x: 6, y: 6, name: ::1cr‘om("A"]
+b = p.name;
+pnintln!("p.x= , p.y= ", p.x, p.y);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+i?
+Let's consider the Point struct. What if we want to copy its content into another
+struct ? (e.g. change it in such a way that the next code copies the content of "p"
+into "p2" instead of moving it.
+Rust
+--> src\main.rs:9:36
+l
+{ 7 | let p: Point = Point{x:@,y:9};
+XI , | - move occurs because ‘p‘ has type ‘Point‘, which does not implement the ‘Copy‘ trait
+, 8 | let p2 = p;
+y' ’ | — value moved here
+} 9 l println!("P-X={}, p-y={}",p-X, p-y);
+main() { | MA value borrowed here after move
+p1 = { X1 9, yr 9 };
+p2 = p;
+println!("p.x= , p.y= ", p.x, p.y);
+println!("p2.x= , p2.y= ", p2.x, p2.y);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+Rust supports attribute for various declaration. In particular for structure definition,
+these attribute allow specifying how a structure is organized and behaves in
+memory.
+Attributes are defined using the following format: — added before the
+definition.
+#[derive(Clone)] Adds the trait clone to a structure. This will add a method named - to that structure that
+creates a clone of that object.
+#[derive(Clone,Copy)] Adds the clone and copy traits. Copy trait means that the assignment operation will perform a
+copy (via Clone) instead of a move operation
+#[derive(Debug)] Allows structures to be pretty formatted when using. in println! macro
+#[repr(...)] Specify how the structure should be aligned.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+Structures
+Let's see how we can use attributes to change the way our structure works.
+Rust
+M
+{ p-X=1, p-v=2
+x: , p2x=1,p2y=2
+yr ,
+}
+main() {
+p2 = p.c10ne();
+prlnt n- p-X= , p-y= ", p-X, p y);
+println!("p2.x= , p2.y= ", p2.x, p2.y);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+Structures
+Let's see how we can use attributes to change the way our structure works.
+Rust
+M
+{ p-X=1, p-v=2
+x: , p2x=1,p2y=2
+yr ,
+}
+main() {
+prlnt n- p-X= , p-y= ", p-X, p y);
+println!("p2.x= , p2.y= ", p2.x, p2.y);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+Let's see how we can use attributes to change the way our structure works.
+Rust
+error[E6277]: the trait bound ‘Point: Clone‘ is not satis-Fied
+{ --> src\main.rs:1:19
+|
+X: ) 1 | #[derive(Copy)]
+y: ) | MM the trait ‘Clone‘ is not implemented -For ‘Point‘
+} 383 | pub trait Copy: Clone {
+main() | MM" required by this bound in ‘Copy‘
+{
+pr = { XI 1, yr 2 };
+p2 = p;
+println!("p X= , p-y= ", p-X, p y);
+println!("p2.x= , p2.y= ", p2.x, p2.y);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+Structures
+
+Let's see how we can use attributes to change the way our structure works.
+Rust
+M
+
+x: ,
+
+yr ,
+}
+
+main() {
+p: = { x: 1, y: 2 };
+
+println!(U p);
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+t?
+Some traits are mandatory for array creation (e.g. Copy trait). In this case, the
+compiler can not create the array because it can not copy the Point{x:1,y:2} into the
+array.
+RUSZ' error[E9277]: the trait bound ‘Point: Copy‘ is not satisfied
+——> src\main.rs:7:25
+' - -
+7 | let p: [P01nt319] = [P01nt{x:1,y:2};19];
+| MMMMMMMMM" the trait ‘Copy‘ is not implemented for ‘Point‘
+- l
+;: ’ = note: the ‘Copy‘ trait is required because the repeated element will be copied
+}
+main() {
+p=[ '1@]=[ {X=1,y=2};1@];
+println!(m p[9]);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+ta
+Structures
+
+Some traits are mandatory for array creation (e.g. Copy trait). In this case, the
+compiler can not create the array because it can not copy the Point{x:1,y:2} into the
+array. Once these traits are added, the code compiles as expected.
+Rust
+
+x: ,
+
+yr ,
+}
+
+main() {
+
+p=[ '1@1=[ {x:1.y=2};1@1; M
+
+} , .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+a
+Keep in mind the Copy trait has t0 be present on all data members from a
+structure, otherwise it can not be added to the entire structure. The next example
+can not implement the Copy trait as String type does not implement it.
+Rust
+derive( ,E )
+{ GPPOP[E9294]I the trait ‘Copy‘ may not be implemented for this type
+_ --> snc\main.rs:1:16
+X. , I
+1 1 | #[derive(Debug,Copy,Clone)]
+} 5 | name: String
+HHBill<> { | —-—--—-——--— this Field does not implement ‘Copy‘
+p = {xz 1, y: 2, name: ::Fn0m("123") };
+b = p;
+pnintln!(" ", p);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+i?‘
+But what if we want to use references as the type for data member. Let's analyze
+the following example:
+Rust
+error[E9196]: missing li-Fetime speci-Fier
+{ —I> src\main.rs:5:11
+X: j 5 | name: &str
+y_ | A expected named lifetime parameter
+help: consider introducing a named lifetime parameter
+l
+} 1 ~ struct Point<'a>
+main() { 2 | { _
+p = { x: 1, y: 2, name: "A"}; Z: §1§§
+} 5 ~ name: &'a str
+l
+What's happening here ?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+i?‘
+Structures
+That's because we need to add lifetime details for any references that are being
+used in a structure.
+Rust
+< >
+
+{
+
+x: ,
+}
+
+main() {
+
+p = { x: 1, y: 2, name: "A" };
+
+}
+Now, the code works, and compiles as expected. This lifetimes actually says that
+the reference must live at least as long as this structure does.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+}~- Structures
+Rust also supports empty structs that are defined by writing —;
+Rust
+println!("size of empty struct = ",std::mem::size_of::< >());
+}
+Empty structs are also present in C/C++.
+However, the main difference between how empty structs are defined in C/C++ and
+the way they are defined in Rust, is that an empty struct in Rust has the size 0.
+In Rust these type of types are called ZST (Iero Iized Iypes)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+}~" Structures
+One major advantage of a ZST type is that it allows Rust to make some size
+optimization for different templates/generics.
+
+Rust
+Fn main() {
+println!("size of empty struct = {}",
+std::mem::size_oF::<SomeEmptyStnuct>()); Opﬁ0n<&N“EE"WﬁVSUUCU>=1
+println!("Option<SomeEmptyStnuct> = {}",
+std::mem::size_of::<Option<SomeEmptyStPuct>>())3
+}
+For example, an Option that is a template over an ZST type has the size 1 as it only
+needs that u8 from the beginning that states if the value is Some or None.
+Similarly, sets and hash tables can further be optimized in a similar manner (we will
+explain how ZST helps here in a future course).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+New Type idiom
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+"E N ew Ty p e Id IO m
+New type idem is a way to quickly construct a structure over a specific type (for
+example a basic type).
+This allows one to easily create more meaningful structures that hold one or
+multiple member.
+General format for creating a new type is:
+Or
+This is an equivalent of creating a tuple with values of the type specified in the new
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+New Type Idlom
+Let's see some examples:
+( )3
+() { I Output I
+x = (19); 10
+pnintln!(" ", x.9);
+
+}
+In this case we have create a structure with only one field (of type i32) that is
+named MyNewType.
+Since this is a tuple, we can access the value of MyNewType via I data member I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+i?“
+Keep in mind that this is a new type, and we can not instantiate it using the type it
+is build on top of (in this case an i32). This allows one to use a more meaningful
+name for a time that in reality is a basic type (e.g. type Age instead of i32)
+Rust
+( )3
+main() {
+_ _ - , [E0308]: ' t h d t
+X- — 29132, eTTZPSPamainliflli e ypes
+println!(" ", x.9); |
+} 3 | let x: MyNewType = 29i32;
+l -—-—————— AAAAA expected stnuct ‘MyNewType‘, found ‘i32‘
+| |
+| expected due to this
+|
+help: try wrapping the expression in ‘MyNewType‘
+|
+3 | let x: MyNewType = MyNewType(ZQi32);
+| ++++++++++ +
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+” N €W TV p € Id IO m
+Rust optimizes the usage of this type. So even if this is a new type, the assembly
+code generated is not different than assigned the same value to a i32 variable.
+( )3
+() { lOutput I
+X = (19); 1o
+pnintln!(" ", x.@);
+}
+Because of this, using a new type comes with O cost (in terms of optimizations) but
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+New Type |d|om
+You can even add method for such a type (as this is a struct). The next example
+creates a new type Point and adds two methods to get the X and Y coordinates.
+
+Rust
+struct Point(132, 132);
+impl Point { m
+Fn get_x(&se11c) —> 132 {
+selF.9;
+}
+Fn get_y(&se1f) —> 132 {
+selF.1;
+}
+}
+Fn ma1n() {
+let p = Point(1®, 29);
+println!("X={}, y={}", p get_X(), p get_y());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Type alias
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+,’ Ty p € a I I a S
+A type alias is an alias over a different type that can be used to simplify the usage
+of another type (or to provide more meanings to it).
+It is similar to how - or - keywords work in C/C++.
+General format for creating a new type is:
+or
+Where <type> can be an existing type (including tuples or types obtained via new
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+-
+*- Type a||as
+Let's see some examples:
+Rust
+x: = 19;
+println!(" x ")3
+}
+In this case we have created a type alias (I is I). This means that we can create a
+variable of type int (and the compiler will behave as if that variable is of type i32).
+This is very used when trying to mimic types from other languages (e.g. C or C++).
+Note that you don't need to write int(10) like in the case of new type idiom.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+*- Type allas
+You can also use this with tuples or arrays:
+Rust
+type Point3D = (132, 132, 132); M
+type IpV4 = [u8; 4];
+(1, 2, 3),[192, 168, 0, 1]
+let p: Point3D = (1, 2, 3);
+let addr: IpV4 = [192, 168, 6, 1];
+println!("{:?},{:?}", p, addr);
+println!("{}.{},{}.{}", addr[6], addr[1], addr[2], addr[3]);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+*- Type a||as
+Let's see another example, this type using the use keyword:
+Rust
+use {32 as float;
+use 1°64 as double; m
+Fn main() {
+let f: Float = 1.2;
+let d: double = 1.5;
+PPintln!("{t} , {d}");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+Box
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+Data (of any type) can be store on heap or on stack.
+
+Up to this moment we have discuss how storing data on stack should be done (via
+
+let keyword). However, a variable can be allocated on the heap as well (similar to
+
+what C/C++ is doing with the new operator).
+
+ln Rust, allocating something in the heap means boxing it (in reality we don't obtain
+
+just a pointer, but rather a unique pointer to that specific data). Similar format in
+
+C++ is the usage of std::unique_ptr.
+1. let x: Box<type> = Box::new(<value>); . f; wv‘
+2. let x = Box::<type>::new(<value>); -) ::<type>:: this is called turbo-fish :14.‘ .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+,’ B OX
+Let's see a very simple example:
+() {
+x = ::< >:: (19); IOUtPUt I
+y: < > = z: (26); x=10, y=20
+println!("x= J y: "J *XJ *y);
+}
+Notice that in order to get the value "x" or "y" points to, we have to use the
+operator I -) *x = 10 and *y = 20 I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+i?‘
+The ownership rules work in a similar manner (a Box/pointer does not have the
+Copy trait, so assignment is done via move.
+Rust
+main() {
+x = ::< >::new(1@);
+y = X3
+println!("x= ", x);
+}
+error[E0382]: borrow of moved value: ‘x‘
+——> src\main.rs:4:21
+|
+2 | let x = Box::<i32>::new(16);
+| — move occurs because ‘x‘ has type ‘Box<i32>‘, which does not implement the ‘Copy‘ trait
+3 | let y = X;
+| - value moved here
+4 | println!("x={}",x);
+| A value borrowed here after move
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+The ownership rules work in a similar manner (a Box/pointer does not have the
+Copy trait, so assignment is done via move.
+I Output I
+() { _
+x= ::< >:: (19); y-lO
+y = X;
+println!("y= ", y);
+}
+mov edx,4
+mov rcx,rdx
+call alloc::alloc::exchange_malloc 55
+mov qword ptP [temp_memory],rax aﬁEﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+i?
+Boxes are in particular useful for recursive types (a structure that uses itself as one
+of its data members). Since Rust needs to know the size of a type at compile time,
+this is not possible. Let's analyze the following binary tree example:
+Rust
+error[E0072]: recursive type ‘Node‘ has infinite size
+{ -—> src\main.rs:1:1
+|
+value: , 1 | struct Node
+left: , | "MMMMM recursive type has infinite size
+Fight: 4| left: Node,
+} | ———- recursive without indirection
+_ 5 | right: Node
+maln() { | ——-- recursive without indirection
+. . |
+} POOt' ’ help: insert some indirection (e.g., a ‘Box‘, ‘Rc‘, or ‘&‘) to make ‘Node‘ representable
+|
+4 ~ left: Box<Node>,
+5 ~ right: Box<Node>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+Box
+The general solution is to use boxes in this cases:
+Rust
+{
+value: ,
+left: < >,
+right: < >
+}
+main() {
+root = {
+value: 19,
+left: ::< >::new(...)
+right: ::< >::new(...)
+};
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+Box
+Now it compiles and works as expected:
+( ) I I
+struct { OUtPUt
+value: , Node{vawe:10Aeﬂ:SonmJNode{vawe:5Jeﬁ:None,ﬁght
+left: < < >>’ None }), right: Some(Node { value: 15, left: None, right: None })}
+right: < < >>,
+}
+tn () {
+let root = {
+value: 19, i
+left: Some( ::< >:: ( { value: 5, left: None, right: None, })), 5%;
+right: Some( ::< >:: ( { value: 15, left: None, right: None, })), 2;;
+printlnl<"{:?}", root); iii
+} iﬁﬁ
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+i?“
+Box
+Let's see another example:
+Rust
+main() {
+X = ==<[ :51>==new<i@: 51>; M
+X[Q] = 2; 2,1,0
+X[1]= 1; EhmnsMy=100
+PPintln! (" , , ", X[9], X[1], X[21);
+y: <[ ]> = ::new([1; 199]);
+pnintln!("Elemns in y = ", y.1en());
+}
+We can use Box to create a dynamically allocated array.
+In this case we have two types of allocated elements:
+' A box over a specific array 9 variable "x"
+' A box over a slice from an array 9 variable "y"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+Box
+Let's see another example:
+Rust
+derive( )
+Sm Test { m
+v2: char,
+v3: bool,
+}
+Fn main() {
+let b = Box::<Test>::new(Test { v1: 5, v2: ‘A’, v3: true });
+println!("{:?}", b);
+}
+Let's take a closer look on how allocation is performed when dealing with
+structures.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:124**************
+‘.‘ Box
+
+mov dword ptr [stack_test.v1],5
+
+Let's see another exampIe; mov dword ptr‘ [stack_test.v2], 'A'
+mov byte ptr [stack_test.v3],1
+
+RUST mov ecx,12
+mov edx,4
+call alloc::alloc::exchange_malloc
+mov qword ptr [pointer_from_box],rax
+mov Pax,qword ptr [pointer_from_box]
+mov ecx,dword ptr [stack_test.v3]
+mov dword ptr [pointer_from_box.v3],ecx
+mov ch,qword ptr [stack_test]
+mov qword ptr [Pax],ch
+mov ‘word ntr b P8X
+
+b = ::< >::new( { v1: 5, v2: ‘A’, v3: });
+Let's take a closer look on how allocatlon IS performed when deallng WIth
+structures.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:125**************
+‘.‘ Box
+mov dword ptr [stack_test.v1],5
+Let's see another exampIe; mov dword ptr [stack_test.v2], 'A'
+mov byte ptr [stack_test.v3],1
+mov ecx,12
+mov edx,4
+call alloc::alloc::exchange_ma110c
+mov qword ptr [pointer_from_box],rax
+mov Pax,qword ptr [pointer_from_box]
+mov ecx,dwor‘d ptr' [stack_test.v3]
+mov dword ptr [pointer_from_box.v3],ecx
+mov ch,qword ptr [stack_test]
+mov qword ptr [Pax],ch
+mov ‘word ntr b Pax
+b = ::< >::new( { v1: 5, v2: ‘A’, v3: });
+Let's take a closer look on how allocatlon IS performed when deallng WIth
+structures.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:126**************
+Box
+This is a very different way of working than the way C++ does things.
+For example, a new operation in C++ implies first allocating the memory and then
+calling the constructor for the object located in that memory.
+ln Rust, you first create an object, then you allocate the memory and finally you
+assign (transfer ownership) of the object that was created to that memory.
+For simple object / types there is no difference between these two ways of
+instantiating an object into the heap. On the other hand, the main advantage that
+Rust has with this model is that it ensures that all objects are instantiated ! |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+- @@
+
+***************Ending Page***************
+

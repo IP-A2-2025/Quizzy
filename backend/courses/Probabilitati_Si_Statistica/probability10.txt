@@ -1,0 +1,1125 @@
+***************Beginning Page***************
+***************page number:1**************
+10 mai 2022
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Introducere
+
+Clasiﬁcarea algoritmilor aleatori
+Algoritmi Las Vegas
+
+Evaluarea unui game-tree
+
+RandomizedQuickSort
+
+Un algoritm aleator pentru determinarea medianei
+Algoritmi Monte Carlo
+
+Veriﬁcarea inmul'girii matricilor
+
+Un algoritm aleator pentru min-cut
+Metoda probabilisticé
+
+Problema satisﬁabilitéigii
+
+Aplicatii in teoria grafurilor
+Bibliography
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+o Algoritmii pot ﬁ clasiﬁcati drept algoritmi determini§ti §i
+nedetermini§ti.
+
+o Aceastﬁ clasiﬁcare a dat nagtere §i 1a binecunoscutele clase
+de complexitate: P §i NP.
+
+o O deﬁnitie simpliﬁcaté a unui algoritm este urmétoarea: o
+intrare (input) care este procesaté §i transformatéi intr-o
+ie§ire (output).
+
+0 U11 algoritm determinist este un algoritm pentru care rezul-
+tatul (iegirea) este ace1a§i pentru orice intrare, avénd ace1a§i
+comportament in orice executie.
+
+o Un algoritm nedete'rmz'mst este un algoritm care poate da
+rezultate diferite pentru acelagi input, avénd eventual, com-
+portamente diferite 1a executii diferite (e.g. valorile vari-
+abilelor pot ﬁ diferite).
+
+0 Diferenta esen'gialﬁ consté in aceea (:5 un proces nedetermin-
+ist este inﬁuentat de alegerz'le care pot ﬁ fécute.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+o Un algoritm determinist trebuie s5 rezolve (intotdeauna)
+corect o problemé §i c211: de repede posibil (de obicei se cere
+ca numérul de pa§i/opera'gii séi polinomial in dimensiunea
+inputului).
+
+o Exemple de algoritmi nedeterminigti: algoritmii concurenti
+§i algoritmii aleatori.
+
+o Un algoritm aleator prime§te 1a intrare §i o sursé de numere
+aleatoare care ii permite sé facéi alegeri aleatoare in timpul
+execu'giei. Cel care i1 proiecteazéi incearcé s5 arate ca se
+comporté "corect" pentru ﬁecare input.
+
+Deﬁnition 1
+Un algoritm aleator este un algoritm care in cursul execuﬁei
+face anumz'te alegem' probabilistice.
+
+o Aceste alegeri probabilistice constau in generarea de valori
+ale unei variabile aleatoare. Aceste valori sunt implicate in
+calmﬂele ne care alan'ritmu] se nresnmme (".5 1P: face’
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+o Algoritmii aleatori sunt cei mai cunoscuti algoritmi de tip
+nedeterminist, iar randomizarea a devenit o abordare stan-
+dard in proiectarea algoritmilor datorité simplitétii §i vitezei
+sporite.
+
+0 Acest tip de aplicatii ale teoriei probabilitétilor in informat-
+icé a devenit frecvent in ultimele decade.
+
+o in domenii precum comunicatiile, criptograﬁa §i optimizarea
+discreté randomizarea §i metodele probabilistice au devenit
+instrumente uzuale de investigatie:
+
+0 Protocolul Ethernet folose§te alegeri aleatoare cénd acceseazé
+mediul de comunicatie.
+
+o Testarea primalititii (in criptograﬁe) folose§te alegeri prob-
+abilistice.
+
+0 Unele probleme NP-diﬁcile pot ﬁ rezolvate pentru majori-
+tatea intrérilor de citre algoritmi aleatori.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+o Structu'rz' de date: sortare, statistici ordonate, céutare.
+
+o Identitdgfz' algeb'rz'ce: veriﬁcarea identitéi'gii polinoamelor §i
+matricilor.
+
+0 Teo'ria (algoritmicd a) grafu'rilo'r: arbori partiali de cost
+minim, drumuri de cost minim, téiieturi de pondere minimé.
+
+o Numérare §i enumerare: permanentul unei matrici, numérarea
+structurilor combinatoriale.
+
+o Calcul parale §i distribuit: evitarea blocajului (deadlock),
+consens distribuit.
+
+o Demonstragﬁz'z' probabilistice emistenﬂale: dovezi c5 un anu-
+mit obiect combinatorial existé cu probabilitate nenulé printre
+obiectele unui spatiu probabilistic.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+o Studiul variabilelor aleatoare asociate unui algoritm aleator
+este utilizat pentru a analiza eﬁcienta §i probabilitatea de a
+gre§i ale algoritmului.
+
+o Clasiﬁcarea fundamentalé a algoritmilor aleatori: algoritmi
+care rezolvﬁ corect (intotdeauna) problema (asociaté) §i a1-
+goritmi care gregesc.
+
+o Algoritmii Monte Carlo au o probabilitate pozitivé de a
+gre§i.
+
+0 Algoritmii Las Vegas nu gregesc niciodaté (probabilitatea
+lor de a gre§i este nulé).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+o Algoritmii Las Vegas sunt algoritmi aleatori care garanteazé
+05 ﬁecare output este corect (este solu'gie a problemei pe care
+algoritmul incearcé sé o rezolve).
+
+o Literatura de specialitate a stabilit o deﬁnitie putin diferitﬁ
+a sintagmei "output corect" permi'génd algoritmului sé dea
+§i réspunsul " Nu §tiu."
+
+Deﬁnition 2
+
+Fie A un algoritm aleator ciirm'a 'Z'L' este permis réspunsul
+”?”. A este num'it algoritm Las Vegas pentru calculul
+funciz'ei F dacd, pentru orice intrare a: (once argument al
+lui F),
+
+(i) P(A($) I F($))>1/2-
+
+(ii) P (A(a:) : ”?”) : 1 — P (A(:z:) : F(:r:)) g 1/2.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+o Pentru algoritmii Las Vegas ne intereseazé de obicei com-
+plexitatea medie: timpul mediu de execu'gie §i spa'giul mediu
+de memorie folosit.
+
+o Aceasta este posibil pentru céi diferite executii ale algorit-
+mului (pentru o aceeagi intrare) au diferite caracteristice (in
+termeni de timp CPU §i spa'giu de memorie).
+
+o Céutém $5 descriem algoritmi Las Vegas cu timp de execu'gie
+mediu mérginit (de obicei de un polinom).
+
+o In deﬁnitia de mai sus constanta 1/2 poate ﬁ schimbaté cu
+orice altéi constantéi e G (O, 1), dupé cum o araté urmétorul
+rezultat.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Proposition 1
+Fie e 6 (0,1) §i A un algoritm aleator care calculeazd funcﬁa
+F a§a incdt
+P (Aw) I m» > E a
+
+P (AW) I ”?”) I 1 — P (AW) I F(w))
+Fie, pentr'u, k G N*, Ak, un algoritm aleator care pentr'u, orice
+intrare a: emeeutd 'Zn mod independent algoritmul A de k 0M
+asupra luv; :1:. Exista", un k astfel ca P (Ak(:z;) : F(:z:)) Z 1/2.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+0 Un game tree este un arbore cu rédéciné in care nodurile in-
+terne aﬁate 1a distanté paré faté de rédéciné sunt etichetate
+cu MIN (rédéciné are o eticheté MIN), iar restul nodurilor
+interne sunt etichetate cu MAX. Fiecﬁrei frunze ii este aso-
+ciatéi o valoare - un numéir real.
+
+o Evaluarea arborelui se face astfel: ﬁecare frunzéreturneazﬁ
+valoarea asociatﬁ ei, ﬁecare nod MAX returneazé cea mai
+mare valoare a unuia dintre ﬁi, iar ﬁecare nod MIN re-
+turneazé cea mai micé valoare a unuia dintre ﬁi.
+
+o Dat un game-tree, problem evaluﬁm'z' consté in a determina
+valoarea returnaté de rédéciné.
+
+o Acest tip de evaluare are un r01 important in IA (in probleme
+game-playing).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+o Vom limita analiza noastré 1a cazul special cénd in frunze
+valorile sunt bi'gi (astfel un nod MIN este o opera'gie logicéi
+AND, iar un nod MAX are o opera'gie logicé OR).
+
+o Considerém un arbore binar complet cu adéncimea 2h §i
+N : 4h frunze.
+
+o Este u§or de vézut cé un algoritm determinist va ﬁ fortat sé
+citeascé toate frunzele: Intr-un nod AND primul copil eval-
+uat poate returna valoarea 1, iar intr-un nod OR valoarea
+O - in améndoué cazurile algoritmul este for'gat sa evalueze
+ambii descenden'gi.
+
+o Algoritmul aleator evalueazé recursiv un descendent ales 1a
+intémplare a1 nodului curent. Dacé valoarea rezultaté nu
+determinﬁ valoarea nodului se evalueazé §i celéilalt descen-
+dent.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+RandomEval(:r:) {
+if(w.0peration I AND){
+choose uniformly at random a child u;
+if(Rand0mEval('u,) :: 1) {
+let 'u the other child;
+return RandomEval('z/);
+}
+return RandomEval(u);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Theorem 1.1
+
+Pent'ru un game-tree cu addncimea 2h, costul mediu al eval-
+uﬁ/rii este cel mult 3h.
+
+Proof. Considerém mai intéi un nod OR care returneazé 1
+cu doué frunze drept copii (cazul cel mai nefavorabil pentru un
+algoritm determinist consté intr-o frunzé O §i o frunzé 1); cu
+probabilitate 1 / 2 algoritmul alege mai Intéi frunza cu valoare 0,
+numirul mediu de pa§i este 1/2- 1 + 1/2 - 2 : 3/2; in mod similar
+pentru un nod AND care returneazé 0 cu doué frunze drept copii,
+numérul mediu de pa§i este cel mult 3/2.
+
+Evident numérul de pa§i este 2 pentru un nod AND evaluat 1a
+1 §i pentru un nod OR evaluat 1a 0 - nu existé vreo economie.
+Cégtigul este c5, spre exemplu, intr-un nod intern AND care
+returneazé 1 améndoi copii OR trebuie $5 returneze 1 ceea ce
+este cazul "bun" pentru OR.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Folosim metoda inductiei.
+Evaluém mai intéi numérul de pa§i in cazul h : 1, i. e., un
+arbore cu rédécina AND care are doi copii OR, ﬁecare avénd
+céte doué frunze drept copii.
+Dacé rédécina returneazé 0, atunci numérul de evaluéri este 1 +
+2 : 3 (1 pentru unul dintre copii §i 2 pentru frunzele acestuia).
+Dacé rédécina returneazé 1, numérul de evaluéri este 3 / 2+3 / 2 :
+3 (améndoi copiii sunt in cazul "bun" pentru noduri OR).
+Considerém acum un nod OR ai cérui copii AND sunt rédécinile
+céte unui arbore cu adéncimea 2(h — 1). Dacéi rédécina OR
+returneazé 1, atunci cel putin unul dintre copii returneazé 1. Cu
+probabilitate 1 / 2 acest copil este ales mai intéi §i, cu probabilitate
+1/2, améndoi subarborii sunt evalua'gi. Costul mediu este cel
+mult 1 1 3
+h—1 h—1 h—1
+5 - 3 + 5 - 2 - 3 _ 53 .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Dacé rédécina OR returneazé 0, améndoi copiii vor trebui eval-
+uati ceea ce impune un cost de cel putin 2 - 3h’?
+Considerﬁm acum un nod AND rédéciné a unui arbore cu adéncimea
+2h. Dacéi rédécina returneazéi O, atunci cel pu'gin unul dintre
+copiii OR ai rédécinii returneazé 0; cu probabilitate 1/2 acest
+copil este ales mai intéi §i costul mediu este cel mult
+h—1 1 3 h—1 h
+2-3 +553 <3.
+Dacé rédécina returneazé 1, améndoi copiii trebuie evaluati im-
+punémd un cost de cel mult
+2-§-3h*1:3h.l
+2
+o Dacé N este numérul de frunze a1 unui astfel de arbore,
+atunci numérul mediu de pa§i (i. e., numérul mediu de
+noduri evaluate) este cel mult Nlog43 : NC (c < 0.8).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+o Considerém problema sortérii elementelor unei multimi S
+(pe care existé o ordine totalé) doar prin compararea perechilor
+de elemente.
+
+0 Dacé am putea gési un element :r: a1 lui S a§a incét jumétate
+dintre elementele lui S $5 ﬁe mai mici ca m, atunci am putea
+utiliza urméitoarea proceduré:
+
+o partitioneazé S \ {:12} in doué submu1§imi Sl §i SQ, unde Sl
+consté din acele elements care sunt mai mici decét 11;, iar 52
+din restul elementelor.
+
+o sorteazé recursiv 5'1 §i 5'2, apoi returneazé elementele lui 5'1
+in ordine crescétoare, urmate de a: §i apoi de elementele lui
+5'2 in ordine crescétoare.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+o Dacé am putea determina a; in cn pa§i (pentru o constanté
+c), atunci am putea parti'giona S \ {a3} in (n — 1) pa§i com-
+parénd ﬁecare element cu :n.
+
+o Notéim cu T (n) numéirul de pa§i pentru a asemenea proce-
+duréi (in cazul cel mai nefavorabil) pentru n : |S|
+
+o T(n) este dat de urmétoarea recurenté
+
+T(N) g 2T(n/2) + (c + l)n.
+
+o Solutia acestei recurente este T(n) g Enlogn (pentru 0
+constanté E) ceea ce d5 un timp de executie de (9(n10g n).
+
+0 Complexitatea timp réméne aceea§i chiar dacéi :1: nu imparte
+exact (ci doar aproximativ) in doué multimea S.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+o Tntrebarea este cét de repede poate ﬁ gésit un astfel de :c?
+o Un réspuns simplu este $5 alegem 1a intémplare un astfel de
+a: din S; ceea ce rezulté este algoritmul RandomizedQuick-
+Sort - un exemplu de algoritm aleator de tip Las Vegas.
+RandQuickSort(S) {
+choose a: E S independently and uniformly at random;
+// 2 se nume§te pivot.
+Sl<—{y€S : y<:r:};
+$2<—{y€S : y>:r:};
+return [RandQuickSort(Sl), a2, RandQuickSort(Sg)]; }
+o Suntem interesati sé numéram comparatiile - acesta este cos-
+tul dominant a1 algoritmului.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+o Si presupunem cé ordinea totalé a elementelor lui S este
+m1<$2<...<$n.
+
+o in cazul cel mai nefavorabil complexitatea timp a algorit-
+mului este (9(n2) (cénd, de exemplu pentru intrarea :01 :
+n, :rQ : n — 1,... , mn : 1, cénd pivotul este intotdeauna in
+prima pozi'gie).
+
+o Suntem interesa'gi in calcul numérului mediu de comparatii.
+
+o Numérul total de comparatii, X, este evident o variabléi
+aleatoare. Notéim cu Xij urméitoarea variabiléi Bernoulli
+
+1, 2:1- and mj sunt comparate in timpul executiei
+X-L'j :
+0, altfel
+TL
+X poate ﬁ scrisé ca X : Z 2 XZ-j.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Theorem 2.1
+Pent'ru o'rice intrare numci'rul mediu de comparatii fdcute de
+RandQuz'ckSort este 2n1n n + @(n)
+Proof. Dacé p17 este probabilitatea ca xi §i acj s5 ﬁe comparate
+in timpul executiei algoritmului,
+
+TL n
+
+EiX] I 22BX11] I 221%
+
+1:1 j>i 1:1 j>¢
+mi §i :zzj sunt comparate dacé §i numai dacé mi sau mj este primul
+pivot din multimea Sij : {1%, xi+1, . . . , :15}.
+Pivotul ﬁind ales independent §i uniform aleator din ﬁecare sub-
+multime, pZ-J- : 2/ (j — z' + 1), pentru c5 orice element din sub-
+mul'gime are aceea§i §ans€1 sé ﬁe ales.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+n 2 nil n 1
+
+;;]—z+l giggly-1+1
+n—1n—i+11 n n—k+11 n 'I’L—k2+1
+
+:22 Z EIZZ Z gIZZT:
+iil k:2 kIl iIl kIl
+TL
+1
+
+I(2n+2)g::2g—4n:2n1nn+(9(n).l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Deﬁnition 3
+
+Datd 0 mulﬁme total ordonatﬁ, cu n elemente, S, mediana
+luz' S este un element m G S astfel incdt cel pugﬁm Ln/Zj
+elemente din S sunt maz' micz' sau egale cu m §i cel pugﬁz'n
+[TL/2] + 1 elemente d'm S sunt maz' mam; sau egale c'u, m.
+
+o Mediana poate ﬁ gésitéi, determinist, in 0(n10g n) pa§i prin
+sortare §i alegerea elementului adecvat din mul'gimea sortaté;
+existéi, de asemeni un algoritm determinist mai complex,
+liniar, pentru determinarea medianei ([Blum73]).
+
+o Vom prezenta un algoritm simplu, aleator, de complexitate
+liniaré a cérui idee de bazéi este de a gési douéi elemente
+apropiate in ordonarea crescétoare a 1ui S §i care contin
+mediana intre ele.
+
+0 Acest algoritm este tot de tip Las Vegas.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+RandMedian(S) {
+
+let R be the mult'l-set of [W1 chosen elements of S tn-
+dependently and uniformly at random with replacement;
+
+SOI't R; // SB utilizeazé un algoritm optim determinist in O(|H|log |R|) pa§i
+
+let d Pthe LW/Z — W] th smallest element in the sorted
+order of R;
+
+let u kthe [VF/2 + Jn] th smallest element tn the sorted
+order of R;
+
+C<—{a:€S : dgxgu};
+
+ld:l{$€S : :z:<d}l; lu:\{.'1;€S : :z:>u}l;
+
+if(ld > n/2 0r lu > n/2 0r |C| > ‘HWD
+
+return "no median found ”;
+
+sort C’;
+
+return the (Ln/2] — ld + 1)th smallest element in the sorted
+order of C; }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+o Alegerea cardinalului multimii R §i a 1ui d §i u sunt fécute
+pentru a garanta 05
+(i) C’ include median lui S cu probabilitate mare §i c5
+(ii) C’ este suﬁcient de micé incét sé poaté ﬁ sortaté in timp
+subliniar cu probabilitate mare.
+
+Theorem 3.1
+Algoritmul aleato'r pent'ru determiner/rear, mediane'li are 0 com-
+plemz'tate linz'ard §i oferé un réspuns corect.
+Proof. Algoritmul ar oferi un réspuns negativ dacé §i numai
+dacé mediana nu apartine multimii C cénd ld g n/2, lu g n/2
+§i |C| g 4H? n3]; aceasta inseamné C5. ld > n/2 sau lu > n/2 sau
+|C| > 4W n3]. in ceea ce privegte complexitatea timp, sortarea
+elementelor 1ui C se poate face in (9(x4/n310g \4/ n3 : (9(n). I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+0 Urméitorul rezultat, dat aici féré demonstratie (pute'gi con-
+sulta [Mitzenmacher65]), incheie analiza algoritmului.
+Theorem 3.2
+Probabilitatea ca algoritmul aleato'r‘ pent'ru determinarea me-
+dianei $5, nu gdseascﬁ, mediana este cel mult 1/ {1/5.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+o Algoritmii Monte Carlo sunt algoritmi aleatori care nu pot
+garanta un réspuns corect (nu oferéi intotdeauna o solutie a
+problemei).
+
+Deﬁnition 4
+Un algoritm aleator A este numz't algoritm Monte Carlo
+pentru calculul functiei F dacd, pentru orice intrare :1; (once
+argument al lui F ),
+
+P (A(a;) : F(a;)) 2 1/2.
+
+o Astfel de algoritmi apar adeseori in probleme de optimizare.
+Foarte relevant pentru un algoritm Monte Carlo este cé prob-
+abilitatea de a gre§i este majoraté.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+0 Ca §i in deﬁni'gia algorimilor Las Vegas constanta 1/2 poate
+ﬁ inlocuité prin orice alté constanté e 6 (0, 1).
+
+o Ampliﬁcarea este opera'gia de repetare independentéi a exe-
+cu'giei algoritmului pénéi cénd probabilitatea erorii scade su-
+ﬁcient de mult. Este ca §i cum am incerca sé transformém
+un algoritm Monte Carlo intr-unul Las Vegas.
+
+o Si presupunem cé probabilitatea erorii unui algoritm A este
+cel mult e §i cé repetém in mod independent algoritmul de
+k: ori; probabilitatea de a obtine numai réspunsuri eronate
+este cel mult 6k,
+
+o Cum klingo 6k : 0, pentru valori mari ale lui kz, putem face
+aceasté probabilitate oricét de micé.
+
+o Aten'gie: valori mari ale lui k pot méri foarte mult complex-
+itatea timp.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+o Si presupunem cé avem trei matrici pétratice de ordin n,
+A, B §i C’; pentru simpliﬁcare vom presupune cé opera'giile
+sunt modulo 2.
+
+o Dorim sé veriﬁcéim dacéi A-B : C‘. Aceasta este o probleméi
+de decizie (se poate réspunde doar cu "da" sau "nu").
+
+o O metodé consté in a inmulti A cu B dupé care se comparﬁ
+rezultatul cu C’; inmul'girea matricilor necesitéi C’)(n3) timp
+sau, utilizénd algoritmi mai soﬁstica'gi, (9(n2"37).
+
+o Descriem un algoritm aleator care permite veriﬁcarea mai
+rapidé cu riscul de a primi un réspuns gregit, dar cu proba-
+bilitate scézutéi.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+RandomVerify(A, B, C) {
+generate r1, r2, . . . , Tn G {0,1} independently at uniformly
+at random;
+7' <— (r1,r2,...,rn);
+if(ABr : C1")
+return “yes”;
+return "no"; }
+0 Cénd algoritmul returneazé "nu" suntem siguri c5 A-B 75 C’.
+Singura eroare pe care algoritmul o poate face este aceea de
+a returna "da" dar réspunsul s5 ﬁe, de fapt, "nu".
+o Vom majora aceasté probabilitate de a gre§i cu ajutorul ur-
+métorului rezultat.
+Theorem 1.1
+Pentr'u, 7‘ € {O,1}", ales ca 'Zn algoritmul anterior, P(ABT :
+C'r) g é, §tiind ch-B 75 C. (P(ABT : C'r|A-B 5i C) g g.)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Proof. Cum D : AB — C’ 5i 0 - putem presupune c5 dln 75 0;
+dacé Dr : 0, atunci
+nil
+n Z dlm
+Zd1¢T¢IO§TnI—iZ-:1d .
+1-:1 1n
+Dupé ce am ales r1, . . . , rnil existé doué posibile valori pentru
+Tn, deci probabilitatea ca egalitatea de mai sus sé aibé 10c este
+cel mult 1/2.
+P(AB'r : Cr) :
+: Z P[(AB'/‘:C'r)ﬁ{'r¢::z;Z~ : zzmﬂ
+($1,...@"_1)€{o,1}n*1
+n—1 '
+Z dlm'
+g Z P rn:—i:1di ﬁ{n:a:¢:i:m}
+(11,...zn_1)6{0,1}"’1 1”
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+nil
+Z dlm
+: Z P Tn:—$ P(ﬁ{n:a:Z-:'1L:1,n—
+($1,...wnn1)€{o,1}"—1 1”
+1 , i 1
+g Z *P(ﬁ{n:a:¢:z:1,n—1}):<l
+i 2 2
+(131,...113n_1)€{0,1}” 1
+o Algoritm consté in generarea a n numere aleatoare uniforme
+§i in trei Inmultiri matricexvector (0(n2)) Complexitatea
+timp a algorimtului este deci (9(n2).
+o Dacé executém in mod independent de k ori algoritmul
+ob'ginem o probabilitate de a gregi de cel mult 2_k.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+o Fie G : (V,E,w) un multigraf, unde 'w : E —> N* deter-
+mini multiplicitatea muchiilor (altfel spus avem un graf cu
+ponderi intregi pe muchii).
+
+o O tdz'eturd (cut) in G este generaté de 0 bipartitie a lui V,
+(A, B), iar costul ei este w(A, B) : ZeeE(A,B) w(e), unde
+E(A, B) : {uv € E : u € A, 'u € B} sunt muchiile téieturii.
+
+0 Problema tci'lleturii de cost minim (mm-cut problem) cere
+s5 se determine o téieturé de cost w minim in G. Pentru
+rezolvarea acestei probleme existé un algoritm determinist1
+de complexitate timp 0(nm + n2 10g n) (prin contrast pro-
+belma mam-cut este NP-hard).
+
+o Analizém in aceasté sectiune un algoritm aleator pentru o
+téiieturé minimé bazat pe contractia muchiilor unui graf.
+
+lAlgoritrnul Steer-Wagner.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+o Opera'gia de bazé, contraction(u,'u), inlocuiegte in graful
+curent nodurile u §i 'u cu un nod nou z asigneazé mul'gimea
+muchiilor incidente lui z ca ﬁind muchiile incidente cu u §i
+v (altele decét cele dintre u §i v).
+
+o in timpul contractiei muchiile incidente cu u §i v cu un capét
+comun sunt retinute ca muchii multiple.
+
+RandMinCut(G , w) {
+
+while(|V(G)| > 2) {
+
+choose e : u'u G E(G) independently and uniformly at
+random;
+(G, w) <— c0nt'ractz'0n(u, v);
+
+}
+
+return E(G); }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+o Dupa ﬁecare pas numarul de noduri scade cu unul §i orice
+taietura in noul graf corespunde unei taieturi anterioare.
+
+o Dupa ﬁecare pas anumite taieturi din graful original pot
+disparea, dar algoritmul se termini cu o mul'gime de muchii
+care reprezinta o taietura din graful original.
+
+o O strategie utila este aceea de a termina algoritmul cu k > 2
+noduri in 10c de 2 §i dupa aceea se poate aplica un algoritm
+determinist pentru a determina o taietura de cost minim in
+graful ramas.
+
+RandMinCut(G , w, k) {
+
+while(|V(G)| > k) {
+
+choose e : u'u G E(G) independently and uniformly at
+random;
+(G, 'w) k c0ntmction(u, v);
+
+}
+
+return E(G); }
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Theorem 2.1
+Algoritmul aleator RandMinCut(G , w, k) are 0 complex-
+z'tate timp polinomz'alﬁ, §z' determinci 0 tdieturd minimd cu
+probabilitate de cel puﬁn fig“ _ 1) .
+
+'n.(n — 1)
+Proof. Fiecare contractie poate ﬁ executatéi in C’)(n) pagi (de
+ce?); astfel, complexitatea algoritmului RandMinCut(G , w,
+k) este 0((n — k)n)
+Dacé intr-un multigraf cu n noduri avem o téieturé de cost minim
+h, atunci gradul minim a1 unui nod este cel pu’gin h, deci numérul
+de muchii din G este cel putin hn / 2; probabilitatea ca o muchie
+care se aﬂéhintr-o géieturé de cost minim sé ﬁe contractaté va ﬁ
+cel mult m _ Z’
+Fie C o téieturé de cost minim. Estimﬁm probabilitatea ca a1-
+goritmul $5 nu returneze C’.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Dacé C’ este returnaté, atunci nici una dintre muchiile lui C nu
+a fost contractaté.
+Fie AZ- evenimentul ca o muchie a lui C a fost contractaté in pasul
+2' §i B1- evenimentul ca nicio muchie a lui C nu a fost contractaté
+in primele (z' — 1) itera'gii. Numérul de noduri dupé z' itera'gii este
+(n — 2'), deci
+P(Z)>1 2 P(Z'|B' )>1 2
+1/ n: 1 1*1 / n_7;+1-
+Pe de alté parte,
+13(51): P(Zi n B111) : P(ZZ"B¢11)P(BZ;1),V'IL § k.
+P(Bk) : P(Zl) - P(ZZIB1) - . . . - P(Zk\Bk_1) 2
+n—k
+2 k:(k — 1)
+> 1 — i, > i. I
+/i1_[1< n—z+1>/n(n—1)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+o Pentru lc : 2 algoritmul RandMinCut(G , w) guaran-
+teazé o probabilitate a erorii de cel mult[1 — 2/n(n — 1)] 2
+(1 — 2M2);
+
+o Putem reduce aceasté probabilitate repeténd executia algo-
+ritmului: dacé i1 executém de n2 / 2 ori (mérind complexitate
+timp 1a (9(n4)) probabilitatea erorii este cel mult
+
+"2
+n2 e‘
+
+o Dacé executém de n(n — 1) 1n n ori algoritmul (mérind com-
+plexitate timp 1a 0(n410gn)) probabilitatea erorii este cel
+mult
+
+n(n — l) n2
+0 Marele avantaj a1 acestui algoritm este simplitatea lui.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+o Metoda probabilisticé este o tehnicé folosité pentru demon-
+strarea existentei unor obiecte matematice (combinatorii) cu
+anumite proprietéti.
+
+o Ideea de bazé a acestei metode consté in a demonstra cé
+probabilitatea existentei unui obiect cu proprietétile cerute
+este strict pozitivéi, ceea ce inseamnéi céi un asemenea obiect
+existé.
+
+o Pentru aceasta, construim un spatiu de probabilitate peste
+mul'gimea obiectelor implicate §i arétém ca probabilitatea
+obiectului respectiv este nenulé.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Theorem 0.1
+(Principz'ul mediez') Dacd X este 0 variabild aleatoare dis-
+cretd cu E[X] > a, atuncz' P{X Z a} > 0.
+Primele exemple ale aplicérii metodei probabiliste sunt legate de
+chestiunea satisﬁabilitétii.
+Proposition 2
+Fie J: : {01, 02,...,Cm} o familie de m clauze. Ewistd 0
+asignare a valorilo'r de adewi'r a 'uam'abﬂelor booleene impli-
+cate, astfel ca numiirul de clauze satisfiicute sii ﬁe cel puﬁn
+
+m
+
+Z<1— TM) > m (1 - 24L),
+
+izl
+unde h: min [Ci].
+
+1§1<m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+proof: Imaginém urmétorul experiment aleator abstract: ﬁecérei
+variabile booleene a: ii asigném independent valoarea 1 (ade-
+vdrat) sau 0 (fals) cu acceagi probabilitate 0.5. Deﬁnim vari-
+abilele aleatoare
+X‘ _ 1, dacé Ci este adevératé
+Z _ 0, dacéi Ci este falséi
+Probabilitatea ca s5 ﬁe adevératﬁ clauza CZ- este egalﬁ cu proba-
+bilitatea ca micar unul dintre cei |C¢| literali a1 e1 s51 ﬁe adevérat,
+adicé (1 — 2_|Ci|). Numérul de clauze satisfécute este egal cu
+n
+X : ZXZ- §i, atunci
+1:1
+m m
+EX] z 211m] I Z (1 - Tm) > m(1_ Th).
+1:1 1:1
+Concluzia urmeazﬁ conform Teoremei 0.1. I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Corollary 1.1
+
+Orice instanté a problemei k-SAT cu im 7111,de de clauze
+
+mai mic strict decdt 2k este satisﬁabild. (O instantd a prob-
+
+lemei kz-SAT are in ﬁeca're clauzﬁ, exact k; literati.)
+
+Dem. Reluénd argumentul de mai sus7 cu |C¢| : k, Vi : W:
+m m
+
+E[X] I 21am] I 2(1_ 2%“) I m<1— 2th) > m - 1,
+
+¢I1 ¢I1
+
+obtinem de aici c5 P{X Z m} : P{X > m — 1} > 0 - deci
+
+existé o asignare a valorilor de adevér care sé satisfacé toate cele
+
+m clauze. I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+o Marginea indicaté in acest rezultat este cea mai buné posi-
+bilé deoarece putem deﬁni o instan'gé a problemei k-SAT cu
+2k clauze care $5 ﬁe nesatisﬁabilé: de exemplu familia tu-
+turor clauzelor avénd k literali deﬁni'gi peste o multime de
+k variabile booleene.
+
+o in mod similar se poate demonstra
+
+Proposition 3
+
+O familie de clauze F : {01, . . . , Cm} este satisﬁabz'ld’ dacé
+'m
+Z 2*01" < 1.
+1:1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+o Urmétoarele doué rezultate sunt aplicatii ale metodei prob-
+abiliste in teoria grafurilor. Introducem aceste rezultate cu
+doué deﬁni'gii mai degrabéi informale.
+
+o Fie G : (V,E) un graf, 0 multime de noduri S Q V se
+numegte stabild dacéi oricare doué noduri din S nu sunt
+adiacente: u'u §§ E, V u, 'u G S. Dacé (A, B) este o parti'gie
+a nodurilor lui G , tiiz'etum generatéi de aceasté parti'gie este
+multimea de muchii in cross intre A §i B:
+
+E(A,B):{uv € E: u€A,'u E B}.
+
+0 Este de men'gionat c5 atét problema determinérii unei mul'gimi
+stabile de cardinal maxim cit §i cea a determinérii unei téi-
+eturi cu numér maxim de muchii sunt probleme NP-hard.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Proposition 4
+Fie G : (V, E) un gmf cu n nodum' §i m mucfm'. Em'std’ 0
+bipartiﬁe (A, B) a luz' G astfel incdt
+m
+
+|E(A, B)| > 5-
+Dem. Considerém urmétorul algoritm aleator care construie§te
+o bipartitie (A, B) a lui V :{v1,112,...,'un}:
+A k f5;
+for (i I Lin)
+
+1
+cu probabilitate 5 adaugﬁ '01- la A;
+
+B <— V \ A;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Pentru ﬁecare muchie uv E E deﬁnim o variabilé Bernoulli
+X _ 1, dacé u'u 6 E(A, B),
+u” _ 0, dacé u'u g E(A, B)
+Evident c5
+P{Xm,:1}:P{(u€A§iv€B)sau(u€B§iv€A)}:
+1 1 1 1 1
+: P{u E A}-P{v € B}+P{u E B}-P{'u 6 A} I *-*+*-* I 1_
+2 2 2 2 2
+1n plus, X : ZU'UEE Xm, este 0 variabilé aleatoare care numeirei
+céte muchii con'gine téietura generaté de biparti'gia (A,B) gi,
+atunci
+qu: Z E[Xuv]:m:>P{X>m} >0.
+2 2
+m/EE
+Astfel, va trebuie s5 existe o partitie cu proprietéigile din enunt. I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Proposition 5
+Fie G : (V,E) 'um, gmf cu n nodum' §i m 2 n/2 much'm'.
+Atuncz' G are 0 multime stabild (sau independentd’) de nodum'
+de cardinal cel putin n2/m.
+Dem. Fie d : 2% gradul mediu in G (Z dg(’U) : 2m);
+116V
+
+deoarece m 2 n/2, avem (1 — dil) 2 0. Construim o multime
+stabilé folosind urmétorul algoritm aleator (V : {111, v2, . . . , 'un}):
+1. for (2' I Lin)
+
+cu probabilitate <1 — dil) §terge nodul 'ui;
+
+// se elimina §i toate muchiile incidente cu v.
+2. for (e : u'u 6 E)
+
+gterge muchia e §i nodul u sau v;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Dupéi execu'gia acestui algoritm, nodurile rémase formeazé o mul'gime
+
+independenté. Dupé pasul 1 un nod réméne in graf cu probabil-
+
+itate d_1; ﬁe Xi o variabilé egalﬁ cu 1 dacéi nodul vi a rémas in
+TL
+
+graf §i 0 altfel. Notém X : 2X1 numérul de noduri rimase
+1:1
+
+dupé pasul 1. Deoarece ﬁecare Xi este o variabilé Bernoulli cu
+
+media d_1, ob'ginem E[X] : nd_1.
+
+Fie acum Yum m; 6 E, un alt set de variabile Bernoulli: Ym, : 1
+
+dacé muchia uv réméne in graf dupé pasul 1 §i 0 altfel. Y :
+
+Z Ym, este numérul de muchii rémase in graf dupé primul pas.
+
+m/EE
+
+Evident cé P{ Ym, : 1} : d’2 (probabilitatea ca nici u, nici v
+
+s5 nu ﬁe §terse), deci lE[YW] : d’2 §i lE[Y] : 'rnd’2 : %.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Fie Z numarul de noduri ramase in graf dupa pasul 2. Deoarece
+Z 2 X — Y (mai sunt §terse inca cel mult Y noduri):
+n 'n, n n2
+E[Z] >E[X]—E[Y]_E—ﬁ_g_%.l
+
+o Urmatorul rezultat folose§te notiunea de turneu (un digraf
+D : (V, A) cu proprietatea ca intre orice doua noduri exista
+exact un singur arc: V u, 'u G V, |{u7u,v?1,} O A| : 1).
+
+o Denumirea vine din aceea ca nodurile pot ﬁ asimilate unor
+jucatori §i ﬁecare pereche de jucatori se confrunta 0 singura
+data: u?) € A numai daca u i1 bate pe 'u.
+
+o Un turneu D are proprietatea Pk daca pentru orice multime
+de k jucatori exista un alt jucator care ii bate pe toti (k <
+|V|)-
+
+o Pentru un k dat, exista un turneu cu proprietatea 8k? Metoda
+ofera §i o idee despre cate noduri trebuie sa aiba turneul.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Proposition 6
+Fie k E N*, dacd (Z>(1— 2_k)k_” < l, atunci existd un
+turne'u, cu n noduri care $6 aibii proprietatea Pk.
+Dem. Construim mai intéi un turneu aleator astfel:
+A k Q;
+f01"({u,v} g V)
+1
+
+cu probabilitate 5 adaugé 'LI'U sau ‘ll-‘it la A;
+Fie M Q V, ]M\ : k; probabilitatea ca un nod v §E M s5
+domine toate nodurile din M este 2%, deci probabilitatea ca $5
+nu 1e domine pe toate cele din M este (l — 24“). Evenimentele
+(:5 doué noduri distincte u, respectiv '0 73 u nu dominé nodurile
+din M sunt independente, astfel probabilitatea ca mul'gimea M
+s5 nu ﬁe dominaté de nici un nod din afara ei este (1 — 2%)”?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Acum putem estima probabilitatea ca nici o mul'gime S, de car-
+dinal k, sé nu ﬁe dominati:
+n —k n—k
+1 — 2 1
+deci probabilitatea ca micar una dintre multimile de cardinal k:
+s51 ﬁe dominate este nenulé.
+Fie acum f(k) numérul minim de noduri ale unui turneu care are
+proprietatea Pk. Se poate aréta ([A10n08]) céi f(k) : (9(k22k). I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:52**************
+End
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+@ Alon, N., J. H. Spencer, The probabilistic method, Wiley,
+2008.
+
+[a Bertsekas, D. P., J. N. Tsitsiklis, Introduction to Probabil-
+ity, Athena Scietiﬁc, 2002.
+
+@ Blum, M., R W. Floyd. V. Pratt, R. L. Rivest, R. E. Tarjan,
+Time bounds for selection, J. of Comp. and Sys. Sci. 7, pp.
+4484614973.
+
+@ Karger, D., Global min-cuts in RNC and other ramiﬁca-
+tions 0f a simple min-cut algorithm, ACM-SIAM Symp.
+on Discr. Alg. 4, pp 21-30, 1993.
+
+@ Mitzenmacher, M., E. Upfal, Probability and Computing:
+Randomized Algorithms and Probabilistic Analysis, Cam-
+bridge University Press, 1995.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:54**************
+G Motwani, R., P. Raghavan, Randomized Algorithms, Cam-
+bridge University Press, 2005.
+
+i Spencer, J. H., Ten lectures on the probabilistic method,
+SIAM, 1994.
+
+***************Ending Page***************
+
+

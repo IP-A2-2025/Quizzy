@@ -1,0 +1,109 @@
+CREATE TABLE User (
+    userID SERIAL PRIMARY KEY,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    role VARCHAR(50) CHECK (role IN ('student', 'profesor', 'admin')) NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE Course (
+    courseID SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    userID INT NOT NULL,
+    semestru INT,
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE Enrollment (
+    userID INT NOT NULL,
+    courseID INT NOT NULL,
+    enrollmentDate DATE NOT NULL,
+    grade VARCHAR(10),
+    PRIMARY KEY (userID, courseID),
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE,
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
+);
+
+CREATE TABLE Test (
+    testID SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    date DATE NOT NULL,
+    userID INT NOT NULL,
+    courseID INT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE,
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
+);
+
+CREATE TABLE TestQuestion (
+    questionID SERIAL PRIMARY KEY,
+    testID INT NOT NULL,
+    questionText TEXT NOT NULL,
+    pointValue FLOAT NOT NULL,
+    FOREIGN KEY (testID) REFERENCES Test(testID) ON DELETE CASCADE
+);
+
+CREATE TABLE TestAnswer (
+    answerID SERIAL PRIMARY KEY,
+    questionID INT NOT NULL,
+    optionText TEXT NOT NULL,
+    isCorrect BOOLEAN NOT NULL,
+    FOREIGN KEY (questionID) REFERENCES TestQuestion(questionID) ON DELETE CASCADE
+);
+
+CREATE TABLE Flashcard (
+    flashcardID SERIAL PRIMARY KEY,
+    question TEXT NOT NULL,
+    materialID INT,
+    userID INT NOT NULL,
+    level INT,
+    lastStudiedAt TIMESTAMP,
+    questionType VARCHAR(50),
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE FlashcardSession (
+    sessionID SERIAL PRIMARY KEY,
+    userID INT NOT NULL,
+    courseID INT NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
+    flashcardCount INT NOT NULL,
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE,
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
+);
+
+CREATE TABLE Streak (
+    streakID SERIAL PRIMARY KEY,
+    userID INT NOT NULL,
+    currentStreak INT NOT NULL,
+    lastCompletedDate DATE NOT NULL,
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE Material (
+    index SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    courseID INT NOT NULL,
+    path TEXT NOT NULL,
+    FOREIGN KEY (courseID) REFERENCES Course(courseID) ON DELETE CASCADE
+);
+
+CREATE TABLE AnswerFC (
+    answerID SERIAL PRIMARY KEY,
+    flashcardID INT NOT NULL,
+    optionText TEXT NOT NULL,
+    isCorrect BOOLEAN NOT NULL,
+    FOREIGN KEY (flashcardID) REFERENCES Flashcard(flashcardID) ON DELETE CASCADE
+);
+
+CREATE TABLE Grade (
+    testID INT NOT NULL,
+    userID INT NOT NULL,
+    grade FLOAT NOT NULL,
+    submissionDate TIMESTAMP NOT NULL,
+    PRIMARY KEY (testID, userID),
+    FOREIGN KEY (testID) REFERENCES Test(testID) ON DELETE CASCADE,
+    FOREIGN KEY (userID) REFERENCES User(userID) ON DELETE CASCADE
+);

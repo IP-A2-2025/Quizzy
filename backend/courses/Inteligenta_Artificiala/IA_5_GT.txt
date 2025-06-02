@@ -1,0 +1,765 @@
+***************Beginning Page***************
+***************page number:1**************
+a
+Artlﬁelal Intelhgenee
+3rd year, 1st semester
+Week 5: Game theory
+“The true source of uncertainty lies in the intentions of
+others.” Peter L. Bernstein
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+wyaaj
+
+a
+What is a Game?
+
+An adversarial search problem
+
+A interactive decision problem Where
+
+0 The solution is not built exclusively by a single strategy
+
+o Not all ﬁnal states are desirable
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+I
+A Game always has:
+
+. A starting state (the game instance)
+
+0 At least one state which determines the end of the game if
+
+reached
+
+, At least one goal for each player (not necessarily an end state)
+
+. Rules for each player (not always the same)
+
+0 At least two sources determining changes to the current state
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+a
+coiigugciitional references
+
+Stanford Game Theog Online
+
+Yale Game Theory
+
+Giacomo Bonanno Game Theory
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+$31955?
+I
+These are puzzles (decision problems) and not games (interactive
+decision problems)!
+
+IIIIIIIII - -
+
+“IIIHEE ~
+
+I l3 2 1 l4 ‘ '
+
+III-IEII i
+
+mm:- ~ '
+
+I-1 912 I \\
+
+IlLil .2l I , I
+
+I 9 1 8 2 ‘ ’
+
+IIIIEI-I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+556%
+I
+Zero sum games
+o Something won by a player is lost .,_, P
+by the other(s). {- - .
+0 Also called strictly competitive -‘ I :' ‘I ‘ - —_ I
+games. --- E E
+0 Many games are not zero-sum! - a ' ‘F ' Eli: ‘
+Non zero-sum game: ' ‘/ P‘ " 4;’ i Q
+I have n money and I want to give it to e "2"‘ i M i , “QM
+a group of m players. Each of the m I "7' f 5 33*“
+players has to write a sum on a piece of
+paper visible only to them. I collect all pieces of paper and total the sums. If the total is at
+most as much as n, each player gets the written amount, otherwise nobody gets anything.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+sgw
+Smgle player games @000‘ :1. O
+. _ Q Q 0;,
+o One actlve player - one oontrollmg
+strategy 5" r r,‘ a! a! la iii ﬂu
+O At least one addltlonal source of ' , at; r ‘1M ‘1, '4'! .55
+1nformat10n vg I I 1 4 is:
+0 Cannot be zero-sum games ‘ ‘é z :5 + a
+0 *2
+Multiple player games ~-
+0 Can have different rules and goals for ‘ _
+all players. i < f- ‘ t)
+o Symmetrical games: all rules and goals 1 it! "
+are the same for all players. w f’
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+wee
+a
+Other types of games
+
+o If the state change is determined by multiple player decisions at the same time, the
+game is simultaneous.
+
+0 If the state change is determined in alternative turns by each player, the game has
+alternate moves.
+
+0 If each player knows everything about the current state of the game, all previous
+decisions made by all players and all rules and goals of all players, the game has
+perfect information.
+
+0 Imperfect information games: card games, kriegspiel, others.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+sum;
+
+I
+OK, now let’s implement a game as an interactive decision problem
+The game: Tic-Tac-Toe
+
+On a 3X3 board two players place alternatively
+pieces (ﬁrst one X pieces, second one O pieces) 0 i x O
+until either one of them has three pieces in the same
+row, column or diagonal (in which case that player
+has won the game), or no more pieces can be X O
+placed (in which case the game ended in a draw). ‘ r
+
+Two player game, symmetrical, zero-sum, alternate x O X
+moves.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+a
+Describing a state
+(p,b11, ‘312’ b13’ b21> bzz’ ‘323’ b31’ b32’ b33)
+o p£{1,2}, 1 if we are next to move, 2 if the opponent;
+o bi.€{0,1,2}, O if the bi. position is empty, 1 if it’s occupied by one
+oiL our pieces and 2 if1 it’s one of the opponents.
+O X O
+O X is (1,2,1,2,2,2,1,1,2,1)
+X Q X
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+I
+Game initialisation
+State initialisation (int ﬁrst _player)
+{
+return (ﬁrst_player, O, O, O, O, O, O, O, O, 0) ;
+}
+Select which player is moving ﬁrst and send selection as parameter
+for initialisation.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+FF n
+Game ending
+int IsFinal (State S)
+{
+if((S[11:3[2]:S[3])||(S[4]:S[5]:S[6])l|(S[7]:S[8]:S[9])
+||((S[1]==S[4]==S[7])||(S[2]==S[5]==S[8])l|(S[3]==S[6]==S[9])
+||(S[11:5[5]:S[9])||(S[3]::S[5]:S[7]))
+return 3-S[O];
+else
+return -1;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+a
+Transition and validation
+State move (State S, int position)
+{
+S[position]:S[O]; S[O]:3-S[0]; return S;
+}
+Boolean Validate (State S, int position)
+{
+return (S [position] 2:0);
+l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+WM
+I
+HOW should a strategy 100k like?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+n
+Void strategy(State s)
+{
+While (!isFinal(s))
+{ _
+Choose position;
+If (Validate (s, position))
+s I Transition(s, piece, tower);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+V35‘?
+FACULTY OF
+COMPUTER SCIENCE
+The MINIMAX strategy
+0 Select a depth for exploration, at the minimum it has to include a full step for all other players.
+0 Select a score function (heuristic) Which evaluates a state as to its value for the other player(s). The better the
+score, the less desirable that state is from your perspective.
+score minimax(depth, state, player)
+l
+if(final(state)||(depth==0))
+return score(state);
+else
+if (player is the AI)
+return min(minimax(depth—l,each neighbour state,next_player);
+else
+return max(minimax(depth—l,each neighbour state,next_player);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+I
+The MINIMAX strategy example
+
+minimax(2, S, AI) I min (score (minimax (1, A, OP)), score (minimax (1, B, OP)),
+
+score (minimax (1, C, OP))) I min (max (1, 5, 9), max (8), max (3, 9, 2)) I 8 (choice B)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+n
+
+MINIMAX considerations
+
+o The objective of MINIMAX is to allow the opponent to make the
+worst possible moves, assuming it will always choose the best
+move available.
+
+0 The depth of exploration is crucial to the MINIMAX accuracy.
+
+o The depth of exploration is limited by the necessity to store every
+explored state. For chess (average branching factor of 35), a
+depth of 4 would require l,5 00,625 states. An exhaustive
+exploration would require lO3O states.
+
+o MINIMAX is predictable and assumes predictable opponents.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+YE?
+wmgggga Optlmlsmg MINIMAX
+a M|N<=9
+a MM
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Vﬁ‘
+comgggga Optlmlsmg MINIMAX
+a M|N=9
+a MM
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Vﬁ‘
+comgggga Optlmlsmg MINIMAX
+a M|N=9 ?
+a MAX=9 a MAX>=1Q
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+comggggga Optlmlsmg MINIMAX
+a M|N=9
+a MAX=9 a MAX>=1Q
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+FACULTY OF
+COMPUTER SCIENCE
+The ALPHA-BETA optimisation
+0 For each state up to (but not including) the selected depth, keep two values (alpha and beta), alpha being the
+minimum maximum up to that depth and beta being the maximum score up to that depth.
+o If for a state alpha is greater or equal than beta, stop exploring further accessible states.
+0 Update alpha and beta scores each time a score is computed.
+score alphabeta(depth, state, player, alpha, beta)
+{
+if(final(state)||(depthIIO))
+return score(state);
+else for all neighbour states
+score = alphabeta (depth-l, neighbour, next_player, alpha, beta);
+if (player is the AI) ;minimizing step
+if (score <= alpha) return alpha;
+if (score<beta) beta=score;
+else ;maximizing step
+if (score >2 beta) return beta;
+if (score>alpha) alphazscore;
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Vina:
+I
+ALPHA-BETA example
+a alpha=3
+beta=9
+alpha=9 ZZZ?
+a e a‘
+beta=8
+ALPHA-BETA is sensitive to the order of evaluation of neighbours and can be further
+optimised by an order heuristic.
+Minimax game search algorithm With alpha-beta pruning
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Normal (strategic) form representation
+Uses a matrix of payoffs to represent all possible strategies for each player.
+Works for complete games (all information is known to all players).
+One matrix for each pair of players. One column for each combination of moves.
+Player’s possible moves2< Opponent’s possible moves
+Player’s payoffs
+considering the
+opponents’ moves. :
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+YR?
+a
+Prisoner’s dilemma
+N Deny Confess
+Confess N '2 -2
+What is the best strategy for A?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Yiéai
+
+.
+Prisoner’s dilemma
+
+N Deny Confess
+Deny -1 -1 Ta\o
+Confess N -2 -2
+Average payoff for A, with non-cooperation.
+If A chooses Deny: (-1+-3)/2 I -2 If A chooses Confess: (O+-2)/2:-1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Vii-1%?
+.
+Prisoner’s dilemma
+N Deny Confess
+Deny -1 -1 N
+Confess N '2 -2
+Strategy: The decisions made by a player for all possible states in which he has to make a
+decision.
+A strategy making the same choice everytime is called a pure strategy. For example,
+choosing “Deny” all the time is a pure strategy for player A.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+a
+Dominant strategy
+
+A strategy is dominant if it always provides payoffs at least as good
+as any other strategy.
+
+A strategy is strictly dominant is the payoffs are always better than
+any other strategy.
+
+ls there a dominant strategy for Prisoner’s Dilemma?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+a
+Dominant strategy
+
+A strategy is dominant if it always provides payoffs at least as good
+as any other strategy.
+
+A strategy is strictly dominant is the payoffs are always better than
+any other strategy.
+
+ls there a dominant strategy for Prisoner’s Dilemma?
+
+Yes, “Confess” is a strictly dominant strategy.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+‘>84’ A;
+FACULTY OF
+COMPUTER SCIENCE
+The Monty Hall problem 9mm: mm door
+Choose door Switch
+Car, O é,‘ 0 = 0
+DOOR 1 DOOR 2 DOOR 3 Ca r, é
+l 1 1
+Car, 1 l x 1 = 1
+.\ I. _\ C a a
+8;‘L y; 1
+~41‘ '.}3" "1" ~51. _.:';,-’ ‘J- ($03!, '3-
+P'- j P j Goat’ O '5 x 0 = D
+I‘II Q 0 Ii]! Canl 1x1=l
+1 a a
+Goat, 3
+Goat, 0 é,‘ 0 = O
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+W
+I
+Paretto optimality
+A strategy is Paretto optimal if no change ean be made to it in order to improve the players’
+payoff Without diminishing the other players payoffs.
+Both pure strategies (Deny/Deny) and (Confess/Confess) for Prisoner's dilemma are Paretto
+optimal.
+What about the game below?
+X Y
+x 1 1 N
+Y N 2 3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+$31955?
+.
+Paretto optimality
+A strategy is Paretto optimal if no change can be made to it in order to improve the players’
+payoff Without diminishing the other players payoffs.
+Both pure strategies (Deny/Deny) and (Confess/Confess) for Prisoner's dilemma are Paretto
+optimal.
+What about the game below?
+(X/X) or (X/Y) or (Y/X) are not Paretto optimal, (Y/Y) is.
+X Y
+x 1 1 N
+Y N 2 3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+YA‘?
+
+a
+Nash Equilibrium
+
+If in a game all players obey the game rules and aim to maximize
+their payoffs, there is at least one strategy for each player which
+guarantees maximum payoffs for each player.
+
+That strategy is called Nash optimum or equilibrium.
+
+No player has a reason to change an equilibrium as long as anybody
+follows one.
+
+A dominant and Paretto optimal strategy is always an equilibrium.
+However, for most games no dominant strategies exist.
+
+More about eguilibria.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Yiétt
+.
+Hunting game
+Stag Rabbit
+Are there any dominant strategies?
+Are there any equilibria?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+I
+Hunting game
+Stag Rabbit
+
+Stag 5 5 N
+
+Rabbit N 4 4
+Are there any dominant strategies? NO
+Are there any equilibria? YES: (Stag, Stag) and (Rabbit, Rabbit)
+Equilibria are dependent on the other players behaving as expected!
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Ya;
+I
+Chicken game
+Straight Turn
+Straight -3 -3 N
+Turn N -3 -3
+The two equilibria (Straight, Turn) and (Turn, Straight) are very
+dependent on the opponent’s strategy, otherwise both players get
+worse results.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+The money game
+
+I have n money and I want to give it to a group of m players. Each of the m players has to
+write a sum on a piece of paper visible only to them. I collect all pieces of paper and total
+the sums. If the total is at most as much as n, each player gets the written amount, otherwise
+nobody gets anything.
+
+Is there any dominant strategy?
+
+What is the equilibrium?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Vii
+
+I
+The money game
+
+I have n money and I want to give it to a group of m players. Each of the m players has to
+write a sum on a piece of paper visible only to them. I collect all pieces of paper and total
+
+the sums. If the total is at most as much as n, each player gets the written amount, otherwise
+nobody gets anything.
+
+Is there any dominant strategy? NO
+
+What is the equilibrium?
+
+Each player writes n/m.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+$3135?
+I
+The Goalkeeper game
+W Left Right
+
+Left -1 1 N
+
+Right N -1 1
+There is n0 pure strategy equilibria.
+What is the actual equilibria‘?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+I
+Mixed strategies
+
+Strategies which are not pure are called mixed.
+
+For most games, pure strategies are not equilibria.
+
+Mixed strategies are usually non-deterministic, making some random
+
+decisions (stochastic or probabilistic).
+
+How can we compute the equilibria for the goalkeeper game?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+YA:
+a
+Computing equilibria as a mixed strategy
+W Left Right
+Right NN
+The equilibria (EQS and EQK) rnust provide equal payoffs for all possible opponent
+decisions.
+EQS(Left) payoff is - l *EQK(Left)+l *EQK(Right)
+EQS(Right) payoff is l*EQK(Left)-l >‘<EQK(Right)
+Equal payoff means that - l *EQK(Left)+l *EQK(Right):l >"EQK(Left)-l *EQK(Right)
+So EQK(Left):EQK(Right):O.5 since EQK(Left)+EQK(Left):l. Equilibria is reached
+when both choices are as probable.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+a
+Equilibria work only if all players obey the game rules and aim to
+maximize their payoffs.
+
+Can you trust the other players? How mueh can you cooperate with
+them?
+
+Minimax is an equilibria for all two player zero-sum game. A chess
+program implementing MinimaX is easy to defeat. Why‘?
+
+Trust in Game Theog;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:44**************
+a
+Parrondo's paradox
+
+There is at least one winning strategy which can be built using two
+losing strategies alternatively.
+
+Game: add or substract money. Game ends if sum at or below zero.
+
+Sl: If you have an even sum, add 3. Otherwise substraet 5.
+
+SZ: If you have an odd sum, substraet l.
+
+Sl,SZ,Sl,SZ,... is dominant for both Sl and S2.
+
+More
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+a
+
+Overall considerations about strategies
+
+0 Strategies should have to have a way of estimating the missing information (eg. other
+player’s decisions)
+
+o Strategies have to be unpredictable: many use either random steps or select randomly
+between two or more strategies
+
+0 You can prove that some strategies are better than others
+
+o If a there is a strategy better than all others then it’s not a game, it’s a puzzle
+
+0 An useful benchmark strategy is the equilibria which exists and can be determined for
+all games
+
+Computer “outsmarts” Kasparov and Fisher outthinks computers
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:46**************
+Monte-Carlo strategies
+0 Generate all neighbours of the current state and add them to the graph until a set depth has been
+reached OR until enough ﬁnal states have been reached
+o Run a simulation for all unexplored states in the graph
+o Until n ﬁnal states are reached OR
+o Up to depth m
+o Compute a score for each state after each simulation (for example (positive-negative)/n))
+0 Update the scores of all nodes above the current one using the newly computed score
+o Return to the ﬁrst step
+0 Select the neighbour of the starting state With the best score
+More
+
+***************Ending Page***************
+

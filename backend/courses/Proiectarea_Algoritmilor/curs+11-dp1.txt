@@ -1,0 +1,1609 @@
+***************Beginning Page***************
+***************page number:1**************
+Algorlthm DeSIgn: Dynamlc Programmlng I
+Stefan Ciobaca’, Dorel Lucanu, Paul Diac
+Faculty of Computer Science
+Alexandru loan Cuza University of Ia$i, Romania
+d1ucanu©info.uaic .ro
+stefan.ciobaca@info.uaic.ro
+paul.diac@info.uaic.ro
+AD 2022
+
+m 5' i E :5 OQO
+Dynamic Programming AD 2022 1/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+o General Description
+e One-Dimensional Problems
+o Fibonacci
+o Longest Increasing Subsequence
+o Rod cutting
+a General Approaches
+0 Two-Dimensional Problem
+o Discrete Knapsack
+El r51 i E :5 QQQ
+Dynamic Programming AD 2022 2/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Plan
+a General Description
+One-Dimensional Problems
+Fibonacci
+Longest Increasing Subsequence
+Rod cutting
+General Approaches
+TvvoeDimensional Problem
+Discrete Knapsack
+E1 ﬁ ' _= :E ‘)‘KO
+Dynamic Programming AD 2°22 3/ 81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Dynamic Programming
+
+Dynamic Programming is one of the most studied algorithmic paradigms.
+
+It can be used for a variety 0f optimization problems, counting problems,
+
+decision problems, and more.
+
+Dynamic Programming is similar to divide and conquer in that it
+
+conceptually divides the original problem into subproblems. One difference
+
+is that divide and conquer combines the solutions of the subproblems while
+
+dynamic programming directly uses the result of the subproblems which is
+
+usually just a number.
+
+Divide and conquer can solve the problems solvable with dynamic
+
+programming, but when the subproblem structure contains overlapping
+
+subproblems, it is much more inefficient to use dynamic programming.
+Dynamic Programming AD 2022 4/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Dynamic Programming Design Stages
+Dynamic Programming (DP)
+
+0 Design a formula that describes the solution of the problem as a
+combination of subproblems of the same type. The combination
+should be guided by some sort of logic guided by the problem
+deﬁnition. The subproblems are not necessary sub-instances of the
+exact original problem, sometimes more information is needed in the
+logic and the subproblems may have more parameters. The
+combination is a formula based on some mathematical operations.
+
+9 Compute all the initial cases, that don't require knowledge of any of
+their subproblems to be solved. ln induction, these cases are called
+base cases. This is very similar to divide and conquer.
+
+9 Inductively apply the formula found in step 0 to the general cases
+that are not in 9 .
+
+Dynamic Programming AD 2022 5/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Overlapping Subproblems
+A key insight for considering DP for solving a new problem, is ﬁrst the
+subproblem structure, and secondly and more particular, that subproblems
+overlap. Otherwise, divide and conquer could be applied as well, DP is
+more efficient in that it does not repeat expensive computation for the
+same subproblem.
+Of course, for some problems with divide and conquer solutions, this could
+even be the case (i.e. sorting, where the result is not a number, but
+effectively sorting some range).
+
+Dynamic Programming AD 2022 6/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Avoiding Repeats
+How does DP avoid re-computing the result for the same subproblem?
+lt uses a table or other type of data structure to store the results of a
+subproblem the first time it is computed and never re-compute it again.
+A subproblem must be referable by some positions: numbers, indexes -
+eventually pairs or triplets, prefixes, nodes of a tree, etc.
+For optimization problems: the optimal solution to the problem contains
+Within optimal solutions to its subproblems. This property is similar to
+problems approachable by greedy. Greedy is even more efficient, in that it
+does not need the result of more than one subproblem to find the solution
+to the original problem.
+DP needs the result from multiple subproblems, on each level. From the
+second level further, subproblems can overlap.
+
+Dynamic Programming AD 2022 7/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Plan
+General Description
+0 One-Dimensional Problems
+Fibonacci
+Longest Increasing Subsequence
+Rod cutting
+General Approaches
+TvvoeDimensional Problem
+Discrete Knapsack
+El 5' ' _= :E @QO
+Dynamic Programming AD 2°22 8/ 81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+For some problems, we might use DP without even knowing it.
+Sequentially building a table of results can be the most natural approach
+for some problems, as we will see in the following example. Such problems
+are a good start to familiarizing with DP, they are easy to solve and reveal
+a big gap in the efficiency of DP versus divide and conquer.
+For most non-trivial problems, some familiarity with DP techniques is
+necessary; on top of a variety of other problem domains, data structures,
+and optimizations.
+
+Dynamic Programming AD 2022 9/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Fibonacci Sequence
+
+Consider the
+
+mathematical function fib : N —> N defined as:
+O, if n : O;
+
+fib(n) : 1, if n = 1;
+fib(n — 1) —|— fib(n — 2), if n Z 2.
+
+fib(n) is the nth term of the famous
+
+Fibonacci sequence, starting from index 0.
+
+How would you implement
+
+an algorithm to compute fib(n), following
+
+the above definition as much as possible?
+
+Dynamic Programming AD 2022 10/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Fibonacci Recursive Implementation
+
+l fib(n) {
+
+2 if (n == O)
+
+3 return O;
+
+4 else if (n == 1)
+
+5 return 1;
+
+6 else // n >= 2
+
+7 return fib(n — 1) + fib(n — 2);
+
+8 }
+
+What is the running time of a fib(n) call?
+
+a a] , E :5 eqe
+
+Dynamic Programming AD 2022 11/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Analyzing the Run Time
+For the cases n : O and n : 1, the running time is constant. For n Z 2, if
+we ignore the recursive calls, the run time for combining the results of
+recursive calls is also constant: the computation is an addition.
+When we consider recursive calls, we notice that the computation time is
+exponential. ln the following, we will prove this.
+
+Dynamic Programming AD 2022 12/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Recursive Calls Run Time
+Let T(n) be the run time required for the computation of fib(n) Vn € N.
+T(O) : 1 base case - (9(1)
+T(l) : 1 base case - (9(1)
+T(n) : T(n-1)+ T(n-2) + 1 recursion
+In the recursive case, the required time T(n) is given by the time required
+for the two recursive calls: T(n-1) and T(n-2) plus 1, the addition.
+We can represent the recursive calls of the fib function as a tree in which
+every call of fib with an argument i is a node fib(i). The children of a
+node fib(i) are the recursive calls generated by the evaluation of fib(i). For
+example, the tree generated by fib(5), is:
+Dynamic Programming AD 2022 13/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Tree of Calls Generated by ﬁb(5)
+/ﬁb(\
+/ﬁb(4)\‘ /ﬁb(3)\.
+ﬁb(3) ﬁb(2) ﬁb(2) ﬁb(1)
+fib(2) fib(1) fib(1) ﬁb(O) ﬁb(1) ﬁb(O)
+ﬁb(1) ﬁb(())
+Dynamic Programming U 5' AID 20223 :5 :78?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Key Observations
+
+0 it can be easily seen that the number of nodes in the tree rooted in
+fib(n) is actually T(n), the time required for evaluating fib(n).
+
+9 the leaves of the tree are labeled with either fib(0) or fib(1)
+which are the only base cases - where no recursive calls are involved.
+
+9 any other node has exactly two children.
+
+0 tree height for fib(n) is n.
+
+Q most number of nodes on crowded levels much more, though less than
+2” as base cases appear at different levels, pruning some branches.
+
+l7 . Q
+0 even so, the number of nodes 0n level 5 IS already 22.
+Dynamic Programming AD 2022 15/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Lemma of Number of Leaves
+
+Number of Leaves
+
+For any n Z 2, the tree with the root fib(n) has exactly:
+
+fib(n) leaves labeled with fib(1) and
+
+fib(n-1) leaves labeled with fib(0).
+
+Proof by induction on n.
+
+El r51 i E :5 ‘)QQ
+
+Dynamic Programming AD 2022 16/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Base Cases
+15f case. f'b 2
+For n : 2, the tree rooted fib(2) has exactly: I ( )
+fib(n) : fib(2) : 1 leaves labeled fib(1) and _ / \_
+fib(n-1) z fib(1) I 1 leaves labeled with fib(0). f'bm l'bw)
+cl 51 i E :2 QQO
+Dynamic Programming AD 2022 17/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Base Cases
+
+2”d case. fib(3)
+
+For n I 3, the tree rooted fib(3) has: / \
+
+fib(n) : fib(3) : 2 leaves labeled fib(l) and fib(Z) fib(l)
+
+fib(n-l) : fib(2) : 1 leaves labeled fib(O). / \
+
+fib(l) fib(O)
+El r51 i E :5 QQQ
+
+Dynamic Programming AD 2022 18/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Inductive case
+
+tree for fib(n-1) has ﬁb(n)
+
+fib(n-1) leaves ﬁb(1) and
+
+fib(n-2) leaves fib(0).
+
+_ fib(n-1) fib(n-2)
+
+tree for flb(n-2) has _ _
+
+fib(n-2) leaves fib(1) and 1 3
+
+fib(n-3) leaves fib(0).
+
+And the number of leaves of tree fib(n) is the sum of the number of leaves
+
+of each type of the two subtrees, the only extra node fib(n) is not a leaf.
+
+for leaves labeled fib(1), it will be: fib(n-1) + fib(n-2) : fib(n)
+
+for leaves labeled fib(0), it Wlll be: fib(n-2) + fib(n-3) I fib(n-1). q.e.d.
+Dynamic Programming AD 2022 19/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Total Number of Nodes in fib(n) Tree
+In total, the tree with root fib(n) has fib(n+l) I fib(n)+fib(n-1) leaves.
+Also, it is a full tree (deﬁnition): any node that is not the leaf has exactly
+two children.
+ln any full binary tree with k leaves, there are exactly k — 1 internal nodes.
+Why?
+The tree of fib(n) that has fib(n + 1) leaves so fib(n + 1) — 1 internal
+nodes, therefore it has a total of 2 >< fib(n + 1) i 1 nodes.
+
+Dynamic Programming AD 2022 20/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Back to the Run Time
+The number of nodes is the run time, so: T(n) : 2 >< fib(n + 1) — 1.
+We can easily show by induction that fib(n) Z 1.5”_2, Vn Z 2.
+So the run time is exponential. The source of this inefficiency is the many
+computations of the same values fib(i), where 0 g i g n.
+Generally, to evaluate fib(n), the value of fib(k) is computed
+fib(n — k + 1) times; for 1 g k g n. Exercise: prove this.
+Dynamic Programming AD 2022 21/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+A Better Approach - First Version
+To optimize the above algorithm we can avoid recomputing the same
+values fib(i) as in the following:
+
+0 on the first call of fib function for a certain argument i, compute
+fib(i) as usual and store the result in a data structure, in this case,
+a vector is suitable: res[], at position i: res[i] will be fib(i).
+
+9 in the following calls of the same argument i use the result already
+known, res[i].
+
+9 to check if res[i] is already computed or not, we can initialize all
+elements of res[] with an impossible value, such as constant —1,
+signifying fib(i) hasn't been computed yet.
+
+Dynamic Programming AD 2022 22/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+A Better Approach - Implementation
+1 // suppose res[O...n] is initialized with —l
+2 fib(n) {
+3 if (res[n] != —1) // already computed
+4 return res[n];
+5 else {
+6 if (n == 0)
+7 return res[O] = O; // save and return
+8 else if (n == 1)
+9 return res[1] = 1; // save and return
+10 else
+11 return res[n] = fib(n — 1) + fib(n — 2);
+12 // compute fib(n) recursively
+13 // save the result and return
+14 }
+15 }
+a a e E a oqo
+Dynamic Programming AD 2022 23/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Tree of Calls Generated by DP ﬁb(5)
+Assuming the left operand
+is evaluated ﬁrst. /ﬁb(®\
+/fib(4)\A ﬁb(3):re$[3]
+fib(3) ﬁb(2):res[2]
+ﬁb(2) fib(1):res[1]
+fib(1) fib(0)
+res[1]:1 res[0]:0
+El r51 i E :5 QQQ
+Dynamic Programming AD 2022 24/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+DP Complexity
+Observation: for any i there are at most two calls to fib(i).
+For any fib() call, the complexity is (9(1) - only a constant number of
+conditions, sums, array access, sums. Only worry is in the recursive calls.
+Therefore, considering the observation :> the overall complexity is (9(n).
+This technique is also called memoization (without r). It follows the
+original recursive code structure, but at the beginning of any function call
+we check if its result is not already known. Any new result is also properly
+saved. The idea is somewhat similar to caching in general.
+
+Dynamic Programming AD 2022 25/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Non-recursive Solution
+
+Maybe the most simple and natural implementation of fib(n).
+
+1 fib(n) {
+
+2 res [0] = O;
+
+3 res [1] = 1;
+
+4 for (i = 2; i <= n; ++i) {
+
+5 res[i] = res[i — 1] + res[i — 2];
+
+6 }
+
+7 return res [n];
+
+8 } // run time 0(N), memory 0(N)
+
+Can we reduce the memory?
+
+cl a] , E :5 oqo
+
+Dynamic Programming AD 2022 26/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Iterative 0(1) Space
+
+Easy, we only need the last two values in res to compute the next one.
+
+1 fib(n) {
+
+2 a=O,b=1,c,i;
+
+3 if (n <= O) {
+
+4 return a;
+
+5 }
+
+6 for(i = 2; i <= n; i++) {
+
+7 c = a + b;
+
+8 a = b;
+
+9 b = C;
+
+10 }
+
+11 return b;
+
+l2 } // run time 0(N), memory 0(1)
+
+El r51 i E :5 QQQ
+
+Dynamic Programming AD 2022 27/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Sub-linear Solutions
+There is a non-recursive formula to compute fib(n) - not very hard to
+prove, at least.
+n n
+. 1 1 + J5 1 1 - ﬂ
+flb(!7) I i >< i — i X i
+\/5 2 ﬂ 2
+Powers of n can be computed in (9(Iog n) with fast exponentiation
+(presented in one of the first lectures), but it is preferable to avoid using
+floating-point numbers as they propagate precision errors.
+Dynamic Programming AD 2022 28/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Logarithmic Time, Integers-Only
+Again, skipping the details of how it is deduced, the formula below is at
+least easy to prove. Matrix multiplication can be used, as in other integer
+sequences with recurrence relations.
+fib(n + 1) fib(n) _ 1 1 ”
+fib(n) ﬁb(n — 1) — 1 O
+To raise the matrix to the power n, use fast exponentiation:
+( —1)/2
+1 1 >< 1 12 n ifnisodd
+<1 1)” 1 O 1 O
+z n/2
+1 0 1 12 ifniseven
+1 O
+That is partially similar to dynamic programming as well...
+Dynamic Programming AD 2022 29/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Longest Increasing Subsequence (shortly LIS)
+Given a sequence of integer numbers, ﬁnd the length of its longest
+increasing subsequence.
+A subsequence is a sequence that can be obtained by deleting some or no
+elements from the original sequence without changing the order of the rest
+of the elements.
+An increasing subsequence values are in strictly increasing order.
+
+Dynamic Programming AD 2022 30/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+LIS Formal deﬁnition
+Input: n, v[1 . . . n] an array of n integer numbers.
+Output: k, of maximum possible value such that:
+El v[p1], v[p2], . . . , v[pk] with:
+1§p1<p2<...<pk§nand
+Vim] < Vim] < < ViPk]
+El 5' i E :5 QQQ
+Dynamic Programming AD 2022 31/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+LIS Example
+Input: n I 9 and v I [5, 2, 8,6,3,6,3,7, 1]
+Output: k I 4, as:
+El subsequence of 4 elements v[2]7 v[5], v[6], v[8]
+2 < 5 < 6 < 8 and
+v[2]:2<v[5]:3< v[6]:6<v[8]:7and
+there is no longer such sequence in [5, 2, 8, 6, 3, 6, 3, 7, 1].
+cl 51 2 E :2 QQQ
+Dynamic Programming AD 2022 32/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+DP Solution
+lt is possible to generate all subsequences but there are 2” of them.
+Identifying subproblems is not as trivial as Fibonacci: there is no given
+recurrence, instead, we have to find one.
+The key to organize the subproblem hierarchy is first to consider part of the
+original instance, a prefix of the array is natural. This is because LlSs can
+be built by adding one element to the right of LISs of prefixes of the array.
+To enable the addition of a new element in a LlS we must know the value
+of the last element to compare with so we slightly change the
+(sub)problem definition to forcedly include it.
+
+Dynamic Programming AD 2022 33/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Recurrence Relation
+Let LlS[i] be the length of the longest increasing subsequence of
+v[l], v[2], . . . , v[i] which must contain the last element v[i].
+We can add a new element v[i] to the subsequence ending on position
+j < i, of length L/Slj], if v[j] < v[i]. Then, LlS[i] could be L/SU] + 1.
+We get the recurrence below, written directly as LlS[i] instead of LlS(i)
+because clearly, we can use an array.
+
+L/S[i] _ 1, ifﬁ 1 gj g i-1 with v[j] < v[i]
+
+— max(L/S[j]) + 1, where l gj g i-1 with vii] < v[i]
+Dynamic Programming AD 2022 34/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Recurrence :> Solution
+Now that we have a recurrence relation, we can design the algorithm.
+The solution is not necessary L/S[n] as the problem was slightly modified
+to include the last element.
+Search for the maximum element in the LIS[. ..] array at the end.
+Leave LIS[0] undefined if positions are numbered 1, n.
+Dynamic Programming AD 2022 35/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+LIS Implementation
+
+1 // Input : n natural, v[1...n] integers
+
+2 // Output: k, the length of the longest LIS
+
+3 k = O;
+
+4 for (i = 1; i <= n; i++) {
+
+5 LIS[i] = 1;
+
+6 for(j=1;j<i;j++){
+
+7 if (v[j] < v[i] 2m LIS[i] < LIS[j]+1) {
+
+8 LIS[i] = LIS[j] + 1;
+
+9 1*
+
+10 }
+
+11 if (k < LIS[iJ) {
+
+12 k = LIS[i];
+
+13 }
+
+14 }
+
+15 // the result is in k
+
+16 // run time 0(N*N)
+
+cl 51 i E :5 eqe
+
+Dynamic Programming AD 2022 36/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+The LIS Itself
+
+lt may be useful to ﬁnd the LIS itself, notjust its length.
+
+This is a common issue in many non-trivial DP problems.
+
+The extra work that has to be done is usually similar and called path
+
+reconstruction.
+
+Input: n, v[1 . . . n] an array of n integer numbers.
+
+Output: k, v[p1], . . . , v[pk], a LIS of v:
+
+p1 < <pk and v[p1] < < v[pk].
+cl 51 i E :2 Wwv
+
+Dynamic Programming AD 2022 37/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Two Inefficient Solutions
+0 In each cell LlSli] we can store the LIS itself, using an array or list.
+Memory used can grow as large as 0(N2).
+9 Start from maximum L/S[i] and iterate to find the L/SU] such that:
+0 j < i
+. LISU] + 1 I LIS[i]
+o VU] < v[i]
+o repeat with i<—j until Ll$[i] I 1
+Time is (9(N2) as for each LIS[/'] we iterate all smaller positions j.
+This is not that bad as we already had (9(N2), but just for path
+reconstruction, we can do better.
+Dynamic Programming AD 2022 38/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Path Reconstruction - Example
+i= 1,2,3,4,5,6,7,8,9
+v= [5, 2, 8, 6, 3, 6, 3, 7, 1]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1]
+Vijw
+From what position does the maximum come from?
+El 5' i E :5 QQG
+Dynamic Programming AD 2022 39/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+LIS with Path Reconstruction
+1 // Input : n natural, v[1...n] integers
+2 // Output: k, v[pl]...v[pk] — a LIS of v
+3 pMax = O; // new code is colored in green
+4 for (i = 1; i <= n; i++) {
+5 LIS[i] = 1;
+6 prv[i] = O;
+7 for (j = 1; j < i; j++) {
+8 if (v[j] < v[i] && LIS[i] < LIs[j]+1) {
+9 LIS[i] = LIS[j]+1;
+10 prv[i] = j;
+11 } }
+12 if (LIS[pMaX] < LIS[i]) { pMax = i; }
+13 }
+14 k = LIS[pMax];
+15 for (i=pMax; i>O; i=prv[i]) { vp[LIS[i]] = v[i]; }
+16 // the result is k, and the elements vp[1]...vp[k]
+m a i E 2 oqo
+Dynamic Programming AD 2022 40/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Path Reconstruction with Previous "pointers"
+i= 1,2,3,4,5,6,7,8,9
+v= [5, 2, 8, 6, 3, 6, 3, 7, 1]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1]
+prv = [0,0, 1, 1, 2, 5, 2, 6, 0]
+vp = [2, 3, 6, 7]
+El 15' ' _= :E ‘)QG
+Dynamic Programming AD 2022 41/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Faster solution
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+V = [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1 . . . LIS[i]?
+If LIS[i] becomes m, what previous values in LIS[] made it m?
+Clearly, those of value m — 1.
+cl 51 t E :2 oqo
+Dynamic Programming AD 2022 42/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+v= [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS=[1, 1, 2, 2, 2, 3, 2, 4,1... 3'?
+For example, if LIS[i] becomes 3, it was made from a value of 2 + 1.
+There are four possibilities.
+cl 51 t E :2 one
+Dynamic Programming AD 2022 43/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+v = [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1 ... 3?
+For example, if LlS[i] becomes 3, it was made from a value of 2 + 1.
+Should we care about all of them?
+El r51 i E :5 ‘JQCV
+Dynamic Programming AD 2022 44/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+v= [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS=[1, 1, 2, 2, 2, 3, 2, 4,1... 3'?
+For example, if LIS[i] becomes 3, it was made from a value of 2 +1.
+The question is if any of 8, 6, 3, 3 is less than v[i].
+cl 51 t E :2 one
+Dynamic Programming AD 2022 45/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i: l, 2, 3,4, 5, 6,7, 8,9...
+V = [5, 2, 8, 6, 3, 6, 3, 7, 1 V[i]
+LIS=[1, 1, 2, 2, 2, 3, 2, 4,1... 3?
+So for previous LlSs of length 2, that will be used to make new 3-elements
+long sequences; we keep only the one ending with the smallest value:
+sm/[2] I 3. Similarly for all possible lengths.
+Dynamic Programming AD 2022 46/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+V= [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1 3'? if sm1[3—1]<v[i]
+sml = [1, 3, 6, 7]
+El 5' i E :5 QQQ
+Dynamic Programming AD 2022 47/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+V= [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1 m? if sm1[m—1]<v[i]
+sml = [1, 3, 6, 7] is increasing, and we want biggest m-1 with 1T
+cl 51 t E :2 oqo
+Dynamic Programming AD 2022 48/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+V= [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1 m?s.t.sm1[m—1]<v[i]
+sml = [1, 3, 6, 7] - we can binary search for maximum m-l!
+El 5' i E :5 {JQCV
+Dynamic Programming AD 2022 49/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Faster Solution for LIS
+To be able to design a faster solution, we have to think of asking a
+different question.
+i= 1, 2, 3, 4, 5, 6, 7, 8,9...
+V = [5, 2, 8, 6, 3, 6, 3, 7, 1 v[i]
+LIS = [1, 1, 2, 2, 2, 3, 2, 4, 1 m?s.t.sm1[m—1]<v[i]
+sml = [1, 3, 6, 7] - and we need to update sml on the next position.
+v[i]
+Final run time complexity: (9(n >< log n).
+El i5] i E :5 {JQCV
+Dynamic Programming AD 2022 50/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Rod Cutting
+We want to sell parts of a rod of length n. The rod can be a metal bar or
+a wooden log as in the lecture notes.
+The rod can be cut in any number of rods of integer lengths. Each piece
+of length i g n is sold for price[i] money, and the price[] array is known for
+all lengths up to n.
+How can we obtain the maximum proﬁt?
+
+Dynamic Programming AD 2022 51/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Rod Cutting - Formally
+Input: n, price[1... n] Where price[i] E N
+a piece of length i is sold for price[i] money.
+Output: maxProf/t € N, such that for maxProf/t : is the largest number
+SUCh that El k, l1, l2, ---lk With:
+k
+0 Z l,- : n (sum of lengths is total length n)
+1:1
+n
+o Z price[l;] = maxProf/t (sum of selling prices is maxProf/t)
+i:1
+El 5' i E :5 QQQ
+Dynamic Programming AD 2022 52/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Rod Cutting - Example
+Input: n : 4 and
+for i = 1 2 3 4
+price = [1 5 8 9]
+Cutting a rod of length just 4 in all 2(4_1) : 8 possibilities...
+Highest proﬁt: cut into two equal parts of two, proﬁt is 5+5 = 10.
+9 1 8 5 5 8 1
+1 1 5 1 5 1 5 1 1 1 1 1 1
+El 15' i E :5 QQQ
+Dynamic Programming AD 2022 53/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Subproblem Structure
+Since all prices are positive, we will sell all the rod. There must be a
+right-most cut in any solution, therefore in an optimal solution as well.
+‘.7 l
+o cut the rightmost piece of length 1 O:)O:)
+? 5
+o cut the rightmost piece of length 2 DB
+? 8
+o cut the rightmost piece of length n — l 0:)O:)
+9
+a "cut" the rightmost piece of length n [:D
+Dynamic Programming AD 2022 54/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Subproblem Structure
+‘.7
+Just a smaller sub-problem of the same type.
+Solving it recursively will result in exponential complexity again.
+If the rightmost cut was at distance i from the end; its length is i.
+Then we can sell for profit : price[i] + the proﬁt of subproblem.
+We can index subproblems as profit[k] : proﬁt we can get for a piece of
+length k, after we cut it optimally. Then we have the recursion:
+profit[n] : price[i] + profit[n — i]
+The best profit for n consists of price[i] plus the best profit of the n-i rod.
+The problem has optimal substructure: the optimal solution consists of
+optimal solutions to sub-problems.
+Dynamic Programming AD 2022 55/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Recurrence Relation
+Clearly, we should choose i such that the profit is maximized.
+profit[n] : max (price[n], max{price[i] + profit[n — i] | i E 1, n-1})
+or, if we conveniently set profit[O] to 0 we simplify the recurrence:
+profit[n] : max{price[i] + profit[n — i] | i G m}
+El 5' i E :5 ‘JQCV
+Dynamic Programming AD 2022 56/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Rod Cutting Implementation - Recursive, no DP
+1 // Input: n natural, price[1...n] natural numbers
+2 // Output: maxProfit, maximum possible profit
+3 rodCut(price, n) {
+4 maxProfit = price[n]; // no cut
+5 for (i = 1; i < n; i++) { // rightmost cut length
+6 profit = price[i] + rodCut(price, n-i);
+7 if (maxProfit < profit) {
+8 maxProfit = profit;
+9 }
+10 }
+11 return maxProfit;
+12 }
+This code is inefficient but if follows the recurrence relation exactly.
+cl a] e E :5 one
+Dynamic Programming AD 2022 57/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+How Many Subproblems?
+9
+(KID
+(ID 0
+9 9 039 Q
+e ‘Du
+Similar to Fibonacci; but number of calls(n) is 1 + 2;:11 calls(i).
+Exercise: Prove that calls(n) : 2”.
+cl 51 i E :2 oqo
+
+Dynamic Programming AD 2022 58/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+DP with Memorization
+1 // Input: n natural, price[l...n] natural numbers
+2 // Output: maxProfit, maximum possible profit
+3 profit = [—1 | x from [O..n]];
+4
+5 rodCut(out profit, price, n) {
+6 if (profit[i] >= 0) {
+7 return profit[i];// known already
+8 }
+9 profit[n] = price[n]; // no cut
+10 for (i = 1; i < n; i++) { // rightmost cut length
+11 cutProfit = price[i] + rodCut(profit, price, n-i);
+12 if (profit[n] < cutProfit) {
+13 profit[n] = cutProfit;
+14 }
+15 }
+16 return profit[n];
+l7 }
+a a i E a oqo
+Dynamic Programming AD 2022 59/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+DP no Memorization, Bottom-Up Construction
+
+1 // Input: n natural, price[1...n] natural numbers
+
+2 // Output: maXProfit, maximum possible profit
+
+3 profit = price; // copy the array
+
+4 profit[0] = O; // just to make sure
+
+5 for (j = 1; j <= n; j++) {
+
+6 for (i = 1; i <= j; i++) { // rightmost cut length
+7 if (profit[j] < price[i] + profit[j—i]) {
+
+8 profit[j] = price[i] + profit[j-i];
+
+9 }}}
+
+10 print profit[n]; // final solution: maximum profit
+Bottom-Up technique for DP uses the natural ordering of the subproblems:
+a problem of size i is "smaller" than a subproblem of sizej if i <j. Thus,
+the procedure solves subproblems of sizesj : 07 17 2, . . . n, in that order.
+This is easy since it is very similar to LIS. What if price[1..n] could contain
+negative values? What would change?
+
+Dynamic Programming a] AD 2022 i Su/Bl
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Rod Cut - Path Reconstruction
+
+1 // Input: n natural, price [1...n] natural numbers
+
+2 // Output: maxProfit, maximum possible profit
+
+3 profit = price; // copy the array
+
+4 profit [O] = O; // just to make sure
+
+5 prev = [O | x from [O..n]];
+
+6 for (j = 1; j <= n; j++) {
+
+7 for (i = 1; i <= j; i++) { //rightmost cut length
+
+8 if (profit[j] < price[i] + profit[j—i]) {
+
+9 profit [j] = price[i] + profit [j-i];
+
+10 prev[j] = i;
+
+11 } }
+
+12 rods = [1;
+
+13 for (i = n; i >= O; i = prev[i]) {
+
+14 rods.add(i — prev[i]);
+
+15 }
+
+16 print profit [n]; // final solution: profit
+
+17 print rods; // the pieces
+
+cl a] i E :2 oqo
+
+Dynamic Programming AD 2022 61/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Plan
+General Description
+One-Dimensional Problems
+Fibonacci
+Longest Increasing Subsequence
+Rod cutting
+e General Approaches
+TvvoeDimensional Problem
+Discrete Knapsack
+E1 ﬁ ' _= :E ‘)‘KO
+Dynamic Programming AD 2022 62/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Subproblem Graphs
+In DP problems, we need to discover subproblem structure: the
+subproblems involved and how they depend on one another. e
+The subproblem graph for the problem embodies
+exactly this information. Here it is for rod cutting length e
+n : 4. Generally must be a DAG - directed acyclic graph,
+containing one vertex for each distinct subproblem. Arcs e
+go from subproblem Q) to ® if an optimal solution for ‘
+(D involves considering an optimal solution for Q). ln ‘ a
+memoized solution, the arcs are recursive function calls.
+Without memoization, each level branches into subtrees.
+DP is flattening the exponential size tree. ln all the above a
+problems nodes can be aligned in a row, thus the array.
+
+Dynamic Programming AD 2022 63/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Techniques
+Before studying to two-dimensional DP problems, reap general techniques:
+ll Top-dovvn or Memoization. Computed results of subproblems are stored
+in a data structure. Recursive calls lookup for results there rather than
+having to recalculate them. As the code is closer to the mathematical
+writing of the recurrence relation, it may be easier to think in this style.
+1T Bottom-up or Tabulation. Start with the smallest problems and use the
+returned values to calculate larger values. lt may iterate over more
+subproblems, and it requires a deeper understanding of the subproblem
+structure: ﬁlling the base cases, and realizing Where the final solution
+would be. Results in the same (90 complexity, but usually outperforms
+memoization by a constant factor, as it has no overhead for recursion.
+Dynamic Programming AD 2022 64/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Techniques
+Bottom-up has the potential advantage of reducing space complexity; as in
+the case of Fibonacci implemented with only three variables instead of an
+array. Usually, this breaks path reconstruction.
+Path reconstruction. ln optimization problems builds the solution arrays,
+and find where the maximum profit / minimum cost came from. Done by
+adding new information for each subproblem: the subproblem(s) from
+which the best solution came from: prev[], backpointers, positions. lf the
+total number of considered subproblems in the recurrence formula is (9(1),
+we can skip and search again.
+The solution is usually reconstructed in the reverse order, so we may need
+to reverse it again for printing. Variants: count or print all optimal
+solutions, first lexicographically, smallest set, etc.
+
+Dynamic Programming AD 2022 65/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Plan
+General Description
+One-Dimensional Problems
+Fibonacci
+Longest Increasing Subsequence
+Rod cutting
+General Approaches
+a Two-Dimensional Problem
+Discrete Knapsack
+E1 ﬁ ' _= :E ‘)RO
+Dynamic Programming AD 2022 66/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Discrete Knapsack
+Given a knapsack of known capacity, and a set of objects, add objects in
+the knapsack such that the selected objects are of maximum total value
+and capacity is not exceeded. Each object is described by its value and
+weight. Each object can be taken as a whole or not at all (O — 1 knapsack).
+Input: n, v[1...n], w[l...n], W, all natural numbers
+Output: p[1...n], p[i] €{O,l}, Vi G n such that:
+n
+o Z p[i] >< w[i] g W total weight fits
+i:1
+n
+o Z p[i] >< v[i] is maximum proﬁt possible
+i:1
+:1 51 t E :2 1@111311
+Dynamic Programming AD 2022 67/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Discrete Knapsack - Example
+For n : 4 objects:
+i 1 2 3 4
+W[i] 6 3 4 2
+v[i] 30 14 16 9
+Knapsack capacity W : 10 kg.
+[recap] Greedy chooses using the v[i]/wL/'] criteria : [5, 4(6), 4, 4.5]:
+Selects object 1, remaining capacity 10 — 6 I 4, then selects object 2, only
+4 — 3 : 1 capacity left that fits no other object. Total value is
+30 + 14 : 44 instead of the optimum 30 + 16 I 46. Greedy fails.
+How can we structure subproblems to design DP solution?
+Dynamic Programming AD 2022 68/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+Discrete Knapsack - DP
+Suppose we chose an object (w[i]7 v[i]) and add it to the knapsack. What
+subproblem did we reduce to?
+0 we used w[i] of the capacity, so now only W — w[i] is left, if Z 0. ..
+this is just like a smaller knapsack.
+9 we also decided on object i. this is like removing object i from the set:
+w[] <— w[l], w[2] . . . w[i — 1], w[i + 1]... w[n]
+v[] <— v[1], v[2] . . . v[i — 1], v[i —l— 1] . . . v[n]
+If we chose to drop object i (decided not to include in knapsack):
+0 no space is consumed so W does not change.
+9 but we don't want to think about i ever again, so again:
+Dynamic Programming AD 2022 69/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+Discrete Knapsack - DP
+
+We should avoid working with or iterating 2” sets of objects - if possible.
+
+The order in which we decide about each object is not important if we
+
+somehow can allow all combinations of decisions {take drop}.
+
+First, decide about object i such that:
+
+v[] <— v[1], v[2] . . . v[i — 1], v[i + 1] . . . v[n] is easier t0 do.
+
+Clearly, i could be n.
+
+Now, very similar to LIS we can define a subproblem to consider only a
+
+prefix of the array of objects.
+
+And, similar to rod cutting: a subproblem considers a smaller quantity than
+
+the initial one, in case remaining capacity: weight becomes rod length.
+Dynamic Programming AD 2022 70/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+Two Dlmen5|ons
+Whenever we have to consider more aspects of the problem to structure
+subproblems, we can do so by adding more dimensions.
+Instead of a simple array we can use a matrix, a three-dimensional matrix
+if needed, or more.
+The more information we give about the subproblem at the coordinates
+where we save its solution, the more information can be used to combine
+subproblems. Sometimes, we can potentially simplify the recurrence
+relation based on some observations to reduce the complexity as well.
+Dimensions can consist of only two values: even/odd, previous/current.
+The implementation may be shorter than using two arrays and duplicating
+code.
+
+Dynamic Programming AD 2022 71/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+Knapsack DP Matrix
+We need to be able to model:
+objects (i value in the input arrays) and capacity (weights).
+value(objects7 capacity) I maximum value achievable using:
+objects 1, 2. . . objects and a knapsack of size capacity.
+Final solution is in va/ue(n, W), more precisely value[n][W].
+To solve the problem now we just need to analyze the two options for
+object n: take or leave, and reduce a general case to subproblems.
+Dynamic Programming AD 2022 72/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Knapsack DP Recurrence Relation
+Recurrence relation...
+value[i][cap] I ma><<value[i-1][cap]7 value[i-l][cap-W[i]] + v[i])
+some considerations:
+0 first case drops object i.
+9 apply second case only if cap 2 w[i].
+9 both cases reduce to [i-l] as we don't want to think of i ever again.
+0 for i I 1 we need to put value[0][V] I O, objects numbered from 1.
+Q in code: we can iterate cap and then i or vice-versa.
+6 only two subproblem instances required for each problem.
+Dynamic Programming AD 2022 73/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Knapsack DP Implementation
+1 // first initialize the O-column
+2 for (cap = O; cap <= W; cap++) {value[0][cap] = 0;}
+3
+4 for (i = 1; i <= n; i++) { //objects in order
+5 for (cap = O; cap <= w; cap++) { //capacities
+6 value[i][cap] = value[i—1][cap]; //ignore object i
+7 if (cap >= w[i]) { // if i fits
+8 if (value[i][cap] < value[i—1][cap—w[i]]+v[i]) {
+9 value[i][cap] = value[i—1][cap—w[i]]+v[i];
+10 // add i if it makes a better solution
+11 }
+12 }
+13 } // time complexity: O(n*W), memory U(n*W)
+14 }
+15 print(va1ue[n][W]); //why not max(value[n][0...W])?
+a a i E 2 oqo
+Dynamic Programming AD 2022 74/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Knapsack DP - Path Reconstruction
+
+Can we avoid using prv[] pointers? Yes, as we have 2 I (9(1) subproblems
+
+for each problem we need no loop to ﬁnd where the maximum came from.
+
+16 objects = [:i;
+
+17 cap = W;
+
+18 for (i = n; i > O; i--) {
+
+19 if (value[i][cap] != value[i—1][cap]) { // take i
+
+2O cap —= w[i];
+
+21 objects.pushBack(i);
+
+22 } // else nothing to do
+
+23 }
+
+24 print(objects); // decreasing order of positions
+
+cl 51 t E :2 oqcv
+
+Dynamic Programming AD 2022 75/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+The Matrix for the Example
+w
+0Q;
+~,,9012345678910
+‘sow
+'b' +—— —— —- —— —— —— —— —- —— —— -—
+$0|@0050000@)0000
+1| o 0 0 IE 0 o\i3o})3o 30 30 30
+2 | o o o 14 14"“14 m 30 30 44 .7
+3| o 0 o 14 16 16 3o 30*"- 441461)
+n4|009141623303039
+n = 4 v = [30, 14, 16, 9]
+w=1o w=[6, 3,4,2]
+max value =|46a; objects = {1, 3}
+El r51 i E :5 QQG
+Dynamic Programming AD 2022 76/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+Use Only Two Lines
+
+If path reconstruction is not required:
+
+Clearly, current line i in the matrix is built only on previous line i— 1. So
+
+we can keep only the last two lines, again as in Fibonacci with 3 variables.
+1 for (cap = O; cap <= W; cap++) {value [O] [cap] = 0;}
+2 for (i = 1; i <= n; i++) {
+3 i2 = (i+1)%2;
+4 for (cap = O; cap <= W; cap++) {
+5 value [i‘7,2] [cap] = value [i2] [cap];
+6 if (cap >= w[i]) {
+7 if (value [i%2] [cap] < value [i2] [cap-w [i] ] +v [1]) {
+8 value[i%2] [cap] = value[i2] [cap—w[i]]+v[i];
+9 }
+
+10 }
+
+11 }
+
+12 }
+
+13 print (value [n%2] [W] );
+
+Dynamic Programming AD 2022 77/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+Use Only One Line
+Values on column cap depend only on columns with numbers g cap.
+If we process them in decreasing order, we can "overwrite" the value on
+the current column, since it will not be used by smaller cap columns:
+those use only even smaller numbered columns.
+1 for (cap = O; cap <= W; cap++) { value[cap] = 0; }
+2 for (i = 1; i <= n; i++) {
+3 for (cap = W; cap >= O; cap——) {
+4 if (cap >= w[i]) {
+5 if (value[cap] < value[cap-w[i]] + v[i]) {
+6 value [cap] = value [cap—w[i]] + v[i];
+7 }
+8 }
+9 } // time complexity: O(n*W) , memory [Ml/J)
+10 }
+11 print (value [W] );
+Dynamic Programming AD 2022 78/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+l\/lore on the Complexity Analysis
+Discrete knapsack is often given as an example of an NP-Hard problem,
+or NP-Complete for its decision version.
+But our solutions always ﬁnd optimal solution in (9(n >< W).
+How is this possible?
+The problem is NP-Hard if the complexity is computed as a function of
+the size of the representation of the input : the number of bits or log; W.
+The DP solution is said to have a pseudo-polynomial time.
+Dynamic Programming AD 2022 79/81
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+Dynamic Programming - Some Conclusion
+
+DP is structurally similar to Divide and Conquer as it solves a problem
+
+based on the solutions of its subproblems, which are in turn solved in a
+
+similar manner.
+
+The key improvement is to save the results of subproblems so we don't
+
+repeat their computation. This is a simple idea that in many problems
+
+reduces the complexity from exponential to polynomial.
+
+There are a series of techniques commonly used in DP so solving a
+
+reasonable amount of DP problems is important to familiarize with them.
+Dynamic Programming AD 2022 80/81
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+Bibliography
+Bibliography (links)
+[ro] Lecture papers document.
+Bibliography (books)
+T.H. Cormen, C.E. Leiserson, R.L. Rivest, C. Stein.
+Introduction to Algorithms. 3rd Edition, 2009.
+S. Dasgupta, C. Papadimitriou, U. Vazirani.
+Algorithms, Chapter 6.
+Acknowledgment
+Lecture professors of previous years, prof. D. Lucanu, conf. S. Ciobaca
+Contributors to the online resources available.
+Dynamic Programming AD 2022 81/81
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:82**************
+E1 ﬁ ' _= IE l) ‘k O
+D. Lucanu, S. Ciobécé, P. Diac (FlliUAlC) Dynamic Programming AD 2022
+
+***************Ending Page***************
+
+
+

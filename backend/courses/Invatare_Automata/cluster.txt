@@ -1,0 +1,705 @@
+***************Beginning Page***************
+***************page number:1**************
+1.
+CLUSTERING
+Based 0n
+“Foundations 0f Statistical NLP”, C. Manning 85 H. Schiitze, MIT Press,
+2002,ch.14
+and “Machine Learning”, T. Mitchell, McGRAW Hill, 1997, ch. 6.12
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2.
+Plan
+1. Introduction to clustering
+o Clustering vs Classiﬁcation
+o Hierarchical vs non-hierarchical clustering
+o Soft vs hard assignments in clustering
+2. Hierarchical clustering
+o Bottom-up (agglomerative) clustering
+o Top-down (divisive) clustering
+o Similarity functions in clustering:
+single link, complete link, group average
+3. Non-hierarchical clustering
+0 the k-means clustering algorithm
+o the EM algorithm for Gaussian Mixture Modelling
+(estimating the means of k: Gaussians)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+3.
+Introduction to clustering
+Clustering vs Classiﬁcation
+Classiﬁcation I supervised learning,
+i.e. we need a set of labeled training instances for each
+group / class.
+Clustering : unsupervised learning,
+because there is no teacher who provides the examples in
+the training set with class labels.
+It assumes no pre-eXisting categorization scherne;
+the clusters are induced from data.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+4.
+
+o Clustering:
+partition a set of objects into groups / clusters.
+
+a The goal: place objects which are similar (according to a
+certain similarity measure) in a same group, and assign
+dissimilar objects to different groups.
+
+0 Objects are usually described and clustered using a set of
+features and values (often known as the data representa-
+tion model).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+5.
+Hierarchical vs Non-hierarchical Clustering
+Hierarchical Clustering
+produces a tree of groups / clusters, each node being a sub-
+group of its mother.
+Non-hierarchical Clustering (or, ﬂat clustering):
+the relation between clusters is often left undetermined.
+Most non-hierarchical clustering algorithms are iterative.
+They start with a set of initial clusters and then iteratively
+improve them using a reallocation scheme.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+An Example 0f Hierarchical Clustering: 6-
+A Dendrogram showing a clustering
+of 22 high frequency words from the Brown corpus
+be not he l it this the his a and but in on with for at from of to as is was
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+The Dendrogram Commented
+
+o Similarity in this case is based on the left and right context
+of words. (Firth: “one can characterize a word by the
+words that occur around it”.)
+
+o For instance:
+he, I, it, this have more in common with each other than
+they have with and, but;
+in, on have a greater similarity than he, I.
+
+o Each node in the tree represents a cluster that was created
+by merging two child nodes.
+
+o The height of a connection corresponds to the apparent
+(di)similarity between the nodes at the bottom of the dia-
+gram.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+Exemplifying the Main Uses of Clustering (I)
+Generalisation
+
+We want to ﬁgure out the correct preposition to use with
+the noun Friday when translating a text from French into
+English.
+
+The days of the week get put in the same cluster by a clus-
+tering algorithm which measures similarity of words based
+on their contexts.
+
+Under the assumption that an environment that is correct
+for one member of the cluster is also correct for the other
+members,
+we can infer the correctness of on Friday from the presence
+(in the given corpus) of on Sunday, on Monday.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+9.
+Main Uses of Clustering (II)
+Exploratory Data Analysis (EDA)
+
+Any technique that lets one to better visualise the data is
+likely to
+
+— bring to the fore new generalisations, and
+
+— stop one from making wrong assumptions about data.
+This is a ‘must’ for domains like Statistical Natural Lan-
+guage Processing and Biological Sequence Analysis.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10.
+Hierarchical Clustering
+Botom-up (Agglomerative) Clustering:
+Form all possible singleton clusters (each containing a sin-
+gle object).
+Greedily combine clusters with “maximum similarity” (or
+“minimum distance”) together into a new cluster.
+Continue until all objects are contained in a single cluster.
+Top-down (Divisive) Clustering:
+Start with a cluster containing all objects.
+Greedily split the cluster into two, assigning objects to
+clusters so as to maximize the within-group similarity.
+Continue splitting clusters which are the least coherent
+until either having only singleton clusters or reaching the
+number of desired clusters.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+11.
+The Bottom-up Hierarchical Clustering Algorithm
+Given: a set X I {$1, . . . , zen} of objects
+a function sirn: 77(X) >< 77(X) e R
+
+for i : Ln do
+C: {617...76n}
+j I n + l
+while l C l> 1
+
+(enucm) = argmaxwmcvkgxg sim(cu,cv)
+
+cj I cn1 U cn2
+
+C I C\{Cn17 C712} U {Cj}
+
+j I j —|— 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12.
+Bottom-up Hierarchical Clustering:
+Further Comments
+o In general, if d is a distance measure, then one can take
+' < > 1
+s1m at, I —
+y 1 + d(x, y)
+o Monotonicity of the similarity function:
+The operation of merging must not increase the similarity:
+Vc, c’, c” : min(sim(c, c’), sim(c, c”)) Z sim(c, c’ U c”).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+13.
+The Top-down Hierarchical Clustering Algorithm
+Given: a set X : {11:1,. . .,:1:n} of objects
+a function coh: 73(X) e R
+a function split: 73(X) e 73(X) >< 73(X)
+C I {X}(: {C1D
+j I 1
+while Ecz- € C such that | cz- |> 1
+cu : argmincv€C coh(c@)
+cj+1 U cj+2 : split (cu)
+C I C\{Cu} U {Cj+1, Cj+2}
+j I j —|— 2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14.
+Top-down Hierarchical Clustering:
+Further Comments
+o Similarity functions (see next slide) can be used here also
+as coherence.
+o To split a cluster in two sub-clusters:
+any bottom-up or non-hierarchical clustering algorithms
+can be used;
+better use the relative entropy (the Kulback-Leibler (KL)
+divergence): < )
+p :1:
+D(P ll (1) I MINOQ —
+a; (1(58)
+where it is assumed that 0 logg : O, and p logg : oo.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+15.
+Classes of Similarity Functions
+
+o single link: similarity of two clusters considered for merg-
+ing is determined by the two most similar members of the
+two clusters
+
+o complete link: similarity of two clusters is determined by
+the two least similar members of the two clusters
+
+o group average: similarity is determined by the average sim-
+ilarity between all members of the clusters considered.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+16.
+6 x x x x 6 © ©
+5 5
+4 4
+3 3
+2 2
+1 x x x x 1 © ©
+0 0
+1 2 3 4 5 6 7 8 1 2 3 4 5 6 7 8
+a set of points in a plane first step in single/complete clustering
+6 ® 6
+5 5
+4 4
+3 3
+2 2
+1 1
+0 0 ‘7 ‘y
+1 2 3 4 5 6 7 8 1 ‘ 3 4 5 6 8
+single-link clustering complete-link clustering
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+O Q Q Q 17-
+Slngle-llnk vs Complete-llnk Clusterlng:
+Pros and Cons
+Single-link Clustering:
+o good local coherence, since the similarity function is locally deﬁned
+o can produce elongated clusters (“the chaining effect”)
+0 Closely related to the Minimum Spanning Tree (MST) of a set of
+points.
+(Of all trees connecting the set of objects, the sum of the edges of
+the MST is minimal.)
+o In graph theory, it corresponds to ﬁnding a maximally connected
+graph. Complexity: 0(n2).
+Complete-link Clustering:
+o The focuss is on the global cluster quality.
+o In graph theory, it corresponds to ﬁnding a clique (maximally com-
+plete subgraph of) a given graph. Complexity: 0(n3).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+18.
+Group-average Agglomerative Clustering
+The criterion for merges: average similarity, which in some
+cases can be efficiently computed, implying 0(n2). For ex-
+ample, one can take
+E - — m
+simﬁﬂ) I cos(f,§) I _—€ I Z wig/,-
+l Iv H y l ,2,
+with mg being length-normalised, i.e., I E 1:‘ ﬁ l: 1.
+Therefore, it is a good compromise between single-link and
+complete-link clustering.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Group-average Agglomerative Clustering: Computation 19'
+Let X Q Rm be the set of objects to be clustered
+The average similarity of a cluster cj is:
+1 . _ _
+SM) I m 22%;; S@m(w,y)
+Considering §(cj) I 256% E and assuming | :7; |: 1, then:
+5(69') ‘5(61) I Z Z Y'ﬁzl Cy‘ | (i Cj | —1)S(Cj) + Z 55% Cy‘ | (i Cj | —1)S(Cj)+ | le
+EQCJ- gécj EQCJ-
+Therefore: 5(0) I 5(61') ‘5(Cj)— | Cj |
+j lcj|(\cj|—1)
+and <—< >+—< >> <—< >+—< >> u |+\ |>
+SC‘ 8C‘ ' SC‘ SC‘ — C‘ C‘
+S iU . I 1 .7 Z J 1 J
+(C C”) <|ci\+|cj|><|ci\+|cj|—1>
+and
+5((31' U Cj) I 5(C1') + §(Cj)
+which requires constant time for computing.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+20.
+Application of Hierarchical Clustering:
+Improving Language Modeling
+[Brown et al., 1992],
+[Manning 85 Schuetze, 1992], pages 509—512
+
+Using cross-entropy (—%Z09P(w1,.. .,wN)) and bottom-up clustering,
+Brown obtained a cluster-based language model which didn’t prove better
+than the word-based model.
+But the linear interpolation of the two models was better than both!
+Example of 3 clusters obtained by Brown:
+
+- plan, letter, request, memo, case, question, charge, statement, draft
+
+- day, year, week, month, quarter, half
+
+- evaluation, assessment, analysis, understanding, opinion, conversation,
+
+discussion
+
+Note that the words in these clusters have similar syntactic and semantic
+properties.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+21.
+Soft vs Hard Assignments in Clustering
+Hard assignment:
+each object is assigned to one and only one cluster.
+This is the typical choice for hierarchical clustering.
+Soft assignment: allows degrees of membership, and membership in mul-
+tiple clusters.
+In a vector space model,
+the centroid (or, center of gravity) of each cluster c is
+_ 1 _
+H I — 2x
+l C l _
+TB€C
+and the degree of membership of f in multiple clusters can be (for
+instance) the distance between a: and ﬁ.
+Non-hierarchical clustering works with both hard assignments and soft
+assignments.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+Non-hierarchical Clustering
+
+As already mentioned, start with an initial set of seeds (one
+seed for each cluster), then iteratively reﬁne it.
+
+The initial centers for clusters can be computed by applying a
+hierarchical clustering algorithm on a subset of the objects
+to be clustered (especially in the case of ill-behaved sets).
+
+Stopping criteria (examples):
+
+— group-average similarity
+
+— the likelyhood of data, given the clusters
+
+— the Minimum Description Length (MDL) principle
+— mutual information between adjiacent clusters
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+An Example of Non-hierarchical Clustering: 23'
+3.1 The k-Means Algorithm
+[S. P. Lloyd, 1957]
+Given: a set X I {$1, . . .,xn} Q Rm,
+
+a distance measure d on Rm,
+
+a function for computing the mean ,u : 73(727") —> Rm,
+built k clusters so as to satisfy a certain (“stopping”) criterion
+(e.g., maximization of group-average similarity).
+
+Procedure:
+
+Select (arbitrarily) k initial centers f1, . . . , fk in Rm;
+
+while the stopping criterion is not satisﬁed
+for all clusters cj do cj : {:13Z | Vfl d(:z:i, fj) g d(:th-, f;)} end
+for all means fj do fj e ,u(cj) end
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+24.
+Illustrating the k-Means Clustering Algorithm
+>< 01 @61
+148 62
+><' >< >< C) ><
+assignment recomputation of means
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+25.
+3.2 Gaussian Mixture Modeling
+3.2.0 Generating Data from a Mixture of k Gaussians
+Each instance :1: is obtained by X
+1. Choosing one of the k Gaussians having the same variance 02 with —
+for simplicity — uniform probability;
+2. Generating randomly an instance according to that Gaussian.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+3.2.1 The Problem
+Given
+
+o D, a set of instances from X generated by a mixture of k
+Gaussian distributions;
+
+0 the unknown means W1, . . . , Mk) of the k Gaussians;
+
+o to simplify the presentation, all Gaussians are assumed to
+have the same variance 02, and they are selected with equal
+probability;
+
+0 we don’t know which :13;- was generated by which Gaussian;
+
+determine
+
+0 h, the ML estimates of W1, . . . Huh), i.e. argmaxh P(D l h).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+Notations
+
+For the previously given example (/4: I 2),
+we can think of the full description of each instance as
+yz' :< Iii/@1720 >, where
+
+o .5132- is observable, zij is unobservable
+
+o 2U is 1 if 93¢ was generated by jth Gaussian and 0 oth-
+
+erwise
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+28.
+
+Note
+For k I 1 there will be no unobservable variables.
+We have already shown — see the Bayesian Learning
+chapter, the ML hypothesis section — that the ML
+hypothesis is the one that minimizes the sum of squared
+errors:
+
+m 1 m
+
+,uML : argminzﬁcz- — u)2 : E 2:13Z
+” 1:1 1:1
+
+Indeed, it is in this way that the k-means algorithm
+works towards solving the problem of estimating the
+means of k Gaussians.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+29.
+REMARK
+
+The k-means algorithm ﬁnds a local optimum for a the “sum of
+squares” criterion. While neither being able to ﬁnd the global
+optimum, the following algorithm — which uses soft assignments
+of instances to clusters, i.e. zij E {0,1}, and 22;, P(z,-j) I 1 — may
+lead to better results, since it uses slower / “softer” changes to the
+values (and means) of unknown variables.
+
+>< c1 >< ® 61
+
+g c’
+02 Q
+C) “2
+62
+>< >< >< >< >< C) ><
+initial state after iteration 1 after iteration 2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+30.
+3.2.2 The EM Algorithm for
+Gaussian Mixture Modeling
+The Idea
+EM ﬁnds a local maximum of E [ln P(Y\h)], where
+o Y is complete set of (observable plus unobservable) vari-
+ables/ data
+o the expected value of lnP(Ylh) is taken over possible
+values of unobserved variables in Y.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+EM for GMM: Algorithm Overview 31'
+
+Initial step: Pick at random hm) : (#50), #50), . . . , pg)», then — until a certain
+condition is met — iterate:
+
+Estimation step: Assuming that the current hypothesis hw I
+Quit), Hg), . . . , ,ugb holds, for each hidden variable Zij calculate the ex-
+pected value E[ZZ-j] n2" E[Z7;j|X I xgugtllz
+
+_ _ (t) _L(x,_ﬂ(.t))2
+LU — ZCZ' — - 202 7'
+E[ZZ--] I P(Z,L-.:1|X I aw) Bi” —p( I” H1 ) I —€ J
+" J J 2’: (X I my <1”) k -%<xi-M<t>>2
+lzlp z Ill le1 6 2U z
+
+Maximization step: Assuming that the value of each hidden variable
+ZZ-j is its own expected value E[ZZ-j] as calculated above, choose a
+new ML hypothesis h<t+1> I <u§t+1),ugt+1),. ..,,ug+1)> so as to maximize
+E[lnP(y1, . . .,ym l [2)] (see the next slides):
+
+Mel) <_ 2211 ElZm'l mi
+‘7 2211 EMU]
+Replace Mt) :< apps), . . WILLIS) > by < u§t+1),ug+1),. . . MESH) >.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+32.
+Calculus for the Expectation Step
+E[Z--] dei' 0 P(Z-- — 0| h“) 1 P Z — (t) — — (t)
+w — ' w- 11% )+ ' (ij-Uivmh)—P(Zij—1|il%h)
+1/k
+FE
+T.B_ayes P6511 | Zij : 17 h(t)) ' P(Zij : 1 | h<t>>
+glemxi | Z” z 1; he) - PM” z 1 | 1W)
+\_/—/
+1/k
+(t) 1 —%<wi—#<t>>2
+_ NW Z $1M I #j ) pif. ﬁe 2” j
+— — 1 t
+211m I W I m 2:11 ﬁrm; “2
+aﬁwwé-“P
+_ 2le Kﬁmwl“)?
+Note: The a priori probabilities P(Z7;l I 1 | yaw/2(0) have been as-
+sumed as being identical, irrespective of l.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+33.
+Calculus for the Maximization Step (I)
+W
+1/k
+I _ 6— 202 23-21 Zij($i—,uj)
+k V 27m
+2,.in m m
+:>1HP(YVL) I MIHPQ/Z'VL) I ZlanJ/zlh)
+izl 2:1
+1- d m 1 1 k
+m._me . 2
+:> E[1nP(Y|h)] _ ;(- 1M +1n m - 272 gmzijm _ w) >
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+Calculus for the Maximization Step (II)
+argmax E[1n P(Y\h)]
+h
+I argmaxi(— Ink + 1n L — i i E[Z](33 — My)
+h 7;:1 @0- 202 jzl 2.7 Z J
+
+m k‘ k: m
+I argilinin Z Z EMU] (95¢ — My I argznin Z Z E[Zij] (5151: — Hj)2
+
+k m m m
+: argznin ZR; E[Zij])#? _ 2(2 E[Zij]$i)luj + Z E[Zij]$@2}
+
+6+1) 21-11 E[Zij] 331'
+:> My. k 2211 Ema]
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+EM for GMM: Justification
+It can be shown (Baum et al. 1970) that after each iteration
+P(Y l h) increases, unless it is a local maximum. Therefore the
+previously deﬁned EM algorithm
+o converges to a (local) maximum likelihood hypothesis h,
+o by providing iterative estimates of the hidden variables ZZ-j.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+36.
+Hierarchical vs. Non-hierarchical Clustering:
+Pros and Cons
+Hierarchical Clustering:
+
+— preferable for detailed data analysis: provides more informations
+than non-hierarchical clustering;
+
+— less efficient than non-hierarchical clustering: one has to compute
+at least n >< n similarity coefficients and then update them during
+the clustering process.
+
+Non-hierarchical Clustering:
+
+— preferable if data sets are 'very large, or efficiency is a key issue;
+
+— the k-means algo is conceptually the simplest method and should
+be used ﬁrst on a new data set (its results are often sufficient);
+
+— k-means (using a simple Euclidian metric), is not usable 0n “nom-
+inal” data like colours. In such cases, use the EM algorithm.
+
+***************Ending Page***************
+

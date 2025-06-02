@@ -1,0 +1,784 @@
+***************Beginning Page***************
+***************page number:1**************
+Sist6m€ d€ Op6rar6
+Administrarera mermorieri
+part€a I-a
+Cristian Vidragcu
+https://pr0fs.inf0.uaic.r0/~Vidrascu
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Cuprins
+
+> Introdueere
+> Probleme
+> Ierarhii de memorie
+> Aloearea memoriei
+
+— Adrese de memorie logiee vs. ﬁziee
+
+— Scheme de aloeare eontigue
+
+— Memorie virtualé
+
+(va urma)
+
+— Scheme de aloeare neeontigue
+
+2/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introducém
+' Codul exmutabil §i datele programului trebuie
+s51 ﬁe r6zid6nte in memoria pentru a putaa ﬁ
+accersate de cétre pr006s0r/ procesoare
+' Esta n6v0i6 de partigionarea memoriﬁi (pentru a
+permite utilizarea @i simultan de citre mai mult6
+procﬁse) §i d6 protecfia m€m0ri€i (pentru a
+impiedica procﬁsele sé $6 “deranjﬁzﬁ” unﬁle pe a1t616)
+' Utilizatorii pot ignora modul in care admsﬁlﬁ de
+memorie sunt gen6rat6 d6 programﬁ
+3/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Pr0b1€m€
+
+' “L6garera” admsdor (address binding)
+' ()ptimizéiri
+
+— incércam dinamicé
+
+— l6gar6 dinamicé
+
+— overlay-uri
+' Alocarea m€m0ri6i §i fragmﬁvntama 6i
+
+4/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Intrebéiri
+' C6 €st6 ierarhia de memorii ?
+' C6 6st6 un Spaﬂu de adresare ?
+' Cum 6ste partajatd msursa memorie intre toate
+pr066sel6 C6 rulﬁazéi in sistem?
+' Cum poate un spagiu d6 admsam sé ﬁe protejat
+d6 0pera§iil6 6xecutat6 d€ alte procese?
+' Cam €St6 Overhead-111 (i6. incércarea suplimentaré)
+generat d6 0p6ra§iile cu m6m0ria?
+5/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Ierarhn de memonl / 1
+"CPU-Ulises gap " "st; brittt'emfc'k
+.-"“s. .-"
+fune units E “t.
+registers
+1-‘!- 1+
+$5
+eeehets} -
+Remete
+tttemeries
+6/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Ierarhii da mamorii /2
+' Ierarhii d6 memorii:
+mamorii cu acces rnai rapid, dar realizate in tehnologie mai
+costisitoare §i deci de dimensiune mai mica
+vs.
+mamorii cu acces mai lent, dar raalizate in tehnologie mai
+ieftina §i daci d6 dimansiune rnai mara
+' M6m01'ii int6m€t memoria principala RAM §i mamoriile cache din CPU
+' M6m0fii externe: memoria secundara de stocara (discuri interne HDD / SDD)
+§i memoria tergiara de arhivare (discuri externa, CD / DVD-uri, stick-uri USB, $.a.)
+' Astfel s6 raalizeaza un mecanism, transparent pentru utilizator,
+prin cara SC-ul lucreaza cu 0 cantitate mica de memorie rapida
+§i una mare de memorie lenta, creand aparenga ca ar avaa
+numai memerie rapida gi in cantitate mare.
+7/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Lergama adreselor
+' “L6garea” admselor (address binding) : nﬁcesitatﬁa de
+a dﬁcidﬁ unda $51 ﬁe plasam codul 6xecutabil §i datﬁk:
+' Se poate face la:
+
+1. momentul c0mpilz'1rii— s6 g6n6reazéi cod ﬁxecutabil cu
+adrese ﬁxe. Programul trebuie recompilat dacéi codul trebuie
+incéircat 1a 0 alt'Zl adreséi d6 memorie (e. g. DOS ﬁgiere .com)
+
+2. momentul incz'lrciirii — se genemazéi admsﬁle atunci cﬁnd
+programul 6ste incércat in memorie (e. g. DOS ﬁgiere .exe)
+
+3. momentul executiei (dinamic) — adres6l6 sunt mlative: la 0
+valoam care se poate modiﬁca pe parcursul execugiei, i.e.
+Godul €St€ rﬁlocabil la runtime (e. g. Windows ﬁ§i6re .6xe)
+
+8/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+D€ 1a ngram 1a Exezcutabil
+Figierul ﬁxacutabil, rezultat prin
+compilarea codului surséi §i
+link-editama cu altﬁ module @
+compilate, congina:
+— instrucgiuni in limbaj ma§ina (ca
+§i cum adresﬁvle in06p de 1a zero)
+— dat6le inigializata @
+— cét spagiu esta necﬁsar pﬁntru
+datde n6ini§ializat6
+9/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+De la Executabil la Spagiul d6 adresare
+. A E t bl f'l
+Atun01 cand 6ste cmat xecu a e 'e
+prOC6Sl11, p6 lﬁngﬁ COdul §i logical addr space
+datele inigializam ce sunt 0; E 0+ 25:5;2
+copiatﬁ din ﬁ§ierul ex6cutabi1, =—=_= __ z;
+mai trabuiﬁ rezervat6 adrase E :2:
+pentru zonele de date E; __ é
+neinigializate §i stivé. === ——
+Cénd §i cum sunt asignate Symbm table
+adreseleﬁzlce male‘?
+N-l:
+10/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+()ptimizéri / 1
+' Inciircare dinamicﬁ
+— incarcarea rutineler numai atunci cénd sunt necesare
+— O mai bunii utilizare a memoriei d€0ar6ce codul
+utilizat rar nu est6 necﬁsar $51 ﬁa prazent in memorie
+pe toaté durata ex6cu§i6ipr0gramu1ui
+— Est6 implementaté de programator prin intﬁrnmdiul
+un0r apeluri de sistem ce incarcé noi “bucéﬁ” de
+cod; complexitatﬁa facilitégilor pusﬁ 1a dispoziﬁﬁ
+variazé de 1a un SC 1a altul
+11/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+()ptimizéri /2
+' Overlay-uri
+— Overlay-mile furnizeazé un mod de scriere a
+programﬁlor 06 nﬁcﬁsitii mai multéi mﬁmoriﬁ dﬁcﬁt
+€St€ ﬁZiC diSpOnibilé (pe sistame ﬁré m6m0ri6 virtualé)
+— Programatorul partiﬁoneazé programul in “bucéﬁ” d6
+cod 06 s6 pot suprapum; 0 “bucaté” diferité de (ma
+curenté este incércaté atunci cﬁnd 6ste nevoie d6 ea
+— Programarea esta complexé gi diﬁcilé; programatorul
+este responsabil cu proiactaraa “bucéﬁlor” de cod
+— 6X.I DOS; suport din partea compilatorului Turbo Pascal
+12/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+_ ()ptimizari /3
+' Overlay-um (cont)
+
+- Exemplu: compilator multi-pass
+
+Symbol
+
+table
+
+routines
+
+Overlay
+
+driver
+Pass 2 N
+
+13/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+()ptimizéri /4
+' Legarea dinamicii (.DLL) — Windows, OS/Z
+— Lngarna (linking-ul) subrutinelnr aste aménaté péné
+1a momentul 6xecu§i6i programului
+— Rutinele din bibliotnci (e. g. funcgiile C d6 biblintecé)
+nu sunt incluse in cndul Obi€Ct gnnnrat de compilator;
+in locul lor, 6st6 inclus un stub (ce conﬁne informagii
+despre cum poatn ﬁ localizaté in memories rutina respectivé ...)
+— Cénd estn apelat, stub-ul se inlocui€§t€ cu adresa
+rutinai rnspnctivn §i $6 ﬁxecuté acnasta
+— S.O.-u1trebui6 $51 cunoascé dacé rutina 6ste prezenté
+in memorie, iar dacé nu estn, trebuie $51 0 incarce
+14/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+()ptimizéri /5
+' Legarea dinamicii (.DLL) (cont)
+> Avantaj: s6 p6rmit6 partajarea codului
+> Problﬁme:
+— Programul d€pind€ de versiunea .DLL-ului
+—> .DLL hell
+(solugia: assemblies utilizate in .NET)
+— Programul nu va funcgiona dacéi .DLL-uri16
+necesare nu sunt pmzentﬁ in sistem
+> Echivalﬁntul .DLL-urilor in UNIX/Linux:
+bibliotérci partajate: — bibliotecile .s0 (vezi /1ib)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Alocarea mnmoriﬁi / 1
+> Admsé de memorin 10gic€ vs. ﬁzicﬁ
+— adrese logice (sau virtuale): adresele de accesare a memoriei
+generate d6 CPU (adreselé: din codul programului incércat in RAM)
+— adrese ﬁzice: adreselﬁ de accesam a hardwara-ului mﬁmoriei
+(i.e., memoria ﬁzicéi din acel SC)
+' Pﬁntru SC-urile cu “legarea” adreselor la momentul compilérii
+sau a1 incircéirii, adreselﬁ logicﬁ coincid cu cele ﬁzice:
+' Pentru SC-urile cu “legarea” admsﬁlor la momentul 6X60u§i6i,
+adresﬁle: logica nu mai coincid neapérat cu cela ﬁzice
+Translatarea adraselor logice in adrese ﬁzice 6ste 6X66utaté de
+de céitre hardwam-ul de mapam a mﬁmoriei (i.6., componenta
+MMU din CPU); ea depinde da tipul acelui SC, in particular de
+mncanismul de administrate a memoriei utilizat de acd SC. 16/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Alocarea mnmorini /2
+> Alocama memoriei contiguéi vs. necontiguéi
+— alocare contigué: pentru un proces (cod+date) se 211005
+0 singuréi porgiuna, continua, din memoria ﬁzicéi
+— alocare necontigué: pentru un proces (cod+date) se
+alocé mai multe porgiuni separate din memoria ﬁzicé
+> M6In0rie maléi vs. virtualéi
+— memoria realé: spagiul de adresare a1 procnselor este
+limitat de capacitatea memoriei intﬁrne
+— mﬁmoria virtualé: spagiul de adresare nu aste limitat de
+capacitatea memoriei interne (aceasta este suplimentaté
+de cea externéi, prin tahnica d6 swapping)
+17/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Alocarea nmmoriﬁi / 3
+> Schame d€ alocare: a memoriei:
+— alocama contigué:
+' alocarea unic'Zl, la SG-uri mono-utilizator
+' alocarea cu partigii (la SO-uri multi-utilizator)
+'> cu partigii ﬁxe (alocare staticé)
+'> cu partigii variabil6 (alocam dinamicéi)
+' alocarea cu swapping
+— alocarea necontigué:
+' paginaté (simplé §i 1a cemre)
+' sﬁgmentatéi (simpléi §i 1a cerem)
+' segmantaté-paginaté (simplé gi 1a 06mm)
+18/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Sch@m€ d6: alocam contigué /1
+>Alocarea unicii (cu 0 singurz'l partiyie)
+— Nici 0 schemii de administrare a memoriei
+' Prima formé d6 alocam d.p.d.v. ist0ric, folosité
+de prim616 SC-uri, monoprogramate, fairé SO
+' Furnizeazé utilizatorului 0 ﬂexibilitate maximé
+' Féré servicii Qferite d6: SO — féré control a1
+intmruperilor, féré mecanisme de procérsare a
+apalurilor de sistem §i a morilor, féréi posibilitéigi
+de multiprogramare
+19/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Sch6m6 d6 alocam ccntiguéi / 2
+>Alocarea unicéi (cu douii partigii)
+— 0 parti§i6 de memori6 pentru utilizator Sist€mu1
+— 0 partigm de memoriﬁ pentru SO d6 Opmm
+' SO-ul este plasat ﬁe in zona inferioaré a
+memoriei (e. g. CP/M), ﬁe in zona
+superioaré a memoriai (e. g. DOS)
+> Dezavantaj6:
+— neutilizama optiméi a mamoriei §i a CPU-ului;
+imposibilitatﬁa multiprogramérii
+— programele s-ar putea s51 nu incapé in memoria
+disponibiléi (soluyie — programele cu Overlay)
+20/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Scheme de alccare ccntigué / 3
+>Alocarea memoriei in partitii ﬁxe
+
+— memoria este impértité static in mai multe
+
+partitii (de dimensiuni nu neap'erat egale) 3,0,
+— ﬁecare partitie poate contine exact un proces
+
+(gradul de multiprcgramare este limitat deci de
+
+numérul de partitii)
+— aZOCarea absolute? — pentru SC-uri cu legarea
+
+adreselor la compilare sau la incércare
+vs.
+— alocarea relocabild — pentru SC-uri cu
+
+legarea adreselor 1a executie
+— utilizaté 1a sistemele seriale (e.g. IBM 08/360)
+
+21/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+>Alocarea memoriei in partigii ﬁxe (cont)
+— 1a alocama relocabilé se folosegte un registru de relocare
+— I (valoama a00stui mgistru) +
+(adresa logicé)
+I 7000 I
+memory
+CPU +
+MMU
+22/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+>Alocarea memoriei in partitii ﬁxe (cont)
+— SO-ul trebuie s51 asigure protectia partitiilor (proceselor)
+— un alt registru, registrul de limitii, furnizeazé deplasamentul
+maxim ee se permite a se aduna la adresa de bazé
+limit relocation
+register register
+CPU < +
+OS
+— un alt meeanism de protectie folosit de unele SO-uri: impértirea partitiilor in
+pagini de memorie de lungirne ﬁxé (e. g. 2K0) §i folosirea de ehei de acees la ele
+23/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Sch6m6 d6 alocam ccntiguéi / 6
+>Alocarea memoriei in partigii ﬁxe (cont)
+— cénd un proces se terminé, se incarcé in partigia respectivé un
+alt proces dintre cele ce a§teptau s21 le viné réndul 1a execugie
+— la primelﬁ SC-uri serialca se folosea céte 0 coadéi de agteptarﬁ
+pentru ﬁ6care partigie, iar plasarea job-urilor pe partigii 0
+realiza 1a inceput operatorul uman
+— apoi s-a folosit 0 singuré coadé pantru toate partigiile, 066a 06
+a permis optimizama plasérii j 0b-uri10r (job scheduler)
+— Dezavantaje:
+' programele s-ar putea s51 nu incapé in partigiile disponibile:
+' neutilizarea optimé a memoriei: poate réméne un rest de
+spagiu nefolosit, dar alocat, in ﬁecare partigie
+° fenomenul d6 fragmentare (interné) a memoriei
+24/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Sch6m6 d6 alocam ccntiguéi / 7
+>Alocarea dinamicii (in partigii variabile)
+— est6 tot 0 schnmé de alocam contiguéi
+— cénd se incarcéi un procns in memorie, i se 2110051 exact spagiul
+de m6m0ri6 necnsar, din memoria liberd in acnl moment,
+creéndu-se dinamic 0 partigie (de lungime variabilé)
+— 05nd se termini un proces, partigia ocupaté de e1 devine
+Spagiu 1ib€r (§i se uniﬁcé cu 6ventua1ul spayiu liber adiacent)
+— SO-ul trebuie s51 gnstionnzﬁ: 0 tabelé a partigiilor ocupate gi 0
+listé a spagiilor libere:
+— SG-ul folosegte un algoritm de alocam, ce descide: ce spagiu
+liber s51 ﬁe alocat unui proces 1a incéircarea sa
+— alocarea absolutii vs. alocarea relocabiléi
+— utilizaté tot 1a sistemele seriale (prima daté la IBM 08/360)
+25/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Schome: de alocaro contigué / 8
+>Alocarea dinamicii (in partitii variabile) (cont)
+— algoritmi de alocare (de alegem a unui spatiu liber):
+
+' FFA (ﬁrst ﬁt algorithm): se parcurge lista spatiilor libore
+(ordonaté crescétor dupé adresa de inceput a spatiilor) §i se
+alage primal spatiu de dimensiune suﬁcienté (e. g. MINIX)
+
+' BFA (best ﬁt algorithm): se parcurge lista spatiilor libere
+(ordonaté crescétor dupé dimensiunea spatiilor) §i $6 a1€g€
+primal spatiu de dimensiune suﬁcienté (o. g. DOS)
+
+Produce cal mai mic spatiu liber rost.
+
+' WFA (worst ﬁt algorithm): so parcurge lista spatiilor
+lib€r6 (0rd0naté crescétor dupé dimensiunea spatiilor) §i se
+alege ultimal spatiu din listé
+Produce cel mai mare spatiu liber rest.
+
+26/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Sch@m€ de alocam contigué /9
+>Alocarea dinamicii (in partigii variabile) (com)
+adresa0~>
+8.0. 8.0. 8.0. 8.0.
+Cerere de
+P31 15K0
++ adresa 2N-1'>
+a) FFA b) BFA c) WFA 27/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Scherm: d6 alocam contigué /10
+>Alocarea dinamicil (in partigii variabile) (cont)
+
+— in anumite scenarii oricare dintra cei tmi algoritmi estﬁ mai
+bun dﬁcét ceilalgi doi; in g6n6ra1insé, FFA §i BFA sunt mai
+buni deceit WFA
+
+— problema: fenomenul de fragmentare a memoriei — in timp
+cre§te numéirul spagiilor libﬁre, iar dim6nsiuni16 awstora scad;
+s6 poate intémpla ca un job s51 nu incapéi in nici un spagiu liber,
+d6§i dimensiunea sa este mai micé decét suma spagiilor libere
+
+— Dazavantaje:
+
+' programele s-ar putea sé nu incapé in spagiile libere
+' neutilizaraa completé a memoriei: pot réméne spagii libere,
+nefolosite:
+' fenomenul d6 fragmantare (6xtern5) a memoriei
+28/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Schemﬁ de alocare contigué /1 1
+>Alocarea dinamicii (in partigii variabile) (c0nt.)
+— Ce se intémplé 06nd un proces nu am spagiu lib61" in cam s'Zl
+se incarca? SO-ul poate lua urmétoarele decizii:
+' procesul a§teapté pﬁnéi cﬁnd s6 va elib6ra 0 cantitate:
+suﬁcientéi de memorie
+' 6f6¢tuar6a un6i opﬁragii de compactare (relocare) a
+mamoriei (i.e., 0 defragmentare a m6m0riai principale) —
+se deplaseazé partigiile ocupatﬁ pentru a se uniﬁca (total
+sau pargial) spagiile libem
+— Compactarea razolvé problema fragmentérii memoriei, dar
+se poate aplica numai pentru alocarea relacabild (i.e., cénd
+“lagama” adreselor este dinamicé, 1a momantul 6xecu11iei)
+29/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Sch€m6 d6: alocare contigua / 12
+>Alocarea dinamicii (in partigii variabile) (com)
+4>
+frag I I
+free free
+free free
+etc.
+
+Fragmentarea memoriei Defragmentare
+
+30/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Schem‘: d6 alocare contiguii / 13
+>Alocarea dinamicii (in partitii variabile) (cont)
+
+— Problama cu perifﬁricnle I/O: macanismului DMA nu-i
+priegte compactarea. Solugii: ﬁe nu se permite compactaraa
+in timpul operagiilor I/O, ﬁe se folosesc buffere in spagiul de
+adresﬁ a1 SO-ului pentru operagiile I/O
+
+— Altai problnmé: cum decid cénd s51 fac compactare?
+
+— Dezavantaj: overhead-ul implicat de compactare (i.e. de
+deplasarea unor zone voluminoase d€ memorie)
+
+— intre alocarea cu partigii ﬁxe §i cna cu partigii variabile nu
+existéi practic dif6ren§e hardware; ambﬁlﬁ sunt realizatﬁ prin
+intermadiul unor rutina specializate, din cadrul SO-ului
+
+31/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+Scheme d6 alocare cont1gua/14
+> Exemplu de alocare dinamicii
+addrslace _
+U: = U- Mam Mﬁmm'y Assume contiguous
+§§==€=§ ' allocation
+g Static loading
+EE_——= Partition memory
+——.; variable (ﬁrst, best
+Aﬁ-l:— HIS)
+0' Fragmentation
+Compaction
+Al-lr M-l:
+adrir space1 32/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Scheme de alocare cont1gua/15
+> Exemplu de alocare dinamicz'l (cont)
+addralaee _
+E‘: E 0' M3111 Memery Aeeunie eentigueue
+§e§i=é ' = allneatinn
+Z E Statie leading
+§=——_=—= :— Partition [nemery
+——_—— g wane [ﬁn-31, beat
+Aﬁ-l : —————— ___=_ _ :——— ﬁtﬁ)
+0' N; E Fragmentatien
+%€%=% Cenipaetien
+Al-l: M-l: -
+addr apaee1 33/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Scheme de alocare cont1gua/16
+> Exemplu de alocare dinamicﬁ (cont)
+addra-Iacc _
+U: g . M3111 MEIHU Assume cﬁnﬁguﬁus
+EHEEEE 0' — allocation
+g = Static loading
+mé E PHI'tilitJH IIIBIHUTy
+E— : variable (first, hcat
+A043 ————— I: K: :———— ﬁts]
+0' §€=E§§a§ Fragmentation
+§_;-E=§ Compaction
+-
+Al-l: M-l:
+addr apacc1 34/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Sch€m€ d6: alocam contiguéi /17
+>Alocarea prin swapping
+— dupé SC-urile cu mcamorica realéi au apéirut SC-urile cu swapping,
+d6numit6 §i SC-uri rollout-rollin sau SC-uri cu time-sharing
+— ideéa: un procﬁs aﬂat in stama de a§teptar6 se evacueazéi
+tamporar pe disc, ﬁliberénd astfel mﬁmoria principalé ocupaté
+— reluarea 6xecu§iai procﬁsului se face: prin reincércarea sa de pe
+disc in memorie
+— 6. g. 80-111 CTSS (Compatible Time-Sharing System; 1961, MIT+IBM)
+— Avantaje:
+' se simuleazé 0 memorie: mai mare deceit cea ﬁzicé existenté
+' se imbunététegte folosirea resurselor SC-ului (CPU + memorie)
+35/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Schcmc dc alccarc contiguéi /18
+>Alocarea prin swapping (cont)
+
+— SC-urile cu “time-sharing” crau interactivc §i fcloscau pcntru
+planiﬁcarca prcccsclcr algoritmul RR; in accst caz cvacuarca
+pc disc a jcbului curcnt sc face 1a cxpirarca cuantci sau 1a 0
+ccrcrc I/O, cvacuarc urmaté dc incércarca altui prcccs dc pc
+discul dc swap in spagiul dc memoric tocmai clibcrat
+
+— SC-urilc dcnumitc “rollout-rollin ” crau scrialc §i fclcscau
+pcntru planiﬁcarca proccsclcr algoritmul pc bazé dc prioritégi;
+in accst caz cvacuarca pc disc sc face cénd inccpc (sau rcdcvinc
+ready) un prcccs mai pricritar dccét ccl cc sc cvacucazéi, sau la
+c ccrcrc I/O
+
+36/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Schezme: d6: alocare ccntiguéi /19
+>Alocarea prin swapping
+— Dezavantaje: Memorie
+1) transf6ru1intre mem0ri6 §i disc
+estﬁ mare consumator d6 timp Disc
+(deoarece viteza de acces a
+discului 6st6 cu céteva ordine de
+méirime mai micéi decét cea a Swap Proces
+memoriei interne) User 0m P1
+2) alocarea este incé contigué Space Swap Prom
+3) spagiul d€ adresare a1 unui in P2
+pr006s nu poate d6péi§i
+capacitatea memoriei interne
+37/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Mcmcric virtualé
+>Mecanisme de memorie virtualEi
+— SC-urile cu memorie vii/maid au capacitatca dc a adrcsa un
+spagiu dc mcmoric mai mare dccﬁt memoria intcrnéi disponibilé
+— idcca: swapping-ul pc disc a1 uncr “bucéigi” dc memoric,
+intrOdIlSﬁ d6 SO-ul ATLAS (1960, Univ. Manchester, UK)
+— tchnici dc virtualizarc a memorici: paginarca si scgmcntarca
+— Alocarca prin swapping vs. Mcmoria virtualé
+' swapping: mutarca proccsclor in intrcgimc afaré din
+memoric pc disc (si invers) atunci cénd cstc ncvoic
+' memorie virtuald: mutarca unor mici “bucéigi dc mcmoric” a
+proccsului, afaréi din memoric pc disc (si invers) atunci cénd
+cstc ncvoic
+38/42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Bibliograﬁe
+' Bibliograﬁe obligatorie
+
+capitolele despre gestiunea memoriei din
+— Silberschatz : “Operating System Concepts”
+
+(cap.9, prima parte: §9.1—2, din [OSC10])
+S2111
+— Tanenbaum : “Modern Operating Systems”
+
+(cap.3, prima parte: §3.1—2, din [MOS4])
+
+39/42
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Exercitiu de ssminar
+> Aplicatie 1a: Alocama dinamicé (i.e., alocarea cu partigii variabile)
+— Enunt: se d5 sistemul si cererile de alocare pentru P3 , P 4 si P5 (in aceastéi
+ordins) din ﬁgural Aplicati algoritmii FFA, BFA si WFA.
+Cereri de
+3|] Kn Alucare 3|] Kn 3|] Kn 3|] Kn
+P4 : 5 Kn
+21] Kn P5 ; 3|] Kn 21] Kn 21] Kn 21] Kn
+6" K0 6|] Kn 6|] Kn 6|] Kn
+Adresa 2N-1 $
+ﬁrst ﬁt best ﬁt worst ﬁt
+algoritm algoritm algoritm
+— Rezolvare: ? 40 /42
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Sumar
+
+> Introducem
+> Probleme
+> Iﬁrarhii d6 m6m0ri6
+> Alocama memoriei
+
+— Admsa de memorie logice vs. ﬁzice
+
+— Schﬁmﬁ de alocare contigue
+
+— Memorie virtualé
+
+(va urma)
+
+— Scheme de alocare nﬁcontiguﬁ
+
+intmbéri ?
+42/42
+
+***************Ending Page***************
+
+
+
+
+

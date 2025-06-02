@@ -1,0 +1,393 @@
+***************Beginning Page***************
+***************page number:1**************
+V A .
+Programare concurenta 1n C (III) .
+Gestiunea proceselor, partea I-a:
+Crearea gi sincronizarea proceselor — primitivele
+fork() gi wait()
+Cristian Vidrascu
+vidrascu@info.uaic.ro
+Gestiunea proceselor, partea I-a: Crearea §i sincronizarea proceselor- primitivele fork( ) §i wait( ) — p.1/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Sumar
+T .0 Noiiuni generale despre procese j
+.0 Primitive utile referitoare Ia procese
+.0 Crearea proceselor — primitiva fork( )
+.0 Terminarea proceselor
+.0 Sincronizarea proceselor — primitiva wait( )
+.0 Sabloane de cooperare 5i sincronizare
+Gestiunea proceselor, partea I-a: Crearea §i sincronizarea proceselor — primitivele fork( ) §i wait( ) — p.2/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+NOtlllIll generale despre procese
+TProgram = un fi$ier executabil (evident, obtinut prin compilare j
+dintr-un fieier sursa), aflat pe un suport de memorare extern
+(e.g. harddiSk).
+DEFINITIE:
+“Un proces este un program aflat Tn curs de executie.”
+Mai precis, un proces este 0 instanta de executie a unui program,
+fiind caracterizat de: o durata de timp (Le. perioada de timp Tn care se
+executa acel program), 0 zona de memorie alocata (zona de cod +
+zona de date + stiva), timp procesor alocat, $.a.
+Gestiunea proceselor, partea I-a: Crearea ei sincronizarea proceselor — primitivele fork( ) ei wait( ) — p.3/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+O O
+N otlunl generale despre procese (cm)
+Nucleul sistemului de operare péstreazé evidenta proceselor din
+sistem prin intermediul unei tabele a proceselor active. Aceasta
+contine cétte o intrare pentru fiecare proces existent Tn sistem,
+intrare ce contine o serie de informatii despre acel proces:
+.0 PID-Ul = identificatorul de proces — este un Tntreg pozitiv, ole
+tipul pid_t (tip definit Tn fieierul header sys/types . h)
+.l PPID-Ul : PID-ul procesului périnte
+.0 terminalul de control
+.0 UID-Ul utilizatorului proprietar real al procesului (proprietarul real
+este utilizatorul care l-a lansat Tn executie)
+.l GID-Ul grupului proprietar realal procesului
+Gestiunea proceselor, partea I-a: Crearea ei sincronizarea proceselor — primitivele fork( ) ei wait( ) — p.4/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+O O
+N 0t,1un1 generale despre procese (cont.)
+.0 EUID-Ul $i EGID-ul = UID-ul $i GID-ul proprietarului efectiv
+(adicé acel utilizator ce determiné drepturile procesului de acces Ia resurse)
+Nata": dacé bitul setuid este 1, atunci, pe toaté durata de executie a fi$ieru|ui respectiv,
+proprietarul efectiv al procesului va fi proprietarul fi$ieru|ui, $i nu utilizatorul care Tl
+executé; similar pentru bitul setgid.
+.0 starea procesului — poate fi una dintre urmétoarele:
+.0 ready = pregétit pentru executie
+.0 running = Tn executie
+.0 waiting = Tn a$teptarea producerii unui eveniment (e.g., terminare 0p. l/O)
+.0 finished = terminare normalé
+.I linia d9 comandé (parametrii cu care a fost lansat Tn executie)
+.0 variabilele de mediu transmise de cétre périnte
+.I $.a.
+Gestiunea proceselor, partea I-a: Crearea §i sincronizarea proceselor- primitivele fork( ) §i wait( ) — p.5/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+. . . . .
+Prlmltlve utlle referltoare la procese (1/3)
+If .l Primitive pentru aflarea PID-urilor unui proces $i a parintelui j
+acestuia: getpid, getppid. lnterfetele acestor functii:
+pid_t getpid(void);
+pid_t getppid(void);
+.l Primitive pentru aflarea ID-urilor proprietarului unui proces $i a
+grupului acestuia: getuid, getgid $i geteuid, getegid.
+lnterfetele acestor functii:
+uid_t getuid(void);
+gid_t getgid(void);
+uid_t geteuid(void);
+gid_t getegid(void);
+L J
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Primitive utile referitoare la procese (2/3)
+.l Primitive de suspendare a execuiiei pe o duraté de timp specificaté:
+sleep $i usleep. lnterfeiele acestor funciii:
+unsigned int sleep ( unsigned int nr_secunde) ;
+int us leep ( useconds_t nr_microsecunde) ;
+Exemplu: a se vedea programul demonstrativ info_eX . c
+Nata": in standardul POSIX s-a introdus $i primitiva nanosleep, cu 0
+precizie de ordinul nanosecunde $i mai eficienté.
+lnterfaia acestei funciii:
+int nanosleep(const struct timespec *req, struct timespec *rem);
+Ateniie: durata efectivé de pauzé in execuiia programului poate depé$i valoarea
+specificaté in aceste apeluri (!). Mésurarea timpului scurs depinde ($i) de precizia
+ceasului utilizat, i.e. de suportul hardware oferit; pentru detalii citiii man 7 time.
+Gestiunea proceselor, partea I-a: Crearea §i sincronizarea proceselor- primitivele fork( ) §i wait( ) — p.7/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Primitive utile referitoare la procese (3/3)
+
+.l Primitiva de terminare normalé a execuiiei unui proces: exit.
+lnterfaia acestei funciii: void exit(int status);
+Efect: procesul apelant isi incheie execuiia normal, iar valoarea status este “trunchiaté”
+(i.e., status& OXFF) si returnaté drept cod_retur cétre périntele procesului respectiv.
+
+.l Primitiva de terminare anormalé a execuiiei unui proces: abort.
+lnterfaia acestei funciii: void abort(void) ;
+Efect: deblocheazé si apoi isi Iivreazé semnalul SIGABRT, ceea ce cauzeazé
+terminarea anormalé a procesului.
+
+.l Funciia system permite Iansarea de comenzi UNIX dintr-un program
+C, printr-un apel d9 fOrmaI system( comanda) ;
+Efect: se creeazé un nou proces, in care se incarcé she/l-ul implicit, ce va executa
+comanda specificaté.
+
+Gestiunea proceselor, partea I-a: Crearea si sincronizarea proceselor- primitivele fork( ) si wait( ) — p.8/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+O O O
+
+Crearea proceselor — prlmltlva fork
+Singura modalitate de creare a proceselor Tn UNIX/Linux este cu
+ajutorul apelului sistem fork. Prototipul Iui este urmétorul:
+pid_t fork(void);
+Efect: prin acest apel se creeazé 0 cop/e a procesului ape/ant, $i
+ambele procese — cel nou creat $i cel apelant — T$i vor continua
+executia cu urmétoarea instructiune (din programul executabil) ce
+urmeazé dupé apelul functiei fork.
+Singura diferenté dintre procese va fi valoarea returnaté de functia fork,
+precum $i, bineinteles, PID-urile proceselor.
+Procesul apelant va fi périntele procesului nou creat, iar acesta va fi fiul
+procesului apelant (mai exact, unul dintre procesele fii ai acestuia).
+
+Gestiunea proceselor, partea I-a: Crearea §i sincronizarea proceselor — primitivele fork( ) §i wait( ) — p.9/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Crearea proceselor — primitiva fork
+TObservaiie importanté: j
+Datorita acestei operatii de “clonare”, imediat dupa apelul fork
+procesul fiu va avea aceleaei valori ale variabilelor din program $i
+aceleaei fieiere deschise ca $i procesul parinte. Mai departe insa,
+fiecare proces va lucra pe propria sa zone" de memorie.
+Deci, daca fiul modifica valoarea unei variabile, aceasta modificare
+nu va fi vizibila $i Tn procesul tata ($i nici invers).
+Tn concluzie, nu avem memorie partajata (shared memory) Tntre
+procesele parinte $i fiu.
+Observafie: Tn Linux, apelul de sistem fork este implementat folosind pagini COW
+(copy-0n-write), ceea ce optimizeaza timpul de creare a fiului, util mai ales cand fiul
+apeleaza imediat o functie exec.
+L J
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+O O O
+
+Crearea proceselor — prlmltlva fork
+Valoarea returnaté:
+Apelul fork returneazé valoarea -1, Tn caz de eroare (dacé nu s-a
+putut crea un nou proces), iar Tn caz de succes, returneazé
+respectiv urmétoarele valori Tn cele doué procese, taté ei fiu:
+
+.0 n, Tn procesul taté, unde n este PID-Ul noului proces creat
+
+.0 0, Tn procesul fiu
+
+Pe baza acestei valori returnate, ce diferé Tn cele doué procese, se poate
+ramifica executia astfel Tncét fiul sé execute altceva decét tatél.
+
+Exemplu: a se vedea programul demonstrativ fork_ex . c
+
+Gestiunea proceselor, partea l-a: Crearea ei sincronizarea proceselor — primitivele fork( ) ei wait( ) — p.11/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Crearea proceselor — primitiva fork
+TObservatii: j
+.l PID-Ul unui nou proces nu poate fi niciodaté 0, deoarece procesul cu
+PID-U| 0 nu este fiul nici unui proces, ci este rédécina arborelui
+
+proceselor, $i este singurul proces din sistem ce nu se creeazé prin
+apelul fork, ci este creat atunci cénd se boot-eazé sistemul
+UNIX/Linux pe calculatorul respectiv.
+
+.l Procesul nou creat poate afla PID-Ul tatélui cu ajutorul primitivei
+getppid, pe cénd procesul périnte nu poate afla PID-ul noului
+proces creat, fiu al séu, prin alté manieré decét prin valoarea
+returnaté de apelul fork.
+
+(Noté: nu s-a creat o primitivé pentru aflarea PID-Ului fiului deoarece, spre deosebire
+de périnte, fiul unui proces nu este unic — un proces poate avea zero, unul, sau mai
+multi fii Ia un moment dat.)
+L J
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Terminarea rocese 0r
+p l
+TProcesele se pot termina in doué moduri: j
+.l terminarea norma/é: se petrece in momentul intélnirii in program a
+apelului primitivei exit (sau Ia sfér$itu| funciiei main).
+Ca efect, procesul este trecut in starea finished, se inchid fi$ierele deschise ($i se
+salveazé pe disc coniinutul buffer-elor folosite), se dealocé zonele de memorie alocate
+procesului respectiv, $.a.m.d.
+Codul de terminare este salvat in intrarea corespunzétoare procesului respectiv din
+tabela proceselor; intrarea respectivé nu este dealocaté (“$tearsé”) imediat din tabelé,
+astfel incét codul de terminare a procesului respectiv sé poaté fi furnizat procesului
+périnte la cererea acestuia.
+.l terminarea anormalé: se petrece in momentul primirii unui semnal de
+un anumit tip (e.g., semnalul generat cu un apel abort).
+Noté: nu chiar toate tipurile de semnale cauzeazé terminarea procesului.
+Si in acest caz se dealocé zonele de memorie ocupate de procesul respectiv, $i se
+péstreazé doar intrarea sa din tabela proceselor péné cénd périntele séu va cere codul
+de terminare (reprezentat in acest caz de numérul semnalului ce a cauzat terminarea
+L anormalé). J
+Gestiunea proceselor, partea l-a: Crearea §i sincronizarea proceselor - primitivele fork( ) §i wait ( ) - p.13/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+O O
+
+Slncronlzarea proceselor
+in programarea oonourenté existé notiunea de punct de
+sincronizare a doué prooese: este un punct din care cele doué
+procese au O executie simultané (Le. este un punct de a$teptare reciprocé).
+Punctul de sinoronizare nu este o noiiune dinamioé, oi una statioé (o
+notiune fixé): este preoizat in algoritm (i.e., program) Iooul unoie se
+géseste acest punct ole sinoronizare.
+Primitiva fork este un exemplu de punct de sinoronizare:
+cele doué prooese — prooesul apelant al primitivei fork $i prooesul nou
+creat de apelul aoestei primitive — Tsi oontinué executia simultan din aoest
+punct (Le. punctul din program in care apare apelul functiei fork).
+
+Gestiunea proceselor, partea l-a: Crearea oi sincronizarea proceselor — primitivele fork( ) §i wait( ) — p.14/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+. . . .
+Prlmltlva wa 1t
+
+TUn alt exemplu de sincronizare, des Tntalnita Tn practica: j
+Procesul parinte poate avea nevoie de valoarea de terminare
+returnata de procesul fiu.
+Pentru a realiza aceasta facilitate, trebuie stabilit un punct de
+sincronizare Tntre star$itul programului fiu $i punctul din programul
+parinte Tn care este nevoie de acea valoare, 5i apoi trebuie
+transferata acea valoare de la procesul fiu la procesul parinte.
+
+L J
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+O O O I
+Prlmltlva walt (cont.)
+Apelul sistem wait este utilizat pentru a astepta un proces
+fiu sé-si termine executia.
+lnterfata acestei functii:
+pid_t wait ( int* stat_loc) ;
+Efect: apelul functiei wait suspendé executia procesului apelant
+péné Tn momentul Tn care unul dintre fiii acelui proces (oricare
+dintre 6i), SG terminé sau este stopat (i.e., terminat anormal printr-un semnal).
+Dacé existé deja vreun fiu care s-a terminat sau a fost stopat,
+atunci functia wait returneazé imediat.
+Gestiunea proceselor, partea l-a: Crearea §i sincronizarea proceselor — primitivele fork( ) §i wait( ) — p.16/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+O O O I
+Prlmltlva wa 1t (cm)
+Valoarea returnaté:
+Apelul wait returneazé ca valoare PID-U| acelui proces fiu, iar Tn locatia
+referité de pointerul stat_loc este salvaté urmétoarea valoare:
+.l codul de terminare a acelui proces fiu ($i anume, Tn octetul high al acelui
+int), dacé wait returneazé deoarece un fiu s-a terminat normal
+.l COdul semnalului ($i anume, Tn octetul low al acelui int), dacé functia wait
+returneazé deoarece un fiu a fost stopat de un semnal
+Nata": pentru a inspecta valoarea stocaté Tn *staLloc pot fi folosite macro-urile WIFEXITED,
+WEXITSTATUS, WIFSIGNALED, WTERMSIG, WIFSTOPPED, WSTOPSIG $.81.
+Dacé procesul apelant nu are procese fii, atunci functia wait returneazé
+valoarea -1, iar variabila errno este setaté Tn mod corespunzétor pentru
+a indica eroarea (i.e., ECHILD).
+Gestiunea proceselor, partea l-a: Crearea §i sincronizarea proceselor- primitivele fork( ) §i wait( ) — p.17/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+O O O I
+Prlmltlva walt (am)
+Observatie: daca procesul parinte se termina Tnaintea vreunui proces fiu,
+atunci acestui fiu i se va atribui ca parinte procesul init (ce are PID-Ul
+1), iar acest Iucru se face pentru toate procesele fii neterminate Tn
+momentul terminarii parintelui Ior. lar daca un proces se termina Tnaintea
+parintelui sau, atunci el devine zombie.
+Mai exista o primitiva, cu numele waitpid, care va aetepta
+terminarea fie UHUi anumit fiu (specificat prin PID-Ul sau dat ca argument), fie a
+oricarui fiu (daca se specifica -1 drept PID), ei are un argument suplimentar
+care influenteaza modul de aeteptare (eg. optiunea WNOHANG e utila pentru a
+testa fara aeteptare existenta vreunui fiu deja terminat).
+Exemple: a se vedea programele demonstrative wait_ex1 . c ,
+wait_ex2 . c $i wait_ex3 . c
+Gestiunea proceselor, partea l-a: Crearea ei sincronizarea proceselor — primitivele fork( ) ei wait( ) — p.18/20
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Sabloane de coo r r ° ‘n r n’ r
+, peae§151couae
+.l Sablonul de cooperare Supervisor/workers’ (aka Master/slaves’):
+Este un $ab|0n de calcul paralel aplicabil atunci cénd avem o problemé complexé a
+cérei rezolvare se poate “diviza” in mai multe sub-probleme ce pot fi apoi rezolvate,
+in paralel, independent una de alta, iar Ia final rezultatele pariiale obiinute pot fi
+“agregate” pentru a obiine rezultatul final al problemei iniiiale.
+.l Sablonul de sincronizare ’T0ken ring’:
+Este un $ab|0n de sincronizare care surprinde urmétoarea situaiie: avem un numér
+oarecare p de procese, fiecare avénd de executat, in mod repetitiv, céte o aciiune
+specificé AZ- , cu 1; : 1, ...,p , ei se cere sincronizarea execuiiei Ior in paralel, astfel
+incét ordinea de execuiie (i.e., trace-ul) sé fie precis urmétoarea: A1, A2, . . . ,Ap ,
+repetaté de un anumit numér de ori.
+.l Alte sabloane: Producer-Consumer’, CREW’, $.a. (pentru detalii, recitiii
+cursul teoretic #6).
+Gestiunea proceselor, partea l-a: Crearea §i sincronizarea proceselor- primitivele fork( ) §i wait( ) — p.19/20
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Bibliograﬁe obligatorie
+Cap.4, §4.1, §4.2 $i §4.3 din manualul, tn format PDF, accesibil din pagina
+disciplinei “Sisteme de operare”:
+o https : / /profs . info . uaic . ro/~vidrascu/SO/books/ManualID— SO . pdf
+Programele demonstrative amintite pe parcursul acestei prezentéri pot fi descércate de la
+adresele urmétoare:
+0 https : / /profs . info . uaic . ro/~vidrascu/SO/cursuri/C-programs /fork/
+o https : / /profs . info . uaic . ro/~vidrascu/SO/cursuri/C-programs /wait/
+
+Gestiunea proceselor, partea l-a: Crearea §i sincronizarea proceselor- primitivele fork( ) §i wait( ) — p.20/20
+
+***************Ending Page***************
+

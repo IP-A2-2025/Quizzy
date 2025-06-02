@@ -1,0 +1,688 @@
+***************Beginning Page***************
+***************page number:1**************
+1.
+Decision Tree Learning
+Based on “Machine Learning”, T. Mitchell, McGRAW Hill, 1997, ch. 3
+Acknowledgement:
+The present slides are an adaptation of slides drawn by T. Mitchell
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2.
+PLAN
+o DT Learning: Basic Issues
+1. Concept learning: an example
+2. Decision tree representation
+3. ID3 learning algorithm (Ross Quinlan, 1986)
+Hypothesis space search by ID3
+Statistical measures in decision tree learning:
+Entropy, Information gain
+4. Inductive bias in IDS
+5. Time complexity of the ID3 algorithm
+6. Other “impurity” measures (apart entropy): Gini, missclassiﬁcation
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+3.
+PLAN (cont’d)
+0 Useful extensions to the ID3 algorithm
+1. Dealing with...
+continuous-valued attributes
+attributes with many values
+attributes with different costs
+training examples with missing attributes values
+2. Avoiding overﬁtting of data:
+reduced-error prunning, and rule post-pruning
+0 Advanced Issues
+Ensemble Learning using DTs: boosting, bagging, Random Forests
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+4.
+When to Consider Decision Trees
+o Instances are described by attribute—value pairs
+o Target function is discrete valued
+o Disjunctive hypothesis may be required
+o Possibly noisy training data
+Examples:
+o Equipment or medical diagnosis
+o Credit risk analysis
+o Modeling calendar scheduling preferences
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+1. Basic Issues in DT Learning 5'
+1.1 Concept learning: An example
+Given the data:
+——|
+D1 Sunny Hot High Weak No
+D2 Sunny Hot High Strong No
+D3 Overcast Hot High Weak Yes
+D4 Rain Mild High Weak Yes
+D5 Rain Cool Normal Weak Yes
+D6 Rain Cool Normal Strong No
+D7 Overcast Cool Normal Strong Yes
+D8 Sunny Mild High Weak No
+D9 Sunny Cool Normal Weak Yes
+D10 Rain Mild Normal Weak Yes
+D11 Sunny Mild Normal Strong Yes
+D12 Overcast Mild High Strong Yes
+D13 Overcast Hot Normal Weak Yes
+D14 Rain Mild High Strong No
+predict the value of EnjoyTennis for
+(Outlook I sunny, Temp I cool, Humidity I high, Wind I strong>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+6.
+1.2. Dec1s1on tree representatlon
+o Each internal node tests an attribute
+0 Each branch corresponds to attribute value
+o Each leaf node assigns a classiﬁcation
+Sunny Overcast Rain
+Dec1s1on Tree for EnjoyTenms
+;Iigh Norm<ll Styong Wec<
+N0 Yes N0 Yes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+Another example:
+A Tree t0 Predict C-Section Risk
+
+Learned.ﬁxnn.nuxﬁcalrecord5(ﬂi1000'“Knnen
+Negative examples are C-sections
+[833+,167-] .83+ .17-
+Fetal_Presentation = 1: [822+,116—] .88+ .12-
+| Previous_Csection = O: [767+,81—] .90+ .10-
+| | Primiparous = O: [399+,13—] .97+ .03-
+| | Primiparous = 1: [368+,68—] .84+ .16-
+| | | Feta1_Distress = O: [334+,47—] .88+ .12-
+l I | | Birth_Weight < 3349; [201+,10.6-] .95+ .05-
+l I | | Birth_Weight >= 3349; [133+,36.4-] .78+ .22-
+| | | Fetal_Distress = 1: [34+,21—] .62+ .38-
+| Previous_Csection = 1: [55+,35—] .61+ .39-
+Fetal_Presentation = 2: [3+,29—] .11+ .89-
+Fetal_Presentation = 3: [8+,22—] .27+ .73-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+1.3. Top-Down Induction of Decision Trees:
+ID3 algorithm lee
+[Ross Quinlan, 1979, 1986]
+START
+create the root node;
+assign all examples to root;
+Main loop:
+1. A e the “best” decision attribute for next node;
+2. for each value of A, create a new descendant of node;
+3. sort training examples to leaf nodes;
+4. if training examples perfectly classiﬁed, then STOP;
+else iterate over new leaf nodes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+ID3 Algorithm: basic version 9'
+ID3(Examples, Target_attribute, Attributes)
+0 create a Root node for the tree; assign all Examples to Root;
+0 if all Examples are positive, return the single-node tree Root, with label:—|—;
+o if all Examples are negative, return the single-node tree Root, with label=—;
+o if Attributes is empty, return the single-node tree Root,
+with label : the most common value of Target_attribute in Examples;
+o otherwise // Main loop:
+A <— the attribute from Attributes that best* classiﬁes Examples;
+the decision attribute for Root <— A;
+for each possible value ul- of A
+add a new tree branch below Root, corresponding to the test A : vi;
+let Examples“. be the subset of Examples that have the value vi for A;
+if Examplesvz. is empty
+below this new branch add a leaf node with label I the most common value
+of Target_attribute in Examples;
+else
+below this new branch add the subtree
+ID3(ExamplesUi, Target_attribute, Attributes\{A});
+. return ROOt; * The best attribute is the one with the highest information gain.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10.
+Hypothesis Space Search by ID3
+o Hypothesis space is complete! /
+The target function surely is in
+there...
+o Outputs a single hypothesis / ‘ \
+Which one‘? 2%
+A1 A2
+o Inductive bias: ﬁ§§+ + _ + _
+approximate “prefer the shortest / \\\\
+tree”
+0 Statisically-based search choices A2 A2
+Robust to noisy data... + _ + A_3 + _ + 1K4
+o No back-tracking / \
+Local minima...
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+11.
+Statistical measures in DT learning:
+Entropy, and Information Gain
+
+Information gain:
+
+the expected reduction of the entropy of the instance set
+
+S due to sorting on the attribute A
+Gain(S A) : Entropy(S) — Z @Ent'rop'yw )
+
+’ vE Values<A> ‘S, U
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12.
+Entropy
+o Let S be a sample of training examples
+pg; is the proportion of positive examples in S
+pg is the proportion of negative examples in S
+0 Entropy measures the impurity of S
+o Information theory:
+Entropy(S) I expected number of bits needed to encode EB or 9
+for a randomly drawn member of S (under the optimal, shortest-
+length code)
+The optimal length code for a message having the probability p is
+— log2p bits. So:
+Enimpyw) I p@(—10s2p@) + p@(—10s2p@) I —Pe 10s2 19$ — Pe losgpe
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+13.
+
+1.0
+a 1 1
+é Entmpyw) I p@10g2 — + p@10g2 —
+g 0-5 19$ 29%
+LU
+
+Note: By convention, 0-10g2 0 I 0.
+0.0 0.5 1.0
+p69
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14.
+Back t0 the Enjoy Tennis example:
+Selectmg the root attrlbute
+Which attribute is the best classiﬁer?
+S: [9+,5-] S: [9+,5-]
+E =0.940 E=0.940
+High Normal Weak Strong GCLZTL<S, Outlook) I 0.246
+Gain(S, Temperature) I 0.029
+[3+,4-] [6+,1-] [6+,2-] [3+,3-]
+E =0.985 E =0.592 E =0.811 E =l.00
+Gain (S, Humidity ) Gain (S, Wind)
+= .940 — (7/14).985 — (7/14).592 = .940 — (8/14).811 — (6/14)1.0
+= .151 = .048
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+1 .
+{D1, D2, D14} 5
+[9+’5_]
+I
+A part 1ally
+learned tree
+/Sunny Over‘cast Rain\
+{D1,D2,D8,D9,D11} {D3,D7,D12,D13} {D4,D5,D6,D10,D14}
+[2+,3—] [4+,0—] [3+,2—]
+/
+Which attribute should be tested here?
+ssunny = {D1,D2,D8,D9,D11}
+Gail/Mm,” , Humidity) = .970 - (3/5) 0.0 _ (2/5) 0.0 = .970
+Gain (Ssunny, Temperature) = .970 — (2/5) 0.0 — (2/5) 1.0 — (1/5) 0.0 = .570
+Gain (Ssunny, Wind) = .970 — (2/5)1.0 — (3/5) .918 = .019
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+16.
+Converting A Tree to Rules
+IF (Outlook I Sunny) /\ (Humidity I High)
+THEN EnjoyTennis I No
+IF (Outlook I Sunny) /\ (Humidity I Normal)
+THEN EnjoyTennis I Yes
+Sunny Overcast Rain
+High Normal Strong Weak
+No Yes No Yes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+17.
+1.4 Inductive Bias in ID3
+Is ID3 unbiased?
+Not really...
+0 Preference for short trees, and for those with high information gain
+attributes near the root
+o The ID3 bias is a preference for some hypotheses (i.e., a search bias);
+there are learning algorithms (e.g. CANDIDATE-ELIMINATION, ch. 2)
+whose bias is a restriction of hypothesis space H (i.e, a language bias).
+o Occam’s razor: prefer the shortest hypothesis that ﬁts the data
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+18.
+Occam’s Razor
+Why prefer short hypotheses?
+Argument in favor:
+o Fewer short hypotheses than long hypsotheses
+
+—> a short hypothesis that ﬁts data unlikely to be coincidence
+
+—> a long hypothesis that ﬁts data might be coincidence
+Argument opposed:
+
+o There are many ways to deﬁne small sets of hypotheses
+(e.g., all trees with a prime number of nodes that use attributes be-
+ginning with “Z”)
+
+o What’s so special about small sets based on the size of
+hypotheses?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+l9.
+1.5 Complexity of decision tree induction
+from “Data mining. Practical machine learning tools and techniques”
+Witten et al, 3rd ed., 2011, pp. 199-200
+o Input: d attributes, and m training instances
+o Simplifying assumptions:
+(A1): the depth of the ID3 tree is @(log m),
+(i.e. it remains “bushy” and doesn’t degenerate into long, stringy branches);
+(A2): [most] instances differ from each other;
+(A2’): the d attributes provide enough tests to allow the instances to
+be differentiated.
+o Time complexity: @(d mlog m).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+44' ' 99 20'
+1.6 Other 1mpur1ty measures (apart entropy)
+. K11) "it Ginz' Impurity: 1 — 2:le P2(cZ-)
+Misclassz'ﬁcat'ion Impurity: 1 — maxi-"21 P(cZ-)
+- Drop-of-Impu'rity: Am) "iv-(71% P(m)i(nl) - Pmmm),
+where n1 and n7. are left and right child 0f node n after splitting.
+For a Bernoulli variable of parameter p: 3
+Ent'mpy (P) I —p10g2 P — (1 — P)1Og2(1 — P) 3
+Ginﬂp) I 1 —p2 — (1 —p)2 I 2P(1 —p)
+. . _ 1—(1—p), ifp€[0;1/2) d
+MzsClasszf(p) _ { 1 _ p, ifp € [1/2;1] N
+_ p, ifp e [0; 1/2> °
+0.0 0.2 0.4 0.6 0.8 1.0
+P
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+, , 21.
+2. Extens1ons of the ID3 algor1thn1
+2.1 Dealing With ...Continuous valued attributes
+Create one or rnore discrete attribute to test the continuous.
+For instance:
+Temperature = 82.5
+(Temperature > 72.3) : t, f
+How to choose such (threshold) values:
+Sort the examples according to the values of the continuous attribute,
+then identify examples that differ in their target classiﬁcation.
+For EnjoyTennis:
+Temperature: 40 48 60 72 80 90
+EnjoyTennis: No No Yes Yes Yes No
+Temperature>54
+Temperature>85
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+...Attributes with many values
+Problem:
+0 If an attribute has many values, Gain will select it
+0 Imagine using Date I Jun_3_1996 as attribute
+One approach: use GainRatio instead
+. . Gain(S A)
+G R t S A E —’
+am a 20( 7 ) Split]nf0rmat7l0n(S, A)
+C Sl- S2-
+Split]nf0rmati0n($, A) E — Z % 10g2 %
+1:1
+Where S2- is the subset of S for which A has the value vi
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+23.
+...Attributes with different costs
+Consider
+o rnedical diagnosis, BloodTest has cost $150
+o robotics, Widthjromlft has cost 23 sec.
+Question:
+How to learn a consistent tree with low expected cost?
+One approach: replace gain by
+o W (Tan and Schlimrner, 1990)
+o % (Nunez, 1988)
+where w € [0,1] determines the importance of cost
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+24.
+...Training examples with
+unknown attribute values
+Question:
+What if an example is missing the value of an attribute A?
+Answer:
+Use the training example anyway, sort through the tree, and
+if node n tests A,
+o assign the most common value of A among the other examples
+sorted to node n, or
+o assign the most common value of A among the other examples with
+same target value, or
+0 assign probability pl- to each possible value UZ- of A;
+assign the fraction pl- of the example to each descendant in the tree.
+Classify the test instances in the same fashion.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+2.2 Overﬁtting in Decision Trees 25'
+Consider adding noisy training example #15:
+(Sunny, Hot, Normal, Strong, EnjoyTennz's: N0)
+What effect does it produce
+on the earlier tree‘?
+Sunny Overcast Rain
+High Normal Strong Weak
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+()verﬁtting: Deﬁnition
+Consider error of hypothesis h over
+o training data: errortmmm)
+o entire distribution D of data: errorﬂh)
+Hypothesis h G H overﬁts training data if
+there is an alternative hypothesis h’ 6 H such that
+errortmmw) < errortmm(h')
+and
+erroerL) > €TTOTp(h/)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+Overﬁttmg 1n De01510n Tree Learnlng
+0.9
+0.85
+0.8
+0.75 / /————————~\
+S / \
+8 0.7 II \______\
+O ‘ \_______________/_____.
+<2‘ a
+0.65 ,’
+0.6 On training data —
+On test data ----
+0.55
+0.5
+0 10 20 30 40 50 60 70 80 90 100
+Size 0f tree (number of nodes)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+2s.
+Avoiding 0verﬁtting
+How can we avoid overﬁtting?
+o stop growing when the data split is not anymore statisti-
+cally signiﬁcant
+a grow full tree, then post-prune
+How to select the “best” tree:
+o Measure performance over a separate validation data set
+o Minimum Description Length (MDL) principle:
+minimize size(tree) + size(misclassiﬁcations(tree))
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+29.
+2.2.1 Reduced-Error Pruning
+Split data into training set and validation set
+Do until further pruning is harmful:
+1. Evaluate impact on validation set of pruning each possible
+node (plus those below it)
+2. Greedily remove the one that most improves validation set
+accuracy
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+30.
+Effect of Reduced-Error Prunlng
+0.9
+0.85
+0.8
+>3 [If \\\\\ __‘____“~~_______
+E 0.7 1/ \\______
+5 1 \\\_______________’,,_~_~_~___
+8 a
+< 0.65 ,1
+0.6 On training data —
+On test data ----
+0.55 On test data (during pruning)
+0.5
+O 10 20 3O 4O 50 6O 7O 80 9O 100
+Size of tree (number of nodes)
+Note:
+A validation set (distinct from both the training and test sets) was used for
+pruning. Accuracy over this validation set is not shown here.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+31.
+2.2.2 Rule Post-Pruning
+
+1. Convert tree to equivalent set of rules
+
+2. Prune each rule independently of others
+
+3. Sort the ﬁnal rules into the desired sequence (e.g. accord-
+
+ing to the estimated accuracy) for use
+
+It is perhaps most frequently used method (e.g., (34.5 by Ross
+Quinlan, 1993)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+32.
+3. Ensemble Learning: a very brief introduction
+There exist several well-known meta-learning techniques that aggregate
+decision trees:
+BOOSting [Freund et al., 1995; Shapire et al., 1996]:
+When constructing a new tree, the data points that have been in-
+correctly predicted by earlier trees are given some extra Wight, thus
+forcing the learner to concentrate successively on more and more dif-
+ﬁcult cases.
+In the end, a weighted vote is taken for prediction.
+Bagging [Breiman, 1996]:
+New trees do not depend on earlier trees; each tree is independently
+constructed using a boostrap sample (i.e. sampling with replacing) of
+the data set.
+The ﬁnal classiﬁcation is done via simple majority voting.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+. 33.
+The AdaBoost Algorlthm
+[pseudo-code from Statistical Pattern Recognition, Andrew Webb, Keith Copsey, 2011]
+Input:
+{(x;,yZ-) | i I 1, . . . ,n} — a set of labeled instances;
+T € N* — the number of boosting rounds;
+Training:
+initialization: w;- : 1/n, for i : 1, . . . ,n
+for t: 1,...,T
+a. construct a classiﬁer 77,; (e.g., a decision tree) using the given training data,
+with weights w;,i : 1,. ..,n;
+b. et I 22 wi, where i indexes all instances misclassiﬁed by m;
+c. if e1; I O or et > 1/2 then terminate the procedure;
+1
+else w,- + w;- (— — 1) for all instances which were misclassiﬁed by m, and then
+61:
+renormalize the weights w;,i : 1, . . . ,n so that they sum to 1;
+Prediction:
+given a test instance x, and
+assuming that the classiﬁers nt have two clases, —1 and +1, compute
+1
+A T
+W?) I 215:1 (10g (gt — 1)) M31);
+assign a: the label sign(ﬁ(x));
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+The Bagging Algorithm
+(Bootstrap aggregating)
+[pseudo-code from Statistical Pattern Recognition, Andrew Webb, Keith Copsey, 2011]
+Input:
+{($1,311) l i I 1, . . . ,n} — a set of labeled instances;
+B 6 N* — the number of samples / (sub)classiﬁers to be produced;
+Training:
+for b:l,...,B
+a. generate a boostrap sample of size n by extracting with replace-
+ment from the training set;
+(Note: some instances will be replicated, others will be omitted.)
+b. construct a classiﬁer nb (e.g., a decision tree), using the boostrap
+sample as training data;
+Prediction:
+given a test instance :13, assign it the most common label in the set
+{171456) | b:1,---,B};
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+Random Forests (RF)
+[Breiman, 2001]
+RF extends bagging with and additional layer of randomness:
+random feature selection:
+While in standard classiﬁcation trees each node is split using the best
+split among all variables, in RF each node is split using the best among
+a subset of features randomly chosen at that node.
+RF uses only two parameters:
+— the number of variables in the random subset at each node;
+— the number of trees in the forest.
+This somehow counter-intuitive strategy is robust against overfitting, and
+it compares well to other machine learning techniques (SVMs, neural
+networks, discriminat analysis etc).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+. 36.
+The Random Forests (RF) Algorlthm
+[pseudo-code from Statistical Pattern Recognition, Andrew Webb, Keith Copsey, 2011]
+Input:
+{(90,,y,-) I i I 1, . . . ,n} — a set of labeled instances;
+B € N* — the number of samples to be produced / trees in the forest;
+in — the number of features to be selected
+Training:
+for b:1,...,B
+a. generate a boostrap sample of size n by extracting with replacement from the
+training set;
+(Note: some instances will be replicated, others will be omitted.)
+b. construct a a decision tree m, by using the boostrap sample as training data,
+and choosing at each node the “best” among m randomly selected attributes;
+Computation of the out-the-bag error:
+a training instance xi, is misclassiﬁed by RF if its label y,- difFers from zZ, the most
+common label in the set {775/ (x1) | b’ € {1, . . . , B}, such that a", Q the boostrap sample
+for the classiﬁer my};
+Prediction:
+given a test instance 1r, assign it the most common label in the set {171,(33) l b I
+l, . . . , B };
+
+***************Ending Page***************
+

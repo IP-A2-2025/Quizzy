@@ -1,0 +1,803 @@
+***************Beginning Page***************
+***************page number:1**************
+l.
+Computational Learning Theory
+Based 0n “Machine Learning”, T. Mitchell, lVIcGRAW Hill, 1997, ch. 7
+Acknowledgement:
+The present slides are an adaptaticn of slides drawn by T. Mitchell
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2.
+Main Questions in Computational Learning Theory
+o Can one characterize the number of training examples nec-
+essary/ sufficient for successful learning?
+o Is it possible to identify classes of concepts that are inher-
+ently difficult /easy to learn, independent of the learning
+algorithm?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+3.
+We seek answers in terms of
+
+o sample complexity: number of needed training examples
+
+o computational complexity: time needed for a learner to
+converge (with high probability) to a successful hypothesis
+
+o the manner in which training examples should be pre-
+sented to the learner
+
+o mistake bound: number of mistakes made by the learner
+before eventually succeeding
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+4.
+Remarks
+1. Since no general answers to the above questions are yet
+known,
+we will give some key results for particular settings.
+2. We will restrict the presentation to inductive learning, in a
+universe of instances X , in which we learn a target function
+c from a number of examples D, searching a candidate h in
+a given hypothesis space H.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+5.
+Plan
+1. The Probably Approximately Correct learning model
+1.1 PAC-Learnable classes of concepts
+1.2 Sample complexity
+Sample complexity for ﬁnite hypothesis spaces
+Sample complexity for inﬁnite hypothesis spaces
+1.3 The Vapnik-Chervonenkis (VC) dimension
+2. The Mistake Bound model of learning
+o The HALVING learning algorithm
+o The WEIGHTED-MAJORITY learning algorithm
+o The optimal Mistake Bounds
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+6.
+1. The PAC learning model
+Note:
+
+For simplicity, here we restrict the presentation to learning
+boolean functions, using noisy free training data.
+Extensions:
+
+o considering real-valued functions: [Natarajan, 1991];
+
+o considering noisy data: [Kearns 81: Vazirani, 1994].
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+The True Error of a Hypothesis: errorﬂh)
+Instance space X
+gym) 7A hm
+' c h '
+the probability that h will
+misclassify a single in-
+stance drawn at random
+according to the distribu- Wh -
+tion D. andhdisagree
+Note: 67"?"0Tp(h) is not directly observable to the learner;
+it can only see the training error of each hypothesis
+(i.e., how often h(a:) 75 C(ZE) over training instances).
+Question:
+Can we bound errorﬂh) given the training error of h?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+Important Note
+Ch. 5 (Evaluating Hypotheses) explores the relationship be-
+tween true error and sample error,
+given a sample set S and a hypothesis h,
+with S independent of h.
+When S is the set of training examples from which h has been
+learned (i.e., D), obviously h is not independent of S.
+Here we deal with this case.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+9.
+The Need for Approximating the True Error
+of a Hypothesis
+Suppose that we would like to get a hypothesis h with true error 0:
+
+1. the learner should choose among hypotheses having the training
+error 0, but since there may be several such candidates, it cannot
+be sure which one to choose
+
+2. as training examples are drawn randomly, there is a non-0 proba-
+bility that they will mislead the learner
+
+Consequence: demands on the learner should be weakened
+
+1. let @TTOTD(h) < 6 with 6 arbitrarily small
+
+2. not every sequence of training examples should succeed, but only
+with probability 1 — 5, with 5 arbitrarily small
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10.
+1.1 PAC Learnable Classes of Concepts: Deﬁnition
+Consider a class C of possible target concepts deﬁned over a
+set of instances X of length n, and a learner L using the
+hypothesis space H.
+C is PAC-learnable by L using H if
+for all c € C, distributions D over X, e such that O < 6 < 1/2,
+and 5 such that O < 6 <1/2,
+the learner L will with probability at least (1 — 5) output a
+hypothesis h € H such that €TTOT13<h> g e,
+in time that is polynomial in 1/6, 1/5, n and size(c),
+where size(c) is the encoding length of c, assuming some
+representation for C.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+11.
+PAC Learnability: Remarks (I)
+
+o If C is PAC-learnable, and each training example is processed
+in polynomial time,
+then each c € C can be learned from a polynomial number
+of training examples.
+
+o Usually, to show that a class C is PAC-learnable, we show
+that each c 6 C can be learned from a polynomial number
+of examples, and the processing time for each example is
+polynomially bounded.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12.
+PAC Learnability: Remarks (II)
+o Unfortunately, we cannot ensure that H contains (for any
+e, 5) an h as in the deﬁnition of PAC-learnability unless C
+is known in advance, or H E 2X.
+o However, PAC-learnability provides useful insights on
+the relative complexity of different ML problems, and
+the rate at which generalization accuracy improves with
+additional training examples.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+l3.
+1.2 Sample Complexity
+
+In practical applications of machine learning, evaluating the sample com-
+plexity (i.e. the number of needed training examples) is of greatest interest
+because in most practical settings limited success is due to limited available
+training data.
+We will present results that relate (for different setups)
+
+o the size of the instance space (m)
+to
+
+o the accuracy to which the target concept is approximated (e)
+
+o the probability of successfully learning such an hypothesis (l — 5)
+
+0 the size of the hypothesis space (lHI)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14.
+1.2.1 Sample Complexity for
+Finite Hypothesis Spaces
+First, we will present a general bound on the sample com-
+plexity for consistent learners, i.e. which perfectly ﬁt the
+training data.
+Recall the version space notion:
+VSHJ) I {h € HlV<at, c(:z:)> € D, Mac) I C(23)}
+Later, we will consider agnostic learning, which accepts the
+fact that a zero training error hypothesis cannot always be
+found.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+. . 15.
+Exhaustlon of the Ver51on Space
+Deﬁnition:
+VSHJ) is 6-exhausted with respect to the target concept c
+and the training set D if erroerL) < e, Vh € VSij.
+Hypothesis space H
+. 'err0r=.3
+err0r=.1 7:.4
+r=.2 .
+err0r=.2
+r=O
+. VSHJ) ‘err0r=.2
+WZOIT'3 -err0r=.1 r=.3
+_' r=0
+'r : training error, error : true error
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+How many examples will e-exhaust the VS? 16‘
+Theorem: [Haussler, 1988]
+If the hypothesis space H is ﬁnite, and D is a sequence
+of m Z 1 independent random examples of some target
+concept c G H, then for any O g e g 1, the probability that
+VS H71) is not e-exhausted (with respect to c) is less than
+IH|€—67TL
+Proof: Let h be a hypothesis of true error Z e. The proba-
+bility that h is consistent with the m independently drawn
+training examples is < (1 — e)m.
+The probability that there are such hypothesis h in H is
+< \HKl — e)m.
+As 1— e g 676 for V6 € [0,1], it follows that ]H\(1— e)m g
+\H\e_6m.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+17.
+Consequence: The above theorem bounds the probability
+
+that any consistent learner will output a hypothesis h with
+errorﬂh) Z e. If we want this probability to be below 5
+
+\H\e_6m g 5
+then 1
+
+m Z —(ln [Hl —|— ln(l/5))
+
+e
+This is the number of training examples sufficient to en-
+sure that any consistent hypothesis will be probably (with
+probability l — 6) approximately (within error 6) correct.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+18.
+Example 1: EnjoySport
+If H is as given in EnjoySport (see Chapter 2) then |H\ : 973,
+and 1
+m Z —(ln973 +1n(1/5))
+
+e
+If want to assure that with probability 95%, VS contains only
+hypotheses with errorﬂh) g 0.1, then it is sufficient to have m
+examples, Where
+
+1
+
+m Z ﬁQn 973+1n(1/.05)) I 10(111 973+1n 20) I 10(6.88+3.00) I 98.8
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+19.
+EXample 2: Learning conjunctions of boolean literals
+Let H be the hypothesis space deﬁned by conjunctions of lit-
+erals based on n boolean attributes possibly with negation.
+Question: How many examples are sufficient to assure with
+probability of at least (1— 5) that every h in 1/ng5 satisﬁes
+error/“19%) § 6?
+Answer: |Hl : 3”, and using our theorem it follows that
+1 1
+m Z —(ln3” —|— ln(1/5)) or m Z —(nln3 —|— ln(1/5))
+e e
+In particular, as FIND-S spends C(11) time to process one (pos-
+itive) example, it follows that it PAC-learns the class of
+conjunctions of n literals with negation.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+20.
+Example 3:
+
+PAC-Learnability of k-term DNF expressions
+
+k-term DNF expressions: T1 \/ T2 \/ . . . \/ Tk Where Tl- is a con-
+junction of n attributes possibly using negation.
+
+If H I C then ‘HI I 3M‘, therefore m Z %(nkln3+ln %), which is
+polynomial, but...
+
+it can be shown (through equivalence with other problems)
+that it cannot be learned in polynomial time (unless RP 75
+NP)
+
+therefore k-term DNF expressions are not PAC-learnable.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+21.
+Example 4:
+PAC-Learnability of k-CNF expressions
+
+k-CNF expressions are of form T1 /\ T2 /\ . . . /\ T]-
+
+Where T1- is a disjunction of up to k boolean attributes.
+Remark:
+
+k-term DNF expressions C k-CNF expressions.
+Surprisingly, k-CNF expressions are PAC-learnable by a poly-
+
+nomial time complexity algorithm (see [Vazirani, 1994]).
+Consequence:
+
+k-term DNF expressions are PAC-learnable by an efficient
+
+algorithm using H : k-CNF(!).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+Example 5:
+PAC-Learnability of Unbiased Learners
+In such a case, H I C I 73(X).
+If the instances in X are described by n boolean features,
+then \X| I 2” and \H| I |C| I 2|X| I 22”,
+therefore m Z a2” ln 2 —|— lIl %)
+Remark:
+Although the above bound is not a tight one,
+it can be shown that the sample complexity for learning
+the unbiased concept class is indeed exponential in n.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Sample Complexity for 23'
+Agnostic Learning
+
+Agnostic learning doesn’t assume c € H , therefore c may or
+may not be perfectly learned in H. In this more general set-
+ting, a hypothesis which has a zero training error cannot al-
+ways be found.
+o What can we search for?
+A hypothesis h that makes the fewest errors on training data.
+o What is the sample complexity in this case?
+
+1
+Proof idea: use Hoeffding-Chernoff bounds
+
+Pr[err0rp(h) > errorDUL) —|— 6] g 5277162
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+_ 24.
+1.2.2 Sample CompleX1ty for
+Inﬁnite Hypothesis Spaces
+For |H| : oo, in order to better evaluate the sample
+complexity, we will use another measure: the Vapnik-
+Chervonenkis dimension, VC(H), the number of inst-
+naces from X which can be discriminated by H. Now
+we prepare its introduction.
+Deﬁnitions:
+A dichotomy of a set S is a partition of S into two
+disjoint subsets.
+A set of instances S is shattered by hypothesis space
+H if and only if for every dichotomy of S there exists
+some hypothesis in H consistent with this dichotomy.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+25.
+Example: Three Instances Shattered
+Instance space X
+A©
+m!»
+i ‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+Remarks
+1. The ability 0f H to shatter a set of instances S Q
+X is a measure of its capacity t0 represent target
+concepts deﬁned over the instances in S.
+2. Intuitively, the larger subset 0f X can be shattered,
+the more expressive is H!
+3. An unbiased H is one that shatters the entire X.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+1.3 The Vapnik-Chervonenkis Dimension
+The Vapnik-Chervonenkis dimension, VC (H ), of the hypoth-
+esis space H deﬁned over the instance space X is the size
+of the largest ﬁnite subset of X shattered by H. If arbi-
+trarily large ﬁnite sets of X can be shattered by H, then
+VC(H) E oo.
+Note:
+If \Hl < oo, then VC(H) g log2 \H|.
+(Proof: if d I VC(H), then |Hl Z 2d and so d §10g2 | H |.)
+Example 1:
+If X : R and H is the set made of all intervals on the real
+number line, then VC(H) : 2.
+Proof: ﬁrst show that VC(H) Z 2, then VC(H) < 3.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+28.
+Example 2:
+
+VC Dimension of Linear Decision Surfaces
+If X I R2 and H is the set of all liniar decision surfaces
+in the plane, then VC(H) I 3.
+
+(Proof: show that VC(H) Z 3, then VC(H) < 4).
+.
+.
+. .
+\ .
+(a) (b)
+In general, for X I R”, if H is the set of all liniar deci-
+sion surfaces in R”, VC(H) I n + 1.
+Note that {HII oo but VC(H) < oo.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Example 3: 29'
+The VC Dimension for Conjunctions of Boolean Literals
+The VC dimension for H consisting of conjunctions of up to
+n boolean literals is n.
+Proof:
+show that VC Z n:
+consider S the set of all instances which are conjunc-
+tions of exactly n boolean literals, so that for each in-
+stance only one literal (ll) is positive;
+show that S is shattered by H:
+if exactly instil, Misti-2, . . .z'nstZ-k must be excluded,
+then deﬁne h I ﬁll-1 /\ ﬁlzé /\ . . . /\ ﬁll-k;
+as l S I I n, it follows that VC 2 n
+show that VC < n + 1 .. . (more) difficult.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+30.
+Sample Complexity and the VC Dimension
+How many randomly drawn examples sufﬁce to e-exhaust VS H, D with prob-
+ability at least (1 — 5)?
+[Blumer et al., 1989]:
+if c e H, then m Z a8 VC(H) log2(13/6) + 4log2(2/5))
+(Remember, VC(H) g log2 lHl.)
+[Ehrenfeucht et al., 1989] A lower bound for PAC-learnability:
+If VC(C) Z 2, O < e < é, 0 < 5 < ﬁ, for any learner L there is a distri-
+bution D and a concept c E C such that if L observes fewer examples
+(of c) than maxElogﬂé), %], then With probability at least 5, L
+outputs a hypothesis h having error/"13%) > e.
+Means: if the number of examples is too law, no learner can learn every
+concept in a nontrivial class C.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+31.
+Summary
+For | H |< oo,
+m Z %(ln|Hl +ln(1/5)) if c € H,
+where c is the concept to be learned;
+m Z 2—i2(ln lHl —|— ln(1/5))
+when it is not known whether c € H or not
+(agnostic learning).
+Using VC(H) instead of] H l (especially when l H l: oo),
+m 2 §(8VC(H)1Og2(13/6) + 4log2(2/5)) if C € H.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+32.
+2. The Mistake Bound Learning Model
+So far: how many examples are needed for learning?
+What about: how many mistakes before convergence?
+Let’s consider a similar setting to PAC learning:
+o Instances are drawn at random from X according to
+a distribution D
+o But now the learner must classify each instance be-
+fore receiving correct classiﬁcation from the teacher
+Question: Can we bound the number of mistakes the
+learner makes before converging?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+33.
+Mistake Bounds
+
+Importance: there are practical settings in which the system
+learns while it is already in use (rather than during off-line
+training).
+
+Example: detecting fraudulent credit cards in use.
+In this case the number of mistakes is even more important
+than the number of (needed) training examples.
+
+Note: In the following examples we evaluate the number of
+mistakes made by the learner before learning exactly (not
+PAC) the target concept: h(a:) I C(33) Vat.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+Example 1: The FIND-S Algorithm (Ch. 2)
+Consider H consisting of conjunctions of up to n boolean lit-
+erals l1, l2, . . . , Zn and their negations.
+FIND-S algorithm:
+0 Initialize h to the most speciﬁc hypothesis:
+l1/\—IZ1/\l2/\—IZ2...ln/\—Iln
+o For each positive training instance w
+remove from h any literal that is not satisﬁed by x
+o Output the hypothesis h.
+Question: How many mistakes does FIND-S before converging?
+Answer: n —|— 1.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+
+Proof:
+
+FIND-S cannot misclassify negative examples
+
+(because the current h is always at least as speciﬁc as the
+
+concept to be learned).
+
+Therefore we have to ﬁnd how many positive examples it
+
+will misclassify before converging.
+
+FIND-S will certainly misclassify the 1st positive example,
+
+after which it will eliminate n of the (2n) literals in the
+
+most speciﬁc h shown on the previous slide.
+
+For all subsequent positive examples at most n literals will
+
+be eliminated.
+
+Therefore FIND-S can do at most n-l- 1 mistakes before con-
+
+verging.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+. 36.
+Example 2: The HALVING Algorlthm
+HALVING:
+
+o Learn the target concept using the version space
+(similarly to the CANDIDATE-ELIMINATION algorithm,
+Ch. 2).
+
+0 Classify new instances by
+taking the majority vote of version space members;
+
+o after receiving the correct classiﬁcation from the
+teacher,
+the wrong hypotheses are eliminated.
+
+Question: How many mistakes makes HALVING before
+converging to the correct h‘?
+Answer: at most [log2 \HH.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+37.
+Proof:
+HALVING misclassiﬁes an example x when at least half plus
+one of (the number of) all hypotheses in the curent version
+space misclassify 5L‘. In such case, when C(23) is revealed to
+the learner, at least half plus one of the hypotheses in the
+curent version space are eliminated.
+It follows that HALVING does at most [logZ |H|] mistakes.
+(In this setting exact learning is perfomed; only one hy-
+pothesis is retained in the end.)
+Note: It is possible that HALVING wil llearn without making
+any mistake! (At each step, the hypotheses which are in-
+consistent with the current example are eliminated.)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+38.
+Example 3: Weighted Majority Learning
+
+o generalizes the HALVING algorithm
+
+0 takes a weighted vote among a pool of prediction algo-
+rithms
+
+0 learns by altering the weight associated with each predic-
+tion algorithm
+
+0 it is able to accommodate inconsistent data, due to the
+weighted vote procedure
+
+0 the number of mistakes made by WEIGHTED-MAJORITY can
+be bound in terms of the mistakes made by the best algo-
+rithm in the pool of prediction algorithms
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+The WEIGHTED-MAJORITY Algorithm 39-
+az- — the ith algorithm in the pool A of algorithms
+‘LUZ' — the weight associated with az-
+6 € l0;1)
+for all 7L initialize 101+ 1
+for each training example <90, c(a:)>
+initialize W_ and W+ to O
+for each prediction algorithm a2-
+if art-(:13) I O then W_ + W_ —|— wt-
+else W+ e W+ + wz-
+if W+ > W_ then predict 1
+if W_ > W+ then predict O
+if W+ I W_ then predict O or 1 at random
+for each prediction algorithm az- in A
+if (12(1)) 75 C(33), (0(x) is indicated by the teacher),
+Note: For 6 : 0, WEIGHTED-MAJORITY is HALVING.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+40.
+WEIGHTED-MAJORITY: Relative Mistake Bound
+Theorem:
+For D — any sequence of training examples
+A — any set of n prediction algorithms
+k — the minimum number of mistakes made by any al-
+gorithm in A when training on D,
+the number of mistakes made over D by
+WEIGHTED-MAJORITY using [3 : 1/2 is at most
+2.41(k + log2 n)
+Generalization: ([Littlestone 85 Warmth, 1991])
+For arbitrary 6 E [0,1), the number of mistakes made
+_ k log2 %+log2 n
+over D by WEIGHTED-MAJORITY 1s at most —2
+lOgQ m
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+Theorem Proof: 41'
+a]- — the optimal algorithm in A
+k — mistakes made by a,- on D
+w; I 2i,” the ﬁnal weight associated with a,-
+W — the sum of all weights assoc. with all algorithms in A
+M — the total number of mistakes made by WEIGHTED-
+MAJORITY while training on D
+Initially, W I n;
+then, at each mistake made by WEIGHTED-MAJORITY, W is
+decreased to g 2W;
+ﬁnally, W g 72(2)]‘4.
+Since w; g the ﬁnal value of W, it follows that
+1 3 M k + log2 n
+—< — :>M<——<2.41kl
+2k — M4) — log23/4 — < + 0g”)
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:42**************
+42.
+Optimal Mistake Bounds
+
+Let C be an arbitrary non-empty concept class, and A a learning algo-
+rithm. Taking the maximum over all possible c € C, and all possible
+training sequences, we deﬁne M A(C) the maximum number of mistakes
+made by the algorithm A to learn concepts in C:
+
+MA(C) E rhga5<MA(c)
+
+The optimal mistake bound for C is the numer of mistakes for learning
+the hardest concept in C with the hardest training sequence, using the
+best algorithm:
+
+0pt<C> E A€learni71trgllhllgorithms MA(C)
+
+Theorem ([Littlestone, 1987]):
+
+VC(C) S Opt(C) S MHalm'ng(C) S l092<|CD
+
+Note: There are concept classes for which the above four quantities are
+equal: if C I 73(X), with X ﬁnite, then VC(C) I log2(lCl) I ‘Xl.
+
+***************Ending Page***************
+
+
+

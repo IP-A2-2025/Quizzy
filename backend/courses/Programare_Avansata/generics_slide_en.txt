@@ -1,0 +1,259 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Generics
+Collections
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+The Context
+' “Create a data structure that stores elements:
+— a stack, a linked list, a vector
+— a graph, a tree, etc.”
+- What data type to use for representing the
+elements of the structure?
+Homogenous structure Heterogeneous structure
+class Stack { class Stack {
+private int[] items; private Object[] items;
+public void push (int item) { ...} public void push (Object item) {...}
+public int peek() { m } public Object peek() { m }
+l }
+gtack stack = new Stack(); gtack stack = new Stack();
+stack.push(lOO); stack.push(lOO);
+stack.push(200); stack.push(new Rectangle());
+staekepﬁsh+LHelle—Werlé+l++ stack.push("Hello Worldl");
+String s = (String) stack.peek;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Generics
+- Generics enable types (classes and interfaces)
+to be parameters when defining classes,
+interfaces and methods.
+public Stack<String> { m }
+' Stronger type checks at compile time.
+seaekepush+new—Ree%ang%e++++
+- Elimination of casts.
+String s = +String+ stack.peek();
+- Enabling generic algorithms.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+class ClassName<Tl, T2, ..., Tn> { m }
+or
+interface IName<Tl, T2, ..., Tn> { m }
+/~k*
+* A generic version of the Stack class
+* @param <E> the type of the elements
+*/
+public class Stack<E> {
+// E is a generic data t31199 Eis the type parameter
+private E[] items;
+public void push(E item) { ... }
+public E peek() { .. }
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Type Parameter Naming
+Conventions
+
+' E - Element (used extensively by the Java Collections Framework)
+- K - Key
+' N - Number
+- T - Type
+- V - Value
+- S,U,V eto. - 2nd, 3rd, 4th types
+
+public class Node<T> { m }
+
+public interface Pair<K, V> { m }
+
+public class Pairlmpl<K, V> implements Pair<K, V> {...}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+public class — {
+private ;
+private
+public Pair(K first, V second) {
+this.key = first;
+this.value = second;
+}
+public void setKey(K key) {
+this.key = key;
+}
+public void setValue(V value) {
+this.value = value;
+}
+public K getKey() {
+return key;
+}
+public V getValue() {
+return value;
+} An old debate:
+} Do we want a java.uti/.Pair ?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Instantlatlng a Generlc Type
+' Generlc InVOcathn String is the type argument
+Stack<String> stack I new Stack<String>();
+Pair<Integer,String> pair I
+new Pair<Integer,String>(O, "ab");
+Stack<Node<Integer>> nodes I new Stack<Node<Integer>>();
+- The Diamond <>
+Stack<String> stack = new Stack<>();
+Pair<Integer,String> pair = new Pair<>(O, "ab");
+Stack<Node<Integer>> nodes I new Stack<>();
+The compiler can determine, or infer, the type
+arguments from the context.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Generle Methods
+Generic methods are methods that introduce their
+own type parameters.
+public class Util {
+public static <T> int countNullValues(T[] anArray) {
+int count = O;
+for (T e : anArray)
+if (e == null) {
+++ccunt;
+}
+return count;
+}
+}
+Util.countNullValues(new String[]{"a", null, "b"});
+Util.countNullValues(new Integer[]{l, 2, null, 3, null});
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Bounded Type Parameters
+class D <T extends A & B & C> { /* ... */ }
+public class Node<T extends Number> {
+private T t;
+public void set(T t) { this.t I t; }
+public T get() { return t; }
+// Generic Method
+public <U extends Integer> void inspect(U u){
+System.out.println("T: " + t.getClass().getName());
+System.out.println("U: " + u.getClass().getName());
+}
+public static void main(String[] args) {
+Node<Double> node = new Node<>();
+node.set(12.34); //OK
+node.inspect(1234); //OK
+nede¢inspeet+l2¢%%++ //compile error!
+nede¢inspeet+lseme—textﬂ++ //compile error!
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Generics, Inheritance, Subtypes
+"I'S a"
+
+v Integer extends Object
+
+v Integer extends Number
+
+. I '
+
+' S iaem“ Eager’ “Em S haemmw o
+Given two concrete types A and B (for example, Number and Integer),
+MyC/ass<A> has no relationship to MyC/ass<B>, regardless of
+whether or not A and B are related. The common parent of
+MyC/ass<A> and MyC/ass<B> is Object.
+
+“This is a common misunderstanding when it comes to programming with generics,
+but it is an important concept to learn ”
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+- Variance refers to how subtyping between more complex
+types relates to subtyping between their components.
+class Animal {}
+class Cat extends Animal { }
+
+Cat tom I new Cat();
+
+Animal[] pets = new Animal[lO];
+
+Cat[] cats I new Cat[lO];
+
+tom instanceof Animal e true
+
+cats instanceof Animal[] e true (covariance)
+
+pets instanceof Cat[] e false (contravariance)
+
+List<Animal> pets I new ArrayList<>();
+
+List<Cat> cats I new ArrayList<>();
+
+cats instanceof List<Animal> e compile error
+(illegal generic type)
+
+void play(List<Animal> pets) { m }
+
+play(cats); e compile error (incompatible types)
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:12**************
+' Upperbounded
+public double sumOfList(List<? extends Number> list) {
+//it works on List<Integer>, List<Double>, List<Number>, etc.
+double s = 0.0;
+for (Number n : list)
+s += n.doubleValue();
+return s;
+}
+- Unbounded
+public void printList(List<?> list) {
+for (Object elem: list)
+System.out.print(elem + " ");
+}
+- Lower bounded
+public void addNumbers(List<? super Integer> list) {
+//it works on List<Integer>, List<Number>, and List<Object> —
+//anything that can hold Integer values.
+for (int i = l; i <= lO; i++) {
+list.add(i);
+}
+}
+
+***************Ending Page***************
+
+
+

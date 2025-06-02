@@ -1,0 +1,1231 @@
+***************Beginning Page***************
+***************page number:1**************
+INFORMATION SECURITY
+ieciures by Ferucio Laurentiu Tiplea
+Electromc Mall Securlty
+Prof.dr. Ferucio Laurentiu Tiplea
+Fall 2023
+Department of Computer Science
+“Alexandru loan Cuza" University of |a§i
+|a§i 700506, Romania
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+
+Introduction to electronic mail
+
+Internet mail architecture
+Email system components
+Email system protocols
+Email message format
+
+Email security threats
+
+Security threats mitigation
+Email content security: PGP and S/MIME
+Authenticating the sender domain and individual messages
+Email transmission security
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Introduction to electronic mail
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Electronic mail
+Electronic mail, or e-mail/email/E-mail/Email, is a method of exchanging
+digital messages across the Internet or other computer networks.
+An electronic mail system consists of:
+1. Standards for defining addressing methods and message formatting;
+2. A number of protocols that play different functions in implementing
+email messaging.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 2/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+A brief history of email systems
+The evolution of computer-based messaging between users can be traced
+back to the early 19605. Here are a few milestones:
+
+I Early 19605: SNDMSG, an electronic mail program, allowed a user
+to compose, address, and send a message to other users’ mailboxes
+on the same computer;
+
+I 1971: Raymond Tomlinson modified SNDIVISG so that it could send
+messages between different machines connected via ARPANET. He
+also proposed the use of the character “©" as a way to distinguish
+the username from the host name of the destination computer;
+
+I Beginning 1973: ARPANET defined conventions for using the File
+Transfer Protocol (FTP) for electronic mail;
+
+I Sept 1980: it was proposed to replace FTP with Mail Transfer
+Protocol;
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 3/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+A brief history of email systems
+I August 1982: RFC 821 by Jon Postel, proposing the Simple Mail
+Transfer Protocol (SMTP);
+I January lst, 1983 (the "flag day"): TCP/IP became the standard
+for the ARPANET, replacing the earlier Network Control Protocol.
+The Internet is growing rapidly, and with it the SIVITP protocol;
+I Oct 1984: Post Office Protocol (POP) (RFC 918, RFC 1939 POP3);
+I July 1988: Internet Message Access Protocol (IMAP) (RFC 1064
+II\/IAP2, RFC 9051 lMAP4rev2).
+The email system built around SIVITP and its extensions became the
+most commonly used Internet mail system, although others have existed
+before and since SIVITP became popular.
+Prof.dr. F.L.Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 4/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Internet mail architecture
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Email architectural layers
+An email system usually involves three distinct architectural layers, each
+providing its type of store-and-forward service of data:
+I User layer;
+I Message Handling Service (MHS) layer;
+I Packet Switches layer (this is the lnternet's lP service).
+In what follows, we will focus on services from the first two layers. These
+are performed by Message User Agents (MUAs) for the user level, and
+Message Transfer Agents (MTAs) for the MHS level. A brief discussion
+will follow on the following slides (for details, we indicate Crocker
+(2009)).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 5/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Email architectural layers
+Fifiiiif’iiiiiiiiif’iiiiiiiiiiiiiiiiiiiiiiiiiiii‘
+i User layer ‘
+I
+1
+i \ﬁ!
+l POP‘ IMAP, local
+,, i
+0,] iv i
+i
+‘ ESMTP ESMTP I
+I SUBMISSION SUBMISSION I
+IA‘ AAAAAAAAAAAAAAAAAAAAAAAAAAA ‘AI
+i i
+I I
+I SMTP SMTP SMTP I
+‘ oca ‘
+I I
+I Message Handling Service (MHS) layer I
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 6 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Message User Agents
+@
+POP, IMAP, local
+7/13‘
+—
+ESMTP ESMTP
+SUBMISSION SUBMISSION
+
+If’ iiiiiiiiiiiiiiiiiiiiiiiiiiii iil
+
+, ,
+
+I I
+
+I SMTP SMTP SMTP I
+
+‘ 0C3 ‘
+
+I I
+
+I Message Handling Service (MHS) I
+Message User Agents (MUAs), otherwise known as email clients, are
+software applications (or web interfaces) used by individuals to send,
+receive, and manage their e-mails.
+Examples: web-based interfaces like Gmail and desktop clients like
+Microsoft Outlook.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 7 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Message Store
+‘g
+POP, IMAP, local
+717:?“
+-
+ESMTP ESMTP
+SUBMISSION SUBMISSION
+If’ iiiiiiiiiiiiiiiiiiiiiiiiiiii iil
+i i
+I I
+I SMTP SMTP SMTP I
+‘ OCH ‘
+I I
+I Message Handling Service (MHS) I
+A Message Store (MS) is a system that can hold email messages for a
+user whose normal means of dealing with incoming email is not currently
+active. A message store may exist for both Authors (aMS) and recipients
+(rMS). An MS can be located on a remote server or on the same
+machine as the MUA.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 8 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Message Submission Agents
+‘é,
+POP, IMAP, local
+g
+ESMTP ESIVITP
+SUBMISSION SUBMISSION
+— 1
+I SMTP SMTP SMTP I
+‘ 0C3 ‘
+I I
+I Message Handling Service (MHS) I
+Message Submission Agents (MSAs) (i) perform final message
+preparation for submission and (ii) effect the transfer of responsibility to
+the MHS, via the hMSAs. The amount of preparation depends upon the
+local implementations.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 9/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Message Transfer Agents
+é,
+POP, IMAP, local
+7,151.“
+t
+ESMTP ESMTP
+SUBMISSION SUBMISSION
+If’ iiiiiiiiiiiiiiiiiiiiiiiiiiii iii
+i i
+I I
+I SMTP SMTP SMTP I
+i hMSA e e e > hMDA i
+‘ local ‘
+l I
+I Message Handling System (MHS) I
+Message Transfer Agents (MTAs) relay mail for one application-level
+“hop”. Relaying is performed by a sequence of MTAs until the message
+reaches a destination MDA.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 10 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Message Delivery Agents
+Q
+‘é,
+POP, IMAP, local
+_
+ESMTP ESMTP
+SUBMISSION SUBMISSION
+pt ssssssssssssssssssssssssssss s,
+I _
+I I
+I I
+I Message Handling System (MHS) I
+Message Delivery Agents (MDAs) transfer the message from the MHS to
+the recipient's MS. Like an MSA, an MDA serves two roles, Recipient's
+and MHS's. The MHS portion (hMDA) primarily functions as a server
+SMTP engine. The job of the Recipient portion of the MDA (rMDA) is
+to perform any delivery actions that the Recipient specifies.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 11 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Email system protocols
+There are two types of protocols used in an email system:
+I Message transfer protocols, such as:
+I Simple Mail Transfer Protocol (SMTP) (RFC 821, RFC 2821, RFC
+5321). The term Extended SMTP (ESMTP) is often used to refer to
+the later versions of SMTP;
+- SUBMISSION protocol (RFC 6409);
+I Local Message Tramsfer Protocol (LMTP) (RFC 2033);
+I Message access protocols, such as:
+I Post Office Protocol (POP) (RFC 918, RFC 1939 POP3);
+I Internet Message Access Protocol (IMAP) (RFC 1064 IMAP2, RFC
+9051 lMAP4rev2).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 12/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Simple Mail Transfer Protocol
+The Simple Mail Transfer Protocol (SIVITP) is a protocol used for
+message transfer between MTAs, from aIVIUA to MSA, and from rMDA
+to r|\/|S. Some facts about it are in order:
+
+I It was standardized in RFC 821, the current version being RFC 5598
+(Klensin (2008));
+
+I SMTP servers both send and receive email. The device sending
+email act as a client, while the one receiving email acts as a server;
+
+I All SMTP communication is done using TCP;
+
+I SMTP servers generally must be kept running and connected to the
+Internet continuously;
+
+I SMTP servers listen continuously on the SIVITP server port (the
+well-known port number 25) for any TCP connection requests from
+other SIVITP servers.
+
+Prof.dr. F.L.Tip|ea, UAIC, R0 Lectures on Information Security Electronic Mail Security Fall 2023 13/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+SMTP connection and session establishment
+An SMTP server that Wishes to send email does as follows:
+
+I First, it begins with a DNS lookup of the |\/|X record corresponding
+t0 the domain name of the intended recipient email address in order
+to obtain the name of the appropriate SMTP server;
+
+I This name is then resolved t0 an IP address;
+
+I The SMTP sender then establishes a SMTP session with the SMTP
+receiver;
+
+I Once the session is established, email transactions can be performed:
+the SMTP sender provides the return address, the recipient address,
+and transfers the message;
+
+I When the SMTP server is done, it terminates the connection.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 14/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Message SUBMISSION protocol
+SMTP is a message transfer protocol. It is also widely used to submit
+from an alVIUA to an IVISA, although it is not very suitable for such a
+job:
+1. Authentication and authorization of initial submission have become
+increasingly important, but SMTP usually does not support them;
+2. Messages being submitted are, in some cases, finished (complete)
+messages and, in other cases, are unﬁnished (incomplete).
+Separating message submission (alVIUA —> IVISA) from message transfer
+(MTA —> |\/|TA) allows developers and network administrators to add
+enhanced submission services.
+The protocol currently prefered for initial submission is SUBMISSION
+(Klensin and Gellens (2011)), which derives from SMTP, uses a distinct
+TCP port, and imposes several requirements, such as access
+authorization.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 15/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Local message transfer protocol
+SMTP and its service extensions (ESMTP) provide a mechanism for
+transferring mail reliably and efficiently. The design of SMTP requires
+the server to manage a mail delivery queue.
+In some limited circumstances, it is desirable to implement a system
+where a mail receiver does not manage a queue.
+The Local Message Transfer Protocol (LMTP) (Myers (1996)) is a
+protocol derived from SMTP (it uses with a few changes the syntax and
+semantics of ESMTP) that does not require the server to manage a mail
+delivery queue. LMTP should be used only by specific prior arrangement
+and configuration, and it must not be used on TCP port 25.
+
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 16/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Models for email access and retrieval
+
+1. On-line access model. In this model, every machine is always
+connected to the Internet running an SMTP server. Therefore, users
+have constant, direct on-line access to their mailboxes;
+
+2. Off-line access model. In this model, a user establishes a
+connection to a server where his mailbox is located, downloads the
+received messages, and then deletes them from the server mailbox.
+The received messages are manipulated off-line;
+
+3. Disconnected access model. This is a hybrid model: the messages
+are downloaded (but not deleted) from the server, and are
+manipulated off-line. When the user connects back with the server,
+all changes made on the local device are synchronized with the
+mailbox on the server.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 17/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Protocols and methods for email access and retrieval
+
+1. Post Office Protocol (POP): Implements the off-line access model;
+
+2. Internet Message Access Protocol (IMAP): Can implement all three
+0f the access models, although it is primarily used in the on-Iine and
+disconnected models;
+
+3. Direct server email access: Based on establishing direct access to the
+server where the mailbox (which is just a file) is located. So, it can
+be accessed in several ways, such as: by the SMTP server directly,
+file sharing access (using a protocol such as NFS), dial-up remote
+server access, telnet remote server access;
+
+4. Web-based email access. This technique exploits the flexibility of
+HTTP to informally “tunnel” email from a mailbox server to the
+client (a Web browser).
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Informatfon Security Electronic Mail Security Fall 2023 18/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Internet message format
+The structure of email messages is established by the following RFCs:
+I Internet Mail Format (IMF) (RFC 733, RFC 822, RFC 2822,
+RFC5322);
+I Multipurpose Internet Mail Extensions (MIME) (RFC 2045 — 2049).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 19/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Email structure
+An email has the following general structure:
+
+I Envelope. The envelope encapsulates the message and contains all
+the information needed for transporting the message by message
+transport agents, such as: the destination address, priority, and
+security level;
+
+I Message, which has two parts:
+
+I Header, which contains control information for the user agents;
+
+I Body, which is the message itself.
+The distinction between envelope and email message is important from a
+technical point of view. The envelope is not the same the email message
+header!
+However, email software can process and interpret the message to
+construct the necessary envelope for transport agents to transport the
+message.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 20 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+~
+Emall structure
+Phy5|cal mall Electronic mail
+Envelope
+Return Address HELO envlope
+i “amp MAIL FROM:
+i RCPT TO:
+To:
+ccccc,,,,,,,,,j message
+:7 From: i
+‘ To: “15.,
+i Subject:
+Letter iiiiiiiiiiiiiiii
+iiiiiiiiiiiiiiiilk
+From: i Dear Mr, x, i
+Address: l l
+Date: ‘ i
+To: Mr. X l l
+i i
+Dear Mr, X, i l
+i
+— i i
+— i i
+— i i
+i i
+i i
+i i
+i i
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 21 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+RFC 822 message header format
+A header line has the following structure:
+(header name) : (header value part 1)
+(white space) -- -
+(white space) (header value part k)
+where (white space) means at least one space or tab character.
+The most frequently used header names are From, To, Subject, and Date.
+A small number of header lines are mandatory. Some are not mandatory
+but usually present, and others are automatically included when needed.
+RFC 822 allows users t0 invent new header names, provided that these
+header names start with the string “X-". For instance,
+X-Weather-Forecast: Light rain
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 22/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+RFC 822 message body format
+An RFC 822 message body is separated from the header by an empty line.
+The body consists of several lines of text subjected to the following
+technical constraints due to the technology of the years when RFC 822
+was created:
+
+I Consists of 7-bit ASCII characters only;
+
+I Each line ends with a CR character (13, in decimal), followed by an
+LF character (10, in decimal) (this combination is called “CRLF");
+
+I Each line should be (recommendation) 78 characters 0r less (not
+including CRLF), and must not be more than 998 characters (not
+including CRLF);
+
+I The characters CR and LF must not appear by themselves within
+the text line.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 23/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+RFC 822 email format limitations
+By the late 19805, it was quite clear that the RFC 822 email format must
+be extended in order to support:
+
+I Messages in languages with accents (e.g., French), in non-Latin
+alphabets (e.g., Russian), or in languages without alphabets (e.g.,
+Chinese);
+
+I Non-text information (e.g., graphic files, multimedia);
+
+I Arbitrary binary data, including executable programs (binary data :
+arbitrary sequences of octets).
+
+These are mainly dictated by the fact that SMTP cannot transmit texts
+with special characters, executable files, or other types of binary objects.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 24/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Multipurpose Internet Mail Extensions
+Multipurpose Internet Mail Extensions (MIME), proposed in RFC 1341
+and RFC 1342 (current version: RFC 2045 — 2049), came as a solution to
+the limitations of the RFC 822 email format.
+MIME's basic idea is to:
+I Add structure to the message body. This means to consider the
+MIME body as composed of several parts, each part with a speciﬁc
+but unitary identity;
+I Encode non-ASCII data as ASCII text.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 25/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+MIME header
+In order to provide information about the structure of a MIME message,
+new message header names have been introduced:
+
+I MIME-version: Identifies the MIME version;
+
+I Content-Description: Tells what is in the message (it is optional);
+
+I Content-ID: Unique identiﬁer;
+
+I Content-Type: Describes the nature of the data that is encoded in
+the MIME entity (e.g., “text/html" says that the message contains
+an html document);
+
+I Content-Transfer-Encoding: Specifies the encoding method for each
+part of the body.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 26/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+M l M E multipart message structure
+M ME header
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary=XXXXXX
+Preamble
+—XXXXXX
+part 1
+Header
+Body
+*XXXXXX
+*XXXXXX
+part k
+Header
+Body
+—XXXXXX
+Epilogue
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 27 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+MIME: Content-Type values
+Content-Type values as defined in RFC 2046 (other values have also been
+introduced. See, for instance, RFC 1847, RFC 2387, RFC 2388, RFC
+2616, RFC 6522).
+————
+. image in jpeg format
+non-MIME m——
+mechanisms mpeg standard video
+- -
+l t
+app ‘ca '°" arbitrary binary data
+rfc822 message according RFC 822
+message a fragment of a larger entity
+handled external body actual body data not included
+using MIME independent parts in a speciﬁed order
+mechanisms _ each part is a complete RFC 822 message
+multlpart . . .
+same message In dlfferent formats
+parallel parts must be viewed simultaneously
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 28 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+MIME: Content-Transfer-Encoding
+MIME encoding methods of the body (RFC 2045):
+
+I 7bit: This indicates 7-bit ASCII format (RFC 822 standard);
+
+I 8bit: Encoding using 8-bit characters (8bit data is defined as 7bit
+data is but with the difference that octets with decimal values
+greater than 127 may be used);
+
+I binary: any sequence of octets;
+
+I quoted-printable: This is used when most of the data is ASCII text
+and only very few characters are non-ASCII;
+
+I base64 (also called Radix-64 or ASCII armor): Encodes data by
+mapping 6-bit blocks of input to 8-bit blocks of outputs, all of which
+are printable ASCII characters.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 29/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+Email security threats
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+Email security threats
+Security threats to the canonical functions of an email service can be
+classified as follows:
+
+1. Integrity-related threats to the email system — could result in
+unauthorized access to an enterprises’ email system, or spoofed
+email used to initiate an attack;
+
+2. Confidentiality-related threats to email — could result in
+unauthorized disclosure of sensitive information;
+
+3. Availability-related threats to the email system — could prevent end
+users from being able to send or receive email.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 30 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Integrity-related threats to the email system
+Possible sources of this type of security threat:
+1. Unauthorized email senders within an organization's IP address
+block;
+2. Unauthorized email receivers within an organization's IP address
+block;
+3. Unauthorized email messages from a valid DNS domain;
+4. Tampering/Modification of email content from a valid DNS domain;
+5. DNS Cache Poisoning;
+6. Phishing and spear phishing.
+Prof.dr. F.L. Tiplea. UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 31 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Confidentiality-related threats to email
+Possible sources of this type of security threat:
+
+1. (Unauthorized) access to the packets that make up the email
+message as they move over a network, in the form of a passive
+wiretapping or eavesdropping attack;
+
+2. Software may be installed on a MTA that makes copies of email
+messages and delivers them to the adversary. For example, the
+adversary may have modified the target's email account so that a
+copy of every received message is forwarded to an email address
+outside the organization;
+
+3. The valid receiver's mail servers may be spoofed (or DNS MX reply
+spoofed), to get the sender to connect to a MTA controlled by an
+attacker.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 32 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Availability-related threats to the email system
+Possible sources of this type of security threat:
+l. Email bombing;
+2. Unsolicited Bulk Email (UBE), also called “Spam”;
+3. Availability of email servers.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 33 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+Security threats mitigation
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Pretty Good Privacy
+Pretty Good Privacy (PGP) is a standard that provides authentication
+and confidentiality for data communication. Brief history:
+
+I 1991: PGP was created by Philip Zimmermann, and distributed
+across the Internet together with its complete source code for free
+non-comercial use (Zimmermann (1999));
+
+I Feb 1993 — 1996: Zimmermann became the formal target of a
+criminal investigation by the US Government. The investigation
+ended Without filing criminal charges against Zimmermann;
+
+I Beginning 1997: OpenPGP Working Group was formed in the IETF
+(OpenPGP_WG (2023));
+
+I Nov 1998: OpenPGP standard (see OpenPGP_WG (2023)).
+
+Check OpenPGP_WG (2023) web-site for a collection of OpenPGP
+related RFCs and Internet drafts!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 34/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+PGP services
+1. PGP authentication (applied to x): - where sig(x) is
+sender's signature on x.
+2. PGP conﬁdentiality (applied to x): — where K is a
+fresh symmetric encryption key and Ke is receiver's public key.
+3. PGP authentication and confidentiality are obtained by applying
+confidentiality to x’ : (x, sig(x)).
+4. Compression. PGP recommends compressing the message after
+applying the signature but before encryption.
+5. Radix-64 conversions. PGP provides Radix-64 encoding for
+transferring data.
+Please see Finney et al. (2007) for more details regarding PGP services.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 35/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+PGP key management
+PGP key management includes:
+I Session key generation;
+I Key storage (a user may have multiple asymmetric keys that need to
+be stored, as well as a list of public keys of other users):
+I PGP associates identifiers to public keys. Then, asymmetric keys are
+stored as table-like structures, called key rings, that may be indexed
+by user lD or key ID;
+I A PGP key identifier (key ID) associated to a public-key Ke consists
+of its least significant 64 bits;
+I PGP stores two key rings as two files on the hard disk of the host
+that runs PGP; one for private keys, and one for public keys;
+I Public key certification.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 36 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+PGP key rings
+A private-key ring at a host that runs PGP looks like this:
+Key ID Public Key Enc Private Key
+WW”) 'DW)
+PU is a password of U and H(PU) is a key derived by H from PU. This
+key ring is indexed by key ID and user ID.
+A public-key ring at a host that runs PGP contains the fields
+“Timestamp”, “Key ID”, “Public Key", and “User ID" as in a private-key
+ring, together with four new fields, “Owner Trust", “Key Legitimacy”,
+“Signature(s)", and “Signature(s) Trust".
+The new fields have trust flag values indicating to what extent a public
+key is trusted as a valid public key of the corresponding user.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 37/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+Using the key rings to sign and encrypt
+Using PGP key rings:
+I User U signing a message:
+I PGP retrieves U's encrypted private key from the private-key ring
+using ID(U);
+I PGP prompts U for the password to recover U's private key;
+I The signature is constructed;
+I User U encrypting a message:
+I PGP generates a session key and encrypts the message;
+I PGP retrieves the recipient's public key from the public-key ring
+using his/her ID;
+I The session key is encrypted by the recipient's public key.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 38 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+Using the key rings to decrypt and verify signatures
+Using PGP key rings:
+I User U verifying a signature:
+I PGP retrieves the sender's public key from the public-key ring using
+the key ID (which is attached to the message he received);
+I PGP verifies the signature;
+I User U decrypting a message:
+I PGP retrieves U's encrypted private key from the public-key ring
+using his/her ID;
+I PGP prompts U for the password to recover U’s private key;
+I PGP decrypts the message.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 39 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Secure/ Multipurpose Internet Mail Extensions
+Secure/Multipurpose Internet Mail Extensions (S/MIME) is a standard
+to send and receive secure MIME data:
+
+I S/MIME had been proposed by RSA Data Security Inc. in 1995.
+The current standard is S/MIME v4.0 (Schaad et al. (2019));
+
+I S/MIME provides the same functions as OpenPGP, authentication
+(through digital signatures), confidentiality, compression, and
+Radix-64 conversion for data transfer. Due to using digital
+signatures, message integrity and non-repudiation of origin are also
+obtained;
+
+I S/MIME can be used by traditional MUA to add/interpret
+cryptographic security services.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 40/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+Secure/ Multipurpose Internet Mail Extensions
+S/MIME can be used With any transport mechanism that transports
+MIME data. To this, S/MIME makes use of several new MIME content
+types:
+———_—
+“med by - - pkg-mime
+non-MIME appllcatlon
+-
+mechanlsms
+——_
+Data processing is done similarly to OpenPGP. For details, refer to
+Schaad et al. (2019).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 41 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+S/MIME examples
+Example 1:
+Content-Type: ; smime-type=—;
+name:smime.
+Content-Transfer-Encoding: -
+Content-Disposition: attachment; filename:smime .p7m
+MIIBHgYJKOZIhVCNAQCDOIIBDZCCAQSCAQAngAwgbOCAQAij ASMRAWDgYDVQQDEw
+dDYXJsUlNBAhBGNGVHgABWVBHTbi7NXXHQMAOGCSqGS Ib3DQEBAQUABIGAC 3EN51'1GI
+iJileGPcPZiJ97a4e8kaQz3 6zg6Z2i0yx62YC4mZ7mX7FBs3IWg+f6KgCLX3MleC
+bWx8+MDbeandCDgOS/nUkUNYeNthuzungzoyEd8Ch4H/dd9gdsz+taTEgSin
+dSJuNnkVY4 /M652 j KKHRLFfO 2host8waYJKOZ IhchAQcBMBQGCCqGSIb3DQMHBA
+gtaMXprZRNYAgDsiSf8Z9P43LrY4OXUk660cullXeCSFOSOpOJ7FuVyU=
+Example 2:
+Content-Type: ; smime-type=—;
+name=smime.
+Content-Transfer-Encoding: -
+Content-Disposition: attachment; filename=smime .p7m
+MI I DmQYJKoZ IhchAQcCoI IDij CCA4YCAQEXCTAHBgUngMCGj AthkqhkiG9wOBBw
+GgIAQeDQpUaGlZIGlzIHNVbWUchFthxlIGvaananuoIIC4DCCAtwwquboAMC
+AQICAgDIMAkGByqGSM4 4BAMij EQMA4GA1UEAXMHQ2FybERTUZAerOSOTA4MTcwMT
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 42 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+OpenPGP and S/MIME in practice
+
+1. OpenPGP and S/MIME are two of the most widely used email
+security standards;
+
+2. S/lVlllVlE is commonly used in corporate and government
+environments. It beneﬁts from its ability to integrate into PKls and
+that most widely-used email clients support it by default;
+
+3. OpenPGP often requires the installation of additional software;
+
+4. They are not compatible with each other;
+
+5. The integration of S/lVlllVlE or OpenPGP for e-mail security depends
+on circumstances and needs, which makes one preferable to the
+other (depending on the situation);
+
+6. ln recent years, attacks have been reported that work on both
+standards, which led to their analysis and improvement. Wide
+attention was given to OpenPGP, which currently benefits from
+modern techniques and updated encryption algorithms.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 43/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+OpenPGP and S/MIME in practice
+Both S/lVllME and OpenPGP are protocols that facilitate signing and
+encryption. So, care should be taken to the open distribution of public
+keys!
+Two recent DNS-Based Authentication of Named Entities (DANE; RFC
+6698) protocols have been proposed to approach this problem:
+1. SMIMEA (RFC 8162);
+2. OPENPGPKEY (RFC 7929).
+Both of them specify new DNS RR types for storing end user key
+material in the DNS. Email clients and encryption software can query the
+DNS records associated with a domain to get the necessary public key
+information for encryption and veriﬁcation.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 44/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+“Envelope FROM" vs “Header FROM"
+Two email addresses are used when sending an email via SMTP:
+
+I MAIL FROM or envelope-from or return-path address (similar to
+the “from” address on the physical envelope), used by the SMTP
+server to generate a “non-delivery report" (NDR);
+
+I Header FROM or sender address (similar to the “from” address on
+the letter inside the envelope), used by the email client to display
+information in the “From” ﬁeld of the header message.
+
+Important facts:
+
+1. The sender email address (header FROM) can be different from the
+envelope MAIL FROM;
+
+2. The MAIL FROM address can be forged by a sending MTA;
+
+3. The Header FROM address can be forged.
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 45/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Example of sender address forgery
+Client connects to port 25
+S: 220 mailserver.e><ample.com mailserver.e><ample.com is
+I_—
+HELO Fakemailserver.com
+250 OK email envelope (blue lines)
+MAIL FROM: <FakeEnve|opeSender©fakedomain.com> with a fake envelope sender
+250 Ok and a real recipient
+RCPT TO: <bob©example com>
+250 Ok
+C: DATA Client asks for permission to
+I_—
+From: "Fake Sender" <FakeHeaderSenderCQfakedomain‘corn> , ,
+_ sender and real reCIplent
+Subject: test fake sender message
+email body (the first line
+This is a test message must be empty, and the last
+. must contain a dot)
+-—_
+Server closes the connection
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 46 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Example of sender address forgery
+Here is the raw email message:
+Return-Path: <FakeEnvelopeSender@fakedomain.com>
+DeliveredsTo: <bob@example.com>
+Received: from fakemailserver.com (localhost [127.0.0.l])
+by mailserver.example.com (maililocalhost) with ESMTP id
+44DXhQ58ng6th
+for <b0b@example.com>; Wed, 6 Jan 2024 10:46:33 +0100 (GET)
+From: "Fake Sender" <FakeHeaderSender@fakedomain.com>
+To: "Real Recipient Name" <bob@example.com>
+Subject: test fake sender message
+Message-Id: <44thQ5BngGthGmailserver.example.com>
+Date: Wed, 6 Jan 2024 10:46:33 +0100 (CET)
+This is a test message
+Here is What you see, more or less, in the email client:
+From: "Fake Sender" <FakeHeader5ender@fakedomain.com>
+To: "Real Recipient Name" <b0b@example.ccm>
+Subject: test fake sender message
+Date: Wed, 6 Jan 2024 10:46:33 +0100 (CET)
+This is a test message
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 47 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Conclusions
+1. The envelope sender address, also called the return-path, is used
+by SIVITP to return the message to sender in the case of a delivery
+failure.
+Mail clients do not usually display it to users;
+2. The header sender address of an email message is what is
+displayed to the user by mail clients.
+Generally, mail servers do not care about the header sender address
+when delivering a message;
+3. Both envelope and header sender addresses can be faked.
+Can the two addresses be authenticated?
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 48 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Sender Policy Framework (SPF)
+Sender Policy Framework (SPF) is an email authentication protocol that
+allows you to specify the servers authorized to send mail from your
+domain (RFC 4408, RFC 7208).
+How SPF works:
+1. The domain owner includes a TXT resource record (also called a
+SPF record) in the DNS with information about the servers
+authorized to send email for the domain;
+2. When the email arrives, the receiving mail server checks to see if the
+lP address from which the mail was sent is listed in your SPF record.
+If it is, the message passes SPF; otherwise, it does not.
+The receiving mail server looks up the SPF record for the domain in the
+envelope-FROM field, which may not be the same as the domain in the
+“From” field! So, header sender address may be spoofed!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 49/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+DomainKeys Identified Mail (DKIM)
+DomainKeys Identified Mail (DKIM) is an email authentication protocol
+that allows you to digitally sign mail messages (header and body).
+How DKllVl works:
+
+1. The sending MTA generates a signature over the message (header,
+body, or portions of them) and includes it in the message header,
+along with information for signature validation;
+
+2. The public key for signature valiation is stored as an TXT RR in
+DNS (also called a DKIM record);
+
+3. When the receiving MTA gets the message, it checks the signature
+(issuing first a DNS query for the verification key).
+
+The signature is no longer verified if the signed email components change
+in transit!
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 50/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Domain-based Message Authentication, Reporting, and Confor-
+mance (DMARC)
+Domain-based Message Authentication, Reporting, and Conformance
+(DMARC) is an email authentication protocol that works in conjunction
+with SPF and DKllVl to verify that the sender of the email is genuine.
+Here is how the three protocols work:
+1. SPF verifies that the email has been sent from authorized email
+server;
+2. DKIM cryptographically verifies that the sender address and the
+message body have not been changed in transit;
+3. DIVIARC ensures that the domain in DKIM and SPF checks matches
+the sender's domain in the message header (the “From” ﬁeld). It
+also specifies how email servers should handle a message that fails
+both DKllVl and SPF (accept, reject, or spam).
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 51 / 55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+DNSsec, S/MIME, SPF, DKIM, and DMARC
+ﬁt;
+a‘ ameSyi
+“i -> S/MIME ‘*0 m
+4747 \ I
+/ 04¢ POP, IMAP, local
+"4:
+C
+SMTP DKIM sign SMTP
+MTA MTA > MTA iocal MTA
+
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 52 / 55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+STARTTLS
+A few facts about SMTP:
+1. SMTP is not an end-to-end protocol but instead a protocol that
+sends mail messages through a series of hops (IVIUA, MSA, MTAs);
+2. There is no way to signal that message submission must be secure;
+3. There is no way to signal that any hop in the transmission should be
+secure.
+STARTTLS (RFC 3207) is an extension of SIVITP that allows an SIVITP
+client and server to use TLS to provide private, authenticated
+communication across the Internet.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 53/55
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+STARTTLS
+How it works:
+I If the client initiates the connection over a TLS-enabled port, the
+server advertises that the STARTTLS option is available to
+connecting clients;
+I The client can then issue the STARTTLS command in the SMTP
+command stream;
+I The two parties proceed to establish a secure TLS connection.
+Similar mechanisms are available for running TLS over IMAP and POP.
+Prof.dr. F.L. Tiplea, UAIC, RO Lectures on Information Security Electronic Mail Security Fall 2023 54/55
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+References
+References
+Crocker, D. (2009). Internet Mail Architecture. RFC 5598.
+Finney. H., Donnerhacke, L., Callas, J., Thayer, R. L., and Shaw, D. (2007). OpenPGP Message
+Format. RFC 4880.
+Klensin, D. J. C. (2008). Simple Mail Transfer Protocol. RFC 5321.
+Klensin, D. J. C. and Gellens, R. (2011). Message Submission for Mail. RFC 6409.
+Myers, J. G. (1996). Local Mail Transfer Protocol. RFC 2033.
+OpenPGP_WG (2023). Openpgp. https://www40penpgp.org/.
+Schaad, J., Ramsdell, B. C., and Turner, S. (2019). Secure/Multipurpose Internet Mail Extensions
+(S/MIME) Version 4.0 Message Specification. RFC 8551.
+Zimmermann, P. (1999). Why l wrote PGP.
+https : //www . philzimmermann . com/EN/essays/WhyIWrotePGP . html.
+Prof.dr. F.L. Tiplea, UAlC, R0 Lectures on Information Security Electronic Mail Security Fall 2023 55 / 55
+
+***************Ending Page***************
+

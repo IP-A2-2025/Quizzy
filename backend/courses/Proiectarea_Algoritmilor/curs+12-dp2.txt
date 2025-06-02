@@ -1,0 +1,1362 @@
+***************Beginning Page***************
+***************page number:1**************
+Algorithm Design: Advanced Dynamic Programming I
+Stefan Ciobaca’, Dorel Lucanu, Paul Diac
+Faculty of Computer Science
+Alexandru loan Cuza University of Ia$i, Romania
+d1ucanu©info.uaic .ro
+stefan.ciobaca@info.uaic.ro
+paul.diac@info.uaic.ro
+AD 2022
+
+El 5' i E :5 Q Q0
+Advanced Dynamic Programming AD 2022 1/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+a Other Classic DP problems
+o Longest Common Subsequence
+o Edit Distance
+e DP on trees
+o Maximum Independent Set
+a Partial Sums
+El 5' i E :5 QQQ
+Advanced Dynamic Programming AD 2022 2/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Pla n
+a Other Classic DP problems
+El 5' _ _= :E J) QC‘
+D. Lucanu, $. Ciobécé, P. Diac (FlliUAlC) Advanced Dynamic Programming AD 2022 3/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Recap - What is DP?
+DP is a general method (paradigm) for solving computational problems
+with the following property:
+the solution to a problem instance can be computed using the solutions to
+subproblem instances, based on some particular recursive formula.
+cl 51 t E :2 Qqe
+Advanced Dynamic Programming AD 2022 4/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Recap - Overlapping Subproblems
+DP is useful when subproblems overlap in a simple recursive
+implementation. For example, the answer to both subproblems SP1 and
+SP2 require the answer to the same subproblem SP3:
+P0
+/ l \
+SP1 SP2
+/ ‘ “ \
+5P3 5P3
+With DP we only solve the same subproblem once. Then the result is
+saved and used later when we reach the same subproblem again.
+DP requires a better understanding and organization of subproblems space
+relative to simple recursion, especially in the bottom-up approach.
+Advanced Dynamic Programming AD 2022 5/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Recap - Common Steps in Designing DP Solutions
+In most problems, the recursive calls tree without DP has exponential size,
+therefore the improvement of DP relative to divide and conquer is huge.
+Subproblems should be identifiable by a small number of parameters (of
+the recurrence), Which can be: positions, indexes, capacities, prefixes:
+number of elements on the left or right, intervals, or subsets.
+Common steps in solving problems with DP: decide on bottom-up or
+top-down/memoization, find recurrence relation, base cases, and path
+reconstruction if required.
+
+Advanced Dynamic Programming AD 2022 6/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Longest Common Subsequence - LCS
+The Longest Common Subsequence shortly LCS problem is the problem
+of finding the longest subsequence of two sequences of elements, most
+often characters but can also be integers.
+Subsequences elements are not necessary on consecutive positions in the
+input. That is the case of substrings: compact intervals of positions, that
+is, from starting position to end position include all elements between.
+LCS problem has many applications in computational linguistics, diff utility
+programs or revision control systems, and bioinformatics: genome
+sequence alignment.
+
+Advanced Dynamic Programming AD 2022 7/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+LCS Length - Formal Definition
+Input: n, m G N
+X[l . . . n], Y[1 . . . m] arrays of characters.
+Output: k, maximum possible for which:
+Ellgpx1<px2<---<pxk§nand
+El 1 gpy1 <py2 < <pyk g msuch that:
+Vi G 1, k : X[pxi] I Y[py,-]
+El 5' i E :5 QQQ
+Advanced Dynamic Programming AD 2022 8/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+LCS - Formal Definition
+Input: n, m G N
+X[l . . . n], Y[1 . . . m] arrays of characters.
+Output: LCS[1.. . k], with maximum value of k such that:
+Ellgpx1<px2<---<pxk§nand
+El 1 gpyl <py2 < <pyk g msuch that:
+Vi € 1, k : X[pxi] I Y[py,-] I LCS[i]
+El [5' i E :5 QQQ
+Advanced Dynamic Programming AD 2022 9/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+LCS - Example
+Input: X I [ABCBDAB]
+Y = [BDCABA].
+Output: LCS[ ] = ?
+\I' 5' ' _= :E ‘)QG
+Advanced Dynamic Programming AD 2022 10/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+LCS - Example
+Input: X I [ABCBDAB]
+Y I [BDCABA].
+Output: LCS I [BCBA],k I |LC$| I 4
+As an alignment:
+X: A B C B D A B
+Y: B D C A B A
+LCS: B C B A
+El 5' i E :5 QQG
+Advanced Dynamic Programming AD 2022 11/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+LCS - Subproblems
+How can we define subproblems?
+Based on our previous experience with a somewhat similar problem, LIS:
+Use prefixes of the input, find the solution based on solutions for prefixes.
+LCS has two sequences in input so we have to consider any combination of
+two prefixes: subproblems are X[1. . . i] and Y[1...j]. Thus, the results
+must be stored in a matrix instead of a one-dimensional array.
+Forlgignandlgjgm:
+LCS[/]Li] I length of the LCS of X[1 . . . i] and Y[1. . .j].
+LCS matrix size is (n+ 1) >< (m+ l) as we need line and column O as well.
+No need to enforce the inclusion of the last element (as in LIS).
+
+Advanced Dynamic Programming AD 2022 12/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+LCS of a 1-character Shorter Prefixes
+LCS(X, Y)
+LCS([ABCBDAB],[BDCABA]):l[BCBA]l :4.
+LCS([ABCBDA], [BDCABA]):l[BCBA]l :4.
+i last character in X is not used for this instance.
+LCS([ABCBDAB],[BDCAB] ):l[BCAB]l :4.
+:> last character in Y was used but it is replaceable.
+LCS([ABCBDA] ,[BDCAB] ):l[BCB]l:3.
+:> without both of the last characters, only a shorter solution exists.
+:> also, last characters don't match, B 51$ A.
+i if last two characters would be the same we could append them to the
+solution of both preﬁxes, and get a new prefix of 3+1.
+
+Advanced Dynamicpmgramming AD 2022 13/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+LCS +1 Case
+
+LCS(X, Y)
+
+LCS([A B C], [B D C]) : |[B C]| : 2.
+
+LCS([A B ], [B D 1): |[B]| I 1.
+
+As X[3] : C : Y[2], we can consider:
+
+LCS([A B g, [B D Q) I LCS([A B], [B D]) + |[c1[ I 1+1 I 2 I |[B c1[
+
+El r51 2 E :5 QQG
+
+Advanced Dynamic Programming AD 2022 14/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+LCS Recursive Formula
+l 2 i n
+X : II_I".‘ DI
+X[i] ? YU] .
+1 2 J m
+Y : II—E ... 5:]
+Consider two cases:
+0 if X[i] I Y]j] then LCS[i][j] I LCS[i — 1]]1' — 1] + 1, as we can add
+the matching character to the LCS of X[1 . . . i 1 1] and X[1...j 1 l].
+9 if X[i] 75 YU] then LCS[i]L/] can be either LCS[i — 1]]1'] if we drop
+the last character of X or LCS[i]U — 1] if we drop last in Y, so we
+can choose the maximum of the two.
+Advanced Dynamic Programming AD 2022 15/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+LCS Recurrence
+
+LC5[i][/]— LCS[i—1][/—1]—l—1 if X[i]: YU]
+
+_ max{LC$[/' — 1]Li],LCS[i]L/' - 1]} if X[i] ¢ YLi]
+Next, in a bottom-up approach, we need to determine the order in which
+to fill the matrix, and how to conveniently handle the base cases.
+Finally, the length of the LCS(X, Y) will be LCS[n][m].
+We can implement path reconstruction efficiently even without the prev[]
+pointers matrix, as the number of subproblems is at most 3.
+LCS[i-1]L/'] ‘/ LCS[i]U>‘LCS[i-l][j-1]
+Advanced Dynamic Programming AD 2022 16/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+LCS Base Cases & Matrix Processing
+As positions of characters in sequences are numbered from 1, we can use
+the 0 — index line and column of the matrix to avoid particular cases in
+applying the recurrence.
+LCS[i]ﬁ-l] LCS[i][j]
+What values are suitable for LCS[O]L/'] and LCS[i][O]?
+LCS([ABA], []) : LCS([ ], [CA]) I 0 —> empty string, ok for recurrence.
+j 0 1 2 3 4 5 6
+i l A D B C B D
+0 Xl 0 O O O O O O
+1 B 0 0 0 1 1 1 1
+Advanced Dynamic Programming AD 2022 17/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+LCS Matrix Processing Order
+
+We can iterate matrix elements in any order as long as when we reach
+
+at the cell [I] L1] we already processed the top, left, and top-left cells.
+
+Natural processing of lines top to down and for each line iterate columns
+
+from left to right works just fine... or columns first and then lines.
+“Shim-III"-
+
+. bottom
+-uﬂuII-III
+-u:=====
+-u:=====
+-IE=---
+-u:===== Up
+
+Advanced Dynamic Programming AD 2022 18/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+LCS Implementation
+
+1 //Input : X[1..n], Y[l..m] arrays of chars/integers
+
+2 //Dutput: size of longest common subsequence of X, Y
+
+3
+
+4 for (i = O; i <= n; i++) LCS[i] [O] = O;
+
+5 for (j = O; j <= m; j++) LCS[O] [j] = O;
+
+6
+
+7 for (i = 1; i <= n; i++> {
+
+8 for (j = 1; j <= m; j++) { // Complexity: U(n*m)
+
+9 if (X[i] == Y[i]) {
+
+10 LCS[i] [j] = LCS[i-1][j—1] + 1;
+
+11 } else {
+
+12 LCS[i][j] = LCS[i-1][j];
+
+13 if (LCS[i][j] < LCS[i][j-1]) {
+
+14 LCS[i] [j] = LCS[i][j-1];
+
+15 } } } }
+
+16
+
+17 print (LCS [n] [In] );
+
+cl a] i E :5 oqo
+
+Advanced Dynamic Programming AD 2022 19/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+LCS Path Reconstruction - No Pointers
+
+18 sol=[];i=n;j=m;
+
+19 while (i != 0 m j != 0) {// Complexity: 0(Lcs(x,Y))
+
+20 if (X[i] == Y[j]) {
+
+21 sol.pushBack(X[i]); // or Y[j]
+
+22 i——; // move to left-top
+
+23 j";
+
+24 } else {
+
+25 if (LCS[i-l] [j] > LCS[i] [j-11) {
+
+26 i--; // move to top
+
+27 } else {
+
+28 j——; // move to left
+
+29 } } 1’
+
+3O for (i = 0; i < sol.size()/2; i++) {// reverse order
+
+31 aux = s01[i];
+
+32 sol[i] = sol[sol.size()—1—i]; // swap elements
+
+33 sol[sol.size()—1—i] = aux;
+
+34 }
+
+35 pr1nt(sol); U a] i E :5 QQCV
+Advanced Dynamic Programming AD 2022 20/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+LCS Path Reconstruction - With Pointers
+
+LCS demo (link) lnPutX_
+
+lcs-demo . sourceforge . net mp“ Y
+
+Fill another matrix with values m- RB
+
+like left/top/diag characters 1:6 Yj:A
+
+orO/1/2 or 1/2/3. j o l 2 3 4 5 a
+. . i y- D- A.-
+
+Use the saved dlrectlon- 0 X o 0 0 o o 0 o
+
+to reconstruct the solutlon 1 A 0.....-
+
+Without any other if (). 2- 9.....-
+
+on diagonal direction moves. 4- o..."-
+
+5 D DII...-
+Reverse string at the end t3- 0......
+or save on sol [LCS [i] [j]] . 1 B 9.....-
+Advanced Dynamic Programming AD 2022 21/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Edit Distance
+A problem similar to LCS:
+Find the minimum number of operations required to change string
+X[1.. . n] to Y[1.. . m]. An operation can be: deleting a character,
+inserting a char, or replacing a char in either X or Y.
+Example:
+1 2 3 4 5 cempture >< Q
+X = [S N U W Y] [l All :1: Images E lle-;-.-'s\':j,} lx-‘lac-s E More ‘Settings
+Y = [S U N N Y] —
+About 19?’ UIJIJ’ESIJIZE-1|]5Ei set-ands}
+Did you mean: computer (500ng
+Possible With 3 operations: l'w] enwiltlionaryorg >wil<i > compture v
+0 insert U in X at position 2: X = [S U N O W Y]
+6 replace Y[4] with [J then Y = [S U N 0 Y]
+9 delete X[5], it becomesX = [S U N 0%Y] = [S U N O Y] = Y
+Advanced Dynamic Programming AD 2022 22/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Edit Distance
+Edit Distance, also called Levenshtein distance is an approximation of the
+closeness of two strings, useful to automatically suggest typing errors and
+corrections. In biology, the problem is also known as sequence alignment,
+which is essentially the same problem in its simple version.
+Previous example as a sequence alignment:
+
+S — N O W Y
+
+S U N N - Y
+In bioinformatics, DNA alphabet consists of bases: ACGT. There are a
+series of variations to the set of operations and of the scores or penalties:
+substitution, indel, gap of length k, different mismatch penalties based on
+letters like A matching only T, and C only G, multiple sequences, etc.
+
+T G A — C G
+
+- G T A C C
+
+Advanced Dynamic Programming AD 2022 23/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Edit Distance - Problem Deﬁnition
+Input: n7 m € N
+X[1 . . . n], Y[1 . . . m] arrays of characters.
+
+Output: k, minimum number of valid operations on either X and Y such
+that after applying the operations in order, X : Y. operations:
+insert(5,p, c): S E {X, Y}, p E 1, lS|+1, c - insert c at index p
+delete(5,p): S € {X7 Y}, p € 1, lSl p - position of deleted char
+rep/ace(5,p, c): S E {X7 Y}, p é 1, |S| S[p] is replaced with c.
+
+Alternatively, either the list of operations or the alignment can be the
+
+output if path reconstruction is required.
+
+Advanced Dynamic Programming AD 2022 24/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Edit Distance - Subproblems
+Looking at the solution in the alignment representation:
+1 2 3 4 5 6
+X I S - N U W Y
+Y : S U N N - Y
+At position 2 we have an insert(X, 2,U) or delete(Y, 2); for 5 similar.
+For position 4, it is either rep/ace(X,4, N) or rep/ace(X,47 0).
+As in LCS, subproblem space can be the set of all possible pairs of prefixes
+of X and Y. Think of the possible last two characters of an alignment.
+There are three cases, as the fourth uselessly adds operations:
+X[i] — X[i] -
+- Y[j] Y[j] -
+Each corresponds to subproblems of 1-char shorter prefix of X, Y, or both.
+Advanced Dynamic Programming AD 2022 25/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+Edit Distance Recurrence
+Let editDist[i]L/'] be the distance between preﬁxes X[l . . . i] and Y[1...j].
+editDist[i][/'] I
+editDist[/' — 1]]1'] + 1 delete(X, i) or insert(Y,j + 17 X[i])
+editDist[i][/' — 1] + 1 delete(Y,j) or insert(X, i + 1, YU])
+min editDist[i — 1]]1' — 1] if X[i] : YU] - no operation
+iin Y'-udateX,/',Y'
+editDist[i — 1][j — 1] + 1 i] 75 [I] p ( M)
+or update(Y,j,X[i])
+Advanced Dynamic Programming AD 2022 26/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Edit Distance - Base Cases and the Solution
+Base cases assign the first line and column of the matrix:
+editDist[O][0 . . . m] and editDist[O . . . n][0].
+Each base case can optimally be solved by several insert operations:
+as many as the number 0f characters of the non-empty prefix, so:
+editDist[O][/] :j, Vj € 1, m
+editDist[i][O] I i, Vi € m
+editDist[0][O] : O as a particular but natural case.
+The solution will be stored on the last line and last column of the matrix,
+editDist[n][m]. Starting from there, we can reconstruct the path, with or
+without predecessor/previous information pointers, and print the alignment
+or the operations themselves.
+
+Advanced Dynamic Programming AD 2022 27/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Edit Distance - Example
+
+j-lj m- POLYNOMIAL
+III-III- (“12345678910
+E 112345 6 78910
+IIIIIIIIX2~2345678QN
+. P 3 2 3345 6 78910
+IIIIIIII o 4 3 2,3 4 5 5 6 7 8 9
+ill-:HIIIN5433A456789
+E 6 5 4445 5 678 9
+IIIIIIIIN765554ﬂﬁ789
+T 8 7 6665 5 678 9
+III-“198777666678
+"IIIIIIIﬁAw9888777767
+L1110989888876
+
+EIXIPOIllEJN—TIAL
+
+— o
+
+——POLYNOMIAL
+El r51 2 E :EQQG
+Advanced Dynamic Programming AD 2022 28/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Edit Distance - Implementation
+1 // Input : X[1..n], Y[1..m] arrays of chars
+2 // Output: k min insert/del/updates to make X = Y
+3 for (i = O; i <= n; i++) editDist[i][O] = i;
+4 for (j = O; j <= m; j++) editDiSt[O][j1 = j;
+5
+6 for (i = 1; i <= n; i++) {
+7 for (j = 1; j <= m; j++) { // Complexity: U(n*m)
+8 if (X[i] == Y[i]) {
+9 editDist[i][j] = editDist[i-1][j—1];
+10 } else {
+11 editDist[i][j] = editDist[i—1][j]+1;
+12 if (editDist[i][j] < editDist[i][j-11+1) {
+13 editDist[i][j] = editDist[i][j-1]+l;
+14 }
+15 if (editDist[i][j] < editDist[i-1][j—1]+1) {
+16 editDist[i][j] = editDist[i-1][j—1]+1;
+17 } } } 1
+18 print(editDist[n][m]); U ﬁ 1 E E 6&0
+Advanced Dynamic Programming AD 2022 29/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Edit Distance & LCS
+
+Other operations or different costs for operations can be treated similarly.
+
+Again, we can reduce space complexity to linear by keeping only two lines
+
+or even one line, but the simple reconstruction algorithm would not work.
+
+If only delete and insert operations are allowed, then we have:
+
+insertDe/eteD/st(X, Y) : |X| + |Y| 2 2 >< |LCS(X, Y)|
+
+Example: X : [ABCBDAB], Y : [BDCABA]
+
+lLCS([ABCBDAB], [BDCABADl : HBCBAH : 4
+
+AB_C_BDAB F as an ali nment
+
+—BDCAB—A— g
+
+1 2 3 4 5:le+lYl—2><4:7+6—8:13—8:5.
+
+Similarly, shortest common supersequence (link) + LCS : |X| + |Y|.
+Advanced Dynamic Programming AD 2022 30/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+Plan
+Other Classic problems
+Longest Common Subsequence
+Edit Distance
+e DP on trees
+Maximum Independent Set
+Partial Sums
+E1 ﬁ ' _= :E ‘)‘RO
+Advanced Dynamic Programming AD 2022 31/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+DP on Trees
+We already used DAGs to represent subproblems space and recursive
+function call trees in previous DP problems.
+Trees are a natural structure to apply Dynamic Programming paradigm.
+Some particularities:
+o tree based DP deﬁnes states corresponding to subtrees
+o in some cases, subproblems are not overlapping
+0 the data structure in which results are saved is usually not an array or
+matrix, but just the extra information attached to each node: a
+number: cost, sum; or even the solution itself
+o if needed, path reconstruction can be implemented as before
+o in some cases it is needed to extend the subproblems space: for each
+node (root of a subtree) and some other information/decision: using
+or not the root node, taking k nodes of subtrees, etc.
+Advanced Dynamic Programming AD 2022 32/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+DP on Trees - Maximum Independent Set - l\/llS
+For a graph G : (V, E) an independent set is a subset of vertices S Q V
+such that no vertices in S are adjacent: ill x,y G S such that (x,y) E E.
+Finding the maximum cardinality independent set of a general graph is
+known to be NP-hard and the decision version is NP-comp/ete.
+If G is a tree, that is, a connected graph without any cycles then the
+problem is solvable in 0(n) run time, where n is the number of nodes.
+If G is just cycle-less and possibly not-connected, that is, a forest, clearly
+we can solve the problem separately on each of the connected components
+of G which are trees; and add up the results.
+For one tree, if there is no root we can arbitrarily choose its root as we
+need it to organize the DP subproblems.
+
+Advanced Dynamic Programming AD 2022 33/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+DP on Trees - MIS Example
+For example, for the tree below the size of the MIS is ...
+l / l \
+/ \
+El 5' i E :5 QQG
+Advanced Dynamic Programming AD 2022 34/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+DP on Trees - MIS Example
+The size of the MIS is 6 I |{4,5, 7, 8, 9, 10}|.
+l / l \
+/ \
+El r51 i E :5 QQG
+Advanced Dynamic Programming AD 2022 35/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+DP on Trees - MIS Example
+Another MIS can be {2,4, 6, 7,9, 10}.
+l / l \
+/ \
+El 5' i E :5 QQG
+Advanced Dynamic Programming AD 2022 36/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+DP on Trees - l\/|lS - Subproblems
+
+Subproblems consist of subtrees of the initial tree.
+
+If we assume that the l\/l|S is known for subtrees rooted in children of a
+node k, can we find the answer for the tree rooted in k?
+
+lt is necessary to consider two cases:
+
+0 node k is not added to the IVIIS of the k-rooted subtree.
+
+Then the l\/|lS can be the reunion of l\/l|Ss of all k's children.
+
+9 node k is added in l\/l|S, then we cannot add any of the children to k
+as nodes themselves. But any l\/l|S of the sub-trees rooted in the
+children c of k not-including c is a reunion MlSs of children of c based
+on 0 for c, those are grandchildren of k. We should take all because
+nodes come from independent sub-trees and we want the maximum.
+
+Advanced Dynamic Programming AD 2022 37/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+DP on Trees - |\/||S - Subproblems Cases
+
+left: take k, don't take its children.
+
+right: don't take k, can take its children.
+
+§ §
+| / \ / \ | / \ / \
+/ \ / \ l / \ / \ l
+Q) G G Q) G G Q) Q) G G
+El r51 i E :5 QQQ
+
+Advanced Dynamic Programming AD 2022 38/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+DP on Trees - |\/||S - Subproblems Cases
+
+left: take k, just ignore children, and allow its grandchildren.
+
+right: don't take k, can take its children.
+
+‘ ‘
+| / \ / \ | / \ / \
+/ \ / \ l / \ / \ l
+G G G Q) G G G Q) G G
+El r51 i E :5 ‘)QQ
+
+Advanced Dynamic Programming AD 2022 39/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+DP on Trees - |\/|lS - Subproblems Dependencies
+Any subproblem of subtree rooted in k depends on the subproblems of its
+subtrees rooted in the next level and the one after next level: 2 levels.
+l Kz) \ Kl) x
+l l l l l
+cl 51 t E :2 Qqe
+Advanced Dynamic Programming AD 2022 40/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+DP on Trees - l\/llS - Overlapping Subproblems
+
+Subproblems of a path from the root to a leaf overlap, so it is more
+
+efficient to compute only once + save results, and thus use DP.
+
+ﬂ l \\
+l Kr) x K1) \
+l l J l l
+cl 51 , E :2 one
+
+Advanced Dynamic Programming AD 2022 41/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+DP on Trees - |\/|lS - Non-Overlapping Subproblems
+If the problem would be to compute the tree height for example, we
+could use simple Divide and Conquer without PD with no loss of efficiency.
+l Kr) x K1) \
+l l J l l
+cl 51 , E :2 Qqe
+Advanced Dynamic Programming AD 2022 42/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+DP on Trees - MIS - Recurrence
+If node.ch are the children of node node, the recurrence is:
+MI5(k) I maX(1 + Z Z M/$(g), Z M15(c))
+cEk.ch gEc.ch c€k.ch
+Apply it in a bottom-up traversal, for example, a reversed DFS order.
+The MIS size will be MlS(root).
+cl 51 t E :2 QQG
+
+Advanced Dynamic Programming AD 2022 43/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+DP on Trees - |\/||S - Implementation
+1 // Input : tree { n —> id, children —> [trees] }
+2 // Output: size of the MIS of the tree
+3 mis(out tree) {
+4 mis = 1; sumChildren = O; sumGrandCh = O;
+5 for (i = O; i < tree.children.size(); i++) {
+6 mis(tree.children[i]);
+7 sumChildren += tree.children[i].mis;
+8 for (j=O;j<tree.children[i].children.size();j++) {
+9 sumGrandCh+=tree children[i].children[j].mis;
+10 } // can this result in O(n*n) run time?
+11 if (sumChildren < 1 + sumGrandCh) {
+12 mis = 1 + sumGrandCh;
+13 } else {
+14 mis = sumChildren;
+15 }}
+16 tree.mis = mis;
+17 return tree.mis;
+18 } a ﬁ i E e axe
+Advanced Dynamic Programming AD 2022 44/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+DP on Trees - |\/||S - Implementation
+1 // Input : tree { n —> id, children —> [trees] }
+2 // Output: size of the MIS of the tree
+3 mis(out tree) {
+4 mis = 1; sumChildren = O; sumGrandCh = O;
+5 for (i = O; i < tree.children.size(); i++) {
+6 mis(tree.children[i]);
+7 sumChildren += tree.children[i].mis;
+8 for (j=O;j<tree.children[i].children.size();j++) {
+9 sumGrandCh+=tree children[i].children[j].mis;
+10 } // but can we reduce to only one loop?
+11 if (sumChildren < 1 + sumGrandCh) {
+12 mis = 1 + sumGrandCh;
+13 } else {
+14 mis = sumChildren;
+15 }}
+16 tree.mis = mis;
+17 return tree.mis;
+18 } a ﬁ i E e one
+Advanced Dynamic Programming AD 2022 45/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+DP on Trees - |\/||S - Path Reconstruction
+1 //Input : tree on which mis(tree) was already called
+2 //Output: the names of nodes included in a MIS
+3 printMIS(tree) {
+4 sumChildren = O;
+5 for (i = O; i < tree.children.size(); i++) {
+6 sumChildren += tree.children[i].mis;
+7 }
+8 if (sumChildren == tree.mis) {
+9 for (i = O; i < tree.children.size(); i++) {
+10 printMIS(tree.children[i]);
+11 }} else {
+12 print(tree.n);
+13 for (i = O; i < tree.chi1dren.size(); i++) {
+14 for (j = O; j < tree.children[i].size(); j++) {
+15 printMIS(tree.children[i].children[j]);
+16 }}}} // time complexity: 0(N), number of nodes
+17 printMIS(tree);
+a m 1 E a axe
+Advanced Dynamic Programming AD 2022 46/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+Plan
+Other Classic problems
+Longest Common Subsequence
+Edit Distance
+DP on trees
+Maximum Independent Set
+e Partial Sums
+C1 ﬁ - '= :5 ‘we
+Advanced Dynamic Programming AD 2022 47/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+Partial Sums - Contiguous Subsequence
+
+A contiguous subsequence of an array v[1 . . . n] is a subsequence
+
+consisting of elements from consecutive positions of v, that can be
+
+uniquely deﬁned by its endpoints: left, right.
+
+For example, if v is:
+
+i = 1 2 3 4 5 6 7 8 9
+
+v =[ 4, 9, 1, —7, -3, 5, 7, 3, -4]
+
+The contiguous subsequence from 2 to 6 is 9, 1,-7,—3, 5;
+
+and the contiguous subsequence from 5 to 7 is -3, 5, 7.
+
+Such subsequences are used in several problems, and often it is efficient to
+
+precompute some results that can help answer questions about them.
+Advanced Dynamic Programming AD 2022 48/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+Partial Sums - Subsequence Sums Problem
+Given an array v[l . . . n] answer q questions about the array. Questions are
+also called queries. Each query i asks to ﬁnd the sum of elements in the
+array between positions left[i] and right[i].
+For example, if v is:
+i = 1 2 3 4 5 6 7 8 9
+V =[ 4, 9, 1, -7, -3, 5, 7, 3, -4]
+For q : 2 and two queries:
+/eft[1] : 2, right[l] : 6 the response is: 9 + 1 + (-7) + (-3) + 5 I 11;
+left[2] : 5, right[2] I 7 the response is (-3) + 5 + 7 I 9.
+Advanced Dynamic Programming AD 2022 49/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+Partial Sums - Trivial Solution
+Clearly, the trivial solution iterates positions from /eft[i] to right[i] adding
+each element to a temporary sum that responds to the query.
+Since right[i] — left[i] is only limited by n, the overall run time of such a
+solution is (9(q >< n).
+To improve this, observe that any contiguous subsequence sum can be
+expressed as a formula of the sums of two particular subsequences. The
+total number of particular subsequences should be small enough to make it
+more efficient to pre-compute all of them.
+
+Advanced Dynamic Programming AD 2022 50/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Partial Sums - Solution Idea
+Preﬁx (or suffix) sequences are suitable because:
+9 there are (9(n) of them, more precisely exactly n.
+8 any subsequence can be computed based on only 2 prefix sums.
+6 the prefix sums themselves are easy to compute (using DP)
+Let prefix[i] be the sum v[1] + v[2] + - - - + v[i].
+i:| 51 2 E :5 ‘JQCV
+Advanced Dynamic Programming AD 2022 51/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Partial Sums - Prefix Sums
+
+i = 1 2 3 4 5 6 7 8 9
+v = [ 4, 9, 1, —7, —3, 5, 7, 3, —4]
+prefix = [ 4, 13, 14, 7, 4, 9, 16, 19, 15]
++ 811m ( 4, 9, 1, '7, ‘3, 5, 7, )
+_ sum ( 4: 9, 1: _7, )
+
+El 5' i E :5 ‘)QG
+
+Advanced Dynamic Programming AD 2022 52/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+Partial Sums - Prefix Sums
+i = 1 2 3 4 5 6 7 8 9
+v = [ 4, 9, 1, -7, -3, 5, 7, 3, -4]
+prefix = [ 4, 13, 14, 7, 4, 9, 16, 19, 15]
++ prefix[7] ( 4, 9, 1, —7, —3, 5, 7, )
+- prefix[5—1] ( 4, 9, 1, —7, )
+sum(v[1eft]+. . .+v [right]) = prefix [right] —prefiX [left-1]
+El 5' i E :5 QQQ
+Advanced Dynamic Programming AD 2022 53/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Partial Sums - Prefix Sums PD
+
+How to compute all prefix[l . . . n] array efficiently?
+
+Apply:
+
+sum(v [left] +. . .+v [right] ) = prefix [right] -prefix [left-1]
+
+For left = right, we get:
+
+sum(v [left]+. . .+v [left]) = prefix [left] —prefix [left-1] =>
+
+sum(v [left]) = prefix [left] —prefix [left-1] =>
+v[left] = prefix[left] —prefix[left—1] =>
+
+v[left] +prefix [left-1] = prefix [left] =>
+
+prefix [left] = v[left] +prefix [left-1], or
+
+prefix [i] = v[i] + prefix[i—1]
+
+Conveniently set prefix[O] I 0 and just apply this formula left to right.
+
+Advanced Dynamic Programming AD 2022 54/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Partial Sums - Implementation
+
+1 /* Input: n, q — number of elements and queries
+
+2 v[1...n] integer numbers
+
+3 left [1...q], right [1...q] query sequences
+
+4 Output: left [1]+...+right [1];...;left[q]+...+right[
+
+5 */
+
+6 prefix = [0 | x from [0..n]];
+
+7 for (i = 1; i <= n; i++) {
+
+8 prefix[i] = v[i] + prefix[i—1];
+
+9 } // 0(1'1)
+
+10 for (i = 1; i <= q; i++) {
+
+11 print(prefix[right [1]] — prefix[left [i]—1]);
+
+12 } // 0(q)
+
+cl 51 i E :5 OQO
+
+Advanced Dynamic Programming AD 2022 55/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+Partial Sums - Two+ Dimensions
+The same problem can be extended to two 0r even more dimensions. The
+original array becomes an matrix v[l . . . n][1 . . . m] and a query is defined
+by its interval ends on each dimension, startLine, endLine, startCo/umn,
+endCo/umn.
+endLine endCo/umn
+The answer sum for each query is: Z 2 v[i] L1]
+[IstartLine jzstartCo/umn
+The trivial solution has (9(n >< m) run time for each query. Applying the
+one-dimensional preﬁx-sum idea to each line lowers it t0 a much better
+(9(m), but even much better is possible.
+Advanced Dynamic Programming AD 2022 56/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Partial Sums - Two+ Dimensions - Example
+For the 5 >< 6 matrix below, and the query:
+startLine : 2, endLine : 4 startCo/umn : 3, endCo/umn : 5
+1 2 3 4 5 6
+1 8 8 7 —5 —2 9
+2 3 —3 —2 4 2 —3
+3 2 3 —6 1 1 8
+4 8 5 —8 —6 2 6
+5 —6 —5 —4 —3 -5 2
+The sum is: —2 +4 +2 +
+—6 +1 +1 +
+—8 —6 +2 : -12.
+El 5' i E :5 QQQ
+Advanced Dynamic Programming AD 2022 57/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Partial Sums - Two+ Dimensions - How to Compute?
+For the 5 >< 6 matrix below, and the query:
+startLine : 2, endLine : 4 startCo/umn : 3, endCo/umn : 5
+1 2 3 4 5 6
+1 8 8 7 -5 -2 9
+2 3 —3 —3
+3 2 3 8
+4 8 5 6
+5 —6 —5 —4 —3 -5 2
+How can we compute such a sum?
+Ideally using only 0(1) precomputed sums
+El 5' i E :5 QQQ
+Advanced Dynamic Programming AD 2022 58/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+Partial Sums - Two+ Dimensions - How to Compute?
+For the 5 >< 6 matrix below, and the query:
+startLine : 2, endLine : 4 startCo/umn : 3, endCo/umn : 5
+1 2 3 4 5 6
+1 9
+2 —3
+3 8
+4 6
+5 —6 -5 —4 —3 -5 2
+Use left-top prefix sums: sum of elements v[1..i][1..j],
+precomputed for each (i,j).
+El r51 i E :5 QQQ
+Advanced Dynamic Programming AD 2022 59/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+Partial Sums - Two+ Dimensions - How to Compute?
+For the 5 >< 6 matrix below, and the query:
+startLine = 2, endLine = 4 startCo/umn = 3, endCo/umn = 5
+1 2 3 4 5 6
+1 7 —5 —2 9
+2 —2 4 2 —3
+3 —6 1 1 8
+4 —8 -6 2 6
+5 —6 —5 —4 —3 —5 2
+Remove the left extra prefix-sum v[1..i][1..j-1].
+\Il 5' i E :5 QQQ
+Advanced Dynamic Programming AD 2022 60/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Partial Sums - Two+ Dimensions - How to Compute?
+For the 5 >< 6 matrix below, and the query:
+startLine = 2, endL/ne I 4 startCo/umn I 3, endCo/umn I 5
+1 2 3 4 5 6
+1 9
+2 —2 4 2 —3
+3 —6 1 1 8
+4 —8 —6 2 6
+5 -6 -5 -4 -3 -5 2
+Remove the left extra preﬁx-sum v[1..i][1..j-1].
+Also, remove the top extra side v[1..i-1][1..j].
+Now, the intersection got removed twice.
+El r51 i E :5 @‘\"v
+Advanced Dynamic Programming AD 2022 61/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Partial Sums - Two+ Dimensions - How to Compute?
+For the 5 >< 6 matrix below, and the query:
+startLine I 2, endLine I 4 startCo/umn I 3, endCo/umn I 5
+1 2 3 4 5 6
+
+1 9
+
+2 -2 4 2 -3
+
+3 —6 1 1 8
+
+4 -8 -6 2 6
+
+5 -6 -5 -4 -3 -5 2
+Remove the left extra preﬁx-sum v[1..i][1..j-l].
+Also, remove the top extra side v[1..i — 1][1..j].
+So we will add it back again, as it is also a prefix-sum: v[1..i-1][1..j-1].
+
+Advanced Dynamic Programming AD 2022 62/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+Partial Sums - Two+ Dimensions - How to Compute?
+For the 5 >< 6 matrix below, and the query:
+startLine I 2, endLine I 4 startCo/umn I 3, endCo/umn I 5
+1 2 3 4 5 6
+1 9
+2 —3
+3 8
+4 6
+5 -6 -5 —4 -3 -5 2
+Finally, v[startLine..endL/ne][startCo/umn..endCo/umn] :
+—-l!—-
+cl 51 , E i5 qu
+Advanced Dynamic Programming AD 2022 63/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+Partial Sums - Two+ Dimensions - Sums v[1. . . i][1. . .j]
+We used v[1...i][1. ..j] preﬁx sums, that also needs to be computed fast.
+To do this, try the same strategy as in one-dimension. Apply the formula
+for startLine I endLine written as i and startCo/umn : endCo/umn
+written as j. We get:
+v[i--i][/-J] I - — — — —+— a
+v[illi] :-————+—:
+—= Vlilli1+—+———
+using a new preﬁx matrix topLeft:
+topLeft[i][/'] : v[i][i] + topLeft[i][j-1] + topLeft[i-1][i] — topLeft[i-1][j-1].
+Also, is is again convenient to set topLeft[0][i] : topLeft[i][0] = 0.
+cl 51 i E :2 ‘11;
+Advanced Dynamic Programming AD 2022 64/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+Partial Sums - Two+ Dimensions - topLeft[][] Matrix
+Example
+v[] [1 matrix topLeft [1 [1 matrix
+1 2 3 4 5 6 1 2 3 4 5 6
+1 7 -5 -2 9 1 8 16 23 18 16 25
+2 -2 4 2 -3 2 21 2O 2O 26
+3 3 -6 1 1 8 3 2O 2O 21 35
+4 8 5 -8 -6 2 6 4 21 34 25 19 22 42
+5 -6 “5 -4 “3 “5 2 5 15 23 10 1 -1 21
+topieftm [21 I — + — — — + vm [21
+topLeft[3][2] I I+I — I+ 3 I -
+El 5' i E :5 {JQCV
+Advanced Dynamic Programming AD 2022 65/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+Partial Sums - Two+ Dimensions - Implementation
+1 // Input: n, m: number of lines and columns of v[][]
+2 // v[1..n][1..m] with integer numbers
+3 // Output: topLeft[1..n][1..m] sum of elements
+4 // from top — left corner (1, 1) to (i,j)
+5 topLeft = [[1];
+6
+7 for (i = O; i <= m; i++) { topLeft[0][i] = O; }
+8 for (i = O; i <= n; i++) { topLeft[i][O] = O; }
+9
+10 for (i = 1; i <= n; i++) {
+11 for (j = 1; j <= m; j++) {
+12 topLeft[i] [j] = topLeft[i][j-1] + topLeft[i-1] [j];
+13 topLeft[i][j] -= topLeft[i-1][j—1];
+14 topLeft[i][j] += v[i][j];
+15 }
+16 } // complexity O(n*m)
+m a , E s oqe
+Advanced Dynamic Programming AD 2022 66/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+Partial Sums - Two+ Dimensions - SublVlatrix Sum
+1 // Input: n, m: number of lines and columns of v[][]
+2 // v[l...n][1...m] with integer numbers
+3 // topLeft[1...n][1...m] already build
+4 // startLine, startColumn, endLine, endColumn
+5 // Output: sum of v[i][j] for all i and j with:
+6 // startLine <= i <= endLine and
+7 // startColumn <= j <= endColumn
+8
+9 subMatrixSum(topLeft, startLine, startColumn,
+10 endLine, endColumn) {
+11
+12 return +topLeft[endLine][endColumn]
+l3 —topLeft[startLine-1][endColumn]
+14 —topLeft[endLine][startColumn-l]
+15 +topLeft[startLine-1][startColumn-l];
+16 } // complexity 0(1)
+a a a E s oqo
+Advanced Dynamic Programming AD 2022 67/68
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Bibliography
+
+Bibliography (links)
+
+[ro] Lecture papers document.
+
+cp-algorithms: Balanced Bracket Sequences
+
+Acknowledgment
+
+Lecture professors of previous years, prof. D. Lucanu, conf. S. Ciobaca
+
+Contributors to the online resources available several of which are used in
+
+photos, and illustrations.
+
+El r51 i E :5 0Q‘?
+
+Advanced Dynamic Programming AD 2022 68/68
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+E1 ﬁ ' _= IE l) ‘k O
+D. Lucanu, S. Ciobécé, P. Diac (FlliUAlC) Advanced Dynamic Programming AD 2022
+
+***************Ending Page***************
+

@@ -1,0 +1,550 @@
+***************Beginning Page***************
+***************page number:1**************
+ALGEBRAIc FOUNDATIONS
+of COMPUTER SCIENCE
+\eciures by Ferucio Laurentiu Tiplea
+
+Semlgroups and Mon0|ds
+
+Variable-length Codes
+
+Prof.dr. Ferucio Laurentiu Tiplea
+
+Spring 2022
+
+Department of Computer Science
+
+“Alexandru loan Cuza" University of lagi
+
+|a$i 700506, Romania
+
+e-mail: ferucio.tiplea@uaic.ro
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Outline
+Variable-length codes
+Huffman codes
+Reading and exercise guide
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Variable-length codes
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Variable-length codes
+Definition 1
+Let A be a non-empty set. A variable-length code (or simply code) over
+A is any subset C Q A+ such that C* is a free sub-monoid of A*. The
+elements of C are called code words.
+Prove the following equivalent forms of the definition:
+1. C is a code over A if any code sequence W € Cl can be uniquely
+decomposed into code words
+W : C1 ' ' ' Cni
+2. C is a code overA if, for any u17...,um,v1,...,vn € C,
+u1---um:v1---vn :> n:m /\ (Vi)(u,-: vi);
+3. C is a code overA if, for any u1,...,um,v1,...,vn € C,
+U1-"Um:V1"'Vn :> U1:V1.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 2/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Variable-length codes
+Example 2
+o C : {3, ab, ba} is not a code because aba : (ab)a : a(ba);
+o C : {.2, bb, aab, bab} is a code.
+Definition 3
+1. C is a prefix code if no code word of C is a prefix of any other code
+word.
+2. C is a suffix code if n0 code word 0f C is a suffix of any other code
+word.
+3. C is a block code if all code words of C have the same length.
+Example 4
+o ASCII is a block code.
+Profdr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 3/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Variable-length codes
+Given a non-empty set C Q A+, define
+0 C1 I {x G A+|(Hc G C)(cx G C)},
+o C,-+1:{XGA+|(HCGC: chC,-) \/ (HcGCi: ch C)},for
+any i Z 1.
+We get an infinite sequence of sets of words: C1, C2, C3, . ..
+Remark 5
+lfC is finite, then there are i andj such that i <j and C,- : Ci-
+Theorem 6 (Sardinas-Patterson Theorem)
+C is a code over A iffC U C,- : w, for any i Z 1.
+Proof.
+See textbook [1] pages 241-247. U
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 4/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Variable-length codes
+Sardines-Patterson Algorithm
+input: finite non-empty set C Q A+;
+output: code(C) : 1, if C is a code, and code(C) I O, otherwise;
+begin
+C1::{x G A+|(Ec G C)(cx G C)};
+if C O C1 7Q (/1 then code(C) :: O
+else begin
+i :: 1; cont :: 1;
+while cont I 1 do
+begin
+
+i I: i + 1;
+
+C,- :: {X G A+|(E|c G Ci-1)(CX G C) \/ (3c G C)(cx G C;_1)};
+
+if C ﬁ C,- 75 Q) then begin code(C) :: 0; cont :: 0 end
+
+else if (Hj < i)(C,- : Cj)
+then begin code(C) z: 1; cont :: O end;
+end;
+end;
+end.
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science - Semigroups and Monoids Spring 2022 5 / 21
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Huffman codes
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Huffman codes
+
+o Have been proposed by David Huffman in 1952;
+
+o Are used to encode information sources (an information source is a
+device which outputs symbols from a given alphabet according to
+certain probabilities depending, in general, on preceding choices as
+well as the particular symbol in question);
+
+0 Are prefix codes of minimum length among all the prefix codes
+associated to a given information source;
+
+0 Associate short code words to highly probable symbols (which
+appear more frequently), and longer code words to symbols with
+smaller probabilities.
+
+Prof_dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 6/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Information source
+Definition 7
+An information source is a couple IS I (Am), Where A is a non-empty
+and at most countable set, called the source alphabet, and 1r is a
+probability distribution on A.
+Only finite information sources will be considered. See the textbook for
+extension to countable information sources.
+Definition 8
+Let IS :(A,1r) be an information source and h : A —> 2* be a
+homomorphism. The (average) length of h with respect to IS is
+
+Lh(lS) I Z |h(a)|1r(a) .
+2€A
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 7/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Encoding of an information source
+Definition 9
+Let IS : (Am) be an information source and h : A —> 2* be a
+homomorphism. h is called a code or encoding of IS if
+C : {h(a)|a G A} is a code.
+Example 10
+Let l5 be the information source
+A a b c d e f
+Tl‘ 0.4 0.1 0.1 0.1 0.2 0.1
+and h be the encoding
+A a b c d e f
+h O 1100 1101 1110 10 1111
+Then, the length of h w.r.t. IS is Lh(/5) I 2.4. That is, on average, 2.4
+bits are needed to encode any symbol of the information source.
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 8 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Huffman codes
+Definition 11
+Let IS :(A,1r) be an information source and h : A —> 2* be an
+encoding for IS. h is called a Huffman code or a Huffman encoding of
+IS if:
+0 C I {h(a)|a € A} is a prefix code;
+0 h has minimum length among all the prefix codes of IS.
+Given an information source IS, are there Huffman encodings for IS .7
+The answer is positive.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 9/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Huffman algorithm
+1. Let l5 be an information source with n 2 2 symbols
+A 81 82 8,121 an
+7T P1 P2 pnil Pn
+where P1 Z P2 Z Z Pnil Z Pn;
+2. If n : 2, then h(a1) : O and h(a2) : 1 (or vice-versa) is a Huffman
+code for IS;
+3. If n Z 3, then compute a reduced source IS’ for IS
+A’ a1 a2 811-2 ‘an-Ln
+7T, p1 P2 ' ' ' pn—2 pn—1,n
+Where pn—1,n I pn—l + pni
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 10/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Huffman algorithm
+4. If h’ is a Huffman code for lS/, then h given by
+h/(x), if x ¢ {8H, an}
+h(x) : h’(x)0, if x : a,,_1
+h’(x)1, if x I an,
+is a Huffman code for IS.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 11 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+Example of Huffman encoding
+Example 12
+Let IS be the following information source:
+A a b c d e f
+Tl‘ 0.4 0.2 0.1 0.1 0.1 0.1
+Compute a sequence of reduced sources for IS:
+a 4 4> 4 4> 4 4> 4 6
+b 2 —> 2 —> 2 4 5': 4
+c 1 2 —> 2 51:2
+e 1 1
+f 1
+Profdr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 12/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Example of Huffman encoding
+Assign codes to each reduced source from right to left:
+a 4 °—> 4 °—> 4 °—> 4 1 6
+10 10 10
+b 2 —> 2 —> 2 4 ﬁg, 4
+C l 1101 2 111 2 111 2 10
+1 00 110
+e 1 1111 1 110
+f 1 111
+The Huffman code is h(a) : 0, h(b) : 10, h(c) : 1101, h(d) : 1100,
+h(e) I 1111, and h(f) I 1110. The length of h is 2.4. It is the minimum
+length code among all the prefix codes associated to l5.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 13/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Data compression
+Huffman codes can be used to compress data as follows. Let a be a text:
+1. parse a and, for each symbol a in a compute its number of
+occurrences;
+2. let IS be the information source thus obtained. Compute a Huffman
+code h for IS;
+3. encode a by h(a) (obtained by replacing each symbol a in a by
+h(8))-
+Compression ratio : is the ratio of the size of the original data to the
+size of the compressed data.
+Compression rate : is the rate of the compressed data (typically, it is in
+units of bits/sample, bits/character, bits/pixels, or bits/second).
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 14/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Data compression
+There are two types of data compression:
+o lossless data compression — allows the exact original data to be
+reconstructed from the compressed data;
+0 lossy data compression — does not allow the exact original data to be
+reconstructed from the compressed data.
+Data compression by Huffman codes is lossless!
+ls there any limit to lossless data compression?
+The answer is positive. The limit is called the entropy. The exact value
+0f the entropy depends on the (statistical nature of the) information
+source. lt is possible to compress the source, in a lossless manner, with
+compression rate close to its entropy. lt is mathematically impossible to
+do better than that.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 15/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+Huffman codes
+Definition 13
+Let S be an IS with n symbols and probabilities p1, . . . ,pn. The entropy
+of S, denoted H(S) or H(p17 . . .,p,,), is defined by
+n
+14(5): Z P,- log (1/111)
+i=1
+(mathematical convention: O - log (1/0) I 0).
+The entropy was introduced in computer science by Claude Shannon [6],
+who is now considered the father of information theory.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 16/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Huffman codes
+Preposition 14
+For any probability distribution p1, . . . , pn, the following hold:
+1.0 g H(p1, . . .,p,,) g log n;
+2. H(p1, . . .,p,,) : 0 iffp; : 1, for some i;
+3. H(p1, . . . , pn) : log n iffp; : 1/n, for any i.
+Proof.
+See textbook [1] pages 261-266. U
+Definition 15
+Let $1 I ({a;\l g i g n},(p,-|1 g i g n)) and
+$2 z ({bj|1 gj g m},(qj|1 gj g m)) be two ISs. The product of 51
+and 52, denoted 51 o 52, is the IS
+$1052 I ({(a/,aj)|1 g i s n, 1 s1 s m},(p,--qj\1 s i g n, 1 g] g m)).
+Prof.dr. F.L. Tiplea, UAIC, R0 Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 17/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Huffman codes
+Prove the following properties:
+Proposition 16
+For any ﬁnite information sources $1 and $2,
+Composing 5 with itself k times, we obtain the source 5k. Then,
+H(5k) z kH(S) .
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 18/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Huffman codes
+Theorem 17 (Shannon's noiseless coding theorem)
+Let S be an information source. Then:
+(1) H(S) g Lh(5), for any code h ofS;
+(2) H($) g Lh(S) < H(S) + l, for any Huffman code h ofS;
+. Lmin(5k) .
+(3) IlmkgOOT : H(5), where Lm;n($’) IS the average length of
+some Huffman code for S’.
+Proof.
+See textbook [1] pages 266-267. D
+Shannon's noiseless coding theorem places a lower bound on the minimal
+possible expected length of an encoding of a source S, as a function of
+the entropy of S.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 19/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Adaptive Huffman coding
+Huffman encoding for an input W E 2+ requires two steps:
+0 determine the frequency of occurrences of each letter a in W;
+0 design a Huffman code for Z w.r.t. the probability distribution
+frequency of a in w
+pa : —.
+lWl
+Then, encode W by this Huffman code.
+Because this procedure requires two parsings of the input, it is
+time-consuming for large inputs (although the compression rate by such
+an encoding is optimal). ln practice, an alternative method which
+requires only one parsing of the input is used. It is called the adaptive
+Huffman coding [3, 4, 5, 7].
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 20/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Tree representation of binary codes
+A useful graphical representation of a finite code C Q A+ consists of a
+tree with nodes labeled by symbols in A such that the code words are
+exactly the sequences of labels collected from the root to leaves. For
+example, the tree below is the graphical representation of the prefix code
+{01,110,101}, where a is encoded by 01, b by 101, and c by 110.
+O 1
+1 O 1
+(l
+1 O
+b c
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 21 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+The sibling transformation
+The encoding of an input w by the adaptive Huffman technique is based
+0n the construction of a sequence of Huffman trees as follows:
+0 start initially with a Huffman tree 7B associated to the alphabet A
+(each symbol of A has frequency 1);
+0 if 7} is the current Huffman tree and the current input symbol is a
+(that is, W : uav and u has been already processed), then output
+the code of a in Tn (this code is denoted by code(a, 'T,,)) and update
+the tree 7], by applying to it the sibling transformation; the new tree
+is denoted ‘n+1.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 22/27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+The sibling transformation
+The sibling transformation applied to symbol a and tree 77, consists of:
+1. compare a to its successors in the tree (from left to right and from
+bottom to top). If the immediate successor has frequency k + 1 or
+greater, where k is the frequency of a in Tn, then the nodes are still
+in sorted order and there is no need to change anything. Otherwise,
+a should be swapped with the last successor which has frequency k
+or smaller (except that a should not be swapped with its parent);
+2. increment the frequency of a (from k to k + 1);
+3. if a is the root, the loop halts; otherwise, the loop repeats with the
+parent of a.
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 23/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+Adaptlve Huffman codmg
+A sequence of Huffman trees used to encode the string dcd over the
+alphabet {2, b, c7 d}:
+4 5
+
+U 1 O 1
+
+2 2 2 3
+l] l 0 1 [J 1 O 1
+1 1 1 1 1 1 1 2
+
+(I b (3 Ll a b c d
+(a) TU (1,) T1
+7
+6 0 1
+O 1 3 4
+d
+2 4 0 1
+0 1 U 1 2 2
+L‘,
+1 1 2 2 U 1
+a b c d
+1 1
+
+a b
+
+(d) 112 (C) T1;
+
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 24 / 27
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Time-varying codes
+Huffman adaptive is not a variable-length code! The same character may
+be encoded by different code words!
+Huffman adaptive is a time-varying code! For more details regarding
+time-varying codes see [2].
+Prof.dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 25/27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Reading and exercise guide
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Reading and exercise guide
+lt is highly recommended that you do all the exercises marked in red from
+the slides.
+Course readings:
+1. Pages 235-267 from textbook [1].
+Prof_dr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 26 / 27
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+References
+
+[1] Ferucio Laurentiu Tiplea. Algebraic Foundations of Computer Science. “Alexandru loan Cuza"
+University Publishing House, lasi, Romania, second edition, 2021.
+
+[2] Ferucio Laurentiu Tiplea, Erkki Makinen, Dragos Trinca, and Costel Enea. Characterization
+results for time-varying codes. Fundamenta lnformaticae, 53(2):185—198, may 2002.
+
+[3] Newton Faller. An adaptive system for data compression. ln 7th Asilomar Conference on
+Circuits, Systems and Computers, pages 593-597. IEEE, 1973.
+
+[4] Robert Gallager. Variations on a theme by humean. IEEE Transactions on Information
+Theory, 24(6):668—674, 1978.
+
+[5] Donald E Knuth. Dynamic Huffman coding. Journal of Algorithms, 6(2):163—180, 1985.
+
+[6] Claude Shannon. Communication theory of secrecy systems. The Bell System Technical
+Journal, 28(4):656—715, 1949.
+
+[7] Jeffrey Scott Vitter. Design and analysis of dynamic humean codes. J. ACM, 34(4):825—845,
+Oct 1987.
+
+Proﬁdr. F.L. Tiplea, UAIC, RO Algebraic Foundations of Computer Science — Semigroups and Monoids Spring 2022 27 / 27
+
+***************Ending Page***************
+
+
+
+
+

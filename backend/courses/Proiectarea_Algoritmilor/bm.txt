@@ -1,0 +1,923 @@
+***************Beginning Page***************
+***************page number:1**************
+Algontmul Boyer-Moore
+1 Introducere 5i Motivare
+Algoritmul Boyer-Moore este unul dintre cei mai eﬁcienti algoritmi in practicé. Este implementat
+in cele mai multe editoare de text pentru funcgia F ind (and Replace ), dar $i in instrumente precum
+grep.
+
+Algoritmul este unul dintre pupinii algoritmi care pot ﬁ mai rapizi pe misurzi ce dimensiunea
+datelor de intrare cre$te. Acest lucru este posibil deoarece comparatiile {acute de algoritrnul Boyer-
+Moore permit deplasarea PATTERN-111111 intr-un mod in care unele caractere din TEXT nu sunt
+accesate.
+
+2 Prezentare Generalii
+Ca Si algoritmul naiv $1 algoritmul KMP, algoritmul Boyer-Moore veriﬁcé dacé PATTERN-111 se
+p0trive$te cu TEXT-ul la diferite pozipii, incepzind cu pozipia O:
+i=0
+v
+BAAAXABXAAXBAXBAAABABB
+X A X A B A B
+i=1
+v
+BAAAXABXAAXBAXBAAABABB
+X A X A B A B
+i=2
+v
+BAAAXABXAAXBAXBAAABABB
+X A X A B A B
+
+in Inod diferit de algoritrnul naiv $i de algoritmul KMP, algoritrnul Boyer-Moore testeazé dacé
+pozipia curenté este 0 potrivire parcurgénd PATTERN-ului de 1a dreapta la sténga (in 100 de la
+sténga 1a dreapta).
+
+i=0
+L
+BAAAXABXAAXBAXBAAABABB
+X A X A B A B
+
+1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+T
+k=O
+i=0
+t
+BAAAXABXAAXBAXBAAABABB
+X A X A B A B
+T
+k=1
+i=0
+t
+BAAAXABXAAXBAXBAAABABB
+X A X A B A B
+T
+k=2
+i=0
+t
+BAAAXABXAAXBAXBAAABABB
+7g = =
+X A X A B A B
+T
+k=2
+Acesté diferenté nu este de naturé superﬁcialé: in momentul in care detecteazé 0 nepotrivire,
+algoritrnul cre$te deplasamentul i intr-un Inod care nu ar putea ﬁ implementat dacé parcurgerea
+s-arA face de la sténga 1a dreapta, dupé cum vorn vedea in continuare.
+In momentul in care apare 0 nepotrivire, algoritmul BM incrementeazé deplasamentul i in
+functia de informatia daté de doué informatii:
+1. camcterul rdu, primul caracter din text care nu s-a potrivit;
+2. suﬁxul bun, partea din text care s-a potrivit.
+in exemplul de mai sus7 suﬁxul bun este AB7 iar caracterul réu este X.
+sufixul bun
+|
+caracterul |
+rziu |
+| |
+i=0 | |
+i i ___
+BAAAXABXAAXBAXBAAABABB
+¢ = =
+X A X A B A B
+T
+k=2
+in functie de caracterul réu $1 de suﬁxul bun7 algoritmul BM calculeazzi doué noi deplaséri i
+Si 0 alege pe cea mai bunzi (cea mai mare).
+Modul de calcul a1 celor doué noi deplaséri se numeste regula camctemlui rdu $i regula suﬁaculm'
+bun (céteodaté eum'stz'ca camcteruluz' rdu $1 eum'stz'ca suﬁamlui bun).
+Universitatea Alexandru Ioan Cuza 2 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+3 Regula caracterului réu
+3.1 Cazul I (cazul obisnuit)
+Considerim exemplul de mai sus.
+caracterul
+réu
+i=0 |
+i i
+B A A A X A B X A A X B A X B A A A B A B B
+7é = =
+X A X A B A B
+T
+k=2
+Tn regula caracterului réu, ignorém toate caracterele din TEXT cu exceptia pozitiei 1a care
+apare caracterul réu. De asemenea, in PATTERN ne concentrém doar pe aparitiile caracterului
+r511.
+caracterul
+réu
+i=0 |
+i i
+____X_________________
+7é = =
+X _ X _ _ _ _
+T T T
+l | k=2
+| |
+l aparitia II a caracterului réu
+l
+aparipia I a caracterului rﬁu
+Deplasamentul urmétor la care avern Sansa 521 gésim o potrivire trebuie 55L alinieze una dintre
+aparifniile in PATTERN ale caracterului réu cu pozitia 1a care apare caracterul réu in TEXT:
+VARIANTA I
+caracterul
+réu
+|
+i
+____X_________________
+X _ X _ _ _ _
+VARIANTA II
+caracterul
+réu
+|
+i
+____X_________________
+X _ X _ _ _ _
+Universitatea Alexandru Ioan Cuza 3 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+
+Dacé aliniern prima aparitie (Figura VARIANTA I), atunci cre$tern deplasarnentul in Inod
+seniniﬁcativ (caktigénd eﬁcienté in tinipul de executie), dar riscéni s51 pierdein 0 potrivire (din
+informatiile pe care la avern).
+
+Dacé aliniern a doua aparitie (Figura VARIANTA II)7 atunci cre$tern deplasarnentul mai rnult
+decét in algoritrnul naiv (cé$tigénd eﬁcienté in tirnpul de executie faté de algoritrnul naiv), $i nici
+nu riscéni s5 pierdern 0 potrivire (faté de Varianta I).
+
+A$adar, pentru a nu pierde potriviri potentiale, modificérn deplasanientul PATTERN-ului
+astfel incéit ultima apam'ifz'e a caracterului réu in PATTERN $5 se alinieze cu pozitia caracterului
+réu din TEXT.
+
+Regula caracterului riu este:
+
+Deplaséun PATTERN-ul astfel incéit ultima apam'tie a caracterului réu in PATTERN
+six ﬁe aliniaté cu pozitia caracterului réu din TEXT.
+3.2 Cazul II (caz particular)
+Un caZ particular important apare cénd caracterul réu nu apare niciodaté in pattern, a$a ca in
+exemplul de mai jos:
+caracterul
+réu
+i=0 |
+i i
+A B A B X A B Z A B A B A B
+¢ = =
+Z A B A B A B
+T
+k=2
+caracterul
+réu
+i=0 |
+i i
+____X_________
+7g = =
+T
+k=2
+In acest caZ, PATTERN-ul este deplasat péné imediat dupé caracterul réu:
+caracterul
+réu
+|
+i
+____X_________
+
+Pentru a irnplernenta acest caz intr-o manieré uniformi cu cazul anterior, este util s51 adéugérn
+in mod imaginar caracterul réu in fata PATTERNului:
+
+Starea algoritmului la momentul nepotrivirii:
+
+caracterul
+Universitatea Alexandru Ioan Cuza 4 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+réu
+i=0 |
+i i
+____X_________
+7g = =
+X _ _ _ _ _ _ _
+T T
+| k=2
+|
+|__ caracterul réu adéugat in mod imaginar in fajca PATTERN-ului
+Starea algoritmului dupé deplasare:
+caracterul
+réu
+|
+i
+____X_________
+X _ _ _ _ _ _ _
+T
+|
+|__ aparitia imaginaré a caracterului réu
+este aliniatz'a cu aparitia din TEXT
+Din punct de vedere a1 eﬁcienfuei, acest caz este cel mai de dorit, deoarece avanseazé deplasa-
+mentul cu cea mai mare valoare posibilé daté de regula caracterului réu.
+3.3 Cazul III
+Din picate, regula caracterului r2311 se poate dovedi ineﬁcientéu7 dupé cum este ilustrat in exemplul
+de mai jos:
+caracterul
+réu
+i=0 |
+i i
+A B A B B A B X A A B
+7g = =
+B A B X A A B
+T
+k=2
+Caracterul r2111, B, are trei aparitii in PATTERN:
+caracterul
+réu
+i=0 |
+T i
+_ _ _ _ B _ _ _ _ _ _
+i = =
+B _ B _ _ _ B
+T T T T
+| | k=2 |
+Universitatea Alexandru Ioan Cuza 5 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+| | Aparitia III
+l |
+l Aparitia II
+l
+Aparitia I
+Deoarece apariﬁia cea mai din dreapta a caracterului réu in pattern apare dupé caracterul réu,
+alinierea propusé de regula caracterului rim ar ﬁ:
+caracterul
+réu
+|
+T
+_ _ _ _ B _ _ _ _ _ _
+$A = =
+B _ B _ _ _ B,
+ceea ce ar reprezenta un regres a1 algoritrnului (deplasarnentul ar reveni pe 0 pozipie anterioaré,
+unde gtim deja (:5 nu avern PATTERNul).
+
+In acest caz, in care regula enuntaté mai sus nu conduce la progress7 fortirn incrementarea
+deplasamentului cu 0 singuré unitate (alternativ, regula suﬁxului bun va indica un deplasarnent
+mai bun).
+
+4 Regula suﬁxului bun
+4.1 Cazul I
+(suﬁxul bun apare in pattern $i in alté poziigie decét la sférgdt)
+La ﬁecare nepotrivire, algoritrnul BM alege cel mai bun deplasament dintre deplasamentul indicat
+de regula caracterului réu $1 cel indicat de regula suﬁxului bun.
+sufixul bun
+|
+i=0 T
+T ___
+ABABABAABZABABAB
+7g = =
+A B B A B B B A B
+T
+k=2
+In regula suﬁxului bun7 uitém de toate caracterele din TEXT cu exceptia celor de pe pozitiile
+unde apare suﬁxul bun, iar in PATTERN uitéun toate caracterele, cu exceppia suﬁxului bun:
+sufixul bun
+|
+i=0 T
+T ___
+_______AB_______
+7g = =
+A B _ A B _ _ A B
+| | | | | |
+T T T
+| | k=2
+Universitatea Alexandru Ioan Cuza 6 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+| |
+| Aparitia II a sufixului bun
+|
+Aparipia I a sufixului bun
+Urniétoarea potrivire posibilé apare la un deplasament in care una dintre aparipiile suﬁxului
+bun din PATTERN este aliniaté cu suﬁxul bun din TEXT:
+VARIANTA I de deplasare
+sufixul bun
+|
+i=0 i
+i ___
+_______AB_______
+A B _ A B _ _ A B
+VARIANTA II de deplasare
+sufixul bun
+|
+i=0 i
+i ___
+_______AB_______
+A B _ A B _ _ A B
+
+Ca si la regula caracterului rziu, dacé aliniein prima aparitie a suﬁxului bun (Figura VARIANTA
+I), atunci cregtein deplasainentul in mod seinniﬁcativ (céetigzind eﬁcienfué in tiinpul de executie),
+dar riscém six pierdern 0 potrivire (din informatiile pe care la avem).
+
+Dacé aliniem a doua aparifcie a suﬁxului bun (Figura VARIANTA II)7 atunci cresfcem deplasa-
+mentul mai mult decét in algoritmul naiv (cahtigénd eﬁcienté in timpul de executie faté de algo-
+ritinul naiv)7 $i nici nu riscéln s5 pierdeni 0 potrivire (fapé de VARIANTA I).
+
+Aeadar, pentru a nu pierde potriviri potentiale, modiﬁcinl deplasamentul PATTERN-ului
+astfel incét ultima apariifie a suﬁxului bun in PATTERN, cu exceptia suﬁxului in sine, sé se
+alinieze cu pozitia suﬁxului bun din TEXT.
+
+4.2 Cazul II
+(suﬁxul bun nu apare in pattern decét la sféreit)
+Un caz special este ilustrat in urmétorul exemplu, in care suﬁxul bun nu apare decét la sféreitul
+PATTERN-ului:
+sufixul bun
+|
+i=0 i
+i _______
+ABABABAABACZABABAB
+7g = = = =
+A C B A B B B A B A C
+T
+k=4
+Universitatea Alexandru Ioan Cuza 7 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+in acest caz, regula suﬁxului bun este Inai specialé: uitém toate caracterele din PATTERN cu
+exceptia celui mai lung preﬁx care este $i suﬁX.
+sufixul bun
+|
+i=0 ¢
+i _______
+_ _ _ _ _ _ _ A B A C _ _ _ _ _ _ _
+7g = = = =
+A C _ _ _ _ _ A B A C
+T
+k=4
+Urmétorul deplasalnent este calculat astfel incét acest preﬁx (AC) s5 ﬁe aliniat cu suﬁxul (AC).
+sufixul bun
+|
+i=0 i
+i _______
+_ _ _ _ _ _ _ A B A C _ _ _ _ _ _ _
+A C _ _ _ _ _ A B A C
+Pentru a intelege acest deplausaurnent7 este util sé completdm in mod imaginar inceputul PATTERN-
+ului cu caracterele lipsé din suﬁxul bun (similar oarecum cu modul in care am completat PAT-
+TERNul cu caracterul rim).
+sufixul bun
+|
+i=0 i
+i _______
+_ _ _ _ _ _ _ A B A C _ _ _ _ _ _ _
+¢ = = = =
+A B A C _ _ _ _ _ A B A C
+| | | T
+T k=4
+|
+Caractere imaginare care servesc pentru a intelege mai u$or alinierea
+Cu aceste caractere imaginare, putem vizualiza mai usor cum se realizeazé alinierea.
+sufixul bun
+|
+i=0 i
+i _______
+_ _ _ _ _ _ _ A B A C _ _ _ _ _ _ _
+A B A C _ _ _ _ _ A B A C
+l | |
+T
+l
+Caractere imaginare
+Rezurnénd cele doué cazuri, regula suﬁxului bun este:
+Universitatea Alexandru Ioan Cuza 8 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+Dacé suﬁxul bun apare in PATTERN in alté pozi'gie decét 1a sféreit, deplasém PATTERN-
+ul astfel incét ultima apam'tie a suﬁxului bun (cu exceptia celei de la sféirsit) in PAT-
+TERN s21 ﬁe aliniaté cu suﬁxul bun din TEXT‘
+Dacé suﬁxul bun nu apare in PATTERN7 aliniern cel mai mare preﬁx a1 PATTERNului
+care este 5i suﬁx cu sufixul corespunzétor a1 suﬁxului bun.
+
+Tn cazul regulii suﬁxului bun, nu existé posibilitatea ca n0u1 deplasament a1 PATTERN-ului
+
+s5 ﬁe inaintea deplasamentului curent (progresul este garantat).
+
+5 Preprocesarea
+
+Pentru a implementa in mod eﬁcient cele doué euristici, este nevoie ca PATTERNul $21 ﬁe pre-
+pocesat astfel incét 55 putem réspunde rapid la urrnétoarele intrebéri (query-uri):
+
+1. Dandu-se un caracter c G {A, B, . . .}, care este ultima pozifcie in PATTERN a caracterului
+
+c?
+2. D5ndu-se k‘ G {O,1,. . . ,m}, 1a ce pozitie incepe in PATTERN ultima aparitie a subsirului
+P[m — kuk] (suﬁxul de lungiine k; a1 lui P), cu exceptia pozitiei m — k?
+
+Prima intrebare este folosité pentru a calcula euristica caracterului réu, iar a doua intrebare
+
+pentru a calcula euristica suﬁxului bun.
+
+5.1 Regula caracterului réiu
+
+Pentru a réspunde eﬁcient (in timp 0(1)) 1a prima intrebare, v0n1 precalcula un tablou BC [0. . l-l] ,
+unde l I‘ E 1 este dimensiunea alfabetului (e.g., Z I 26 pentru Z I {A, B, . . . , Z} $i l I 2 pentru
+Z) I {0, 1}), cu semnﬁcatia:
+
+0 BC [c] I pozitia pe care se aﬁé ultima apariﬁie a caracterului c in PATTERN.
+
+Pentru cazul special in care c nu apare in PATTERN, avem BC [c] = —1, care corespunde
+intuitiei din Sectiunea E considerém in mod imaginar c5 c apare chiar inainte de PATTERN,
+adicé pe pozitia *1.
+
+Pentru inceput, presupunein (:51 niciun caracter nu apare in PATTERN, astfel incét initializém
+BC cu —1 in ﬁecare pozitie.
+for (int i = O; i < l; ++i) {
+
+BC [i] = —1;
+}
+
+Apoi vorn “repara” inforinatia aferenté caracterelor care apar in PATTERN:
+for (int i = O; i < In; ++i) {
+
+BC [P [i1] = i; // presupunem O <= P[i] < 1
+}
+
+Pentru caracterele care apar de mai multe ori in pattern, in momentul in care i indicé ultima
+aparitie, pozitia anterioaré este suprascrisé. Invariantul instrucpiunii repetitive este (:21 BC [c]
+retine ultima aparifuie a caracterului c dinainte de pozipia i din PATTERN, pentru orice c.
+
+Timpul de executie pentru preprqcesarea de mai sus este O(| E |) pentru prima buclé for, plus
+O(m) pentru cea de a doua buclé. In multe aplicatii, dimensiunea alfabetului este 0 constanté,
+astfel incét preprocesarea dureazé 0(m) in aceste cazuri.
+
+Universitatea Alexandru Ioan Cuza 9 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+5.2 Regula suﬁxului bun
+Pentru a rispunde eﬁcient (in tirnp 0(1)) la eea de a doua intrebare7 preprocesérn PATTERN-ul
+astfel incﬁt Si calculém tabloul GS [0. .m-l]7 cu semniﬁcapia:
+0 GS [i] este ultima pozitie 1a care apare subsirul P [i. .m-l] in PATTERN, cu exceppia pozipiei
+i
+Exeranu pentru PATTERN-ul P = ABABACABA:
+i = O 1 2 3 4 5 6 7 8
+PIi] = A B A B A C A B A
+ssh] = —6 —5 —4 —3 —2 —1 2 s 6
+Avern GS [7] I 3, deoarece suﬁxul P [7. .8] = BA apare 1a pozipiile 1, 3, 7. Cea mai 1a dreapta,
+cu exceptia lui 7, este 3. A
+Avern GS [4] : —2. Suﬁxul P[4. .8] = ACABA nu apare in PATTERN. In aceste cazuri, aea
+cum am explicat in SectiuneaFilZl PATTERN-ul ar trebui deplasat astfel incét un preﬁx czit Inai
+mare a1 PATTERN-ului s5 se suprapuné cu un suﬁx cét rnai mare a1 suﬁxului bun. In exernplul
+nostru, acest preﬁx este ABA, care se suprapune peste suﬁxul ABA a1 suﬁxului bun ACABA. Pentru
+aceste cazuri, in care suﬁxul bun nu apare in PATTERN deczit 1a sféxr$it, vorn Inernora in GS un
+numér negativ cu urrnétoarea sernniﬁcapie. Ne imaginém 05L 1a sténga PATTERN-ului pompletém
+pe pozitiile —1, —2, —3, . . . caractere convenabile astfel incét sé gésirn tot suﬁxul bun. In exemplu
+nostru (GS [4] I *2) inseamné c5, luénd in considerare caracterele imaginare, suﬁxul bun apare
+1a pozipia *2. Vorn vedea (:5 aeeasté conventie ne va ajuta s5 tratérn intr-o manieré uniform?» atzit
+cazul din Sectiunea. cét si cazul din Secfuiunea-
+caractere imaginare
+vvvvv
+i = —2 —1 O 1 2 3 4 5 6 7 8
+P[i] = A C A B A B A C A B A
+apare la poz. —2 sufixul bun
+Calculul tabloului GS se face folosind doué apeluri citre metoda de calcul a functiei preﬁx pe
+care am discutat-o Ia algoritrnul KMP.
+In prirnul rzind, observérn (35L, in orice PATTERN, existé un punct de la care suﬁxele nu rnai
+apar in PATTERN in alté pozitie deczit 1a sférsit:
+i = O 1 2 3 4 5 6 7 8
+P[i] = A B A B A C A B A
+GSIi] = —6 '5 —4 —3 —2 —1 2 3 6
+T
+punctul incepélnd cu care sufixele nu
+mai apar in PATTERN deceit 1a sféreit
+(A apare $1 1a pozipia O, $1 1a 2, $1 la 4, $1 1a 6)
+(BA apare $1 1a pozitia 1, $1 la pozitia 3)
+(ABA apare $1 la pozitia O, $1 la pozipia 2)
+(CABA nu mai apare decét la pozitia 5)
+(ACABA nu mai apare decét 1a pozipia 5)
+(. . .)
+Prima parte
+Pentru calculul primei pérti (cea cu numere negative), ne folosirn de functia preﬁx pentru PAT-
+TERN:
+Universitatea Alexandru Ioan Cuza 10 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+i = O 1 2 3 4 5 6 7 8
+P[i]=ABABACABA
+f[i]=001230123
+
+Observém 052 f [In — 1] I 3, ceea ce inseamné 05 cel mai mare preﬁx a1 PAT TERN-ului care
+este $1 suﬁX este ABA.
+
+Pentru a calcula GS [i] calculiun numérul de caractere din suﬁX: m i 2'. Deoarece f [m — 1]
+caractere sunt deja in PATTERN7 mai trebuie adéugate (m — 2) — f [m - 1] caractere imaginare.
+Asadar GS [i] I —((m — 2') — f [m — 1]).
+
+pe exemplu, pentru 2' I 4, corespunzétor suﬁxului ACABA, avem GS [i] : —(5 — 3) : —2.
+
+In implementare, putem folosi calculul pentru a scrie toate elementele din GS, deoarece calculul
+pentru partea a II-a (sea cu numere nenegative) va suprascrie pozitiile relevante:
+
+for (int i = O; i < In; ++i) {
+gs[i] = f[m — 1] - (m — i);
+}
+
+Dupé aceasté initializare, tabloul GS este:
+i = O l 2 3 4 5 6 7 8
+P[i]=ABABACABA
+ash] = —6 —5 —4 —3 -2 -1 o 1 2
+
+Ultimele trei valori nu sunt incé cele ﬁnale (reprezinté pozitii ale suﬁxului care nu sunt neapérat
+cele Inai din dreapta) $1 vor ﬁ suprascrise in faza urrnétoare.
+
+A doua parte
+
+Pentru a calcula a doua part6 a tabloului GS, avern nevoie de funcyia e$ec de la KMP pentru
+oglz'ndz'tul PAT TERN-uluz' (notérn cu R oglinditul lui P gi cu g funcpia e$ec pentru R):
+
+i = O 1 2 3 4 5 6 7 8
+
+R[i]=ABACAB1-\BA
+
+g[i]=001012323
+
+Notém cu h $iru1 g oglindit:
+
+i = O 1 2 3 4 5 6 7 8
+P[i]=ABABACABA
+h[i]=323210100
+
+Observém (:52 h[i] este lungirnea celui mai lung preﬁx a1 sirului P [i. .m-l] care este $i suﬁx.
+De exemplu7 h[1] I 27 deoarece preﬁxul BA a1 $iru1ui P[1. .8] este $1 suﬁX a1 acestuia (cel mai
+mare).
+
+Ce legéturé este intre h si GS?
+
+Fie j pozitia 1a care incepe ultima apartie a1 unui suﬁx P [i. .m-l] care nu este 1a sfér$it (j < 2').
+Avem (:5 h[j] I m 4 2'.
+
+De exemplu7 h[2] I 3 (2 este ultima aparitie a suﬁxului ABA), iar h[6] I 1 (6 este ultima
+aparifuie a suﬁxului A).
+
+vvvv vvvv
+i = O 1 2 3 4 5 6 7 8
+P[i]=ABABACABA
+h[i]=323210100
+’ A B A’ ’ A B A’
+I A7 7A,
+Universitatea Alexandru Ioan Cuza 11 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Proieetarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de siruri)
+Asadar ﬁecare pozifnie 2' pentru care h[2] z Zen este candidat pentru ultima aparitie a suﬁxului
+de lungime Zen al PATTERN-ului. Parcurgem toate pozipiile 2' in ordine si marcam 2 ca fiind
+ultima aparifuie a suﬁxului de lungirne Zen I M2] (daca un suﬁx apare de Inai multe ori, poziﬁia cea
+mai din dreapta le va suprascrie pe celelalte).
+for (int i = O; i < In; ++i) {
+int 1en = h[i];
+gs[m — 1en] = i;
+}
+
+Pentru 2' I O algoritmul suprascrie gs [m — h[O] ], adica gs [6] cu O.
+
+Pentru 2 I 2 algoritrnul suprascrie gs [m — h[2] ], adica gs [6] cu 2, iar aceasta va fi valoarea
+ﬁnala a lui gs [6] .
+
+Valoarea gs [7] va ﬁ suprascrisa in punctul in care 2' I 1 si 2' : 3.
+
+Observapi ca algoritniul ealculeaza si valoarea gs [9] (in general, gs [m] ), care este 8 (in general,
+m-l), deoarece h [m - 1] = 0. Acest caz special este folosit pentru a calcula deplasarea la dreapta
+pentru cazurile in care suﬁxul bun este vid.
+
+6 Implementarea
+
+Pentru a implementa algoritrnul, folosirn d0i indici, i si k. Indexul i tine minte deplasarnentul
+(poziﬁia) incepand cu care veriﬁcam daca apare PATTERN-ul in TEXT, iar indexul k numarul de
+caractere despre care stim ca s-au potrivit, incepand din dreapta.
+
+i = O; // prima pozipie la care testém daca apare PATTERN-ul
+
+k = O; // deocamdaté nu stim daczi vreun caracter se potriveste
+
+Cat timp nu arn gasit 0 potrivire (k < m) si cat timp inca exista sansa sa gasim 0 potrivire (i
+<= n — m),
+while (k<m&&i<=n—m)
+
+{
+// . . .
+}
+testam daca caracterul curent din TEXT se potriveste cu cel din PATTERN. in caz aﬁrmativ,
+incrementam nurnarul de caractere despre care stim ca se potrivesc. Altfel trebuie sa incercam un
+nou deplasarnent.
+while (k<m&&i<=n—m)
+{
+if (T[i+m—1-k] ==P[m—l-k]) {
+k++;
+} else {
+// . . .
+}
+}
+
+Pentru a calcula noul deplasarnent7 trebuie sa facern apel la cele doua reguli pentru a calcula
+shiftbc, deplasamentul propus de regula caracterului ran, shiftgs, deplasamentul propus de
+regula suﬁxului bun, si sa alegem deplasamentul cel Inai mare dintre cele doua. Dupa schirnbarea
+deplasamentului, numarul de caractere despre care stim ca se potrivesc revine la 0.
+
+Universitatea Alexandru Ioan Cuza 12 Varianta preliminara
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+6.1 Cum calculém shiftbc?
+while (k<m&&i<=n—m)
+{
+if (T[i+m—1—k] ==P[m—1—k]) {
+k++;
+} else {
+shiftbc = // ...
+shiftgs = // ...
+i += max(shiftbc, shiftgs);
+k = O;
+}
+}
+in tabloul BC deja am memorat pozitia ultimei aparifuii a caracterului réu in PATTERN, a$a
+cum este ilustrat in exemplul de mai jos:
+caracterul
+réu
+i=0 |
+i i
+____X_________________
+7g = =
+_ X _ X _ _ _
+T T T
+| |k=2
+| |
+| (BC [X] = 3)
+|
+aparipia I a caracterului réu (irelevanté deoarece X apare $1
+mai térziu in pattern)
+Deplasém conceptual PATTERN-ul cu m pozitii 1a dreapta:
+caracterul
+réu
+i=0 |
+i i
+____X_________________
+_ X _ X _ _ _
+Apoi retragem PATTERN-ul spre sténga cu k pozitii7 dimensiunea suﬁxului care s-a potrivit:
+caracterul
+réu
+i=0 |
+i i
+____X_________________
+_ X _ X _ _ _
+in acest moment, PATTERN-111 este aeezat astfel inczit s5 inceapi chiar dupé caracterul réu.
+Mai retragem PATTERN-ul cu incé 0 unitate:
+Universitatea Alexandru Ioan Cuza 13 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:14**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+caracterul
+réu
+i=0 |
+i i
+____X_________________
+_ X _ X _ _ _
+astfel inczit pozitia 0 din PATTERN s5 ﬁe aliniaté cu caracterul réu.
+Rémzine s5 retragem patternul astfel incét BC [X] s5 ﬁe aliniat cu caracterul iéiu7 adicé s5
+retragem PAT T ERN-ul cu BC [X] caractere:
+caracterul
+réu
+i=0 |
+T i
+____X_________________
+_ X _ X _ _ _
+
+Tn acest moment, ultima aparitie a caracterului réu din PATTERN este aliniaté cu caracterul
+réu din TEXT. Sumarizéind avansul $i retragerile, avem:
+while (k<m&&i<=n—m)
+
+{
+if (T[i+m—1—k] ==P[m—1—k]) {
+k++;
+} else {
+shiftbc =m-k- 1 — BC[T[i +m- 1 —k]];
+shiftgs = // ...
+i += max(shiftbc, shiftgs);
+k = O;
+}
+}
+
+Cazul in care caracterul réu nu apare in PATTERN este surprins in mod uniform de calculul
+de mai sus: in acest caz, BC [X] I *1, ceea ce inseamné c5 shiftbc = m — k, care corespunde
+celei de-a doua diagrame, in care PATTERN-ul este deplasat astfel incét sé inceapé imediat dupé
+caracterul rim.
+
+6.2 Cum calculiim shiftgs?
+Tn tabloul GS am memorat in momentul preprocesérii GS [i] : cea mai din dreapta pozitie din
+pattern la care apare suﬁxul P [i. .m-l] (alta decétt pozitia i).
+sufixul bun
+|
+i=0 t
+T ___
+_ _ _ _ _ _ _ A B _ _ _ _ _ _ _
+7g = =
+A B _ A B _ _ A B
+l | | | | |
+T T T
+| | k=2
+Universitatea Alexandru Ioan Cuza 14 Varianta preliminaré
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:15**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+| |
+| GS [In—k] = 3
+| (sufixul P[m—k. .m-l] apare incepénd cu pozitia 8)
+|
+Aparitia I a sufixului bun (irelevanta, deoarece AB apare $1
+mai térziu in PATTERN)
+Deplasam conceptual PATTERN-ul cu m pozitii 1a dreapta:
+sufixul bun
+|
+i
+_______AB_______
+A B _ A B _ _ A B
+astfel incat sa inceapa imediat dupa suﬁxul bun.
+Retragem PATTERN-ul cu k pozitii spre stanga:
+sufixul bun
+l
+i
+_______AB_______
+A B _ A B _ _ A B
+astfel incat pozitia 0 din PATTERN sa ﬁe aliniata cu inceputul suﬁxului bun in TEXT.
+Scopul nostru este sa pozitionarn PATTERN-111 astfel incat pozitia GS [m-k] sa ﬁe aliniata cu
+suﬁxul bun, astfel incat este suﬁcient sa retragem PATTERN-ul cu GS [m-k] pozitii:
+sufixul bun
+|
+i
+_______AB_______
+A B _ A B _ _ A B
+in acest moment, PATTERN-111 a ajuns exact in pozitia dorita. Rezumand deplasarile enu-
+merate Inai sus, obtinem:
+while (k<m&&i<=n—m)
+{
+if (T[i+m—1—k] ==P[II1-1—k]) {
+k++;
+} else {
+shiftbc =m-k- 1 — BC[T[i +m- 1 —k]];
+shiftgs = In — k — GS[m — k];
+i += max(shiftbc, shiftgs);
+k = O;
+}
+}
+Tn mod interesant7 cazul particular in care suﬁxul bun nu apare in PATTERN este inclus de
+maniera uniforma in calculul de Inai sus7 a$a cum este ilustrat in exemplul de Inai jos.
+Universitatea Alexandru Ioan Cuza 15 Varianta preliminara
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:16**************
+Proiectarea Algoritmilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+sufixul bun
+|
+i=0 ¢
+i _______
+_______ABAC_______
+7g = = = =
+A C _ _ _ _ _ A B A C
+T
+k=4
+Conform conventiei pe care am adoptat-o, GS [III-k] I *2, reprezenténd faptul c5 suﬁxul ABAC
+apare, in mod partial imaginar, incepénd cu pozifuia -2 in PATTERN:
+sufixul bun
+|
+i
+_______ABAC_______
+7g = = = =
+ABAC_____ABAC
+| | | T
+T k=4
+|
+Caractere imaginare care servesc pentru a intelege mai usor alinierea
+Calcululshiftgs = m — k — GS [m — k] aduce intéxi (partea cum — k) poziﬁiaOaPATTERN-
+ului 1a inceputul suﬁxului bun:
+sufixul bun
+|
+A
+_______ABAC_______
+ABAC_____ABAC
+| | |
+T
+|
+caractere imaginare
+Apoi (partea cu — GS [m — k]7 care se evalueazé 1a —(—2)) “retrage” PATTERN-111 cu —2
+pozitii, adicé in avanseazé cu 2 pozipii7 ceea ce aliniazi preﬁxul AC a1 PATTERN-ului sub suﬁxul
+AC a1 suﬁxului bun:
+sufixul bun
+|
+i
+_______ABAC_______
+ABAC_____ABAC
+l l |
+T
+|
+caractere imaginare
+Universitatea Alexandru Ioan Cuza 16 Varianta preliminaré
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Proiectarea Algoritrnilor (2021-2022) Cursurile IX, X (Potrivirea de $iruri)
+
+Uitand de caracterele imaginare ale PATTERN-ului7 observam noul deplasanient:
+
+sufixul bun
+|
+i
+_______ABAC_______
+A C _ _ _ _ _ A B A C
+
+in cazul in care suﬁxul bun este vid (k I 07 deplasarnentul calculat (shiftgs = m — k — GS [m
+— k1) este 1, deoarece m — k I m, iar GS[m] = m — 1.
+
+7 Concluzie
+Exista mai multe variapii ale algoritrnului BM:
+
+1. Daca folosirn doar euristica caracterului rau, algoritniul se nurneete Boyer-Moore-Horspool
+
+3i este surprinzator de eﬁcient in rnulte aplicatii practice;
+
+2. Cele doua reguli pot ﬁ imbunatatite in diferite rnoduri. De exernplu, regula caracterului rau
+poate ﬁ modiﬁcata pentru a calcula ultima aparifsie in PATTERN a caracterului rau dinainte
+de pozitia curenta7 garantand in acest fel progresul;
+
+3. Regula suﬁxului bun poate fi imbunatapita prin luarea in calcul a caracterului rau in felul
+urmator: consideram doar aparitii ale suﬁxului bun care sunt precedate de un alt caracter
+decat caracterul care nu s-a potrivit cu cel rau.
+
+Variapiile in care regulile devin mai precise dar mai greu de calculat nu conduc de obicei la
+avantaje deosebite in practica, deoarece cagtigul adus de precizia suplimentara este contrabalansat
+dc tinipul necesar pcntru calculul mai soﬁsticat.
+
+Algoritniul BM, asa cum este prezentat rnai sus, are timp de executie liniar in cazul cel mai
+nefavorabil pentru instanﬁele in care PATTERN-ul nu apare in TEXT (sau daca ne intereseaza
+doar prima aparitie). O imbunatafuire importanta7 nurnita regula Galil, face ca algoritrnul sa se
+execute demonstrabil in timp liniar in general. Calculul timpului de rulare nu face parte din
+matAeria de curs.
+
+In cazul cel niai favorabil, respectiv in cazul mediu, BM este extrern de eﬁcient. Este unul
+dintre puﬁinii algoritrni care nu necesita neaparat procesarea tuturor elementelor din input Si care
+au un timp de executie care poate deveni mai mic pe Inasura ce datele de intrare sunt mai mari.
+Universitatea Alexandru Ioan Cuza 17 Varianta preliminara
+
+***************Ending Page***************
+

@@ -1,0 +1,630 @@
+***************Beginning Page***************
+***************page number:1**************
+g) Java"
+Advanced Programming
+Networking
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+P rotocol
+Protocol - A set of rules governing the exchange
+or transmission of data between devices.
+When you write Java programs that
+ripplicatier]. __ _I¥'Ifl§lF_E_$_5jI_3_3'_-P_rf:{l§ﬁ9_5151_ 1- ripplicatien communicate over the network, you are
+1 I programming at the application layer
+TEMPE-"t1 - _ - h.@5t:tQ:I]D.5_Il- - 4. Treﬂieel't Applieetien
+l I‘ (HTTP, ftp, telnet, ...]|
+Internet Internet Internet Internet TFEII'ISFIIIIII'I
+Link Link Link Link NEWDIH
+L T L I l l‘ pe, ...;|
+Ethernet EELEIIE'IIFHII Ethernet LII-II‘:
+Etc- {device IIIlItI'El’, ...j|
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Internet Address
+java.net.lnnetA0/dress 1101111 1 1111111 Computer
+_ ExternallP l lmernellP E lnternellP
+' lnnet4AddreSS (32-bit) 216.13.154.34l 1921611111 : 112,168,112
+1/ 85.122.23.145 -numerica| :
+v fenrir.inf0.uaic.r0-symbolic 1 In “1.15
+. - l . '15? IPC #1
+- lnnet6Address (128-b1t) 1 11.123}???
+2002:0:O:0:O:O:557a:1791 l I 192168.113
+|
+Address Types |
+_ | |PCemere#2
+‘ umcast | '. lnternellP
+. Internet | " " 192168.04
+0 multlcast 1. i
+' Internal Network
+2 localhost(127.0.0.1)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Port
+
+A port is a 16-bit number, which uniquely identifies a
+process offering services over the network.
+- Possible values: O — 65535
+- Reserved values: O — 1023 (the well-known ports)
+
+T T i T
+
+pod pod pod pod
+
+TEP or l_I[.‘IP
+Packet
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+The Client-Server Model
+
+“The Server El Q
+
+v ofers some network services ‘Rx /
+
+v runs at a specified port /
+
+v must be able to handle E] L
+
+many clients concurrently Client 5-‘: Q El
+
+ﬁ The Client
+
+v initiate the conversation with the server
+
+v must know the IP address and the port of the server
+
+v sends requests and receive responses
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+Sockets
+Socket - A software abstraction describing one end-point
+of a two-way communication link between two programs
+running on the network.
+0 TCP: Socket, ServerSocket -@ mitigation E]
+i UDP: DatagramSocket -@ Appligaﬁm E
+java.net.lnetSocketAddress -@ App'tm“ @
+-@ Appliéation III
+(IP adress, port)
+System TOP TOP System
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+Communication Over TCP
+i Transport Control Protocol
+i Connection-based
+i Reliable flow of data between two computers
+Apt't'mtie sewer Elma-nu‘
+“II :m
+m
+m
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+public class SimpleServer {
+// Define the port on which the server is listening
+public static final int PORT = 8100;
+public SimpleServer() throws IOException {
+ServerSocket serverSocket I null ;
+try {
+serverSocket = new ServerSocket(PORT);
+while (true) {
+System.out.println ("Waiting for a client ...");
+Socket socket = serverSocket.accept();
+// Execute the client's request in a new thread
+new ClientThread(socket).start();
+}
+} catch (IOException e) {
+System.err. println ("Ooops... " + e);
+} finally {
+serverSocket.close();
+}
+}
+public static void main ( String [1 args ) throws IOException {
+SimpleServer server = new SimpleServer ();
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+class ClientThread extends Thread {
+private Socket socket = null ;
+public ClientThread (Socket socket) { this.socket = socket ; }
+public void run () {
+try {
+// Get the request from the input stream: client s server
+BufferedReader in = new BufferedReader(
+new InputStreamReader(socket.getInputStream()));
+String request = in.readLine();
+// Send the response to the oputput stream: server s client
+PrintWriter out = new PrintWriter(socket.getOutputStream());
+String raspuns = "Hello " + request + "!";
+out.println(raspuns);
+out.flush();
+} catch (IOException e) {
+System.err.println("Communication error... " + e);
+} finally {
+try {
+socket.close(); // or use try-with-resources
+} catch (IOException e) { System.err.println (e); }
+}
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+A Slmple TCP Cllent
+public class SimpleClient {
+public static void main (String[] args) throws IOException {
+
+String serverAddress = "127.0.0.l"; // The server's IP address
+
+int PORT = 8100; // The server's port
+
+try<
+Socket socket = new Socket(serverAddress, PORT);
+PrintWriter out =
+
+new PrintWriter(socket.getOutputStream(), true);
+BufferedReader in = new BufferedReader (
+new InputStreamReader(socket.getInputStream())) ) {
+
+// Send a request to the server
+String request = "World";
+out.println(request);
+// Wait the response from the server ("Hello Worldl")
+String response = in.readLine ();
+System.out.println(response);
+
+} catch (UnknownHostException e) {
+System.err.println("No server listening... " + e);
+
+}
+
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Backlogs and Timeouts
+
+- public ServerSocket(int port, int backlog)
+
+Backlog = the maximum queue length for incoming connection
+indications (a request to connect). If a connection indication
+arrives when the queue is full, the connection is refused.
+
+- ServerSocket.setSoTimeout(int timeout)
+
+A call to accept() for this ServerSocket will block for only this
+amount of time.
+
+- Socket.connect(SocketAddress endpoint, int timeout)
+Connects this socket to the server with a specified timeout
+value. Atimeout of zero is interpreted as an infinite timeout.
+
+- Socket.setSoTimeout(int timeout)
+
+A read() call on the lnputStream associated with this Socket will
+block for only this amount of time.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+Communlcatlon Over UDP
+
+- User Datagram Protocol
+
+- Independent packets of data, called datagrams
+
+- NOT connection-based
+
+- No guarantees about arrival or order of delivery
+Cara-re
+
+.“ﬁ Elfltflﬂl'ﬂlllF'flllHEt H“)-
+Dataqramliucltetu“~ J“ddrfElgatagramBmcl-let
+
+Hasnuns
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+int portServer = 8200; // Server's port
+// Create a server side communication socker
+DatagramSocket socket = new DatagramSocket(portServer);
+// Wait for incoming package
+byte buf[] = new byte[256];
+DatagramPacket request = new DatagramPacket(buf, buf.length );
+socket.receive(request);
+// Get the address and the port of the client who sent the request
+InetAddress clientAddress = request.getAddress();
+int clientPort = request.getPort();
+// Create the response
+String message = "Hello " + new String(reguest.getData()) + "l";
+buf = message.getBytes();
+// Send a response package to the client
+DatagramPacket response =
+new DatagramPacket(buf, buf.length, clientAddress, clientPort);
+socket.send(response);
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+InetAddress serverAddress = InetAddress.getByName("127.0.0.l");
+int serverPort = 8200;
+// Create a client-side communication socket
+// The socket is bound to any available port on the local host machine
+DatagramSocket socket = new DatagramSocket();
+// Create and send a request package
+byte bufferl[] = "World".getBytes();
+DatagramPacket request =
+new DatagramPacket(buffer1, buffer1.length, serverAddress, serverPort);
+socket.send(request);
+// Wait for the response
+byte buffer2[] = new byte[256];
+DatagramPacket response = new DatagramPacket(buffer2, buffer2.length );
+socket.receive(response);
+// Here it is: Hello World!
+System.out.println(new String(response.getData()));
+PortUnreachab/eExcept/on may be thrown if the socket is connected to a currently unreachable
+desﬁnaﬁon.
+Note, there is no guarantee that the exception will be thrown.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+A multicast group of clients is specified by a class D lP address:
+224.0.0.1- 239.255.255.255
+When one sends a message to a multicast group, all subscribing
+recipients to that host and port receive the message.
+InetAddress group = InetAddress.getByName("230.0.0.l");
+// Join the party...
+MulticastSocket clientSocket = new MulticastSocket();
+clientSocket.joinGroup(group);
+£;"f munﬂcnstSncHet
+DatagrnnnSUEHet DcnngrnntPncket 1*“.H MLHﬂcnstEUEHet
+MLHﬂcastEucket
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+Communication Over HTTP
+The Hypertext Transfer Protocol —> Communication for the World Wide Web
+URL = Uniform Resource Locator
+ﬁ Static resources (HTML pages, texts, images, etc.)
+http://profs.info.uaic.ro/~acf/java/slides/en/networking_slide_en.pdf
+~'- Dynamic resources (servlets, JSP/PHP pages, etc.)
+http://85.122.23.145:8080/WebApplication/hello.jsp
+A URL can be broken into several parts:
+- The protocol: http
+- The host machine: profs.info.uaic.ro, 85.122.23.145
+- The port of the inner TCP connection: default (80), 8080
+- The path to the component is both protocol dependent and host
+dependent
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+Working W|th U RLs
+ja va.net. URL
+
+Class URL represents a Uniform Resource Locator, a pointer
+to a "resource" on the World Wide Web. A resource can be
+something as simple as a file or a directory, or it can be a
+reference to a more complicated object, such as a query to a
+database or to a search engine.
+try {
+
+URL url = new URL("https://docs.oracle.com/javase/S/docs/api/");
+} catch (MalformedURLException e) {
+
+System.err.println("Invalid URL: " + e);
+}
+i’ Query the URL object
+v Read the contents of the URL
+0 Conect to the URL
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+Readlng the Contents of an URL
+public class URLContentReading {
+public static void main(String[] args) throws IOException {
+String resource I "http://profs.info.uaic.ro/~acf/hello.txt";
+BufferedReader reader I null ;
+try t
+URL url = new URL (resource);
+InputStream in = url.openStream();
+reader = new BufferedReader(new InputStreamReader(in));
+// Read the contents of the URL, line by line
+String line;
+while (( line I reader. readLine ()) l: null ) {
+System.out.println (line);
+}
+} catch ( MalformedURLException e) {
+System.err.println ("Invalid URL: " + e);
+} finally {
+if (reader !: null) reader. close ();
+}
+}
+}
+// Using streams
+String text = reader.lines().collect(Collectors.joininq("\n"));
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+JavaScript Object Notation. Format for storing and exchanging data.
+An easier-to-use alternative to XML.
+String resource I "http://api.icndb.com/jokes/random";
+InputStream in I new URL(resource).openStream();
+BufferedReader reader I
+new BufferedReader(new InputStreamReader(in));
+String json = reader.lines().collect(Collectors.joining("\n"));
+/* { "type": "success",
+"value": {
+"id": 546,
+"joke": "Chuck Norris does infinit loops in 4 seconds.",
+"categories": ["nerdy"]
+l
+}*/
+// We use Google Gson library
+Gson gson I new Gson();
+Map<String, Object> map = new HashMap<>();
+map = (Map<String, Object>) gson.froszon(json, map.getClass());
+Map<String, Object> value I
+(Map<String, Object>) map.get("value");
+System.out.println(value.get("joke"));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Establishing a a 2-way communications link between the application and a URL
+public class URLConnectionDemo {
+public static void main(String[] args) throws IOException {
+
+URL url = new URL("httpz//localhost:8080/App/HelloWorld);
+
+URLConnection connection = url.openConnection();
+
+connection.setDoOutput(true);
+
+OutputStreamWriter out =
+new OutputStreamWriter(connection.getOutputStream());
+
+String param = URLEncoder.encode("Duke & World", "UTF-8");
+
+out.write("string=" + param);
+
+out.close();
+
+BufferedReader in = new BufferedReader(
+new InputStreamReader(connection.getInputStream()));
+
+String response;
+
+while ((response I in.readLine()) l: null) {
+
+System.out.println(response);
+}
+in.close();
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+Ii 7!
+JavaEE server components
+to be continued...
+- Servlet, HttpServlet (Java ServletAPl)
+public class HelloWorldServlet extends HttpServlet {
+public void doGet(HttpServletRequest request,
+HttpServletResponse response ) {
+response.setContentType("text/html");
+PrintWriter out = new PrintWriter(response.getWriter());
+out.println("Hello worldl");
+out.close();
+}
+}
+- REST Web SerVIce (JAX-RS)
+@Path("/helloworld") // ——> Resource Identifier
+public class HelloWorldResource {
+@GET @Produces("text/plain")
+public String getMessage() { return "Hello World"; }
+}
+- SOAP Web SerVIce (JAX-WS)
+@WebService(serviceName="Greeting")
+public class Hello {
+@WebMethod
+public String sayHello() { return "Hello Worldl"; }
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+Remote Method Invocation (RMI)
+i Higher level network programming
+b Allows objects running in one Java Virtual Machine to
+invoke methods objects running in another JVM
+i Distributed object applications
+A server program creates remote objects, makes references to these
+objects accessible, and waits for clients to invoke their methods.
+é Syntax and semantics similar to standard applications
+‘Issues:
+v How to locate and identify remote objects?
+v How to send arguments and receive results?
+v How to handle remote exceptions?
+v What about garbage collection?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Remote Proxy
+- Proxy - An object which acts as an interface to
+another object (also called surrogate, placeholder)
+- Remote Proxy - A local object representing a remote
+object (one that belongs to a different address space).
+Client Server
+Application Application
+Object Network Object
+What other types of Proxy do you know?
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+RMI Basie Principle
+The separation between behavior and
+implementation
+Service
+IIP'III
+Proxy Implementation
+RMI
+"Magic"
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+Identifying Remote Objects
+
+Name Services
+
+ﬁ JNDl (Java Naming and Directory Interface)
+
+ﬁ RMI Registry (JAVA-HOME/
+
+The common name services operations:
+
+‘ bind - the association between an object and a
+symbolic name
+
+‘ Iookup - obtaining the reference to an object using its
+symbolic name
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+H H
+RMI Hello World!
+Hello.java —> Interface describing the service
+Must be available to both server and client.
+package service;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+public interface Hello extends Remote {
+String sayHello(String name) throws RemoteException;
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+The Service Implementation
+Hellolmpl.java —> Server-side implementation of the interface
+package server;
+import java.rmi.RemoteException;
+import service.Hello;
+public class HelloImpl implements Hello {
+
+public HelloImpl() throws RemoteException {
+super<>;
+}
+public String sayHello(String name) {
+return "Hello " + name + " l";
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+Exposing the Service
+HelloServer.java
+package server;
+import java.rmi.registry.*;
+import java.rmi.server.UnicastRemoteObject;
+import service.Hello;
+public class HelloServer {
+public static void main(String[] args) throws Exception {
+Hello hello = new HelloImpl();
+Hello stub = (Hello) UnicastRemoteObject.exportObject(hello, 0);
+Registry registry = LocateRegistry.getRegistry();
+registry.bind("Hello", stub);
+System.out.println("Hello Service activatedl");
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+The Client
+HelloClient.java
+package client;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import service.Hello;
+public class HelloClient{
+public static void main(String[] args) throws Exception {
+Registry registry = LocateRegistry.getRegistry("localhost");
+Hello hello = (Hello) registry.lookup("Hello");
+String response = hello.sayHello("World");
+System.out.println(response);
+}
+}
+
+***************Ending Page***************
+

@@ -1,0 +1,762 @@
+***************Beginning Page***************
+***************page number:1**************
+1.
+MACHINE LEARNING
+Liviu Ciortuz
+Department 0f CS, University 0f Iagi, Romania
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2.
+W hat is Machine Learning?
+o ML studies algorithms that improve with experience.
+\_/—/
+learn from
+
+Tom Mitchell’s Deﬁnition of the [general] learning problem:
+“A computer program is said to learn from experience E with respect
+to some class of tasks T and performance measure P, if its performance
+on tasks in T, as measured by P, improves with experience E.”
+
+o Examples of [speciﬁc] learning problems (see next slide)
+
+o [Liviu Ciortuzz] ML is data-driven programming
+
+o [Liviu Ciortuzz] ML gathers a number of well-deﬁned sub-
+domains / disciplines, each one of them aiming to solve in its
+own way the above-formulated [general] learning problem.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+3.
+What is Machine Learning good for‘?
+o natural language (text 85 speech) processing
+o genetic sequence analysis
+o robotics
+o customer (ﬁnancial risc) evaluation
+o terrorist threat detection
+o compiler optimisation
+o semantic web
+o computer security
+o software engineering
+o computer vision (image processing)
+o etc.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+Related courses at FII 4'
+o Artiﬁcial Intelligence
+o Genetic Algorithms
+o Artiﬁcial Neural Networks
+o Probabilistic programming
+o Special Chapters of Machine Learning
+o Special Chapters of Artiﬁcial Intelligence
+o Special Chapters of Artiﬁcial Neural Networks
+o Data Mining
+o Nature-inspired computing methods
+o Big Data Analytics
+o Image Processing
+o Computer Vision
+o Bioinformatics
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+5.
+A multl-domam Vlew
+Algorithms
+Mathematics
+Intelllgence Systems
+(concept learning) _ ‘ (Knowledge Discovery
+\ Machlne Data in Databases)
+Learning ‘ Mining
+Statistical Pattern
+/ Learning Recognition \
+Statistics Engineering
+(model fitting)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+6.
+The Machine Learning Undergraduate Course:
+Plan
+O. Introduction to Machine Learning (T. Mitchell, ch. 1)
+1. Probabilities Revision (Ch. Manning 85 H. Schiitze, ch. 2)
+2. Decision Trees (T. Mitchell, ch. 3)
+3. Bayesian Learning (T. Mitchell, ch. 6)
+[and the relationship with Logistic Regression]
+4. Instance-based Learning (T. Mitchell, ch. 8)
+5. Clustering Algorithms (Ch. Manning & H. Schiitze, ch. 14)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+The Machine Learning Master Course:
+Tentative Plan
+1. Decision Trees: Boosting
+2. Support Vector Machines (N. Cristianini & J. Shawe-Taylor, 2000)
+3. Computational Learning Theory (T. Mitchell, ch. 7)
+Probabilities Revision (Ch. Manning 85 H. Schiitze, ch. 2)
+
+4. Gaussian Bayesian Learning
+5. The EM algorithmic schemata (T. Mitchell, ch. 6.12)
+6. Hidden Markov Models (Ch. Manning 85 H. Schiitze, ch. 9)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+B1bl1ography
+0. “Exercitii de invatare automata”
+L. Ciortuz, A. Munteanu E. Badarau.
+Iasi, Romania, 2023
+www.info.uaic.ro/~ciortuz/ML.eX-book/editia-2023f/eX-book.20sept2023.pdf
+1. “Machine Learning”
+Tom Mitchell. McGraW-Hill, 1997
+2. “Machine Learning Foundations”
+Teaho Jo. Springer, 2021
+3. “Deep Machine Learning Foundations”
+Teaho Jo. Springer, 2023
+4. “Foundations of Statistical Natural Language Processing”
+Christopher Manning, Hinrich Schiitze. MIT Press, 2002
+5. “Support Vector Machines and other kernel-based learning methods”
+Nello Cristianini, John Shawe-Taylor. Cambridge University Press, 2000.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+9.
+A general schema for machine learning methods
+
+test/generalization
+data
+tralnlng machlne learnlng _> data
+data algorlthm model
+
+predicted
+classification
+“We are drawnz'ng in information but starved for knowledge.”
+John Naisbitt, “Megatrends” book, 1982
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10.
+Ba51c ML Termlnology
+
+1. instance x, instance set X
+
+concept cg X, or c : X —> {0,1}
+
+example (labeled instance): (ac,c(:13)); positive examples, neg. examples
+2. hypotheses h : X —> {0,1}
+
+hypotheses representation language
+
+hypotheses set H
+
+hypotheses consistent with the concept c: h(:z;) I C(95), V example (:13, C(56))
+
+version space
+3. learning : train —|— test
+
+supervised learning (classiﬁcation), unsupervised learning (clustering)
+4. errorh : | {at 6 X, h(:1:) 74 c(x)} |
+
+training error, test error
+
+accuracy, precision, recall
+5. validation set, development set
+
+n-fold cross-validation, leave-one-out cross-validation
+
+overﬁtting
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+11.
+The Inductive Learning Assumption
+Any hypothesis found to conveniently approximate the
+target function over a sufficiently large set of training
+examples
+will also conveniently approximate the target function
+over other unobserved examples.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12.
+Inductive Bias
+Consider
+0 a concept learning algorithm L
+o the instances X , and the target concept c
+0 the training examples DC I {(113, c(x)>}.
+o Let L(£EZ-, DC) denote the classiﬁcation assigned to the instance 513%- by L
+after training on data DC.
+Deﬁnition:
+The inductive bias of L is any minimal set of assertions B such
+that
+(Vim € X)[(B \/ DC \/ xi) |— L(;1:i, DC)]
+for any target concept c and corresponding training examples DC.
+(A |— B means A logically entails B)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+l3.
+Inductive s3;- stem
+. Classification of
+T . . Algunthnl new instance, DI
+1'a1n1ng examples Candidate "d|:|n’t knew"
+Elirainaiien
+New instanee Using Hypothesis
+Space H
+Inductive systems
+can be modelled by Equivalent dednstive system
+equivalent deductive
+Systems Training examples Classiﬁeaiinn of
+new mstanee, e1‘
+"dun? lunw"
+New instanee Theorem va'P-I
+Imizscziva Elias
+mcsds explicit.‘
+Assesiien " Henntains
+The target enmept"
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14.
+Evaluation measures in Machine Learning
+_ _ tp + tn
+accuracy. Acc _ tp + tn + fp + fn
+C h precision: P : ﬁ
+recall (or' sensitivity)' R I t—p
+' ' tp + fn
+2 P >< R
+F-measnre: F : —
+tn P+R
+- - . _ tn
+speciﬁcity. Sp _ tn + fp
+tp — true positives ' _ fp
+fp — false positives ‘fOUOUt' _ tn + fp
+tn — true negatives
+fn _ false negatives Mathew’s Correlation Coeﬁcicient:
+MCC: tp >< tn — fp >< fn
+W151? + fP)><(tn + fn)><(tp + fn)><(in + fr)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+l5.
+Lazy learning vs. eager learning algorithms
+Eager: generalize before seeing query
+o ID3, Backpropagation, Naive Bayes, Radial basis function net-
+works, . . .
+o Must create global approximation
+Lazy: wait for query before generalizing
+o k-Nearest Neighbor, Locally weighted regression, Case based rea-
+soning
+o Can create many local approximations
+Does it matter?
+If they use the same hypothesis space H, lazy learners can represent
+more complex functions.
+E.g., a lazy Backpropagation algorithm can learn a NN which is dif-
+ferent for each query point, compared to the eager version of Back-
+propagation.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+16.
+Basic Machine Learning Algorithms
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+17.
+ID3 algorithm: a simpliﬁed version
+Ross Quinlan, 1979, 1986
+START
+create the root node;
+assign all examples to the root node;
+Main 100p:
+1. A e the “best” decision attribute for the next node;
+2. for each value of A, create a new descendant of node;
+3. sort training examples to leaf nodes;
+4. if training examples are perfectly classiﬁed, then
+STOP;
+else iterate over the new leaf nodes
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+AdaBoost algorlthm [Yoav Freund, Robert Schaplre, 1996, 1997, 1999] 8
+Consider m training examples S : {($1,y1), . . . , (mm,ym)}, where x, E X and y, E {—1,—|—1}.
+Suppose we have a weak learning algorithm A which produces a hypothesis h : X —> {—1,+1}
+given any distribution D of examples. 1
+
+o Begin with a uniform distribution D1(i) : —, i : 1, . . . ,m.
+o At each iteration t : 1, . . . ,T, m
+o run the weak learning algo A on the distribution Dt and produce the hypothsis ht;
+Note (1): Since A is a weak learning algorithm, the produced hypothesis ht at round t is
+only slightly better than random guessing, say, by a margin *yt:
+1
+5t I @TTDt(ht) I Prw~Dtly 75 ht($)l I 5 — Vt-
+Note (2): If at a certain iteration t g T the weak classiﬁer A cannot produce a hypothesis
+better than random guessing (i.e., "yt : O) or it produces a hypothesis for which et : O,
+then the AdaBoost algorithm should be stopped.
+o update the distribution
+- _ 1 - —O¢tyiht(33i) -_
+Dt+1(2)—7-Dt(Z)-6 fori_1,...,m, (1)
+t
+not. 1 1 _ 5t . .
+where at : 51H —, and Zt 1s the normallzer.
+6t
+o In the end, deliver HT I sign (23:1 amt) as the learned hypothesis, which will act as a
+weighted majority 'vote.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+19.
+AdaBoost as an instance of a more general stepwise algorithm
+Input: S, T, H, 9b, Where
+S I {(1131,y1),. . . , (mm, gm) is the training dataset, with
+y,- € {—1, +1}
+T is the number of iterations to be executed,
+H is a set of “hypotheses”,
+gb(y,y’) is a “loss” / “cost” / “risk” function;
+Procedure:
+Initialize the classifier by taking f0(x) I 0 (the constant function O),
+and D1(z') : 1/m forz': 1,...,m
+fortzltono:
+1. Compute
+(ht, at) I arg minaeR,h€H 2111 $(yi, ft_1(:r,-) —l— ozh(x,-))
+2. Update the classifier
+ft($) I ft—1($) + whim)
+compyte Dt+1
+end for
+return the classifier sign (fT(a;))
+Note: At each step, the algorithm greedily adds a hypothesis h € H t0 the
+current combined hypothesis to minimize the gb-loss.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+. . 20.
+A Generallzed AdaBoost Algorlthm
+[MIT, 2003 fall, Tommi Jaakkola, HW4, pr. 2.1-3]
+Initialization: WP) z 1/m and f0(:ci) I 0 for 2' I 1, . . . ,m.
+Loop: for t I 1 to T do:
+Step 1: Find a classiﬁer My}; ét) performing better than chance wrt the weighted training error:
+nit. ~(t), _. _1 _m~<t>_
+at _ Z A W1‘ yzh(:131,9) _ 2 (1 2W1 y1h(atz,9t)).
+i1yi¢h($i;9t) 1:1
+Note: Minimizing at is equivalent to ﬁnding ét that minimizes (9th(04, 6t)|a:0 wrt 49,5, where
+1 m O‘
+Jt (a, 0t) = 5 Z Loss(yi ft_1(x¢) + yi oz 11(931; 975)).
+iIl
+Step 2: Set the votes at for the new component by minimizing the overall empirical loss:
+at : arg gnzigl Jt(oz, ét).
+Step 3: Recompute the normalized weights for the next iteration according to
+W¢(t+1): —ct - dL(y7; ft_1(£Ei) —|— yi at Mm; 915)) for i : 1,... ,m,
+_,—/
+yi ft($i)
+where ct is chosen so that 2:11 Wi(t+1) : 1.
+Output: fT
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+21.
+The Naive Bayes Classiﬁer
+0 Assume that the attributes < (11,. . .,an > that describe instances are conditionally
+independent W.r.t. to the given classification:
+P(a1,a2 . ..an|@j) I HPmZ-wj)
+1
+o Training procedure:
+NAIVE_BAYES_LEARN(examples)
+for each value vj of the output attribute
+P(vj) e estimate P(vj)
+for each value ai of each input attribute a
+PWW e estimate Pol-m)
+0 The decision rule of the Naive Bayes classiﬁer is:
+UMAP : argmaXP(vJ-\a1, a2 . . .an) : argmax M
+vjEV 'UjQV P(alaa2---an)
+I argmaXP(a1, a2 . . . anlvj)P(vj-) I argmaXHP(aZ-\vj)P(vJ-) ng' vNB
+UjGV Uj€V i
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+Loglst1c Regressmn PW I OIX I m) I 1 _ 11c), where
+e. 1 ez
+Given the dataset {(x(1),y(1)), (x(2),y(2)),..., (x(”),y("))}, 0(Z) dzf 1+? I 1+—ez’
+Where each vector 110(1) has d features / attributes, and d
+. not. not. .
+y“) E {0,1} for 2' : 17 . . . ,n, its complete log-likelihood is: Z I “)0 +2111”)- : “$1 “"th
+n . , n , ¢ ¢ wng'w,w,...,w ERd+1,
+log-likelihood I ln H P(ac(z) , 3f”) I 1n H(Py|X(y(Z) |.CE(Z)) PX (50(0)) (asosurhing xodz) 1.
+i:1 izl
+I 111((11 PY|X<11<i>|11<i>)> - (H PX<11<Z°)>)
+2'21 11:1
+: 1n H Py|X(y(i) |:13(i)) + 1n H PX (513(0) n2 [(10) + Em. g , r 0.5 , r
+2'21 2'21 '5
+Note that E9; does not depend on the parameter w.
+It can be shown that the conditional log-likelihood function £(w) can be written as:
+n . _ , , Note that —£(w) is a cross-entropy.
+I <1) . <1) _ <1) _ . <1) >
+£011) Z; (y 1110(11) 33 ) + (1 y )ln(1 0'(’U) $ )) For a more general result than (2), see
+F def Stanford, 2015 fall, Andrew Ng, st,
+wLOQR I‘ argrnaxﬂw) I arg mqul<-£(’LU)). (2) pr. 5.c.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+23.
+See the analogy with the sigmoidal perceptron
+CMU, 2011 fall, Eric Xing, HWl, pr. 3.3
+X] W] X0=1
+X2 W2 W0
+_ E net=i§0wixi E 0 = 00160 = %
+W” 1 + e
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+24.
+The k-Nearest Neighbor Argorithm
+Evelyn Fix, Joseph Hodges, 1951; Thomas Cover, Peter Hart, 1967
+Training:
+Store all training examples.
+Classiﬁcation:
+Given a query/test instance atq,
+ﬁrst locate the If nearest training examples x1, . . . , ask,
+then estimate f($q):
+0 take a vote among its k nearest neighbors
+k
+f (wq) v argmaXZ 1{f(mi):v}
+vGV i=1
+Where 1{ . } is the well-known indicator function.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+25.
+The Bottom-up Hierarchical Clustering Algorithm
+Given: a set X I {51:1, . . . ,xn} of objects
+a function sim: 73(X) >< 73(X) —> R
+
+for 2' : 1,77, do
+C: {Cl,...,Cn}
+j I n —|— 1
+while l C |> 1
+
+(011176712) I aJrgmadXQu,cv)eC><C Sim(cuvcv)
+
+cj I cn1 U cn2
+
+C I C\{Cn1,Cn2} U {Ci}
+
+j : j + 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+The k-Means Algorithm
+S. P. Lloyd, 1957
+Given: a set X I {$1, . . . ,mn} Q Rm,
+a distance measure d on 72m,
+a function for computing the mean u : 73(Rm) —> Rm,
+built k: clusters so as to satisfy a certain (“stopping”) criterion (e.g., maxi-
+mization of group-average similarity).
+Procedure:
+Select (arbitrarily) k initial centers f1, . . . , fk in Rm;
+while the stopping criterion is not satisﬁed
+for all clusters cj do cj I {asZ I Vfl d(a:¢, fj) § d(wZ-, fl)} end
+for all means fj do fj e ,u(cj) end
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+K-Means algorlthm reV151ted (I)
+. Se inigializeazé. in ‘mod arbitrar centroizii Algoritmul de clusterizare K-means poate ﬁ vézut [§i
+#1, H2, - - - a IJ'K §1 se 1a C I {1, - - - 7 K}- reformulat] ca un algoritm de optimizare, folosind metoda
+descre§terii pe coordonate.
+OAtAt t' “t1 't'l'Jd- .. . . .
+sore; :e ilingozastgitoiieaetgﬁl erlu UI e Obzectwul este acela de a mlnlmlza o func'gle oblectlv care
+§ ’ p ' miscaré (indirect) coeziunea intra-clustere:
+Pasul 1:
+Calculeazé *y astfel: n 2
+{1, daca IIXZ- — ‘Lg-HQ s HXZ- — Wu? w’ e C7 1:1
+"Yij <— - J
+O, 1n caz contrar.
+in caz de egalitate alege in mod arbi- Algoritmul K-means face initializarea centroizilor clus-
+trar cérui cluster (dintre cele eligibile) $54 terelor ,u cu anumite valori, dupé care procedeazé astfel:
+a ar iné x-.
+p t Z Pasul 1:
+Pasul 2. Pistrénd p ﬁxat, gésegte acea asignare L a instangelor
+' la clustere care minimizeazé funcgia J(L, ,u);
+Recalculeazé pj folosind matricea 'y actual-
+izaté: Pasul 2:
+Pentru ﬁecare j G C, dacé 2n vi]. > 0’ Péstrénd asignareaL ﬁxaté, gésegte acea valoare pentru
+asigneazéi 2:1 p pentru care se minimizeazé J(L, p).
+Criteriul de op'm're: Dacé [aceasta nu este prima iteratie
+221:1 'yZ-j x1- §i] niciuna dintre asignérile din lista L nu s-a modiﬁcat in
+“j <— En 'Yi' ' raport cu precedenta iteratjie, se trece la pasul urmétor
+1:1 9 (Terminare); altfel se repeté de la Pasul 1.
+Altfel, men'gine neschimbat centroidul ,uj. Terminare: Returneazé L §i p“
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+28.
+K-Means algorithm revisited (II)
+t1‘) tIO
+
+‘WAFER ---, H?) —>Y(i:+1)=... Q94“? _,_, “(2) —> C(t+1)=arglgin J(C,M(t))
+++t min J(C, M) 'H't min ‘KC’ M)
+
+(t+1) _
+
+_(t+1)= Zyii—x' _—| (t+1)_ - J can)
+M, 2Y9“) u -argll1]m ( ,u)
+I1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+29.
+The General EM Problem
+Approach
+Start with 12(0), an arbitrarily/conveniently
+Given chosen value of h.
+Repeatedly
+0 observed data X I {931, . . .,xm}
+independently generated using 1. Use the observed data X and the current
+the parameterized distribu- hypothesis hw to estimate [the proba-
+tions/hypotheses h1,---,hm bilities associated to the values of] the
+unobserved variables Z, and further on
+0 unobserved data Z : {2:1, . . . , zm} compute their expectations, E[Z].
+
+determine 2. The expected values of the unobserved
+A variables Z are used to calculate an im-
+h that (locally ) maximizes proved hypothesis h<t+1), based on max-
+P(th)- imizing the mean of a log-likelihood
+function: E[lnP(Y|h)\X,h(t)], where Y :
+{y1,...,ym} is the complete (observed
+and unobserved) data, i.e. yz- I ($2325),
+
+forz':1,...,m.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+30.
+The EM algorithmic Schema
+TO
+h“) —> E[Z | x, hm]
+++tI— In P(th)
+h<‘+1)= argmax EP(Z|X_ hm) [In P(X,Zlh)]
+h I
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+ADMINISTRATIVIA
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+32.
+Who is Liviu Ciortuz?
+o Diploma (maths and CS) from UAIC, Iasi, Romania, 1985
+PhD in CS from Université de Lille, France, 1996
+o programmer:
+Bacau, Romania (1985-1987)
+o full-time researcher:
+Germany (DFKI, Saarbriicken, 1997-2001),
+UK (Univ. of York and Univ. of Aberystwyth, 2001-2003),
+France (INRIA, Rennes, 2012-2013)
+o assistant, lecturer, and then associate professor:
+Univ. of Iasi, Romania (1990-1997, 2003-2012, 2013-today)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+33.
+Teaching assistants for the ML undergraduate course 2023
+(fall semester)
+0 Conf. dr. Anca Ignat (. .. Image processing)
+https://profs.info.uaic.ro/Nancai/IVIL/
+0 Sebastian Ciobanu (PhD; Amazon)
+https://sites.goog|e.com/view/seminarml
+o Andi Munteanu
+(PhD student at UAIC, and research assistent at Univ. of Cambridge)
+o Cristian Simionescu (PhD student; Nexus)
+o Ramona Albert (PhD student; Amazon)
+0 Stefan Pantiru (MSG; Mambu)
+0 Corina Dimitriu (MSc student)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+Grading standards for the ML undergraduate course 2023
+Obiectiv: Invafgare pe tot parcursul semestrului!
+Punctaj
+T1 T2 S P1 P2
+
+Test: 6p Test: 6p Seminar: 8p Ex. partial: 10p Ex. partial: 10p
+Minim:1.5p Minim:1.5p Minim: 2p Minim: 2.5p Minim: 2.5p
+Prezenta la curs: recomandata!
+
+Prezenta la seminar: obligatorie!
+
+Penalizare: 0.2p pentru fiecare absenta de la a doua incolo!
+Nota=(10+T1+T2+S+P1+P2)/5
+
+Pentru promovare: Nota >= 4.5 <=> T1 + T2 + S + P1 + P2 >= 12.5
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+REGULI generale pentru cursul de Invagare automata
+de la licenga
+Regulile de organizare a cursului de invagare Automata (engl., Machine Learning, ML),
+sem. I, sunt speciﬁcate in ﬁsa disciplinei
+http://profs.info.uaic.ro/~ci0rtuz/ﬁsa-disciplinei.pdf
+o Bibliograﬁe minimala: vezi slide #8
+o Planiﬁcarea materiei, pentru ﬁecare saptamana (curs —|— seminar):
+httpz/ /profs.inf0.uaic.r0/ ~ci0rtuz/What-you-should-know.pdf
+o Prezenli'a la curs: recomandata!
+o Regula 0: Prezen§a la seminar: obligatorie!
+Pentru ﬁecare abseniga la seminar, incepand de la a doua abseniga incolo, se aplica 0
+penalizare/depunctare de 0.2 puncte. (Vezi formula de notare.)
+Regulile se aplica inclusiv studenfgilor reinmatriculagi.
+0 Saptamanal — marigea, intre orele 18—20, in sala C308 — se va tine un
+seminar suplimentar, destinat pentru acei studenti care sunt foarte interesagi de acest
+domeniu si carora 1e plac demonstraigiile matematice. (Vedeti sec§iunile “Advanced
+issues” din documentul http://pr0fs.inf0.uaic.r0/~ci0rtuz/what-you-should-know.pdf.)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:36**************
+36.
+REGULI generale pentru cursul de Inva§are automata de la licenga
+(cont.)
+
+Regula 12 Pentru seminarii, nu se admit mutari ale studengilor de la 0 grupa la alta, decat
+in cadrul grupelor care au acela§i asistent / profesor responsabil de seminar.
+
+Regula 22 Nu se fac echivalari de punctaje pentru studengii care nu au promovat cursul in
+anii precedentgi.
+
+Regula 32 Profesorul responsabil pentru acest curs, Liviu Ciortuz,
+
+NU va raspunde la email-uri care pun intrebari pentru care raspunsul a fost deja dat
+— ﬁe in aceste slide-uri,
+
+— ﬁe pe site-ul Piazza dedicat acestui curs:
+https://piazza.com/info.uaic.ro/falI2023/ml2023f/home,
+
+— ﬁe la curs.
+
+Recomandare importanta (1) La ﬁecare curs §i seminar, studenﬁii vor avea culegerea
+de Ewercz'jz'i de invéja're automaté (de L. Ciortuz et al) — v5 recomandam $5 imprimagi
+capitolele Clasiﬁcare bayesz'and, Invdjare bazatd pe memorare, Arbo'm' de decizz'e §i Clus-
+terizare — §i eventual slide-urile indicate in slide-ul urmator.
+
+Recomandare importanta (2) Consultagi saptamanal documentul
+what-you-should-know.pdf din pagina de Resurse, de pe site-ul Piazza dedicat acestui curs.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+37.
+REGULI generale pentru cursul de Inv€1§are automatii de la licenﬁi
+(cont.)
+
+o Slide-uri d6 imprimat (in aceastﬁ ordine §i, de preferat, COLOR):
+http://profs.info.uaic.r0/~ciortuz/SLIDES/foundations.pdf
+https://pr0fs.info.uaic.r0/~ci0rtuz/ML.eX-book/SLIDES/ML.eX-book.SLIDES.Pr0bStat.pdf
+https://pr0fs.info.uaic.ro/Nciortuz/ML.eX-book/SLIDES/ML.eX-book.SLIDES.DT.pdf
+https://pr0fs.info.uaic.ro/Nciortuz/ML.eX-book/SLIDES/ML.ex-book.SLIDES.Bayes.pdf
+https://pr0fs.info.uaic.r0/~ci0rtuz/ML.ex-book/SLIDES/ML.eX-b00k.SLIDES.IBL.pdf
+https://pr0fs.info.uaic.r0/~ci0rtuz/ML.ex-book/SLIDES/ML.eX-b00k.SLIDES.Cluster.pdf
+(Atengie: acest set de slide-uri poate ﬁ actualizat pe parcursul semestrului!)
+o De imprimat (ALB-NEGRU):
+http://pr0fs.inf0.uaic.ro/Nciortuz/SLIDES/mlO.pdf
+http://pr0fs.inf0.uaic.ro/Nciortuz/SLIDES/ml3.pdf
+http://pr0fs.inf0.uaic.ro/Nciortuz/SLIDES/m16.pdf
+http://pr0fs.inf0.uaic.ro/Nciortuz/SLIDES/ml8.pdf
+http://pr0fs.info.uaic.ro/Nciortuz/SLIDES/cluster.pdf
+
+***************Ending Page***************
+

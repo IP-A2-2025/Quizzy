@@ -1,0 +1,24 @@
+name: Read Secrets and Logs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  readonly:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials (User)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+        with:
+          role-to-assume: ${{ secrets.USER_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Fetch SSM Parameter
+        run: |
+          aws ssm get-parameter --name "/myapp/config" --with-decryption
+
+      - name: Fetch logs
+        run: |
+          aws logs describe-log-groups

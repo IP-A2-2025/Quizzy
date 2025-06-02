@@ -1,0 +1,2261 @@
+***************Beginning Page***************
+***************page number:1**************
+1.
+O
+Regress1on Methods
+Contains:
+Linear Regression: ex. 1, 3, 6, 7, 8, 4, 5, 22,
+Logistic Regression: ex. 13, 14, 35, 17, 18, 36, 37
+from the 2023f version of the ML exercise book by L. Ciortuz et a1.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+2.
+Linear Regression
+with only one parameter, and Without offset;
+MLE and MAP estimation
+ClVlU, 2012 fall, Tom Mitchell, Ziv Bar-Joseph, midterm, pr. 3
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+3.
+
+Consider real-valued variables X and Y. The Y variable is generated,
+conditional on X, from the following process:
+
+e ~ N (O, 02)
+
+Y I aX + e,
+where every e is an independent variable, called a noise term, which is
+drawn from a Gaussian distribution with mean O, and standard deviation
+0.
+This is a one-feature linear regression model, where a is the only weight
+parameter.
+The conditional probability of Y has the distribution p(Y|X, a) ~ N (aX , 02),
+so it can be written as
+
+<Y\X > 1 ( 1 <Y XV)
+,a I —eX —— — a
+p \/ 27m p 202
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+4.
+MLE estimation
+a. Assume we have a training dataset of n pairs (X13161) for 2' : 17 . . . ,n, and 0 is known.
+Which ones of the following equations correctly represent the maximum likelihood
+problem for estimating a? Say yes or no to each one. More than one of them should
+have the answer yes.
+' 2 1 ( 1 (Y X >2)
+2. ar maxa Z.—ex —— i—ai
+g \/ 21w p 202
+1 1
+22. ar maxa -—ex —— YZ-—aXi 2
+g H2 ﬁg p < 202< ) >
+1
+222. arg maxa 22 exp (Fa/Z — aXZ') >
+. 1 2
+22). arg maxa H2 exp —%(YZ- — aXi)
+'0. arg maxa 220/2 — aXZ‘)2
+212. argmina 220/2 — aXi)2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+5.
+Answer:
+def.
+L(a) I p(Y1,...,Yn\X1,...,Xn,a)
+1:1 1:1 V 27m 202
+Therefore
+aMLE déf' arg maXL(a) : argmaxﬁ L exp —L(YYL — aX¢)2 (11.)
+a a 2.:1 V2710 202
+< 1 >“ﬁ < 1(1/ XV) 1 Z”: 1(1/ X)2
+I ar max — eX —— 1—a1 :ar maX—eX — — 1—a1
+g a ﬁU 2:1 p 202 g a (@UYL p 1:1 202
+n 1
+I —— Y1 — X1 2 ' -
+arg mgxgexp < 202( a ) ) (w )
+I argmaxlnﬁexp —L(Y~ —aX~)2 :argmaxi—i(Y- —aX-)2
+a 1:1 202 Z Z a 1:1 202 Z Z
+1 n n
+: arg mgx —F 26/2 — (LXI-)2 : arg mingQ/Z — (1X02 (112.)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+6.
+
+b. Derive the maximum likelihood estimate of the parameter a in terms
+
+of the training example st and st. We recommend you start with the
+simplest form of the problem you found above.
+
+Answer:
+
+aMLE : arg min 20/1 — anXi)2 : arg min (a2 Z X2-2 — 2a; XZ-YZ- + EYE)
+21:1 11:1 izl izl
+_ 22L X3 _ El; X?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+7.
+MAP estimation
+Let’s put a prior on a. Assume a ~ N(0, A2), so
+1 1
+A I — —— 2
+PW ) @AeXP< 2A”)
+The posterior probability of a is
+Y ...YnX,...,Xn7 A
+p(a|Y1,...,Yn,X1,...,Xn,>\) I M
+fa, p(Y1,. . .,Yn\X1,.. . ,Xn,a’)p(a’|)\) da’
+We can ignore the denominator when doing MAP estimation.
+c. Assume 0 : 1, and a ﬁxed prior parameter A. Solve for the MAP estimate of a,
+argmax[lnp(Y1,. .. ,Yan1,. . .,Xn,a) +lnp(a|)\)]
+Your solution should be in terms of st, lQ’s, and A.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+8.
+Answer:
+19(Y1, - --,Yn\X1, - - - ,Xn,a) 'PWIA)
+n 1 1 1 a2
+: —eX ——Y¢—aXZ-2 -—ex ——
+(11-11 \/27r0 p< 2U2( ))> \/27T)\ p( 2A2)
+0:1 n 1 1 2) 1 < a2 )
+I —eX ——YZ-—aXZ- -—eX ——
+(211 V271 p( 2< ) > \/27T)\ p 2A2
+Therefore the MAP optimization problem is
+1 1 n 1 1
+ar max nln——— Y}—aXi2+1n———a2
+g a < \/27T 2 122:5 ) \/27T)\ 2A2 >
+: argmax —l iﬂ‘ — aX-)2 — i612
+a 2 2,:1 " " 2A2
+I argmein (2(1/2 — aXZ')2 + F) : argmein (a2 (Z Xi2 + v) — ZaZXZ'YZ- + 2Y3)
+i=1 2:1 i=1 i=1
+TL XiYZ'
+:> CLMAP I —ZZ—1 1
+21:1 X12 + F
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+9.
+d‘ Under the following COlflditiOIFlS, how do the prior and conditional likelihood curves
+change? D0 aMLE and aMAP become closer together, or further apart?
+PWIA) prior PM’; WAX}, - ,Xn,a) MLE MAP
+probability; condltlonal llkelihood: Ia — a \
+wider narrower wider, narrower, or Increase or
+7 7
+or same? same? decrease‘?
+More data:
+as n —> oo
+(ﬁxed A)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+10.
+Answer:
+' Y Y X X a
+probability: con 1 10na 1 e 1 00 . _
+' ° 1ncrease 0r
+w1der, narrower, W1de1:; narrower, 01‘ d 7
+ecrease.
+
+or same? same.
+AS A —> 00 ‘-—-
+AS A —> O ‘-—-
+More data:
+as n —> OO same narrower decrease
+(ﬁxed A)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+11.
+Linear Regression — the general case:
+o MLE and the Least Squares Loss function
+o Nonlinear Regression
+o [Lg/Ridge] Regularization; MAP
+CMU, 2015 spring, Alex Srnola, HWl, pr. 2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+12.
+Introduction: The objective of this problem is to gain knowledge on linear regression,
+Maximum Likelihood Estimation (MLE), Maximum-a-Posteriori Estimation (MAP)
+and the variants of regression problems with introduction of regularization terms.
+Part A: Linear Regression — MLE and Least Squares
+Consider a linear model with some Gaussian noise:
+Y,:X,~-w+b+e,-wheree¢~N(0,o2),z':1,...,n. (1)
+where Y,- € 1R is a scalar, X,- G Rd is a d-dimensional vector, b € R is a constant, w € Rd
+is d-dimensional weight on Xi, and e,- is a i.i.d. Gaussian noise with variance o2. Given
+the data X,,z' : 1,. ..,n, our goal is to estimate w and b which specify the model.
+We will show that solving the linear model (1) with the MLE method is the same as
+solving the following Least Squares problem:
+are mgMY — X’6)T(Y — Xﬁ), (2)
+where Y I (Y1, . . . ,Yn)T, X; I (1,X,-)T,X’ I (X1, . . . 1X1/1)T and 6 I (b,w)T.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+l3.
+a. From the model (1), derive the conditional distribution of YilXi, w, b. Remember that
+X1- is a ﬁxed data point.
+Answer:
+Note that Yi|Xi;w,b ~ N(X7; - w —|— 19,02), thus we can write the p.d.f. of Yi|XZ~,w,b in the
+following form:
+1 (yi—XZ--w—b)2>
+Yi: Z-Xi;w,b :—eX — .
+f< w > ﬁg p( 202
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+14.
+b. Assuming i.i.d. between each 51-, 2' : 1,...,n, give an explicit expression for the
+log-likelihood, £(Yl6) of the data.
+Note: The notation for Y and 3 was given at (2). Given that the {ifs are i.i.d., it follows
+that P(Y|ﬂ) I H1P(Yi|w,b). Remark that we are just omitting Xi for convenience, as the
+problem explicitly tells that X1- are ﬁxed points.
+Answer:
+Given y I (y1,. . .,yn)T, since Y1- are independent as sfs are i.i.d. and st are given, the
+likelihood of Y|6 is as follows:
+n n 1 (yi—Xi'w—b)2>
+Y I I i w, b : — eX ——
+f< mm gf<y\ > {1&0 p( 202
+1 n T‘ 1' — Xi- — b 2
+I < > exp <_ZZ_1(11/ w ) >
+\/ 27m 202
+Now, taking the in, the log-likelihood of Y|6 is as follows:
+1 TL
+£(Y I ylﬁ) I —nln(\/27To) — F ng- — Xi -w — (9)2. (3)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+15.
+
+c. Now show that solving for 5 that maximizes the log-likelihood (i.e., MLE), is the
+same as solving the Least Square problem of (2).
+Answer:
+To maximize the log-likelihood £(Y I ngE), we want to focus on the second term since
+the ﬁrst term of the log-likelihood (3) is a constant. In short, to maximize the second
+term of (3), we want to minimize Eyzﬂyi — Xi - w — b)2. Writing it in the matrix-vector
+from, we get:
+
+maxEY: :min i—XZ--w—b2:min —X/ T —X' ,
+
+5 < gm) 5;” > Bo we 6)
+
+where again, Y : (1/1,. . .,Yn)T, X24 : (1,XZ~)T,X’ : (XL. .. ,qubﬁ and ﬁ : (b,w)T.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+d. Derive 6 that maximizes the log-likelihood. 16'
+Hint: You may ﬁnd useful the following formulasza
+(5a) laTX I iXTa I a (5b) lXTAX I (A + AT)X
+8X 57X 8X
+Answer:
+Setting the objective function J(5) as
+JW) I (y — X’5)T(y — XW),
+implies (see rules (5a) and (5b) in the document mentioned in the Hint):
+WM) I 2X’T<X’ﬁ — y)-
+The log-likelihood maximizer B can be found by solving the following optimality condi-
+tion:
+VBJM?) I 0 I X’T(X’B - y) I 0 I X’TX’B I X’Ty I 5’ I (X'TX’)_1X’Ty. (4)
+
+Note that (X'TX’)_1 is possible because it was assumed that X has full rank on the
+column space.
+
+a From Matrix Identities, Sam Roweis, 1999, http://www.cs.nyu.edu/~roweis/notes/matrixid.pdf.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+17.
+Part B: Nonlinear Regression
+e. Considering the higher order term, ¢(XZ) : (1,X¢,X,L-2 , . . . ,Xfﬁ, then we can model Y
+in the kth-order model as it follows:
+
+Yi:¢(X,-)-6’+ei with 5¢~N(O,02),i:1,...,n, (5)
+where all the deﬁnitions are those from equation (1), except B € RkH, and for simplicity
+let d: 1 for X1- € Rd.
+
+As we did in Part A, show that
+
+if we use MLE and assume that ¢(X) nit ($(X1),¢(X2), . . .,¢(Xn))T has full rank in the
+column space
+
+then the optimal [value for] 6 in (5) is (¢(X)T¢(X))_1¢(X)TY.
+
+Hint: You are not expected to write the whole steps again. Focus on the change from
+the log-likelihood expressions of Part A, and derive the optimization problem.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+18.
+Answer:
+As the relation betwen Y2- and Xi have changed, the conditional p.d.f. and likelihood
+function changes as well. The expressions can be just modiﬁed by just replacing X2- to
+$(Xi) as following:
+1 (yi — $(Xz') '3?)
+Y1‘ I ¢X¢;w,b I —@X —
+f< y| > ﬁg p( 202
+1 n 2
+
+“Y I 9W) I —n1n(\/ 27m) — g 2% — $(Xi) ' 5/) -
+
+As we did before, the maximum likelihood method can be expressed as
+mgxw I gm’) I Kylie - Mi) w’? I Hgnwi - ¢<X>@'>T<yi - wow,
+¢:1
+
+and thus the maximum likelihood estimator is B’ : (q5(X)Tgb(X))_1¢(X)Ty, through sim-
+ilar steps as in Part A.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+19.
+
+Part C: [L2 / Ridge] Regularization; MAP
+Comment: Many modern regression problems can have hun-
+dreds or thousands of predictor variables. If these variables are
+correlated, standard techniques will lead to overly complex models
+and poor generalization error. Another issue is that problems may
+have more predictor variables than examples. When this happens,
+standard regression models will fail.
+()ne technique that addresses both these issues is called Ridge
+regression. The idea is to modify the loss function by adding
+a penalty term to the weights to encourage them to be small.
+This penalty term is known as a regalarizer and controls model
+complexity by putting large weight on only the most important
+predictor variables in the model.
+The Ridge regression penalizes the squared length of the weight
+vector 6. This is sometimes known as an L2 penalty because it is
+the square of the L2 norm (a.k.a the Euclidean norm).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+20.
+Important Note: The results from this Part hold for both linear (Part A)
+and nonlinear (Part B) regression. For the sake of simplicity, here we will
+only prove them for the linear case. In order to get the nonlinear form of
+them, it is enough to replace X by ¢(X), where (15 was deﬁned in Part B.
+f. In case X TX is not invertible,“ you can add the diagonal term AI to it so
+that X TX + )J becomes invertible, with I the identity matrix of size d, and
+A > 0.1’
+A i. . . . . .
+Show that 5” n; (XTX+)\I)_1XTY 1s the solution of the optlmlzatlon problem
+- // 2 // 2
+
+argrgmuwm HQHW HZ). <6)
+
+a This is the case when, notably, the number of features, d in Part A — or k: + 1 in Part B — is larger than the
+number of instances, n (i.e., d > n). In this case, rank(XTX) : rank(X), cf. Matrix identities, by Sam Roweis, the
+(2f) formula. So rank(XTX) is less or equal to min(n, d) : n, which is smaller than d. Therefore, the matrix XTX,
+which is d >< d, is not full rank and thus cannot be inverted.
+
+b Now, for a proper value of A, the matrix XTX + AI is full rank and can be inverted. To see this, note that if two
+columns in X TX were linearly dependent, then AI adds the same value (A) but to two different components of these
+columns, thus they become linearly in dependent in XTX + AI.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+21.
+Answer:
+The procedure is almost the same with [the one in] part d. First, set the
+objective function J’(ﬁ) as following:
+Jl/(B/l) I (y _ X'B”)T(y _X/6//) +All6/lllg
+
+(5&6) Vﬂ/IJ1/(6/l) : 2(X/TX/6” _ y) + 2Aﬂ”.
+The log-likelihood maximizer 6” can be found by solving the following opti-
+mality condition:
+
+Wm”) I 0
+<:> (X/TX/ﬁ” _y) +>\B” : 0 <:> (X/TX/ +>\I)B” : X/Ty
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+22.
+
+g. Now consider the case where B” has a prior distribution B” N N(O,7721).
+Write the posterior distribution of 6”]Yi given the i-th sample, and [3”|Y given the whole
+data, respectively. Assume independence between 5” and the noise 5,- ~ N(O,02), for
+2' I 1, . . . ,n.
+
+P y; l/ P //
+Hint 1: Use Bayes’ rule: Pr(6”|Y.L-) : W. Then follow similar steps with
+
+r i
+
+Part A.
+Hint 2: Make use of the fact that by joining two or more independent Normal univariate
+variables we get a multivariate Normal distribution.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+23.
+Answer:
+We know that Yi|Xi,6” ~ ./\/'(X¢ - 5”,02) and 5” ~ N(0,172I). Using Bayes’ rule, it follows
+that 1 1
+h(6”|YZ-) OC f<Yi|5H> 9(6”) O< 6X13 (—ﬁ(y — Xi '6”)2) -eXp (—2—772§HT5”) =
+where g(-) is the density function for 5” and h() is the density function for ﬁ”\YZ-. The
+normalizer for the p.d.f. h is deﬁned as Z I If; f(YZ~|ﬂ”)g(5”)d6’/, and rewriting the p.d.f.
+of h(6”|YZ-) leads to
+h(6”lYZ-) I l exp —L(Y _ Xi . 6//)2 _ iﬂllTﬁu .
+Z 202 2172
+Likewise, the p.d.f. of 5”|Y is
+h(6//‘Y) I i eXp —L(Y _ X’6”)T(Y _ X/ﬂll) _ LEI/T6”
+Zn 202 2772
+1 1 2 1 2
+I 27 exp (FIIY — X’6”||2 — WW2),
+
+where Zn is the normalization factor, deﬁned as Zn I If; f(Y\ﬁ”)g(ﬂ’/)d[3”.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+24.
+h. B”, the MAP estimate of 6”, is deﬁned as the value of 5” that establishes the mode
+of the a posteriori probability Prw” |X , Y). Show that solving for the MAP estimate
+leads to the problem (6) if A can be expressed in terms 0 and 17, i.e., A I 9(0, 17). Find
+the explicit expression for 9(0, 17).
+Answer:
+From the previous subproblem, it is clear that
+maxhw'w» I min (iuY - XMP + img) <7)
+6” Z 6” 202 2 2172 2 '
+02
+If 172 becomes Y’ then the minimization problem becomes equivalent to (6),
+argngip (HY - X6”ll% + MIMI?)-
+(72
+In other words, rearranging the terms, A : g(0,17) I —2 for (7) to become (6).
+77
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+25.
+i. Describe one potential problem in the absence of regularization term in (6) and how
+the regularization term can alleviate the potential problem.
+Answer:
+The regularizing term penalizes large components in B, which leads to shrinking B to
+have smaller norm. As a consequence, the penalty terms encourage the model to avoid
+overﬁtting and thus prevent adjusting to outlier data points which would otherwise
+inﬂuence 5 drastically.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+26.
+Linear Regression with L2 Regularization (Ridge
+Regression)
+The derivation of the updating rules
+for the gradient descent algorithm:
+the batch (steepest descent) and
+
+sequential (online / incremental) variants
+CMU, 2008 fall, Eric Xing, HWl, pr. 4.2.2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+27.
+
+Let D I {yi,xZ-}1,___,N be a collection N training examples. Let y.-
+be the response variable for example 2'. Let y 6 RN be a column
+vector of all response variables. Each training example also has k
+predictor variables. Let x.- € RM,“ be a row vector of the predictor
+variables for example i. Let X € RNXk be a matrix of all predictor
+variables Where row 2' is xi. Let ﬂ € RIM be a column vector that
+contains the weight parameters that we’re trying to learn.
+Note: At CMU, 2015 spring, Alex Smola, HWl, pr. 2 we have
+shown (by using the vector derivative method) that the analytic
+solution to
+
+argmﬂin Hy — Xlﬂil2 + MWV
+is given by A
+
+6Rz'dge I (XTX + A])—1XTy-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+28.
+a. Batch (Steepest Descent) Solution:
+While the analytic solution is easy to implement it can become intractible
+when there are very large numbers of predictor variables. This is because we
+need to compute XTX and its inverse. One way to deal with this problem is
+to use an optimization technique called steepest (a.k.a batch) descent. This
+is an iterative procedure that updates the weights at the t-th iteration as
+follows:
+[3t I 5H — UVBEW),
+where 17 is a learning 'r'ate constant and Vgﬂﬂ) is the transpose of the gradient
+of the loss function £(6).
+Compute the steepest descent update rule when [(5) is:
+1 N
+_ . _ T 2 T
+Kw) - 52y. 11.6) +6 6-
+Hint: You may ﬁnd useful the following formulas (from Matria: Identities,
+by Sam Roweis, 1999):
+(5a) iaTX I iXTa I a (5b) iXTAX : (A + AUX
+(9X (9X (9X '
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+29.
+Answer:
+1 N A 1 N A
+:— T'—¢2—T:— '2—2¢¢ 2'2 —T
+@(B) 2;}1 w) +25 ﬁ 22% yw+ (w) >+26 ﬂ
+Z_ Z_ (WWW-($15)
+1 N A
+I 5 2W? — mm + Way-Tm) + 5W.
+1:1
+And now take the gradient:
+(M6) <5a><5b> 1 N T T N T T
+WW I §;(—2yiwi +21%- :EﬁHW I 21¢in +11<w¢6>1+m
+S0 the ﬁnal update becomes:
+N
+6t z 6H — T(Z1—yix? + Wat-1)] + W-l).
+1:1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+30.
+
+b. Sequential (Online) Solution:
+Another type of update is called stochastic (a.k.a incremental) gradient de-
+scent. This is a sequential method that updates that parameters after seeing
+each example. This is extremely useful for very large datasets and also when
+data examples stream in over time. This is sometimes called an online learn-
+ing technique. This update rule is given by:
+
+5t I 515-1 — nVMA/im; $17.01),
+where 97 is a learning rate constant and 61(6;xi,yi) is the transpose of the
+gradient of the loss function at a particular example 2'.
+Compute the stochastic descent update rule when £i(6;xi,y¢) is:
+
+MB; 33¢» yi) = (1%" — all-T5? + 5T6-
+Answer:
+In similar fashion to the batch method we arrive at:
+
+6t I 6H — n( — war? + Wig-1) + w“)-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+31.
+Linear Regression and Newton’s method
+Stanford, 2007 fall, Andrew Ng, HWl, pr. 1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+32.
+Introduction to Newton’s method for MLE
+From CMU, 2008 spring, Tom Mitchell, HW2, pr. 1.2 and
+Stanford, Andrew Ng, lecture notes #1 http://c5229.stanford.edu/notes/c5229-notesl.pdf, section 7
+While MLE’s can sometimes be found analytically,
+for complicated likelihood functions it may need
+to be computed using numerical methods.
+One method is the Newton algorithm, which it- I
+eratively ﬁnds a sequence of 90, d1, . .. that (under I
+ideal conditions) converges to the MLE 9. i
+The idea here is that we are trying to ﬁnd the “I 'H-l :
+value of 9 that maximizes the likelihood function I
+€ (whose parameter is 6). I
+Newton’s method allows us to do this by efficiently H “I H"
+ﬁnding a root for the likelihood function’s ﬁrst
+derivative by following successively closer tan-
+gents of the ﬁrst derivative function:
+Note that one may expand the derivative of the log-likelihood function around 9i:
+0 I we“) e mm) + (é _ ej)z”(ej)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+33.
+Solving for é gives
+A ' ﬂ’ <97
+(9 w 69 — (—.).
+£l/(ej)
+This leads to an iterative scheme Where
+§j+1 I 99' _ w_
+£1!(€j>
+The generalization of Newton’s method to a multi-dimensional setting (also called the
+Newton-Raphson method) is given by
+6H1 I 61‘ - H-1 vemj).
+Here, V9l((9) is, as usual, the vector of partial derivatives of l((9) with respect to the
+6,’s; and H is an n-by-n matrix (actually, n + 1-by-n + 1, assuming that we include the
+intercept term) called the Hessian, Whose entries are given by
+22 9
+(99,- (96,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+34.
+Important Remark
+
+Newton’s method typically enjoys faster convergence than
+(batch) gradient descent and requires many fewer iterations to
+
+get very close to the minimum.
+
+One iteration of Newton’s can, however, be more expensive than
+
+one iteration of gradient descent, since it requires ﬁnding and in-
+verting an n-by-n Hessian; but so long as n is not too large, it is
+usually much faster overall.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+35.
+In this problem we will prove that if we use Newton’s method to
+solve the least squares problem, then we only need one iteration
+to converge to ﬁ.
+a. Find the Hessian of the cost / loss function
+1 m T . .
+_ _ (I) _ (Z) 2
+
+J<@>—2;<@ w y >-
+lo. Show that the ﬁrst iteration of Newton’s method gives us
+6 I (X TX )_1X Ty, the solution to our least squares problem.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+36.
+Solution
+a.
+51(5) m @- Z- 1'
+TB- : Z(6T$( ) _ y< U135 )_
+9 1:1
+So,
+(9217(5) m 511(5) T (') (") (1) m (1') (1') T
+Therefore, the Hessian of J (6) is X TX . (This can also be derived by simply
+applying the rules from the lecture notes on Linear Algebra.)
+b. Given any 5(0), Newton’s method ﬁnds 5(1) according to
+6(1) : 5(0) _ H—1 vﬁjwmn
+I 6(0) — (XTX)—1(XTX6<O> - X11)
+I 1(0) — 1(0) +(XTX)—1XT1
+I (XTX)-1XTy.
+Therefore, no matter what 6(0) we pick, Newton’s method always ﬁnds B after
+one iteration.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+37.
+Linear Regression: 2 variants / extensions
+Locally-weighted linear regression for Gaussean noise;
+[un-weighted] linear regression for Laplace noise
+CMU, 2010 spring, E. Xing, T. Mitchell, A. Singh,
+HWZ, pr. 3.1-2
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+38.
+In linear regression, we are given training data of the form D I (X,y) I
+{($,,y,)},i : 1,2,...,n, where a3, E RdX1, i.e. 51:, I (xi,1,--- ,xi7d)T, y, E R,
+X € R"Xd, where row i of X is ZUZT, and y I (y1,--- ,yn)T. Assuming a paramet-
+ric model of the form: y,- : 2132-5 + 6,, where a,- are noise terms from a given
+distribution, linear regression seeks to ﬁnd the parameter vector 6 that pro-
+vides the best of ﬁt of the above regression model. One criteria to measure
+ﬁtness is to ﬁnd ﬂ that minimizes a given loss function Jw). At problem
+CMU, 2015 spring, A. Smola, HWl, pr. 2 (part I), we have shown that if we
+take the loss function to be the square-error, i.e.:
+m6) I Zwi — m? I (X6 — Wm — y),
+1'
+
+then [assuming that X TX is invertible]
+
+6: (XTXYlXTy- (8)
+Moreover, we have also shown that if we assume that 51, . . . ,en are i.i.d. and
+sampled from the same zero mean Gaussian that is, a, ~ N(0,02), then the
+least square estimate is also the MLE estimate for p(y|X;ﬁ).
+In this problem we will explore two variants / ewtensions to this basic regres-
+sion model.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+39.
+Part I: Weighted Least-square
+
+Assume that 51, . . . ,5” are independent but each 52- ~ N(O, 02-2).
+a. Calculate the MLE of 5.
+Hint: You may ﬁnd useful the following formulas (from Matrix
+Identities, by Sam Roweis, 1999):“
+
+(5a) icLTX I iXTa I a (5b) iXTAX I (A + AUX
+
+6X (9X 59X '
+a http://www.cs.nyu.edu/~roweis/notes/matrixid.pdf.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+40.
+Answer:
+yz- I ZCZTﬁ —|— 51' and p(y¢|xi;ﬂ) I N(£132~Tﬂ,02~2). Thus the formula for the MLE 0f [3
+is:
+5MLE I arggnaxlnHMyZ-IxZ-ﬁ) I arggnalenpwile-ﬁ)
+1 (3h — $T5)2))
+: ar max 1n —eX ——’“
+gﬁ 2 (Vzﬂgi p( 2012
+1 (yi — w-TBV (1111' — 355V
+I 1 — _ —@ I _—@
+arggm; (n @01- 20% argénax; 2622
+. _ T 2
+I argmgn; —<y@ 22; 5)
+_ 1
+: arg ménz pQ/Z — wiﬁf (9)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+41.
+Now we write the expression (9) in matrix notation. If we let W be a diagonal
+1
+matrix with diagonal entry wm' I —2, we get:
+‘71'
+5MLE I arg mBin (y — X5)TW(?J — X5)-
+
+In order to get ﬁMLE we just take the derivatives of (y — X5)TW(y — Xﬁ) as
+follows:
+
+a T
+
+0 I — (<y—X@> W(y—XB))
+35
+(9
+I % (yTWy _ yTWX5 _ 5TXTWy + 6TXTWX6). (10)
+For any scalar z, zT I z, therefore ((5TXT)W3/)T I yTWTXB I yTWXﬂ since
+l/VT I W as W is diagonal. Now, putting this back in (10) and taking the
+derivatives, we get:
+_ 6 T T T T T (56%511) T T
+0_ E (y Wy—26 X Wy+6 X WXﬂ) _ —2X Wy-i-ZX WX5,
+which [in case X TVVX is invertible] means that
+5MLE I (XTWX)_1XTWy.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+42.
+
+b. Show that the MLE you just calculated is the minimizer of the weighted
+least square loss function J2<6> : ZZ- aZ-(yi — xjﬂ)? Express each al- in terms of
+the variance of each example.
+Answer:
+We have already shown in (9) that the MLE we just calculated is the minimizer
+of the weighted least square loss function J2(6) I 22 art-(w — sci-T6)?
+
+1
+From the same relationship (9) we have ai : —2.
+
+Ui
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+43.
+c. Explain why this weighted least-square estimator is [sometimes] preferred
+to the non-weighted version. Hint: Consider the case when 0,2 is large and
+when it is small.
+Answer:
+When the variance 0,2 is high, then the data point (5122,31,) might be an outlier,
+as the noise term 6,- can be arbitrarily large. In this case, we don’t want ﬁMLE
+to be biased to accommodate such outliers especially when using the squared
+error loss.
+The weighted least square formulation in this problem achieves that by
+weighting the contribution of each data point to the objective function by
+the inverse of the variance term.
+Therefore, points with large variance won’t contribute much to the loss func-
+tion and can be safely ignored or at least being given less importance when
+optimizing for [3.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+. 44.
+Part II: Laplace no1se-model
+Assume that 51, . . . , an are independent and identically distributed according to a Laplace
+1 i .
+distribution. That is each 5i ~ Laplace(0, 9) : 2—9 exp ('87), W1th 6 > 0.
+d. Provide the loss function J3 (5) whose minimization is equivalent to ﬁnding the MLE
+of 6 under the above noise model.
+Answer:
+The formula for the MLE of [3 is:
+ﬂMLE I arggnaxlnnpwzlzci; 5) I arggnaXZlnpr-lati; ﬁ)
+1 Z- _ T
+I arggnaX2i31n (g exp <—M+ﬂl)>
+1 7; _ T 1' _ T
+6>0 . T
+I ar mln 1‘ — x1- .
+g 5 Z \y ﬁl
+Thus 13(5) I ZZ- lyz- — wim-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+45.
+e. What is the advantage of this model compared to the standard Gaussian
+assumption? (Hint: Think about outliers.)
+Answer:
+If a point is an outlier, then the error in predicting this point given the correct
+B is much larger in the Gaussian assumption (as it is squared) than in this
+model (as it is not squared). Therefore, outliers will affect the estimation of
+ﬂ in the Gaussian model more than in the Laplace model.
+From a modeling point of view, since y, I 382-3 +52, if y,- is an outlier, then the
+model can explain that by making 6,- large to accommodate for the difference.
+This is possible in the Laplace model, since the Laplace distribution has heav-
+ier tails than the Gaussian distribution. To relate this to part I, to achieve the
+same effect, we assumed that every example has a different variance. How-
+ever, these variances have to be estimated (using an EM-like algorithm) since
+they affect the optimization problem, while in the Laplace model, we don’t
+have to do that. On the other hand, optimizing the L1 loss is harder than
+optimizing L2 as the L1 function is not smooth.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+46.
+Linear Regression:
+scaling of features does not change the regression predictions
+MIT, 2001 fall, Tommy Jaakkola, HWZ, pr. 1.6
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+47.
+Given the training feature vectors and output values {3:1, yt}t:1,_u,n
+and a test input vector attest, and the scaling factors {(Xi}i:17___7d, prove
+that the prediction of the test output value would be the same if
+we trained a linear regression on {it,yt}t:1,...,m where in I diam,
+and predicted on itest, where itesm- I 042- item-
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+48.
+Solution
+We can represent the relationship between the new and old matrices of inputs
+using a transformation matrix with only the scaling coefficients in its diagonal
+(A)= A
+X I XA.
+Plugging this into the optimal weight equation (where X, y refer to the train-
+ing set), we will get:
+a I (XTX)—1XTy
+I ((XA)TXA)_1(XA)T@/
+I (ATXTXA)_1ATXTy
+I
+: A_1 w
+And so, the predicted output is:
+pI'GdlCtGd latest I Xtest '12) I Xtest AA—1U) I Xtest w
+: predicted ytest
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+49.
+Linear Regression
+The bias and the [co]variance 0f the estimator
+CMU, (?) spring, 10-701 course, HWl, pr. 3.1-2, 4.1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+50.
+The linear regression model has the form
+y I $6 + 8,
+where x I (£131, . . . ,xd)T, ﬂ I ([31, . . . 75601 y € R, and 6 is an additive noise with
+E(<€) I 0 and Var/“(6) I 02.
+We observe a set of training data ($1,;y1), . . . , (rmyn) from which to estimate
+the parameters 3. Each 51:1- : (x11, . . . ,Jj'id)T is a vector of inputs for the ith
+case.
+Denote by X the n >< p matrix with each row an input vector, and similarly
+let Y by the n-vector of outputs in the training set.
+We have shown at CMU, 2015 spring, A. Smola, HWl, pr. 2 that minimizing
+the residual sum of squares ||Y — X5“2 leads to the following estimate of 6:
+B I (XTX)—1XTY.
+
+The least squares prediction of y is given by
+
+g; I X8 I X(XTX)—1XTY.
+Note that Y is a random variable, because given any input vector x, the value
+of y is up to the random noise. The least squares estimator B is a function of
+Y and therefore also a random quantity.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+51.
+a. AShow that the least squares estimator is unbiased, that is,
+13(6) I 6-
+Answer:
+EiB] I EKXTXYlXTY]
+
+I E[(XTX)_1XT(X6+6)]
+
+I E[B+(XTX)_1XT5] (11)
+
+I 6+(XTX)_1XTE[5]
+
+V
+0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+52.
+b. Show that the covariance matrix ofé equals t0 02(XTX)_1.
+Answer:
+COMB] d2‘: [0011(31',Bj)]z,je{1,...,d}
+déf' [Em - mm — E[6j1>11¢,j€{1,...,d}
+I [Ewiﬁj] — E[A5@]E£5j]]me{1,.-->d}
+I EMF] — EWEWT
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+53.
+Answer (cont’d):
+0w [61 (1:1) Ew +<XTX>-1XT€><@ +<XTX>-1XT€>T1 — W
+I Em +<XTX>—1XT@><@T + JX<<XTXY1>T>1 — W
+I E[(6 + (XTX)_1XT5)(5T + @TX((XTX)T)—1)]— WT
+I Eva/3T] +E[65TX(XTX)_1 + (XTX)—1XT€6T] +
+WT
+E[(XTX)_1XT56TX(XTX)_1] — 66”
+I BE[5]TX(XTX)_1 +(XTX)_1XT EH 6T +
+Y Y
+E[(XTX)_1XT5 eTX(XTX)_1]
+I E[(XTX)_1XT55TX(XTX)_1]
+I (XTX)_1XT ELL: 5T] X(XTX)-1
+2-1an
+I 02(XTXY1(XTXXXTXY1
+I 02(XTX)—1.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+54.
+c. Also at CMU, 2015 spring, A. Smola, HWl, pr. 2 (Part III) we have shown
+that an extension of the least squares estimator can be obtained by imposing
+a penalty on the size of regression coefficients
+HX5 — yll2 + WW,
+where the parameter A controls the contribution of the regularization term.
+Minimizing this cost function gives the following estimator of the regression
+coefficients A
+6 I (XTX + MrlXTy.
+which is known as the Ridge estimator in statistics. The Ridge prediction
+of y is then given by
+g I X3 I X(XTX + M)—1XTy.
+Show that the Ridge estimator is biased.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+55.
+Answer:
+E[6] _ 5 z E[(XTX + M)_1XTy]— 6
+I E[(XTX + AI)_1XT(X5 + 8)1 — 6
+I (XTX + AI)_1XTX6 + (XTX + MTlXT 561%?
+Y
+I (XTX + AI)_1XTX3 — 6
+I (XTX + AI)_1(XTX + A] - A06 — 6
+I (XTX + AI)_1(XTX + AI)6 _ (XTX + AI)—1AI6 — 6
+I 5 - A(XTX + AI)_16 — 6
+I —)\(XTX + AI)_16
+7s 0.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+56.
+Linear Regression in R2
+[Without “intercept” term]
+with either Gaussian
+— including a weighted regression variant —
+or Laplace noise
+CMU, 2009 fall, Carlos Guestrin, HW3, pr. 1.5.2
+CMU, 2012 fall, Eric Xing, Aarti Singh, HWl, pr. 2
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+57.
+noise
+Input i
+Output
+
+This ﬁgure shows a system S which takes two inputs x1, $2 and outputs a linear combi-
+nation of those two inputs, 01x1 —|— 02:22, where cl and 02 are two unknown real numbers.
+The device you use to measure the output of S, i.e., c1331 —|— 02:62, introduces an additive
+error e, which is a random variable following some distribution. Thus, the output y
+that you observe is given by equation (12):
+
+y I clxl + 02x2 —|— e (12)
+Assume that you have n > 2 instances <33jl»$j2»yj>j:1,...,n or equivalently <xj,yj>j:1,___,n,
+where acj nit [$91, 9532]. In other words, having n measurements in your hands is equivalent
+to having n equations of the following form: yj I (:1le —|— 0211032 + ej, j I 1, . . . ,n.
+The goal is to estimate cl and 02 from those measurements using the maximum likeli-
+hood.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+58.
+a. Assume that the e,- for 2' I 1,...,n are i.i.d. Gaussian random variables with zero
+mean and variance 02.
+Compute the log-likelihood function and use it to prove that the maximum likelihood
+estimate 0* I [01‘, 0;] is the solution of a least squares approximation problem. Find the
+solution of the least squares problem.
+Answer:
+52- : yz- — (clam + 02x29) ~ N(0,02). Therefore yi ~ N(cle-1 + 02x12, 02). Since the noise are
+i.i.d., the likelihood function is given by
+n
+1 (31¢ — 61%1 — C233i2>2)
+L c ,c I — ex —— .
+(1 2) g /—27m P( 202
+Taking the logarithm, we get the log-likelihood function:
+n 1 n
+_ __ 2 _ _ ._ . _ . 2
+[(01,02) - 210g(27m ) 202 22;?” 01x11 02x12) .
+Let y G Rn be the vector containing the measurements, X the n >< 2 matrix with XZ-j : 56,-]-
+and c I [01,02lT, then we are trying to minimize Hy — ch|§ resulting in a solution c :
+(XTX)_1XTy.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+59.
+
+b. [The weighted regression variant]
+Assume that the e,- for 2' I 1,. ..,n are independent Gaussian random vari-
+ables with zero mean and variance Var(e,~) I 0,2.
+Compute the log-likelihood function and ﬁnd 0* I [0110;] which maximizes
+it, i.e., the MLE.
+Answer:
+e, I y, — (clxil + chig) N N(O, 0,2).
+Similar as before,
+
+[(61, 62) I _@10g(2,,) _ 210%. _ Z w
+
+2 1'21 7;:1 2012
+
+Now we are trying to minimize HW(y—Xc) I lg, where W is a diagonal matrix,
+
+1
+with wm- I —, resulting the solution c I (XTWTWX)_1XTWTWy. (See the
+
+01'
+correspondence with the formula obtained at CMU, 2015 spring, Alex
+Smola, HWl, pr. 2.d or directly the formula obtained at . CMU, 2010
+spring, E. Xing, T. Mitchell, A. Singh, HWZ. pr. 3.1-2.a.)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+60.
+1 5r
+c. Assume that el- for 7L I 1,. ..,n has density f6i(a:) I f(x) I ﬁeatp(—%l),
+With 3 > 0. In other words, our noise is i.i.d. following a Laplace distribu-
+tion with location parameter ,u I O and scale parameter 9. Compute the
+log-likelihood function under this noise model and explain why this model
+leads to more robust solutions.
+Laplace p.d.f.
+2 _ u=O,9=1
+g _ u=0, 6:4
+Tl, _ u=—5, 6:4
+1
+“01.02):—n10g(29)—5;lly—XCH1- E 2
+It is prepared to see higher values of d
+residuals because it has a larger tail g
+[LCz than the Gaussian]. Thus it is
+more robust to noise and outliers. g
+—1O —5 0 5 10
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+61.
+Logistic Regression: introductory issues
+Stanford, 2016 spring, Chris Piech,
+Introduction to Probability for Computer Scientists course,
+lecture notes #40
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+62.
+
+You are given n i.i.d. training datapoints ($(1),g(1)), ($(2),y(2)), . . ., ($(n),y(")), where each
+vector 50(1) has d features / attributes. Here we will assume that yw E {0, 1} for i : 1, . . . ,n.
+Logistic Regression is a classiﬁcation algorithm that works by trying t0 learn a func-
+tion that approximates P(Y|X). It makes the central assumption that P(Y|X) can be
+approximated as a sigmoid function (also called logistic function) applied to a linear
+combination 0f input features.
+Mathematically, for a single training datapoint (as, g) Logistic Regression assumes:
+P(Y I 1|X I x) I 0(z) and, equivalently
+
+P(Y : 01X I :13) : 1 — 0(z), where i
+
+. 1 Z .
+0(z) déf — I 6—, With
+1 —|— e_Z 1 —|— e2’ §
+d 55 i 0'5 i
+z nit w0+2wixi :w-a: and
+1:1
+
+w nit‘ (100,101, . . . ,wd) € Rd+1, assuming that -6 -4 -2 1° 2 4 6
+
+a: was extended with the component 51:0 I 1.
+Starting from the above formulas for the probability of Y|X, we can create an algorithm
+that selects values of u) that maximize that probability for all the training data.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+a. Prove that the conditional log-likelihood of all the training data (under the Logistic 63'
+Regression assumption) isza
+TL
+£(w) I Z (yr) ln0(w - 33(1)) + (1 - W) 111(1 - 0(w - 37(1)») . (13)
+11:1
+Solution:
+To start, here is a super slick way of writing the conditional probability of one datapoint:
+P(Y : y|X I x) : 0(w - at)?’ [1 — 0(w - x)]1_y assuming y 6 {0,1}.
+Since each datapoint is independent, the conditional probability of all the data is:
+n TL (') (')
+H P(Y I y(’)|X I 111(1)) I H aha-90(1))?’ [1 _ 0(w - $<Z>)]1—y . (14)
+izl izl
+If you apply ln to this function, you get the reported conditional log-likelihood for
+Logistic Regression.
+
+a Observajie importantd: Expresia acestei log-verosirnilitati conditionale, adica partea dreapta a egalitatii (13) are
+forma unei cross-entropii. Pentru deﬁnijia notium'z' de cross-entropic, vedeti CMU, 2011 spring, Roni Rosenfeld, HWZ,
+pr. 3.0. Valorile ya) si 1 — 34(1) corespund unei distributii de probabilitate, iar valorile 0(w - 95(1)) si 1 — 0(w - 93(1))
+corespund altei distributii de probabilitate (si anume, cea calculata de regresia logistica), care aproximeaza prima
+distributie.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+64.
+Note
+[from CMU, 2004 fall, T. Mitchell, Z. Bar-Joseph, HWZ, pr. 4]
+Actually, the full log-likelihood function is:
+log-likelihood I lnHP(x(i),y(i))
+i=1
+I 1nH(PYIX(y(i)|$(i))PX(33(i)))
+i=1
+I 1n ((H PYX<y<i>|w<i>>> - (H PXW)»
+1:1 1'21
+I 1nHPy|X<y<i>|w<i>> +1nH PAW)
+i=1 i=1
+“2' Z(w)+£w.
+Because £30 does not depend on the parameter w, when doing MLE we could
+just consider maximizing 2(a)).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+65.
+Exempliﬁcation [by L. Ciortuz]
+Let’s consider the nearby training ——:—:
+dataset. ‘—|——
+- - - - |——|
+After renamlng the tralmng 1n- ul—l-I
+stances as (w<1>,0<1>), (9404(2)), —|—l“
+'
+(“8)71/(85 Q R4 X {071% the condl' —:—:E
+tional log-likelihood 0f this dataset —|—l“
+will be written as follows:
+(13) 8 . . . .
+1(0)) I 2 (41(1) 1110(0) - 43(1)) + (1 - 0(1)) 111(1 - 000-913(1)»)
+1:1
+: 1 - 1n 0(100 —|— 101151))1- 1 -1n0(100 —|— 101152) + 103$?) + 1 - 1110(100 + 102.155’) + 1041513))1-
+
+(1—0) -1n(1—0(100 —|— 1041514)))+(1—O)-1n(1—0(100 —|— 101$?) —|— 10219-1- 103339)) —|-
+
+(1—O) -1n(1—0(100 —|— 10151356) + 1031536) —|— 10433516)))+(1—0)-1n(1—0(100 + 101157) —|— 104339))1-
+
+(1_0) -1n(1—0(100 + 1021139)»
+
+I 1110(100 + 101) + 1110(100 + 101 + 103) + 1110(100 + 102 + 104) +1n(1—0(100 + 104)) +
+1n(1—0(100 —|— 101 —|— 102 —|— 103)) +1n(1—0(100 —|— 101 —|— 103 —|— 104)) +1n(1—0(100 —|— 101 —|— 104)) —|-
+ln(1—0(100 + 102)).
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+66.
+Comment
+Starting from the expression (13) for the conditional log-likelihood function,
+we simply need to choose the values of w that maximize it.
+Unlike in other situations, here there is no closed form way to calculate w.
+Instead we will choose it using optimization, so we will employ an algorithm
+called gradient ascent. That algorithm claims that if you continuously take
+small steps in the direction of your gradient, you will eventually make it to
+a local maxima. In the case of Logistic Regression it can be proven that the
+result will always be a global mamima.“
+The small step that we continually take given the training dataset can be
+calculated as: 8
+ld ld
+wyewIwﬁ WWW >>
+
+.7
+
+were 17 is the magnitude of the step size (“learning rate”) that we take.
+a See Stanford, 2008 fall, Andrew Ag, HWl, pr. 1a.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+67.
+b. Show that the partial derivative of the conditional log-likelihood function
+with respect to each parameter wj is:
+8—wj€(w) I ;[y(z) — 0(w - $(’)) ]wg) for j I 0,1,. . .,d. (15)
+Z_ P(Y:1|X:as;w)
+Hint: You may use the following property for the derivative of 0 with respect
+to its inputs:
+(9
+8—0(z) : 0(z)[1 — 0(z)] for Vz € R.
+z
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+Solution 68-
+The partial derivative of the conditional log-likelihood for only one datapoint
+(a3,y) W.r.t. the wj component is computed as follows:
+i ln[0(w - :c)y [1 — 0(w - 95)]1_y]
+(9w,-
+(9 ln (w at) + —8 (1 )ln[1 (w 13)]
+I — 0' - — — 0 -
+(9103' y 8w]- y
+I — — — —0 w - a;
+0(w - ac) 1 — 0(w - x) 8103'
+y 1 — y
+I — _ — . 1 _ . .
+[m _ x) 1 _ “10,1000 In 00w may
+y — (1W ' 9;)
+
+I . 1 _ . .
+
+I [y — 0(w ' @le- (16)
+Because the derivative of sums is the sum of derivatives, the partial derivative
+of the conditional log-verosimility function W.r.t. w, is simply the sum o this
+term for each training datapoint. More exactly, after applying the ln function
+to the (14) equality, and then calculating its partial derivative W.r.t. wj (for
+j € {0,1,...,d}) we will get the (15) result, due to the (16) relation proven
+above.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+. 69.
+Another solut1on
+[based on CMU, 2004 fall, T. Mitchell, Z. Bar-Joseph, HW2, pr. 4]
+Starting from (13), the conditional log-likelihood function can be further written as:
+@(w) I zwmw -w<1'>> + <1 — y<i>>1n<1 — 0w - Mn
+1:1
+n ‘ . (i) ,
+I 2W) ln m”—$). + ln(1 - 0(w - 56%)}
+1,:1 1 — 0(w 113(1))
+(i) ZMM-lww-$<1>))+1n(1 _ 0(w - Mm I Z{y(i)(w - N) _ ln(1 + @w-wwn (17)
+i=1 i=1
+And therefore, the gradient vector for £(w) can be written as:
+n 6w,$(i) n
+ng I (i) (i) _ —. (1') I (i) _ . (i) (i)
+(*): Note that the sigmoidal function 0 is bijective, and its inverse function is:
+0_1 : (O, 1) —> R, deﬁned by 0_1(z) I 1n 1L. Some people call 0_1 the logit function.
+— z
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+. O 70-
+Exempllﬁcatlon cont’d
+The gradient vector for the conditional log-likelihood function of the given dataset is:
+8 . . .
+vwaw) I 21y“) — U<M<Z>>1x<1>
+i=1
+[1—0(w0 + 1,02 + 104)] (1, 0, 1, 0, 1)T-U(w0 + w4)(1, 0, 0, 0, 1F-
+0(w0 + wl + wg + w3)(1,1,1,1,0)T—0(w0 + wl + wg + w4)(1,1,0,1,1)T—
+0(w0 + wl + w4)(1, 1, O, 0, 1)T—0(w0 + w2)(1, O, 1, O, 0)T
+1-0'(’LUO + w1)—|— 1-O'(’LU() +101 +103) —|- 1-0'(’LUO + "LUZ + w4)—0(w0 + 204)
+—0(w0 + w1 + wg + w3)—0(w0 + 101 + 'LUg + w4)—0(w0 + w1 + w4)—0(w0 + wg),
+1—0(w0 —|— w1)+ 1—0(w0 —|— wl —|— w3)—0(w0 —|— wl —|— wg —|— w3)—0(w0 —|— wl —|— wg —|— 104)
+I —O'(’LU0 +w1 +104): a
+1—0(wo + w2 + w4)—0'(w0 + wl + wg + w3)—0(w0 + 102),
+1—U(w0 +1111 +w3)—0(w0 +1111 +102 +w3)—0(w0 +101 +1113 +104),
+1—U(w0 + wz + w4)—0(w0 + w4)—0(w0 + wl + wg + w4)—v(w0 + w1 + 104)
+and the update rule for the gradient ascent method is:
+w e w + nvwﬂw).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+71.
+Exempliﬁcation cont’d
+Log-verosimilitatea condigionalé Evoluljia valorilor ponderilor wi
+_4.9 0.5
+—5.D
+0.9
+—5.l + W_U
++ w_1
+—5.2 —|— w_2
+—U-5 + w_3
+-5.3 —-— w_4
+—5.4 —1.U
+—5.5
+—1.5
+U 20 4U 60 ED 100- 120 140 O 20 4U GD ED lDU 120 140
+Numérul de iteratii Numérul de iteratii
+Graﬁce realizate de std. Alina DUCA (2023)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+72.
+Exempliﬁcation cont’d
+La convergenté:
+wO I 0.7529, wl : 0.0033, wg I —0.7537, wg I —0.7577, w4 : —1.5109
+Predicigii:
+U: $120,5222m32m421
+4
+ijdj + do I -2.2694 < 0 =» 4 Edible
+3:1
+V: 95129022513421,x3:0
+4
+ijdj + ibO I _1.5084 < 0 :4 4 Edible
+3:1
+W: $12x2:1,x3:x4:0
+4
+ijdj + ibo I 0.025 > 0 :e Edible
+1:1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+73.
+Comment
+
+Using the gradient vector Vwﬂw) and the hessian matrix Hw, one can apply
+
+the Newton-Raphson method (see University of Utah, 2008 fall, Hal Daumé
+
+III, HW4, pr. 1) to compute the optimal value of w, i.e. the one for which
+
+£(w) reaches its maximum.
+
+The update rule for the Newton-Raphson method is:
+
+w e w — H131 Vw.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+74.
+Exempliﬁcation cont’d
+The hessian matrix corresponding to the conditional log-verosimility function
+@(w) can be computed using the following formula (see Stanford, 2008 fall,
+Andrew Ng, HWl, pr. 1.a):
+Hw I _ Z C(11) . x(i))(1 - 0(w - 1N)» 93(1) (96(1))? (18)
+. *,—/
+1:1 ER+
+For the given dataset, the hessian matrix of £(w) is:
+Hw : —{U(w0 + w1)(1—0(w0 —|— w1))(1, 1, 0, O, O)T(1, 1, O, 0, O)+
+0(100 + wl + w3)(1—0(’w0 + wl + w3))(1, 1, 0, 1, 0)T(1, 1, 0, 1, 0)+
+0(w0 + w2 + w4)(1—0(w0 + w2 + w4))(1,0,1,0,1)T(1,0,1,0,1)+
+0(100 + w4)(1—0(w0 + 104))(1, 0, 0, 0, 1)T(1, 0, 0, 0, 1)+
+0(100 + wl + 102 + w3)(1—0(w0 + wl + 102 + w3))(1,1,1,1,0)T(1,1,1,1,0)+
+0'(’LUO + 1121 + 103 + w4)(1—0(w0 —|— 101 —|— wg —|— w4))(1,1,0,1,1)T(1,1,0,1,1)+
+0(w0 + wl + w4)(l—0(w0 + wl + 104))(1, 1, 0, 0, 1)T(1, 1, 0, 0, 1)+
+0(100 + w2)(1—0(w0 + 102))(1, 0, 1, 0, 0)T(1, 0, 1, 0, 0)}.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+75.
+Q Q 7
+Exempllﬁcatlon cont d
+Log-verosimilitatea c0ndi§i0nalii Evoluﬁa valorilor ponderilor wi-
+Convergenta iog-likelihood in timpui antrenérii Graﬁcu1 pc-nclerilor
++ w_0
+_5-0 4 + w_1
+—4— w_2
+—5.5 + w_3
+—-— w_4
+5 2
+‘g —5.0 ‘E
+‘1]
+3-5.5 Z 0
+U! 'C
+5 TE
+-1'.0
+-2
+—?.5
+—4
+—s.0
+1 2 3 4 5 6 7 3 9101112131415161?1319202122232425 1 2 3 4 5 6 7 a 910111213141515171819202122232425
+Numérul de éteratji Numérul de éteratji
+Graﬁce realizate de std. Alina DUCA (2023)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+76.
+Exempliﬁcation cont’d
+La convergenté:
+wO I 0.793, wl I —0.0349, wg I —0.7471, wg, I —0.7472, 104 I —1.5103
+Predicigii:
+U: x1I0,ai2I:c3Im4I1
+4
+ijdj + do I -2.2116 < 0 I I Edible
+3:1
+V: xlngIx4I1,x3I0
+4
+ijdj + do I _1.4993 < 0 I I Edible
+3:1
+W: $1Ix2I1,x3Ix4IO
+4
+ijdj + ibo I 0.011 > 0 I Edible
+1:1
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+v . . . v 77.
+Legatura cu functza de cost logzstzca
+L. Ciortuz, cf. sectiunii 2 (Logistic Regression) din documentul Supplemental lecture notes (pentru cursul de
+Machine Learning), de John Duchi, de la Universitatea Stanford.
+c. Arétati c5 dacé in loc de ya) € {0, 1} vom considera gm) € {—1, 1} pentru
+1L I 1, . . . ,n,“ atunci se poate demonstra c5 urméitoarea funcjie de cost medi'u,
+TL
+J(w) déf' l Z 1n(1 + 6Xp(—y/(i)w - 1W) (19)
+TL .
+1:1
+
+O 1 Q O O O . Q v
+
+este chlar ——£(w), unde £(w) este functla de log-verOSImllltate condltlonala
+n
+din relatia (13). Ca o consecingﬁa, a maximiza functia de log-verosimilitate
+£(w) este echivalent cu a minimiza functia de cost mediu J(w).
+Functia $(y'w - x) ﬁg" 1n(1 + eXp(—y’w - x)) sau, mai simplu, (M25) nIt' 111(1 + e”)
+este numitéi funcjia de cost (sau, pierdere) logistica”.
+Atent'ie! 1n acest context, z ﬁg” y'w - x. Mai inainte (cénd y € {O,1}) am avut
+z nIt' w - x.
+a Deﬁnim gm) I —1 dacé y“) I O §i 3/0) I 1 dacéi 34(1) I 1.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+78.
+Observafgie
+
+Legiitura dintre $(z) : 1n(1 + e_Z) ‘ ,, ,, ,, ,, ,, ,, ,, ,, ,, ,, ,, ,, w "4' W W W V  W W W W W W W W W W
+Pe d6 0 parte §i (atenﬁie!) funcjn'a W , W W W W W W W W W W375 ‘sliggngilgzryaun —
+logisticd (sau functia sigmoidald) W W W W W W W W W W W "3 W W W W L a W W W a W W W
+0(2) dif' ; pe de alté parte este
+urmétoarea: ,, ,, ,, 7g ,, ,, ,, ,, ,, ,, ,, ,, "2 ,, ,, ,, ,, ,, ,, ,, ,, W W W W W
+Din aceasté cauzél, functgia de cost 10- ~ ~ ~ f ~ ~ ~ ~ ~ ;;.;i-4#4Q‘5' “57'? W W W w W W W W w W
+gisticéi este numitéi uneori §i functia __. ‘ g L
+
+log-sigmoidald. '4 '3 '2 '1 O 1 2 3 4
+
+z
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+79.
+Solu§ie
+Demonstraigia se bazeazﬁ in eseniﬁi pe proprietatea 1 — 0(2) I 0(—z), care este
+imediaté.
+Cazul y/(i) I 1 : P(Y I 11X I 35(1)): 0(w - 56(0) I 0(y/(i)w - 113(1));
+Cazul gm) I —1 : P(Y' I —1\X I 35(1)): 1 — P(Y I 11X I $11)): 1 — 0(w - $01)
+: U(_w.w(1l)) : 0(y/(i)w . $(i))_
+Prin urmare,
+@(w) I mnm/ I WAX I M) I Emmy I ‘WAX I M)
+1:1 i=1
+I ZlnPQ” I y’(i)\X I M21) I Zlndymww - 56(1))
+i=1 i=1
+_ n 1 _ n In) <1)
+1
+A§adar, ——£(w) I J(w).
+n
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+80.
+Exempliﬁcation c0nt’d
+For the given dataset, the logistic cost is
+def- 1 n m‘) (1')
+J I — 1 1 — -
+(w) n; n< +e><p< y w w >>
+1
+I gUnU + 6XP(—(w0 + W1» +1n<1 + eXp(—(wo + wl + 103)) +1Tl(1 + 6Xp(—(w0 + W2 + 104)) +
+1n(1 + eXp(w0 + 104) +1n(1 + eXp(wO + 1111 + wg —|— wg) + 111(1 —|— eXp(wO —|— wl + wg + w4) —|—
+1n(1 + eXp(w0 —|— wl + 2,04) +1n(1 + eXp(w0 + 2112)].
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+81.
+Logistic Regression:
+the log-verosimility function is concave
+Stanford, 2008 fall, Andrew Ag, HWl, pr. 1.a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+82.
+Consider the log-likelihood function for logistic regression:
+@(w) I Z (y<i>1nh<w<i>> + <1 — W) 1n<1 — w»),
+¢:1
+where x — (x m )T and h(x) dif' 0(w - x) — é
+Find the Hessian H of this function, and show that for any vector z I
+(Z1, . . . , zkﬁ, it holds true that
+ZTHZ g O.
+Hint: You might want to start by showing the fact that 2223- zZ-sz-szj I
+(33TZ>2 Z O.
+Remark: This is one of the standard ways of showing that the matrix H is
+negative semi-deﬁnite, written “H § O”. This implies that K is concave, and
+has no local maxima other than the global one.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+83.
+Note: we do things in a shorter way here; this solution does not use the Hint.
+Recall that we have 0’(z) I 0(z)(1 — 0(2)), and thus for h($) I 0(w - a3) we have
+h
+88—($) I h(a;)(1 — h(a:))$k. This latter fact is very useful to make the following
+wk
+derivations.
+Now
+52(10) 8 m (') . . ,
+— I _ 21h“) 1—(Z)11—h (1)
+@wk @111ka n (a: >+< y >n< (w >>
+m <'> 961(3) <'> mg) o <'>
+I ’—.—1—Z—.h21—hZ
+Z y WW < y >1 _ 11w) (w >< <3: >>
+ZIl
+I 2mg) [yw —M— h(;c(i)) +W
+1:1
+z 2w - h<$<i>>>$g>
+i=1
+and 82a ) m 3M (')) m
+_ w _ w Z (1') _ (1') (2') (i) (1')
+H _ — _ —— _ — h 1 — h .
+lk 8w; 810k Z; 8w; £13k Z; (93 )( (x )) $1 wk;
+Z— Z: €1R+
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+84.
+So we have for the Hessian matrix H (using that for X : xxT if and only if
+H I _ Z h(w(i))(1 _ h(n<i>))n<i>n<i>T.
+1:1
+To prove that H is negative semi-deﬁnite, we show that zTHz g O for all z:
+2THz I —zT (Z h(a$(i))(1 — h(x(i)))aj(i)$(i)_r> z
+1:1
+I - Z h(n<i>)(1 - h(n<i>))zTn<i> (Mfg
+1:1 W
+(ZT$(Z))T
+I - Z h(n<i>)(1 - h(n<i>))(ZTn<i>)2 g 0,
+1:1
+with the last inequality holding, since 0 < h(n<@'>) < 1, which implies h(:c(i))(1 _
+h(x(i))) > 0, and (zTa:(i))2 Z O.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+85.
+Logistic Regression is not affected by variable duplication
+CMU, 2011 spring, Torn Mitchell, midterm, pr. 5.3
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+86.
+Consider a binary classiﬁcation problem with variable X1 G {0,1} and label
+Y e {0,1}.
+We have a training set D1 made of n examples: D1 I {(atl,y1),...,(a:’f,y”)}.
+Suppose we generate another training set D2 of n examples, D2 I
+{(x%,:c§,y1), . . . , (x?,xg,y”)}, where in each example £131 and y are the same as
+in D1 and then x2 is a duplicate of $1.
+Now we learn a logistic regression from D1, which should contain two param-
+eters: wO and wl; we also learn another logistic regression from D2, which
+should have three parameters: wO, wl and wg.
+First, write down the training rule (maximum conditional likelihood estima-
+tion) we use to estimate the parameters (100,101) and (w0,w1,w2) from data.
+Then, given the training rule, what is the relationship between (1110,1111) and
+(100,101,102) we estimated from D1 and D2? Use this fact to argue whether
+or not the logistic regression will suffer from having an additional duplicate
+variable X2.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+87.
+Answer
+The training rule for (100,101) aims to maximize the following log-likehood
+function:
+1nHP(Yl|X{,wO,w1) (I) 21/le +wlxi)_1n(1 + exp(w0 +w1Xi)).
+2:1 1:1
+Similarly, the training rule for (wf), w'1,w’2) aims to maximize
+1nHP<Yl|Xi,wa,w1,w;>‘:>ZYl<wa+w1Xi+ M5) — 1n<1 + expcwa + waXi + we»
+2':1 i=1
+Z ZYW) + (wi +w§>Xi> — 1n<1 + exp<w6 + (wi +w§>Xi>L
+1;:1
+which is basically the same as [the log-likelihood function for deriving] the
+training rule for (100,201), with the substitutions wo I wf) and wl : 11/1 + 11/2.
+These substitutions express the relationship between the sets of parameters
+(100,101) and (106,101, wé) that we estimate from the training sets D1 and respec-
+tively D2.
+Therefore, logistic regression will simply split the weight wl into "Lu/1 +w’2 I wl
+when facing the duplicated variable X2 : X1.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+88.
+Kernelized Logistic Regression
+using the gradient method
+CMU, 2005 fall, Tom Mitchell, HW3, pr. 2.ab
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+89.
+
+Comment
+The idea behind the kernel trick: (or, simply, kernelization) used in classi-
+ﬁcation (primarily introduced for SVM) is to map a feature vector in low
+dimensional space X into a higher dimensional space Z. This can yield a
+more ﬂexible classiﬁer while retaining computational simplicity.
+In general, kernelz'zatz'on involves ﬁnding a mapping gb : X —> Z such that
+i. Z has a higher dimension than X;
+ii. the computation in Z only uses inner product;
+iii. there is a function K called kernel such that the inner product of $(x1)
+and M5111) is K(a3i,:13j).
+(K has to be positive deﬁnite, e.g. Gaussian kernel is one of such kernel; you
+don’t have to worry it for this issue.)
+Note that a linear classiﬁer in a higher dimensional space will [usually] cor-
+respond to a non-linear classiﬁer in the original space.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+90.
+The standard logistic regression has the following form:
+P(Y I 1|X) I Um + sz- Xi)
+1:1
+P(Y I 0|X) I 1 — P(Y I 1|X),
+def. _
+where 0(a) I 1/(1-l-e a).
+Consider a function gb which maps [an instance] X from a low dimensional
+space X (dimensionalityzd) into a high dimensional space Z (dimensonality
+is m, m > d). The logistic regression, when using the mapping gb, becomes
+d
+HY: 1|¢(X)) :U(w0+2wi¢(X>i)- (20)
+i:1
+Note that X is a d-dimensional vector; $(X) is the corresponding m-
+dimensional feature vector; ¢(X)Z- is the i-th element of q5(X).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+91.
+
+a. Assume the weight vector w is the linear combination of all input feature
+vector gb(X (1)); more formally,
+
+(101,. .. ,wm)T I ZQMXW), (21)
+
+j:1
+
+and wO : 040 where n is the number of data points and X“) is the i-th data
+point. Use the kernelization trick to compute P(Y I 1|¢(X)) (in order to avoid
+explicitly computing in Z).
+b. Write down the gradient descent update rule for the kernel logistic regres-
+sion.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+92.
+Answer
+a. Starting from the relationship (20), we can write
+P(Y I 1|¢(X)) I 0(wo + 210M001) I 0(w0 +w - ¢(X))
+1:1
+(2:1) U<w0 + (Zamwn -¢<X>> I 0(w0 + gay-($041») - ¢<X>>
+1:1 1:1
+I 0(a0 —|— ZQ¢K(XU),X)).
+jzl
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+93.
+Answer
+b. We will use the well-known trick
+P(Y I y|¢(X)) I U(Z)y(1 — 0(Z))l_y for all y E {0,1},
+where
+Z "2- a0 + Z ajK(X(j),X). (22)
+j:1
+we will also use the following properties of the logistic function:
+<> 1 62:1 <> 1 :10 <>> 1<1+Z>
+z:—:— — z:—:— n — z :—n e
+U 1+6” 1+ez U 1+e—Z 1+ez U 7
+for any z E R.
+The log-likelihood of a training instance ($(X), Y : y) can be written as:
+ez l
+lPY: X :l l—ll— :l— l—l—
+n< y|¢< >> y na<z>+< y) n< U<Z>> y “1W +< y>n1+ez
+I yZ—W—ln(l+6z)+W
+: yz — ln(l —|— ez). (23)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+94.
+The log-likelihood of the training set {(X(1),Y(1)), . . . , (X01), Y(”))} as a function of oz n2”
+(a1,...,an) is
+£(04) I Z Y“) (040 + Z Ody-Km“), X(l))) - ln (1 + eXp(040 + Z @ijU), X<l>))).
+1:1 j=1 j:1
+The partial derivative of 6(a) with respect t0 041- for 2' Z 1 is
+n n . (j) (l)
+(‘WOO I Z Ya) _ eXme + 21:5 QJK(X (’_)X 21)) K<X<¢>7Xu>) _
+@041- [:1 1 + eXp(a0 —|— 23-21 ajK(X 9 ,X ))
+and, similarly
+8&0‘) I Zn: Y“) _ 6Xp<040 + 231:1 ajK(X(j)>IX(l)))
+8040 i=1 l + exp(040 + 231:1 ajK(X(J), X(l)))
+I 2(3/(1) _ 0(a) + Z @jmxw, 25%)).
+1:1 j:1
+The update rule for i Z 0 is
+(xi-H1) I a?) + 7736(04).
+805i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+95.
+(In Romanian)
+c. Scrieti regula de decizz'e pentru o instanté oarecare de test X din spagiul
+X, presupunénd 05 parametrii 041- (pentru 2' I 1,. . .,m) au fost deja invétati.
+Answer:
+Conform relaigiei (20), modelul invéQat de regresia logisticé asociazé instanigei
+X eticheta Y I 1 dacé §i numai dacé 0(w0 + 2:11 wl- ¢(X)Z-) Z 1/2, ceea ce este
+echivalent cu wO + 2:11 wz- ¢(X)Z- Z 0, adicéi wO + w - $(X) Z O.
+Tinénd cont de relatia (21) §i de faptul (:5 wO I 040, aceastii ultiméi inegalitate
+revine la 040 + 231:1 aj¢(X(9)) - gb(X) Z O, adicé
+040 + Z ajK(X(j),X) 2 0.
+j=1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+96.
+Linear Regression and Logistic Regression:
+deﬁnitions [revisited],
+conditional log-verosimility, gradients
+and a common property
+CMU, 2004 fall, T. Mitchell, Z. Bar-Joseph, HW2, pr. 4
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+Linear Regression and Logistic Regression: 97-
+Deﬁnitions [revisited]
+Given an input vector X, linear regression [with gaussian noise] models a real-valued output
+Y as
+Y|X ~ N0rmal(,u(X),a2),
+Where ,LL(X) : QTX : 60 —|— 91X1 —|— . . . + QdXd.
+Given an input vector X, logistic regression models a binary output Y by
+Y|X ~ Bernoulli(h9(X)),
+Where the Bernoulli parameter is related to QTX by the logistic / sigmoidal function
+he“) I 9(9TX),
+Where z 1
+g(z) d2“. 1j——ez I 1+? is the logistic function.
+or, equivalently, by the logit transformation (Which is the inverse of the logistic / sigmoidal
+function):
+. def. hQ (X) T
+l t h X I l — : 9 X
+ogi < 6< >> n 1 41M)
+g_
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+98.
+For the following questions, consider the data {(5131,y1), (x2, yg), . . . , (rm gm}.
+a. For each of the two regression models deﬁned above, write the log-likelihood function
+and its gradient with respect to the parameter vector 6 : (<90, 91, . . . ,Qd).
+Answer:
+For linear regression, we can write the [conditional] log-likelihood function as:
+n 1 (w — 14%))2)
+K Q : 1n — ex ——
+< > (H Tm p( 202
+i1 < 1 e ( w WW»
+2.:1 \/ 27w p 202
+1 n T 2
+: —nln(\/ 27m) — W gw, — (9 331)
+_ /— 1 n T T T
+Therefore, its gradient is:
+1 n T
+WM) I F 12;, _ a Wm,-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+99.
+For logistic "regression:
+h6(X) T QTX h6(X) GTX eTX
+1 — :6 X : — I h X 1
+n1—h9(X) @e 1—h9(X)©€ 9( )( +6 )
+Therefore,
+GQTX 1 1
+MX) I 1+—X I 1+——>< and 1 — MX) I 1+—X
+Note that Y\X ~ Bernoulli(h9(X)) means that
+P(Y : 1|X) : h9(X) and P(Y : OIX) : 1 — h9(X),
+which can be equivalently written as
+P(Y I y|X) I h9(X)y(1 _ h@(X))1_y for ally e {0,1}.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+100.
+So, in this case the [conditional] log-likelihood function is:
+M) I 1n (fhhewlu — he<w¢>>1w>
+1:1
+I i{yz 111%(551') + (1 — 3h) 111(1 — h6($i))}
+1:1
+I iUMQTQYZ' + 111(1 — h6($i)) + (1 — yi)111(1 — he<$z))}
+1:1
+I iwinIBz) — 1n(1 + 6036i”
+i:1
+And therefore,
+n 66T$i n
+WW) I 22:; (yﬂi — m$i> I 2% — h6($i))$i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+101.
+b. Show that for each of the two regression models above, é “It QMLE has the following
+property:
+1:1 1:1
+
+Answer:
+For linear regression: For logistic regression:
+
+— — AT n n
+
+i=1 1:1 i=1 i=1
+Since YlX N N0rmal(,u(X),02), Since Y|X ~ Bernoulli(h@(X)),
+E[Y\X I $159 I é] I #(xi) I éTxi. A eélm
+So 22:1 yiaJZ- I 21.11 E[Y\X I 56-, a I ém.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+102.
+Multi-class Logistic Regression
+with L2 regularization (softmaa: regression),
+using the gradient ascent method
+CMU, 2012 fall, Torn Mitchell, Ziv Bar-Joseph, HWZ, pr. 2
+MIT, 2016 fall, R. Barzilay, S. Sra, Weekly Exercises, week 4, pr. 5.ad
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+103.
+
+We can easily extend the binary Logistic Regression model to handle multi-
+class classiﬁcation. Let’s assume that we have K different classes, and the
+posterior probability for class k is given by:
+
+P(Y:l~c\X:a:) I w for k:1,...,K-1
+
+1 + 25:1 6Xp(wt ‘ 513)
+1
+
+P(Y:K\X:x) I T,
+where x and wl for l : 1,...,K are d-dimensional vectors. Notice that we
+ignored the components wlo in order to simplify the expression.
+Our goal is to estimate the weights wt using the gradient ascent optimization
+method. We will also deﬁne prions on the parameters to avoid overﬁtting
+and very large weights.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+104.
+a. Assume that you are given a n >< d training matrix, where n is the number
+of training examples, and d is the number of attributes / dimensions. Please
+explicitly write down the log-conditional likelihood function, L(w1,...,wK)
+with L2 regularization on the weights. Show your steps.
+Hint: You can simplify the multi-class logistic regression expression above by
+introducing a ﬁxed parameter vector wK I O (the d-dimensional vector made
+entirely of 0's).
+b. Note that like for the binary classiﬁcation case there is not a closed form
+solution to maximize the log-conditional likelihood, L(w1,...,wK), with re-
+spect to wk. However, we can still ﬁnd the solution with the gradient ascent
+method, by using partial derivatives. Derive the expression for the k-th com-
+ponent in the vector gradient L(w1, . . . ,wK) with respect to wk, which is the
+partial derivative of L(w1, . . . ,wK) with respect to wk.
+c. Beginning with the initial weights of 0, write down the update rule for wk,
+using u for the step size. Will the solution converge to a global maximum?
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+105.
+Answer
+a. Let 1{l:k} be an indicator function, where 1{l:k:} : 1 if Yl : k, otherwise
+1{l:k} I 0. Then we can write the conditional likelihood as:
+n K z z 1 n K eXPWk 'ivl) 1{l:k}
+L(w1, . . . ,wK) I P(Y I le I ac;w) {12k} I (—) .
+Taking ln:
+n K
+£(w1,. .. ,wK) I Z Z 1{l:k} (wk - $l — lnz €Xp(w7~ 0%)).
+[:1 kzl 7"
+Adding the L2 regularization term:
+n K A K
+a101, - - - 710K) I 22 1{l:k:} (wk: ‘$1 —1I126Xp(wr'$l)> _ 5 Z Hwkllz-
+1:1 k:=1 r k:=1
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+106.
+b. Taking derivative with respect to wi:
+8 n GXp<UJi - ml) atl
+—Z : 1_Z- l—— —>\Z-
+@wi (wlj 710K) g < {L } ac ET 6Xp<ZUT -a;l) w
+I Z (lﬂzﬂ _ P(Yl I i|Xl)) ml _ mi.
+l:1
+c. Then the update rule with gradient ascent for wi is:
+wi <— wz- + u Z (1{l:¢} — P(Yl I iin» ml — qui.
+1:1
+This will converge to a global maximum since it is a concave function.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+107.
+Softmax (multinomial logistic) Regression:
+The relationship with mixtures 0f multivariate Gaussians
+MIT, 2001 fall, Tommy Jaakkola, HW2, pr. 3.7
+MIT, 2016 fall, R. Barzilay, S. Sra, Weekly Exercises, week 4, pr. 5.0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+108.
+Demonstrati 05, pentru orice K € N, K Z 2, modelul probabilist
+invéigat de regresia softmax este echivalent cu un anumit tip de
+mixturéi de distributii gaussiene multi-variate.
+Ve1_;i speciﬁca / determina in mod riguros ce tip anume de mixturé
+de distribugii gaussiene multi-variate este echivalent cu modelul
+invéigat de regresia softmaX.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+Solution 109-
+Consider a softmax model with K classes and weights wij and denote wi the d-
+element vector with components (wﬂj I wij for 1 g j g d. Then the softmax
+posterior probability is given by:
+wTaH-w O
+e y y
+P T (31W — W
+We would like like to ﬁnd Gaussian mixture parameters (7n, m, Z¢)Z~:1,_H,K that would
+yield the same posterior. The posterior class probabilities of such a Gaussian mix-
+ture is given by:
+_ l _
+mm d/Qexp ( — 5w — #1,)sz 1w; — w)
+P1"(y|w; (1mm I w¢,E@-)Z~:1,...,K) I 1—
+21- MIZZ-vm exp ( - 5w - mwzlw — m)
+_ 1 _ _ _ _
+WyIEy| d/2 exp < — 5 (:6sz 1:1: — xTEy l/Ly — ,ungy 1:6 —|— Aggy law)
+— 1—o
+21- 7Ti|2i|—d/2 eXP ( — §($TE¢_1$ — ivTEi-lm — HIEZ1$ + HIEFMD
+Taking advantage of covariance matrices being symmetric:
+_ 1 _ _ _
+Wy|2y| d/2 eXp < — 5(xTEy 1x — ZuyTZy 1x —|— IuJZy 1m»)
+P1"(y|:v; (1mm I w¢,E¢)»L-=1,...,K) I 1—.
+ZZ- Emil-W2 exp < — 5(513T251513 — ZHIEZ1$ + MTEZIMD
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+110.
+The exponents are quadratic functions of x. But in the softmax posterior the
+exponents are linear functions of w. In order to get linear functions in the exponents,
+we know we must choose identical covariance matrices, causing the quadratic terms
+to cancel out. Setting all covariance matrices to E leads to:
+PT<FJ|$§ (Wu/M I we E7; I E)1'I1,-~,K)
+1
+wy|E\_d/2 exp < — 5 (atTE_1:13 — ZMJZTIw + ,LL;E_1,LLy)>
+I 1
+Z, 7Ti‘2‘_d/2 exp ( — 5 (xTE_1:1; — 2/1?E_1w + ,uz-TE_1M))
+1 _ _
+Wyexp(— §( — 2/152 156+ng 1/1,,»
+— 1—
+g, 7T, exp ( _ 5( _ 2HIE—1:1: + MIX-11%))
+_ 1 _
+exp (Mg/FE 1x — 51152 lug —|— lnvry)
+: —1.
+2,, exp <11?de — 5MTZF1/M —|— lnm)
+This posterior looks very much like the softmax posterior, with a linear function of
+w in the exponent. To get the coefficients of x to be as in the softmax posterior, we
+must set the means and covariances such that:
+w,- : 2-1;” for all 2'. (24)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+111.
+We can do this for any invertible Z. But it is enough for us to show that there is
+one set of Gaussian mixture parameters that yields the desired posterior, and so
+we will arbitrarily set Z I I. To satisfy (24), we get that ,u, must be equal to w,-
+(for this speciﬁc choice of the covariance matrix). This gives us a Gaussian mixture
+posterior of:
+T 1 T
+exp (wy w — 510g wy + lnwy)
+P1"(y|w; (TM/M I vii-,2,- I I)i:1,...,K) I —1-
+2, exp (wZTa: — §wiTw¢ +1nm)
+We would like to set the priors 7T,- such that the afﬁne terms would agree with wig.
+1
+It is tempting to set the priors such that ln 7T,- — 51112-7111; I in, which would yield the
+softmax posterior. However, this might result in negative priors, or priors that do
+not sum up to one. Instead, we ﬁrst multiply both the numerator and denominator
+by some constant Z (to be determined), which will effectively normalize the priors:
+Z < T 1 T >
+ﬂy exp wy w — Ewy wy
+Pv"(y\w; (7mm I 101,21- I I)¢:1,...,K) I —1-
+21 Zvri exp (ij — 5101110,)
+
+Now we can get Zme_%iji I 6w“) by setting 7T,- I e§iji+in/Z, and in order to
+normalize the priors we get that Z I Z, eéwgwﬁwio.
+
+***************Ending Page***************
+
+
+
+***************Beginning Page***************
+***************page number:112**************
+112.
+To summarize, we saw how for any softmax weights, we can always choose
+the following parameters:
+1 T
+exp (5wZ w,- —|— wig)
+7f‘ I 1—
+Z]. exp (5103-ij —|— tug-0)
+m I wi
+E, : I
+Note:
+In our derivation, note that we arbitrarily choose E I I, but in fact we could
+have satisﬁed (24) using any invertible [LCz symmetric and positive deﬁnite]
+matrix E (regardless of the weights of the softmax). [LCz However, in this
+case the formula for 7T,- would be different.]
+Choosing a different covariance matrix, we would get a different Gaussian
+mixture model, with different joint distribution Pr(X, Y), but with the same
+posterior PT<Y|X). Note that the softmax model only speciﬁes a posterior,
+and not a joint distribution.
+
+***************Ending Page***************
+
+
+

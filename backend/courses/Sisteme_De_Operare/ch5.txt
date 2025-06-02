@@ -1,0 +1,1367 @@
+***************Beginning Page***************
+***************page number:1**************
+Chapter 5: CPU Scheduling
+———
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+My? Chapter 5: CPU Scheduling
+I Basic Concepts
+I Scheduling Criteria
+I Scheduling Algorithms
+I Thread Scheduling
+I Multi-Processor Scheduling
+I Real-Time CPU Scheduling
+I Operating Systems Examples
+I Algorithm Evaluation
+I Operating System Concepts-10"‘ Edition 5_2 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+‘a???’ Ob jectlves
+I Describe various CPU scheduling algorithms
+I Assess CPU scheduling algorithms based on scheduling criteria
+I Explain the issues related to multiprocessor and multicore
+schedang
+I Describe various real-time scheduling algorithms
+I Describe the scheduling algorithms used in the Windows, Linux,
+and Solaris operating systems
+I Apply modeling and simulations to evaluate CPU scheduling
+algorithms
+Operating System Concepts-10th Edition 5.3 Silberschatz, Galvin and 639;‘; @251;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+bf»? aSIC Concepts
+I Maximum CPU utilization I
+obtained with multiprogramming
+load store
+add store CPU burst
+I CPU-llO Burst-Cycle — Process read from ﬁle
+execution con5|sts of a cycle of
+CPU execution and l/O wait |/o burst
+I CPU burst followed by llO burst storeincremem
+. . . . . index CPU b t
+I CPU burst dlstrlbutlon IS of main write to file urs
+load store
+add store CPU burst
+read from file
+Operating System Concepts — 10th Edition 5.4 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+‘we’??? Hlstogram of CPU-burst T|mes
+um "
+Large number of short bursts
+Small number of longer bursts
+> M
+O
+C
+CD
+D
+U‘
+2
+burst duration
+Operating System Concepts — 10th Edition 5.5 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+is?’ CPU Scheduler
+I The CPU scheduler selects from among the processes in the
+ready queue, and allocates a CPU core to one of them
+' Queue may be ordered in various ways
+I CPU scheduling decisions may take place when a process:
+1. Switches from running to waiting state
+2. Switches from running to ready state
+3. Switches from waiting to ready
+4. Terminates
+I Scheduling under 1 and 4 is nonpreemptive
+I All other scheduling is preemptive
+' Consider access to shared data
+' Consider preemption while in kernel mode
+. Consider interrupts occurring during crucial OS activities
+operating System Concepts _10m Edition 55 Silberschatz, Galvin and Gagn: ©2on
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+key)’ Dlspatcher
+I Dispatcher module gives control of the CPU to
+the process selected by the short-term
+scheduler; this involves: P
+' switching context
+' switching to user mode l
+. jumping to the proper location in the user savestate
+program to restart that program '“mPCBO d_ th
+lspa c
+I Dispatch latency — time it takes for the l 'atency
+dispatcher to stop one process and start restorestate
+another running from PCB]
+Pl
+Operating System Concepts — 10th Edition 5.7 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+1'36???” I I I
+‘my?’ Schedullng Crlterla
+I CPU utilization — keep the CPU as busy as possible
+I Throughput — number of processes that complete their execution
+per time unit
+I Turnaround time — amount of time to execute a particular process
+I Waiting time — amount of time a process has been waiting in the
+ready queue
+I Response time — amount of time it takes from when a request
+was submitted until the first response is produced, not output (for
+time-sharing environment)
+Operating System Concepts-10th Edition 5.8 Silberschatz, Galvin and 639;‘; @251;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+‘Qty? Scheduling Algorithm Optimization Criteria
+I Max CPU utilization
+I Max throughput
+I Min turnaround time
+I Min waiting time
+I Min response time
+| Operating System Concepts-10th Edition 5.9 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+g??? First- Come, First-Served (FCFS) Scheduling
+Process Burst Time
+P1 24
+P2 3
+P3 3
+I Suppose that the processes arrive in the order: P1 , P2 , P3
+The Gantt Chart for the schedule is:
+0 24 27 30
+I Waiting time for P1 = O; P2 = 24; P3= 27
+I Average waiting time: (O + 24 + 27)/3 = 17
+Operating System Concepts-10th Edition 5.10 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+8%?“ FCFS Schedullng (Cont.)
+
+Suppose that the processes arrive in the order:
+
+P2 , P3 , P1
+I The Gantt chart for the schedule is:
+0 3 6 30
+
+I Waiting time for P1= 6; P2 = O,.P3 = 3
+
+I Average waiting time: (6 + O + 3)/3 = 3
+
+I Much better than previous case
+
+I Convoy effect - short process behind long process
+
+' Consider one CPU-bound and many l/O-bound processes
+
+Operating System Concepts-10th Edition 5.11 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+@v/ Shortest-Job-Flrst (SJ F) Schedullng
+I Associate With each process the length of its next CPU burst
+' Use these lengths to schedule the process with the shortest time
+I SJF is optimal — gives minimum average waiting time for a given set
+of processes
+' The difficulty is knowing the length of the next CPU request
+' Could ask the user
+' Or, the OS could estimate (i.e., approximate) the length, with
+some error of approximation
+I Preemptive version of SJF is called shortest-remaining-time-first
+| Operating System Concepts-10th Edition 5.12 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+‘58?? Example of SJF
+W3 ,,
+m M
+P1 6
+P2 8
+P3 7
+P4 3
+I SJF scheduling chart
+III--
+O 3 9 16 24
+I Average waiting time = (3 + 16 + 9 + O) / 4 = 7
+Operating System Concepts —10th Edition 5.13 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+W? Determlnlng Length of Next CPU Burst
+I Can only estimate the length — should be similar to the previous one
+' Then pick process with shortest predicted next CPU burst
+I Can be done by using the length of previous CPU bursts, using
+exponential averaging
+1. tn=actua1 length of nth CPU burst
+2. Tn +1: predicted value for the next CPU burst
+3. 01,030c31
+4. Deﬁne: Inzl :atn+(1—0c)rn.
+I Commonly, 0( set to 1/2
+Operating System Concepts — 10th Edition 5.14 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+I $12??? Prediction of the Length of the Next CPU Burst
+me "'
+--------!
+12 —-_=
+8 E-I-II-II
+4 I-HEI-I-I
+2 III-III.-
+...-....-
+time—>
+CPU burst (t,) 6 4 6 4 13 13 13 ...
+"guess" (t,) 10 8 6 6 5 9 11 12
+Operating System Concepts -1oth Edition 5.15 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+say“? Examples of Exponential Averaging
+I Ol =0
+. Tn+1 = Tn
+. Recent history does not count
+I 0L =1
+. Tn+1 = 0L tn
+' Only the actual last CPU burst counts
+I If we expand the formula, we get:
+tn+1= atn+(1- (1)th _1 +
++(1- 0c)foc tn_j+
++(1 ' 0L )n +1 To
+I I Since both or and (1 - a) are less than or equal to 1, each
+successive term has less weight than its predecessor
+operating System Concepts-10"‘ Edition 546 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+‘52%’ Example of Shortest-remaining-time-first
+I Now we add the concepts of varying arrival times and preemption to
+the analysis
+m Arrival Time Burst Time
+P1 O 8
+P2 1 4
+P3 2 9
+P4 3 5
+I Preemptive SJF Gantt Chart
+II-II—
+O i 5 iO i7 26
+I Average waiting time = [(10-1)+(1-1)+(17-2)+5-3)]/4 = 26/4 = 6.5
+Operating System Concepts — 10th Edition 5.17 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+it»? Round Robln (RR)
+
+I Each process gets a small unit of CPU time (time quantum q),
+usually 10-100 milliseconds. After this time has elapsed, the
+process is preempted and added to the end of the ready queue.
+
+I If there are n processes in the ready queue and the time quantum
+is q, then each process gets 1/n of the CPU time in chunks of at
+most q time units at once. No process waits more than (n-1)q
+time units.
+
+I Timer interrupts every quantum to schedule next process
+
+I Performance
+
+' q large :> FIFO
+' q small :> q must be large with respect to context switch,
+otherwise overhead is too high
+Operating System Concepts-10th Edition 5.18 Silberschatz, Galvin and 6390; @261‘;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+“2?? Example of RR WIth T|me Quantum = 4
+Process Burst Time
+P1 24
+P2 3
+P3 3
+I The Gantt chart is:
+IIII-IIIIIII
+0 4 7 lO l4 l8 22 26 30
+I Typically, higher average turnaround than SJF, but better
+response
+I q should be large compared to context switch time
+I q usually 10ms to 100ms, context switch < 1O usec
+Operating System Concepts — 10th Edition 5.19 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+//“‘ ,6“ _ .. I I I
+W? T|me Quantum and Context SWItch T|me
+mi“ "
+process time = 10 quantum context
+switches
+0 10
+:: 6 1
+0 6 10
+5333313311 1 9
+012345678910
+| Operating System Concepts — 10th Edition 5.20 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+4*??? Turnaround Tlme Varles W|th The Tlme Quantum
+. \gb 14
+III-III ME“!
+12BIIIIIII P16
+11 P 3
+12.0 2
+IIIHHII P31
+“é 11.5 P4 7
+EMHNHIHII
+3 - ‘V
+9 III-HI-
+E 10.5
+i III...- 80% of CPU bursts
+g 10-0 III-II. should be shorter than q
+i%IIIIIII
+wIIIIIII
+1 2 3 4 5 6 7
+time quantum
+Operating System Concepts — 10th Edition 5.21 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+/ 5'3???” I I I
+6%” Prlor|ty Schedullng
+I A priority number (integer) is associated with each process
+I The CPU is allocated to the process with the highest priority
+(smallest integer E highest priority)
+' Preemptive
+' Nonpreemptive
+I SJF is priority scheduling Where priority is the inverse of predicted
+next CPU burst time
+I Problem E Starvation — low priority processes may never execute
+I Solution E Aging — as time progresses, increase the priority of the
+process
+JA
+Operating System Concepts — 10th Edition 5.22 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+Q??? Example of Prlorlty Schedullng
+1L‘ \b ,,
+Process Burst Time Priority
+P1 10 3
+P2 1 1
+P3 2 4
+P4 1 5
+P5 5 2
+I Priority scheduling Gantt Chart
+0 1 6 16 1s 19
+I Average waiting time = 8.2 A
+Operating System Concepts —10th Edition 5.23 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+red‘ Pr|or|ty Schedullng wl Round-Robln
+135;“ 1’
+Process Burst Time Priority
+P1 4 3
+P2 5 2
+P3 8 2
+P4 7 1
+P5 3 3
+El Run the process with the highest priority. Processes with the same priority
+run round-robin
+I Gantt Chart wit 2 ms time quantum
+-IIIII-IIIH
+0 7 9 11 13 15 i6 20 22 24 26 27
+Operating System Concepts —10th Edition 5.24 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+I With priority scheduling, have separate queues for each priority.
+I Schedule the process in the highest-priority queue!
+o
+o
+o
+Operating System Concepts — 10th Edition 5.25 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+I Prioritization based upon process type
+highest priority
+lowest priority
+Operating System Concepts -10th Edition 5.26 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+56w???‘ I
+*6» (X? Multllevel Feedback Queue
+I A process can move between the various queues; aging can be
+implemented this way
+I Multilevel-feedback-queue scheduler defined by the following
+parameters:
+' number of queues
+' scheduling algorithms for each queue
+' method used to determine when to upgrade a process
+' method used to determine when to demote a process
+' method used to determine which queue a process will enter
+when that process needs service
+Operating System Concepts-10th Edition 5.27 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+W“? Example of Mu lt| level Feedback Queue
+‘LL I“
+I Three queues:
+' Q0 — RR with time quantum 8
+milliseconds
+0 Q1 — RR with time quantum 16 :5-
+—@
+. 02 — FCFS
+' SChedu'mg —@
+¢ A new job enters queue Q0 which is
+served FCFS
+> When it gains CPU, job receives 8 j—‘
+> If it does not finish in 8 milliseconds,
+job is moved to queue Q1
+¢ At Q1 job is again served FCFS and
+receives 16 additional milliseconds
+> If it still does not complete, it is
+preempted and moved to queue Q2 ‘A
+Operating system Concepts _ 10th Edition 528 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+‘fey’ Thread Schedullng
+I Distinction between user-level and kernel-level threads
+I When threads are supported by OS, the CPU scheduler schedules
+threads, not processes
+I Many-to-one and many-to-many models, thread library schedules
+user-level threads to run on LWP
+. Known as process-contention scope (PCS) since scheduling
+competition is within the process
+' Typically done via priority set by programmer
+I Kernel thread scheduled onto available CPU is system-contention
+scope (SCS) — competition among all threads in system
+Operating System Concepts-10th Edition 5.29 Silberschatz, Galvin and Gagne ©2612
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+‘new’ Pthread Schedullng
+I API allows specifying either PCS or SCS during thread creation
+' PTHREAD_SCOPE_PROCESS schedules threads using
+PCS scheduling
+. PTHREAD_SCOPE_SYSTEM schedules threads using
+SCS scheduling
+I Can be limited by OS — Linux and macOS only allow
+PTHREAD_SCOPE_SYSTEM
+| Operating System Concepts — 10th Edition 5.30 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+he??? Pth read Schedullng APl
+#include <pthread.h>
+#include <stdio.h>
+#define NUM_THREADS 5
+int main(int argc, char *argv[]) {
+int i, scope;
+pthread_t tid[NUM THREADS];
+pthread_attr_t attr;
+/* get the default attributes */
+pthread_attr_init(&attr);
+/* first inquire on the current scope */
+if (pthread_attr_getscope(&attr, &scope) != O)
+fprintf(stderr, "Unable to get scheduling scope\n");
+else {
+if (scope == PTHREAD_SCOPE_PROCESS)
+printf("PTHREAD_SCOPE_PROCESS");
+else if (scope == PTHREAD_SCOPE_SYSTEM)
+printf ("PTHREAD_SCOPE_SYSTEM") ;
+else
+fprintf (stderr, "Illegal scope value. \n"); ﬁ
+} V
+Operating System Concepts — 10th Edition 5.31 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+t??? Pthread Scheduling APl
+/* set the scheduling algorithm to PCS or SCS */
+pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+/* create the threads */
+for (i = O; i < NUM_THREADS; i++)
+pthread_create(&tid[i],&attr,runner,NULL);
+/* now join on each thread */
+for (i = O; i < NUM_THREADS; i++)
+pthread_join(tid[i], NULL);
+}
+/* Each thread will begin control in this function */
+void *runner(void *param)
+{
+/* do some work ... */
+pthread_exit(0);
+} A
+Operating System Concepts -10th Edition 5.32 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+442$? Multiple-Processor Scheduling
+I CPU scheduling more complex when multiple CPUs are
+available
+I Multiple-processor may be any one of the following hardware
+architectures:
+. Multicore CPUs
+' Multithreaded cores
+' NUMA systems
+' Heterogeneous multiprocessing
+I Operating system Concepts _10m Edition 533 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+‘QZ Multlple-Processor Schedullng
+I Symmetric multiprocessing (SMP) is where each processor is self
+schedang.
+I All threads may be in a common ready queue (a)
+I Each processor may have its own private queue of threads (b)
+III-ll
+xx ¢ \A ‘I’ r r
+common ready queue per-core run queues
+(a) (b)
+Operating System Concepts — 10th Edition 5.34 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+they)’ Multlcore Processors
+‘like i‘
+I Recent trend to place multiple processor cores on same
+physical chip
+I Faster and consumes less power
+I Multiple threads per core also growing
+' Takes advantage of memory stall to make progress on
+another thread while memory retrieve happens
+compute cycle III memory stall cycle
+—>
+time
+Operating System Concepts — 10th Edition 5.35 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+ng Multlthreaded Multlcore System
+Each core has > 1 hardware threads.
+If one thread has a memory stall, switch to another thread!
+time
+| Operating System Concepts-10th Edition 5.36 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+,.-" Y I I
+Egg Multlthreaded Multlcore System
+I Chip-multithreading (GMT) processor
+assigns each core multiple core
+0 COFE
+hardware threads. (Intel refers h d h d h d ‘h d
+- -
+to this as hyperthreadlng.)
+COl'62 core3
+.
+I On a quad-core system WIth 2
+hardware threads per core, the
+operating system sees 8 logical 0 _
+processors. operating system View
+nun“
+Operating System Concepts _ 10th Edition 5_37 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+$1 ;; Multlthreaded Multlcore System
+I Two levels of scheduling:
+software threads
+1. The operating system
+deciding which software level 1 ,,
+thread to run on a logical
+CPU
+hardware threads
+(logical processors)
+2. How each core decides
+which hardware thread to run |eve|2 a
+on the physical core. i
+processing
+core
+Operating System Concepts _ 10th Edition 5_38 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+(a)??? Multiple-Processor Scheduling — Load Balancing
+I lf SMP, need to keep all CPUs loaded for efficiency
+I Load balancing attempts to keep workload evenly distributed
+I Push migration — periodic task checks load on each processor,
+and if found pushes task from overloaded CPU to other CPUs
+I Pull migration — idle processors pulls waiting task from busy
+processor
+| Operating System Concepts-10th Edition 5.39 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+MQF/ Multlple-Processor Schedullng — Processor Aff|n|ty
+I When a thread has been running on one processor, the cache
+contents of that processor stores the memory accesses by that
+thread.
+I We refer to this as a thread having affinity for a processor (i.e.
+“processor affinity”)
+I Load balancing may affect processor affinity as a thread may be
+moved from one processor to another to balance loads, yet that
+thread loses the contents of What it had in the cache of the
+processor it was moved off of.
+I Soft affinity — the operating system attempts to keep a thread
+running on the same processor, but no guarantees.
+I Hard affinity — allows a process to specify a set of processors it
+may run on.
+Operating System Concepts —10th Edition 5.40 Silberschatz, Galvin and Gag; ©20j;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+@ﬁ NUMA and CPU Schedullng
+If the operating system is NUMA-aware, it will assign
+memory close to the CPU the thread is running on.
+
+8/014,
+fast access 6006 fast access
+so
+—
+memory = memory
+—
+computer
+Operating System Concepts — 10th Edition 5.41 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+4“ng Real-Tlme CPU Schedullng
+I Can present obvious challenges
+I Soft real-time systems — Critical real-time tasks have the
+highest priority, but no guarantee as to when tasks Will be
+scheduled
+I Hard real-time systems — task must be serviced by its
+deadHne
+| Operating System Concepts — 10th Edition 5.42 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+“ZZ Real-Tlme CPU Schedullng
+I Event latency — the amount of
+time that elapses from when
+an event occurs to when it is _
+serviced. event E ﬁrst occurs
+I Two types of latencies affect I event latency
+performance to t1
+1. Interrupt latency-time T
+from arrival of interrupt to real-time system responds to E
+start of routine that
+services interrupt
+2. Dispatch latency — time Time
+for scheduler to take
+current process off CPU
+and switch to another
+Operating System Concepts — 10th Edition 5.43 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+M» lnterru pt Latency
+(i: \3 1Q‘
+interrupt
+l determine
+task T running interrupt
+ype
+context
+I switch
+|—i
+interrupt
+latency
+—,
+time
+Operating System Concepts — 10th Edition 5.44 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+I Conflict phase of
+dispatch latency: even‘ responsewevem
+1 Preemption of response inten/al
+I process made
+any process interrupt available
+. . processmg
+runnlng |n kernel
+mOde dispatch latency
+real-time
+2. Release by low- procetss
+I I execu lOn
+priority process
+of resources conflicts dispatch
+needed by high-
+priority
+processes __>
+time
+Operating System Concepts — 10th Edition 5.45 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+‘Q3’ Pnonty-based Schedullng
+revs
+I For real-time scheduling, scheduler must support preemptive, priority-
+based scheduling
+. But only guarantees soft real-time
+I For hard real-time must also provide ability to meet deadlines
+I Processes have new characteristics: periodic ones require CPU at
+constant intervals
+' Has processing time t, deadline d, period p
+' 0stsdsp
+' Rate of periodic task is 1/p
+|+H+H+l
+d d d
+% % %
+l—ll—ll—l Time
+period1 periodz period3
+Operating System Concepts — 10th Edition 5.46 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+%Z Rate Monotonlc Schedullng
+
+I A priority is assigned based on the inverse of its period
+
+I Shorter periods = higher priority;
+
+I Longer periods = lower priority
+
+I P1 is assigned a higher priority than P2.
+
+deadlines P1 P1, P2 P1 P1, P2
+
+0 10 20 30 40 50 60 7O 80 90 100110120130140150160170180190200
+Operating System Concepts — 10th Edition 5.47 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+‘Egg Missed Deadlines with Rate Monotonic Scheduling
+Process P2 misses finishing its deadline at time 80
+
+deadlines P1 P2 P1 P1, P2
+
+0 10 20 30 40 50 60 70 80 90 100110120130140150160
+
+| Operating System Concepts — 10th Edition 5.48 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+@936‘ Earliest Deadline First Scheduling (EDF)
+gym 1"
+I Priorities are assigned according to deadlines:
+the earlier the deadline, the higher the priority;
+the later the deadline, the lower the priority
+deadlines P1 P2 P1 p1 p2
+0 10 20 30 40 50 60 70 so 90 100110120130140150160
+| Operating System Concepts — 10th Edition 5.49 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+‘63$? Proportlonal Share Schedullng
+m ,,
+I Tshares are allocated among all processes in the system
+I An application receives N shares where N < T
+I This ensures each application will receive N/ Tof the total
+processor time
+| Operating System Concepts — 10th Edition 5.50 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+Aawm . .
+is)” POSIX Real-Tlme Schedulmg
+I The POSIX.1b standard
+I API provides functions for managing real-time threads
+I Defines two scheduling classes for real-time threads:
+1. SCHED_FIFO - threads are scheduled using a FCFS strategy with a
+FIFO queue. There is no time-slicing for threads of equal priority
+2. SCHED_RR - similar to SCHED_FIFO except time-slicing occurs for
+threads of equal priority
+I Defines two functions for getting and setting scheduling policy:
+1H pthread;attr_getsched_policy(pthread;att;_t *attr,
+int *policy)
+2.jpthread_attp_setsched_policy(pthread_attp_t *attr,
+int policy)
+Operating System Concepts-10th Edition 5.51 Silberschatz, Galvin and Gag; @252
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+w? - -
+(‘(3 POSIX Real-Tlme Schedullng APl
+#include <pthread.h>
+#include <stdio.h>
+#define NUM_THREADS 5
+int main(int argc, char *argv[])
+{
+int i, policy;
+pthread_t_tid[NUM_THREADS];
+pthread_attr_t attr;
+/* get the default attributes */
+pthread_attr_init(&attr);
+/* get the current scheduling policy */
+if (pthread_attr_getschedpolicy(&attr, &policy) != O)
+fprintf(stderr, "Unable to get policy.\n");
+else {
+if (policy == SCHED_OTHER) printf("SCHED_OTHER\n");
+else if (policy == SCHED_RR) printf("SCHED_RR\n");
+else if (policy == SCHED_FIFO) printf("SCI-IED_FIFO\n"); a
+}
+Operating System Concepts -10th Edition 5.52 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+<8??? POSIX Real-Time Scheduling APl (Cont)
+*\e H
+/* set the scheduling policy — FIFO, RR, or OTHER */
+if (pthread_attr_setschedpolicy(&attr, SCHED_FIFO) != O)
+fprintf(stderr, "Unable to set policy.\n");
+/* create the threads */
+for (i = O; i < NUM_THREADS; i++)
+pthread_create(&tid[i],&attr,runner,NULL);
+/* now join on each thread */
+for (i = O; i < NUM_THREADS; i++)
+pthread_join(tid[i], NULL);
+}
+/* Each thread will begin control in this function */
+void *runner(void *param)
+{
+/* do some work ... */
+pthread_exit(0);
+Operating System Concepts -10th Edition 5.53 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+Q‘??? Operatlng System Examples
+mm "
+I Linux scheduling
+I Windows scheduling
+I Solaris scheduling
+| Operating System Concepts — 10th Edition 5.54 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+Mg}; Linux Scheduling Through Version 2.5
+I Prior to kernel version 2.5, used variation of standard UNIX
+scheduling algorithm
+I Version 2.5 moved to constant order 0(1) scheduling time
+' Preemptive, priority based
+' Two priority ranges: time-sharing and real-time
+' Real-time range from O to 99 and nice value from 100 to 140
+' Map into global priority with numerically lower values indicating higher
+priority
+' Higher priority gets larger q
+. Task run-able as long as time left in time slice (active)
+' If no time left (expired), not run-able until all other tasks use their slices
+' All run-able tasks tracked in per-CPU runqueue data structure
+> Two priority arrays (active, expired)
+> Tasks indexed by priority
+> When no more active, arrays are exchanged
+' Worked well, but poor response times for interactive processes
+Operating System Concepts-10th Edition 5.55 Silberschatz, Galvin and Gagn: ©2512
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+‘fwrl’ L|nux Schedullng |n Verslon 2.6.23 +
+‘like w
+I Completely Fair Scheduler (C FS)
+I Scheduling classes
+° Each has specific priority
+' Scheduler picks highest priority task in highest scheduling class
+. ﬁather than quantum based on fixed time allotments, based on proportion of CPU
+lme
+. 2 scheduling classes included, others can be added
+1. default
+2. real-time
+I Quantum calculated based on nice value from -20 to +19
+. Lower value is higher priority
+' Calculates target latency — interval of time during which task should run at least
+once
+' Target latency can increase if say number of active tasks increases
+I CFS scheduler maintains per task virtual run time in variable vruntime
+' Associated with decay factor based on priority of task — lower priority is higher
+decay rate
+. Normal default priority yields virtual run time = actual run time
+I To decide next task to run, scheduler picks task with lowest virtual run timA
+Operating System Concepts — 10‘h Edition 5.56 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+igﬂg i.‘
+The Linux CFS scheduler provides an efﬁcient algorithm for selecting which
+task to run next. Each runnable task is placed in a red-black tree-a balanced
+binary search tree whose key is based on the value of vrunt ime. This tree is
+shown below:
+Task with the smallest a a
+value of vruntime
+1—P
+smaller lar er
+Value 0f vruntime g
+
+When a task becomes runnable, it is added to the tree. If a task on the
+tree is not runnable (for example, if it is blocked while waiting for I/O), it is
+removed. Generally speaking, tasks that have been given less processing time
+(smaller values of vrunt ime) are toward the left side of the tree, and tasks
+that have been given more processing time are on the right side. According
+to the properties of a binary search tree, the leflmost node has the smallest
+key value, which for the sake of the CFS scheduler means that it is the task
+with the highest priority. Because the red-black tree is balanced, navigating
+it to discover the leftmost node will require O(lgN) operations (where N
+is the number of nodes in the tree). However, for efficiency reasons, the
+Linux scheduler caches this value in the variable rb_leftmost, and thus
+determining which task to run next requires onlv retrieving the cached value. ' ,
+
+Operating System Concepts -10th Edition 5.57 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Eﬁ‘ L|nux Schedullng (Cont.)
+I Real-time scheduling according to POSIX.1b
+' Real-time tasks have static priorities
+I Real-time plus normal map into global priority scheme
+I Nice value of -20 maps to global priority 100
+I Nice value of +19 maps to priority 139
+0 99100 139
+<—b
+Higher Lower
+Priority
+Operating System Concepts-10th Edition 5.58 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+(“fwd L|nux Schedullng (Cont.)
+I Linux supports load balancing, but is also NUMA-aware.
+I Scheduling domain is a set of CPU cores that can be balanced
+against one another.
+I Domains are organized by what they share (i.e. cache memory.) Goal is
+to keep threads from migrating between domains.
+physical processor domain
+(NUMA node)
+domaino domain1
+Operating System Concepts — 10th Edition 5.59 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+‘63$? Windows Scheduling
+I Windows uses priority-based preemptive scheduling
+I Highest-priority thread runs next
+I Dispatcher is scheduler
+I Thread runs until (1) blocks, (2) uses time slice, (3)
+
+preempted by higher-priority thread
+I Real-time threads can preempt non-reaI-time
+I 32-level priority scheme
+I Variable class is 1-15, real-time class is 16-31
+I Priority 0 is memory-management thread
+I Queue for each priority
+I I If no run-able thread, runs idle thread
+operating system Concepts-10"‘ Edition 550 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+‘Q?’ Wlndows Prlorlty Classes
+I Win32 API identifies several priority classes to which a process can belong
+. REALTIME_PR|OR|TY_CLASS, HIGH_PR|OR|TY_CLASS,
+ABOVE_NORMAL_PR|ORITY_CLASS,NORMAL_PR|ORITY_CLASS,
+BELOW_NORMAL_PR|ORITY_CLASS, |DLE_PR|OR|TY_CLASS
+. All are variable except REALTIME
+I A thread within a given priority class has a relative priority
+. TIME_CR|T|CAL, HIGHEST, ABOVE_NORMAL, NORMAL, BELOW_NORMAL,
+LOWEST, IDLE
+I Priority class and relative priority combine to give numeric priority
+I Base priority is NORMAL within the class
+I If quantum expires, priority lowered, but never below base
+I in
+Operating System Concepts — 10th Edition 5.61 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+Early)’ Windows Priority Classes (Cont.)
+I If wait occurs, priority boosted depending on what was waited for
+I Foreground window given 3x priority boost
+I Windows 7 added user-mode scheduling (UMS)
+' Applications create and manage threads independent of kernel
+' For large number of threads, much more efficient
+' UMS schedulers come from programming language libraries like
+C++ Concurrent Runtime (ConCRT) framework
+| Operating System Concepts-10th Edition 5.62 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
+I ‘62$? Windows Priorities
+—----uu
+—----II
+wm-nu
+—-----II
+—----IIII
+m
+
+I Operating System Concepts -10th Edition 5.63 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+lay)’ Solarls
+I Priority-based scheduling
+I Six classes available
+' Time sharing (default) (TS)
+' Interactive (IA)
+' Real time (RT)
+' System (SYS)
+' Fair Share (FSS)
+. Fixed priority (FP)
+I Given thread can be in one class at a time
+I Each class has its own scheduling algorithm
+I Time sharing is multi-level feedback queue
+' Loadable table configurable by sysadmin
+Operating System Concepts-10th Edition 5_64 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+*4 s | ' D' p t h T bl
+I ‘1%? o arls ls a c a e
+———-
+time quantum from
+priority quantum expired sleep
+———-
+———-
+———-
+———“
+———“
+———“
+Operating System Concepts — 10th Edition 5.65 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+‘W? ﬁ " Solaris Scheduling
+global scheduling
+priority order
+169
+h' h t first
+lg es interrupt threads
+160
+159
+realtime (RT) threads
+100
+99
+system (SYS) threads
+60
+59 fair share (FSS) threads
+fixed priority (FX) threads
+timeshare (TS) threads
+lowest 0 Interact|ve (IA) threads last A
+Operating system Concepts _ 10th Edition 556 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+“3?? Solarls Schedullng (Cont)
+I Scheduler converts class-specific priorities into a per-thread global
+priority
+' Thread with highest priority runs next
+' Runs until (1) blocks, (2) uses time slice, (3) preempted by
+higher-priority thread
+' Multiple threads at same priority selected via RR
+| Operating System Concepts —10th Edition 5.67 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+est‘ Algorlthm Evaluatlon
+I How to select CPU-scheduling algorithm for an OS?
+I Determine criteria, then evaluate algorithms
+I Deterministic modeling
+' Type of analytic evaluation
+' Takes a particular predetermined workload and defines the
+performance of each algorithm for that workload
+I Consider 5 processes arriving at time 0:
+Process Burst Time
+P1 10
+P2 29
+P3 3
+P4 7
+P5 12
+Operating System Concepts-10th Edition 5.68 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+@3' Determlnlstlc Evaluatlon
+I For each algorithm, calculate minimum average waiting time
+I Simple and fast, but requires exact numbers for input, applies only to
+those inputs
+' FCS is 28ms:
+n-mn
+0 10 39 42 49 61
+' Non-preemptive SFJ is 13ms:
+HI“-
+0 3 10 20 32 61
+' RR is 23ms:
+0 10 20 23 30 40 50 52 61
+Operating System Concepts —10th Edition 5.69 Silberschatz, Galvin and Gagne ©2013
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+QC’ Queuelng Models
+I Describes the arrival of processes, and CPU and |/O bursts
+probabilistically
+' Commonly exponential, and described by mean
+' Computes average throughput, utilization, waiting time, etc
+I Computer system described as network of servers, each with
+queue of waiting processes
+' Knowing arrival rates and service rates
+' Computes utilization, average queue length, average wait
+time, etc
+| Operating System Concepts —10th Edition 5.70 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+“4%: L|ttle s Formula
+I n = average queue length
+I W= average waiting time in queue
+I )l = average arrival rate into queue
+I Little’s law — in steady state, processes leaving queue must equal
+processes arriving, thus:
+n = A x W
+' Valid for any scheduling algorithm and arrival distribution
+I For example, if on average 7 processes arrive per second, and
+normally 14 processes in queue, then average wait time per
+process = 2 seconds
+A
+Operating System Concepts-10th Edition 5.71 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:72**************
+3X’ Simulations
+I Queueing models limited
+I Simulations more accurate
+' Programmed model of computer system
+' Clock is a variable
+' Gather statistics indicating algorithm performance
+' Data to drive simulation gathered via
+> Random number generator according to probabilities
+> Distributions defined mathematically or empirically
+> Trace tapes record sequences of real events in real systems
+an
+I Operating System Concepts _10m Edition 512 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+‘8% ‘if’? Evaluatlon of CPU Schedulers by Slmulatlon
+tie
+performance
+— statistics
+@ for FCFS
+CPU 10/
+l/O 213
+actual CPU 12 performance
+process I l/O 112 —: I statistics
+execution CPU 2 for SJF
+CPU 173 \
+trace tape “it
+performance
+- statistics
+for RR (q = 14)
+Operating System Concepts _10th Edition 5_73 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:74**************
+‘56$? Implementatlon
+I Even simulations have limited accuracy
+I Just implement new scheduler and test in real systems
+I High cost, high risk
+I Environments vary
+I Most flexible schedulers can be modified per-site or per-system
+I Or APls to modify priorities
+I But again environments vary
+| Operating System Concepts — 10th Edition 5.74 Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+Operating System Concepts - 10th Edition Silberschatz, Galvin and Gagne ©2018
+
+***************Ending Page***************
+

@@ -1,0 +1,2691 @@
+***************Beginning Page***************
+***************page number:1**************
+Rust programming
+Course — 4
+Gavrilut Dragos
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:2**************
+Agenda for today
+° Strings
+' Type of string, creation
+' Methods
+' lterators
+' Coercion
+' Range operation, UTF-8 constraints
+' String formatting
+' Creating and updating strings
+' Associated traits |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:3**************
+Strings
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:4**************
+V? Stn ngs
+Rust has several type of strings:
+1. Dynamic strings (an object that can increase its size dynamically).
+Tvpe= -
+2. String literals (a statically allocated/constant string with fixed size).
+Type: -
+3. String slices (a substring of an existing string).
+Type: -
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:5**************
+"® Strings
+Approximation to C/C++ types:
+String stdzu85tring , std::string
+&str (string slice) std::u85tring_view, std::string_view
+&str (string literal) const char* , std::u8string_view, char*
+Keep in mind that these are approximations (Strings in Rust are not
+ASCII-Z format (they do not have a \O at the end of their body) and as
+such they are different than most C/C++ strings). 'l
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:6**************
+'® Strmgs
+Let's see how these types look like (in memory):
+chars Pointer to a memory address where an array of u8 bytes are located
+capacity The amount of memory that was allocated (usize)
+len Length of the string (usize)
+With —
+chars Pointer to a memory address where an array of u8 bytes are located
+len Length of the string (usize)
+The size of String is either 6 bytes, 12 bytes or 24 bytes (depending on
+architecture) and size of &str is either 4, 8 or 16 bytes.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:7**************
+"E St r | n g s
+An approximation of these types in C++ would look like this:
+{
+{
+>|< .
+pt r‘ , * p t n;
+len;
+. len;
+capaC1ty;
+}
+}
+Notice one difference: n-const pointer (meaning
+you can change its content, While has a const pointer (meaning
+OBS: in reality the content of a str can be change via unsafe methods. Also, the actual &str in Rust does
+not have a const pointer (but a regular pointer). However, for academic purposes it is easier to present it
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:8**************
+St ri n gs
+
+Strings in Rust are UTF-8 encoded (and While this ensures a great compatibility it also
+
+comes with some limitations).
+
+As a difference, C++ supports different encodings (ASCII, ASCII-Z, UTF-8, UCS-2/WTF-16).
+This provides more flexibility, but it also ads an extra level of complexity when it comes
+
+with dealing with strings, converting them from one format to another, etc.
+
+ASCII-Z const char* N/A N/A N/A
+
+char*
+
+ASCII std::string std::string_view String (*) &str (*)
+
+UTF-8 std::uSstring std::u85tring_view String &str
+UCS-Z std : : u 16st ri ng std : : u 16st ri ng_view N /A N /A
+UTF-32 std : : u 3 2$tri ng std : : u 325tri ng_view N /A N /A
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:9**************
+,’ St r | n g S
+We will use the following format (-) to express how - character from
+C/C++ is represented (on Windows). A wide char in C/C++ (wchar_t) is consider an
+integer of 16 bits that can store some Unicode characters (but not all as there are
+more than 1.1 million Unicode characters and they can not be store on a 16 bits
+number).
+However, on Windows, a wide char is a 16 bits value (and the most accurate know
+representation is UCS-Z). UTF-16 has variable size (either 2 bytes or 4 bytes) and
+does not reflect wchar_t behavior. Other names know for this type is WTF-16. _
+On linux, wchar_t has 32 bytes and as such it can represent all Unicode characters. I‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:10**************
+Differences between Ascii , UTF-8 and UCS-Z string formats:
+Let's take for example the following string: —
+a) ASCII:
+mum
+Bytes 87 101 32 ? 32 114 117 115 116
+Char W e ? r u s t
+b) UTF-8
+Bytes 87 101 32 226 153 161 32 114 117 115 116
+Bytes s7 0 101 0 32 0 97 38 32 0 114 o 117 0 115 o 116 0
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:11**************
+Strings
+
+Differences between Ascii , UTF-8 and UCS-Z string formats:
+
+Let's take for example the following string: —
+mm——
+
+Size (in bytes) 9 11 18
+
+Character size (in bytes) 1 byte / character Variable (1 to 5 bytes) 2 bytes / character
+
+Unicode representation N0 Yes Yes
+
+Index access Yes NO (can not be done in 0(1)) Yes
+
+Any buffer can be a valid string Yes NO Yes
+
+The main advantage of UTF-8 over UCS-Z is size (for regular strings UTF-8 is twice
+as small in memory than UCS-Z). The drawback is that index access is not possible
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:12**************
+St r| n g5
+Let's see how a String object can be created:
+Rust _
+let s: String = String::new();
+println!("s='{}', 1en={}, capacity={}", s, s.len(), s.capacity());
+}
+2- “me String‘ ‘mm mew“: M
+Rust
+1et s: String = String::From("9123456789ABCDEF");
+println!("s='{}', 1en={}, capacity={}", s, s.1en(), s.capacity());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:13**************
+.
+f. St n n gs
+Let's see how a String object can be created:
+3. Via the String: :with_capacity method: M
+Rust
+let s: String = String::with_capacity(128);
+println!("s='{}', 1en={}, capacity={}", s, s.len(), s.capacity());
+}
+Rust
+let s = "text".to_string();
+pnintln!("s='{}', 1en={}, capacity={}", s, s.1en(), s.capacity());
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:14**************
+Strings
+Let's see how a String object can be created:
+5. Via the : :from utf8 method:
+_ Output
+() { s=’ABC', len=3, capacity=3
+s = :: (vec![65, 66, 67]). ();
+println!("s=' ', len= , capacity= ", s, s. (), s. ());
+}
+Keep in mind that this method returns a Result. Normally you should check the
+result first before assigning the value to a variable, however if you know for
+sure that the buffer that you are providing is a valid UTF-8 buffer, you can use
+.unwrap method to return directly a String object.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:15**************
+*- Strlngs
+
+Let's see how a String object can be created:
+5. Via the : :fh0m_ut1c8 method:
+
+Rust
+
+main() {
+s = ::fpom_utf8(vec![255, 255, 255]).unwrap();
+println!("s=' ', len= , capacity= ", s, s.len(), s.capacity());
+
+}
+
+For example, in this case a runtime error (panic) will be triggered because
+
+(255,255,255 ) is not a valid UTF-8 buffer:
+
+IiiiiIiiiIiiiiiiiiIiiiiIiiiiiiiiiiiIiiiiIiiIiiiiliiiiiiiiiiiiiiliiill
+
+255, 255], error‘: UtFSEPPQr‘ { valid_up_t0: 6, error“_len: Some(1) } }', 5Pc\main.rs:4:5@
+
+stack backtrace:
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:16**************
+*- Strlngs
+Let's see how a &str object can be created:
+1. Via direct assignment method:
+Rust W Rust (mutab/e &str) m
+println!("s='{}', len={}", s,s.1en()); pnintln!("s='{}', len={}", s, s.1en());
+} }
+2. Via the String: :as_str‘ method
+Rust
+fn main() {
+let text = String::tr*om("abc"); m
+let s = text.as_str‘();
+pnintln!("s='{}', len={}", s, s.len());
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:17**************
+ﬁtq l-
+» Strl ngs
+Let's see how a &str object can be created:
+3. Via - operator (obtain a &str from another &str):
+Rust
+main() {
+s = "We love rust"; m
+w = &s[..2];
+1 = &s[3. .7];
+println!(" P W 1 ")3
+}
+Obs: all range formats ([start..], [..end],[..]) work in a similar manner as
+with vectors.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:18**************
+V? Strl ngs
+
+Let's see how a &str object can be created:
+
+4. Via - operator (obtain a &str from a String):
+<> { ( )
+s = :: "We love rust" 3
+all = &s[..]; IOUtpU't I
+r = &s[7..]; We love rust- rust
+
+println!(" all - P ")3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:19**************
+St r| n gs
+Why did we talk about - (a reference) but not about I type ?
+Let's see some example to clarify the behavior here:
+1. String as a reference
+mov rcx, qword ptn [s]
+(5; & ) { call first::print_1en
+pnintln!( , s. ());
+}
+O { The address of 's' is sent to the function
+s = II ( )3 pﬁntjen ,
+(&S)3 gﬁ;
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:20**************
+Strl ngs
+Why did we talk about - (a reference) but not about I type ?
+Let's see some example to clarify the behavior here:
+2. String as a n object (cha nging the owner)
+mov P8X,qWOPd ptn [s.ptn]
+(s: ) { mov qword ptn [temp.pth],hax
+ppintln!(llsize is u’ S. ()); mOV PaX,qwor‘d ptr‘ [S-len]
+} mov qword ptr [temp.len],nax
+() { mov Pax,qword ptn [s.capacity]
+s = .. ("abc")' mov qword ptr [temp.capacity],rax
+(&s)'.. ’ lea ch,[temp] “é
+} ’ call first::print_len :ﬁﬁﬁ
+OUtPUt
+Acopyof”§'mrnadeandsendtofunchon ﬁﬁﬁﬁﬁﬁﬁﬁ
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:21**************
+V? Strl ngs
+Why did we talk about - (a reference) but not about I type ?
+Let's see some example to clarify the behavior here:
+3. str (as a slice/reference)
+mov rcx,qword ptn [5.ptP]
+(s: & ) { mov de,qwor‘d ptr [s.1en]
+ppintlnm , s 0 O); call first: :print_1en
+}
+() {
+5 = 31 ( )3 __
+(8(5); In this scenario,Rust copies the pointer and
+} Output its length into two registers and then calls
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:22**************
+é?‘
+Strl ngs
+Why did we talk about - (a reference) but not about type ?
+Let's see some example to clarify the behavior here:
+4. str (as an object)
+Rust
+print_len(s: ) {
+println!("Size is ", s.len());
+}
+error[E@277]: the size for values of type ‘str‘ cannot be known at compilation time
+--> src\main.rs:1:14
+1 i fn print_len(s:str) {
+| A doesn't have a size known at compile-time
+l help: the trait ‘Sized‘ is not implemented for ‘str‘
+help: function arguments must have a statically known size, borrowed types always have a known size
+1 i fn print_len(s:&str) {
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:23**************
+St r| n gs
+Why did we talk about - (a reference) but not about I type ?
+Let's see some example to clarify the behavior here:
+4. str (as an object)
+(S: ){ E9277'th ' ‘F 1 ‘Ft ‘t‘
+println! ("Size is s. O); ‘ZZEZZl be klgwn Ziiiipiigtlinuiimi ype S "
+}
+
+The problem in this case is that I is a DST (a Iynamically Iized Iype) or
+unsized. These types don't have a fixed size (like i32 for example) that is
+known at compile time, and as such the compiler can not make the
+necessary computations to allocate space on the stack for that variable.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:24**************
+Strings
+
+There are a couple of observations about I type:
+
+1. Since it is a DST, this mean that you can not create an object of type
+str. It also means that you can not take ownership over a string in
+memory
+
+2. str type is in fact a slice (so by design it can only be a borrow
+reference and not the object itself)
+
+3. Making a type to be DST is a way to make sure you can not create a
+variable that has ownership over a borrow reference to another
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:25**************
+é?‘
+Strl ngs
+But why make a I a DST ? To answer this, we need to explore some
+scenarios where a str type would be possible and discuss some
+implications.
+Let's analyze the following example:
+Rust i:
+main() {
+s = ::fPom("abc");
+x = *s.as_stn();
+y = *s.as_stn();
+Println("{y}");
+pf"1r] n 5 3 enron[E9277]: the size for values of type ‘stn‘ cannot be known at
+} compilation time
+-—> snc\main.ns:4:9
+4 1 let y = *s.as_str();
+| A doesn't have a size known at compile-time
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:26**************
+l‘ Strl n gs
+But why make a I a DST ? To answer this, we need to explore some
+scenarios where a str type would be possible and discuss some
+implications.
+
+Let's analyze the following example:
+Rust —
+main() {
+5 = 3 =tr0m( "abc" )3 "x" lifetime is over, so Rust will try to call drop method for
+X = *s.as_stn(); strtype.
+y = *s.as_stn();
+Print1n("{y}");
+prln n 5 3 er*r*or*[E9277]: the size for‘ values of type ‘str“ cannot be known at
+} compilationtimeil.9
+4 1 let y = *s.as_str‘();
+| A doesn't have a size known at compile-time
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:27**************
+But why make a I a DST ? To answer this, we need to explore some
+
+scenarios where a str type would be possible and discuss some
+
+implications.
+
+So what would drop method could do ? There are two possible cases:
+
+1. Deallocate the memory allocated for pointer in that str object
+
+2. Do nothing 9 assume that the memory is owned by another object
+and let that object deallocate the memory when its lifetime ends.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:28**************
+t?‘
+Strl n gs
+Case 1 9 deallocate the memory for "x".
+Rust
+main() {
+s = ::fnom("abc");
+X = *s.as_stn(); ehnongE:%77];_the size for‘ values of type ‘stn cannot be known at
+y = *s.as_str‘()3 "I; snc\main.r~s:4:9
+4 i let y = *s.as_str‘();
+print1n("{y}"); | A doesn't have a size known at compile-time
+prln n s 3
+}
+Since "x" and "y" point to the same memory zone, deallocating the
+string when "x" lifetime ends, means that now "y" points to an already
+deallocated object -)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:29**************
+Case 2 9 do nothlng
+Rust
+main() {
+X2 < >3
+s = ::from("abc");
+t = ‘I o noi-l tP()j
+println!(" ", s),
+println!(" ", x);
+error[E6382]: borrow of moved value: ‘s‘
+--> src\main.rs:6:23
+|
+4 | let mut s = String::from("abc");
+| ----- move occurs because ‘s‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+5 | x = s.into_boxed_str();
+| ---------------- ‘s‘ moved due to this method call
+6 | println!("{}",s);
+| A value borrowed here after move
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:30**************
+Case 2 9 do nothmg
+Rust
+main() {
+X2 < >3
+{
+s = ::from("abc");
+‘ : I O Oil‘! tr‘(); _ - u n
+println ! (.. u) S)‘ But, thls also means that the memory for the strmg abc
+} has to be freed somewhere.
+println!(" ", x);
+}
+error[E9382]: borrow of moved value: ‘s‘
+--> src\main.rs:6:23
+|
+4 | let mut s = String::from("abc");
+| ----- move occurs because ‘s‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+5 | x = s.into_boxed_str();
+| ---------------- ‘s‘ moved due to this method call
+6 | println!("{}",s);
+| A value borrowed here after move
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:31**************
+é?“
+Case 2 9 do nothing
+Rust
+' error : borrow 0F moved value: ‘s‘
+inalli() _{ . —Eieiiilmain.rsz6z23
+X. < >, |
+{ 4 | let mut s = String::From("abc"?;‘ ‘ . ‘ .
+x = s.into_boxed_str‘(); 5 | x = s.into_boxed_str();
+- u 1| . ———————————————— ‘s‘ moved due o his me hod call
+pr1nt1n!( ’ S)’ 6 i println!("{}",s); t t t
+} | A value borrowed here after move
+println!(" ", x);
+}
+When function main ends, so does the lifetime of "x". This means that at that time,
+the drop method for Box will be called. That method will call the drop method for
+the type str and then will deallocate the memory from the box. However, since in
+this scenario, we postulated that the drop method from str does nothing,
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:32**************
+t?‘
+Strl ngs
+Case 2 9 do nothing
+Rust
+main() {
+{
+s = ::from("abc");
+x = s.into_boxed_stn();
+"' 1!"
+pnintln!(" ", X);
+}
+If we remove the usage of "s" from the inner block, the code compiles and works as
+expected. The memory for “abc” string is freed when the lifetime of “x” ends (at
+the end of the function main).
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:33**************
+l?‘
+Strl ngs
+So if we can not do nothing in the drop (destructor) method of type
+str, this means that we need to deallocate the memory at that point, so
+we need to rethink case 1 again.
+Rust
+main() {
+s = ::fhom("abc");
+X = *s.as_str‘(); error-‘EEJGCz7719the size for‘ values of type ‘stn cannot be known at
+y = *s.as_str‘(); "E sr*c\main.r*s:4:9
+4 i let y = *s.as_str*();
+pPintln("{y}"); | A doesn't have a size known at compile-time
+pP1n n s 3
+}
+But case 1 couldn't work because if we drop the memory when "X"
+lifetime end, "y" would point to an unallocated memory zone.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:34**************
+a?‘
+St r| n gs
+A solution could be to implement a Copy for - assignments
+(meaning to duplicate the memory of "abc" into another location of
+heap/stack and as such "x" could have its own ownership over the new
+allocated memory.
+Rust
+main() {
+s = ::fnom "abc");
+——
+y = s.as_s n 3
+println("{y}");
+print1n("{s}");
+}
+Obs: There is a RFC 9 RFC1909 that proposes such a solution
+httpsjzgithub.comgrust-langgrfcsgblobgmastergtextgl909-unsized-rvalues.md or
+https.[Zdoc.rust-lang.orggbetagunstab/e-bookglanguage-[eaturesgunsized-loca/s.htm/
+However, keep in mind that this is not part of the stable release
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:35**************
+Pg st ri n gs
+While not decided yet, its however important to notice that string copy
+was a problem in C++ until C++11 when MOVE operations were
+introduced. If every time an assignment over a str type a copy will be
+produced, we may end up with a lot of unnecessary memory allocated
+and deallocated and as history shows us, in most of the cases it will be
+unnecessary and will lead to a significant performance impact.
+As such it is best to limit the usage of str type as a reference and avoid
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:36**************
+Strings (methods)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:37**************
+Strings (methods)
+Both - and - have a set of methods that can be used to modify,
+parse or generally change a string. These methods could be divided into
+several categories such as:
+1. |\/|ethods that use a read-only string and check some conditions
+over it (e.g. starts_with something )
+2. IVIethods that result in a new object obtained via some changes
+that can be apply over the original string (e.g. a lower case
+transformation)
+3. Methods that modify the current string (e.g. insert , replace, etc)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:38**************
+1. Methods that use a read-only string and check some conditions over it:
+
+find (8t , pat! ) -> < > Returns the first position of the pattern P in
+current string or None otherwise.
+
+rfind (& , pat: ) —> < > Returns the last position of the pattern P in
+current string or None otherwise.
+
+is_ascii (& ) -> True if every character from the string is an
+ascii char, else if Unicode chars are present.
+
+trim (& ) -> & Trims whitespaces (from start/end or both).
+
+tPimjtaPt (& ) -> & Returns a str object that is trimmed.
+
+tnim_end (& ) —> &
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:39**************
+Stnngs (methods)
+1. Methods that use a read-only string and check some conditions over it:
+There are a couple of observation that need to be emphasized here:
+- Search methods use a Pattern object (—)
+- Find methods don't receive an index. This is because we can always create
+another slice from an existing one that moves the start index to another
+position.
+- The definitions from the previous slide are simplified (in reality there are some
+extra information added for each one of them):
+stants_with< , : < >>(& , pat: ) -> {...}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:40**************
+Strlngs (methods)
+Let's discuss a little bit about string patterns (stdzzstrzzpattern::Pattern).
+—is a trait. For the moment think about it as an
+interface with several methods such as:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:41**************
+. Stnngs (methods)
+Let's discuss a little bit about string patterns (stdzzstrzzpattern::Pattern).
+—is a trait. For the moment think about it as an
+interface with several methods such as: _ _ _
+
+Where - |s also a tralt Interface
+with the following methods:
+—-
+——
+next neject(& ) -> <( , )>
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:42**************
+Strings (methods)
+Who implements stdzzstr::patternzzPattern:
+1. char
+2. &str
+3. String
+4. [chad
+5. [char;N]
+6. Function: FnI\/|ut(char)->bool
+This means that all of these forms can be used as a pattern argument for _
+previous methods. 'l
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:43**************
+its
+Strlngs (methods)
+Let's see a couple of examples:
+Rust
+main() {
+s = " Test "3
+52 = "Rust";
+println!("' ' starts with 'Ru' = ", 52, sZ.starts_with("Ru"));
+println!("' ' ends with 'ust' = ", 52, sZ.ends_with("ust"));
+println!("' ' contains 'us' = ", 52, sZ.contains("us"));
+println!("Index of 'Te' in ' ' is ", s, s.Find("Te").unwrap());
+println!("Index of 'xxx' in ' ' is ", 52, 52.Find("xxx"));
+println!("' ' trimmed is ' '", s, s.trim());
+} M
+'Rust' starts with 'Ru' = true
+'Rust' ends with 'ust' = true
+'Rust' contains 'us' = true
+Index of 'Te' in ' Test ‘is 3
+Index of 'xxx' in 'Rust' is None
+' Test ‘trimmed is 'Test'
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:44**************
+{a
+Stnngs (methods)
+Let's see a couple of examples:
+Rust
+is_digit(ch: ) —> {
+ch >= '9' && ch <= '9'
+}
+main() {
+s = "A text without any digits";
+52 = "The price is 199 USD l";
+println!("' ’ contains digits: ", s, s.contains(is_digit));
+println!("' ’ contains digits: ", 52, sZ.contains(is_digit));
+} M
+‘A text without any digits’ contains digits: false
+‘The price is 100 USD !' contains digits: true
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:45**************
+Why - or - methods don't have a position to start from ?
+
+The reason is that we don't need to (because we can use the range
+
+operator to get a new str object from the position we want to start the
+
+search and search the new string for there).
+
+Let's explore some ways to split a string (via -method) in Rust.
+
+- Let's assume that we have the sentence: "I have a Rust course today"
+
+and we want to split this sentence into words (we consider that words a
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:46**************
+i?‘
+Stnngs (methods)
+Solution no 1 (use a loop).
+Rust
+main() {
+s = "I have a Rust course today"; m
+loop { |
+index = s.Find(" ")3 have
+if index.is_none() { break; } a
+println!(" ", &s[..index.unwnap()]); Rust
+s = &s[index.unwnap() + 1..]
+} course
+pnintln!(" s ")3 today
+}
+Let's analyze this solution step by step.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:47**************
+.
+Strlngs (methods)
+Solution no 1 (use a loop).
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:48**************
+.
+Strlngs (methods)
+Solution no 1 (use a loop).
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:49**************
+.
+Strlngs (methods)
+Solution no 1 (use a loop).
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:50**************
+' ' Strings (methods)
+Solution no 1 (use a loop).
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:51**************
+' ' Strings (methods)
+Solution no 1 (use a loop).
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:52**************
+Strlngs (methods)
+Solution no 2 (use a while let).
+In practice, Rust has a better way of doing this things (for cases where we
+iterate over something using an 0ption<...> object until that 0ption<...>
+reched the state.
+Rust
+fn main() {
+let mut s = "I have a Rust counse today";
+{
+let index = s.find(" ")3
+index.is_none() { ; }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:53**************
+gar-z
+*- Strlngs (methods)
+Solution no 2 (use a while let).
+Rust
+F“ main‘) { m
+let mut s = "I have a Rust course today";
+let Some(idx) = s.find(" ") l
+{ have
+println!("{}", &s[..idx]); a
+s = &s[idx + 1..]; Rust
+}
+} println!("{s}"); 223238
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:54**************
+.
+Strlngs (methods)
+Solution no 2 (use a -).
+Rust —
+whil—/i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:55**************
+' ' Strings (methods)
+Solution no 2 (use a -).
+Rust
+s = &s[idx + 1..];
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:56**************
+§&e_32_1
+Strlngs (methods)
+Solution no 3 (use a -).
+The next solution is based on split method that allows splitting a string
+view into multiple strings and iterating over them.
+Rust
+maino { m
+s = "I have a Rust course today"; |
+it = s.split(" ")3
+Some(v) = it.next() { have
+pnintln!(" ", v); a
+} RUSt
+} COUFSG
+today
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:57**************
+Strlngs (methods)
+Solution no 4 (use a I).
+The last solution uses for directly to iterate over what the iterator split
+method provides. This is the smallest and most straight forward solution.
+Rust
+maino { m
+s = "I have a Rust course today"; l
+v s.s lit(" ") {
+phintlnl?" ", v); have
+} a
+} RUSt
+COUFSG
+today
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:58**************
+Strings (methods)
+Let's see all split methods:
+M—
+Similar to split_once, but from right to left
+In these methods it are different iterators.
+an Option as there is a DOSsibilitV that search pattern is “Qt found)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:59**************
+',® Strings (methods)
+2. Methods that return a new String object with some changes (e.g.
+replacement, case change, etc)
+Returns a HEW string converted t0 lowercase.
+Returns a HEW string converted t0 uppercase.
+rePeat (& , n: ) -> Returns a new string that sums up the original
+string for nth times.
+replace (& , from: , Returns a new string where allfrom patterns from
+t0! & ) -> current string are replaced with to string.
+Keep in mind that these methods create a new string in memory and
+might be slower or allocate too much memory.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:60**************
+§$w__:}x
+Strl n gs (methods)
+2. Methods that return a new String object with some changes (e.g.
+replacement, case change, etc). Example:
+Rust
+main‘) { M
+52 = s.nep1ace("1", "XX");
+53 = s.nepeat(3);
+pnintln!(" s , sl , 52 , 53 ")3
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:61**************
+Strlngs (methods)
+3. Methods that modify the current (-) String object.
+Adds the content of text parameter at the end of the string.
+Adds the character from ch parameter at the end of the string.
+Insert a character at a specific position in String
+Inserts a string at a specific position in String
+Deletes a character from a specific position in String (index
+parameter) and returns it.
+Removes all occurrences of pattern p from the string
+Replaces all characters from a given range rwith a text from
+tXtI & ) parameter txt
+Retains all character that match the function fnc
+Changes the capacity of the String object.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:62**************
+3. Methods that modify the current (-) String object.
+
+Obs:
+
+- These methods may increase the size of the object and as such may
+perform additional allocation. If it is expected to increase the size of this
+object, a - method call is a good idea.
+
+- |\/|ethods that use indexes or ranges may - (more on this topic on
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:63**************
++- Strmgs (methods)
+3. Methods that modify the current (mutable!) String object. Example:
+Rust
+fn main() {
+let mut s = String::fr*om("Hello"); M
+5-DUSh_5tP(" RUSt"); Hello Rust!
+S-PUSM' l ')3 Hello Rust!
+prtntln!( {S}: ?3 Remove last charzl
+s.1nsert(5, , )3
+println!("{S}"); HeHo,Rust
+println!("Remove last char: {}", s.remove(s.len() — 1));
+phintln!("{s}");
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:64**************
+*- Strlngs (methods)
+3. Methods that modlfy the current (mutable!) Strlng ObjECt. Example:
+Rust
+fn no_digits(ch: char) —> bool {
+
+true
+} {
+false
+}
+}
+fn main() {
+let mut s = String::from("H@e1121304 5R6u758t9");
+s.retain(no_digits);
+phintln!("{s}");
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:65**************
+a3»?
+*- Strlngs (methods)
+3. Methods that modlfy the current (mutable!) Strlng ObjECt. Example:
+Rust
+fn main() {
+let mut s = String::from("123");
+println!("1en={},capacity={},text={}, pth={:?}",s.1en(),s.capacity(),s,s.as_ptr());
+s.Pesere(19);
+println!("1en={},capacity={},text={}, pth={:?}",s.1en(),s.capacity(),s,s.as_ptr());
+s.reserve(299);
+println!("1en={},capacity={},text={}, pth={:?}",s.1en(),s.capacity(),s,s.as_ptr());
+s.push_str("321");
+println!("1en={},capacity={},text={}, pth={:?}",s.1en(),s.capacity(),s,s.as_ptr());
+}
+Keep In mmd that reserve works M
+by adding the amount of memory |en=3,capacity=3,text=123, ptr=0x1f19813b810
+t th . t. .t d t |en=3,capacity=13,text=123, ptr=0x1f19813b810
+O e EXIS lng capacl V (an n0 Ien=3,capacity=203,text=123, ptr=0x1f19813a1a0
+setting the actual capacity). Ien=6,capacity=203,text=123321, ptr=0x1f19813a1a0
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:66**************
+',® Strlngs (methods)
+4. String concatenation
+- As a general way, use methods - or -
+- However, many programmers prefer to use + operator instead as it
+provides more insight into the operation.
+Rules:
+_M
+String + String Not possible
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:67**************
+4. String concatenation. Example:
+
+<> {
+
+s = :: ("Hello"); I Output I
+. 52 = s + ""Rust"; Hello Rust
+pr1nt1n!( 52 )3
+
+}
+Let's look under the hood and understand what's happening in this case.
+To do this, let's modify the example and add an extra operation. I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:68**************
+4. Strlng concatenatlon. Example:
+Rust
+main() {
+s = ::from("Hello");
+52 = s + " Rust";
+53 = s + " world";
+println!(" 52 , 53 ");
+}
+error[E9382]: use of moved value: ‘s‘
+—-> src\main.rs:5:14
+l
+3 | let s = String::From("Hello");
+| - move occurs because ‘s‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+4 | let 52 = s+" Rust";
+| —-—-—--—- ‘s‘ moved due to usage in operator
+5 | let $3 = s+" world";
+| A value used here after move
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:69**************
+4. String concatenation. Example:
+So ...what happen ? Why has behaved like this ?
+In reality, in order for type A to capable of performing the add operation
+with type B, there is a trait that needs to be implemented for type A
+(called Add) defined for String as follows:
+#[inline] _é
+add( , other‘: & ) -> { In reality, the add operation is quite different
+-PUSh—5tr‘(0ther‘)3 (it is more similar to a += operation, in the
+} sense that it modifies the left side variable.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:70**************
+t?‘
+Strlngs (methods)
+4. String concatenation. Example:
+This mean that the next two pieces of code are equivalent, and
+Rust Rust
+main() { main() {
+s = ::fnom("Hello"); s = ::from("Hello");
+52 = s+" Rust"; s.push_stn(" Rust");
+52 = s;
+— —
+53 = s+" world"; s.push_stn(" world");
+53 = s;
+} }
+will not compile as sis moved when first concatenation is performed.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:71**************
+® Strlngs (methods)
+4. String concatenation. Example:
+pub trait {
+fn (&se1f, txt: & ) —> 3
+}
+impl ‘COP One solution is to implement a function that
+{ {n (&se1f txt_ & ) _> { behaves like other programming languages
+let mut s = seli ' ()_ ()3 (C++, Java, etc) via traits.
+s. (txt);
+S
+}
+let S = 1 I ("Hello"); ’—‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:72**************
+V? Str|ngs (methods)
+4. String concatenation. Example:
+But why this behavior ?
+Why make I operator behave like I ?
+Well let's analyze the performance of this operators:
+1. Ioperator implies (as a logic) that we have something like I and the result
+does not modify I or I. If this is the assumption, and we are working with
+strings, that this means that we need to allocate memory to store the results.
+2. I operators add the value to the current one. Depending on the capacity, thls
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:73**************
+Strings iterators
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:74**************
+Strings (Iterators)
+Every string object has iterators (a way to iterate over a string and access
+its elements).
+lterates through all characters from the string
+lterates through all characters from the string
+lterates through all lines from a string
+lterates through all bytes from the string
+lterates over the result of a split (based on a pattern)
+lterates over the first "n" splits (based on a pattern)
+Obtains the buffer that contains the string (that is iterable)
+Returns a vector with all bytes from the string (and moves
+ownership from the string object)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:75**************
+a?‘
+Stnngs (methods)
+Example: count the number of vowels from a given string:
+Rust
+main() {
+for c 1n s.chans() {
+if c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' {
+vowels += 1;
+}
+}
+println!("StPing ‘ s ‘ has vowels vowels");
+}
+In this example 9 "c" is of type char
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:76**************
+Strlngs (methods)
+Example: count the number of vowels from a given string 9 in this case
+we have created a function that receives a &str parameter.
+
+Rust
+fn count_vowels(s: &stn) —> usize
+{ m
+let mut vowels = 9usize;
+c s.chans() {
+c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' {
+vowels += 1;
+}
+}
+vowels
+}
+fn main() {
+let s = Stning::fnom("hello rust");
+println!("Stning ‘{}‘ has {} vowels", s, count_vowels(s.as_str()));
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:77**************
+*- Strings (methods)
+In this example we try to count the number of vowels on even positions /
+indexes from the string.
+
+Rust
+tn c0unt_v0wels(5: 8MP) -> usize { M
+c s.chan_indices() {
+(c.6 % 2 == 9) && (c.1=='a' || c.1=='e' || c.1=='i' || c.1=='o' || c.1=='u') {
+vowels += 1;
+}
+}
+vowels
+}
+Fn main() {
+let s = String :Fhom("hello rust");
+println!("StPing ‘{}‘ has {} vowels on even positions",s,count_vowels(s.as_sth()));
+}
+"c" in this case is a tuple (index,char) .
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:78**************
+.
+Stnngs (methods)
+In this example we try to count the number of vowels on even positions /
+indexes from the string.
+Rust
+for c in s.chan_indices() {
+if (c.@ % 2 == 9) && (c.1=='a' || c.1=='e' || c.1=='i' || c.1=='o' || c.1=='u') {
+vowels += 1;
+}
+}
+For (index,ch) in s.char_indices() {
+if (index % 2 == 9) && (ch=='a' || ch=='e' || ch=='i' || ch=='o' || ch=='u') {
+vowels += 1;
+ll H }
+C }
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:79**************
+t?‘
+Stnngs (methods)
+A more complex example that extracts the first number (in a &str format)
+from a given text.
+Rust
+extract_number(s: & ) —> <& > m
+{
+start: < > = None;
+for c in s.char_indices() {
+if c.1 > 'o' && c.1 <= '9' {
+if start.is_none() { start = Some(c.9); }
+} else {
+if Some(pos_start) = start { return Some(&s[pos_start..c.9]); }
+}
+}
+if Some(pos_start) = start { return Some(&s[pos_start..]); }
+None
+}
+main() {
+println!("Number is ", extract_number("This book has 123 pages"));
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:80**************
+§$@__:rx
+Strlhgs (methods)
+The next example splits a text into multiple lines:
+Rust
+fn main() {
+let s = Stringzthom("We like\nRust course\nat FII l");
+let mut i = 1; m
+line S'lines() { Line: 1=> ‘We like‘
+println!("Line: {i} => '{1ine}'"); line:2=>'Rustc0ura§
+} 1 += 1 Line:3=> ‘at FII l‘
+}
+line in this case is of &str type.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:81**************
+t?‘
+Strlngs (methods)
+The .bytes() iterator iterates over the sequence of u8 values that form the
+string (for ascii string these values are equivalent to each character ASCII
+code)
+Rust
+maino { M
+s = ::fnom("Rust");
+pnint!(" 3 ,", c); , : J ,
+}
+pnintln!();
+for b in s.bytes() {
+pnint!(" 3 ,", b);
+}
+}
+In this example (”R" has ascii code 82, “u” has ascii code 117, ...)
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:82**************
+é?‘
+Strlngs (methods)
+The .bytes() iterator iterates over the sequence of u8 values that form the
+string (for ascii string these values are equivalent to each character ASCII
+code)
+Rust
+main() {
+s = ::fnom("We O Rust ")3
+for c in s.chans() {
+print!“ 3 c» m
+for b in s:bytes() { 87,191, 32,226,153,161, 32, 82,117,115,116, 32,
+pnint!(" 3 ,", b);
+}
+}
+However, if a Unicode character is being use, the bytes will be different
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:83**************
+Strlngs (methods)
+Split method also provide an iterator (that allows to iterate over the results).
+Rust
+
+let s = "Andr*ei,Dr‘agos,John,Mar‘y,Ana"; AHdPEi
+name s.split(",") { DragOS
+pnintln!("{name}"); John
+} Many
+} Ana
+We can also stop after a number of splits (using .splitn(...) method):
+Ru“ m
+fn main() {
+let s = "Andr*ei,Dr‘agos,John,Mar‘y,Ana"; Andrei
+name s.splitn(3, ",") { DragOS
+pnintln! ("{name}"); John,Mar‘y,Ana
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:84**************
+1 Strlngs (methods)
+Method .into_bytes() [ ] can also be used to transfer the
+ownership of the list of bytes from a string to a Vector. One advantage to this
+option is that the list of bytes can also be changed.
+
+Rust
+Fn main() {
+let s = Stning::fnom("ABC");
+let mut bytes = s.into_bytes();
+bytes[9] = b'a';
+b bytes {
+pnint!("{}", b as chan)
+}
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:85**************
+a?‘
+Strlngs (methods)
+Method —[ ] can also be used to transfer the
+ownership of the list of bytes from a string to a Vector. Keep in mind that "s"
+is no longer available after the .into_bytes() method is called.
+Rust
+main() {
+s = ::from("ABC");
+bytes = s.into_bytes();
+println!(" s ")3
+}
+error[E9382]: borrow of moved value: ‘s‘
+——> src\main.rs:4:16
+2 i let s = String::from("ABC");
+| — move occurs because ‘s‘ has type ‘String‘, which does not implement the ‘Copy‘ trait
+3 | let mut bytes = s.into_bytes();
+| ------------ ‘s‘ moved due to this method call
+4 | println!("{s}");
+| A value borrowed here after move
+note! this function takes ownership of the receiver ‘self‘, which moves ‘s‘
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:86**************
+Strings coercion
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:87**************
+"® St rl n g5 (we rC I O n)
+Normally, Rust does not have implicit conversion between different types.
+This means that you need to explicitly convert an object of Type A into an object of
+Type B. This is very different than how C++ behaves where specific cast operators for
+different coercions can be written, thus implicitly convert an object from one type to
+another.
+However, Rust has two traits called Derefand DerefMut, that can be used to coerce a
+reference of type I to a reference of type I
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:88**************
+V? Strlngs (coerclon)
+
+String class has this trait implemented as follows:
+
+z: = . { : ; {
+
+’ #[inline]
+#[inline] and der‘e1c mut(& ) —> & {...}
+
+denef(& ) —> & { } }
+} }
+This means that as a general observation , any object of type &String and be coerced
+(converted implicitly) to a &str type.
+This is very useful when writing functions that don't need to change a String (for all of
+these functions we can define them using &str and used them with both String and
+&str parameters-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:89**************
+Let's see an example:
+Rust
+count_digits(s: & ) -> { M
+count: = 9; Count1==3
+for c in s.chars() { Count2==4
+if c >= '9' && c <= '9' { count += 1; }
+}
+count
+}
+main() {
+println!("C0unt 1 = ", count_digits("abc123xyz"))5}
+s = ::1cr‘0m("12-----56");
+println!("Count 2 = ", count_digits(&s));
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:90**************
+Let's see an example:
+Rust
+count_digits(s: & ) -> { M
+count: = 9; Count1==3
+for c in s.chans() { Count2==4
+if c >= '9' && c <= '9' { count += 1; }
+}
+count
+}
+main() {
+println!("Count 1 = ", count_digits("abc123xyz"))3
+s = ::fPom("12-----56");
+Pintln! "Count 2 = ", count di its &s 3 _
+} p ( _ g ( )) }
+&st
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:91**************
+In other words, for the previous example, the next instruction:
+- ( ,count_digits(&s));
+is equivalent to:
+- ( ,count_digits(s. ()));
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:92**************
+String range operations
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:93**************
+"§' St r‘| n g S ( ra n ge O p € rat | O n )
+Up to this moment, we have discussed about how strings can be used in Rust, but we
+have omitted one thing:
+
+This is because in Rust, this is not possible (or at least not via the index operator).
+|\/|ore exactly, there is no index operator (-) defined for String or &str types.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:94**************
+t?
+Let's see some example:
+Rust
+main() {
+s = ::fn0m("12-—-—-56");
+ch = s[9];
+}
+error‘[E9277]: the type String‘ cannot be indexed by ‘{integen}‘
+--> snc\main.ns:3:14
+|
+3 | let ch = s[9];
+| MM String‘ cannot be indexed by ‘{integer}‘
+l
+= help: the trait ‘Index<{integer‘}>‘ is not implemented for‘ ‘String
+Notice that Rust clearly says that the trait lndex<{integer}> is not implemented.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:95**************
+',® Strlngs (range operatlon)
+
+So why accessing a string character via index is not possible in Rust ?
+
+The actual reason is performance 9 but in order to understand this we need to look
+
+on how Rust stores a string vs how other C-like languages store a string.
+
+C++ have multiple methods for storing a string:
+' AsciiZ 9 const char *
+' Ascii 9 std::string and std::string_view
+' UTF-8 9 std::u8string and std::u85tring_view
+' UCS-Z 9 std::u165tring and std::u16string_view
+° UTF-32 9 std::u325tring and std::u325tring_view
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:96**************
+Let's consider the string ”-" written in UTF-8 (Rust) and UCS-Z (C++)
+“"5? Bytes 87 101 32 226 153 161 32 114 117 115 116
+(Strlng)
+Char W e Q9 r u s t
+“CS-2
+c++ , Bytes s7 0 101 0 32 0 97 38 32 0 114 0 117 0 115 0 116 0
+(u16strmg)
+Char W e <9 r u s t
+
+If we want to read the 5“h character ('r') how can we quickly find its position in these buffers ?
+
+' In Rust, the 5th character (‘I’) is located in the memory at offset I. However, there is no direct
+mathematical operation that allows us to compute that offset based on the index of the string,
+because there UTF-8 implies that a character can have a size between 1 and 5 bytes. As such, we
+need to iterate through each characters from the first to the 5th and sum up the size of each
+characters to get the actual offset of the 5th character.
+
+' This implies Olnl complexity.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:97**************
+Let's consider the string ”-" written in UTF-8 (Rust) and UCS-Z (C++)
+Rust‘ Bytes s7 101 32 226 153 161 32 114 117 115 116
+(Strlng)
+Char W e Q9 r u s t
+“CS-Z
+c++ , Bytes s7 0 101 0 32 0 97 38 32 0 114 o 117 o 115 0 116 0
+(u165trmg)
+Char W e <9 r u s t
+If we want to read the 5“h character ('r') how can we quickly find its position in these buffers ?
+' In C++, the ‘I’ character is located at offset -. However, in UCS-Z format, each character has 2
+bytes 9 this means that if we multiply the index (5) with the size of the character (2) we will get the
+actual offset in the buffer 9 5 x 2 = 10
+' It also means we can comgute this offset in Olll complexity
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:98**************
+Let's consider the string ”-" written in UTF-8 (Rust) and UCS-Z (C++)
+Rust‘ Bytes s7 101 32 226 153 161 32 114 117 115 116
+(Strlng)
+Char W e Q9 r u s t
+“CS-2
+c++ , Bytes s7 0 101 0 32 0 97 3s 32 0 114 o 117 o 115 0 116 0
+(u165trmg)
+Char W e Q9 r u s t
+If we want to read the 5th character ('r') how can we quickly find its position in these buffers ?
+' In Rust (UTF-8) 9 O(n) complexity
+Since Rust is focused on performance , the index operation is not allowed (this observation is
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:99**************
+vi St r| n g s ( ra n g e o p e rat | o n )
+There are however several advantages to using UTF-8 — the main one being that we
+can encode all Unicode characters in the smallest amount of space.
+It also implies that range operator can be tricky in some cases.
+Let's consider the previous exam le ”-" and assume we want to read a
+substring from index I to index .
+RUSF Bytes 87 101 32 226 153 161 32 114 117 115 116
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:100**************
+I - _
+Let s analyze the followmg code.
+Rust
+main() {
+s = ::from("We 0 rust");
+slice = &s[4..8];
+println!(" slice ")3
+thread 'main' panicked at ‘byte index 4 is not a char boundary; it is inside '0' (bytes 3..6) of ‘We O
+rust", 1ibrary\core\src\str\mod.rs:127:5
+stack backtrace:
+9: stdzzpanicking::begin_panic_handler
+at /Pustc/fe5b13d681f25ee6474be29d748c65adcd91f69e\/libraPy\std\src\panicking.Psz584
+at /Pustc/fe5b13d681f25ee6474be29d748c65adcd91f69e\libPaPy\c0Pe\sPc\str\traits.rs:65
+8: alloc::string::impl$25::index
+at /Pustc/fe5b13d681f25ee6474be29d748c65adcd91f69e\library\alloc\sPc\string.Psz2231
+9: firstzzmain
+at .\src\main.rs:3
+16: core::opszzfunctionzanOnce::ca11_once<void (*)(),tup1e$<> >
+at /Pustc/fe5b13d681f25ee6474be29d748c65adcd91f69e\1ibPaPy\c0Pe\sPc\ops\function.Psz227
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:101**************
+,’ St rl n g S ( Fa n g € O p € rat | O n )
+Let's analyze the following code:
+() {
+s = :: ("We 0 rust");
+slice = &s[4..8];
+pnintln!(" slice ")3
+}
+Whenever a string slice is created, rust checks its lower and upper boundaries (in this
+case 4 and 8) to see if they point to a start and end of a character! If they not, a panic
+runtime error is thrown.
+One thing that Rust guarantees is that and String or &str is a - UTF-8 sA
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:102**************
+Rust also provides the following method for both String and &str types:
+is_char*_boundar‘y(& , index: ) —> Returns true if an index is a valid character
+boundary (start/end) , and false otherwise.
+The check is done in 0(1) as UTF-8 relies on the 8th bit from a byte to be used as a
+marker to extend a Unicode value.
+Rust
+main() {
+s = ::fnom("We 0 rust");
+println!("Is offset (4) a valid char boundary: ", s.is_chan_boundary(4));
+pnintln!("Is offset (8) a valid char boundary: ", s.is_chan_boundany(8));
+} M
+Is offset (4) a valid char boundary: false
+Is offset ( ) a valid char boundary:
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:103**************
+String formatting
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:104**************
+"® Strlng formatt|ng
+Every language has a way of formatting a string based on a specific
+format representation. In Rust, there are several macros that can do
+this:
+' format!(”<format representation>”, parameters) 9 builds a String based on the provided
+format
+' print! / println!(”<format representation>", parameters) 9 prints a formatted string to the
+standard output (optionally followed by a new line)
+' eprint! / eprintln!(”<format representation>", parameters) 9 prints a formatted string to the
+standard error (optionally followed by a new line)
+' write! / writeln!(&mut output-type, ”<format representation>”, parameters) 9 prints a
+formatted string to an output object
+As a concept 9 string formatting is similar to printf function from C language.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:105**************
+"® Strlng formattlng
+In Rust case, the ”<format representation>" is a string where substrings between I
+and I characters have a special meaning and help formatting parameters. One way
+of seeing this type of format is:
+”...{format for paraml} {format for paramz} {format for paramn}...”
+Where parameters are provided after the format representation or can be place
+inside the string (similar to how - format from Python language works).
+Keep in mind that this is a descriptive way of looking into this representation, in
+reality things are a little bit more complicated @
+Since I and I characters , Rust provide some sort of escaping rule (similar to the
+- from C language) where if you want to refer to the brackets character you can
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:106**************
+The I format can be represented by:
+m—
+{index} Refers to the parameter with a specific index in the parameter list (positional
+parameter)
+{indexzspecifier} Refers to the parameter with a specific index in the parameter list and a specifier on
+how to format the value is also provided (that can include other variables or special
+characters).
+{name} Refers to the parameter with a specific name in the parameter list. If there is N0
+such parameter, it refers to a variable withing local scope with the same name,
+{name : specifier} Similar with {name} but with format specifier
+{} Empty format 9 this could be seen as an interator that points to the beginning of
+the parameter list, and each time it is being use it advances to the next parameter.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:107**************
+é?‘
+Strl ng formattl ng
+Let's see some examples using empty and named parameters:
+Rust
+maino { M
+a = 1; a=1,b=2
+b = 2; a=1,b=2
+println!("a= , b= ", a, b); a=2,b=1
+println!("a= a , b= b ")3 a=1,b=1
+println!("a= X , b= y ", X = b, y = a); a=2,b=4
+println!("a= , b= y ", a, y = a);
+println!("a= , b= ", a + a, b + b);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:108**************
+. .
+Strl ng formattl ng
+Let's see some examples using empty and named parameters:
+Rust m
+l-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:109**************
+*- Strlng forrnattlng
+Using aliases for different parameters could be tricky as Rust first interprets the
+alias an only after this is searches for a variable in the current scope. Let's analyze
+the following code: even if variables "a" and “b” exists, since there are some aliases
+for variable "c" into "a" and "b", the program will not print the value of variable "a"
+and "b", but the value of variable “c”.
+
+Rust
+let a = 5; ‘HHHHHIIII
+let b = 2;
+let c = 1;
+pnintln!("a={a},b={b}", a=c, b=c);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:110**************
+i?
+Using an unknown name will result in a compiling error:
+Rust
+main() { error[E6425]: cannot find value ‘a‘ in this scope
+println!("Value of a is ", a); T SPC\main'PS‘2‘34
+} 2 | println!("Va1ue of a is {}", a);
+| A not found in this scope
+Similarly, this type of formatting should not be confused with - format from
+python as it does not support in-string expressions:
+Rust
+main() { error: invalid format string: expected ‘ '}", found ‘ '+"
+a = 5. ——> src\main.rs:3:31
+J
+. || ~ II I
+pr1nt1n!( value Of a lS a+2+5} ), 3 | println!("Value of a is {a+2+5}");
+} | — A expected ‘}‘ in format string
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:111**************
+i?‘
+We should also make sure that we provide the right number of arguments:
+Rust
+main() { error: 2 positional arguments in Format string, but there is 1 argument
+a = 5. ——> src\main.rs:3:29
+a
+. |
+println! ("Value O‘F a 15 , ",a); 3 | println!("Value of a is {},{}",a);
+} I AA AA _
+or
+Rust
+main() { error: argument never used
+a = 5. ——> src\main.rs:3:35
+J
+. || ~ ll I
+pr1nt1n!( value Of a 15 ,a,a); 3 | println!("Value of a is {}",a,a);
+} | —————————————————— A argument never used
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:112**************
+vi St r| n g fo r m a tt| n g
+At the same time, keep in mind that using an argument with the I space will
+disable the requirement for that argument to be provided as an argument (in
+particular if that argument is a local variable within the scope).
+—
+() { error‘: argument never‘ used
+a = 5; _l> src\main.r‘s:3:34
+println!("Va1ue O‘F a iS a ",a); 3 | println!("Va1ue of a is {a}",a),'
+
+} | --—-—-—--—-—--—-——- A argument never‘ used
+ln this case, since we already used I variable in the format I there is no need to
+add it in the parameter list. As such, the second parameter for the macro println! ls
+no longer needed and a compiler error will occur.
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:113**************
+aﬁEQQQ
+*- Strlng formattlng
+
+Positional parameters can be used as follows:
+
+' The list of parameters starts from index O. For example, if we are to use the
+following macro: format!(”...”,a,b,c) then a is parameter with index O, b the
+parameter with index 1 and c the parameter with index 2.
+
+fn main() {
+let b = 2; x=2,y=7,z=5,t=7
+phintln!("p1={9},p2={9},p3={9},p4={1}", a) b);
+ppintln!("Xz{1}Jy:{2}Jz:{0}1t:{2}") a: b) a + b);
+
+}
+
+Index parameters are useful when you want to print the same variableZvalue
+
+multiple times and you don't want to duplicate it in the list of parameters.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:114**************
+*- Strlng formattlng
+If an empty parameter {} is being used, it behaves like an iterator. It is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only iterates over the parameter lists and does not affect the rest of
+the parameters.
+
+Rust
+
+-Fn main() { m
+let b = 2; a=5,b=5,c=2,d=2,e=7
+let c = 1;
+Println!("p1={1},r>2={},p3={@},p4={}"’ a, b);
+pnintln!("a={a},b={},c={},d={1},e={}", a, b, a + b);
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:115**************
+- -
+Strl ng formattl ng
+If an empty parameter I is being used, it behaves like an iterator. It is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only itera - - - - - - - - n - - ' - - - - . - not affect the rest of
+the parameters.
+-) a
+b
+a+b
+"a= a E c= ,d= 1 ,e= ", a, b, a + b
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:116**************
+- -
+Strl ng formattl ng
+
+If an empty parameter I is being used, it behaves like an iterator. It is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only iterates over the parameter lists and does not affect the rest of
+the parameters.
+Rust
+
+a
+
+-) b
+a+b
+"a= a ,b= d= 1 ,e= a, b, a + b
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:117**************
+. .
+Strl ng formattl ng
+If an empty parameter I is being used, it behaves like an iterator. It is position at
+the first item in the parameter list and every time it is being used, it advances to
+the next parameter from the list. When used with positional and named
+parameters it only iterates over the parameter lists and does not affect the rest of
+the parameters.
+Rust
+a
+b
+-) b
+"a= a ,b= ,c= ,d= 1 -', . - . . a+
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:118**************
+é?“
+Strlng forrnattlng
+String formatting works with constants as well (does not need a variable).
+Ru“ m
+main() {
+a = 5; a=5,b=2,number=10
+b = 2; Astring=some text
+pnintln!("a= ,b= ,number‘= ", a, b, 16); bool=true
+pnintln!("A string= ","some text"); float=1.54
+pnintln!("bool= ", );
+println!("float= ",1.54);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:119**************
+i?‘
+Keep in mind that using string formatting implies using an immutable reference to
+the variables that are being used. If a mutable reference already exists, the
+compiler will trigger an error due to the ownership rules.
+Rust
+main() {
+s = ::from("abc");
+PG‘F_tO_S = 8‘ S; error[E@562]: cannot borrow ‘s‘ as immutable because it is also
+52 = for-mat! ("Tex-t: ",5); borrowed as mutable
+ref_to_s.push_str("abc"); '1>vamumr$432
+println! ("52 ; ",52); 3 | let ref_to_s = &mut s;
+. l I, _ I, _ | -——-—- mutable borrow occurs here
+pr1ntln.( S ' :5): 4 | let 52 = format!("Text={}",s);
+} | A immutable borrow occurs here
+5 | ref_to_s.push_str("abc");
+| —————————————————-—-—--— mutable borrow later used here
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:120**************
+Strlng formattlng
+The width of a formatted text can be specified by a number after character : .lt is
+also possible to provide a named parameter that will serve as a Width of the
+formatted text by using either a number or a position followed by character $. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+
+Rust
+let x = 123; x=|HHHHH123|
+let w = 9; x=|HHHH123|
+pnintln!("x=|{:8}|",x); x=|HHH123|
+println!("x=|{x:7}|"); x=|123|
+println!("x=|{6:6}|",x); x=|UUM123|
+pnintln!("x=|{:2}|",x); x=|uuuggu123|
+pnintln!("x=|{:1$}|",x,6); x=|uU123|
+phintln!("x=|{:w$}|",x);
+phintln!("x=|{:width_for_x$}|",x,width_for_x=5);
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:121**************
+. .
+Strl ng formattl ng
+
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a Width of the
+formatted text by using either a number or a position followed by character $. If
+the required width is smalle - - - - - - - ' - - - - -- - - ext will NOT be
+Rust
+
+(‘ ‘means space)
+
+;
+X = | 1 2 3 |
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:122**************
+. . .
+Strl ng formattl ng
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a Width of the
+formatted text by using either a number or a position followed by character $. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+Rust
+Output(‘ ‘means space)
+x = | 1 2 3 |
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:123**************
+. . .
+Strl ng formattl ng
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a Width of the
+formatted text by using either a number or a position followed by character $. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+Rust
+Outputl‘ ‘means space)
+x = | 1 2 3 |
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:124**************
+. .
+Strl ng formattl ng
+The width of a formatted text can be specified by a number after character I .lt is
+also possible to provide a named parameter that will serve as a Width of the
+formatted text by using either a number or a position followed by character $. If
+the required width is smaller then the actual size of the text, the text will NOT be
+truncated.
+Rust
+_‘
+l
+X = | 1 2 3 |
+println! —
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:125**************
+String formatting
+It is also worth mentioning that different types have different default alignments.
+For example, numerical types are by default aligned to the right, While string, char
+and bool are aligned to the left.
+
+Rust
+
+{n maino {
+let x = 123; int =|HHHHH123|
+let f = 1.23; float =|HHHH1.23|
+let b = true; bool =|tPUGHHHH|
+let s = "ABC"; string =|ABCHHHHH|
+let c = 'X'; char =|XHHHHHHH|
+pnintln!("int =|{:8}|",x);
+pnintln!("float =|{:8}|",f);
+pnintln!("bool =|{:8}|",b);
+pnintln!("string =|{:8}|",s);
+pnintln!("chah =|{:8}|",c);
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:126**************
+3 Stnng formattlng
+The default alignments can be changed by using the following special chars before
+the Width value: < for left alignment, > for right alignment and A for center alignment.
+
+Rust
+
+fn main() {
+let x = 123; Output('H' means space)
+let t = 1.23; int =|HHHHH123|
+let b = true; int =|123HHHHH|
+let s = "ABC"; float =|HH1.23HH|
+let c = 'X'; bool =|HHHHtPU€|
+pnintln!("int =|{:<8}|",x); string =|HHABCHHH|
+pnintln!("float =|{:A8}|",f); chap =|HHHHHHH)(|
+pnintln!("bool =|{:>8}|",b);
+pnintln!("stning =|{:A8}|",s);
+phintln!("chan =|{:>8}|",c);
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:127**************
+*- Strlng forrnattlng
+Keep in mind that Mpeciﬁc—atimdoes not truncate the data. That is , if the data
+that is to be displayed is bigger than the specified Width, the width will be adjusted
+accordingly.
+
+Rust m
+
+fn main() {
+let s = "Hello,World"; |Hello,World|
+pnintln!("|{5;8}|"); |Hello,World|
+pnintln!("|{s:<8}|"); |He110,Wonld|
+pnintln!("|{s:>8}|"); |Hello,World|
+println!("|{s:“8}|");
+
+}
+
+ln this case, the length of "Hello,World" string is 11 (and it is bigger than the proposed
+
+Width of 8). As such, Rust will use 11 for the width.
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:128**************
+Strlng formattlng
+When using align specifiers, it is also possible to provide a fill characterjust before
+the align specifiers < > A. In particular for numbers, if you add O in front of the with,
+this will be translated that O is a fill character.
+
+Rm m
+
+1c .
+
+n mTlQ(l i "H9110"; |@@@He110|
+let x = 123; :Hello###:
+pnintln!("|{s:@>8}|"); -H9110--
+pnintln!("|{s:#<8}|"); |99999123|
+pnintln!("|{s:—A8}|"); I99999123|
+pnintln!("|{x:@>8}|");
+pnintln!("|{x:98}|");
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:129**************
+. .
+Stnng formattlng
+When usingalign o- "- ' ' - o n ' - o o o .- - ' haracterjust before
+the align specifie -E I in front of the with,
+this will be transl
+I
+-
+| - H e I l 0 - - |
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:130**************
+i?‘
+Strl ng forrnattl ng
+When using align specifiers, it is also possible to provide a fill characterjust before
+the align specifierslll. In particular for numbers, if you add O in front of the with,
+this will be translated that O is a fill character.
+looooolz3|
+||ooooolza|
+I‘
+" X 98 "
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:131**************
+” St H n g f0 r m a ttl n g
+Notice that to use a fill character you need to specify the alignment (with some
+exceptions like adding padding with O (zeros) a number). For example , the next
+example will not compile as we did not specify the alignment.
+
+O { —
+. S = H9110 3 error: invalid format string: expected "}", found *
+prlntlnmul S *8H");
+|
+} 3 | println!("|{s:*8}|");
+| — A expected ‘}‘ in format string
+ln this example we have attem ted to use the character I for filling. The correct
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:132**************
+v.5 St r| n g fo r m a tt| n g
+There are however a set of special characters that can be used and have a
+special representation:
+' I -) to enforce the plus sign for positive numbers
+' l9 reserved
+' I -) for alternate representation
+' or 9 debug format
+' or or I or. 9 hexadecimal format
+' or 9 binary format
+' or 9 octal format
+~ 9 pointer
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:133**************
+Strlng formattlng
+
+Let's see some examples Where we enforce a special representation (with character +)
+
+Rust . .
+
+{n maino {
+let x = 19; X=|10
+let y = -26; X=|+19|
+pnintln!("x=|{x}"); X=|HHHHH+19|
+pnintln!("x=|{x:+}|"); X=|HH+19HHH|
+pnintln!("x=|{x:+8}|"); X=|"+19"'|
+pnintln!("x=|{x:A+8}|"); X=|'29|
+pnintln!("x=|{x:—A+8}|");
+pnintln!("x=|{y:}|");
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:134**************
+. .
+Strlng formattlng
+Le ' -- ---- - 2-3“ - ‘-- - ‘- -- - easpecial representation (with character.)
+R
+E
+I
+x=|--+10--—|
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:135**************
+*- Strlng formattlng
+
+Let's see some examples Where we enforce a special representation (with character #)
+
+Rust
+
+{n main() {
+let x = 16; x=|19|
+pnintln!("x=|{X}|")3 X=|a| on x=|A|
+println!("x=|{x:x}| on x=|{X:X}|"); x=|9xa| on x=|6xA|
+pnintln!("x=|{x:#x}| on x=|{x:#X}|"); X=|HHHHH9XA|
+pnintln!("x=|{x:#8X}|")3 X=|9X99999A|
+pnintln!("x=|{x:#68X}|")3 X=|HHHH9b1919|
+pnintln!("x=|{x:#19b}|")3 X=|9b09991919|
+pnintln!("x=|{x:#019b}|")3 X=|1919|
+pnintln!("x=|{XIb}|")3 x=|uugu1919| or x=|99991919|
+pnintln!("x=|{x:8b}| on x=|{x:98b}|"); x=|--9xA---|
+pnintln!("x=|{xz-A#8X}|");
+
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:136**************
+- -
+Strlng formattlng
+Let's see some examples Where we enforce a special representation (with character I)
+Rust
+x= 19
+x=|a| on x=|A|
+x=| x x | on x=| x X |" x=|9xa| on x=|9xA|
+x= x x on x= x X x= ax‘
+x=lexeaaeeAl
+‘X’ x x ’&”
+x=| 1019| on x=|99991919|
+x=|--9xA---|
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:137**************
+. .
+Strlng formattlng
+Let's see some examples Where we enforce a special representation (with character I)
+R t
+“5
+E
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:138**************
+Strlng formattlng
+Let's see some examples Where we enforce a special representation (with character I)
+R t
+“S
+E
+IE!
+I x=|--OxA---|
+l-
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:139**************
+"E St r| n g fo r m a tt| n g
+For floating number, there is a special format ‘I" or ’I” that resemble the width
+format, Where:
+' I could be a number (like 1,2, 20) representing the precision
+' I could also be name (followed by I sign) and in this case, a parameter with that
+name will be search in the arameter list and its value will be used for precision. One
+such example could be: a or — implying that prec and profdigits must
+exists in the parameter list.
+' Icharacters means next argument from the parameter list. It is important to notice
+that for formats like - the order of processing the next argument is from right to
+left (meaning that first we will read a parameter that will reflect precision, and then
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:140**************
+’ Strlng formattlng
+
+Let's see some examples with floats:
+
+Rust . I
+
+fn main() {
+let x = 19.9625; x=|19.1|
+let y = 19.9; x=|19.@62|
+println!("x=|{x:.1}|"); y=|19.999|
+println!("x=|{x:.3}|"); y=|HH19.@@@|
+println!("y=|{y:.3}|"); y=|&&+19.@@6&&&|
+println!("y=|{y:8.3}|"); X=|19.96|
+println!("y=|{y:&A+12.3}|"); X=|19.9625|
+println!("x=|{x:.6$}|", 2); X=|19.96|
+println!("x=|{x:.precision$}|", precision = 4); X=|19-962|
+println!("x=|{x:.*}|", 2);
+println!("x=|{:.*}|", 3, x);
+
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:141**************
+é?‘
+Strl ng formattl ng
+Let's see some examples with floats:
+Rust H H
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:142**************
+. .
+Strlng formattlng
+|_-' -- Ill“‘.lll‘ ‘I l- '
+R
+|
+a
+X=|&&+1o.000&&&|
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:143**************
+. Strlng formattlng
+Let's see some examples with floats:
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:144**************
+. .
+Strl ng formattl ng
+Let's see some examples with floats:
+Rust
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:145**************
+. . .
+Strl ng formattl ng
+Let's see some examples with floats:
+Rust
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:146**************
+Creating and updating strings
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:147**************
+Creating and updatmg strlngs
+There are several methods studied up to this moment to create a String object:
+
+' Using .to_string() method for various objects (&str, number, etc)
+
+' Using Stringzzfrom constructor
+
+' Ugngfonnaﬂrnacm)
+
+fn main() {
+let 51 = "ABC".to_stning(); sleBC
+let 52 = Stning::¥nom("XYZ"); 52:XYZ
+let 53 = 1o.to_string(); 53:19
+let s4 = format!("{:=A8}",99); s4:===99===
+pnintln!("sl:{}",sl);
+pnintln!("52:{}",52);
+pnintln!("53:{}",53);
+phintln!("s4:{}",s4);
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:148**************
+Creatlng and updat|ng strlngs
+However, when it comes to add something to a string, the methods provided are very
+few:
+
+' Using .push_str method to add a &str object
+' Using .push to add a character.
+But what if we want to add aformatted text ? One quick solution is to use the format!
+macro to build another string and add that string to the existing one.
+Rm m
+{n main() {
+let mut sl = "ABC" .to_str*ing(),'
+let x = 19;
+let b = true;
+sl.push_sth(fonmat!(" x={x}, b={b}").as_stn());
+phintln!("{}",sl);
+}
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:149**************
+Creatlng and updat|ng strlngs
+However, using format! macro implies creating a new string and thus allocating memory
+for a string that serves only a temgorary role. A better solution is to use anther macro
+write! that allows formatting directly within an already existing object.
+
+Rust
+use std: :fmt: :Wnite; m
+fn main() {
+let mut 51 = "ABC".to_stning();
+let x = 19;
+let b = true;
+let Ok(_) = write!(&mut 51, " x={x}, b={b}") {
+pnintln!("{}", 51);
+}
+}
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:150**************
+I I Q
+Creating a nol u polatl ng strl ngs
+However, using - macro implies creating a new string and thus allocating memory
+for a strin that serves onl a tem orar role. A better solution is to use anther macro
+- that allows formatting directly within an already existing object.
+Rust
+lll
+write!(& sl, " x= x , b= b ").unwnap();
+if Ok(_) = write!(& 51, " x= x , b= b ")
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:151**************
+Traits
+
+***************Ending Page***************
+
+***************Beginning Page***************
+***************page number:152**************
+"® Traits
+All of these displayed properties a re possible if certain traits/cha racteristics a re
+implemented an object:
+Binary For alternative formative specific to #b
+Debug For when ? ls being used in the format string. This is usually implemented via
+#[derive(Debug)]
+Display The default formatting for an object
+LowerExp For alternative formative specific to #e
+LowerHex For alternative formative specific to #x
+Octal For alternative formative specific to #0 _
+Pointer For alternative formative specific to #p
+UpperExp For alternative formative specific to #E (upper case E)
+UpperHex For alternative formative specific to #x (upper case X)
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:153**************
+® Tra Its
+Let's see a slightly more complex example (that will use two such traits).
+I Output I
+use std::1cmt::{ , }; _ _ _
+obj=My object W1th x = 223626311
+str'uct { x: } obj=Hex view 47,44,54,@6
+impl for‘ {
+fn (&se11c, F: &mut std: :fmtz: < '_>) —> std: :fmt:: {...}
+}
+impl for‘ {
+Fn (&se1f, 1c: &mut std: :fmt:: < '_>) —> std: :fmt:: {...} __
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:154**************
+Let's see a slightly more complex example (that will use two such traits).
+fn (&self, F: &mut std: :fmtzz < '_>) —> std: :fmtzz {...}
+impl for‘ {
+fn (&self, F: &mut std: :fmt: : < '_>) —> std: :fmt: : {
+write!(1c, "My object with x = {}", self.x)?;
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:155**************
+Let's see a slightly more complex example (that will use two such traits).
+fn (&self, F: &mut std::fmt:: <'_>) —> stdzzfmtzz {
+
+write!( f,
+"Hex view {:62X},{:62X},{:92X},{:62X}",
+self.x & @XFF, (self.x >> 8) & @XFF, (selF.x >> 16) & 9xFF,(se1f.x >> 25) & @XFF
+)P;
+0|<(())
+
+}
+Fn (&se1f, F: &mut stdzzfmtzz <'_>) —> stdzzfmtzz {m} i
+
+***************Ending Page***************
+
+
+***************Beginning Page***************
+***************page number:156**************
+- @@
+
+***************Ending Page***************
+
