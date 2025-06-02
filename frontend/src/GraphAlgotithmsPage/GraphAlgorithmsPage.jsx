@@ -1,5 +1,5 @@
 import { FaFilePdf } from 'react-icons/fa';
-import './GraphAlgorithmsPage.css';
+//import './GraphAlgorithmsPage.css';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -108,3 +108,7 @@ function GraphAlgorithmPage() {
                         <h2 className="graph-section-title">Files</h2>
                         <h2 className="graph-file-count">6</h2>
                     </div>
+                </div>
+            </div>
+        </div>
+    )}

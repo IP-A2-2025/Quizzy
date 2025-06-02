@@ -1,672 +1,186 @@
-/* Reset & background */
-html, body {
-    width: 100%;
-    height: 100%;
+/* General */
+body, html {
     margin: 0;
     padding: 0;
-    overflow-y: auto;
-    background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
     font-family: 'Ubuntu', sans-serif;
-}
-
-/* Main container */
-.dashboard-container {
-    width: 100%;
+    background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
     min-height: 100vh;
-    overflow-y: auto;
-    position: relative;
+}
+
+/* Layout principal */
+.dashboard-wrapper {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
-/* Logo Quizzy */
-.dashboard-logo {
-    width: 61px;
-    height: 48px;
-    position: absolute;
-    left: 90px;
-    top: 24px;
-}
-
-/* Logo FII */
-.dashboard-logo-fii {
-    width: 49px;
-    height: 48px;
-    position: absolute;
-    left: 1288px;
-    top: 24px;
-}
-
-/* Cutia albă centrală */
-.dashboard-inner-box,
-.dashboard-white-box {
-    position: absolute;
-    width: 1088px;
-    height: 1000px;
-    top: 16px;
-    left: 176px;
-    background: #EFEAE6;
-    border-radius: 8px;
-    box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
-}
-
-.welcome-content {
+.dashboard-header {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 8vh;
-    margin-bottom: 8vh;
+    padding: 1rem 2rem;
 }
 
-.welcome-text {
-    color: #173B61;
-    font-weight: bold;
-    font-size: 180%;
-    padding: 2%;
-    background-color: #E2A54D;
-    border-radius: 25px;
-}
-
-.welcome-owl-image {
-    width: 10vw;
+.logo {
+    width: 48px;
     height: auto;
 }
 
-.day-and-buttons {
-    padding-left: 4vw;
-    padding-right: 4vw;
+/* Layout pagină */
+.dashboard-main {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex: 1;
+    padding: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-.navigation-bar {
+.dashboard-sidebar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.date-indicator {
-    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 80px;
     align-items: center;
 }
 
-.indicator {
-    margin-left: 8px;
-    padding: 4px 8px;
-    border-radius: 12px;
-    background-color: #E2A54D; /* Galben deschis */
-    color: #173B61;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.navigation-buttons button {
-    padding: 8px 16px;
-    border-radius: 16px;
+.sidebar-button {
+    background: none;
     border: none;
-    background: #E2A54D;
-    color: #173B61;
     cursor: pointer;
+    text-align: center;
+    color: #EFEAE6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-button.active {
+    background-color: #EFEAE6;
+    border-radius: 8px;
+    color: #173B61;
     font-weight: bold;
 }
 
-.navigation-buttons button:first-child {
-    margin-right: 8px;
-}
-
-/* Butoane laterale */
-.dashboard-icon-wrapper {
-    position: absolute;
-    width: 64px;
-    height: 72px;
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-    transition: transform 0.2s ease;
-}
-
-.dashboard-icon-wrapper:hover {
-    transform: scale(1.05);
-}
-
-.dashboard-icon-wrapper.active {
-    background-color: #EFEAE6;
-    border-radius: 8px;
-}
-
-/* Poziționări individuale pentru fiecare buton */
-.dashboard-icon-home {
-    top: 96px;
-    left: 88px;
-}
-
-.dashboard-icon-library {
-    top: 170px;
-    left: 88px;
-}
-
-.dashboard-icon-explore {
-    top: 244px;
-    left: 88px;
-}
-
-.dashboard-icon-profile {
-    top: 318px;
-    left: 88px;
-}
-
-/* Imagini și text pentru iconițe */
-.dashboard-icon-image {
-    width: 36px;
-    height: 36px;
-    z-index: 1;
-}
-
-.dashboard-icon-text {
-    font-size: 12px;
-    font-weight: 500;
-    margin-top: 4px;
-    z-index: 1;
-    color: #EFEAE6;
-}
-
-/* Stil pentru buton activ */
-.dashboard-icon-wrapper.active .dashboard-icon-text {
-    color: #173B61;
-    font-weight: 700;
-}
-
-.dashboard-icon-wrapper.active .dashboard-icon-image {
+.sidebar-button.active img {
     filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
 }
 
-/* Rect fundal pentru buton activ */
-.dashboard-rectangle-home {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 64px;
-    height: 72px;
-    border-radius: 8px;
+.icon {
+    width: 36px;
+    height: 36px;
+}
+
+.dashboard-content {
+    flex: 1;
     background-color: #EFEAE6;
-    z-index: -1;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 0 8px 2px rgba(23, 59, 97, 0.64) inset;
 }
 
-.graph-divider {
-    height: 1px;
-    background-color: #173B61;
-    width: 100%;
-    opacity: 0.5;
-    margin: 20px 0;
-}
-
-.week-days-container {
+/* Welcome */
+.welcome {
+    text-align: center;
+    margin-bottom: 2rem;
     display: flex;
-    gap: 16px; /* Spațiu mai mare între carduri */
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome h1 {
+    color: #173B61;
+    background-color: #E2A54D;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    margin-top: 1rem; /* spațiu între bufniță și text */
+}
+
+.owl {
+    width: 10vw;
+    max-width: 100px;
+}
+/* Top bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.date-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.streak {
+   border: 1px solid #173B61;
+    color: #173B61;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+/* Zilele săptămânii */
+.week-days {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
-    max-width: 100%;
+    margin-top: 3rem; /* mai mult spațiu față de „Hello” */
 }
 
 .day-card {
-    width: 120vw; /* Lățime mai mare */
-    height: 15vh; /* Înălțime mai mare */
-    border-radius: 16px; /* Rotunjire mai pronunțată */
-    border: 2px solid #173B61; /* Border albastru */
-    position: relative;
+    flex: 1 1 160px;       /* lățime minimă mai mare */
+    max-width: 250px;
+    min-height: 180px;     /* înălțime mai mare */
+    border-radius: 16px;
+    border: 2px solid #173B61;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.8); /* Fundal semi-transparent */
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: transform 0.2s ease;
+}
+
+.day-card:hover {
+    transform: scale(1.03);
 }
 
 .day-top {
-    height: 20%;
-    background-color: #E2A54D; /* Galben */
+    height: 25%;
+    background-color: #E2A54D;
 }
 
-.day-name {
-    flex-grow: 1;
-    display: flex;
-    margin-top: 1vh;
-    justify-content: left;
-    color: #173B61; /* Text albastru */
+.day-body {
+    padding: 1.2rem;
     text-align: center;
-    padding: 0 8px; /* Padding pentru textul mai lung */
+    color: #173B61;
 }
 
-.day-date {
-    margin: 4px;
-    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
-    color: #173B61; /* Culoare mai deschisă pentru dată */
-    font-weight: normal;
-    line-height: 2;
+.day-body h3 {
+    font-size: 1.2rem;
+    margin: 0;
 }
 
+.day-body p {
+    font-size: 1rem;
+    margin: 0.5rem 0 0 0;
+}
 
+.day-card.active {
+    border: 4px solid #173B61; /* contur albastru */
+    box-shadow: none;
+}
 
-@media(max-width: 1024px) {
-    html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-y: auto;
-        background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
-        font-family: 'Ubuntu', sans-serif;
-    }
-
-    /* Main container */
-    .dashboard-container {
-        width: 100%;
-        min-height: 100vh;
-        overflow-y: auto;
-        position: relative;
-        display: flex;
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-main {
         flex-direction: column;
     }
 
-    /* Logo Quizzy */
-    .dashboard-logo {
-        width: 61px;
-        height: 48px;
-        position: absolute;
-        left: 20px;
-        top: 24px;
-    }
-
-    /* Logo FII */
-    .dashboard-logo-fii {
-        width: 49px;
-        height: 48px;
-        position: absolute;
-        left: 966px;
-        top: 24px;
-    }
-
-    /* Cutia albă centrală */
-    .dashboard-inner-box,
-    .dashboard-white-box {
-        position: absolute;
-        width: 850px;
-        height: 800px;
-        top: 16px;
-        left: 100px;
-        background: #EFEAE6;
-        border-radius: 8px;
-        box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
-    }
-
-    /* Butoane laterale */
-    .dashboard-icon-wrapper {
-        position: absolute;
-        width: 64px;
-        height: 72px;
-        background: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .dashboard-sidebar {
+        flex-direction: row;
         justify-content: center;
-        z-index: 3;
-        transition: transform 0.2s ease;
-    }
-
-    .dashboard-icon-wrapper:hover {
-        transform: scale(1.05);
-    }
-
-    .dashboard-icon-wrapper.active {
-        background-color: #EFEAE6;
-        border-radius: 8px;
-    }
-
-    /* Poziționări individuale pentru fiecare buton */
-    .dashboard-icon-home {
-        top: 96px;
-        left: 20px;
-    }
-
-    .dashboard-icon-library {
-        top: 170px;
-        left: 20px;
-    }
-
-    .dashboard-icon-explore {
-        top: 244px;
-        left: 20px;
-    }
-
-    .dashboard-icon-profile {
-        top: 318px;
-        left: 20px;
-    }
-
-    /* Imagini și text pentru iconițe */
-    .dashboard-icon-image {
-        width: 36px;
-        height: 36px;
-        z-index: 1;
-    }
-
-    .dashboard-icon-text {
-        font-size: 12px;
-        font-weight: 500;
-        margin-top: 4px;
-        z-index: 1;
-        color: #EFEAE6;
-    }
-
-    /* Stil pentru buton activ */
-    .dashboard-icon-wrapper.active .dashboard-icon-text {
-        color: #173B61;
-        font-weight: 700;
-    }
-
-    .dashboard-icon-wrapper.active .dashboard-icon-image {
-        filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
-    }
-
-    /* Rect fundal pentru buton activ */
-    .dashboard-rectangle-home {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 64px;
-        height: 72px;
-        border-radius: 8px;
-        background-color: #EFEAE6;
-        z-index: -1;
-    }
-
-}
-
-@media(max-width: 768px) {
-    html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-y: auto;
-        background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
-        font-family: 'Ubuntu', sans-serif;
-    }
-
-    /* Main container */
-    .dashboard-container {
-        width: 100%;
-        min-height: 100vh;
-        overflow-y: auto;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Logo Quizzy */
-    .dashboard-logo {
-        width: 61px;
-        height: 48px;
-        position: absolute;
-        left: 25px;
-        top: 24px;
-    }
-
-    /* Logo FII */
-    .dashboard-logo-fii {
-        width: 49px;
-        height: 48px;
-        position: absolute;
-        left: 700px;
-        top: 24px;
-    }
-
-    /* Cutia albă centrală */
-    .dashboard-inner-box,
-    .dashboard-white-box {
-        position: absolute;
-        width: 590px;
-        height: 800px;
-        top: 16px;
-        left: 100px;
-        background: #EFEAE6;
-        border-radius: 8px;
-        box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
-    }
-
-    /* Butoane laterale */
-    .dashboard-icon-wrapper {
-        position: absolute;
-        width: 64px;
-        height: 72px;
-        background: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 3;
-        transition: transform 0.2s ease;
-    }
-
-    .dashboard-icon-wrapper:hover {
-        transform: scale(1.05);
-    }
-
-    .dashboard-icon-wrapper.active {
-        background-color: #EFEAE6;
-        border-radius: 8px;
-    }
-
-    /* Poziționări individuale pentru fiecare buton */
-    .dashboard-icon-home {
-        top: 96px;
-        left: 20px;
-    }
-
-    .dashboard-icon-library {
-        top: 170px;
-        left: 20px;
-    }
-
-    .dashboard-icon-explore {
-        top: 244px;
-        left: 20px;
-    }
-
-    .dashboard-icon-profile {
-        top: 318px;
-        left: 20px;
-    }
-
-    /* Imagini și text pentru iconițe */
-    .dashboard-icon-image {
-        width: 36px;
-        height: 36px;
-        z-index: 1;
-    }
-
-    .dashboard-icon-text {
-        font-size: 12px;
-        font-weight: 500;
-        margin-top: 4px;
-        z-index: 1;
-        color: #EFEAE6;
-    }
-
-    /* Stil pentru buton activ */
-    .dashboard-icon-wrapper.active .dashboard-icon-text {
-        color: #173B61;
-        font-weight: 700;
-    }
-
-    .dashboard-icon-wrapper.active .dashboard-icon-image {
-        filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
-    }
-
-    /* Rect fundal pentru buton activ */
-    .dashboard-rectangle-home {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 64px;
-        height: 72px;
-        border-radius: 8px;
-        background-color: #EFEAE6;
-        z-index: -1;
-    }
-}
-
-@media(max-width: 480px) {
-    html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-y: auto;
-        background: linear-gradient(180deg, #173B61 40%, #EFEAE6 100%);
-        font-family: 'Ubuntu', sans-serif;
-    }
-
-    /* Main container */
-    .dashboard-container {
-        width: 100%;
-        min-height: 100vh;
-        overflow-y: auto;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Logo Quizzy */
-    .dashboard-logo {
-        width: 61px;
-        height: 48px;
-        position: absolute;
-        left: 10px;
-        top: 24px;
-    }
-
-    /* Logo FII */
-    .dashboard-logo-fii {
-        width: 49px;
-        height: 48px;
-        position: absolute;
-        left: 370px;
-        top: 24px;
-    }
-
-    /* Cutia albă centrală */
-    .dashboard-inner-box,
-    .dashboard-white-box {
-        position: absolute;
-        width: 280px;
-        height: 800px;
-        top: 16px;
-        left: 80px;
-        background: #EFEAE6;
-        border-radius: 8px;
-        box-shadow: 0px 0px 8px 2px rgba(23, 59, 97, 0.64) inset;
-    }
-
-    /* Butoane laterale */
-    .dashboard-icon-wrapper {
-        position: absolute;
-        width: 64px;
-        height: 72px;
-        background: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 3;
-        transition: transform 0.2s ease;
-    }
-
-    .dashboard-icon-wrapper:hover {
-        transform: scale(1.05);
-    }
-
-    .dashboard-icon-wrapper.active {
-        background-color: #EFEAE6;
-        border-radius: 8px;
-    }
-
-    /* Poziționări individuale pentru fiecare buton */
-    .dashboard-icon-home {
-        top: 96px;
-        left: 10px;
-    }
-
-    .dashboard-icon-library {
-        top: 170px;
-        left: 10px;
-    }
-
-    .dashboard-icon-explore {
-        top: 244px;
-        left: 10px;
-    }
-
-    .dashboard-icon-profile {
-        top: 318px;
-        left: 10px;
-    }
-
-    /* Imagini și text pentru iconițe */
-    .dashboard-icon-image {
-        width: 36px;
-        height: 36px;
-        z-index: 1;
-    }
-
-    .dashboard-icon-text {
-        font-size: 12px;
-        font-weight: 500;
-        margin-top: 4px;
-        z-index: 1;
-        color: #EFEAE6;
-    }
-
-    /* Stil pentru buton activ */
-    .dashboard-icon-wrapper.active .dashboard-icon-text {
-        color: #173B61;
-        font-weight: 700;
-    }
-
-    .dashboard-icon-wrapper.active .dashboard-icon-image {
-        filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
-    }
-
-    /* Rect fundal pentru buton activ */
-    .dashboard-rectangle-home {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 64px;
-        height: 72px;
-        border-radius: 8px;
-        background-color: #EFEAE6;
-        z-index: -1;
     }
 }

@@ -7,14 +7,10 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [streak, setStreak] = useState(null);
 
-    // Preluăm username-ul și extragem prenumele
     const username = localStorage.getItem('user') || '';
     const prenume = username.split('.')[0]?.charAt(0).toUpperCase() + username.split('.')[0]?.slice(1).toLowerCase();
-
-    // Preluăm userId-ul salvat în localStorage
     const userId = localStorage.getItem('userId');
-    console.log("User ID from localStorage:", userId);
-    // Obținem data curentă
+
     const currentDate = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const months = [
@@ -45,93 +41,67 @@ const Dashboard = () => {
     }, [userId]);
 
     const handleClick = (label) => {
-        if (label === "Home") {
-            navigate('/dashboard');
-        } else if (label === "Profile") {
-            navigate('/profile');
-        } else if (label === "Explore") {
-            navigate('/explore');
-        } else if (label === "Library") {
-            navigate('/library');
-        }
+        navigate(`/${label.toLowerCase()}`);
     };
 
     return (
-        <div className="dashboard-container">
-            <div className="dashboard-logo">
-                <img src="/quizzy-logo-homepage.svg" alt="Logo" style={{ width: '100%', height: '100%' }} />
-            </div>
+        <div className="dashboard-wrapper">
+            <header className="dashboard-header">
+                <img src="/quizzy-logo-homepage.svg" alt="Quizzy Logo" className="logo" />
+                <img src="/logo-fac-homepage.svg" alt="FII Logo" className="logo" />
+            </header>
 
-            <div className="dashboard-inner-box" />
+            <main className="dashboard-main">
+                <aside className="dashboard-sidebar">
+                    {['Home', 'Library', 'Explore', 'Profile'].map((item) => (
+                        <button
+                            key={item}
+                            className={`sidebar-button ${item === 'Home' ? 'active' : ''}`}
+                            onClick={() => handleClick(item)}
+                        >
+                            <img src={`/${item.toLowerCase()}-logo.svg`} alt={item} className="icon" />
+                            <span>{item}</span>
+                        </button>
+                    ))}
+                </aside>
 
-            {/* Sidebar Buttons */}
-            <div className="dashboard-icon-wrapper dashboard-icon-home active">
-                <div className="dashboard-rectangle-home"></div>
-                <img src="/home-logo.svg" alt="Home" className="dashboard-icon-image" />
-                <div className="dashboard-icon-text">Home</div>
-            </div>
-
-            <button className="dashboard-icon-wrapper dashboard-icon-library" onClick={() => handleClick("Library")}>
-                <img src="/library-logo.svg" alt="Library" className="dashboard-icon-image" />
-                <span className="dashboard-icon-text">Library</span>
-            </button>
-
-            <button className="dashboard-icon-wrapper dashboard-icon-explore" onClick={() => handleClick("Explore")}>
-                <img src="/explore-logo.svg" alt="Explore" className="dashboard-icon-image" />
-                <span className="dashboard-icon-text">Explore</span>
-            </button>
-
-            <button className="dashboard-icon-wrapper dashboard-icon-profile" onClick={() => handleClick("Profile")}>
-                <img src="/profile-logo.svg" alt="Profile" className="dashboard-icon-image" />
-                <span className="dashboard-icon-text">Profile</span>
-            </button>
-
-            <div className="dashboard-logo-fii">
-                <img src="/logo-fac-homepage.svg" alt="FII" style={{ width: '100%', height: '100%' }} />
-            </div>
-
-            {/* White Box */}
-            <div className="dashboard-white-box">
-                <div className="welcome-content">
-                    <h1 className="welcome-text">Hello, {prenume}</h1>
-                    <img src="/bufnita.svg" alt="Bufnita" className="welcome-owl-image" />
-                </div>
-
-                <div className="day-and-buttons">
-                    <div className="date-indicator">
-                        <span>🗓️ {dayName}, {day} {month}</span>
-                        <span className="indicator">🔥 {streak}</span>
+                <section className="dashboard-content">
+                    <div className="welcome">
+                        <img src="/bufnita.svg" alt="Bufnita" className="owl" />
+                        <h1>Hello, {prenume}</h1>
                     </div>
 
-                    <div className="navigation-buttons">
-                        <button className="previous-day-button">&lt; Previous day</button>
-                        <button className="next-day-button">Next day &gt;</button>
+                    <div className="top-bar">
+                        <div className="date-info">
+                            <span>🗓️ {dayName}, {day} {month}</span>
+                            <span className="streak">🔥 {streak}</span>
+                        </div>
                     </div>
-                </div>
 
-                <div className="graph-divider"></div>
+                    <hr />
 
-                <div className="week-days-container">
-                    {Array.from({ length: 5 }).map((_, index) => {
-                        const newDate = new Date();
-                        newDate.setDate(currentDate.getDate() + index);
-                        const weekDay = daysOfWeek[newDate.getDay()];
-                        const weekDayDate = newDate.getDate();
-                        const weekDayMonth = months[newDate.getMonth()];
-                        const isToday = newDate.toDateString() === currentDate.toDateString();
+                    <div className="week-days">
+                        {Array.from({ length: 5 }).map((_, index) => {
+                            const newDate = new Date();
+                            newDate.setDate(currentDate.getDate() + index);
+                            const weekDay = daysOfWeek[newDate.getDay()];
+                            const weekDayDate = newDate.getDate();
+                            const weekDayMonth = months[newDate.getMonth()];
+                            const isToday = newDate.toDateString() === currentDate.toDateString();
 
-                        return (
-                            <div className={`day-card ${isToday ? 'active' : ''}`} key={index}>
-                                <div className="day-top"></div>
-                                <div className="day-content">
-                                    <h3 className="day-name">{weekDay}</h3>
-                                    <h5 className="day-date">{weekDayDate} {weekDayMonth}</h5>
+                            return (
+                                <div className={`day-card ${isToday ? 'active' : ''}`} key={index}>
+                                    <div className="day-top"></div>
+                                    <div className="day-body">
+                                        <h3>{weekDay}</h3>
+                                        <p>{weekDayDate} {weekDayMonth}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+                            );
+                        })}
+                    </div>
+                </section>
+            </main>
         </div>
     );
 };
