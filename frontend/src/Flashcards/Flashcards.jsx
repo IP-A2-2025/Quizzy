@@ -8,7 +8,7 @@ const Flashcards = () => {
     const { materialId } = useParams(); // dacă dorești să preiei flashcards după materialId din URL
     const location = useLocation();
     const { courseId, courseTitle } = location.state || {};
-
+    const userId = localStorage.getItem('userId');
     // State pentru flashcards
     const [flashcards, setFlashcards] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -176,18 +176,16 @@ const Flashcards = () => {
         setShowAnswer(true);
         console.log('Sending:', {
             question: current.question,
-            //officialAnswer: "Coada functioneaza pe principiul first-in-first-out, pe cand stiva merge pe principiul last-in-first-out",
             officialAnswer: current.answer,
             usersAnswer: inputText
         });
         try {
-            const res = await api.post('/api/gemini/compare-users-answer-to-the-official-answer',  {
-
-                    question: current.question,
-                    //officialAnswer: "Coada functioneaza pe principiul first-in-first-out, pe cand stiva merge pe principiul last-in-first-out",
-                    officialAnswer: current.answer,
-                    usersAnswer: inputText
-
+            const res = await api.post('/api/gemini/compare-users-answer-to-the-official-answer', {
+                question: current.question,
+                officialAnswer: current.answer,
+                usersAnswer: inputText,
+                flashcardId: current.id,
+                userId: userId
             });
             setScore(res.data);
         } catch (err) {
