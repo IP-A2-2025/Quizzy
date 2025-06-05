@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css"
 import { useEffect, useState, useCallback, useRef } from "react"
 import { api } from "../utils/api"
 import BurgerMenu from "../components/BurgerMenu/BurgerMenu.jsx"
+import { SidebarLeft, SidebarRight } from '../components/Sidebar';
 
 function CoursePage() {
   const navigate = useNavigate()
@@ -27,22 +28,22 @@ function CoursePage() {
   const [tests, setTests] = useState([])
   const [userRole, setUserRole] = useState(null)
   const sliderRef = useRef(null)
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     // Get user role from localStorage when component mounts
     const role = localStorage.getItem('userRole')
     setUserRole(role)
   }, [])
+
   useEffect(() => {
     if (notification) {
-      // Use longer timeout for file replacement operations
-      const timeout = notification.includes('Replacing') ? 0 : 5000; // Don't auto-hide "Replacing..." messages
-      if (timeout > 0) {
-        const timer = setTimeout(() => {
-          setNotification(null)
-        }, timeout)
-        return () => clearTimeout(timer)
-      }
+      // Use longer timeout for enrollment errors 
+      const timeout = notification.includes('already have 4 courses') ? 10000 : 5000;
+      const timer = setTimeout(() => {
+        setNotification(null)
+      }, timeout)
+      return () => clearTimeout(timer)
     }
   }, [notification])
 
@@ -125,7 +126,12 @@ function CoursePage() {
         fetchCourse() // Refresh data after enrollment
       }
     } catch (err) {
-      setNotification(err.response?.data?.message || "Failed to enroll in course")
+      console.error("Enrollment error:", err);
+      if (err.response?.data === "You have reached the maximum limit of 4 enrolled courses.") {
+        setNotification("You already have 4 courses enrolled. Please unenroll from a course before enrolling in a new one.")
+      } else {
+        setNotification(err.response?.data || "Failed to enroll in course")
+      }
     } finally {
       setEnrolling(false)
     }
@@ -169,13 +175,6 @@ function CoursePage() {
     });
   };
 
-  const handleNavClick = (label) => {
-    if (label === "Home") navigate("/dashboard")
-    else if (label === "Library") navigate("/library")
-    else if (label === "Explore") navigate("/explore")
-    else if (label === "Profile") navigate("/profile")
-  }
-
   const handleStartLearning = () => {
     if (materials.length > 0 && materials[0].id) {
       navigate(`/flashcards/${materials[0].id}`, { 
@@ -189,12 +188,14 @@ function CoursePage() {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   const goToNextSlide = () => {
     if (sliderRef.current) {
       sliderRef.current.slickNext()
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   const goToPrevSlide = () => {
     if (sliderRef.current) {
       sliderRef.current.slickPrev()
@@ -209,6 +210,7 @@ function CoursePage() {
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: "40px",
+    afterChange: (index) => setCurrentSlide(index),
     responsive: [
       {
         breakpoint: 1024,
@@ -315,31 +317,16 @@ function CoursePage() {
         const response = await api.postFile('/Material/replace-course', formData);
         
         if (response.data.status === 'success') {
-          setNotification(`Successfully replaced "${materialName}" with "${file.name}"`);
-          
-          // Refresh materials to show the updated file
-          try {
-            const materialsResponse = await api.get(`/Material/course/${id}`);
-            setMaterials(materialsResponse.data || []);
-          } catch (refreshErr) {
-            console.error("Error refreshing materials:", refreshErr);
-          }
-          
-          // Show flashcard generation status
-          if (response.data.flashcardStatus === 'success') {
-            setNotification(`File replaced successfully! Generated ${response.data.importedFlashcards} new flashcards.`);
-          } else if (response.data.flashcardStatus === 'failed') {
-            setNotification(`File replaced successfully, but flashcard generation failed: ${response.data.flashcardError}`);
-          }
-          
+          setNotification('File replaced successfully!');
+          // Refresh the course data to get updated materials
+          fetchCourse();
         } else {
-          setNotification(`Failed to replace file: ${response.data.message}`);
+          setNotification(response.data.message || 'Failed to replace file');
         }
         
       } catch (error) {
         console.error('Error replacing file:', error);
-        const errorMessage = error.response?.data?.message || error.message || 'Failed to replace file';
-        setNotification(`Error: ${errorMessage}`);
+        setNotification(error.response?.data?.message || 'Failed to replace file');
       }
     };
     
@@ -349,7 +336,7 @@ function CoursePage() {
     document.body.removeChild(fileInput);
   };
 
-  // Simple navigation function for desktop buttons
+  // eslint-disable-next-line no-unused-vars
   const handleDesktopNavClick = (label) => {
     if (label === "Home") {
       navigate("/dashboard")
@@ -391,66 +378,49 @@ function CoursePage() {
       {notification && <div className="graph-notification">{notification}</div>}
       
       {/* Burger Menu Component */}
-      <BurgerMenu currentPage="Library" />      {/* Quizzy Logo positioned in top left */}
-      <div className="graph-logo">
-        <img src="/quizzy-logo-homepage.svg" alt="Logo" />
-      </div>
-
-      {/* Sidebar Container */}
-      <div className="graph-sidebar">        
-        {/* Navigation Container */}
-        <div className="graph-nav">
-          <button className="graph-icon-wrapper" onClick={() => handleDesktopNavClick("Home")}>
-            <img src="/home-logo.svg" alt="Home" className="graph-icon-image" />
-            <span className="graph-icon-text">Home</span>
-          </button>
-
-          <button className="graph-icon-wrapper graph-icon-active">
-            <div className="graph-rectangle-active"></div>
-            <img src="/library-logo.svg" alt="Library" className="graph-icon-image" />
-            <div className="graph-icon-text">Library</div>
-          </button>
-
-          <button className="graph-icon-wrapper" onClick={() => handleDesktopNavClick("Explore")}>
-            <img src="/explore-logo.svg" alt="Explore" className="graph-icon-image" />
-            <span className="graph-icon-text">Explore</span>
-          </button>
-
-          <button className="graph-icon-wrapper" onClick={() => handleDesktopNavClick("Profile")}>
-            <img src="/profile-logo.svg" alt="Profile" className="graph-icon-image" />
-            <span className="graph-icon-text">Profile</span>
-          </button>
-        </div>
-      </div>
+      <BurgerMenu currentPage="Library" />
       
-      {/* FII Logo positioned on right border */}
-      <div className="graph-logo-fii">
-        <img src="/logo-fac-homepage.svg" alt="FII Logo" />
-      </div>
+      {/* Desktop Sidebars */}
+      <SidebarLeft activeRoute="/library" />
+      <SidebarRight />
 
       {/* Main Content Box */}
       <div className="graph-box">
         <div className="graph-content-box">
-        <div className="graph-header">
-          <h1 className="graph-title">{course.title}</h1>
-          <div className="graph-buttons-container">
-          {enrolled ? (
-            <>
-              <button className="graph-unenroll-button" onClick={handleUnenroll} disabled={unenrolling}>
-                {unenrolling ? "Unenrolling..." : "Unenroll ►"}
+          {/* Course Header */}
+          <div className="graph-header">
+            <h1 className="graph-title">
+              {course?.title || "Loading..."}
+            </h1>
+            <p className="graph-description">
+              {course?.description || "Course description"}
+            </p>
+            {userRole === 'student' && course && (
+              <div className="enrollment-section">
+                {enrolled ? (
+                  <button 
+                    className="graph-unenroll-button"
+                    onClick={handleUnenroll}
+                    disabled={unenrolling}
+                  >
+                    {unenrolling ? "Unenrolling..." : "Unenroll"}
+                  </button>
+                ) : (
+                  <button 
+                    className="graph-enroll-button"
+                    onClick={handleEnroll}
+                    disabled={enrolling}
+                  >
+                    {enrolling ? "Enrolling..." : "Enroll"}
+                  </button>
+                )}
+              </div>
+            )}
+            {enrolled && (
+              <button className="graph-start-button" onClick={handleStartLearning}>
+                Start learning ►
               </button>
-              <button className="graph-enrolled-button" disabled>
-                Enrolled
-              </button>
-            </>
-          ) : (
-            <button className="graph-enroll-button" onClick={handleEnroll} disabled={enrolling}>
-              {enrolling ? "Enrolling..." : "Enroll"}
-            </button>
-          )}
-          <button className="graph-start-button" onClick={handleStartLearning}>
-            Start learning ►
-          </button>
+            )}
           </div>
         </div>
 
@@ -478,32 +448,60 @@ function CoursePage() {
             </div>
             {allFlashcards.length > 0 ? (
               <div className="flashcard-section">
-                <Slider ref={sliderRef} {...sliderSettings}>
-                  {materials.map((material) =>
-                    material.flashcards?.map((fc, idx) => (
-                      <div
-                        className="graph-flashcard clickable-flashcard"
-                        key={fc.id || `${material.id}-${idx}`}
-                        onClick={() => handleFlashcardClick(fc, material.id)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <h3>{fc.question || "No question available"}</h3>
-                        {fc.questionType === 'Multiple' || fc.questionType === 'Teorie' ? (
-                          <p className="flashcard-preview-type">Multiple Choice Question</p>
-                        ) : (
-                          fc.answer && <p className="flashcard-preview-answer">{fc.answer.substring(0, 100)}...</p>
-                        )}
-                        <div className="flashcard-preview-footer">
-                          <span className="material-name">{material.name}</span>
-                          <span className="click-hint">Click to study →</span>
+                <div className="slider-container">
+                  <button 
+                    className="slider-nav-button prev" 
+                    onClick={goToPrevSlide}
+                    aria-label="Previous slide"
+                  >
+                    &lt;
+                  </button>
+                  
+                  <Slider ref={sliderRef} {...sliderSettings}>
+                    {materials.map((material) =>
+                      material.flashcards?.map((fc, idx) => (
+                        <div
+                          className="graph-flashcard clickable-flashcard"
+                          key={fc.id || `${material.id}-${idx}`}
+                          onClick={() => handleFlashcardClick(fc, material.id)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <h3>{fc.question || "No question available"}</h3>
+                          {fc.questionType === 'Multiple' || fc.questionType === 'Teorie' ? (
+                            <p className="flashcard-preview-type">Multiple Choice Question</p>
+                          ) : (
+                            fc.answer && <p className="flashcard-preview-answer">{fc.answer.substring(0, 100)}...</p>
+                          )}
+                          <div className="flashcard-preview-footer">
+                            <span className="material-name">{material.name}</span>
+                            <span className="click-hint">Click to study →</span>
+                          </div>
                         </div>
-                      </div>
-                    ))
-                  ).flat()}
-                </Slider>
+                      ))
+                    ).flat()}
+                  </Slider>
+                  
+                  <button 
+                    className="slider-nav-button next" 
+                    onClick={goToNextSlide}
+                    aria-label="Next slide"
+                  >
+                    &gt;
+                  </button>
+                </div>
+                
                 <div className="dots-only-container">
                   {allFlashcards.map((_, index) => (
-                    <div key={index} className={`custom-dot ${index === 0 ? "active" : ""}`} />
+                    <button 
+                      key={index} 
+                      className={`custom-dot ${index === currentSlide ? "active" : ""}`}
+                      onClick={() => {
+                        if (sliderRef.current) {
+                          sliderRef.current.slickGoTo(index);
+                        }
+                      }}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
                   ))}
                 </div>
               </div>
@@ -524,30 +522,58 @@ function CoursePage() {
             </div>
             {tests.length > 0 ? (
               <div className="flashcard-section">
-                <Slider ref={sliderRef} {...sliderSettings}>
-                  {tests.map((question) => (
-                    <div 
-                      className={`graph-flashcard ${userRole !== 'student' ? 'clickable' : ''}`} 
-                      key={question.id} 
-                      onClick={() => userRole !== 'student' ? handleViewTest(question) : null}
-                      style={userRole === 'student' ? { cursor: 'default' } : {}}
-                    >
-                      <h3>{question.questionText}</h3>
-                      {question.answers && question.answers.length > 0 && (
-                        <div className="answers-preview">
-                          {question.answers.map((answer, index) => (
-                            <p key={index} className={answer.correct ? 'correct-answer' : ''}>
-                              {answer.optionText}
-                            </p>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </Slider>
+                <div className="slider-container">
+                  <button 
+                    className="slider-nav-button prev" 
+                    onClick={goToPrevSlide}
+                    aria-label="Previous slide"
+                  >
+                    &lt;
+                  </button>
+                  
+                  <Slider ref={sliderRef} {...sliderSettings}>
+                    {tests.map((question) => (
+                      <div 
+                        className={`graph-flashcard ${userRole !== 'student' ? 'clickable' : ''}`} 
+                        key={question.id} 
+                        onClick={() => userRole !== 'student' ? handleViewTest(question) : null}
+                        style={userRole === 'student' ? { cursor: 'default' } : {}}
+                      >
+                        <h3>{question.questionText}</h3>
+                        {question.answers && question.answers.length > 0 && (
+                          <div className="answers-preview">
+                            {question.answers.map((answer, index) => (
+                              <p key={index} className={answer.correct ? 'correct-answer' : ''}>
+                                {answer.optionText}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </Slider>
+                  
+                  <button 
+                    className="slider-nav-button next" 
+                    onClick={goToNextSlide}
+                    aria-label="Next slide"
+                  >
+                    &gt;
+                  </button>
+                </div>
+                
                 <div className="dots-only-container">
                   {tests.map((_, index) => (
-                    <div key={index} className={`custom-dot ${index === 0 ? "active" : ""}`} />
+                    <button 
+                      key={index} 
+                      className={`custom-dot ${index === currentSlide ? "active" : ""}`}
+                      onClick={() => {
+                        if (sliderRef.current) {
+                          sliderRef.current.slickGoTo(index);
+                        }
+                      }}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
                   ))}
                 </div>
               </div>
@@ -567,38 +593,40 @@ function CoursePage() {
             <h2 className="graph-section-title">Files</h2>
             <h2 className="graph-file-count">{materials.length}</h2>
           </div>
-          <div className="graph-files-container">          {materials.length > 0 ? (
-            materials.map((mat, i) => (              <div key={mat.id || i}>
-                <div className="graph-file-entry clickable" onClick={() => handleMaterialClick(mat.path)}>
-                  <FaFilePdf size={40} color="#E74C3C" />
-                  <div className="graph-file-text">
-                    <p className="graph-file-name">{mat.name || "Unnamed Material"}</p>
-                    <p className="graph-file-details">
-                      {mat.pages ? `${mat.pages} pages` : "Unknown pages"} |
-                      {mat.flashcards ? ` ${mat.flashcards.length} flashcards` : " No flashcards"}
-                    </p>
+          <div className="graph-files-container">
+            {materials.length > 0 ? (
+              materials.map((mat, i) => (
+                <div key={mat.id || i}>
+                  <div className="graph-file-entry clickable" onClick={() => handleMaterialClick(mat.path)}>
+                    <FaFilePdf size={40} color="#E74C3C" />
+                    <div className="graph-file-text">
+                      <p className="graph-file-name">{mat.name || "Unnamed Material"}</p>
+                      <p className="graph-file-details">
+                        {mat.pages ? `${mat.pages} pages` : "Unknown pages"} |
+                        {mat.flashcards ? ` ${mat.flashcards.length} flashcards` : " No flashcards"}
+                      </p>
+                    </div>
+                    {userRole !== 'student' && (
+                      <button 
+                        className="graph-replace-button" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleReplaceFile(mat.id, mat.name);
+                        }}
+                        title="Replace this file"
+                      >
+                        ↻
+                      </button>
+                    )}
                   </div>
-                  {userRole !== 'student' && (
-                    <button 
-                      className="graph-replace-button" 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleReplaceFile(mat.id, mat.name);
-                      }}
-                      title="Replace this file"
-                    >
-                      ↻
-                    </button>
-                  )}
+                  {i < materials.length - 1 && <div className="graph-divider-small"></div>}
                 </div>
-                {i < materials.length - 1 && <div className="graph-divider-small"></div>}
-              </div>
-            ))
-          ) : (
-            <div className="graph-file-entry">No files available.</div>
-          )}          </div>
+              ))
+            ) : (
+              <div className="graph-file-entry">No files available.</div>
+            )}
+          </div>
         </div>
-      </div>
       </div>
       {error && <div className="library-error">{error}</div>}
     </div>

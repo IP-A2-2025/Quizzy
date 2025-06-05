@@ -3,6 +3,7 @@ import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../utils/api';
 import BurgerMenu from '../components/BurgerMenu/BurgerMenu';
+import { SidebarLeft, SidebarRight } from '../components/Sidebar';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -26,34 +27,29 @@ const Dashboard = () => {
     const prenume = extractFirstName(username);
     const userId = localStorage.getItem('userId');
 
+    useEffect(() => {
+        const fetchStreak = async () => {
+            try {
+                if (userId) {
+                    const response = await api.get(`/streaks/${userId}`);
+                    setStreak(response.data.currentStreak || 0);
+                }
+            } catch (error) {
+                console.error('Error fetching streak:', error);
+                setStreak(0);
+            }
+        };
+
+        fetchStreak();
+    }, [userId]);
+
     const currentDate = new Date();
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    const dayName = daysOfWeek[currentDate.getDay()];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
     const day = currentDate.getDate();
     const month = months[currentDate.getMonth()];
-
-    useEffect(() => {
-        if (userId) {
-            api.get(`/users/streak/latest?userId=${userId}`)
-                .then((res) => {
-                    if (res.data && typeof res.data.currentStreak === 'number') {
-                        setStreak(res.data.currentStreak);
-                    } else {
-                        setStreak(1);
-                    }
-                })
-                .catch((err) => {
-                    console.error('Eroare la preluarea streak-ului:', err);
-                    setStreak(1);
-                });
-        } else {
-            setStreak(0);
-        }
-    }, [userId]);
+    const dayName = daysOfWeek[currentDate.getDay()];
 
     const handleClick = (label) => {
         navigate(`/${label.toLowerCase()}`);
@@ -62,28 +58,15 @@ const Dashboard = () => {
             {/* Burger Menu for tablet and mobile */}
             <BurgerMenu currentPage="dashboard" />
             
+            {/* Desktop Sidebars */}
+            <SidebarLeft activeRoute="/dashboard" />
+            <SidebarRight />
+            
             <header className="dashboard-header">
                 {/* Header can be used for other elements if needed */}
             </header>
 
             <main className="dashboard-main">
-                {/* Left sidebar with Quizzy logo and navigation */}
-                <aside className="dashboard-sidebar left">
-                    <img src="/quizzy-logo-homepage.svg" alt="Quizzy Logo" className="sidebar-logo" />
-                    <div className="sidebar-navigation">
-                        {['Home', 'Library', 'Explore', 'Profile'].map((item) => (
-                            <button
-                                key={item}
-                                className={`sidebar-button ${item === 'Home' ? 'active' : ''}`}
-                                onClick={() => handleClick(item)}
-                            >
-                                <img src={`/${item.toLowerCase()}-logo.svg`} alt={item} className="icon" />
-                                <span>{item}</span>
-                            </button>
-                        ))}
-                    </div>
-                </aside>
-
                 <section className="dashboard-content">
                     <div className="welcome">
                         <img src="/bufnita.svg" alt="Bufnita" className="owl" />
@@ -116,13 +99,10 @@ const Dashboard = () => {
                                         <p>{weekDayDate} {weekDayMonth}</p>
                                     </div>
                                 </div>
-                            );                        })}
-                    </div>                </section>
-
-                {/* Right sidebar with FII logo */}
-                <aside className="dashboard-sidebar right">
-                    <img src="/logo-fac-homepage.svg" alt="FII Logo" className="sidebar-fii-logo" />
-                </aside>
+                            );
+                        })}
+                    </div>
+                </section>
             </main>
         </div>
     );

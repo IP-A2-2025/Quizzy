@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Explore.css';
 import BurgerMenu from '../components/BurgerMenu/BurgerMenu';
+import { SidebarLeft, SidebarRight } from '../components/Sidebar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { api } from '../utils/api';
 
@@ -10,8 +11,6 @@ const Explore = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const currentPath = location.pathname; 
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -29,77 +28,15 @@ const Explore = () => {
         fetchCourses();
     }, []);
 
-    const handleClick = (label) => { 
-        if (label === "Home") {
-            navigate('/dashboard');
-        } else if (label === "Profile") {
-            navigate('/profile');
-        } else if (label === "Explore") {
-            navigate('/explore');
-        } else if (label === "Library") {
-            navigate('/library');
-        }
-    };
-
-    const getActiveClass = (route) => {
-        return currentPath === route ? 'active' : '';
-    };
-
     return (
         <>
-            {}
             <BurgerMenu currentPage={location.pathname} />
+            
+            {/* Desktop Sidebars */}
+            <SidebarLeft activeRoute="/explore" />
+            <SidebarRight />
 
             <div className="explore-container">
-                {}
-                <div className="explore-logo">
-                    <img src="/quizzy-logo-homepage.svg" alt="Logo" style={{ width: '100%', height: '100%' }} />
-                </div>
-
-                {}
-                <div className="explore-logo-fii">
-                    <img src="/logo-fac-homepage.svg" alt="FII" style={{ width: '100%', height: '100%' }} />
-                </div>
-
-                {}
-                <div className="explore-inner-box" />
-                {}
-
-
-                {}
-                <button
-                    className={`explore-icon-wrapper explore-icon-home ${getActiveClass('/dashboard')}`}
-                    onClick={() => handleClick("Home")}
-                >
-                    {getActiveClass('/dashboard') && <div className="explore-rectangle-home"></div>}
-                    <img src="/home-logo.svg" alt="Home" className="explore-icon-image" />
-                    <div className="explore-icon-text">Home</div>
-                </button>
-                <button
-                    className={`explore-icon-wrapper explore-icon-library ${getActiveClass('/library')}`}
-                    onClick={() => handleClick("Library")}
-                >
-                    {getActiveClass('/library') && <div className="explore-rectangle-home"></div>}
-                    <img src="/library-logo.svg" alt="Library" className="explore-icon-image" />
-                    <span className="explore-icon-text">Library</span>
-                </button>
-                <button
-                    className={`explore-icon-wrapper explore-icon-explore ${getActiveClass('/explore')}`}
-                    onClick={() => handleClick("Explore")}
-                >
-                    {getActiveClass('/explore') && <div className="explore-rectangle-home"></div>}
-                    <img src="/explore-logo.svg" alt="Explore" className="explore-icon-image" />
-                    <span className="explore-icon-text">Explore</span>
-                </button>
-                <button
-                    className={`explore-icon-wrapper explore-icon-profile ${getActiveClass('/profile')}`}
-                    onClick={() => handleClick("Profile")}
-                >
-                    {getActiveClass('/profile') && <div className="explore-rectangle-home"></div>}
-                    <img src="/profile-logo.svg" alt="Profile" className="explore-icon-image" />
-                    <span className="explore-icon-text">Profile</span>
-                </button>
-
                 {/* Cards Section */}
                 <div className="library-cards-container"> 
                     {loading ? (
