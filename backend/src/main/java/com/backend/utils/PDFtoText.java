@@ -33,7 +33,11 @@ public class PDFtoText {
                 .region(Region.EU_CENTRAL_1)
                 .build();
         AWSS3Service service = new AWSS3Service(s3Client);
-        Map<String, File> pdfMap = service.getPdfFilesWithKeys("quizzy-s3-bucket");
+        String bucketName = System.getenv("AWS_S3_BUCKET_NAME");
+        if (bucketName == null) {
+            bucketName = "quizzy-s3-bucket";
+        }
+        Map<String, File> pdfMap = service.getPdfFilesWithKeys(bucketName);
 
         List<Map.Entry<String, File>> entries = new ArrayList<>(pdfMap.entrySet());
         for (int i = 0; i < entries.size(); i++) {

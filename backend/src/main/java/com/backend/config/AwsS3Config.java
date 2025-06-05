@@ -27,19 +27,14 @@ public class AwsS3Config {
     @Bean
     public S3Client s3Client() {
         logger.info("Initializing S3Client with region: {}", region);
-        
-        try {
+          try {
             AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(accessKeyId, secretAccessKey);
             StaticCredentialsProvider credentialsProvider = StaticCredentialsProvider.create(awsCredentials);
-
-            S3Configuration s3Config = S3Configuration.builder()
-                    .pathStyleAccessEnabled(true)
-                    .build();
 
             return S3Client.builder()
                     .region(Region.of(region))
                     .credentialsProvider(credentialsProvider)
-                    .serviceConfiguration(s3Config)
+                    .forcePathStyle(false)
                     .build();
 
         } catch (Exception e) {

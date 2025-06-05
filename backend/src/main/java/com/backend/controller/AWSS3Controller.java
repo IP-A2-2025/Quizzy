@@ -3,6 +3,7 @@ package com.backend.controller;
 import com.backend.service.AWSS3Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetBucketLocationRequest;
+import software.amazon.awssdk.services.s3.model.GetBucketLocationResponse;
 
 import java.io.File;
 import java.util.HashMap;
@@ -23,6 +27,9 @@ public class AWSS3Controller {
 
     private static final Logger logger = LoggerFactory.getLogger(AWSS3Controller.class);
     private final AWSS3Service awss3Service;
+    
+    @Autowired
+    private S3Client s3Client;
 
     public AWSS3Controller(AWSS3Service awss3Service) {
         this.awss3Service = awss3Service;
@@ -262,5 +269,38 @@ public class AWSS3Controller {
         response.put("service", "AWS S3 Service");
         response.put("timestamp", String.valueOf(System.currentTimeMillis()));
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Get bucket location/region for debugging
+     * GET /s3/bucket-location/{bucketName}
+     */
+    @GetMapping("/bucket-location/{bucketName}")
+    public ResponseEntity<Map<String, String>> getBucketLocation(@PathVariable String bucketName) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            logger.info("Checking bucket location for: {}", bucketName);
+            
+            GetBucketLocationRequest request = GetBucketLocationRequest.builder()
+                    .bucket(bucketName)
+                    .build();
+            
+            GetBucketLocationResponse locationResponse = s3Client.getBucketLocation(request);
+            String region = locationResponse.locationConstraintAsString();
+            
+            response.put("bucket", bucketName);
+            response.put("region", region);
+            response.put("status", "success");
+            
+            logger.info("Bucket {} is in region: {}", bucketName, region);
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            logger.error("Error checking bucket location for {}: {}", bucketName, e.getMessage(), e);
+            response.put("bucket", bucketName);
+            response.put("error", e.getMessage());
+            response.put("status", "error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 }
