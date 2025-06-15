@@ -1,5 +1,6 @@
 # Setup Docker
 
+
 ## Instalare
 
 - **Windows**: Instalează [Docker Desktop](https://www.docker.com/products/docker-desktop) și pornește-l.
