@@ -167,16 +167,6 @@ function Login() {
                         <button type="submit" className="login-button">{t.buton}</button>
                     </div>
 
-                    <div className="oauth-buttons">
-                        <button type="button" className="google-login-button">
-                            <img src="/google-foto-logo.png" alt="Google" className="oauth-logo" />
-                            Sign in with Google
-                        </button>
-                        <button type="button" className="apple-login-button">
-                            <img src="/apple-logo.png" alt="Apple" className="oauth-logo" />
-                            Sign in with Apple
-                        </button>
-                    </div>
 
                 </form>
 
