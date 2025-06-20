@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FaBars, FaTimes } from 'react-icons/fa'
 import './BurgerMenu.css'
 
 const BurgerMenu = ({ currentPage = "" }) => {
@@ -42,16 +41,17 @@ const BurgerMenu = ({ currentPage = "" }) => {
   }
 
   return (
-    <>
-      {/* Burger Menu Button */}
+    <>      {/* Burger Menu Button */}
       <button 
-        className="burger-menu-button" 
+        className={`burger-menu-button ${isBurgerMenuOpen ? 'active' : ''}`}
         onClick={(e) => {
           e.stopPropagation()
           toggleBurgerMenu()
         }}
       >
-        {isBurgerMenuOpen ? <FaTimes /> : <FaBars />}
+        <div className="burger-line"></div>
+        <div className="burger-line"></div>
+        <div className="burger-line"></div>
       </button>
 
       {/* Burger Menu Overlay */}

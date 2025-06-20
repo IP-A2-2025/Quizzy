@@ -57,32 +57,35 @@ const Dashboard = () => {
 
     const handleClick = (label) => {
         navigate(`/${label.toLowerCase()}`);
-    };    return (
-        <div className="dashboard-wrapper">
+    };    return (        <div className="dashboard-wrapper">
             {/* Burger Menu for tablet and mobile */}
             <BurgerMenu currentPage="dashboard" />
             
-            <header className="dashboard-header">
-                {/* Header can be used for other elements if needed */}
-            </header>
+            {/* Logo Quizzy */}
+            <div className="dashboard-logo">
+                <img src="/quizzy-logo-homepage.svg" alt="Quizzy Logo" style={{ width: '100%', height: '100%' }} />
+            </div>
+
+            {/* Logo FII */}
+            <div className="dashboard-logo-fii">
+                <img src="/logo-fac-homepage.svg" alt="FII Logo" style={{ width: '100%', height: '100%' }} />
+            </div>
+
+            {/* Desktop Sidebar buttons */}
+            <div className="dashboard-desktop-sidebar">
+                {['Home', 'Library', 'Explore', 'Profile'].map((item) => (
+                    <button
+                        key={item}
+                        className={`dashboard-icon-wrapper dashboard-icon-${item.toLowerCase()} ${item === 'Home' ? 'active' : ''}`}
+                        onClick={() => handleClick(item)}
+                    >
+                        <img src={`/${item.toLowerCase()}-logo.svg`} alt={item} className="dashboard-icon-image" />
+                        <span className="dashboard-icon-text">{item}</span>
+                    </button>
+                ))}
+            </div>
 
             <main className="dashboard-main">
-                {/* Left sidebar with Quizzy logo and navigation */}
-                <aside className="dashboard-sidebar left">
-                    <img src="/quizzy-logo-homepage.svg" alt="Quizzy Logo" className="sidebar-logo" />
-                    <div className="sidebar-navigation">
-                        {['Home', 'Library', 'Explore', 'Profile'].map((item) => (
-                            <button
-                                key={item}
-                                className={`sidebar-button ${item === 'Home' ? 'active' : ''}`}
-                                onClick={() => handleClick(item)}
-                            >
-                                <img src={`/${item.toLowerCase()}-logo.svg`} alt={item} className="icon" />
-                                <span>{item}</span>
-                            </button>
-                        ))}
-                    </div>
-                </aside>
 
                 <section className="dashboard-content">
                     <div className="welcome">
@@ -116,13 +119,8 @@ const Dashboard = () => {
                                         <p>{weekDayDate} {weekDayMonth}</p>
                                     </div>
                                 </div>
-                            );                        })}
-                    </div>                </section>
-
-                {/* Right sidebar with FII logo */}
-                <aside className="dashboard-sidebar right">
-                    <img src="/logo-fac-homepage.svg" alt="FII Logo" className="sidebar-fii-logo" />
-                </aside>
+                            );                        })}                    </div>
+                </section>
             </main>
         </div>
     );

@@ -4,7 +4,22 @@
   --accent-orange: #e2a54d;
   --text-gray: #666;
   --shadow-color: rgba(23, 59, 97, 0.64);
+  /* STANDARDIZED SIDEBAR DIMENSIONS FROM DASHBOARD */
+  --logo-size: 60px;
+  --sidebar-width: 80px;
+  --icon-size: 36px;
+  --button-width: 64px;
+  --button-height: 72px;
+  --button-padding: 8px;
+  --icon-margin-bottom: 4px;
+  --font-size-nav: 12px;
+  --button-gap: 1rem;/* RESPONSIVE POSITIONING - MATCHING DASHBOARD */
+  --left-position: 2%;
+  --right-position: 2%;
+  --top-margin: 2rem;
+  --sidebar-top: 6rem;
 
+  /* OTHER SPACING */
   --spacing-xs: clamp(0.25rem, 1vw, 0.5rem);
   --spacing-sm: clamp(0.5rem, 2vw, 1rem);
   --spacing-md: clamp(1rem, 2.5vw, 1.5rem);
@@ -16,27 +31,10 @@
   --font-size-base: clamp(0.875rem, 2.5vw, 1rem);
   --font-size-lg: clamp(1rem, 3vw, 1.125rem);
 
-  --header-height: clamp(4rem, 8vh, 6rem);
-  --sidebar-width: clamp(4rem, 8vw, 6rem);
-  --button-height: clamp(3.5rem, 6vh, 4.5rem);
-  --logo-size: var(--button-height);
-  --icon-size: clamp(1.5rem, 4vw, 2.25rem);
-  --button-spacing: clamp(0.5rem, 1vh, 1rem);
-
-  --left-logo-position: clamp(1rem, 5vw, 5.625rem);
-  --right-logo-position: clamp(1rem, 3vw, 1.5rem);
-
-  --left-logo-end: calc(var(--left-logo-position) + var(--logo-size));
-  --right-logo-end: calc(var(--right-logo-position) + clamp(2.5rem, 5vw, 3.5rem));
-
-  --logo-to-box-gap: clamp(2rem, 4vw, 3rem);
-
-  --vertical-margin: clamp(1rem, 3vh, 2rem);
-
   --card-min-width: 280px;
   --card-max-width: 380px;
-
   --card-gap: clamp(1.5rem, 3vw, 2rem);
+  --logo-to-box-gap: clamp(2rem, 4vw, 3rem);
 }
 
 html,
@@ -62,16 +60,18 @@ body {
   position: relative;
 }
 
+/* STANDARDIZED LOGO STYLES */
 .explore-logo {
   width: var(--logo-size);
   height: var(--logo-size);
-  position: absolute;
-  left: var(--left-logo-position);
-  top: var(--vertical-margin);
+  position: fixed;
+  left: var(--left-position);
+  top: var(--top-margin);
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
+  object-fit: contain;
 }
 
 .explore-logo img {
@@ -81,12 +81,13 @@ body {
 }
 
 .explore-logo-fii {
-  width: clamp(2.5rem, 5vw, 3.5rem);
-  height: clamp(2.5rem, 5vw, 3.5rem);
-  position: absolute;
-  right: var(--right-logo-position);
-  top: var(--vertical-margin);
+  width: var(--logo-size);
+  height: var(--logo-size);
+  position: fixed;
+  right: var(--right-position);
+  top: var(--top-margin);
   z-index: 10;
+  object-fit: contain;
 }
 
 .explore-logo-fii img {
@@ -98,93 +99,122 @@ body {
 .explore-inner-box,
 .explore-white-box {
   position: absolute;
-
-  /* Mai mult spațiu sus și jos pentru centrare verticală vizuală */
-  top: calc(var(--vertical-margin));
-  bottom: calc(var(--vertical-margin));
-
-  /* Mai mult spațiu față de iconițele laterale pentru centrare orizontală */
-  left: calc(var(--left-logo-end) + 1vw);
-  right: calc(var(--right-logo-end) + 3.7vw);
-
+  top: var(--top-margin);
+  bottom: var(--top-margin);
+  left: calc(var(--left-position) + var(--sidebar-width) + var(--logo-to-box-gap));
+  right: calc(var(--right-position) + var(--logo-size) + var(--logo-to-box-gap));
   background: var(--primary-beige);
   border-radius: clamp(0.5rem, 1vw, 0.5rem);
   box-shadow: 0 0 clamp(0.25rem, 1vw, 0.5rem) clamp(0.125rem, 0.5vw, 0.125rem) var(--shadow-color) inset;
 }
 
-
+/* STANDARDIZED SIDEBAR NAVIGATION */
 .explore-icon-wrapper {
-  position: absolute;
-  width: clamp(3rem, 6vw, 4rem);
+  position: fixed;
+  width: var(--button-width);
   height: var(--button-height);
   background: none;
   border: none;
-  padding: 0;
+  padding: var(--button-padding);
   margin: 0;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 3;
-  transition: transform 0.2s ease;
-  border-radius: clamp(0.25rem, 0.5vw, 0.5rem);
+  z-index: 9998;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  border-radius: 8px;
+  color: var(--primary-beige);
 }
 
 .explore-icon-wrapper:hover {
   transform: scale(1.05);
 }
 
+.explore-icon-wrapper.active {
+  background-color: var(--primary-beige);
+  color: var(--primary-blue);
+  font-weight: bold;
+}
 
 .explore-icon-home {
-  top: calc(var(--vertical-margin) + var(--logo-size) + clamp(1.5rem, 3vh, 2rem));
-  left: var(--left-logo-position);
+  top: var(--sidebar-top);
+  left: var(--left-position);
 }
 
 .explore-icon-library {
-  top: calc(
-    var(--vertical-margin) +
-    var(--logo-size) +
-    clamp(1.5rem, 3vh, 2rem) +
-    var(--button-height) +
-    var(--button-spacing)
-  );
-  left: var(--left-logo-position);
+  top: calc(var(--sidebar-top) + var(--button-height) + var(--button-gap));
+  left: var(--left-position);
 }
 
 .explore-icon-explore {
-  top: calc(
-    var(--vertical-margin) +
-    var(--logo-size) +
-    clamp(1.5rem, 3vh, 2rem) +
-    (var(--button-height) + var(--button-spacing)) * 2
-  );
-  left: var(--left-logo-position);
+  top: calc(var(--sidebar-top) + (var(--button-height) + var(--button-gap)) * 2);
+  left: var(--left-position);
 }
 
 .explore-icon-profile {
-  top: calc(
-    var(--vertical-margin) +
-    var(--logo-size) +
-    clamp(1.5rem, 3vh, 2rem) +
-    (var(--button-height) + var(--button-spacing)) * 3
-  );
-  left: var(--left-logo-position);
+  top: calc(var(--sidebar-top) + (var(--button-height) + var(--button-gap)) * 3);
+  left: var(--left-position);
 }
 
 .explore-icon-image {
   width: var(--icon-size);
   height: var(--icon-size);
-  z-index: 1;
+  margin-bottom: 0.25rem;
 }
 
 .explore-icon-text {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-nav);
   font-weight: 500;
-  margin-top: clamp(0.125rem, 0.5vw, 0.25rem);
-  z-index: 1;
-  color: var(--primary-beige);
   text-align: center;
+  line-height: 1.2;
+}
+
+.explore-icon-wrapper.active .explore-icon-text {
+  color: var(--primary-blue);
+  font-weight: 700;
+}
+
+.explore-icon-wrapper.active .explore-icon-image {
+  filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%);
+}
+
+
+/* STANDARDIZED NAVIGATION POSITIONING */
+
+
+.explore-icon-home {
+  top: var(--sidebar-top);
+  left: var(--left-position);
+}
+
+.explore-icon-library {
+  top: calc(var(--sidebar-top) + var(--button-height) + var(--button-gap));
+  left: var(--left-position);
+}
+
+.explore-icon-explore {
+  top: calc(var(--sidebar-top) + (var(--button-height) + var(--button-gap)) * 2);
+  left: var(--left-position);
+}
+
+.explore-icon-profile {
+  top: calc(var(--sidebar-top) + (var(--button-height) + var(--button-gap)) * 3);
+  left: var(--left-position);
+}
+
+.explore-icon-image {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  margin-bottom: 4px;
+}
+
+.explore-icon-text {
+  font-size: var(--font-size-nav);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
 }
 
 .explore-icon-wrapper.active .explore-icon-text {
@@ -412,12 +442,51 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+/* RESPONSIVE BREAKPOINTS - MATCHING DASHBOARD */
+@media (min-width: 1600px) {
+  :root {
+    --left-position: 4%;
+    --right-position: 4%;
+  }
+}
 
+@media (min-width: 1400px) and (max-width: 1599px) {
+  :root {
+    --left-position: 3%;
+    --right-position: 3%;
+  }
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --left-position: 1.5%;
+    --right-position: 1.5%;
+  }
+}
+
+@media (max-width: 992px) {
+  :root {
+    --left-position: 1%;
+    --right-position: 1%;
+  }
+}
+
+@media (max-width: 850px) {
+  :root {
+    --logo-size: 50px;
+    --button-width: 56px;
+    --button-height: 64px;
+    --button-padding: 6px;
+    --icon-size: 32px;
+    --font-size-nav: 11px;
+    --left-position: 0.5%;    --right-position: 0.5%;
+  }
+}
+
+@media (max-width: 992px) {
   .explore-logo,
   .explore-logo-fii,
-  .explore-icon-wrapper,
-  .explore-rectangle-home {
+  .explore-icon-wrapper {
     display: none !important;
   }
 
@@ -454,7 +523,6 @@ body {
     left: 15px; 
     right: 15px;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -463,4 +531,171 @@ body {
     right: 10px;
   }
  
+}
+
+/* FORCE EXACT DASHBOARD DIMENSIONS - OVERRIDE ANY OTHER CSS */
+.explore-logo,
+.explore-logo-fii {
+  width: 60px !important;
+  height: 60px !important;
+  position: fixed !important;
+  top: 2rem !important;
+  z-index: 1000 !important;
+  object-fit: contain !important;
+}
+
+.explore-logo {
+  left: 2% !important;
+}
+
+.explore-logo-fii {
+  right: 2% !important;
+}
+
+.explore-icon-wrapper {
+  position: fixed !important;
+  width: 64px !important;
+  height: 72px !important;
+  padding: 8px !important;
+  border-radius: 8px !important;
+  background: none !important;
+  border: none !important;
+  color: #EFEAE6 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, background-color 0.3s ease !important;
+  z-index: 998 !important;
+}
+
+.explore-icon-wrapper:hover {
+  transform: scale(1.05) !important;
+}
+
+.explore-icon-wrapper.active {
+  background-color: #EFEAE6 !important;
+  color: #173B61 !important;
+  font-weight: bold !important;
+}
+
+.explore-icon-image {
+  width: 36px !important;
+  height: 36px !important;
+  margin-bottom: 4px !important;
+}
+
+.explore-icon-text {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+}
+
+.explore-icon-home {
+  top: 6rem !important;
+  left: 2% !important;
+}
+
+.explore-icon-library {
+  top: calc(5.5rem + 72px + 1rem) !important;
+  left: 2% !important;
+}
+
+.explore-icon-explore {
+  top: calc(5.5rem + (72px + 1rem) * 2) !important;
+  left: 2% !important;
+}
+
+.explore-icon-profile {
+  top: calc(5.5rem + (72px + 1rem) * 3) !important;
+  left: 2% !important;
+}
+
+/* RESPONSIVE OVERRIDES TO MATCH DASHBOARD EXACTLY */
+@media (min-width: 1600px) {
+  .explore-logo { left: 4% !important; }
+  .explore-logo-fii { right: 4% !important; }
+  .explore-icon-wrapper { left: 4% !important; }
+}
+
+@media (min-width: 1400px) and (max-width: 1599px) {
+  .explore-logo { left: 3% !important; }
+  .explore-logo-fii { right: 3% !important; }
+  .explore-icon-wrapper { left: 3% !important; }
+}
+
+@media (max-width: 1200px) {
+  .explore-logo { left: 1.5% !important; }
+  .explore-logo-fii { right: 1.5% !important; }
+  .explore-icon-wrapper { left: 1.5% !important; }
+}
+
+@media (max-width: 992px) {
+  .explore-logo { left: 1% !important; }
+  .explore-logo-fii { right: 1% !important; }
+  .explore-icon-wrapper { left: 1% !important; }
+}
+
+@media (max-width: 850px) {
+  .explore-logo,
+  .explore-logo-fii {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  .explore-logo { left: 0.5% !important; }
+  .explore-logo-fii { right: 0.5% !important; }
+  
+  .explore-icon-wrapper {
+    left: 0.5% !important;
+    width: 56px !important;
+    height: 64px !important;
+    padding: 6px !important;
+  }
+  
+  .explore-icon-image {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .explore-icon-text {    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .explore-logo,
+  .explore-logo-fii,
+  .explore-icon-wrapper {
+    display: none !important;
+  }
+
+  .explore-inner-box,
+  .explore-white-box {
+    left: 0;
+    right: 0;
+    top: calc(var(--spacing-md) + 50px + var(--spacing-sm));
+    bottom: 0;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    z-index: 1;
+    background: transparent; 
+  }
+
+  .library-cards-container {
+    position: absolute;
+    left: 20px; 
+    right: 20px;
+    top: calc(var(--spacing-md) + 50px + var(--spacing-md));
+    bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
+    z-index: 2;
+    background-color: var(--primary-beige);
+    border-radius: clamp(0.5rem, 1vw, 0.5rem);
+    overflow-y: auto; 
+    box-sizing: border-box;
+  }
 }
