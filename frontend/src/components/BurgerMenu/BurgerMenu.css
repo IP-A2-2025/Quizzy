@@ -8,20 +8,44 @@
   background-color: #173b61;
   border: none;
   border-radius: 8px;
-  color: #efeae6;
-  font-size: 20px;
   cursor: pointer;
   z-index: 1000;
   display: none;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 4px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 8px;
 }
 
 .burger-menu-button:hover {
   background-color: #1e4b7b;
   transform: scale(1.05);
+}
+
+/* Burger lines */
+.burger-line {
+  width: 25px;
+  height: 3px;
+  background-color: #EFEAE6;
+  margin: 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+/* Animation for active state */
+.burger-menu-button.active .burger-line:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.burger-menu-button.active .burger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-menu-button.active .burger-line:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
 }
 
 .burger-menu-overlay {
@@ -152,11 +176,18 @@
   }
 }
 
-/* Show burger menu on mobile/tablet screens */
-@media screen and (max-width: 768px) {
+/* Ensure burger menu is hidden on larger screens - DESKTOP */
+@media screen and (min-width: 993px) {
+  .burger-menu-button {
+    display: none !important;
+  }
+}
+
+/* Show burger menu on tablet and mobile screens ONLY */
+@media screen and (max-width: 992px) {
   .burger-menu-button {
     display: flex !important;
-    z-index: 1000;
+    z-index: 1001; /* Higher z-index to ensure it appears above other elements */
   }
 }
 
@@ -171,7 +202,12 @@
     height: 45px;
     top: 15px;
     left: 15px;
-    font-size: 18px;
+    gap: 3px;
+  }
+  
+  .burger-line {
+    width: 22px;
+    height: 2.5px;
   }
 }
 
@@ -186,7 +222,12 @@
     height: 40px;
     top: 10px;
     left: 10px;
-    font-size: 16px;
+    gap: 3px;
+  }
+  
+  .burger-line {
+    width: 20px;
+    height: 2px;
   }
   
   .burger-menu-item {

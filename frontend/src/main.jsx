@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'; // adăugat Navigate
+import './components/UniversalSidebar.css'; // Universal sidebar standardization - MUST COME FIRST
+import './index.css'; // Global styles
 import Login from './Login/Login.jsx';
 import Dashboard from './Dashboard/Dashboard.jsx';
 import Profile from './Profile/Profile.jsx';

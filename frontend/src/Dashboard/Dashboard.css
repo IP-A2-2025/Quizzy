@@ -128,12 +128,11 @@ body, html {
 }
 
 .dashboard-content {
-    width: 76%; /* Reduced to account for sidebar space */
-    max-width: 1200px; /* Increased max width for larger screens */
+    width: min(calc(100vw - 160px), 2000px); /* Match Profile page width */
     min-width: 320px; /* Minimum width for very small screens */
-    min-height: calc(100vh - 2rem); /* Extend to bottom of screen */
+    min-height: calc(100vh - 4rem); /* Extend to bottom of screen with proper margin */
     margin: 0 auto; /* Center the container */
-    padding: clamp(1rem, 3vw, 3rem); /* Responsive padding */
+    padding: clamp(2rem, 4vw, 4rem); /* More generous padding like other pages */
     background-color: #EFEAE6;
     border-radius: 8px;
     box-shadow: 0 0 8px 2px rgba(23, 59, 97, 0.64) inset;
@@ -323,11 +322,133 @@ body, html {
     margin-bottom: 0.5rem;
 }
 
+/* New Dashboard structure styles to match Profile, Explore, Library pages */
+
+/* Logo FII - positioned at top right - SYMMETRIC TO QUIZZY LOGO */
+.dashboard-logo-fii {
+    position: fixed !important;
+    top: 2rem !important;
+    right: calc(2% + 10px) !important; /* Symmetric to Quizzy logo - centered positioning */
+    width: 60px !important;
+    height: 60px !important;
+    z-index: 1000 !important;
+    object-fit: contain !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: auto;
+}
+
+/* Desktop Sidebar - positioned below the Quizzy logo - MATCH UNIVERSAL SIDEBAR */
+.dashboard-desktop-sidebar {
+    position: fixed !important;
+    left: 2% !important;
+    top: 6rem !important; /* Match UniversalSidebar positioning */
+    width: 80px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    z-index: 999 !important; /* Match UniversalSidebar z-index */
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    pointer-events: auto;
+}
+
+/* Icon wrapper styling - MATCH UNIVERSAL SIDEBAR EXACTLY */
+.dashboard-icon-wrapper {
+    width: 64px !important;
+    height: 72px !important;
+    padding: 8px !important;
+    background: none !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #EFEAE6 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: transform 0.2s ease, background-color 0.3s ease !important;
+    position: relative !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.dashboard-icon-wrapper:hover {
+    transform: scale(1.05) !important;
+}
+
+.dashboard-icon-wrapper.active {
+    background-color: #EFEAE6 !important;
+    color: #173B61 !important;
+    font-weight: bold !important;
+}
+
+.dashboard-icon-wrapper.active .dashboard-icon-image {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(28%) saturate(1556%) hue-rotate(169deg) brightness(91%) contrast(88%) !important;
+}
+
+.dashboard-icon-wrapper.active .dashboard-icon-text {
+    color: #173B61 !important;
+    font-weight: 700 !important; /* Match UniversalSidebar weight */
+}
+
+.dashboard-icon-text {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    margin-top: 4px !important;
+    text-align: center !important; /* Match UniversalSidebar */
+    line-height: 1.2 !important; /* Match UniversalSidebar */
+    color: inherit !important; /* Match UniversalSidebar */
+    z-index: 1;
+}
+
+.dashboard-icon-image {
+    width: 36px !important;
+    height: 36px !important;
+    z-index: 1;
+    margin-bottom: 4px !important; /* Match UniversalSidebar spacing */
+    object-fit: contain !important; /* Match UniversalSidebar */
+}
+
+/* Override any legacy sidebar styles */
+.dashboard-sidebar {
+    display: none !important;
+}
+
+/* DESKTOP MODE - Ensure burger menu is hidden on large screens */
+@media (min-width: 993px) {
+    .burger-menu-button {
+        display: none !important;
+    }
+    
+    /* Ensure desktop logos and sidebar are shown */
+    .dashboard-logo,
+    .dashboard-logo-fii,
+    .dashboard-desktop-sidebar {
+        display: flex !important;
+    }
+}
+
 /* Responsive */
 @media (min-width: 1600px) {
     .dashboard-content {
-        width: 82%;
-        max-width: 1600px;
+        width: min(calc(100vw - 300px), 2400px); /* Match Profile page width exactly */
+    }
+    
+    html body .dashboard-wrapper .dashboard-logo,
+    html body div.dashboard-wrapper div.dashboard-logo {
+        left: calc(4% + 8px) !important;
+    }
+    
+    .dashboard-logo-fii {
+        right: calc(4% + 8px) !important;
+    }
+    
+    .dashboard-desktop-sidebar {
+        left: 4% !important;
     }
     
     .dashboard-sidebar.left {
@@ -339,10 +460,17 @@ body, html {
     }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1400px) and (max-width: 1599px) {
     .dashboard-content {
-        width: 80%;
-        max-width: 1400px;
+        width: min(calc(100vw - 200px), 2000px); /* Match Profile page width */
+    }
+    
+    .dashboard-logo-fii {
+        right: calc(3% + 8px) !important;
+    }
+    
+    .dashboard-desktop-sidebar {
+        left: 3% !important;
     }
     
     .dashboard-sidebar.left {
@@ -354,11 +482,30 @@ body, html {
     }
 }
 
-@media (max-width: 1200px) {
-    .dashboard-content {
-        width: 70%;
-        padding: clamp(1rem, 2.5vw, 2.5rem);
-        min-height: calc(100vh - 2rem); /* Extend to bottom of screen */
+@media (min-width: 1200px) {
+    /* DESKTOP MODE - Burger menu should be hidden */
+    .burger-menu-button {
+        display: none !important;
+    }
+    
+    /* Show desktop logos and sidebar */
+    .dashboard-logo,
+    .dashboard-logo-fii,
+    .dashboard-desktop-sidebar {
+        display: flex !important;
+    }
+      .dashboard-content {
+        width: min(calc(100vw - 130px), 1400px); /* Match Profile page width */
+        padding: clamp(2rem, 3vw, 3rem);
+        min-height: calc(100vh - 4rem); /* Better vertical spacing */
+    }
+    
+    .dashboard-logo-fii {
+        right: calc(1.5% + 8px) !important;
+    }
+    
+    .dashboard-desktop-sidebar {
+        left: 1.5% !important;
     }
     
     .dashboard-sidebar.left {
@@ -370,10 +517,43 @@ body, html {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
     .dashboard-content {
-        width: 75%;
-        padding: clamp(1rem, 2vw, 2rem);
+        width: min(calc(100vw - 180px), 1000px); /* Match Profile page width exactly */
+    }
+}
+
+@media (max-width: 1024px) {
+    .dashboard-content {
+        width: min(calc(100vw - 160px), 850px); /* Match Profile page width exactly */
+    }
+}
+
+@media (max-width: 992px) {
+    /* Show burger menu for tablet and mobile ONLY */
+    .burger-menu-button {
+        display: flex !important;
+    }
+
+    /* Hide desktop logos and sidebar on tablet/mobile */
+    .dashboard-logo,
+    .dashboard-logo-fii,
+    .dashboard-desktop-sidebar,
+    html body .dashboard-wrapper .dashboard-logo {
+        display: none !important;
+    }
+
+    .dashboard-main {
+        flex-direction: column;
+        padding: 1rem 0.5rem;
+        justify-content: flex-start;
+        padding-top: 80px; /* Account for burger menu button */
+    }
+      .dashboard-content {
+        width: min(calc(100vw - 120px), 1200px); /* Match Profile page width */
+        padding: clamp(2rem, 5vw, 3rem);
+        min-height: calc(100vh - 6rem); /* Adjust for burger menu spacing */
+        margin: 0 auto;
     }
     
     .dashboard-sidebar.left {
@@ -386,9 +566,8 @@ body, html {
 }
 
 @media (max-width: 850px) {
-    /* Transition breakpoint before tablet */
     .dashboard-content {
-        width: 80%;
+        width: min(calc(100vw - 100px), 1000px); /* Match Profile page width */
         padding: clamp(1rem, 3vw, 1.5rem);
     }
     
@@ -422,38 +601,19 @@ body, html {
 }
 
 @media (max-width: 768px) {
-    /* Show burger menu for tablet and mobile */
-    .burger-menu-button {
-        display: flex !important;
-    }
-
-    .dashboard-main {
-        flex-direction: column;
-        padding: 1rem 0.5rem;
-        justify-content: flex-start;
-        padding-top: 80px; /* Account for burger menu button */
-    }
-    
-    .dashboard-sidebar {
-        display: none !important; /* Hide desktop sidebars on tablet/mobile */
-    }
-    
     .dashboard-content {
-        width: 90%;
-        max-width: none; /* Remove max-width constraint for smaller screens */
-        padding: clamp(1rem, 4vw, 2rem);
-        min-height: calc(100vh - 6rem); /* Adjust for burger menu spacing */
-        margin: 0 auto;
+        width: min(500px, calc(100vw - 40px)); /* Match Profile page width exactly */
+        padding: 30px 20px;
+        margin: 0 20px;
     }
 }
 
 @media (max-width: 480px) {
     .dashboard-content {
-        width: 88%; /* Further reduced to ensure better border visibility */
-        max-width: calc(100vw - 2rem); /* Increased margin for better spacing */
-        padding: 1rem;
-        margin: 0 auto;
-        min-height: calc(100vh - 6rem); /* Adjust for burger menu spacing */
+        width: calc(100vw - 40px); /* Match Profile page width exactly */
+        min-width: 280px;
+        padding: 20px 15px;
+        margin: 0 20px;
     }
     
     .dashboard-main {
@@ -466,9 +626,8 @@ body, html {
 @media (max-width: 360px) {
     /* Extra small phones - ensure borders are always visible */
     .dashboard-content {
-        width: 85%; /* Further reduced for extra small screens */
-        max-width: calc(100vw - 3rem); /* More conservative max-width */
-        padding: 0.75rem;
+        width: min(calc(100vw - 20px), 600px); /* Still generous for small screens */
+        padding: 1rem;
         min-height: calc(100vh - 6rem);
     }
     
